@@ -87,6 +87,9 @@ renderer.setSize(innerWidth, innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.24;
+// A cena usa bloom + render principal + overlay no mesmo quadro.
+// Impedir reset entre passes; reiniciar contadores uma vez por tick.
+renderer.info.autoReset=false;
 container.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
@@ -644,6 +647,7 @@ function tick(now){
  // Atualizar o bloom a 30 Hz (cena/câmera continuam a 60 FPS).
  // Durante a viagem, atualizar em todo quadro para preservar o clarão.
  bloomTick++;
+ renderer.info.reset();
  selectiveBloom.render(travelling||bloomTick%2===1);
 }
 requestAnimationFrame(tick);
