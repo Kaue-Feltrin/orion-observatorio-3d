@@ -401,7 +401,13 @@ let cardVisible=false;
 let travelling=false;
 // Evitar forced reflow: altura do card é estável durante animação.
 let cachedCardHeight=card.offsetHeight;
-const domPosition={x:NaN,y:NaN,cx:NaN,cy:NaN,focusAt:0};
+const domPosition={x:NaN,y:NaN,cx:NaN,cy:NaN,focusAt:0,focusX:NaN,focusY:NaN};
+const interactionMetrics={pointerEvents:0,raycasts:0,focusWrites:0};
+if(debugEnabled)window.__orionInteractionMetrics={
+  get pointerEvents(){return interactionMetrics.pointerEvents;},
+  get raycasts(){return interactionMetrics.raycasts;},
+  get focusWrites(){return interactionMetrics.focusWrites;}
+};
 const mouseMotionDebug={get x(){return smooth.x;},
   get y(){return smooth.y;},get targetX(){return mouse.x;},
   get targetY(){return mouse.y;},get volumeLayers(){return nebulaVolume.layers.length;}};
@@ -429,10 +435,14 @@ function updateTargetScreen() {
   }
   // Variações da vinheta não precisam forçar repintura CSS em 60 FPS.
   const now=performance.now();
-  if(now-domPosition.focusAt>90){
+  if(now-domPosition.focusAt>90 &&
+    (!Number.isFinite(domPosition.focusX) || Math.abs(x-domPosition.focusX)>2 ||
+      Math.abs(y-domPosition.focusY)>2)){
     root.style.setProperty('--nox-focus-x',(x/innerWidth*100).toFixed(1)+'%');
     root.style.setProperty('--nox-focus-y',(y/innerHeight*100).toFixed(1)+'%');
     domPosition.focusAt=now;
+    domPosition.focusX=x;domPosition.focusY=y;
+    interactionMetrics.focusWrites++;
   }
   const width=265;
   const cardX=THREE.MathUtils.clamp((x+170+width<innerWidth-15)?x+119:x-150-width,12,innerWidth-width-12);
@@ -464,6 +474,13 @@ const armClick=(e)=>{
 target.addEventListener('click',armClick);
 function isAimedAtStar(clientX,clientY){
   if(travelling)return false;
+  // Rejeição geométrica conservadora antes do Raycaster: longe do astro,
+  // não recalcular matrizes 3D para cada evento do mouse (125 Hz ou mais).
+  // O limite é maior que a projeção do sprite clicável em repouso.
+  const radius=Math.max(120,innerHeight*.15);
+  if(Math.abs(clientX-targetXY.x)>radius ||
+     Math.abs(clientY-targetXY.y)>radius)return false;
+  interactionMetrics.raycasts++;
   pointerNdc.set(clientX/innerWidth*2-1,1-clientY/innerHeight*2);
   camera.updateWorldMatrix(true,false);
   heraldGroup.updateWorldMatrix(true,true);
@@ -472,6 +489,7 @@ function isAimedAtStar(clientX,clientY){
 }
 window.addEventListener('pointermove',e=>{
   if(e.pointerType==='touch'||travelling)return;
+  interactionMetrics.pointerEvents++;
   mouse.x=(e.clientX/innerWidth-.5)*2;
   mouse.y=(.5-e.clientY/innerHeight)*2;
   const aimed=isAimedAtStar(e.clientX,e.clientY);
