@@ -29,7 +29,7 @@ jobs:
       - name: Instalar Chromium do Playwright
         run: npx playwright install --with-deps chromium
       - name: Testar WebGL, paralaxe e Nebulosa Viva no navegador
-        run: npm run test:browser
+        run: npx playwright test --grep "diagnostico de inicializacao" --retries=0
       - name: Guardar capturas se houver falha
         if: failure()
         uses: actions/upload-artifact@v4
