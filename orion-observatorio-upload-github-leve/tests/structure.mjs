@@ -33,3 +33,11 @@ assert.match(main, /scene\.attach\(camera\)/, 'travel remains in world space');
 assert.match(main, /const foregroundParticles = new THREE.Group\(\)/, 'near-camera volume');
 assert.match(main, /camera\.updateWorldMatrix\(true,false\)/, 'star projection current pose');
 assert.doesNotMatch(main, /const intendedX=smooth\.x\*8\.8/, 'remove old translation-only camera');
+
+assert.match(main, /createCosmicAtmosphere\(scene/,'GLSL gas');
+assert.match(main, /selectiveBloom\.render\(\)/,'selective bloom render');
+assert.match(main, /atmosphere\.update\(time\)/,'atmosphere motion');
+assert.match(await read('cosmic-atmosphere.js'), /uniform float uFlow/);
+assert.match(await read('cosmic-atmosphere.js'), /uniform float uDensity/);
+assert.match(await read('selective-bloom.js'), /UnrealBloomPass/);
+assert.match(await read('selective-bloom.js'), /camera\.layers\.set\(1\)/,'bloom layer isolation');

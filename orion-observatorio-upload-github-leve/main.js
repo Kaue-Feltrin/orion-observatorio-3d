@@ -1,6 +1,8 @@
 // Projeto Órion · Observatório em pipeline Vite / Cloudflare Pages.
 // Three.js é importado como dependência local e empacotado pelo Vite.
 import * as THREE from "three";
+import { createCosmicAtmosphere } from './cosmic-atmosphere.js';
+import { createSelectiveBloom } from './selective-bloom.js';
 
 const root = document.getElementById('observatory');
 const container = document.getElementById('world');
@@ -107,6 +109,10 @@ const midCloud = nebulaPlane('/assets/03-mid-clouds.webp',-155,.065,-2,-4,1.42,3
 const nearCloud = nebulaPlane('/assets/04-front-fog.png',-92,.06,9,-10,1.56,4,2560/960,{name:'04 · Névoa frontal',additive:true});
 const dustCloud = nebulaPlane('/assets/05-star-dust.png',-58,.18,0,0,1.62,5,3072/1152,{name:'05 · Poeira estelar',additive:true});
 
+// Five independent GLSL gas planes in front of the ESO image; no photo blur.
+const atmosphere = createCosmicAtmosphere(scene,{reducedMotion:reduceMotion || mobile});
+layers.push(...atmosphere.layers);
+
 // Scene inspector: isolate layers without editing code or reloading.
 if(debugEnabled){
   const group=document.createElement('fieldset');
@@ -121,6 +127,25 @@ if(debugEnabled){
     row.append(toggle,span);group.appendChild(row);
   }
   debug.appendChild(group);
+  const controls=document.createElement('fieldset');
+  controls.className='layer-inspector';
+  controls.innerHTML='<legend>Nebulosa Viva</legend>';
+  const addSlider=(name,initial,min,max,step,callback)=>{
+    const line=document.createElement('label');line.className='atmosphere-slider';
+    const caption=document.createElement('span');caption.textContent=name;
+    const output=document.createElement('output');output.textContent=Number(initial).toFixed(2);
+    const input=document.createElement('input');input.type='range';
+    input.min=String(min);input.max=String(max);input.step=String(step);input.value=String(initial);
+    input.setAttribute('aria-label',name);
+    input.addEventListener('input',()=>{
+      const value=Number(input.value);output.textContent=value.toFixed(2);callback(value);
+    });
+    line.append(caption,output,input);controls.appendChild(line);
+  };
+  addSlider('Densidade do gás',atmosphere.state.density,0,1.5,.05,atmosphere.setDensity);
+  addSlider('Fluxo orgânico',atmosphere.state.flow,0,1,.05,atmosphere.setFlow);
+  window.__orionBloomSliderFactory=addSlider;
+  debug.appendChild(controls);
 }
 
 // Spatial starfield in three actual depth ranges, one GPU draw call per range.
@@ -235,6 +260,16 @@ const mainGlow=addGlow(22,.8);
 const coreGlow=addGlow(7,1);
 const orbitRing=new THREE.Mesh(new THREE.RingGeometry(7.25,7.28,144),new THREE.MeshBasicMaterial({color:0xe8cf92,transparent:true,opacity:.13,side:THREE.DoubleSide,depthWrite:false,depthTest:false}));
 orbitRing.renderOrder=14; heraldGroup.add(orbitRing);
+nebulaStarHalo.layers.enable(1);
+softHalo.layers.enable(1);
+mainGlow.layers.enable(1);
+coreGlow.layers.enable(1);
+const selectiveBloom=createSelectiveBloom(renderer,scene,camera,{initial:mobile?.28:.48,reducedMotion});
+if(debugEnabled) {
+  window.__orionBloomSliderFactory('Bloom seletivo',selectiveBloom.state.intensity,0,1.5,.05,selectiveBloom.setIntensity);
+  window.__orionAtmosphereDebug={atmosphere,selectiveBloom};
+  delete window.__orionBloomSliderFactory;
+}
 
 // The link target is a REAL HTML button anchored to the projection of the
 // Three.js object, so mouse, keyboard and touch share the same hit target.
@@ -321,6 +356,7 @@ function beginTravel(){
 function resize(){
  camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
  renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
+ selectiveBloom.resize(innerWidth,innerHeight);
  for(const mesh of layers){
   const dist=26-mesh.position.z; // escala baseada no ponto de observacao inicial
   const h=2*Math.tan(THREE.MathUtils.degToRad(52/2))*dist*mesh.userData.factor;
@@ -403,7 +439,8 @@ function tick(now){
  for(const mat of starMaterials){mat.uniforms.uTime.value=time;mat.uniforms.uOpacity.value=mat.userData.baseOpacity*(travelling?1.25:1);}
  camera.updateWorldMatrix(true,false);
  updateTargetScreen();
- renderer.render(scene,camera);
+ atmosphere.update(time);
+ selectiveBloom.render();
 }
 requestAnimationFrame(tick);
 document.documentElement.dataset.sceneReady='1';

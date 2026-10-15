@@ -76,3 +76,11 @@ A fotografia ESO permanece inalterada. O rig Three.js agora separa movimento lat
 **Amplitudes com `depth=1`:** lateral ±6,8 unidades; vertical ±4,35; yaw ±0,068 radianos; pitch ±0,052; roll ±0,011. Além disso: respiração lenta ±0,25 e aproximação em hover de 0,9. Use `?debug=1` para ajustar a intensidade sem alterar código.
 
 Quando a estrela é selecionada, `scene.attach(camera)` preserva a transformação global antes da coreografia do hiperespaço, que continua intacta.
+
+## v0.8.2 — Nebulosa Viva (prévia)
+
+- Cinco planos GLSL de gás transparente posicionados à frente da fotografia ESO em z=−225, −195, −169, −112 e −73.
+- Turbulência suave em fBm, sem mover UVs da foto. Gás com opacidade baixa e bordas naturais.
+- Bloom seletivo real: EffectComposer + UnrealBloomPass somente nos emissores da estrela (layer 1); foto renderizada nítida à parte.
+- Controles em `?debug=1`: densidade, fluxo e bloom, além de perspectiva.
+- A câmera 3D e a coreografia do hiperespaço foram preservadas.

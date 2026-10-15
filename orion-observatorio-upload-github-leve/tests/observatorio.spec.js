@@ -36,3 +36,19 @@ test('mouse move cambia yaw e deslocamento, mantendo projecao da estrela', async
   expect(state.particles).toBe(1);
   expect(Number.isFinite(state.targetX)).toBe(true);
 });
+
+test('cinco planos animados, bloom seletivo e controle de atmosfera',async({page})=>{
+  const errors=[]; page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('http://127.0.0.1:4173/?debug=1',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const state=await page.evaluate(()=>({
+    gasLayers:window.__orionAtmosphereDebug.atmosphere.layers.length,
+    animated:window.__orionAtmosphereDebug.atmosphere.layers.every(l=>!!l.material.uniforms.uTime),
+    bloom:window.__orionAtmosphereDebug.selectiveBloom.state.intensity,
+    layerToggles:document.querySelectorAll('.layer-inspector input[type=checkbox]').length,
+    sliders:document.querySelectorAll('input[type=range]').length
+  }));
+  expect(state.gasLayers).toBe(5);expect(state.animated).toBe(true);
+  expect(state.bloom).toBeGreaterThan(0);expect(state.layerToggles).toBeGreaterThanOrEqual(11);
+  expect(state.sliders).toBeGreaterThanOrEqual(4);expect(errors).toEqual([]);
+});
