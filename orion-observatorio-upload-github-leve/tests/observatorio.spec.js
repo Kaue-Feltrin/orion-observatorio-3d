@@ -90,6 +90,9 @@ test('estrela distante aponta no mundo, mostra hover e seleciona via raycaster',
   await expect(page.locator('#heraldCard')).toHaveClass(/visible/);
   await page.mouse.click(box.x+box.width/2,box.y+box.height/2);
   await expect.poll(async()=>page.evaluate(()=>window.__orionStarDebug.journey.active)).toBe(true);
-  await expect.poll(async()=>page.evaluate(()=>window.__orionStarDebug.journey.passedLayers),{timeout:3500}).toBeGreaterThanOrEqual(3);
   await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+  const trip=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('orion-last-trip-v09')));
+  expect(trip.passedGasLayers).toBeGreaterThanOrEqual(5);
+  expect(trip.endZ).toBeLessThan(-400);
+  expect(trip.endZ).toBeGreaterThan(trip.starZ+40);
 });
