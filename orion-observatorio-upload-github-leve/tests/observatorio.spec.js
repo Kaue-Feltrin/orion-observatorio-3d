@@ -1,3 +1,21 @@
+
+test('diagnostico de inicializacao no Chromium',async({page})=>{
+  const errors=[];const warnings=[];
+  page.on('pageerror',e=>errors.push(e.message));
+  page.on('console',msg=>{if(msg.type()==='error')warnings.push(msg.text());});
+  await page.goto('http://127.0.0.1:4173/?debug=1',{waitUntil:'domcontentloaded'});
+  await page.waitForTimeout(3500);
+  const state=await page.evaluate(()=>({
+    sceneReady:document.documentElement.dataset.sceneReady,
+    error:document.documentElement.dataset.sceneError,
+    loadIssue:document.querySelector('#loadIssue')?.innerText,
+    loading:document.querySelector('#loading')?.innerText,
+    canvas:document.querySelectorAll('#world canvas').length,
+    ua:navigator.userAgent
+  }));
+  console.log('WEBGL DIAGNOSTICS',JSON.stringify({state,errors,warnings}));
+  expect(state.sceneReady,JSON.stringify({state,errors,warnings})).toBe('1');
+});
 import { test, expect } from '@playwright/test';
 
 test('observatório 3D inicializa com Canvas e estrela', async ({ page }) => {
