@@ -109,7 +109,15 @@ const mainCloud = nebulaPlane('/assets/nebula-eso-photographic.jpg',-540,1,0,-3,
 const midCloud = nebulaPlane('/assets/03-mid-clouds.webp',-155,.065,-2,-4,1.42,3,3072/1152,{name:'03 · Detalhe da nebulosa',additive:true});
 const nearCloud = nebulaPlane('/assets/04-front-fog.png',-92,.06,9,-10,1.56,4,2560/960,{name:'04 · Névoa frontal',additive:true});
 const dustCloud = nebulaPlane('/assets/05-star-dust.png',-58,.18,0,0,1.62,5,3072/1152,{name:'05 · Poeira estelar',additive:true});
-
+// Estas imagens são véus transparentes: a fotografia ESO, a 100% de
+// opacidade, NÃO participa da respiração e nunca tem UV alterado.
+const breathingVeils = [
+  {mesh:farCloud,base:.11,amp:.045,rate:.43,phase:.5},
+  {mesh:midCloud,base:.065,amp:.052,rate:.59,phase:1.8},
+  {mesh:nearCloud,base:.06,amp:.048,rate:.49,phase:3.1},
+  {mesh:dustCloud,base:.18,amp:.03,rate:.69,phase:2.6}
+];
+const respirationState={gas:1,star:1,beacon:0};
 // Five independent GLSL gas planes in front of the ESO image; no photo blur.
 const atmosphere = createCosmicAtmosphere(scene,{reducedMotion:reduceMotion || mobile});
 layers.push(...atmosphere.layers);
@@ -157,6 +165,9 @@ function createStars(count,minZ,maxZ,spanX,spanY,sizeRange,tint,opts={}) {
   const positions = new Float32Array(count*3);
   const sizes = new Float32Array(count);
   const phases = new Float32Array(count);
+  const twinkleRates = new Float32Array(count);
+  const twinkleAmps = new Float32Array(count);
+  const twinkleSecondary = new Float32Array(count);
   const colors = new Float32Array(count*3);
   const palette = tint.map(s=>new THREE.Color(s));
   for(let i=0;i<count;i++) {
@@ -166,6 +177,13 @@ function createStars(count,minZ,maxZ,spanX,spanY,sizeRange,tint,opts={}) {
     positions[j+2]=minZ+Math.random()*(maxZ-minZ);
     sizes[i]=sizeRange[0]+Math.random()*(sizeRange[1]-sizeRange[0]);
     phases[i]=Math.random()*6.283;
+    const range=opts.group?{low:.46,high:1.05,min:.04,max:.11}:maxZ<-255
+      ?{low:.2,high:.66,min:.035,max:.095}
+      :maxZ<-95?{low:.32,high:.91,min:.05,max:.14}
+      :{low:.55,high:1.23,min:.07,max:.17};
+    twinkleRates[i]=range.low+Math.random()*(range.high-range.low);
+    twinkleAmps[i]=range.min+Math.random()*(range.max-range.min);
+    twinkleSecondary[i]=Math.random()*6.283;
     const color=palette[Math.floor(Math.random()*palette.length)];
     colors[j]=color.r; colors[j+1]=color.g; colors[j+2]=color.b;
   }
@@ -173,12 +191,15 @@ function createStars(count,minZ,maxZ,spanX,spanY,sizeRange,tint,opts={}) {
   geometry.setAttribute('position',new THREE.BufferAttribute(positions,3));
   geometry.setAttribute('aSize',new THREE.BufferAttribute(sizes,1));
   geometry.setAttribute('aPhase',new THREE.BufferAttribute(phases,1));
+  geometry.setAttribute('aTwinkleRate',new THREE.BufferAttribute(twinkleRates,1));
+  geometry.setAttribute('aTwinkleAmp',new THREE.BufferAttribute(twinkleAmps,1));
+  geometry.setAttribute('aTwinkleSecondary',new THREE.BufferAttribute(twinkleSecondary,1));
   geometry.setAttribute('aColor',new THREE.BufferAttribute(colors,3));
   const material=new THREE.ShaderMaterial({
     transparent:true, depthWrite:false, blending:THREE.AdditiveBlending,
     uniforms:{uTime:{value:0},uDpr:{value:Math.min(devicePixelRatio||1,2)},uOpacity:{value:1}},
     vertexShader:`
-      attribute float aSize;attribute float aPhase;attribute vec3 aColor;
+      attribute float aSize;attribute float aPhase;attribute float aTwinkleRate;attribute float aTwinkleAmp;attribute float aTwinkleSecondary;attribute vec3 aColor;
       uniform float uTime;uniform float uDpr;uniform float uOpacity;
       varying vec3 vColor;varying float vOpacity;
       void main(){
@@ -186,7 +207,11 @@ function createStars(count,minZ,maxZ,spanX,spanY,sizeRange,tint,opts={}) {
         gl_Position=projectionMatrix*mv;
         gl_PointSize=clamp(aSize*120.0/max(5.0,-mv.z)*uDpr,0.8,8.8);
         vColor=aColor;
-        vOpacity=(0.67+0.27*sin(uTime*0.75+aPhase))*uOpacity;
+        // Estrelas não cintilam em sincronismo. Cada ponto tem frequência,
+        // amplitude e segunda fase independente (sem gasto extra de draw calls).
+        float low=sin(uTime*aTwinkleRate+aPhase);
+        float irregular=sin(uTime*(aTwinkleRate*1.753+.12)+aTwinkleSecondary);
+        vOpacity=clamp(.73+low*aTwinkleAmp+irregular*aTwinkleAmp*.46,.43,1.18)*uOpacity;
       }`,
     fragmentShader:`
       varying vec3 vColor;varying float vOpacity;
@@ -261,6 +286,10 @@ const mainGlow=addGlow(22,.8);
 const coreGlow=addGlow(7,1);
 const orbitRing=new THREE.Mesh(new THREE.RingGeometry(7.25,7.28,144),new THREE.MeshBasicMaterial({color:0xe8cf92,transparent:true,opacity:.015,side:THREE.DoubleSide,depthWrite:false,depthTest:false}));
 orbitRing.renderOrder=14; heraldGroup.add(orbitRing);
+// Halo fotônico raro e suave: não é um círculo de interface ou marcador.
+const beaconGlow=addGlow(178,0);
+beaconGlow.renderOrder=11;
+beaconGlow.layers.enable(1);
 // Sprite 3D invisivel na camada 2: area acessivel de mira e click real (Raycaster).
 // O HTML continua apenas como alternativa de teclado e touch.
 const heraldPickSprite=new THREE.Sprite(new THREE.SpriteMaterial({
@@ -281,6 +310,7 @@ const selectiveBloom=createSelectiveBloom(renderer,scene,camera,{initial:mobile?
 if(debugEnabled) {
   window.__orionBloomSliderFactory('Bloom seletivo',selectiveBloom.state.intensity,0,1.5,.05,selectiveBloom.setIntensity);
   window.__orionAtmosphereDebug={atmosphere,selectiveBloom};
+  window.__orionRespirationDebug={state:respirationState,veils:breathingVeils,nebula:mainCloud,beaconGlow,heraldGroup};
   delete window.__orionBloomSliderFactory;
 }
 
@@ -405,26 +435,42 @@ function tick(now){
   camera.position.z=cardVisible&&!reduceMotion?-.9:0;
   camera.fov=cardVisible&&!reduceMotion?51:52;
   camera.updateProjectionMatrix();
-  const pulse=reduceMotion?0:Math.sin(time*1.85);
-  const shimmer=reduceMotion?0:Math.sin(time*3.7+1.2);
+  // Nebulosa: cada véu transparente respira em ritmo próprio, sem mexer na ESO.
+  const breathA=reduceMotion?0:Math.sin(time*.42+.6);
+  const breathB=reduceMotion?0:Math.sin(time*.24+1.5);
+  respirationState.gas=1+.019*breathA+.011*breathB;
+  for(const v of breathingVeils){
+    const wave=reduceMotion?0:.68*Math.sin(time*v.rate+v.phase)
+      +.32*Math.sin(time*v.rate*.57+v.phase*1.73);
+    v.mesh.material.opacity=v.base*(1+v.amp*wave+(respirationState.gas-1)*.5);
+  }
+  // Astro principal: pulsação lenta (8s), microcintilação e farol suave
+  // aproximadamente a cada 8,5s. Hover continua respondendo imediatamente.
+  const pulse=reduceMotion?0:Math.sin(time*.77+.4);
+  const shimmer=reduceMotion?0:.65*Math.sin(time*2.16+1.1)+.35*Math.sin(time*3.24+2.4);
+  const beacon=reduceMotion?0:Math.pow(Math.max(0,Math.cos(time*.7392-1.35)),10);
+  respirationState.beacon=beacon;
+  respirationState.star=1+.028*pulse+.013*shimmer;
   const emphasized=cardVisible?1.22:1;
-  const change=1+.035*pulse;
-  nebulaStarHalo.scale.setScalar(156*change*emphasized);
-  softHalo.scale.setScalar(118*change*emphasized);
-  mainGlow.scale.setScalar(66*(1+.055*pulse)*emphasized);
-  coreGlow.scale.setScalar(18*(1+.06*shimmer)*(cardVisible?1.18:1));
-  nebulaStarHalo.material.opacity=.20+(cardVisible?.08:0)+.022*pulse;
-  softHalo.material.opacity=.27+(cardVisible?.12:0)+.03*pulse;
-  mainGlow.material.opacity=.76+(cardVisible?.16:0)+.05*pulse;
+  nebulaStarHalo.scale.setScalar(156*(respirationState.star+.055*beacon)*emphasized);
+  softHalo.scale.setScalar(118*(1+.034*pulse+.045*beacon)*emphasized);
+  mainGlow.scale.setScalar(66*(1+.048*pulse+.022*shimmer+.075*beacon)*emphasized);
+  coreGlow.scale.setScalar(18*(1+.026*shimmer)*(cardVisible?1.18:1));
+  nebulaStarHalo.material.opacity=.2+(cardVisible?.08:0)+.019*pulse+.060*beacon;
+  softHalo.material.opacity=.27+(cardVisible?.12:0)+.022*pulse+.045*beacon;
+  mainGlow.material.opacity=.76+(cardVisible?.16:0)+.018*shimmer+.07*beacon;
   coreGlow.material.opacity=.98;
+  beaconGlow.scale.setScalar(178+65*beacon);
+  beaconGlow.material.opacity=.155*beacon*(cardVisible?1.35:1);
   orbitRing.material.opacity=0;
   flash.style.opacity='0';
   flash.style.setProperty('--veil-opacity','0');
  } else {
+  beaconGlow.visible=false;
   starJourney.update(now,delta);
  }
  for(const mat of starMaterials){
-   mat.uniforms.uTime.value=time;
+   mat.uniforms.uTime.value=reduceMotion?0:time;
    mat.uniforms.uOpacity.value=mat.userData.baseOpacity*(travelling?1.24:1);
  }
  camera.updateWorldMatrix(true,false);

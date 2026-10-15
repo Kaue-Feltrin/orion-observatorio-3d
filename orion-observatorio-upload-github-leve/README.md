@@ -92,3 +92,19 @@ A estrela passa a ser um astro distante em z=−470, integrado à fotografia ESO
 A animação nova está isolada em `star-journey.js`. Primeiro concentra o olhar, depois percorre fisicamente as profundidades das nuvens gasosas (a câmera vai de z~26 a z=−417, sempre a mais de 50 unidades da estrela), gerando streaks de partículas que passam pela câmera e suavizando as camadas já atravessadas. Durante o voo, o núcleo mantém um tamanho angular quase constante, e o halo só se expande no final, antes do véu de luz ocupar toda a tela. A fotografia ESO não recebe blur.
 
 `?debug=1` disponibiliza `__orionStarDebug` para testes. A versão de produção da main permanece preservada.
+
+## v0.9.1 — Respiração Cósmica (prévia separada)
+
+Esta versão parte da **v0.9 já validada no Chromium** — nunca substituir o projeto por um ZIP da v0.8.
+
+- Fotografia original ESO inalterada: posição, textura, nitidez e opacidade.
+- Camadas GLSL de gás com variação independente de brilho (~3–5%, períodos distintos).
+- Camadas frontais transparentes respiram de modo independente sem mover a imagem de fundo.
+- Estrelas comuns têm duas oscilações por ponto, velocidades, fases e amplitudes aleatórias na GPU.
+- Estrela principal mantém seu núcleo e seus halos, com pulso lento, microcintilação e um farol etéreo suave a cada ~8,5 s.
+- Hover continua chamativo, sem anel de interface.
+- Câmera, profundidades, bloom e o módulo star-journey.js são preservados da v0.9.
+- Preferência do sistema por reduzir movimento desativa os novos pulsos.
+- `?debug=1` expõe `window.__orionRespirationDebug` para inspeção.
+
+A publicação de prévia ocorre automaticamente ao enviar alterações para a branch `preview/respiracao-cosmica-v091`.
