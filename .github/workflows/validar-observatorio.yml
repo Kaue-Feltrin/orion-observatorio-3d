@@ -1,0 +1,27 @@
+name: Validar Observatório 3D
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: orion-observatorio-upload-github-leve
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Instalar dependências
+        run: npm install --no-audit --no-fund
+      - name: Verificar estrutura e sintaxe
+        run: npm run check
+      - name: Compilar site
+        run: npm run build
