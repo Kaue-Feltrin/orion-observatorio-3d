@@ -483,7 +483,7 @@ function tick(now){
  if(document.hidden)return;
  const q=gpuBudget();
  // Não desenhar quadros extras em máquinas limitadas.
- if(!travelling && renderedAt && now-renderedAt<1000/q.fpsCap)return;
+ if(!travelling && q.fpsCap<60 && renderedAt && now-renderedAt<1000/q.fpsCap-1)return;
  const rawMs=renderedAt?Math.min(100,now-renderedAt):16.67;
  renderedAt=now;
  adaptPerformance(now,rawMs);
