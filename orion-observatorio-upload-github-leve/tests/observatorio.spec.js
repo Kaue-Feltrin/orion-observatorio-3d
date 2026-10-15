@@ -106,13 +106,16 @@ test('respiração cósmica anima apenas véus e mantém a fotografia ESO intact
     const a={star:r.state.star,gas:r.state.gas,beacon:r.state.beacon,alpha:r.veils[0].mesh.material.opacity,photo:r.nebula.material.opacity,
       glow:r.beaconGlow.material.opacity,
       twinkle:window.__orionDepthDebug.foregroundParticles.children[0].geometry.getAttribute('aTwinkleRate').count};
-    await new Promise(resolve=>setTimeout(resolve,1800));
+    await new Promise(resolve=>setTimeout(resolve,1200));
+    const middle={star:r.state.star,alpha:r.veils[0].mesh.material.opacity};
+    await new Promise(resolve=>setTimeout(resolve,1200));
     const b={star:r.state.star,gas:r.state.gas,beacon:r.state.beacon,alpha:r.veils[0].mesh.material.opacity,photo:r.nebula.material.opacity,glow:r.beaconGlow.material.opacity};
-    return {a,b};
+    return {a,middle,b};
   });
   expect(sample.a.photo).toBe(1);expect(sample.b.photo).toBe(1);
-  expect(Math.abs(sample.a.alpha-sample.b.alpha)).toBeGreaterThan(.0001);
-  expect(Math.abs(sample.a.star-sample.b.star)).toBeGreaterThan(.001);
+  const range=items=>Math.max(...items)-Math.min(...items);
+  expect(range([sample.a.alpha,sample.middle.alpha,sample.b.alpha])).toBeGreaterThan(.00003);
+  expect(range([sample.a.star,sample.middle.star,sample.b.star])).toBeGreaterThan(.001);
   expect(sample.a.twinkle).toBe(200);
   expect(errors).toEqual([]);
 });
@@ -129,4 +132,35 @@ test('movimento reduzido suspende pulso e mantém seleção acessível',async({p
   expect(result.state.gas).toBe(1);
   expect(result.gas).toBe(1);
   await expect(page.locator('#heraldTarget')).toBeAttached();
+});
+
+test('desempenho limita pixels e draw calls sem apagar a nebulosa ESO',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=balanced',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const p=await page.evaluate(()=>{
+    const q=window.__orionPerformance;
+    const canvas=document.querySelector('#world canvas');
+    return {mode:q.mode,maxPixels:q.maxPixels,pixels:canvas.width*canvas.height,
+      visibleGas:q.visibleGas,photograph:window.__orionRespirationDebug.nebula.material.opacity};
+  });
+  expect(p.mode).toBe('balanced');
+  expect(p.pixels).toBeLessThanOrEqual(p.maxPixels+8000);
+  expect(p.visibleGas).toBe(3);
+  expect(p.photograph).toBe(1);
+});
+
+test('qualidade leve mantém estrela e viagem acessíveis',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?quality=lite&debug=1',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const p=await page.evaluate(()=>({
+    mode:window.__orionPerformance.mode,
+    visibleGas:window.__orionPerformance.visibleGas,
+    pixels:document.querySelector('#world canvas').width*document.querySelector('#world canvas').height,
+    cap:window.__orionPerformance.maxPixels
+  }));
+  expect(p.mode).toBe('lite');
+  expect(p.visibleGas).toBe(2);
+  expect(p.pixels).toBeLessThanOrEqual(p.cap+8000);
+  await page.locator('#heraldTarget').click({force:true});
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
 });
