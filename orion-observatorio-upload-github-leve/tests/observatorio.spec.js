@@ -132,7 +132,7 @@ test('movimento reduzido suspende pulso e mantém seleção acessível',async({p
 });
 
 test('desempenho limita pixels e draw calls sem apagar a nebulosa ESO',async({page})=>{
-  await page.goto('http://127.0.0.1:4173/?debug=1',{waitUntil:'domcontentloaded'});
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=balanced',{waitUntil:'domcontentloaded'});
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   const p=await page.evaluate(()=>{
     const q=window.__orionPerformance;
