@@ -1,6 +1,9 @@
 // Projeto Órion · Observatório em pipeline Vite / Cloudflare Pages.
 // Three.js é importado como dependência local e empacotado pelo Vite.
 import * as THREE from "three";
+import { createCosmicAtmosphere } from './cosmic-atmosphere.js';
+import { createSelectiveBloom } from './selective-bloom.js';
+import { createStarJourney } from './star-journey.js';
 
 const root = document.getElementById('observatory');
 const container = document.getElementById('world');
@@ -55,10 +58,18 @@ container.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(52, innerWidth/innerHeight, 0.2, 900);
-scene.add(camera);
-const origin = new THREE.Vector3(0, 0, 26);
-camera.position.copy(origin);
-camera.lookAt(0, 0, -80);
+// Camera em um rig 3D: translacao, yaw, pitch e roll independentes.
+const rigRoot = new THREE.Group();
+const rigYaw = new THREE.Group();
+const rigPitch = new THREE.Group();
+const rigRoll = new THREE.Group();
+scene.add(rigRoot);
+rigRoot.add(rigYaw);
+rigYaw.add(rigPitch);
+rigPitch.add(rigRoll);
+rigRoll.add(camera);
+rigRoot.position.set(0, 0, 26);
+camera.position.set(0, 0, 0);
 
 // Panorama and foreground cloud fragments occupy actual z positions, rather
 // than being DOM images shifted at different speeds. This makes camera motion
@@ -92,12 +103,16 @@ function nebulaPlane(file, z, opacity, x, y, factor, order, aspect=2048/768, opt
   mesh.userData.layerName=options.name||file.split('/').pop();
   scene.add(mesh);layers.push(mesh);return mesh;
 }
-const starBackdrop = nebulaPlane('/assets/00-starfield-base.jpg',-520,1,0,0,1.58,-1,2,{name:'00 · Fundo espacial'});
-const farCloud = nebulaPlane('/assets/01-nebula-far.webp',-360,.36,0,-5,1.53,1,3072/1152,{name:'01 · Nebulosa distante'});
-const mainCloud = nebulaPlane('/assets/02-nebula-main.webp',-250,1,0,-3,1.48,2,3072/1152,{name:'02 · Nebulosa principal'});
-const midCloud = nebulaPlane('/assets/03-mid-clouds.webp',-155,.34,-2,-4,1.42,3,3072/1152,{name:'03 · Detalhe da nebulosa',additive:true});
-const nearCloud = nebulaPlane('/assets/04-front-fog.png',-92,.18,9,-10,1.56,4,2560/960,{name:'04 · Névoa frontal',additive:true});
-const dustCloud = nebulaPlane('/assets/05-star-dust.png',-58,.52,0,0,1.62,5,3072/1152,{name:'05 · Poeira estelar',additive:true});
+const starBackdrop = nebulaPlane('/assets/00-starfield-base.jpg',-700,1,0,0,1.58,-1,2,{name:'00 · Fundo espacial'});
+const farCloud = nebulaPlane('/assets/01-nebula-far.webp',-360,.11,0,-5,1.53,1,3072/1152,{name:'01 · Nebulosa distante'});
+const mainCloud = nebulaPlane('/assets/nebula-eso-photographic.jpg',-540,1,0,-3,1.31,2,5000/1850,{name:'02 · Via Láctea fotográfica · ESO'});
+const midCloud = nebulaPlane('/assets/03-mid-clouds.webp',-155,.065,-2,-4,1.42,3,3072/1152,{name:'03 · Detalhe da nebulosa',additive:true});
+const nearCloud = nebulaPlane('/assets/04-front-fog.png',-92,.06,9,-10,1.56,4,2560/960,{name:'04 · Névoa frontal',additive:true});
+const dustCloud = nebulaPlane('/assets/05-star-dust.png',-58,.18,0,0,1.62,5,3072/1152,{name:'05 · Poeira estelar',additive:true});
+
+// Five independent GLSL gas planes in front of the ESO image; no photo blur.
+const atmosphere = createCosmicAtmosphere(scene,{reducedMotion:reduceMotion || mobile});
+layers.push(...atmosphere.layers);
 
 // Scene inspector: isolate layers without editing code or reloading.
 if(debugEnabled){
@@ -113,13 +128,32 @@ if(debugEnabled){
     row.append(toggle,span);group.appendChild(row);
   }
   debug.appendChild(group);
+  const controls=document.createElement('fieldset');
+  controls.className='layer-inspector';
+  controls.innerHTML='<legend>Nebulosa Viva</legend>';
+  const addSlider=(name,initial,min,max,step,callback)=>{
+    const line=document.createElement('label');line.className='atmosphere-slider';
+    const caption=document.createElement('span');caption.textContent=name;
+    const output=document.createElement('output');output.textContent=Number(initial).toFixed(2);
+    const input=document.createElement('input');input.type='range';
+    input.min=String(min);input.max=String(max);input.step=String(step);input.value=String(initial);
+    input.setAttribute('aria-label',name);
+    input.addEventListener('input',()=>{
+      const value=Number(input.value);output.textContent=value.toFixed(2);callback(value);
+    });
+    line.append(caption,output,input);controls.appendChild(line);
+  };
+  addSlider('Densidade do gás',atmosphere.state.density,0,1.5,.05,atmosphere.setDensity);
+  addSlider('Fluxo orgânico',atmosphere.state.flow,0,1,.05,atmosphere.setFlow);
+  window.__orionBloomSliderFactory=addSlider;
+  debug.appendChild(controls);
 }
 
 // Spatial starfield in three actual depth ranges, one GPU draw call per range.
 const starMaterials=[];
 const starsGroup=new THREE.Group();
 scene.add(starsGroup);
-function createStars(count,minZ,maxZ,spanX,spanY,sizeRange,tint) {
+function createStars(count,minZ,maxZ,spanX,spanY,sizeRange,tint,opts={}) {
   const positions = new Float32Array(count*3);
   const sizes = new Float32Array(count);
   const phases = new Float32Array(count);
@@ -162,15 +196,23 @@ function createStars(count,minZ,maxZ,spanX,spanY,sizeRange,tint) {
         gl_FragColor=vec4(vColor,alpha);
       }`,
   });
+  material.userData.baseOpacity = opts.opacity ?? 1;
   starMaterials.push(material);
-  starsGroup.add(new THREE.Points(geometry,material));
+  (opts.group || starsGroup).add(new THREE.Points(geometry,material));
 }
 createStars(2700,-540,-270,1100,570,[2.6,6.5],['#e5ebff','#90a9f4','#ffe8d3']);
 createStars(860,-255,-105,510,290,[1.2,4.1],['#e5e7ff','#bfb2ff','#ffe5b0']);
 createStars(360,-95,-15,250,140,[.75,2.6],['#f5f4ff','#b5bdfb','#f9e8ca']);
+// Poeira discreta perto dos olhos: a perspectiva, nao o CSS, gera parallax.
+const foregroundParticles = new THREE.Group();
+scene.add(foregroundParticles);
+createStars(200,-56,-6,128,72,[.65,1.75],['#d6dfff','#d3baff','#f7eacf'],{group:foregroundParticles,opacity:.27});
+if (debugEnabled) {
+  window.__orionDepthDebug = { rigRoot, rigYaw, rigPitch, rigRoll, camera, foregroundParticles, layers };
+}
 
 // Native Three.js sprites anchored at the same point in space.
-const heraldPos = new THREE.Vector3(0, 14, -138);
+const heraldPos = new THREE.Vector3(0, 43, -470);
 const heraldBasePos = heraldPos.clone();
 const heraldGroup = new THREE.Group();
 heraldGroup.position.copy(heraldPos);
@@ -217,15 +259,37 @@ heraldGroup.add(nebulaStarHalo);
 const softHalo=addGlow(47,.25);
 const mainGlow=addGlow(22,.8);
 const coreGlow=addGlow(7,1);
-const orbitRing=new THREE.Mesh(new THREE.RingGeometry(7.25,7.28,144),new THREE.MeshBasicMaterial({color:0xe8cf92,transparent:true,opacity:.13,side:THREE.DoubleSide,depthWrite:false,depthTest:false}));
+const orbitRing=new THREE.Mesh(new THREE.RingGeometry(7.25,7.28,144),new THREE.MeshBasicMaterial({color:0xe8cf92,transparent:true,opacity:.015,side:THREE.DoubleSide,depthWrite:false,depthTest:false}));
 orbitRing.renderOrder=14; heraldGroup.add(orbitRing);
+// Sprite 3D invisivel na camada 2: area acessivel de mira e click real (Raycaster).
+// O HTML continua apenas como alternativa de teclado e touch.
+const heraldPickSprite=new THREE.Sprite(new THREE.SpriteMaterial({
+ color:0xffffff,transparent:true,opacity:0,depthTest:false,depthWrite:false
+}));
+heraldPickSprite.scale.setScalar(56);
+heraldPickSprite.layers.set(2);
+heraldPickSprite.renderOrder=0;
+heraldGroup.add(heraldPickSprite);
+const starRaycaster=new THREE.Raycaster();
+starRaycaster.layers.set(2);
+const pointerNdc=new THREE.Vector2();
+nebulaStarHalo.layers.enable(1);
+softHalo.layers.enable(1);
+mainGlow.layers.enable(1);
+coreGlow.layers.enable(1);
+const selectiveBloom=createSelectiveBloom(renderer,scene,camera,{initial:mobile?.28:.48,reducedMotion:reduceMotion});
+if(debugEnabled) {
+  window.__orionBloomSliderFactory('Bloom seletivo',selectiveBloom.state.intensity,0,1.5,.05,selectiveBloom.setIntensity);
+  window.__orionAtmosphereDebug={atmosphere,selectiveBloom};
+  delete window.__orionBloomSliderFactory;
+}
 
 // The link target is a REAL HTML button anchored to the projection of the
 // Three.js object, so mouse, keyboard and touch share the same hit target.
 let mouse={x:0,y:0}; let smooth={x:0,y:0}; let selected=false;let jumpStart=0;
-let cardVisible=false;let travelStart,travelVector;
+let cardVisible=false;
 let travelling=false;
-let cachedLookTarget = new THREE.Vector3();
+// O alvo e a camera usam coordenadas reais de mundo.
 let lastFrame=performance.now();
 let blink=0;
 const projected=new THREE.Vector3();
@@ -237,6 +301,8 @@ function updateTargetScreen() {
   if(!Number.isFinite(x)||!Number.isFinite(y))return;
   targetXY.x=x;targetXY.y=y;
   target.style.left=x+'px';target.style.top=y+'px';
+  flash.style.setProperty('--arrival-x', (x/innerWidth*100).toFixed(2)+'%');
+  flash.style.setProperty('--arrival-y', (y/innerHeight*100).toFixed(2)+'%');
   const width=265;
   const cardX=(x+170+width < innerWidth-15)?x+119:x-150-width;
   const cardY=THREE.MathUtils.clamp(y-93,110,Math.max(112,innerHeight-card.offsetHeight-18));
@@ -260,50 +326,59 @@ const armClick=(e)=>{
   beginTravel();
 };
 target.addEventListener('click',armClick);
+function isAimedAtStar(clientX,clientY){
+  if(travelling)return false;
+  pointerNdc.set(clientX/innerWidth*2-1,1-clientY/innerHeight*2);
+  camera.updateWorldMatrix(true,false);
+  heraldGroup.updateWorldMatrix(true,true);
+  starRaycaster.setFromCamera(pointerNdc,camera);
+  return starRaycaster.intersectObject(heraldPickSprite,false).length>0;
+}
 window.addEventListener('pointermove',e=>{
-  if(e.pointerType==='touch')return;
+  if(e.pointerType==='touch'||travelling)return;
   mouse.x=(e.clientX/innerWidth-.5)*2;
   mouse.y=(.5-e.clientY/innerHeight)*2;
+  const aimed=isAimedAtStar(e.clientX,e.clientY);
+  document.body.classList.toggle('star-aimed',aimed);
+  if(cardVisible!==aimed && document.activeElement!==target)setHover(aimed);
 },{passive:true});
+window.addEventListener('pointerdown',e=>{
+  if(e.pointerType==='touch'||travelling||e.button!==0)return;
+  if(e.target.closest('a,button,input,.debug'))return;
+  if(isAimedAtStar(e.clientX,e.clientY)){e.preventDefault();beginTravel();}
+});
 
-// Hiperespaço: linhas de warp presas à câmera para uma sensação mais forte de aceleração.
-const warpCount=1200;
-const warpGeometry=new THREE.BufferGeometry();
-const warpCoords=new Float32Array(warpCount*2*3);
-const warpColors=new Float32Array(warpCount*2*3);
-const warpRadius=new Float32Array(warpCount);
-const warpAngle=new Float32Array(warpCount);
-const warpDepth=new Float32Array(warpCount);
-const palette=[new THREE.Color('#d1dcff'),new THREE.Color('#fce5bd'),new THREE.Color('#b69bff')];
-for(let i=0;i<warpCount;i++){
- const angle=Math.random()*Math.PI*2;
- const radius=4+Math.random()*118;
- const depth=80+Math.random()*260;
- warpRadius[i]=radius;warpAngle[i]=angle;warpDepth[i]=depth;
- const x0=Math.cos(angle)*radius*0.035,y0=Math.sin(angle)*radius*0.024,z0=-10-Math.random()*18;
- const x1=Math.cos(angle)*radius,y1=Math.sin(angle)*radius*0.72,z1=-depth;
- const a=i*6;warpCoords[a]=x0;warpCoords[a+1]=y0;warpCoords[a+2]=z0;
- warpCoords[a+3]=x1;warpCoords[a+4]=y1;warpCoords[a+5]=z1;
- const c=palette[i%3];
- for(let k=0;k<2;k++) {warpColors[a+k*3]=c.r;warpColors[a+k*3+1]=c.g;warpColors[a+k*3+2]=c.b;}
-}
-warpGeometry.setAttribute('position',new THREE.BufferAttribute(warpCoords,3));
-warpGeometry.setAttribute('color',new THREE.BufferAttribute(warpColors,3));
-const warpMat=new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false,depthTest:false});
-const warpLines=new THREE.LineSegments(warpGeometry,warpMat);
-warpLines.visible=false;warpLines.renderOrder=18;warpLines.position.set(0,0,-4);camera.add(warpLines);
+// A viagem fica isolada do rig de repouso e so termina no clarão.
+const starJourney=createStarJourney({
+ scene,camera,star:heraldGroup,
+ glows:{halo:nebulaStarHalo,soft:softHalo,main:mainGlow,core:coreGlow},
+ layers,gasLayers:atmosphere.layers,selectiveBloom,flash,
+ reducedMotion:reduceMotion,
+ onArrive:()=>{
+   // Relato do trajeto persistido apenas nesta aba para depuração pós-navegação.
+   sessionStorage.setItem('orion-last-trip-v09',JSON.stringify({
+     passedGasLayers:atmosphere.layers.filter(layer=>camera.position.z<layer.position.z).length,
+     endZ:camera.position.z,starZ:heraldGroup.position.z
+   }));
+   window.location.href='ficha.html';
+ }
+});
+if(debugEnabled)window.__orionStarDebug={journey:starJourney,heraldGroup,heraldPickSprite,raycaster:starRaycaster};
 function beginTravel(){
- travelling=true;setHover(true);root.classList.add('jumping');
+ if(travelling)return;
+ if(!starJourney.begin())return;
+ travelling=true;
+ cardVisible=false;card.classList.remove('visible');card.setAttribute('aria-hidden','true');
+ root.classList.add('jumping');
+ document.body.classList.remove('star-aimed');
  hint.textContent='Atravessando o véu…';
- jumpStart=performance.now();travelStart=camera.position.clone();
- travelVector=heraldPos.clone().sub(travelStart).normalize();
- warpLines.visible=true;warpLines.scale.set(1,1,1);warpLines.position.set(0,0,-4);
 }
 function resize(){
  camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
  renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
+ selectiveBloom.resize(innerWidth,innerHeight);
  for(const mesh of layers){
-  const dist=camera.position.z-mesh.position.z;
+  const dist=26-mesh.position.z; // escala baseada no ponto de observacao inicial
   const h=2*Math.tan(THREE.MathUtils.degToRad(52/2))*dist*mesh.userData.factor;
   mesh.scale.set(h*mesh.userData.aspect,h,1);
  }
@@ -317,70 +392,45 @@ function tick(now){
  const time=now*.001;
  if(!travelling){
   heraldGroup.position.copy(heraldBasePos);
-  nebulaStarHalo.scale.set(52,52,1);
-  orbitRing.material.opacity=.12;
-  warpLines.visible=false;
-  starsGroup.position.z = 0;
-  camera.rotation.z = 0;
+  starsGroup.position.z=0;
   const inertia=reduceMotion?1:1-Math.pow(.0008,delta);
   smooth.x=THREE.MathUtils.lerp(smooth.x,mouse.x,inertia);
   smooth.y=THREE.MathUtils.lerp(smooth.y,mouse.y,inertia);
-  const idle=reduceMotion?0:Math.sin(time*.29)*.28;
-  const intendedX=smooth.x*8.8*perspective;
-  const intendedY=smooth.y*5.9*perspective+idle;
-  camera.position.set(intendedX,intendedY,26);
-  camera.lookAt(-smooth.x*.7, -smooth.y*.35,-120);
-  camera.fov=52;camera.updateProjectionMatrix();
-  mainGlow.material.opacity=.76+(cardVisible?.09:0)+(reduceMotion?0:Math.sin(time*1.6)*.045);
-  softHalo.material.opacity=.22+(cardVisible?.09:0);
-  coreGlow.material.opacity=.97+(cardVisible?.05:0);
-  nebulaStarHalo.material.opacity=.16+(cardVisible?.06:0);
-  mainGlow.scale.setScalar(18.5+(cardVisible?2.5:0));
-  softHalo.scale.setScalar(39+(cardVisible?4.5:0));
-  coreGlow.scale.setScalar(6.1+(cardVisible?.8:0));
+  const idle=reduceMotion?0:Math.sin(time*.29)*.23;
+  rigRoot.position.set(smooth.x*6.8*perspective,
+    smooth.y*4.35*perspective+idle,26+(reduceMotion?0:Math.sin(time*.21)*.25));
+  rigYaw.rotation.y=-smooth.x*.068*perspective;
+  rigPitch.rotation.x=smooth.y*.052*perspective;
+  rigRoll.rotation.z=reduceMotion?0:-smooth.x*.011*perspective+Math.sin(time*.27)*.0015;
+  camera.position.z=cardVisible&&!reduceMotion?-.9:0;
+  camera.fov=cardVisible&&!reduceMotion?51:52;
+  camera.updateProjectionMatrix();
+  const pulse=reduceMotion?0:Math.sin(time*1.85);
+  const shimmer=reduceMotion?0:Math.sin(time*3.7+1.2);
+  const emphasized=cardVisible?1.22:1;
+  const change=1+.035*pulse;
+  nebulaStarHalo.scale.setScalar(156*change*emphasized);
+  softHalo.scale.setScalar(118*change*emphasized);
+  mainGlow.scale.setScalar(66*(1+.055*pulse)*emphasized);
+  coreGlow.scale.setScalar(18*(1+.06*shimmer)*(cardVisible?1.18:1));
+  nebulaStarHalo.material.opacity=.20+(cardVisible?.08:0)+.022*pulse;
+  softHalo.material.opacity=.27+(cardVisible?.12:0)+.03*pulse;
+  mainGlow.material.opacity=.76+(cardVisible?.16:0)+.05*pulse;
+  coreGlow.material.opacity=.98;
+  orbitRing.material.opacity=0;
   flash.style.opacity='0';
- }else{
-  const t=Math.min(1,(now-jumpStart)/(reduceMotion?320:1620));
-  const phaseA=Math.min(1,t/.7);
-  const phaseB=Math.max(0,(t-.62)/.38);
-  const easeA=1-Math.pow(1-phaseA,3);
-  const easeB=phaseB*phaseB*(3-2*phaseB);
-  const driftX=(reduceMotion?0:Math.sin(t*18)*1.2*(1-phaseB));
-  const driftY=(reduceMotion?0:Math.cos(t*21)*.55*(1-phaseB));
-  const targetX=THREE.MathUtils.lerp(travelStart.x, 0, easeA*.38)+driftX;
-  const targetY=THREE.MathUtils.lerp(travelStart.y, 1.6, easeA*.3)+driftY;
-  const targetZ=THREE.MathUtils.lerp(travelStart.z, -132, easeA);
-  camera.position.set(targetX,targetY,targetZ);
-  cachedLookTarget.set(0, 12, -340);
-  camera.lookAt(cachedLookTarget);
-  if(!reduceMotion) camera.rotateZ(Math.sin(t*30)*0.006*(1-easeB));
-  camera.fov=52+22*phaseA+16*easeB;camera.updateProjectionMatrix();
-  // Estrela continua distante: o glow cresce mais do que o objeto se aproxima.
-  heraldGroup.position.set(0, 14 + easeB*1.0, THREE.MathUtils.lerp(heraldBasePos.z, -220, easeA*.84));
-  nebulaStarHalo.scale.setScalar(52 + 8*phaseA + 128*easeB);
-  nebulaStarHalo.material.opacity=.18 + .08*phaseA + .5*easeB;
-  softHalo.scale.setScalar(39 + 10*phaseA + 250*easeB);
-  mainGlow.scale.setScalar(18.5 + 4*phaseA + 135*easeB);
-  coreGlow.scale.setScalar(6.1 + 1.8*phaseA + 34*easeB);
-  softHalo.material.opacity=.24 + .18*phaseA + .34*easeB;
-  mainGlow.material.opacity=.8 + .11*phaseA + .24*easeB;
-  coreGlow.material.opacity=.98 + .28*easeB;
-  orbitRing.material.opacity=.12*(1-easeB);
-  // Warp locked to the camera for stronger hyperspace.
-  warpLines.visible=true;
-  warpLines.position.z = -4 - phaseA*6;
-  warpLines.scale.set(1 + .45*phaseA, 1 + .45*phaseA, 1 + 7.5*phaseA + 3.5*Math.sin(t*18)*(1-phaseB));
-  warpLines.rotation.z = time*0.11;
-  warpMat.opacity=reduceMotion?0:(.18 + .82*phaseA)*(1-easeB*.86);
-  // Give some extra dynamism to stars during travel.
-  starsGroup.position.z = -20*phaseA;
-  flash.style.opacity=String(THREE.MathUtils.clamp((t-.70)/.20,0,1)*0.95);
-  if(t>=1){window.location.href='ficha.html';return;}
+  flash.style.setProperty('--veil-opacity','0');
+ } else {
+  starJourney.update(now,delta);
  }
- orbitRing.rotation.z=time*.04;
- for(const mat of starMaterials){mat.uniforms.uTime.value=time;mat.uniforms.uOpacity.value=travelling?1.25:1;}
+ for(const mat of starMaterials){
+   mat.uniforms.uTime.value=time;
+   mat.uniforms.uOpacity.value=mat.userData.baseOpacity*(travelling?1.24:1);
+ }
+ camera.updateWorldMatrix(true,false);
  updateTargetScreen();
- renderer.render(scene,camera);
+ atmosphere.update(time);
+ selectiveBloom.render();
 }
 requestAnimationFrame(tick);
 document.documentElement.dataset.sceneReady='1';
