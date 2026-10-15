@@ -243,3 +243,31 @@ test('sparse void: 146 estrelas reais, zero poeira, zonas vazias e viagem funcio
   await page.locator('#heraldTarget').click({force:true});
   await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
 });
+
+test('céu fotográfico deixa grandes regiões vazias sem eliminar a nebulosa',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const result=await page.evaluate(async()=>{
+    const img=new Image();img.src='/assets/nebula-eso-photographic.jpg';
+    await img.decode();
+    const c=document.createElement('canvas');c.width=240;c.height=100;
+    const ctx=c.getContext('2d',{willReadFrequently:true});
+    ctx.drawImage(img,0,0,c.width,c.height);
+    const pixels=ctx.getImageData(0,0,c.width,c.height).data;
+    const luminance=(x,y)=>{
+      const i=(Math.floor(y*100)*240+Math.floor(x*240))*4;
+      return (pixels[i]+pixels[i+1]+pixels[i+2])/3;
+    };
+    return {size:[img.naturalWidth,img.naturalHeight],
+      top:[.15,.35,.60,.85].map(x=>luminance(x,.07)),
+      bottom:[.15,.35,.60,.85].map(x=>luminance(x,.93)),
+      galaxy:[.35,.48,.55,.70].map(x=>luminance(x,.53)),
+      photo:window.__orionRespirationDebug.nebula.material.opacity};
+  });
+  const avg=v=>v.reduce((a,b)=>a+b,0)/v.length;
+  expect(result.size[0]).toBeGreaterThan(3000);
+  expect(avg(result.top)).toBeLessThan(13);
+  expect(avg(result.bottom)).toBeLessThan(13);
+  expect(avg(result.galaxy)).toBeGreaterThan(avg(result.top)*3);
+  expect(result.photo).toBe(1);
+});

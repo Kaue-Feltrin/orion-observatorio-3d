@@ -84,3 +84,11 @@ assert.match(await read('cinematic-star.js'),/material\.rotation/,'pontas com ro
 assert.match(await read('cinematic-star.js'),/AdditiveBlending/,'difração sem blocos opacos');
 assert.match(await read('cinematic-star.js'),/reducedMotion/,'movimento reduzido');
 assert.match(main,/gas:\[0,2\]/,'equilibrado usa 2 planos GLSL');
+
+// v0.9.2c — corrigir o ruído vindo dos pixels da fotografia ESO.
+const offlineESO=await read('scripts/prepare-astro-assets.mjs');
+assert.match(offlineESO,/\.median\(7\)/,'suprimir estrelinhas na própria imagem');
+assert.match(offlineESO,/const preserve=1-eased/,'vazio fotográfico suave no céu externo');
+assert.match(offlineESO,/\.jpeg\(\{quality:90,mozjpeg:true\}\)/,'pré-processar um único JPEG');
+assert.match(css,/v0\.9\.2c/,'fallback não pode revelar imagem ruidosa');
+assert.match(index,/estrelas reduzidas/,'crédito da adaptação declarada');
