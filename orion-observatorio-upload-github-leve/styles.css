@@ -1,0 +1,65 @@
+:root{color-scheme:dark;--cream:#f5f0e5;--gold:#ead2a1;--muted:#c1bbd1;--glass:rgba(11,10,25,.17);--line:rgba(229,218,247,.17)}
+*{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden}body{background:#020208;color:var(--cream);font-family:'Segoe UI',Inter,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+button{font:inherit} .observatory{position:relative;width:100%;height:100svh;overflow:hidden;background:#020208;isolation:isolate}
+.sky-fallback{position:absolute;inset:-4%;z-index:0;background:#020208 url('/assets/02-nebula-main.webp') center/cover no-repeat;filter:brightness(.48) saturate(.92);transform:scale(1.05)}
+.world{position:absolute;inset:0;z-index:1;pointer-events:none}.world canvas{width:100%;height:100%;display:block}
+.scene-vignette{position:absolute;inset:0;pointer-events:none;z-index:2;background:radial-gradient(ellipse at 50% 40%,transparent 28%,rgba(1,1,9,.12) 64%,rgba(1,1,8,.65) 100%),linear-gradient(180deg,rgba(0,0,0,.23),transparent 27%,transparent 69%,rgba(0,0,0,.48))}
+.glass-float{background:linear-gradient(120deg,rgba(28,27,50,.30),rgba(8,7,22,.22));border:1px solid var(--line);-webkit-backdrop-filter:blur(19px) saturate(1.16);backdrop-filter:blur(19px) saturate(1.16);box-shadow:0 20px 65px rgba(0,0,0,.17),inset 0 1px rgba(255,255,255,.045)}
+.constellation{position:absolute;top:clamp(16px,3.1vw,37px);left:clamp(16px,3vw,45px);padding:18px 22px 16px;z-index:5;border-radius:18px;min-width:188px}
+.identity-overline{font-size:10px;text-transform:uppercase;letter-spacing:.36em;color:rgba(244,236,224,.63);font-weight:550}.constellation h1{font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:clamp(25px,2.1vw,36px);letter-spacing:.02em;margin:3px 0 10px}.constellation p{font-family:Georgia,serif;font-size:14px;margin:0;color:#dbd4e4;letter-spacing:.025em}.tiny-star{color:var(--gold);margin-right:6px}
+.leave{position:absolute;top:clamp(16px,3.1vw,37px);right:clamp(16px,3vw,45px);z-index:6;display:flex;align-items:center;gap:9px;padding:13px 19px;color:var(--cream);border-radius:60px;cursor:pointer;transition:background .2s,transform .2s}.leave:hover{background:rgba(42,35,72,.4);transform:translateY(-2px)}
+.herald-target{position:absolute;left:50%;top:31%;width:clamp(80px,10vw,155px);height:clamp(80px,10vw,155px);transform:translate(-50%,-50%);z-index:9;cursor:pointer;border:0;background:transparent;border-radius:50%;outline:0}.herald-target:focus-visible{outline:1px solid rgba(248,233,185,.68);outline-offset:5px}
+.herald-card{position:absolute;z-index:10;width:265px;padding:20px 20px 15px;border-radius:18px;opacity:0;visibility:hidden;transform:translateY(14px) scale(.98);transition:opacity .24s,transform .24s,visibility .24s;pointer-events:none}.herald-card.visible{opacity:1;visibility:visible;transform:translateY(0) scale(1)}.card-overline{font-size:10px;text-transform:uppercase;letter-spacing:.22em;color:#e9d9b8;display:flex;align-items:center;gap:8px}.card-overline i{display:block;width:5px;height:5px;border-radius:100%;background:#f2d697;box-shadow:0 0 9px #d5b673}.herald-card h2{font:normal 30px/1 Georgia,serif;margin:13px 0 5px}.subtitle{margin:0 0 16px;font:15px Georgia,serif;color:#cbc2dc}.herald-card dl{margin:0;padding-top:12px;border-top:1px solid rgba(235,220,191,.2);display:grid;gap:9px}.herald-card dl>div{display:grid;grid-template-columns:67px 1fr;gap:6px;align-items:baseline}.herald-card dt{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#aaa4bb}.herald-card dd{margin:0;font-size:13px;color:#eee9f6;overflow-wrap:anywhere}.card-action{border-top:1px solid rgba(235,220,191,.15);padding-top:13px;margin-top:15px;display:flex;justify-content:space-between;font:14px Georgia,serif;color:#f0dfb9}
+.bottom-ui{position:absolute;z-index:5;left:0;right:0;bottom:clamp(17px,4vh,42px);display:flex;align-items:center;flex-direction:column;gap:12px;pointer-events:none}.bottom-ui p{font:clamp(13px,1.1vw,16px) Georgia,serif;letter-spacing:.09em;margin:0;color:rgba(251,247,243,.88);text-shadow:0 1px 20px #020208}.bottom-mark{font-size:15px;line-height:1;color:var(--gold);opacity:.65}
+.loading-note{position:absolute;z-index:7;bottom:85px;left:50%;transform:translateX(-50%);text-align:center;min-width:210px;font:12px 'Segoe UI',Arial,sans-serif;letter-spacing:.035em;color:#b8b1c9;opacity:.8;pointer-events:none}.loading-note.done{display:none}
+.notice{position:absolute;z-index:15;top:105px;right:25px;max-width:min(360px,90vw);padding:16px 19px;border-radius:15px;font-size:13px;line-height:1.5}
+.debug{position:absolute;z-index:11;left:clamp(16px,3vw,45px);bottom:20px;width:min(260px,65vw);border-radius:15px;padding:13px 16px;display:grid;gap:10px}.debug[hidden]{display:none}.debug label{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:#efe9f7;gap:10px}.debug input{width:100%;accent-color:#dfc28b;cursor:pointer}.debug small{line-height:1.4;font-size:11px;color:#afa8c2}
+.arrival-flash{position:absolute;inset:0;z-index:14;pointer-events:none;background:radial-gradient(circle at 50% 33%,rgba(255,252,242,1) 0%,rgba(255,245,217,.96) 14%,rgba(246,231,199,.78) 28%,rgba(220,200,253,.36) 48%,rgba(10,6,27,0) 78%);opacity:0;will-change:opacity}.observatory.jumping .constellation,.observatory.jumping .leave,.observatory.jumping .bottom-ui,.observatory.jumping .herald-card{transition:opacity .3s;opacity:0}.observatory.jumping .herald-target{pointer-events:none}
+@media(max-width:670px){.constellation{padding:13px 15px;min-width:142px}.identity-overline{font-size:9px;letter-spacing:.24em}.constellation p{font-size:12px}.leave{padding:12px}.leave span{display:none}.herald-card{width:min(264px,86vw)}.bottom-ui{bottom:30px}.bottom-ui p{padding:0 16px;text-align:center;letter-spacing:.035em}.notice{right:10px;top:85px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01ms!important}}
+
+/* Visual inspector: available only with ?debug=1 */
+.debug{max-height:min(80svh,650px);overflow-y:auto;width:min(300px,83vw)}
+.layer-inspector{border:0;padding:12px 0 0;margin:3px 0 0;border-top:1px solid rgba(255,255,255,.13);min-width:0}
+.layer-inspector legend{font:11px 'Segoe UI',sans-serif;color:#f0dcb1;padding:0;margin-bottom:7px}
+.layer-switch{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:8px!important;margin:5px 0!important;cursor:pointer!important;font-size:11px!important;line-height:1.4}
+.layer-switch input{width:14px!important;height:14px;flex-shrink:0;cursor:pointer}
+
+/* v0.7.1 · identidade mais leve: vidro sutil, proporções menores. */
+.constellation{top:20px;left:24px;min-width:unset;padding:10px 14px 9px;border-radius:12px;background:linear-gradient(120deg,rgba(15,13,31,.24),rgba(8,7,22,.11));border-color:rgba(229,218,247,.10);box-shadow:0 8px 24px rgba(0,0,0,.1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.constellation .identity-overline{font-size:8px;letter-spacing:.27em;color:rgba(244,236,224,.50)}
+.constellation h1{font-size:19px;line-height:1.1;margin:3px 0 5px;letter-spacing:0}
+.constellation p{font:11px/1.25 'Segoe UI',Arial,sans-serif;color:rgba(219,212,228,.69);letter-spacing:.01em}
+.constellation .tiny-star{margin-right:4px;font-size:9px;opacity:.6}
+.load-issue{position:absolute;z-index:25;left:50%;top:50%;transform:translate(-50%,-50%);width:min(510px,calc(100vw - 30px));padding:23px;border-radius:15px;background:rgba(10,9,24,.9);border-color:rgba(229,218,247,.25);font:13px/1.5 'Segoe UI',Arial,sans-serif;color:var(--cream);text-align:left;box-shadow:0 18px 65px rgba(0,0,0,.52)}
+.load-issue[hidden]{display:none!important}
+.load-issue strong{font-weight:600;font-size:15px}
+.load-issue p{color:#bdb8d1;overflow-wrap:anywhere;margin:12px 0 16px}
+.load-issue button{padding:9px 14px;border-radius:8px;background:rgba(234,210,161,.12);border:1px solid rgba(234,210,161,.3);color:#f2e4cb;cursor:pointer}
+.load-issue button:hover{background:rgba(234,210,161,.21)}
+@media(max-width:670px){.constellation{top:12px;left:12px;padding:9px 11px}.constellation h1{font-size:18px}.constellation .identity-overline{font-size:8px;letter-spacing:.19em}.constellation p{font-size:10px}}
+/* Identidade da Constelação: etiqueta editorial discreta, não um cartão de menu. */
+.constellation{
+  background:none;
+  box-shadow:none;
+  border:0;
+  border-left:1px solid rgba(232,207,146,.32);
+  border-radius:0;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  padding:4px 0 4px 12px;
+  top:25px;
+  left:28px;
+}
+.constellation .identity-overline{color:rgba(242,227,201,.58)}
+.constellation h1{color:rgba(250,245,236,.94);font-size:18px}
+.constellation p{color:rgba(221,215,233,.64)}
+@media(max-width:670px){.constellation{top:15px;left:17px;padding:3px 0 3px 10px}}
+
+/* v0.8 · etiqueta ainda mais discreta */
+.constellation{top:20px;left:22px;padding:2px 0 2px 10px;border-left:1px solid rgba(232,207,146,.22)}
+.constellation .identity-overline{font-size:7px;letter-spacing:.25em;color:rgba(242,227,201,.48)}
+.constellation h1{font-size:15px;line-height:1.05;margin:2px 0 3px}
+.constellation p{font-size:10px;line-height:1.2;color:rgba(221,215,233,.58)}
+.leave{padding:11px 17px}
+@media(max-width:670px){.constellation{top:13px;left:14px;padding-left:8px}.constellation h1{font-size:14px}.constellation p{font-size:9px}}

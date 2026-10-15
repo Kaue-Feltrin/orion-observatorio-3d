@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#05040f">
+  <meta name="description" content="Observatório da Constelação — camadas espaciais independentes e profundidade tridimensional.">
+  <title>Observatório da Constelação · Órion</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="prefetch" href="ficha.html" as="document">
+</head>
+<body>
+  <main id="observatory" class="observatory" aria-label="Observatório da Constelação">
+    <div class="sky-fallback" aria-hidden="true"></div>
+    <div id="world" class="world" aria-hidden="true"></div>
+    <div class="scene-vignette" aria-hidden="true"></div>
+
+    <header class="constellation glass-float">
+      <span class="identity-overline">Constelação</span>
+      <h1>Kauê</h1>
+      <p><span class="tiny-star" aria-hidden="true">✦</span> 1 arauto ativo</p>
+    </header>
+    <button id="leave" class="leave glass-float" type="button" aria-label="Sair da conta de demonstração">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M13 3h5a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3h-5"/></svg>
+      <span>Sair</span>
+    </button>
+
+    <button id="heraldTarget" class="herald-target" type="button" aria-label="Selecionar Nox, arauto ativo, nível 9" aria-describedby="heraldCard"></button>
+
+    <section id="heraldCard" class="herald-card glass-float" aria-label="Resumo de Nox" aria-hidden="true">
+      <span class="card-overline"><i></i>Arauto ativo</span>
+      <h2>Nox</h2>
+      <p class="subtitle">Vampiro puro</p>
+      <dl>
+        <div><dt>Nível</dt><dd>9</dd></div>
+        <div><dt>Origem</dt><dd>Garçom</dd></div>
+        <div><dt>Trilha</dt><dd>—</dd></div>
+        <div><dt>Patente</dt><dd>Oficial de operações</dd></div>
+        <div><dt>EM</dt><dd>—</dd></div>
+        <div><dt>EC</dt><dd>—</dd></div>
+      </dl>
+      <div class="card-action">Observar arauto <span aria-hidden="true">↗</span></div>
+    </section>
+
+    <div class="bottom-ui">
+      <p id="hint">Concentre seu olhar sobre uma estrela</p>
+      <span class="bottom-mark" aria-hidden="true">✧</span>
+    </div>
+
+    <div id="loading" class="loading-note" role="status">Preparando observatório tridimensional…</div>
+    <div id="notice" class="notice glass-float" role="status" aria-live="polite" hidden></div>
+    <aside id="debug" class="debug glass-float" hidden aria-label="Ajustes de profundidade do protótipo">
+      <label for="depth">Intensidade da perspectiva <strong id="depthValue">1,0×</strong></label>
+      <input id="depth" type="range" min="0.5" max="2.5" step="0.1" value="1">
+      <small>Experimente mover o mouse de uma ponta a outra da tela.</small>
+    </aside>
+    <div id="arrivalFlash" class="arrival-flash" aria-hidden="true"></div>
+  </main>
+  <section class="load-issue glass-float" id="loadIssue" hidden role="alert" aria-live="assertive">
+    <strong>Não foi possível iniciar o Observatório 3D</strong>
+    <p id="loadErrorText">Aguardando diagnóstico…</p>
+    <button id="retryScene" type="button">Tentar novamente</button>
+  </section>
+  <script type="module" src="/startup.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "orion-observatorio-3d",
+  "version": "0.8.0-cloudflare",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 4173",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173",
+    "check": "node --check main.js && node --check vite.config.js && node tests/structure.mjs",
+    "test:browser": "playwright test"
+  },
+  "dependencies": {
+    "three": "0.180.0"
+  },
+  "devDependencies": {
+    "vite": "6.3.5",
+    "@playwright/test": "1.56.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
