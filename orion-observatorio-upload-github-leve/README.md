@@ -60,3 +60,11 @@ Este pacote reduz texturas de imagem, sem `.git`, sem masters e sem dependência
 2. Clique em `uploading an existing file` se o repositório estiver vazio.
 3. Extraia este pacote, entre na pasta e envie **os arquivos e pastas dentro dela**, não o ZIP.
 4. Confirme em `Commit changes`.
+
+## Nova nebulosa fotográfica (branch de testes)
+
+A nebulosa usa a fotografia de céu inteiro da **ESO/S. Brunier** (GigaGalaxy Zoom).
+A textura é baixada e recortada automaticamente durante o build, que interrompe em caso de falha para impedir publicação com arquivos ausentes.
+Crédito completo visível na interface. Licença **Creative Commons Attribution 4.0**: https://www.eso.org/public/images/eso0932a/.
+Adaptações: recorte do centro da Via Láctea, ajuste de luminosidade, saturação e balanço de cores.
+A câmera e a coreografia 3D não foram modificadas nesta etapa.

@@ -93,11 +93,11 @@ function nebulaPlane(file, z, opacity, x, y, factor, order, aspect=2048/768, opt
   scene.add(mesh);layers.push(mesh);return mesh;
 }
 const starBackdrop = nebulaPlane('/assets/00-starfield-base.jpg',-520,1,0,0,1.58,-1,2,{name:'00 · Fundo espacial'});
-const farCloud = nebulaPlane('/assets/01-nebula-far.webp',-360,.36,0,-5,1.53,1,3072/1152,{name:'01 · Nebulosa distante'});
-const mainCloud = nebulaPlane('/assets/02-nebula-main.webp',-250,1,0,-3,1.48,2,3072/1152,{name:'02 · Nebulosa principal'});
-const midCloud = nebulaPlane('/assets/03-mid-clouds.webp',-155,.34,-2,-4,1.42,3,3072/1152,{name:'03 · Detalhe da nebulosa',additive:true});
-const nearCloud = nebulaPlane('/assets/04-front-fog.png',-92,.18,9,-10,1.56,4,2560/960,{name:'04 · Névoa frontal',additive:true});
-const dustCloud = nebulaPlane('/assets/05-star-dust.png',-58,.52,0,0,1.62,5,3072/1152,{name:'05 · Poeira estelar',additive:true});
+const farCloud = nebulaPlane('/assets/01-nebula-far.webp',-360,.11,0,-5,1.53,1,3072/1152,{name:'01 · Nebulosa distante'});
+const mainCloud = nebulaPlane('/assets/nebula-eso-photographic.jpg',-250,1,0,-3,1.31,2,5000/1850,{name:'02 · Via Láctea fotográfica · ESO'});
+const midCloud = nebulaPlane('/assets/03-mid-clouds.webp',-155,.065,-2,-4,1.42,3,3072/1152,{name:'03 · Detalhe da nebulosa',additive:true});
+const nearCloud = nebulaPlane('/assets/04-front-fog.png',-92,.06,9,-10,1.56,4,2560/960,{name:'04 · Névoa frontal',additive:true});
+const dustCloud = nebulaPlane('/assets/05-star-dust.png',-58,.18,0,0,1.62,5,3072/1152,{name:'05 · Poeira estelar',additive:true});
 
 // Scene inspector: isolate layers without editing code or reloading.
 if(debugEnabled){
