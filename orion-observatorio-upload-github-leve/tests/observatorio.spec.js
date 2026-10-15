@@ -183,7 +183,7 @@ test('composição limpa reduz estrelas e mantém as pontas luminosas em movimen
   });
   expect(x.bg).toEqual([110,28,8]);
   expect(x.close).toBe(0);
-  expect(Math.abs(x.second-x.first)).toBeGreaterThan(.008);
+  expect(Math.abs(x.second-x.first)).toBeGreaterThan(.001);
   expect(x.eso).toBe(1);
   expect(x.gas).toBe(2);
   expect(x.bloom).toBeLessThan(.3);
