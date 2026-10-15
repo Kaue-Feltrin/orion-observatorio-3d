@@ -272,3 +272,129 @@ test('filtro segue o Nox sem editar os pixels da fotografia astronômica',async(
   expect(data.opacity).toBe(1);
   expect(errors).toEqual([]);
 });
+
+test('Nebulosa em Volume tem quatro recortes fotográficos com paralaxe real',async({page})=>{
+  const errors=[];page.on('pageerror',error=>errors.push(error.message));
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=high',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const data=await page.evaluate(async()=>{
+    const ls=window.__orionDepthDebug.layers.filter(x=>x.userData.volumeFragment);
+    const existing=await Promise.all(['01','02','03','04'].map(async id=>{
+      const res=await fetch('/assets/depth/eso-gas-'+id+'.webp');
+      return {status:res.status,type:res.headers.get('content-type'),bytes:(await res.arrayBuffer()).byteLength};
+    }));
+    const initial=ls.map(l=>({x:l.position.x,y:l.position.y,z:l.position.z,opacity:l.material.opacity,width:l.scale.x,visible:l.visible}));
+    await new Promise(resolve=>setTimeout(resolve,1100));
+    const final=ls.map(l=>({x:l.position.x,y:l.position.y}));
+    return {length:ls.length,initial,final,existing,starZ:window.__orionStarDebug.heraldGroup.position.z,
+      photo:window.__orionRespirationDebug.nebula.material.opacity};
+  });
+  expect(data.length).toBe(4);
+  expect(data.initial.map(l=>l.z)).toEqual([-425,-342,-252,-185]);
+  expect(data.initial.every(l=>l.width>20&&l.visible&&l.opacity>0&&l.opacity<.28)).toBe(true);
+  expect(data.existing.every(x=>x.status===200&&x.bytes>3000)).toBe(true);
+  expect(data.initial.some((p,i)=>Math.abs(data.final[i].x-p.x)>.03)).toBe(true);
+  expect(data.photo).toBe(1);
+  expect(errors).toEqual([]);
+});
+
+test('mouse segue a direção rapidamente sem forçar layout a cada quadro',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=balanced',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  await page.mouse.move(1150,260);
+  await expect.poll(async()=>page.evaluate(()=>Math.abs(
+    window.__orionMotionDebug.x-window.__orionMotionDebug.targetX)),{timeout:5000}).toBeLessThan(.13);
+  const state=await page.evaluate(()=>({
+    difference:Math.abs(window.__orionMotionDebug.x-window.__orionMotionDebug.targetX),
+    layers:window.__orionMotionDebug.volumeLayers,
+    card:document.querySelector('#heraldCard').style.left,
+    ratio:window.__orionPerformance.pixelRatio
+  }));
+  expect(state.layers).toBe(4);
+  expect(state.difference).toBeLessThan(.13);
+  expect(state.card).toMatch(/px$/);
+});
+
+test('modo leve carrega menos fragmentos sem limitar câmera a 30fps',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=lite',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const result=await page.evaluate(()=>{
+    const ls=window.__orionDepthDebug.layers.filter(l=>l.userData.volumeFragment);
+    return {count:ls.length,visible:ls.filter(l=>l.visible).length,
+      ratio:window.__orionPerformance.pixelRatio};
+  });
+  expect(result.count).toBe(4);
+  expect(result.visible).toBe(2);
+  expect(result.ratio).toBeLessThanOrEqual(.75);
+  await page.locator('#heraldTarget').click({force:true});
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+});
+
+
+test('mouse distante dispensa Raycaster e vinheta não repinta parada',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=balanced',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  await page.waitForTimeout(250);
+  const sample=await page.evaluate(async()=>{
+    const metrics=window.__orionInteractionMetrics;
+    const first=metrics.raycasts;
+    for(let i=0;i<50;i++){
+      dispatchEvent(new PointerEvent('pointermove',{
+        clientX:15+(i%10),clientY:innerHeight-15-(i%5),
+        pointerType:'mouse',bubbles:true
+      }));
+    }
+    const distant={events:metrics.pointerEvents,raycasts:metrics.raycasts-first};
+    await new Promise(resolve=>setTimeout(resolve,300));
+    const idleBefore=metrics.focusWrites;
+    await new Promise(resolve=>setTimeout(resolve,900));
+    const idleAfter=metrics.focusWrites;
+    return {distant,idleWrites:idleAfter-idleBefore};
+  });
+  expect(sample.distant.events).toBeGreaterThanOrEqual(50);
+  expect(sample.distant.raycasts).toBe(0);
+  // Movimento respiratório mínimo não deve causar repinturas CSS periódicas.
+  // Em SwiftShader a câmera pode levar quadros extras para terminar o movimento.
+  expect(sample.idleWrites).toBeLessThanOrEqual(4);
+  const box=await page.locator('#heraldTarget').boundingBox();
+  const before=await page.evaluate(()=>window.__orionInteractionMetrics.raycasts);
+  await page.mouse.move(box.x+box.width/2,box.y+box.height/2);
+  await expect.poll(async()=>page.evaluate(()=>window.__orionInteractionMetrics.raycasts)).toBeGreaterThan(before);
+  await expect(page.locator('body')).toHaveClass(/star-aimed/);
+});
+
+// Diagnóstico sem limite de FPS artificial: CI/Chromium não representa a GPU do usuário.
+// Salva amostras no log para comparação entre revisões sem aprovar por benchmark isolado.
+test('diagnóstico do frame time e uso de recursos da prévia',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=balanced',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const perf=await page.evaluate(async()=>{
+    const frames=[];
+    let last=0;
+    await new Promise(resolve=>{
+      const start=performance.now();
+      function measure(now){
+        if(last)frames.push(now-last);
+        last=now;
+        if(now-start<1200)requestAnimationFrame(measure);
+        else resolve();
+      }
+      requestAnimationFrame(measure);
+    });
+    frames.sort((a,b)=>a-b);
+    const q=window.__orionPerformance;
+    return{
+      frameSamples:frames.length,
+      medianMs:Number((frames[Math.floor(frames.length/2)]||0).toFixed(2)),
+      p90Ms:Number((frames[Math.floor(frames.length*.9)]||0).toFixed(2)),
+      drawCalls:q.drawCalls,textures:q.textures,
+      pixelRatio:q.pixelRatio,quality:q.mode,
+      fragments:window.__orionDepthDebug.layers.filter(l=>l.userData.volumeFragment&&l.visible).length
+    };
+  });
+  console.log('ORION-PERF-SMOKE',JSON.stringify(perf));
+  // SwiftShader no CI pode entregar menos de 2 FPS: registrar o valor
+  // como diagnóstico, sem impor um limite de FPS do hardware do usuário.
+  expect(perf.fragments).toBe(3);
+  expect(perf.drawCalls).toBeGreaterThan(1);
+});

@@ -5,6 +5,7 @@ import { createCosmicAtmosphere } from './cosmic-atmosphere.js';
 import { createSelectiveBloom } from './selective-bloom.js';
 import { createStarJourney } from './star-journey.js';
 import { createCinematicStarSpikes } from './cinematic-star.js';
+import { createNebulaVolume } from './nebula-volume.js';
 
 const root = document.getElementById('observatory');
 const container = document.getElementById('world');
@@ -40,7 +41,7 @@ const qualityOrder=['lite','balanced','high'];
 let qualityMode=initialProfile;
 let performanceAdaptations=0;
 const qualityPresets={
-  lite:{dpr:0.86,maxPixels:1150000,bloomScale:.26,gas:[2],fpsCap:30},
+  lite:{dpr:.75,maxPixels:950000,bloomScale:.24,gas:[2],fpsCap:60},
   balanced:{dpr:1,maxPixels:2200000,bloomScale:.34,gas:[0,2],fpsCap:60},
   high:{dpr:1.25,maxPixels:3200000,bloomScale:.42,gas:[0,1,2,3,4],fpsCap:60}
 };
@@ -86,6 +87,9 @@ renderer.setSize(innerWidth, innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.24;
+// A cena usa bloom + render principal + overlay no mesmo quadro.
+// Impedir reset entre passes; reiniciar contadores uma vez por tick.
+renderer.info.autoReset=false;
 container.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
@@ -165,11 +169,16 @@ const respirationState={gas:1,star:1,beacon:0};
 // Five independent GLSL gas planes in front of the ESO image; no photo blur.
 const atmosphere = createCosmicAtmosphere(scene,{reducedMotion:reduceMotion || mobile});
 layers.push(...atmosphere.layers);
+// 4 regiões recortadas da própria fotografia ESO, sobrepostas em Z.
+// Sem mais estrelas ou efeitos de tela inteira.
+const nebulaVolume=createNebulaVolume(scene,mainCloud,{reducedMotion:reduceMotion||mobile});
+layers.push(...nebulaVolume.layers);
 function applyGasBudget(){
   const enabled=new Set(gpuBudget().gas);
   atmosphere.layers.forEach((mesh,index)=>{
     mesh.visible=enabled.has(index);
   });
+  nebulaVolume.applyQuality(qualityMode);
 }
 applyGasBudget();
 
@@ -393,6 +402,19 @@ if(debugEnabled) {
 let mouse={x:0,y:0}; let smooth={x:0,y:0}; let selected=false;let jumpStart=0;
 let cardVisible=false;
 let travelling=false;
+// Evitar forced reflow: altura do card é estável durante animação.
+let cachedCardHeight=card.offsetHeight;
+const domPosition={x:NaN,y:NaN,cx:NaN,cy:NaN,focusAt:0,focusX:NaN,focusY:NaN};
+const interactionMetrics={pointerEvents:0,raycasts:0,focusWrites:0};
+if(debugEnabled)window.__orionInteractionMetrics={
+  get pointerEvents(){return interactionMetrics.pointerEvents;},
+  get raycasts(){return interactionMetrics.raycasts;},
+  get focusWrites(){return interactionMetrics.focusWrites;}
+};
+const mouseMotionDebug={get x(){return smooth.x;},
+  get y(){return smooth.y;},get targetX(){return mouse.x;},
+  get targetY(){return mouse.y;},get volumeLayers(){return nebulaVolume.layers.length;}};
+if(debugEnabled)window.__orionMotionDebug=mouseMotionDebug;
 // O alvo e a camera usam coordenadas reais de mundo.
 let lastFrame=performance.now();
 let blink=0;
@@ -404,22 +426,37 @@ function updateTargetScreen() {
   const y=(-projected.y*.5+.5)*innerHeight;
   if(!Number.isFinite(x)||!Number.isFinite(y))return;
   targetXY.x=x;targetXY.y=y;
-  target.style.left=x+'px';target.style.top=y+'px';
-  flash.style.setProperty('--arrival-x', (x/innerWidth*100).toFixed(2)+'%');
-  flash.style.setProperty('--arrival-y', (y/innerHeight*100).toFixed(2)+'%');
-  // Filtro atmosférico seguindo a posição real do Nox na tela.
-  // Só CSS (sem shaders, canvas extra, troca ou edição da fotografia).
-  const focusX=(x/innerWidth*100).toFixed(1)+'%';
-  const focusY=(y/innerHeight*100).toFixed(1)+'%';
-  if(root.style.getPropertyValue('--nox-focus-x')!==focusX)
-    root.style.setProperty('--nox-focus-x',focusX);
-  if(root.style.getPropertyValue('--nox-focus-y')!==focusY)
-    root.style.setProperty('--nox-focus-y',focusY);
+  if(!Number.isFinite(domPosition.x)||Math.abs(x-domPosition.x)>.45||
+      Math.abs(y-domPosition.y)>.45){
+    target.style.left=x.toFixed(1)+'px';
+    target.style.top=y.toFixed(1)+'px';
+    domPosition.x=x;domPosition.y=y;
+  }
+  if(travelling){
+    flash.style.setProperty('--arrival-x',(x/innerWidth*100).toFixed(2)+'%');
+    flash.style.setProperty('--arrival-y',(y/innerHeight*100).toFixed(2)+'%');
+  }
+  // Variações da vinheta não precisam forçar repintura CSS em 60 FPS.
+  const now=performance.now();
+  if(now-domPosition.focusAt>90 &&
+    (!Number.isFinite(domPosition.focusX) || Math.abs(x-domPosition.focusX)>2 ||
+      Math.abs(y-domPosition.focusY)>2)){
+    root.style.setProperty('--nox-focus-x',(x/innerWidth*100).toFixed(1)+'%');
+    root.style.setProperty('--nox-focus-y',(y/innerHeight*100).toFixed(1)+'%');
+    domPosition.focusAt=now;
+    domPosition.focusX=x;domPosition.focusY=y;
+    interactionMetrics.focusWrites++;
+  }
   const width=265;
-  const cardX=(x+170+width < innerWidth-15)?x+119:x-150-width;
-  const cardY=THREE.MathUtils.clamp(y-93,110,Math.max(112,innerHeight-card.offsetHeight-18));
-  card.style.left=THREE.MathUtils.clamp(cardX,12,innerWidth-width-12)+'px';
-  card.style.top=cardY+'px';
+  const cardX=THREE.MathUtils.clamp((x+170+width<innerWidth-15)?x+119:x-150-width,12,innerWidth-width-12);
+  const cardY=THREE.MathUtils.clamp(y-93,110,
+    Math.max(112,innerHeight-cachedCardHeight-18));
+  if(!Number.isFinite(domPosition.cx)||Math.abs(cardX-domPosition.cx)>.5||
+    Math.abs(cardY-domPosition.cy)>.5){
+    card.style.left=cardX.toFixed(1)+'px';
+    card.style.top=cardY.toFixed(1)+'px';
+    domPosition.cx=cardX;domPosition.cy=cardY;
+  }
 }
 function setHover(state) {
   if(travelling)return;
@@ -440,6 +477,13 @@ const armClick=(e)=>{
 target.addEventListener('click',armClick);
 function isAimedAtStar(clientX,clientY){
   if(travelling)return false;
+  // Rejeição geométrica conservadora antes do Raycaster: longe do astro,
+  // não recalcular matrizes 3D para cada evento do mouse (125 Hz ou mais).
+  // O limite é maior que a projeção do sprite clicável em repouso.
+  const radius=Math.max(120,innerHeight*.15);
+  if(Math.abs(clientX-targetXY.x)>radius ||
+     Math.abs(clientY-targetXY.y)>radius)return false;
+  interactionMetrics.raycasts++;
   pointerNdc.set(clientX/innerWidth*2-1,1-clientY/innerHeight*2);
   camera.updateWorldMatrix(true,false);
   heraldGroup.updateWorldMatrix(true,true);
@@ -448,6 +492,7 @@ function isAimedAtStar(clientX,clientY){
 }
 window.addEventListener('pointermove',e=>{
   if(e.pointerType==='touch'||travelling)return;
+  interactionMetrics.pointerEvents++;
   mouse.x=(e.clientX/innerWidth-.5)*2;
   mouse.y=(.5-e.clientY/innerHeight)*2;
   const aimed=isAimedAtStar(e.clientX,e.clientY);
@@ -486,15 +531,18 @@ function beginTravel(){
  hint.textContent='Atravessando o véu…';
 }
 function resize(){
+ cachedCardHeight=card.offsetHeight;
  camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
  renderer.setPixelRatio(pixelRatioForViewport());
  renderer.setSize(innerWidth,innerHeight);
  selectiveBloom.resize(innerWidth,innerHeight,gpuBudget().bloomScale);
  for(const mesh of layers){
+  if(mesh.userData.volumeFragment)continue;
   const dist=26-mesh.position.z; // escala baseada no ponto de observacao inicial
   const h=2*Math.tan(THREE.MathUtils.degToRad(52/2))*dist*mesh.userData.factor;
   mesh.scale.set(h*mesh.userData.aspect,h,1);
  }
+ nebulaVolume.resize();
  for(const mat of starMaterials)mat.uniforms.uDpr.value=renderer.getPixelRatio();
 }
 window.addEventListener('resize',resize);resize();
@@ -520,6 +568,7 @@ function adaptPerformance(now,frameMs){
 document.addEventListener('visibilitychange',()=>{
   if(!document.hidden){lastFrame=performance.now();monitorSince=lastFrame;monitorSum=0;monitorFrames=0;}
 });
+let bloomTick=0;
 function tick(now){
  requestAnimationFrame(tick);
  if(document.hidden)return;
@@ -534,7 +583,9 @@ function tick(now){
  if(!travelling){
   heraldGroup.position.copy(heraldBasePos);
   starsGroup.position.z=0;
-  const inertia=reduceMotion?1:1-Math.pow(.0008,delta);
+  // Tempo de resposta de ~55 ms: segue a mira sem lerdo,
+  // mas mantém interpolação independente da frequência da tela.
+  const inertia=reduceMotion?1:1-Math.exp(-Math.max(.001,delta)*18);
   smooth.x=THREE.MathUtils.lerp(smooth.x,mouse.x,inertia);
   smooth.y=THREE.MathUtils.lerp(smooth.y,mouse.y,inertia);
   const idle=reduceMotion?0:Math.sin(time*.29)*.23;
@@ -544,8 +595,11 @@ function tick(now){
   rigPitch.rotation.x=smooth.y*.052*perspective;
   rigRoll.rotation.z=reduceMotion?0:-smooth.x*.011*perspective+Math.sin(time*.27)*.0015;
   camera.position.z=cardVisible&&!reduceMotion?-.9:0;
-  camera.fov=cardVisible&&!reduceMotion?51:52;
-  camera.updateProjectionMatrix();
+  const newFov=cardVisible&&!reduceMotion?51:52;
+  if(Math.abs(camera.fov-newFov)>.001){
+    camera.fov=newFov;
+    camera.updateProjectionMatrix();
+  }
   // Nebulosa: cada véu transparente respira em ritmo próprio, sem mexer na ESO.
   const breathA=reduceMotion?0:Math.sin(time*.42+.6);
   const breathB=reduceMotion?0:Math.sin(time*.24+1.5);
@@ -575,6 +629,7 @@ function tick(now){
   beaconGlow.scale.setScalar(154+42*beacon);
   beaconGlow.material.opacity=.046*beacon*(cardVisible?1.55:1);
   orbitRing.material.opacity=0;
+  nebulaVolume.update(time);
   flash.style.opacity='0';
   flash.style.setProperty('--veil-opacity','0');
  } else {
@@ -589,7 +644,11 @@ function tick(now){
  camera.updateWorldMatrix(true,false);
  updateTargetScreen();
  atmosphere.update(time);
- selectiveBloom.render();
+ // Atualizar o bloom a 30 Hz (cena/câmera continuam a 60 FPS).
+ // Durante a viagem, atualizar em todo quadro para preservar o clarão.
+ bloomTick++;
+ renderer.info.reset();
+ selectiveBloom.render(travelling||bloomTick%2===1);
 }
 requestAnimationFrame(tick);
 document.documentElement.dataset.sceneReady='1';
