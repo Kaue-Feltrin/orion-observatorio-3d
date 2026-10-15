@@ -33,7 +33,8 @@ const constrainedDevice = mobile || (navigator.deviceMemory !== undefined && nav
   || (navigator.hardwareConcurrency !== undefined && navigator.hardwareConcurrency <= 4);
 const qualityOverride=params.get('quality');
 const initialProfile=qualityOverride==='lite'||qualityOverride==='low'?'lite':
-  qualityOverride==='high'?'high':constrainedDevice?'lite':'balanced';
+  qualityOverride==='high'?'high':
+  qualityOverride==='balanced'?'balanced':constrainedDevice?'lite':'balanced';
 const qualityOrder=['lite','balanced','high'];
 let qualityMode=initialProfile;
 let performanceAdaptations=0;
