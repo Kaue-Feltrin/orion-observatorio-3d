@@ -146,3 +146,11 @@ Solicitado mais silêncio cósmico: apenas **146 estrelas 3D** (110 distantes, 2
 O fundo estelar com pontinhos pré-impressos e a camada PNG de poeira também são ocultados, eliminando a fonte de ruído **que não obedecia à contagem de partículas procedural**. A fotografia ESO permanece sem qualquer edição de bytes; só a iluminação do material 3D é reduzida para `(.43,.46,.53)`, preservando sua opacidade. As nuvens gasosas sutis e a estrela principal com seus diffraction spikes giratórios continuam funcionando.
 
 **Intocados:** `star-journey.js`, câmera, Raycaster, halo de chegada, limites adaptativos de qualidade, link da ficha, créditos ESO. O teste Playwright mede a contagem de pontos, ausência de partículas no centro e visibilidade das imagens de poeira, além da viagem.
+
+## v0.9.2d — fotografia restaurada e foco no Nox (prévia)
+
+A v0.9.2c tentou remover estrelas do JPEG astronômico; o usuário rejeitou o resultado e pediu para **desfazer e adicionar só um filtro para dar destaque à estrela principal**.
+
+Esta branch parte da **v0.9.2b**, anterior à alteração. O script de preparação da ESO permanece o mesmo (sem mediana, máscara de recorte ou apagamento de estrelas). Nada é gerado por IA e não houve substituição da fotografia por ilustração. Adicionamos unicamente uma vinheta suave e um leve ganho de luz local em CSS, que acompanham o ponto projetado 3D do Nox através de duas variáveis CSS atualizadas apenas quando necessário.
+
+Todos os arquivos da câmera, shaders, bloom, viagem e partículas continuam como na v0.9.2b. O Nox mantém os dois diffraction spikes giratórios. Evitar merge sem avaliação visual pelo usuário. Build e testes incluem verificação negativa para processamento de remoção estelar.

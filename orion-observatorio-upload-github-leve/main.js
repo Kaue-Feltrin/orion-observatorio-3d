@@ -407,6 +407,14 @@ function updateTargetScreen() {
   target.style.left=x+'px';target.style.top=y+'px';
   flash.style.setProperty('--arrival-x', (x/innerWidth*100).toFixed(2)+'%');
   flash.style.setProperty('--arrival-y', (y/innerHeight*100).toFixed(2)+'%');
+  // Filtro atmosférico seguindo a posição real do Nox na tela.
+  // Só CSS (sem shaders, canvas extra, troca ou edição da fotografia).
+  const focusX=(x/innerWidth*100).toFixed(1)+'%';
+  const focusY=(y/innerHeight*100).toFixed(1)+'%';
+  if(root.style.getPropertyValue('--nox-focus-x')!==focusX)
+    root.style.setProperty('--nox-focus-x',focusX);
+  if(root.style.getPropertyValue('--nox-focus-y')!==focusY)
+    root.style.setProperty('--nox-focus-y',focusY);
   const width=265;
   const cardX=(x+170+width < innerWidth-15)?x+119:x-150-width;
   const cardY=THREE.MathUtils.clamp(y-93,110,Math.max(112,innerHeight-card.offsetHeight-18));

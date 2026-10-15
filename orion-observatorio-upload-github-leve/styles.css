@@ -108,3 +108,24 @@ rgba(187,150,225,.28) 51%,rgba(10,6,27,0) 80%);opacity:0}
     rgba(0,0,0,.43));
 }
 .sky-fallback{filter:brightness(.30) saturate(.70)}
+
+/* v0.9.2d · Retorno à fotografia ESO anterior à supressão de estrelas.
+   Um único filtro de atmosfera centrado na projeção do Nox; nenhum
+   pixel da imagem é editado, removido ou desfocado. */
+.scene-vignette{
+  background:
+    radial-gradient(ellipse 22% 28% at var(--nox-focus-x,50%) var(--nox-focus-y,42%),
+      rgba(243,205,144,.075) 0%,
+      rgba(170,135,146,.028) 27%,
+      rgba(2,2,9,0) 75%),
+    radial-gradient(ellipse 69% 83% at var(--nox-focus-x,50%) var(--nox-focus-y,42%),
+      rgba(1,1,8,0) 0%,
+      rgba(1,1,8,.055) 45%,
+      rgba(1,1,8,.14) 75%,
+      rgba(1,1,8,.22) 100%),
+    linear-gradient(180deg,rgba(0,0,0,.10),transparent 22%,
+      transparent 75%,rgba(0,0,0,.20));
+}
+.observatory.jumping .scene-vignette{
+  opacity:.30;transition:opacity .35s;
+}
