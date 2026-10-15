@@ -39,7 +39,7 @@ const qualityOrder=['lite','balanced','high'];
 let qualityMode=initialProfile;
 let performanceAdaptations=0;
 const qualityPresets={
-  lite:{dpr:0.86,maxPixels:1150000,bloomScale:.26,gas:[1,4],fpsCap:40},
+  lite:{dpr:0.86,maxPixels:1150000,bloomScale:.26,gas:[1,4],fpsCap:30},
   balanced:{dpr:1,maxPixels:2200000,bloomScale:.34,gas:[0,2,4],fpsCap:60},
   high:{dpr:1.25,maxPixels:3200000,bloomScale:.42,gas:[0,1,2,3,4],fpsCap:60}
 };
@@ -171,7 +171,7 @@ if(debugEnabled){
   for(const layer of layers){
     const row=document.createElement('label');
     row.className='layer-switch';
-    const toggle=document.createElement('input');toggle.type='checkbox';toggle.checked=true;
+    const toggle=document.createElement('input');toggle.type='checkbox';toggle.checked=layer.visible;
     toggle.addEventListener('change',()=>{layer.visible=toggle.checked;});
     const span=document.createElement('span');span.textContent=layer.userData.layerName;
     row.append(toggle,span);group.appendChild(row);

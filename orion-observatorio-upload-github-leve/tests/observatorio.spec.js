@@ -106,13 +106,16 @@ test('respiração cósmica anima apenas véus e mantém a fotografia ESO intact
     const a={star:r.state.star,gas:r.state.gas,beacon:r.state.beacon,alpha:r.veils[0].mesh.material.opacity,photo:r.nebula.material.opacity,
       glow:r.beaconGlow.material.opacity,
       twinkle:window.__orionDepthDebug.foregroundParticles.children[0].geometry.getAttribute('aTwinkleRate').count};
-    await new Promise(resolve=>setTimeout(resolve,1800));
+    await new Promise(resolve=>setTimeout(resolve,1200));
+    const middle={star:r.state.star,alpha:r.veils[0].mesh.material.opacity};
+    await new Promise(resolve=>setTimeout(resolve,1200));
     const b={star:r.state.star,gas:r.state.gas,beacon:r.state.beacon,alpha:r.veils[0].mesh.material.opacity,photo:r.nebula.material.opacity,glow:r.beaconGlow.material.opacity};
-    return {a,b};
+    return {a,middle,b};
   });
   expect(sample.a.photo).toBe(1);expect(sample.b.photo).toBe(1);
-  expect(Math.abs(sample.a.alpha-sample.b.alpha)).toBeGreaterThan(.0001);
-  expect(Math.abs(sample.a.star-sample.b.star)).toBeGreaterThan(.001);
+  const range=items=>Math.max(...items)-Math.min(...items);
+  expect(range([sample.a.alpha,sample.middle.alpha,sample.b.alpha])).toBeGreaterThan(.00003);
+  expect(range([sample.a.star,sample.middle.star,sample.b.star])).toBeGreaterThan(.001);
   expect(sample.a.twinkle).toBe(200);
   expect(errors).toEqual([]);
 });

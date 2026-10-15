@@ -118,7 +118,7 @@ A v0.9.1 apresentou travamentos e consumo de memória relatado de quase 4 GB em 
 - 3 planos GLSL ativos no modo equilibrado; 2 em lite; até 5 em `?quality=high`.
 - Ruído fBm reduzido de 5 para 3 oitavas por chamada, mantendo camadas gasosas vivas.
 - O fundo `farCloud`, oculto atrás da fotografia ESO totalmente opaca, deixa de fazer draw call.
-- Renderização limitada a 40 FPS no modo leve; em segundo plano a renderização fica suspensa.
+- Renderização limitada a 30 FPS estáveis no modo leve; em segundo plano a renderização fica suspensa.
 - Se a média por dois intervalos de 3s ultrapassar 32 ms/quadro, cai um nível de qualidade automaticamente.
 - `?debug=1` mostra dados via `window.__orionPerformance` (modo, DPR, máximo de pixels, camadas GLSL, chamadas, texturas), **não** o uso real de RAM/VRAM.
 - Nenhuma alteração na fotografia ESO, na câmera, na estrela/click ou em `star-journey.js`.
