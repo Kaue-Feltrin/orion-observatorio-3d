@@ -63,3 +63,14 @@ button{font:inherit} .observatory{position:relative;width:100%;height:100svh;ove
 .constellation p{font-size:10px;line-height:1.2;color:rgba(221,215,233,.58)}
 .leave{padding:11px 17px}
 @media(max-width:670px){.constellation{top:13px;left:14px;padding-left:8px}.constellation h1{font-size:14px}.constellation p{font-size:9px}}
+
+/* Crédito obrigatório da imagem fotográfica usada na cena (ESO CC BY 4.0). */
+.astro-credit{position:absolute;z-index:6;right:20px;bottom:16px;font:11px/1.5 'Segoe UI',Arial,sans-serif;color:rgba(236,231,250,.8);text-decoration:none;text-shadow:0 2px 9px #080715;letter-spacing:.015em}
+.astro-credit:hover,.astro-credit:focus-visible{color:#fff;text-decoration:underline}
+@media(max-width:670px){.astro-credit{right:10px;bottom:8px;font-size:10px}}
+
+/* Nebulosa Viva v0.8.2 · controles experimentais no painel debug */
+.debug{max-height:min(78vh,720px);overflow-y:auto;scrollbar-width:thin}
+.layer-inspector .atmosphere-slider{display:grid;grid-template-columns:1fr auto;gap:6px 12px;margin-top:10px;color:#e8e1f6;font:11px/1.3 'Segoe UI',Arial,sans-serif}
+.atmosphere-slider output{text-align:right;font-variant-numeric:tabular-nums;color:#ead2a1}
+.layer-inspector .atmosphere-slider input{grid-column:1/-1;min-width:0}

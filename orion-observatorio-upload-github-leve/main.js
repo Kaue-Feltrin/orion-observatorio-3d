@@ -1,6 +1,8 @@
 // Projeto Órion · Observatório em pipeline Vite / Cloudflare Pages.
 // Three.js é importado como dependência local e empacotado pelo Vite.
 import * as THREE from "three";
+import { createCosmicAtmosphere } from './cosmic-atmosphere.js';
+import { createSelectiveBloom } from './selective-bloom.js';
 
 const root = document.getElementById('observatory');
 const container = document.getElementById('world');
@@ -55,10 +57,18 @@ container.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(52, innerWidth/innerHeight, 0.2, 900);
-scene.add(camera);
-const origin = new THREE.Vector3(0, 0, 26);
-camera.position.copy(origin);
-camera.lookAt(0, 0, -80);
+// Camera em um rig 3D: translacao, yaw, pitch e roll independentes.
+const rigRoot = new THREE.Group();
+const rigYaw = new THREE.Group();
+const rigPitch = new THREE.Group();
+const rigRoll = new THREE.Group();
+scene.add(rigRoot);
+rigRoot.add(rigYaw);
+rigYaw.add(rigPitch);
+rigPitch.add(rigRoll);
+rigRoll.add(camera);
+rigRoot.position.set(0, 0, 26);
+camera.position.set(0, 0, 0);
 
 // Panorama and foreground cloud fragments occupy actual z positions, rather
 // than being DOM images shifted at different speeds. This makes camera motion
@@ -93,11 +103,15 @@ function nebulaPlane(file, z, opacity, x, y, factor, order, aspect=2048/768, opt
   scene.add(mesh);layers.push(mesh);return mesh;
 }
 const starBackdrop = nebulaPlane('/assets/00-starfield-base.jpg',-520,1,0,0,1.58,-1,2,{name:'00 · Fundo espacial'});
-const farCloud = nebulaPlane('/assets/01-nebula-far.webp',-360,.36,0,-5,1.53,1,3072/1152,{name:'01 · Nebulosa distante'});
-const mainCloud = nebulaPlane('/assets/02-nebula-main.webp',-250,1,0,-3,1.48,2,3072/1152,{name:'02 · Nebulosa principal'});
-const midCloud = nebulaPlane('/assets/03-mid-clouds.webp',-155,.34,-2,-4,1.42,3,3072/1152,{name:'03 · Detalhe da nebulosa',additive:true});
-const nearCloud = nebulaPlane('/assets/04-front-fog.png',-92,.18,9,-10,1.56,4,2560/960,{name:'04 · Névoa frontal',additive:true});
-const dustCloud = nebulaPlane('/assets/05-star-dust.png',-58,.52,0,0,1.62,5,3072/1152,{name:'05 · Poeira estelar',additive:true});
+const farCloud = nebulaPlane('/assets/01-nebula-far.webp',-360,.11,0,-5,1.53,1,3072/1152,{name:'01 · Nebulosa distante'});
+const mainCloud = nebulaPlane('/assets/nebula-eso-photographic.jpg',-250,1,0,-3,1.31,2,5000/1850,{name:'02 · Via Láctea fotográfica · ESO'});
+const midCloud = nebulaPlane('/assets/03-mid-clouds.webp',-155,.065,-2,-4,1.42,3,3072/1152,{name:'03 · Detalhe da nebulosa',additive:true});
+const nearCloud = nebulaPlane('/assets/04-front-fog.png',-92,.06,9,-10,1.56,4,2560/960,{name:'04 · Névoa frontal',additive:true});
+const dustCloud = nebulaPlane('/assets/05-star-dust.png',-58,.18,0,0,1.62,5,3072/1152,{name:'05 · Poeira estelar',additive:true});
+
+// Five independent GLSL gas planes in front of the ESO image; no photo blur.
+const atmosphere = createCosmicAtmosphere(scene,{reducedMotion:reduceMotion || mobile});
+layers.push(...atmosphere.layers);
 
 // Scene inspector: isolate layers without editing code or reloading.
 if(debugEnabled){
@@ -113,13 +127,32 @@ if(debugEnabled){
     row.append(toggle,span);group.appendChild(row);
   }
   debug.appendChild(group);
+  const controls=document.createElement('fieldset');
+  controls.className='layer-inspector';
+  controls.innerHTML='<legend>Nebulosa Viva</legend>';
+  const addSlider=(name,initial,min,max,step,callback)=>{
+    const line=document.createElement('label');line.className='atmosphere-slider';
+    const caption=document.createElement('span');caption.textContent=name;
+    const output=document.createElement('output');output.textContent=Number(initial).toFixed(2);
+    const input=document.createElement('input');input.type='range';
+    input.min=String(min);input.max=String(max);input.step=String(step);input.value=String(initial);
+    input.setAttribute('aria-label',name);
+    input.addEventListener('input',()=>{
+      const value=Number(input.value);output.textContent=value.toFixed(2);callback(value);
+    });
+    line.append(caption,output,input);controls.appendChild(line);
+  };
+  addSlider('Densidade do gás',atmosphere.state.density,0,1.5,.05,atmosphere.setDensity);
+  addSlider('Fluxo orgânico',atmosphere.state.flow,0,1,.05,atmosphere.setFlow);
+  window.__orionBloomSliderFactory=addSlider;
+  debug.appendChild(controls);
 }
 
 // Spatial starfield in three actual depth ranges, one GPU draw call per range.
 const starMaterials=[];
 const starsGroup=new THREE.Group();
 scene.add(starsGroup);
-function createStars(count,minZ,maxZ,spanX,spanY,sizeRange,tint) {
+function createStars(count,minZ,maxZ,spanX,spanY,sizeRange,tint,opts={}) {
   const positions = new Float32Array(count*3);
   const sizes = new Float32Array(count);
   const phases = new Float32Array(count);
@@ -162,12 +195,20 @@ function createStars(count,minZ,maxZ,spanX,spanY,sizeRange,tint) {
         gl_FragColor=vec4(vColor,alpha);
       }`,
   });
+  material.userData.baseOpacity = opts.opacity ?? 1;
   starMaterials.push(material);
-  starsGroup.add(new THREE.Points(geometry,material));
+  (opts.group || starsGroup).add(new THREE.Points(geometry,material));
 }
 createStars(2700,-540,-270,1100,570,[2.6,6.5],['#e5ebff','#90a9f4','#ffe8d3']);
 createStars(860,-255,-105,510,290,[1.2,4.1],['#e5e7ff','#bfb2ff','#ffe5b0']);
 createStars(360,-95,-15,250,140,[.75,2.6],['#f5f4ff','#b5bdfb','#f9e8ca']);
+// Poeira discreta perto dos olhos: a perspectiva, nao o CSS, gera parallax.
+const foregroundParticles = new THREE.Group();
+scene.add(foregroundParticles);
+createStars(200,-56,-6,128,72,[.65,1.75],['#d6dfff','#d3baff','#f7eacf'],{group:foregroundParticles,opacity:.27});
+if (debugEnabled) {
+  window.__orionDepthDebug = { rigRoot, rigYaw, rigPitch, rigRoll, camera, foregroundParticles, layers };
+}
 
 // Native Three.js sprites anchored at the same point in space.
 const heraldPos = new THREE.Vector3(0, 14, -138);
@@ -219,6 +260,16 @@ const mainGlow=addGlow(22,.8);
 const coreGlow=addGlow(7,1);
 const orbitRing=new THREE.Mesh(new THREE.RingGeometry(7.25,7.28,144),new THREE.MeshBasicMaterial({color:0xe8cf92,transparent:true,opacity:.13,side:THREE.DoubleSide,depthWrite:false,depthTest:false}));
 orbitRing.renderOrder=14; heraldGroup.add(orbitRing);
+nebulaStarHalo.layers.enable(1);
+softHalo.layers.enable(1);
+mainGlow.layers.enable(1);
+coreGlow.layers.enable(1);
+const selectiveBloom=createSelectiveBloom(renderer,scene,camera,{initial:mobile?.28:.48,reducedMotion:reduceMotion});
+if(debugEnabled) {
+  window.__orionBloomSliderFactory('Bloom seletivo',selectiveBloom.state.intensity,0,1.5,.05,selectiveBloom.setIntensity);
+  window.__orionAtmosphereDebug={atmosphere,selectiveBloom};
+  delete window.__orionBloomSliderFactory;
+}
 
 // The link target is a REAL HTML button anchored to the projection of the
 // Three.js object, so mouse, keyboard and touch share the same hit target.
@@ -293,6 +344,9 @@ const warpMat=new THREE.LineBasicMaterial({vertexColors:true,transparent:true,op
 const warpLines=new THREE.LineSegments(warpGeometry,warpMat);
 warpLines.visible=false;warpLines.renderOrder=18;warpLines.position.set(0,0,-4);camera.add(warpLines);
 function beginTravel(){
+ // Camera deixa o rig preservando seu estado em coordenadas mundiais.
+ camera.updateWorldMatrix(true,false);
+ scene.attach(camera);
  travelling=true;setHover(true);root.classList.add('jumping');
  hint.textContent='Atravessando o véu…';
  jumpStart=performance.now();travelStart=camera.position.clone();
@@ -302,8 +356,9 @@ function beginTravel(){
 function resize(){
  camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
  renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
+ selectiveBloom.resize(innerWidth,innerHeight);
  for(const mesh of layers){
-  const dist=camera.position.z-mesh.position.z;
+  const dist=26-mesh.position.z; // escala baseada no ponto de observacao inicial
   const h=2*Math.tan(THREE.MathUtils.degToRad(52/2))*dist*mesh.userData.factor;
   mesh.scale.set(h*mesh.userData.aspect,h,1);
  }
@@ -321,16 +376,19 @@ function tick(now){
   orbitRing.material.opacity=.12;
   warpLines.visible=false;
   starsGroup.position.z = 0;
-  camera.rotation.z = 0;
   const inertia=reduceMotion?1:1-Math.pow(.0008,delta);
   smooth.x=THREE.MathUtils.lerp(smooth.x,mouse.x,inertia);
   smooth.y=THREE.MathUtils.lerp(smooth.y,mouse.y,inertia);
-  const idle=reduceMotion?0:Math.sin(time*.29)*.28;
-  const intendedX=smooth.x*8.8*perspective;
-  const intendedY=smooth.y*5.9*perspective+idle;
-  camera.position.set(intendedX,intendedY,26);
-  camera.lookAt(-smooth.x*.7, -smooth.y*.35,-120);
-  camera.fov=52;camera.updateProjectionMatrix();
+  const idle=reduceMotion?0:Math.sin(time*.29)*.23;
+  // Translada e rotaciona o olhar com suavizacao; ha profundidade real.
+  rigRoot.position.set(smooth.x*6.8*perspective,
+    smooth.y*4.35*perspective+idle,26+(reduceMotion?0:Math.sin(time*.21)*.25));
+  rigYaw.rotation.y = -smooth.x*.068*perspective;
+  rigPitch.rotation.x = smooth.y*.052*perspective;
+  rigRoll.rotation.z = reduceMotion?0:-smooth.x*.011*perspective+Math.sin(time*.27)*.0015;
+  camera.position.z = cardVisible && !reduceMotion ? -.9 : 0;
+  camera.fov=cardVisible && !reduceMotion?51:52;
+  camera.updateProjectionMatrix();
   mainGlow.material.opacity=.76+(cardVisible?.09:0)+(reduceMotion?0:Math.sin(time*1.6)*.045);
   softHalo.material.opacity=.22+(cardVisible?.09:0);
   coreGlow.material.opacity=.97+(cardVisible?.05:0);
@@ -378,9 +436,11 @@ function tick(now){
   if(t>=1){window.location.href='ficha.html';return;}
  }
  orbitRing.rotation.z=time*.04;
- for(const mat of starMaterials){mat.uniforms.uTime.value=time;mat.uniforms.uOpacity.value=travelling?1.25:1;}
+ for(const mat of starMaterials){mat.uniforms.uTime.value=time;mat.uniforms.uOpacity.value=mat.userData.baseOpacity*(travelling?1.25:1);}
+ camera.updateWorldMatrix(true,false);
  updateTargetScreen();
- renderer.render(scene,camera);
+ atmosphere.update(time);
+ selectiveBloom.render();
 }
 requestAnimationFrame(tick);
 document.documentElement.dataset.sceneReady='1';
