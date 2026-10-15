@@ -17,6 +17,7 @@ const fragmentShader = `
   uniform float uDensity;
   uniform float uStrength;
   uniform float uSeed;
+  uniform float uBreath;
   uniform vec3 uCool;
   uniform vec3 uWarm;
 
@@ -62,9 +63,9 @@ const fragmentShader = `
     float volume = smoothstep(.45, .68, body);
     float threads = smoothstep(.57, .78, wisps) * smoothstep(.35, .76, body);
     float alpha = (volume * .68 + threads * .32) * band * edges
-      * uDensity * uStrength;
+      * uDensity * uStrength * uBreath;
     vec3 color = mix(uCool, uWarm, clamp(body * .85 + threads * .24, 0.0, 1.0));
-    color *= .68 + .56 * threads;
+    color *= (.68 + .56 * threads) * (1.0 + (uBreath-1.0)*.35);
     gl_FragColor = vec4(color, clamp(alpha, 0.0, .23));
     #include <colorspace_fragment>
   }
@@ -93,6 +94,7 @@ export function createCosmicAtmosphere(scene, { reducedMotion=false }={}) {
         uDensity: {value:state.density},
         uStrength: {value:spec.opacity},
         uSeed: {value:spec.seed},
+        uBreath: {value:1},
         uCool: {value:new THREE.Color(spec.cool)},
         uWarm: {value:new THREE.Color(spec.warm)},
       }
@@ -103,6 +105,8 @@ export function createCosmicAtmosphere(scene, { reducedMotion=false }={}) {
     mesh.userData.aspect = spec.aspect;
     mesh.userData.factor = spec.factor;
     mesh.userData.layerName = spec.name;
+    mesh.userData.breathRate=.38 + (spec.seed%5)*.045;
+    mesh.userData.breathPhase=spec.seed*.83;
     scene.add(mesh);
     layers.push(mesh);
   }
@@ -111,6 +115,10 @@ export function createCosmicAtmosphere(scene, { reducedMotion=false }={}) {
       layer.material.uniforms.uTime.value = reducedMotion ? 0 : time;
       layer.material.uniforms.uFlow.value = reducedMotion ? 0 : state.flow;
       layer.material.uniforms.uDensity.value = state.density;
+      const r=layer.userData.breathRate;
+      const p=layer.userData.breathPhase;
+      layer.material.uniforms.uBreath.value=reducedMotion?1:
+        1+.036*Math.sin(time*r+p)+.016*Math.sin(time*(r*.61)+p*1.71);
     }
   }
   function setDensity(value){state.density=THREE.MathUtils.clamp(value,0,1.5);}

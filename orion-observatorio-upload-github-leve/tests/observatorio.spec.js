@@ -96,3 +96,37 @@ test('estrela distante aponta no mundo, mostra hover e seleciona via raycaster',
   expect(trip.endZ).toBeLessThan(-400);
   expect(trip.endZ).toBeGreaterThan(trip.starZ+40);
 });
+
+test('respiração cósmica anima apenas véus e mantém a fotografia ESO intacta',async({page})=>{
+  const errors=[]; page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('http://127.0.0.1:4173/?debug=1',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const sample=await page.evaluate(async()=>{
+    const r=window.__orionRespirationDebug;
+    const a={star:r.state.star,gas:r.state.gas,beacon:r.state.beacon,alpha:r.veils[0].mesh.material.opacity,photo:r.nebula.material.opacity,
+      glow:r.beaconGlow.material.opacity,
+      twinkle:window.__orionDepthDebug.foregroundParticles.children[0].geometry.getAttribute('aTwinkleRate').count};
+    await new Promise(resolve=>setTimeout(resolve,1800));
+    const b={star:r.state.star,gas:r.state.gas,beacon:r.state.beacon,alpha:r.veils[0].mesh.material.opacity,photo:r.nebula.material.opacity,glow:r.beaconGlow.material.opacity};
+    return {a,b};
+  });
+  expect(sample.a.photo).toBe(1);expect(sample.b.photo).toBe(1);
+  expect(Math.abs(sample.a.alpha-sample.b.alpha)).toBeGreaterThan(.0001);
+  expect(Math.abs(sample.a.star-sample.b.star)).toBeGreaterThan(.001);
+  expect(sample.a.twinkle).toBe(200);
+  expect(errors).toEqual([]);
+});
+
+test('movimento reduzido suspende pulso e mantém seleção acessível',async({page})=>{
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.goto('http://127.0.0.1:4173/?debug=1',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const result=await page.evaluate(()=>({
+    state:window.__orionRespirationDebug.state,
+    gas:window.__orionAtmosphereDebug.atmosphere.layers[0].material.uniforms.uBreath.value
+  }));
+  expect(result.state.beacon).toBe(0);
+  expect(result.state.gas).toBe(1);
+  expect(result.gas).toBe(1);
+  await expect(page.locator('#heraldTarget')).toBeAttached();
+});

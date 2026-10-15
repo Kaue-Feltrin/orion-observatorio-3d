@@ -49,3 +49,13 @@ assert.match(await read('star-journey.js'),/scene\.attach\(camera\)/,'camera via
 assert.match(await read('star-journey.js'),/THREE\.MathUtils\.lerp\(startPos\.z,endpoint\.z,distancePhase\)/,'camera atravessa profundidades');
 assert.match(await read('star-journey.js'),/gasLayers\.map/,'camadas gasosas com fade de travessia');
 assert.match(await read('star-journey.js'),/onArrive\(\)/,'termina dentro da luz');
+
+// v0.9.1 respiração cósmica: os arquivos da viagem não foram alterados.
+assert.match(main,/aTwinkleRate/,'cada estrela tem ritmo próprio');
+assert.match(main,/aTwinkleAmp/,'cada estrela tem amplitude própria');
+assert.match(main,/aTwinkleSecondary/,'cintilação de duas frequências');
+assert.match(main,/const breathingVeils/,'névoa independente da foto');
+assert.match(main,/const beaconGlow=addGlow/,'estrela principal tem farol de luz');
+assert.match(main,/starJourney\.update\(now,delta\)/,'viagem v0.9 preservada');
+assert.match(await read('cosmic-atmosphere.js'),/uniform float uBreath/,'respiração no shader');
+assert.match(await read('cosmic-atmosphere.js'),/uBreath\.value=reducedMotion\?1/,'acessibilidade de movimento reduzido');
