@@ -25,3 +25,17 @@ jobs:
         run: npm run check
       - name: Compilar site
         run: npm run build
+
+      - name: Instalar Chromium do Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Testar WebGL, paralaxe e Nebulosa Viva no navegador
+        run: npm run test:browser
+      - name: Guardar capturas se houver falha
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: observatorio-debug-${{ github.run_id }}
+          path: |
+            orion-observatorio-upload-github-leve/test-results/
+            orion-observatorio-upload-github-leve/playwright-report/
+          if-no-files-found: ignore
