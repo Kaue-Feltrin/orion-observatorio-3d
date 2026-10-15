@@ -354,7 +354,14 @@ const starJourney=createStarJourney({
  glows:{halo:nebulaStarHalo,soft:softHalo,main:mainGlow,core:coreGlow},
  layers,gasLayers:atmosphere.layers,selectiveBloom,flash,
  reducedMotion:reduceMotion,
- onArrive:()=>{window.location.href='ficha.html';}
+ onArrive:()=>{
+   // Relato do trajeto persistido apenas nesta aba para depuração pós-navegação.
+   sessionStorage.setItem('orion-last-trip-v09',JSON.stringify({
+     passedGasLayers:atmosphere.layers.filter(layer=>camera.position.z<layer.position.z).length,
+     endZ:camera.position.z,starZ:heraldGroup.position.z
+   }));
+   window.location.href='ficha.html';
+ }
 });
 if(debugEnabled)window.__orionStarDebug={journey:starJourney,heraldGroup,heraldPickSprite,raycaster:starRaycaster};
 function beginTravel(){
