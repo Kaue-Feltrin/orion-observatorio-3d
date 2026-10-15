@@ -137,16 +137,22 @@ function nebulaPlane(file, z, opacity, x, y, factor, order, aspect=2048/768, opt
   scene.add(mesh);layers.push(mesh);return mesh;
 }
 const starBackdrop = nebulaPlane('/assets/00-starfield-base.jpg',-700,1,0,0,1.58,-1,2,{name:'00 · Fundo espacial'});
+// Esta imagem adiciona milhares de pontinhos fora da nebulosa ESO.
+// A nova composição prefere o vazio escuro, preservando o arquivo original.
+starBackdrop.visible=false;
 const farCloud = nebulaPlane('/assets/01-nebula-far.webp',-360,.11,0,-5,1.53,1,3072/1152,{name:'01 · Nebulosa distante'});
 // A camada distante está atrás da fotografia opaca ESO. Oculte seu draw call.
 farCloud.visible=false;
 const mainCloud = nebulaPlane('/assets/nebula-eso-photographic.jpg',-540,1,0,-3,1.31,2,5000/1850,{name:'02 · Via Láctea fotográfica · ESO'});
 // Apenas iluminação/cor do material; fotografia ESO original segue intacta e nítida.
 // Escurecer o fundo gera espaço negativo ao redor do único arauto interativo.
-mainCloud.material.color.setRGB(.58,.60,.68);
+mainCloud.material.color.setRGB(.43,.46,.53);
 const midCloud = nebulaPlane('/assets/03-mid-clouds.webp',-155,.031,-2,-4,1.42,3,3072/1152,{name:'03 · Detalhe da nebulosa',additive:true});
 const nearCloud = nebulaPlane('/assets/04-front-fog.png',-92,.027,9,-10,1.56,4,2560/960,{name:'04 · Névoa frontal',additive:true});
 const dustCloud = nebulaPlane('/assets/05-star-dust.png',-58,.062,0,0,1.62,5,3072/1152,{name:'05 · Poeira estelar',additive:true});
+// Transparências de poeira têm centenas de pontos pré-rasterizados;
+// escondê-las é essencial para o vazio, além de reduzir draw calls.
+dustCloud.visible=false;
 // Estas imagens são véus transparentes: a fotografia ESO, a 100% de
 // opacidade, NÃO participa da respiração e nunca tem UV alterado.
 const breathingVeils = [
@@ -215,11 +221,27 @@ function createStars(count,minZ,maxZ,spanX,spanY,sizeRange,tint,opts={}) {
   const twinkleSecondary = new Float32Array(count);
   const colors = new Float32Array(count*3);
   const palette = tint.map(s=>new THREE.Color(s));
+  // A estrela do Nox ocupa um corredor protegido na projeção inicial.
+  // Usar perspectiva (x/z e y/z), não distância XY, impede partículas
+  // de outras profundidades de atravessarem o foco da composição.
+  const halfTan=Math.tan(THREE.MathUtils.degToRad(52/2));
+  const aspect=innerWidth/innerHeight;
+  const targetSlopeY=43/(26+470);
   for(let i=0;i<count;i++) {
     const j=i*3;
-    positions[j]=(Math.random()-.5)*spanX;
-    positions[j+1]=(Math.random()-.5)*spanY;
-    positions[j+2]=minZ+Math.random()*(maxZ-minZ);
+    let x,y,z,ndcX,ndcY,tries=0;
+    do {
+      x=(Math.random()-.5)*spanX;
+      y=(Math.random()-.5)*spanY;
+      z=minZ+Math.random()*(maxZ-minZ);
+      const depth=26-z;
+      ndcX=(x/depth)/(halfTan*aspect);
+      ndcY=((y/depth)-targetSlopeY)/halfTan;
+      tries++;
+    } while((ndcX/.51)**2+(ndcY/.42)**2<1 && tries<150);
+    positions[j]=x;
+    positions[j+1]=y;
+    positions[j+2]=z;
     sizes[i]=sizeRange[0]+Math.random()*(sizeRange[1]-sizeRange[0]);
     phases[i]=Math.random()*6.283;
     const range=opts.group?{low:.46,high:1.05,min:.04,max:.11}:maxZ<-255
@@ -250,13 +272,13 @@ function createStars(count,minZ,maxZ,spanX,spanY,sizeRange,tint,opts={}) {
       void main(){
         vec4 mv=modelViewMatrix*vec4(position,1.0);
         gl_Position=projectionMatrix*mv;
-        gl_PointSize=clamp(aSize*120.0/max(5.0,-mv.z)*uDpr,0.8,8.8);
+        gl_PointSize=clamp(aSize*96.0/max(5.0,-mv.z)*uDpr,0.6,3.7);
         vColor=aColor;
         // Estrelas não cintilam em sincronismo. Cada ponto tem frequência,
         // amplitude e segunda fase independente (sem gasto extra de draw calls).
         float low=sin(uTime*aTwinkleRate+aPhase);
         float irregular=sin(uTime*(aTwinkleRate*1.753+.12)+aTwinkleSecondary);
-        vOpacity=clamp(.73+low*aTwinkleAmp+irregular*aTwinkleAmp*.46,.43,1.18)*uOpacity;
+        vOpacity=clamp(.61+low*aTwinkleAmp*.40+irregular*aTwinkleAmp*.18,.32,.78)*uOpacity;
       }`,
     fragmentShader:`
       varying vec3 vColor;varying float vOpacity;
@@ -270,14 +292,17 @@ function createStars(count,minZ,maxZ,spanX,spanY,sizeRange,tint,opts={}) {
   starMaterials.push(material);
   (opts.group || starsGroup).add(new THREE.Points(geometry,material));
 }
-// Aproximadamente 75% menos pontos que a v0.9.1; evitar o aspecto de ruído.
-createStars(720,-540,-270,1100,570,[1.9,4.6],['#e5ebff','#90a9f4','#ffe8d3'],{opacity:.56});
-createStars(205,-255,-105,510,290,[.95,3.0],['#e5e7ff','#bfb2ff','#ffe5b0'],{opacity:.49});
-createStars(65,-95,-15,250,140,[.65,1.7],['#f5f4ff','#b5bdfb','#f9e8ca'],{opacity:.43});
-// Poeira discreta perto dos olhos: a perspectiva, nao o CSS, gera parallax.
+// Sparse Void: só 146 estrelas 3D (110 fundo, 28 meio, 8 perto).
+// Zero partículas no foreground durante repouso. A viagem conserva
+// seus rastros próprios, criados SOMENTE quando o jogador clica.
+createStars(110,-540,-270,1100,570,[1.3,3.2],['#c1cce1','#8791c8','#d5c9c4'],{opacity:.38});
+createStars(28,-255,-105,510,290,[.8,2.0],['#c9d0ed','#a99cc9','#d5c8a9'],{opacity:.34});
+createStars(8,-95,-15,250,140,[.6,1.15],['#bfc6dd','#a5a8ce','#d2c8bc'],{opacity:.28});
 const foregroundParticles = new THREE.Group();
 scene.add(foregroundParticles);
-createStars(20,-56,-6,128,72,[.65,1.35],['#d6dfff','#d3baff','#f7eacf'],{group:foregroundParticles,opacity:.12});
+// Manter o buffer de zero pontos apenas para compatibilidade com
+// instrumentação e testes; GPU não desenha nenhum fragmento dele.
+createStars(0,-56,-6,128,72,[.65,1.0],['#d6dfff','#d3baff','#f7eacf'],{group:foregroundParticles,opacity:0});
 if (debugEnabled) {
   window.__orionDepthDebug = { rigRoot, rigYaw, rigPitch, rigRoll, camera, foregroundParticles, layers };
 }

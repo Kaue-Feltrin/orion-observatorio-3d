@@ -116,7 +116,7 @@ test('respiração cósmica anima apenas véus e mantém a fotografia ESO intact
   const range=items=>Math.max(...items)-Math.min(...items);
   expect(range([sample.a.alpha,sample.middle.alpha,sample.b.alpha])).toBeGreaterThan(.00003);
   expect(range([sample.a.star,sample.middle.star,sample.b.star])).toBeGreaterThan(.001);
-  expect(sample.a.twinkle).toBe(20);
+  expect(sample.a.twinkle).toBe(0);
   expect(errors).toEqual([]);
 });
 
@@ -181,9 +181,9 @@ test('composição limpa reduz estrelas e mantém as pontas luminosas em movimen
       gas:window.__orionPerformance.visibleGas,
       bloom:window.__orionAtmosphereDebug.selectiveBloom.state.intensity};
   });
-  expect(x.bg).toEqual([720,205,65]);
-  expect(x.close).toBe(20);
-  expect(Math.abs(x.second-x.first)).toBeGreaterThan(.008);
+  expect(x.bg).toEqual([110,28,8]);
+  expect(x.close).toBe(0);
+  expect(Math.abs(x.second-x.first)).toBeGreaterThan(.001);
   expect(x.eso).toBe(1);
   expect(x.gas).toBe(2);
   expect(x.bloom).toBeLessThan(.3);
@@ -199,4 +199,47 @@ test('spikes não giram com preferência de movimento reduzido',async({page})=>{
   await page.waitForTimeout(500);
   const b=await page.evaluate(()=>window.__orionCinematicDebug.spikes.primary.material.rotation);
   expect(a).toBe(b);
+});
+
+test('sparse void: 146 estrelas reais, zero poeira, zonas vazias e viagem funcionando',async({page})=>{
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=balanced',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const stats=await page.evaluate(()=>{
+    const debug=window.__orionCinematicDebug;
+    const depths=debug.starsGroup.children.map(obj=>obj.geometry.attributes.position.count);
+    const tan=Math.tan(52*Math.PI/360),aspect=innerWidth/innerHeight;
+    let centerViolations=0;
+    for(const obj of debug.starsGroup.children){
+      const pos=obj.geometry.attributes.position;
+      for(let i=0;i<pos.count;i++){
+        const x=pos.getX(i),y=pos.getY(i),z=pos.getZ(i);
+        const ndcX=(x/(26-z))/(tan*aspect);
+        const ndcY=(y/(26-z)-43/(26+470))/tan;
+        if((ndcX/.51)**2+(ndcY/.42)**2<1)centerViolations++;
+      }
+    }
+    const layers=window.__orionDepthDebug.layers;
+    return{
+      count:depths.reduce((n,v)=>n+v,0),depths,
+      foreground:debug.foregroundParticles.children[0].geometry.attributes.position.count,
+      centerViolations,
+      backdropVisible:layers.find(o=>o.userData.layerName.includes('Fundo espacial')).visible,
+      dustVisible:layers.find(o=>o.userData.layerName.includes('Poeira estelar')).visible,
+      photoOpacity:window.__orionRespirationDebug.nebula.material.opacity,
+      photoTint:window.__orionRespirationDebug.nebula.material.color.toArray(),
+      spikes:debug.spikes.primary.visible
+    };
+  });
+  expect(stats.depths).toEqual([110,28,8]);
+  expect(stats.count).toBe(146);
+  expect(stats.foreground).toBe(0);
+  expect(stats.centerViolations).toBe(0);
+  expect(stats.backdropVisible).toBe(false);
+  expect(stats.dustVisible).toBe(false);
+  expect(stats.photoOpacity).toBe(1);
+  expect(stats.spikes).toBe(true);
+  expect(errors).toEqual([]);
+  await page.locator('#heraldTarget').click({force:true});
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
 });

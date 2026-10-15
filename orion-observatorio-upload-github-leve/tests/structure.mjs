@@ -70,11 +70,14 @@ assert.match(await read('cosmic-atmosphere.js'),/i < 3/,'ruído mais econômico'
 assert.match(await read('selective-bloom.js'),/scale=\.34/,'bloom de baixo custo');
 
 // v0.9.2 clean cinematic: compor por subtração, sem alterar a viagem.
-assert.match(main,/createStars\(720,/,'campo de fundo reduzido');
-assert.match(main,/createStars\(205,/,'campo intermediário reduzido');
-assert.match(main,/createStars\(65,/,'campo próximo reduzido');
-assert.match(main,/createStars\(20,/,'partículas de foreground discretas');
-assert.match(main,/mainCloud\.material\.color\.setRGB\(\.58,\.60,\.68\)/,'ESO iluminada pelo material');
+assert.match(main,/createStars\(110,/,'fundo com 110 pontos');
+assert.match(main,/createStars\(28,/,'meio com 28 pontos');
+assert.match(main,/createStars\(8,/,'proximidade com 8 pontos');
+assert.match(main,/createStars\(0,/,'nenhuma poeira em primeiro plano');
+assert.match(main,/mainCloud\.material\.color\.setRGB\(\.43,\.46,\.53\)/,'ESO escurecida apenas por material');
+assert.match(main,/starBackdrop\.visible=false/,'remover base com centenas de pontos');
+assert.match(main,/dustCloud\.visible=false/,'remover poeira rasterizada');
+assert.match(main,/targetSlopeY=43\/\(26\+470\)/,'área limpa ao redor da estrela');
 assert.match(main,/createCinematicStarSpikes/,'pontas de estrela procedurais');
 assert.match(main,/cinematicSpikes\.update\(time,cardVisible,travelling\)/,'rotação das pontas no loop');
 assert.match(await read('cinematic-star.js'),/material\.rotation/,'pontas com rotação na GPU');
