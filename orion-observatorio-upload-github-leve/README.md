@@ -146,3 +146,13 @@ Solicitado mais silêncio cósmico: apenas **146 estrelas 3D** (110 distantes, 2
 O fundo estelar com pontinhos pré-impressos e a camada PNG de poeira também são ocultados, eliminando a fonte de ruído **que não obedecia à contagem de partículas procedural**. A fotografia ESO permanece sem qualquer edição de bytes; só a iluminação do material 3D é reduzida para `(.43,.46,.53)`, preservando sua opacidade. As nuvens gasosas sutis e a estrela principal com seus diffraction spikes giratórios continuam funcionando.
 
 **Intocados:** `star-journey.js`, câmera, Raycaster, halo de chegada, limites adaptativos de qualidade, link da ficha, créditos ESO. O teste Playwright mede a contagem de pontos, ausência de partículas no centro e visibilidade das imagens de poeira, além da viagem.
+
+## v0.9.2c — Céu fotográfico sem ruído
+
+O problema apontado pelo usuário na captura era a quantidade de estrelas **impressas na imagem ESO**, não as estrelas 3D. As versões anteriores reduziram os pontos Three.js, mas não o céu do JPEG.
+
+**Correção:** durante o build, Sharp aplica mediana espacial para reduzir pontos fotográficos pequenos e compõe uma faixa nebular central suavemente sobre um céu escuro e vazio. Assim os céus superior e inferior deixam de conter milhares de pontos, enquanto a massa da Via Láctea e a textura das nuvens continuam fotografias reais. A imagem final servida é uma **adaptação artística derivada de ESO/S. Brunier**, e os créditos na interface deixam essa intervenção explícita. O arquivo de origem é preservado e o renderizador continua usando apenas um JPEG, sem novos shaders, texturas ou render targets.
+
+O fallback CSS não reapresenta imagens estreladas antigas. As 146 estrelas Three.js existentes continuam discretas; a estrela Nox e seus raios giratórios, navegação com Raycaster, câmera e módulo star-journey.js não sofrem alterações.
+
+Teste Playwright adicional: pixel sampling da imagem derivada garante céu superior/inferior escuro com nebulosa central visível. **Não confundir essa confirmação com análise visual humana ou benchmark de RAM.**
