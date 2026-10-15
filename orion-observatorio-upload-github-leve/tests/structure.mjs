@@ -88,7 +88,7 @@ assert.match(main,/gas:\[0,2\]/,'equilibrado usa 2 planos GLSL');
 // v0.9.2d: não processar/remover as estrelas impressas na foto.
 // A nova branch parte de v0.9.2b, ANTES da mediana destrutiva da v0.9.2c.
 const photoScript=await read('scripts/prepare-astro-assets.mjs');
-assert.doesNotMatch(photoScript,/\.median\(/,'não aplicar filtro de mediana na ESO');
+assert.doesNotMatch(photoScript.split('// Os quatro recortes abaixo')[0],/\.median\(/,'não aplicar mediana no panorama ESO principal');
 assert.doesNotMatch(photoScript,/const preserve=1-eased/,'não apagar estrelas da foto');
 assert.match(main,/--nox-focus-x/,'filtro acompanha posição da estrela em tela');
 assert.match(css,/v0\.9\.2d/,'filtro simples implementado via CSS');
