@@ -77,7 +77,7 @@ assert.match(main,/createStars\(0,/,'nenhuma poeira em primeiro plano');
 assert.match(main,/mainCloud\.material\.color\.setRGB\(\.43,\.46,\.53\)/,'ESO escurecida apenas por material');
 assert.match(main,/starBackdrop\.visible=false/,'remover base com centenas de pontos');
 assert.match(main,/dustCloud\.visible=false/,'remover poeira rasterizada');
-assert.match(main,/targetSlopeY=43\/(26\+470)/,'área limpa ao redor da estrela');
+assert.match(main,/targetSlopeY=43\/\(26\+470\)/,'área limpa ao redor da estrela');
 assert.match(main,/createCinematicStarSpikes/,'pontas de estrela procedurais');
 assert.match(main,/cinematicSpikes\.update\(time,cardVisible,travelling\)/,'rotação das pontas no loop');
 assert.match(await read('cinematic-star.js'),/material\.rotation/,'pontas com rotação na GPU');
