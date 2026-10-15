@@ -329,3 +329,69 @@ test('modo leve carrega menos fragmentos sem limitar câmera a 30fps',async({pag
   await page.locator('#heraldTarget').click({force:true});
   await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
 });
+
+
+test('mouse distante dispensa Raycaster e vinheta não repinta parada',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=balanced',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  await page.waitForTimeout(250);
+  const sample=await page.evaluate(async()=>{
+    const metrics=window.__orionInteractionMetrics;
+    const first=metrics.raycasts;
+    for(let i=0;i<50;i++){
+      dispatchEvent(new PointerEvent('pointermove',{
+        clientX:15+(i%10),clientY:innerHeight-15-(i%5),
+        pointerType:'mouse',bubbles:true
+      }));
+    }
+    const distant={events:metrics.pointerEvents,raycasts:metrics.raycasts-first};
+    await new Promise(resolve=>setTimeout(resolve,300));
+    const idleBefore=metrics.focusWrites;
+    await new Promise(resolve=>setTimeout(resolve,900));
+    const idleAfter=metrics.focusWrites;
+    return {distant,idleWrites:idleAfter-idleBefore};
+  });
+  expect(sample.distant.events).toBeGreaterThanOrEqual(50);
+  expect(sample.distant.raycasts).toBe(0);
+  // Movimento respiratório mínimo não deve causar repinturas CSS periódicas.
+  expect(sample.idleWrites).toBeLessThanOrEqual(2);
+  const box=await page.locator('#heraldTarget').boundingBox();
+  const before=await page.evaluate(()=>window.__orionInteractionMetrics.raycasts);
+  await page.mouse.move(box.x+box.width/2,box.y+box.height/2);
+  await expect.poll(async()=>page.evaluate(()=>window.__orionInteractionMetrics.raycasts)).toBeGreaterThan(before);
+  await expect(page.locator('body')).toHaveClass(/star-aimed/);
+});
+
+// Diagnóstico sem limite de FPS artificial: CI/Chromium não representa a GPU do usuário.
+// Salva amostras no log para comparação entre revisões sem aprovar por benchmark isolado.
+test('diagnóstico do frame time e uso de recursos da prévia',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=balanced',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const perf=await page.evaluate(async()=>{
+    const frames=[];
+    let last=0;
+    await new Promise(resolve=>{
+      const start=performance.now();
+      function measure(now){
+        if(last)frames.push(now-last);
+        last=now;
+        if(now-start<1200)requestAnimationFrame(measure);
+        else resolve();
+      }
+      requestAnimationFrame(measure);
+    });
+    frames.sort((a,b)=>a-b);
+    const q=window.__orionPerformance;
+    return{
+      frameSamples:frames.length,
+      medianMs:Number((frames[Math.floor(frames.length/2)]||0).toFixed(2)),
+      p90Ms:Number((frames[Math.floor(frames.length*.9)]||0).toFixed(2)),
+      drawCalls:q.drawCalls,textures:q.textures,
+      pixelRatio:q.pixelRatio,quality:q.mode,
+      fragments:window.__orionDepthDebug.layers.filter(l=>l.userData.volumeFragment&&l.visible).length
+    };
+  });
+  console.log('ORION-PERF-SMOKE',JSON.stringify(perf));
+  expect(perf.frameSamples).toBeGreaterThan(5);
+  expect(perf.fragments).toBe(3);
+});
