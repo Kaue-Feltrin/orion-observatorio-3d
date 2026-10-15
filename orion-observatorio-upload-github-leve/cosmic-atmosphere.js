@@ -66,7 +66,7 @@ const fragmentShader = `
       * uDensity * uStrength * uBreath;
     vec3 color = mix(uCool, uWarm, clamp(body * .85 + threads * .24, 0.0, 1.0));
     color *= (.68 + .56 * threads) * (1.0 + (uBreath-1.0)*.35);
-    gl_FragColor = vec4(color, clamp(alpha, 0.0, .23));
+    gl_FragColor = vec4(color, clamp(alpha, 0.0, .16));
     #include <colorspace_fragment>
   }
 `;
@@ -80,7 +80,7 @@ const specs = [
 ];
 
 export function createCosmicAtmosphere(scene, { reducedMotion=false }={}) {
-  const state = { density:.82, flow:.42, bloom:.48 };
+  const state = { density:.46, flow:.27, bloom:.18 };
   const layers = [];
   for (const spec of specs) {
     const material = new THREE.ShaderMaterial({

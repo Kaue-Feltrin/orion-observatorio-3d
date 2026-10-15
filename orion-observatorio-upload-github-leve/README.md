@@ -124,3 +124,17 @@ A v0.9.1 apresentou travamentos e consumo de memória relatado de quase 4 GB em 
 - Nenhuma alteração na fotografia ESO, na câmera, na estrela/click ou em `star-journey.js`.
 
 Teste comparativo: `/?quality=lite`, `/?quality=high`; deixe padrão para qualidade automática.
+
+## v0.9.2 — Clean Cinematic (prévia isolada)
+
+Composição reequilibrada **por subtração**, preservando a fotografia ESO original, a posição física da estrela, a câmera de paralaxe e o módulo `star-journey.js` da v0.9.
+
+- Estrelas reduzidas de 4.120 para **1.010** (−75,5%). Fundo 720, meio 205, primeiro plano 65 e 20 motes diante da câmera.
+- Pontos menos brilhantes e menores; textura astronômica mantida mas levemente escurecida **somente pelo material 3D**, sem editar a imagem de origem.
+- Nuvens frontais, poeira, densidade GLSL e bloom de repouso mais contidos; duas camadas de gás no perfil equilibrado e uma no leve.
+- Novo `cinematic-star.js`: diffraction spikes rasterizados uma única vez em CanvasTexture (512×512), duas camadas translúcidas com rotação em GPU, pulso e resposta ao hover; são raios de luz gradativos e finos, não uma estrela desenhada.
+- Estrela segue selecionável por Raycaster, sem alteração da coreografia da viagem.
+- `prefers-reduced-motion` desativa a rotação dos raios.
+- O orçamento de memória/renderização e modo adaptativo da v0.9.1.1 continuam ativos.
+
+Para validar a interação, abrir `?debug=1`; `window.__orionCinematicDebug` expõe as sprites e as geometrias de pontos.

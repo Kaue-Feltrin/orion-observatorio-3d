@@ -4,6 +4,7 @@ import * as THREE from "three";
 import { createCosmicAtmosphere } from './cosmic-atmosphere.js';
 import { createSelectiveBloom } from './selective-bloom.js';
 import { createStarJourney } from './star-journey.js';
+import { createCinematicStarSpikes } from './cinematic-star.js';
 
 const root = document.getElementById('observatory');
 const container = document.getElementById('world');
@@ -39,8 +40,8 @@ const qualityOrder=['lite','balanced','high'];
 let qualityMode=initialProfile;
 let performanceAdaptations=0;
 const qualityPresets={
-  lite:{dpr:0.86,maxPixels:1150000,bloomScale:.26,gas:[1,4],fpsCap:30},
-  balanced:{dpr:1,maxPixels:2200000,bloomScale:.34,gas:[0,2,4],fpsCap:60},
+  lite:{dpr:0.86,maxPixels:1150000,bloomScale:.26,gas:[2],fpsCap:30},
+  balanced:{dpr:1,maxPixels:2200000,bloomScale:.34,gas:[0,2],fpsCap:60},
   high:{dpr:1.25,maxPixels:3200000,bloomScale:.42,gas:[0,1,2,3,4],fpsCap:60}
 };
 function gpuBudget(){return qualityPresets[qualityMode];}
@@ -140,16 +141,19 @@ const farCloud = nebulaPlane('/assets/01-nebula-far.webp',-360,.11,0,-5,1.53,1,3
 // A camada distante está atrás da fotografia opaca ESO. Oculte seu draw call.
 farCloud.visible=false;
 const mainCloud = nebulaPlane('/assets/nebula-eso-photographic.jpg',-540,1,0,-3,1.31,2,5000/1850,{name:'02 · Via Láctea fotográfica · ESO'});
-const midCloud = nebulaPlane('/assets/03-mid-clouds.webp',-155,.065,-2,-4,1.42,3,3072/1152,{name:'03 · Detalhe da nebulosa',additive:true});
-const nearCloud = nebulaPlane('/assets/04-front-fog.png',-92,.06,9,-10,1.56,4,2560/960,{name:'04 · Névoa frontal',additive:true});
-const dustCloud = nebulaPlane('/assets/05-star-dust.png',-58,.18,0,0,1.62,5,3072/1152,{name:'05 · Poeira estelar',additive:true});
+// Apenas iluminação/cor do material; fotografia ESO original segue intacta e nítida.
+// Escurecer o fundo gera espaço negativo ao redor do único arauto interativo.
+mainCloud.material.color.setRGB(.58,.60,.68);
+const midCloud = nebulaPlane('/assets/03-mid-clouds.webp',-155,.031,-2,-4,1.42,3,3072/1152,{name:'03 · Detalhe da nebulosa',additive:true});
+const nearCloud = nebulaPlane('/assets/04-front-fog.png',-92,.027,9,-10,1.56,4,2560/960,{name:'04 · Névoa frontal',additive:true});
+const dustCloud = nebulaPlane('/assets/05-star-dust.png',-58,.062,0,0,1.62,5,3072/1152,{name:'05 · Poeira estelar',additive:true});
 // Estas imagens são véus transparentes: a fotografia ESO, a 100% de
 // opacidade, NÃO participa da respiração e nunca tem UV alterado.
 const breathingVeils = [
   {mesh:farCloud,base:.11,amp:.045,rate:.43,phase:.5},
-  {mesh:midCloud,base:.065,amp:.052,rate:.59,phase:1.8},
-  {mesh:nearCloud,base:.06,amp:.048,rate:.49,phase:3.1},
-  {mesh:dustCloud,base:.18,amp:.03,rate:.69,phase:2.6}
+  {mesh:midCloud,base:.031,amp:.052,rate:.59,phase:1.8},
+  {mesh:nearCloud,base:.027,amp:.048,rate:.49,phase:3.1},
+  {mesh:dustCloud,base:.062,amp:.03,rate:.69,phase:2.6}
 ];
 const respirationState={gas:1,star:1,beacon:0};
 // Five independent GLSL gas planes in front of the ESO image; no photo blur.
@@ -266,13 +270,14 @@ function createStars(count,minZ,maxZ,spanX,spanY,sizeRange,tint,opts={}) {
   starMaterials.push(material);
   (opts.group || starsGroup).add(new THREE.Points(geometry,material));
 }
-createStars(2700,-540,-270,1100,570,[2.6,6.5],['#e5ebff','#90a9f4','#ffe8d3']);
-createStars(860,-255,-105,510,290,[1.2,4.1],['#e5e7ff','#bfb2ff','#ffe5b0']);
-createStars(360,-95,-15,250,140,[.75,2.6],['#f5f4ff','#b5bdfb','#f9e8ca']);
+// Aproximadamente 75% menos pontos que a v0.9.1; evitar o aspecto de ruído.
+createStars(720,-540,-270,1100,570,[1.9,4.6],['#e5ebff','#90a9f4','#ffe8d3'],{opacity:.56});
+createStars(205,-255,-105,510,290,[.95,3.0],['#e5e7ff','#bfb2ff','#ffe5b0'],{opacity:.49});
+createStars(65,-95,-15,250,140,[.65,1.7],['#f5f4ff','#b5bdfb','#f9e8ca'],{opacity:.43});
 // Poeira discreta perto dos olhos: a perspectiva, nao o CSS, gera parallax.
 const foregroundParticles = new THREE.Group();
 scene.add(foregroundParticles);
-createStars(200,-56,-6,128,72,[.65,1.75],['#d6dfff','#d3baff','#f7eacf'],{group:foregroundParticles,opacity:.27});
+createStars(20,-56,-6,128,72,[.65,1.35],['#d6dfff','#d3baff','#f7eacf'],{group:foregroundParticles,opacity:.12});
 if (debugEnabled) {
   window.__orionDepthDebug = { rigRoot, rigYaw, rigPitch, rigRoll, camera, foregroundParticles, layers };
 }
@@ -331,6 +336,8 @@ orbitRing.renderOrder=14; heraldGroup.add(orbitRing);
 const beaconGlow=addGlow(178,0);
 beaconGlow.renderOrder=11;
 beaconGlow.layers.enable(1);
+// Pontas de difração procedurais, com duas velocidades e sem bloom extra.
+const cinematicSpikes=createCinematicStarSpikes(heraldGroup,{reducedMotion:reduceMotion});
 // Sprite 3D invisivel na camada 2: area acessivel de mira e click real (Raycaster).
 // O HTML continua apenas como alternativa de teclado e touch.
 const heraldPickSprite=new THREE.Sprite(new THREE.SpriteMaterial({
@@ -347,11 +354,12 @@ nebulaStarHalo.layers.enable(1);
 softHalo.layers.enable(1);
 mainGlow.layers.enable(1);
 coreGlow.layers.enable(1);
-const selectiveBloom=createSelectiveBloom(renderer,scene,camera,{initial:mobile?.28:.48,reducedMotion:reduceMotion});
+const selectiveBloom=createSelectiveBloom(renderer,scene,camera,{initial:mobile?.10:.18,reducedMotion:reduceMotion});
 if(debugEnabled) {
   window.__orionBloomSliderFactory('Bloom seletivo',selectiveBloom.state.intensity,0,1.5,.05,selectiveBloom.setIntensity);
   window.__orionAtmosphereDebug={atmosphere,selectiveBloom};
   window.__orionRespirationDebug={state:respirationState,veils:breathingVeils,nebula:mainCloud,beaconGlow,heraldGroup};
+  window.__orionCinematicDebug={spikes:cinematicSpikes,starsGroup,foregroundParticles};
   delete window.__orionBloomSliderFactory;
 }
 
@@ -526,12 +534,13 @@ function tick(now){
   softHalo.scale.setScalar(118*(1+.034*pulse+.045*beacon)*emphasized);
   mainGlow.scale.setScalar(66*(1+.048*pulse+.022*shimmer+.075*beacon)*emphasized);
   coreGlow.scale.setScalar(18*(1+.026*shimmer)*(cardVisible?1.18:1));
-  nebulaStarHalo.material.opacity=.2+(cardVisible?.08:0)+.019*pulse+.060*beacon;
-  softHalo.material.opacity=.27+(cardVisible?.12:0)+.022*pulse+.045*beacon;
-  mainGlow.material.opacity=.76+(cardVisible?.16:0)+.018*shimmer+.07*beacon;
-  coreGlow.material.opacity=.98;
-  beaconGlow.scale.setScalar(178+65*beacon);
-  beaconGlow.material.opacity=.155*beacon*(cardVisible?1.35:1);
+  // O astro deve comandar o olhar sem espalhar luz por toda a composição.
+  nebulaStarHalo.material.opacity=.075+(cardVisible?.045:0)+.012*pulse+.028*beacon;
+  softHalo.material.opacity=.13+(cardVisible?.085:0)+.012*pulse+.024*beacon;
+  mainGlow.material.opacity=.48+(cardVisible?.19:0)+.015*shimmer+.040*beacon;
+  coreGlow.material.opacity=.94;
+  beaconGlow.scale.setScalar(154+42*beacon);
+  beaconGlow.material.opacity=.046*beacon*(cardVisible?1.55:1);
   orbitRing.material.opacity=0;
   flash.style.opacity='0';
   flash.style.setProperty('--veil-opacity','0');
@@ -543,6 +552,7 @@ function tick(now){
    mat.uniforms.uTime.value=reduceMotion?0:time;
    mat.uniforms.uOpacity.value=mat.userData.baseOpacity*(travelling?1.24:1);
  }
+ cinematicSpikes.update(time,cardVisible,travelling);
  camera.updateWorldMatrix(true,false);
  updateTargetScreen();
  atmosphere.update(time);
