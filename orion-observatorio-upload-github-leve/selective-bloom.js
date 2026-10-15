@@ -11,7 +11,7 @@ export function createSelectiveBloom(renderer,scene,camera,{initial=.48,reducedM
   const composer=new EffectComposer(renderer);
   composer.renderToScreen=false;
   composer.setPixelRatio(1);
-  const pass=new UnrealBloomPass(new THREE.Vector2(512,288),1.08,.48,.62);
+  const pass=new UnrealBloomPass(new THREE.Vector2(512,288),.72,.30,.72);
   composer.addPass(new RenderPass(scene,camera));
   composer.addPass(pass);
   const overlayScene=new THREE.Scene();

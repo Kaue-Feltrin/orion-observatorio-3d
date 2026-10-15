@@ -116,7 +116,7 @@ test('respiração cósmica anima apenas véus e mantém a fotografia ESO intact
   const range=items=>Math.max(...items)-Math.min(...items);
   expect(range([sample.a.alpha,sample.middle.alpha,sample.b.alpha])).toBeGreaterThan(.00003);
   expect(range([sample.a.star,sample.middle.star,sample.b.star])).toBeGreaterThan(.001);
-  expect(sample.a.twinkle).toBe(200);
+  expect(sample.a.twinkle).toBe(20);
   expect(errors).toEqual([]);
 });
 
@@ -145,7 +145,7 @@ test('desempenho limita pixels e draw calls sem apagar a nebulosa ESO',async({pa
   });
   expect(p.mode).toBe('balanced');
   expect(p.pixels).toBeLessThanOrEqual(p.maxPixels+8000);
-  expect(p.visibleGas).toBe(3);
+  expect(p.visibleGas).toBe(2);
   expect(p.photograph).toBe(1);
 });
 
@@ -159,8 +159,44 @@ test('qualidade leve mantém estrela e viagem acessíveis',async({page})=>{
     cap:window.__orionPerformance.maxPixels
   }));
   expect(p.mode).toBe('lite');
-  expect(p.visibleGas).toBe(2);
+  expect(p.visibleGas).toBe(1);
   expect(p.pixels).toBeLessThanOrEqual(p.cap+8000);
   await page.locator('#heraldTarget').click({force:true});
   await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+});
+
+test('composição limpa reduz estrelas e mantém as pontas luminosas em movimento',async({page})=>{
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=balanced',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const x=await page.evaluate(async()=>{
+    const d=window.__orionCinematicDebug;
+    const mat=d.spikes.primary.material;
+    const first=mat.rotation;
+    await new Promise(resolve=>setTimeout(resolve,950));
+    const second=mat.rotation;
+    return {first,second,bg:d.starsGroup.children.map(x=>x.geometry.attributes.position.count),
+      close:d.foregroundParticles.children[0].geometry.attributes.position.count,
+      eso:window.__orionRespirationDebug.nebula.material.opacity,
+      gas:window.__orionPerformance.visibleGas,
+      bloom:window.__orionAtmosphereDebug.selectiveBloom.state.intensity};
+  });
+  expect(x.bg).toEqual([720,205,65]);
+  expect(x.close).toBe(20);
+  expect(Math.abs(x.second-x.first)).toBeGreaterThan(.008);
+  expect(x.eso).toBe(1);
+  expect(x.gas).toBe(2);
+  expect(x.bloom).toBeLessThan(.3);
+  expect(errors).toEqual([]);
+  await page.screenshot({path:'test-results/observatorio-clean-v092.png'});
+});
+
+test('spikes não giram com preferência de movimento reduzido',async({page})=>{
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.goto('http://127.0.0.1:4173/?debug=1',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const a=await page.evaluate(()=>window.__orionCinematicDebug.spikes.primary.material.rotation);
+  await page.waitForTimeout(500);
+  const b=await page.evaluate(()=>window.__orionCinematicDebug.spikes.primary.material.rotation);
+  expect(a).toBe(b);
 });

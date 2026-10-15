@@ -84,3 +84,13 @@ rgba(255,255,249,1) 0%,rgba(255,242,204,.98) 9%,rgba(236,207,239,.76) 25%,
 rgba(187,150,225,.28) 51%,rgba(10,6,27,0) 80%);opacity:0}
 .arrival-flash:after{content:'';position:absolute;inset:0;
  background:rgb(255,250,236);opacity:var(--veil-opacity,0);}
+
+/* v0.9.2 · Clean Cinematic: escuridão e silêncio visual em torno do astro */
+.scene-vignette{
+  background:
+    radial-gradient(ellipse 82% 85% at 51% 40%,
+      transparent 23%,rgba(1,1,10,.12) 55%,rgba(1,1,9,.72) 100%),
+    linear-gradient(180deg,rgba(0,0,0,.22),transparent 31%,
+      transparent 65%,rgba(0,0,0,.39));
+}
+.sky-fallback{filter:brightness(.37) saturate(.81)}

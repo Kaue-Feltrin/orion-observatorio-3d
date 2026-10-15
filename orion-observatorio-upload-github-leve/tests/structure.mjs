@@ -68,3 +68,16 @@ assert.match(main,/if\(document\.hidden\)return/,'não desenha em aba oculta');
 assert.match(main,/function applyGasBudget/,'camadas de shader desligáveis');
 assert.match(await read('cosmic-atmosphere.js'),/i < 3/,'ruído mais econômico');
 assert.match(await read('selective-bloom.js'),/scale=\.34/,'bloom de baixo custo');
+
+// v0.9.2 clean cinematic: compor por subtração, sem alterar a viagem.
+assert.match(main,/createStars\(720,/,'campo de fundo reduzido');
+assert.match(main,/createStars\(205,/,'campo intermediário reduzido');
+assert.match(main,/createStars\(65,/,'campo próximo reduzido');
+assert.match(main,/createStars\(20,/,'partículas de foreground discretas');
+assert.match(main,/mainCloud\.material\.color\.setRGB\(\.58,\.60,\.68\)/,'ESO iluminada pelo material');
+assert.match(main,/createCinematicStarSpikes/,'pontas de estrela procedurais');
+assert.match(main,/cinematicSpikes\.update\(time,cardVisible,travelling\)/,'rotação das pontas no loop');
+assert.match(await read('cinematic-star.js'),/material\.rotation/,'pontas com rotação na GPU');
+assert.match(await read('cinematic-star.js'),/AdditiveBlending/,'difração sem blocos opacos');
+assert.match(await read('cinematic-star.js'),/reducedMotion/,'movimento reduzido');
+assert.match(main,/gas:\[0,2\]/,'equilibrado usa 2 planos GLSL');
