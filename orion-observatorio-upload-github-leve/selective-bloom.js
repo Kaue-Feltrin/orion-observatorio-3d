@@ -30,12 +30,15 @@ export function createSelectiveBloom(renderer,scene,camera,{initial=.48,reducedM
     const ratio=THREE.MathUtils.clamp(scale,.20,.50);
     composer.setSize(Math.max(64,Math.floor(width*ratio)), Math.max(64,Math.floor(height*ratio)));
   }
-  function render(){
-    // Camera layer 1 só contém a estrela; fundo e nuvens permanecem totalmente nítidos.
-    camera.layers.set(1);
-    composer.render();
-    camera.layers.set(0);
-    overlayMaterial.uniforms.uTexture.value=composer.readBuffer.texture;
+  function render(refreshBloom=true){
+    // Renderizar a névoa luminosa a meia frequência economiza GPU.
+    // A cena principal e o movimento da câmera continuam por quadro.
+    if(refreshBloom){
+      camera.layers.set(1);
+      composer.render();
+      camera.layers.set(0);
+      overlayMaterial.uniforms.uTexture.value=composer.readBuffer.texture;
+    }
     renderer.setRenderTarget(null);
     renderer.render(scene,camera);
     const oldAutoClear=renderer.autoClear;

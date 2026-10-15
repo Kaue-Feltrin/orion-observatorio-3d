@@ -154,3 +154,18 @@ A v0.9.2c tentou remover estrelas do JPEG astronômico; o usuário rejeitou o re
 Esta branch parte da **v0.9.2b**, anterior à alteração. O script de preparação da ESO permanece o mesmo (sem mediana, máscara de recorte ou apagamento de estrelas). Nada é gerado por IA e não houve substituição da fotografia por ilustração. Adicionamos unicamente uma vinheta suave e um leve ganho de luz local em CSS, que acompanham o ponto projetado 3D do Nox através de duas variáveis CSS atualizadas apenas quando necessário.
 
 Todos os arquivos da câmera, shaders, bloom, viagem e partículas continuam como na v0.9.2b. O Nox mantém os dois diffraction spikes giratórios. Evitar merge sem avaliação visual pelo usuário. Build e testes incluem verificação negativa para processamento de remoção estelar.
+
+## v0.9.3 — Nebulosa em Volume + câmera mais fluida
+
+- Preserva integralmente **o mesmo JPEG ESO** usado na v0.9.2d: não suprime estrelas nem altera nitidez, enquadramento ou créditos.
+- Gera **4 recortes orgânicos transparentes derivados da mesma foto** durante o build (WebP RGBA de no máximo 800 px por textura; pixels de estrelas filtrados somente nos recortes, não na foto).
+- Reposiciona esses recortes em **z = -425, -342, -252, -185**. O reenquadramento os alinha à foto na posição inicial; movimentos independentes e profundidades reais causam paralaxe e uma leve sensação de massas respirando.
+- O véu frontal existente é mantido; não adiciona partículas ao céu vazio da cena nem luz excessiva.
+- Carrega sob demanda só os fragmentos visíveis: 2 no modo leve, 3 no equilibrado, 4 em alta qualidade. A v0.9.3 **não adiciona shader pesado de tela inteira**.
+- A suavização do mouse sai do filtro exponencial lento (~140 ms) para um ~55 ms, mantendo interpolação independente da taxa de quadros.
+- Evita a leitura síncrona de `card.offsetHeight` no loop e escreve posições de CSS/HTML só se realmente mudam.
+- Modo leve passa a permitir **até 60 FPS** (em vez de forçar 30) com limite ainda menor de pixels. Bloom atualiza a meia frequência em repouso; imagem principal, câmera e interação seguem em todo quadro.
+- **Não modifica `star-journey.js`**, nem o caminho da ficha, o comportamento da estrela, o Raycaster e a viagem já aprovada.
+- Testes Playwright novos verificam alinhamento de planos, assets, movimento orgânico, resposta da mira, qualidade adaptativa e seleção/viagem.
+
+Os testes de funcionamento não são um benchmark real de RAM/FPS em hardware do usuário.

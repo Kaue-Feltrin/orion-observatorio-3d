@@ -272,3 +272,60 @@ test('filtro segue o Nox sem editar os pixels da fotografia astronômica',async(
   expect(data.opacity).toBe(1);
   expect(errors).toEqual([]);
 });
+
+test('Nebulosa em Volume tem quatro recortes fotográficos com paralaxe real',async({page})=>{
+  const errors=[];page.on('pageerror',error=>errors.push(error.message));
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=high',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const data=await page.evaluate(async()=>{
+    const ls=window.__orionDepthDebug.layers.filter(x=>x.userData.volumeFragment);
+    const existing=await Promise.all(['01','02','03','04'].map(async id=>{
+      const res=await fetch('/assets/depth/eso-gas-'+id+'.webp');
+      return {status:res.status,type:res.headers.get('content-type'),bytes:(await res.arrayBuffer()).byteLength};
+    }));
+    const initial=ls.map(l=>({x:l.position.x,y:l.position.y,z:l.position.z,opacity:l.material.opacity,width:l.scale.x,visible:l.visible}));
+    await new Promise(resolve=>setTimeout(resolve,1100));
+    const final=ls.map(l=>({x:l.position.x,y:l.position.y}));
+    return {length:ls.length,initial,final,existing,starZ:window.__orionStarDebug.heraldGroup.position.z,
+      photo:window.__orionRespirationDebug.nebula.material.opacity};
+  });
+  expect(data.length).toBe(4);
+  expect(data.initial.map(l=>l.z)).toEqual([-425,-342,-252,-185]);
+  expect(data.initial.every(l=>l.width>20&&l.visible&&l.opacity>0&&l.opacity<.28)).toBe(true);
+  expect(data.existing.every(x=>x.status===200&&x.bytes>3000)).toBe(true);
+  expect(data.initial.some((p,i)=>Math.abs(data.final[i].x-p.x)>.03)).toBe(true);
+  expect(data.photo).toBe(1);
+  expect(errors).toEqual([]);
+});
+
+test('mouse segue a direção rapidamente sem forçar layout a cada quadro',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=balanced',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  await page.mouse.move(1150,260);
+  await expect.poll(async()=>page.evaluate(()=>Math.abs(
+    window.__orionMotionDebug.x-window.__orionMotionDebug.targetX)),{timeout:5000}).toBeLessThan(.13);
+  const state=await page.evaluate(()=>({
+    difference:Math.abs(window.__orionMotionDebug.x-window.__orionMotionDebug.targetX),
+    layers:window.__orionMotionDebug.volumeLayers,
+    card:document.querySelector('#heraldCard').style.left,
+    ratio:window.__orionPerformance.pixelRatio
+  }));
+  expect(state.layers).toBe(4);
+  expect(state.difference).toBeLessThan(.13);
+  expect(state.card).toMatch(/px$/);
+});
+
+test('modo leve carrega menos fragmentos sem limitar câmera a 30fps',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=lite',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const result=await page.evaluate(()=>{
+    const ls=window.__orionDepthDebug.layers.filter(l=>l.userData.volumeFragment);
+    return {count:ls.length,visible:ls.filter(l=>l.visible).length,
+      ratio:window.__orionPerformance.pixelRatio};
+  });
+  expect(result.count).toBe(4);
+  expect(result.visible).toBe(2);
+  expect(result.ratio).toBeLessThanOrEqual(.75);
+  await page.locator('#heraldTarget').click({force:true});
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+});

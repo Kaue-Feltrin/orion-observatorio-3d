@@ -93,3 +93,18 @@ assert.doesNotMatch(photoScript,/const preserve=1-eased/,'não apagar estrelas d
 assert.match(main,/--nox-focus-x/,'filtro acompanha posição da estrela em tela');
 assert.match(css,/v0\.9\.2d/,'filtro simples implementado via CSS');
 assert.match(css,/radial-gradient\(ellipse 22% 28% at var\(--nox-focus-x/,'spotlight discreto');
+
+// v0.9.3: 4 recortes fotográficos reais (sem editar o panorama) e cena mais leve.
+assert.match(main,/createNebulaVolume\(scene,mainCloud/,'recortes da foto ESO em planos 3D');
+assert.match(main,/nebulaVolume\.update\(time\)/,'nuvens independentes');
+assert.match(main,/nebulaVolume\.resize\(\)/,'enquadramento na projeção');
+assert.match(main,/Math\.exp\(-Math\.max\(\.001,delta\)\*18\)/,'mouse responde rapidamente');
+assert.match(main,/cachedCardHeight/,'evitar reflow por quadro');
+assert.doesNotMatch(main,/card\.offsetHeight-18/,'não ler layout a cada frame');
+assert.match(main,/fpsCap:60/,'sem limite rígido de 30 fps');
+assert.match(main,/selectiveBloom\.render\(travelling\|\|bloomTick%2===1\)/,'bloom fora do caminho crítico da câmera');
+assert.match(await read('selective-bloom.js'),/function render\(refreshBloom=true\)/,'renderização seletiva temporizada');
+assert.match(await read('nebula-volume.js'),/const selected=quality===.lite./,'qualidade variável');
+assert.match(await read('nebula-depth-specs.js'),/export const nebulaDepthSpecs/,'recortes coordenados');
+assert.match(await read('scripts/prepare-astro-assets.mjs'),/eso-gas-/,'4 texturas RGBA preparadas no build');
+assert.doesNotMatch(await read('scripts/prepare-astro-assets.mjs'),/const preserve=1-eased/,'ESO integral não deve ser apagada');
