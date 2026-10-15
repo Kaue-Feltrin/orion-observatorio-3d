@@ -243,3 +243,32 @@ test('sparse void: 146 estrelas reais, zero poeira, zonas vazias e viagem funcio
   await page.locator('#heraldTarget').click({force:true});
   await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
 });
+
+test('filtro segue o Nox sem editar os pixels da fotografia astronômica',async({page})=>{
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=balanced',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const data=await page.evaluate(async()=>{
+    const image=new Image();image.src='/assets/nebula-eso-photographic.jpg';
+    await image.decode();
+    const root=document.getElementById('observatory');
+    const initial={x:parseFloat(root.style.getPropertyValue('--nox-focus-x')),
+      y:parseFloat(root.style.getPropertyValue('--nox-focus-y'))};
+    const vignette=getComputedStyle(document.querySelector('.scene-vignette')).backgroundImage;
+    const material=window.__orionRespirationDebug.nebula.material;
+    return{initial,exists:!!image.naturalWidth,imageWidth:image.naturalWidth,
+      gradient:vignette.includes('radial-gradient'),texture:!!material.map,
+      source:material.map.image?.currentSrc||material.map.image?.src||'',
+      opacity:material.opacity};
+  });
+  expect(data.initial.x).toBeGreaterThan(0);
+  expect(data.initial.x).toBeLessThan(100);
+  expect(data.initial.y).toBeGreaterThan(0);
+  expect(data.initial.y).toBeLessThan(100);
+  expect(data.exists).toBe(true);
+  expect(data.imageWidth).toBeGreaterThan(3000);
+  expect(data.gradient).toBe(true);
+  expect(data.texture).toBe(true);
+  expect(data.opacity).toBe(1);
+  expect(errors).toEqual([]);
+});

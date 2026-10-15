@@ -84,3 +84,12 @@ assert.match(await read('cinematic-star.js'),/material\.rotation/,'pontas com ro
 assert.match(await read('cinematic-star.js'),/AdditiveBlending/,'difração sem blocos opacos');
 assert.match(await read('cinematic-star.js'),/reducedMotion/,'movimento reduzido');
 assert.match(main,/gas:\[0,2\]/,'equilibrado usa 2 planos GLSL');
+
+// v0.9.2d: não processar/remover as estrelas impressas na foto.
+// A nova branch parte de v0.9.2b, ANTES da mediana destrutiva da v0.9.2c.
+const photoScript=await read('scripts/prepare-astro-assets.mjs');
+assert.doesNotMatch(photoScript,/\.median\(/,'não aplicar filtro de mediana na ESO');
+assert.doesNotMatch(photoScript,/const preserve=1-eased/,'não apagar estrelas da foto');
+assert.match(main,/--nox-focus-x/,'filtro acompanha posição da estrela em tela');
+assert.match(css,/v0\.9\.2d/,'filtro simples implementado via CSS');
+assert.match(css,/radial-gradient\(ellipse 22% 28% at var\(--nox-focus-x/,'spotlight discreto');
