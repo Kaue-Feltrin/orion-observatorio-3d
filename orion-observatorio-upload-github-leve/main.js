@@ -23,8 +23,38 @@ if (!Number.isFinite(perspective)) perspective = 1;
 perspective = THREE.MathUtils.clamp(perspective, .5, 2.5);
 depthInput.value = String(perspective);
 depthValue.textContent = perspective.toFixed(1).replace('.', ',') + '×';
-const debugEnabled = new URLSearchParams(location.search).has('debug');
+const params = new URLSearchParams(location.search);
+const debugEnabled = params.has('debug');
 debug.hidden = !debugEnabled;
+
+// Orçamento de GPU: DPR alto quadruplica os pixels por quadro, e as camadas
+// GLSL cobrem a tela toda. A intensidade da arte permanece; varia o custo.
+const constrainedDevice = mobile || (navigator.deviceMemory !== undefined && navigator.deviceMemory <= 4)
+  || (navigator.hardwareConcurrency !== undefined && navigator.hardwareConcurrency <= 4);
+const qualityOverride=params.get('quality');
+const initialProfile=qualityOverride==='lite'||qualityOverride==='low'?'lite':
+  qualityOverride==='high'?'high':constrainedDevice?'lite':'balanced';
+const qualityOrder=['lite','balanced','high'];
+let qualityMode=initialProfile;
+let performanceAdaptations=0;
+const qualityPresets={
+  lite:{dpr:0.86,maxPixels:1150000,bloomScale:.26,gas:[1,4],fpsCap:40},
+  balanced:{dpr:1,maxPixels:2200000,bloomScale:.34,gas:[0,2,4],fpsCap:60},
+  high:{dpr:1.25,maxPixels:3200000,bloomScale:.42,gas:[0,1,2,3,4],fpsCap:60}
+};
+function gpuBudget(){return qualityPresets[qualityMode];}
+function pixelRatioForViewport(){
+  const q=gpuBudget(),native=Math.max(.5,window.devicePixelRatio||1);
+  return Math.min(native,q.dpr,Math.sqrt(q.maxPixels/Math.max(1,innerWidth*innerHeight)));
+}
+const performanceReadout={get mode(){return qualityMode;},
+  get pixelRatio(){return renderer.getPixelRatio();},
+  get maxPixels(){return gpuBudget().maxPixels;},
+  get visibleGas(){return atmosphere.layers.filter(l=>l.visible).length;},
+  get adaptations(){return performanceAdaptations;},
+  get drawCalls(){return renderer.info.render.calls;},
+  get textures(){return renderer.info.memory.textures;}};
+if(debugEnabled)window.__orionPerformance=performanceReadout;
 
 let noticeTimer = 0;
 function announce(message) {
@@ -44,12 +74,12 @@ window.addEventListener('keydown', e => {
 
 let renderer;
 try {
-  renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true, powerPreference:'high-performance' });
+  renderer = new THREE.WebGLRenderer({ antialias:qualityMode==='high', alpha:true, powerPreference:'high-performance' });
 } catch (e) {
   loading.textContent = 'WebGL indisponível neste navegador. Tente no Chrome com aceleração de hardware ativada.';
   throw e;
 }
-renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+renderer.setPixelRatio(pixelRatioForViewport());
 renderer.setSize(innerWidth, innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -80,7 +110,8 @@ const loader = new THREE.TextureLoader();
 function tex(url) {
   const value = loader.load(url, undefined, undefined, err => console.warn('[nebula]', url, err));
   value.colorSpace = THREE.SRGBColorSpace;
-  value.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 16);
+  // Alta anisotropia não ajuda planos frontais e adiciona trabalho desnecessário.
+  value.anisotropy = 1;
   value.minFilter = THREE.LinearMipmapLinearFilter;
   value.magFilter = THREE.LinearFilter;
   value.generateMipmaps = true;
@@ -105,6 +136,8 @@ function nebulaPlane(file, z, opacity, x, y, factor, order, aspect=2048/768, opt
 }
 const starBackdrop = nebulaPlane('/assets/00-starfield-base.jpg',-700,1,0,0,1.58,-1,2,{name:'00 · Fundo espacial'});
 const farCloud = nebulaPlane('/assets/01-nebula-far.webp',-360,.11,0,-5,1.53,1,3072/1152,{name:'01 · Nebulosa distante'});
+// A camada distante está atrás da fotografia opaca ESO. Oculte seu draw call.
+farCloud.visible=false;
 const mainCloud = nebulaPlane('/assets/nebula-eso-photographic.jpg',-540,1,0,-3,1.31,2,5000/1850,{name:'02 · Via Láctea fotográfica · ESO'});
 const midCloud = nebulaPlane('/assets/03-mid-clouds.webp',-155,.065,-2,-4,1.42,3,3072/1152,{name:'03 · Detalhe da nebulosa',additive:true});
 const nearCloud = nebulaPlane('/assets/04-front-fog.png',-92,.06,9,-10,1.56,4,2560/960,{name:'04 · Névoa frontal',additive:true});
@@ -121,6 +154,13 @@ const respirationState={gas:1,star:1,beacon:0};
 // Five independent GLSL gas planes in front of the ESO image; no photo blur.
 const atmosphere = createCosmicAtmosphere(scene,{reducedMotion:reduceMotion || mobile});
 layers.push(...atmosphere.layers);
+function applyGasBudget(){
+  const enabled=new Set(gpuBudget().gas);
+  atmosphere.layers.forEach((mesh,index)=>{
+    mesh.visible=enabled.has(index);
+  });
+}
+applyGasBudget();
 
 // Scene inspector: isolate layers without editing code or reloading.
 if(debugEnabled){
@@ -405,19 +445,48 @@ function beginTravel(){
 }
 function resize(){
  camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
- renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
- selectiveBloom.resize(innerWidth,innerHeight);
+ renderer.setPixelRatio(pixelRatioForViewport());
+ renderer.setSize(innerWidth,innerHeight);
+ selectiveBloom.resize(innerWidth,innerHeight,gpuBudget().bloomScale);
  for(const mesh of layers){
   const dist=26-mesh.position.z; // escala baseada no ponto de observacao inicial
   const h=2*Math.tan(THREE.MathUtils.degToRad(52/2))*dist*mesh.userData.factor;
   mesh.scale.set(h*mesh.userData.aspect,h,1);
  }
- for(const mat of starMaterials)mat.uniforms.uDpr.value=Math.min(devicePixelRatio||1,2);
+ for(const mat of starMaterials)mat.uniforms.uDpr.value=renderer.getPixelRatio();
 }
 window.addEventListener('resize',resize);resize();
 
+// Quando a GPU ou o renderizador via software não acompanha a tela,
+// reduzir a carga automaticamente em vez de insistir em resolução 4x maior.
+let renderedAt=0;
+let monitorSince=performance.now(),monitorSum=0,monitorFrames=0,slowIntervals=0;
+function adaptPerformance(now,frameMs){
+  if(travelling||document.hidden||reduceMotion)return;
+  monitorSum+=frameMs;monitorFrames++;
+  if(now-monitorSince<3000)return;
+  const average=monitorSum/Math.max(1,monitorFrames);
+  monitorSince=now;monitorSum=0;monitorFrames=0;
+  slowIntervals=average>32?slowIntervals+1:Math.max(0,slowIntervals-1);
+  if(slowIntervals>=2 && qualityMode!=='lite'){
+    qualityMode=qualityOrder[Math.max(0,qualityOrder.indexOf(qualityMode)-1)];
+    performanceAdaptations++;
+    slowIntervals=0;
+    applyGasBudget();resize();
+  }
+}
+document.addEventListener('visibilitychange',()=>{
+  if(!document.hidden){lastFrame=performance.now();monitorSince=lastFrame;monitorSum=0;monitorFrames=0;}
+});
 function tick(now){
  requestAnimationFrame(tick);
+ if(document.hidden)return;
+ const q=gpuBudget();
+ // Não desenhar quadros extras em máquinas limitadas.
+ if(!travelling && renderedAt && now-renderedAt<1000/q.fpsCap)return;
+ const rawMs=renderedAt?Math.min(100,now-renderedAt):16.67;
+ renderedAt=now;
+ adaptPerformance(now,rawMs);
  const delta=Math.min((now-lastFrame)/1000,.05);lastFrame=now;
  const time=now*.001;
  if(!travelling){

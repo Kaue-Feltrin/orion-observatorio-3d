@@ -130,3 +130,34 @@ test('movimento reduzido suspende pulso e mantém seleção acessível',async({p
   expect(result.gas).toBe(1);
   await expect(page.locator('#heraldTarget')).toBeAttached();
 });
+
+test('desempenho limita pixels e draw calls sem apagar a nebulosa ESO',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const p=await page.evaluate(()=>{
+    const q=window.__orionPerformance;
+    const canvas=document.querySelector('#world canvas');
+    return {mode:q.mode,maxPixels:q.maxPixels,pixels:canvas.width*canvas.height,
+      visibleGas:q.visibleGas,photograph:window.__orionRespirationDebug.nebula.material.opacity};
+  });
+  expect(p.mode).toBe('balanced');
+  expect(p.pixels).toBeLessThanOrEqual(p.maxPixels+8000);
+  expect(p.visibleGas).toBe(3);
+  expect(p.photograph).toBe(1);
+});
+
+test('qualidade leve mantém estrela e viagem acessíveis',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?quality=lite&debug=1',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const p=await page.evaluate(()=>({
+    mode:window.__orionPerformance.mode,
+    visibleGas:window.__orionPerformance.visibleGas,
+    pixels:document.querySelector('#world canvas').width*document.querySelector('#world canvas').height,
+    cap:window.__orionPerformance.maxPixels
+  }));
+  expect(p.mode).toBe('lite');
+  expect(p.visibleGas).toBe(2);
+  expect(p.pixels).toBeLessThanOrEqual(p.cap+8000);
+  await page.locator('#heraldTarget').click({force:true});
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+});

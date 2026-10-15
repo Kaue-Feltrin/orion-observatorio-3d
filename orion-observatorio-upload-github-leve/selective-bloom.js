@@ -7,6 +7,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 
 export function createSelectiveBloom(renderer,scene,camera,{initial=.48,reducedMotion=false}={}) {
   const state={intensity:reducedMotion ? .23 : initial};
+  // Bloom roda em resolução separada e baixa; o fundo ESO continua full-res.
   const composer=new EffectComposer(renderer);
   composer.renderToScreen=false;
   composer.setPixelRatio(1);
@@ -25,8 +26,9 @@ export function createSelectiveBloom(renderer,scene,camera,{initial=.48,reducedM
   });
   overlayScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2),overlayMaterial));
 
-  function resize(width,height){
-    composer.setSize(Math.max(64,Math.floor(width*.55)), Math.max(64,Math.floor(height*.55)));
+  function resize(width,height,scale=.34){
+    const ratio=THREE.MathUtils.clamp(scale,.20,.50);
+    composer.setSize(Math.max(64,Math.floor(width*ratio)), Math.max(64,Math.floor(height*ratio)));
   }
   function render(){
     // Camera layer 1 só contém a estrela; fundo e nuvens permanecem totalmente nítidos.

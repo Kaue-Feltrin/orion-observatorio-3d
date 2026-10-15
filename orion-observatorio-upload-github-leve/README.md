@@ -108,3 +108,19 @@ Esta versão parte da **v0.9 já validada no Chromium** — nunca substituir o p
 - `?debug=1` expõe `window.__orionRespirationDebug` para inspeção.
 
 A publicação de prévia ocorre automaticamente ao enviar alterações para a branch `preview/respiracao-cosmica-v091`.
+
+## v0.9.1.1 — Correção de desempenho (prévia de emergência)
+
+A v0.9.1 apresentou travamentos e consumo de memória relatado de quase 4 GB em um navegador real. Ainda não foi possível medir o consumo real de RAM/GPU nesse dispositivo; os fatores abaixo foram identificados por inspeção do código e são mitigados nesta prévia:
+
+- Limite de DPR e de pixels: padrão máximo de 2,2 milhões de pixels em vez de 2× DPR indiscriminado; `?quality=lite` reduz a aproximadamente 1,15 milhão.
+- Bloom isolado em ~34% da largura/altura em vez de 55%; na qualidade leve, 26%.
+- 3 planos GLSL ativos no modo equilibrado; 2 em lite; até 5 em `?quality=high`.
+- Ruído fBm reduzido de 5 para 3 oitavas por chamada, mantendo camadas gasosas vivas.
+- O fundo `farCloud`, oculto atrás da fotografia ESO totalmente opaca, deixa de fazer draw call.
+- Renderização limitada a 40 FPS no modo leve; em segundo plano a renderização fica suspensa.
+- Se a média por dois intervalos de 3s ultrapassar 32 ms/quadro, cai um nível de qualidade automaticamente.
+- `?debug=1` mostra dados via `window.__orionPerformance` (modo, DPR, máximo de pixels, camadas GLSL, chamadas, texturas), **não** o uso real de RAM/VRAM.
+- Nenhuma alteração na fotografia ESO, na câmera, na estrela/click ou em `star-journey.js`.
+
+Teste comparativo: `/?quality=lite`, `/?quality=high`; deixe padrão para qualidade automática.

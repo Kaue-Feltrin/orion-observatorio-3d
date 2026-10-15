@@ -59,3 +59,12 @@ assert.match(main,/const beaconGlow=addGlow/,'estrela principal tem farol de luz
 assert.match(main,/starJourney\.update\(now,delta\)/,'viagem v0.9 preservada');
 assert.match(await read('cosmic-atmosphere.js'),/uniform float uBreath/,'respiração no shader');
 assert.match(await read('cosmic-atmosphere.js'),/uBreath\.value=reducedMotion\?1/,'acessibilidade de movimento reduzido');
+
+// Política de memória e renderização v0.9.1.1
+assert.match(main,/maxPixels:2200000/,'limite de pixels no modo equilibrado');
+assert.match(main,/renderer\.setPixelRatio\(pixelRatioForViewport\(\)\)/,'resolução limitada');
+assert.match(main,/function adaptPerformance/,'perfil adaptável a lentidão');
+assert.match(main,/if\(document\.hidden\)return/,'não desenha em aba oculta');
+assert.match(main,/function applyGasBudget/,'camadas de shader desligáveis');
+assert.match(await read('cosmic-atmosphere.js'),/i < 3/,'ruído mais econômico');
+assert.match(await read('selective-bloom.js'),/scale=\.34/,'bloom de baixo custo');
