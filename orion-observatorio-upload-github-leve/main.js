@@ -55,10 +55,18 @@ container.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(52, innerWidth/innerHeight, 0.2, 900);
-scene.add(camera);
-const origin = new THREE.Vector3(0, 0, 26);
-camera.position.copy(origin);
-camera.lookAt(0, 0, -80);
+// Camera em um rig 3D: translacao, yaw, pitch e roll independentes.
+const rigRoot = new THREE.Group();
+const rigYaw = new THREE.Group();
+const rigPitch = new THREE.Group();
+const rigRoll = new THREE.Group();
+scene.add(rigRoot);
+rigRoot.add(rigYaw);
+rigYaw.add(rigPitch);
+rigPitch.add(rigRoll);
+rigRoll.add(camera);
+rigRoot.position.set(0, 0, 26);
+camera.position.set(0, 0, 0);
 
 // Panorama and foreground cloud fragments occupy actual z positions, rather
 // than being DOM images shifted at different speeds. This makes camera motion
@@ -119,7 +127,7 @@ if(debugEnabled){
 const starMaterials=[];
 const starsGroup=new THREE.Group();
 scene.add(starsGroup);
-function createStars(count,minZ,maxZ,spanX,spanY,sizeRange,tint) {
+function createStars(count,minZ,maxZ,spanX,spanY,sizeRange,tint,opts={}) {
   const positions = new Float32Array(count*3);
   const sizes = new Float32Array(count);
   const phases = new Float32Array(count);
@@ -162,12 +170,20 @@ function createStars(count,minZ,maxZ,spanX,spanY,sizeRange,tint) {
         gl_FragColor=vec4(vColor,alpha);
       }`,
   });
+  material.userData.baseOpacity = opts.opacity ?? 1;
   starMaterials.push(material);
-  starsGroup.add(new THREE.Points(geometry,material));
+  (opts.group || starsGroup).add(new THREE.Points(geometry,material));
 }
 createStars(2700,-540,-270,1100,570,[2.6,6.5],['#e5ebff','#90a9f4','#ffe8d3']);
 createStars(860,-255,-105,510,290,[1.2,4.1],['#e5e7ff','#bfb2ff','#ffe5b0']);
 createStars(360,-95,-15,250,140,[.75,2.6],['#f5f4ff','#b5bdfb','#f9e8ca']);
+// Poeira discreta perto dos olhos: a perspectiva, nao o CSS, gera parallax.
+const foregroundParticles = new THREE.Group();
+scene.add(foregroundParticles);
+createStars(200,-56,-6,128,72,[.65,1.75],['#d6dfff','#d3baff','#f7eacf'],{group:foregroundParticles,opacity:.27});
+if (debugEnabled) {
+  window.__orionDepthDebug = { rigRoot, rigYaw, rigPitch, rigRoll, camera, foregroundParticles, layers };
+}
 
 // Native Three.js sprites anchored at the same point in space.
 const heraldPos = new THREE.Vector3(0, 14, -138);
@@ -293,6 +309,9 @@ const warpMat=new THREE.LineBasicMaterial({vertexColors:true,transparent:true,op
 const warpLines=new THREE.LineSegments(warpGeometry,warpMat);
 warpLines.visible=false;warpLines.renderOrder=18;warpLines.position.set(0,0,-4);camera.add(warpLines);
 function beginTravel(){
+ // Camera deixa o rig preservando seu estado em coordenadas mundiais.
+ camera.updateWorldMatrix(true,false);
+ scene.attach(camera);
  travelling=true;setHover(true);root.classList.add('jumping');
  hint.textContent='Atravessando o véu…';
  jumpStart=performance.now();travelStart=camera.position.clone();
@@ -303,7 +322,7 @@ function resize(){
  camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
  renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
  for(const mesh of layers){
-  const dist=camera.position.z-mesh.position.z;
+  const dist=26-mesh.position.z; // escala baseada no ponto de observacao inicial
   const h=2*Math.tan(THREE.MathUtils.degToRad(52/2))*dist*mesh.userData.factor;
   mesh.scale.set(h*mesh.userData.aspect,h,1);
  }
@@ -321,16 +340,19 @@ function tick(now){
   orbitRing.material.opacity=.12;
   warpLines.visible=false;
   starsGroup.position.z = 0;
-  camera.rotation.z = 0;
   const inertia=reduceMotion?1:1-Math.pow(.0008,delta);
   smooth.x=THREE.MathUtils.lerp(smooth.x,mouse.x,inertia);
   smooth.y=THREE.MathUtils.lerp(smooth.y,mouse.y,inertia);
-  const idle=reduceMotion?0:Math.sin(time*.29)*.28;
-  const intendedX=smooth.x*8.8*perspective;
-  const intendedY=smooth.y*5.9*perspective+idle;
-  camera.position.set(intendedX,intendedY,26);
-  camera.lookAt(-smooth.x*.7, -smooth.y*.35,-120);
-  camera.fov=52;camera.updateProjectionMatrix();
+  const idle=reduceMotion?0:Math.sin(time*.29)*.23;
+  // Translada e rotaciona o olhar com suavizacao; ha profundidade real.
+  rigRoot.position.set(smooth.x*6.8*perspective,
+    smooth.y*4.35*perspective+idle,26+(reduceMotion?0:Math.sin(time*.21)*.25));
+  rigYaw.rotation.y = -smooth.x*.068*perspective;
+  rigPitch.rotation.x = smooth.y*.052*perspective;
+  rigRoll.rotation.z = reduceMotion?0:-smooth.x*.011*perspective+Math.sin(time*.27)*.0015;
+  camera.position.z = cardVisible && !reduceMotion ? -.9 : 0;
+  camera.fov=cardVisible && !reduceMotion?51:52;
+  camera.updateProjectionMatrix();
   mainGlow.material.opacity=.76+(cardVisible?.09:0)+(reduceMotion?0:Math.sin(time*1.6)*.045);
   softHalo.material.opacity=.22+(cardVisible?.09:0);
   coreGlow.material.opacity=.97+(cardVisible?.05:0);
@@ -378,7 +400,8 @@ function tick(now){
   if(t>=1){window.location.href='ficha.html';return;}
  }
  orbitRing.rotation.z=time*.04;
- for(const mat of starMaterials){mat.uniforms.uTime.value=time;mat.uniforms.uOpacity.value=travelling?1.25:1;}
+ for(const mat of starMaterials){mat.uniforms.uTime.value=time;mat.uniforms.uOpacity.value=mat.userData.baseOpacity*(travelling?1.25:1);}
+ camera.updateWorldMatrix(true,false);
  updateTargetScreen();
  renderer.render(scene,camera);
 }
