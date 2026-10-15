@@ -138,3 +138,11 @@ Composição reequilibrada **por subtração**, preservando a fotografia ESO ori
 - O orçamento de memória/renderização e modo adaptativo da v0.9.1.1 continuam ativos.
 
 Para validar a interação, abrir `?debug=1`; `window.__orionCinematicDebug` expõe as sprites e as geometrias de pontos.
+
+## v0.9.2b — Sparse Void (apenas prévia)
+
+Solicitado mais silêncio cósmico: apenas **146 estrelas 3D** (110 distantes, 28 médias, 8 próximas; 0 partículas diante da câmera), contra 1.010 na v0.9.2. Menores e mais discretas, cintilação reduzida. Nenhuma pode nascer dentro da elipse de exclusão projetada em torno do Nox (raios aproximados de 51% da meia-largura e 42% da meia-altura da tela). A área livre se mantém entre as profundidades iniciais.
+
+O fundo estelar com pontinhos pré-impressos e a camada PNG de poeira também são ocultados, eliminando a fonte de ruído **que não obedecia à contagem de partículas procedural**. A fotografia ESO permanece sem qualquer edição de bytes; só a iluminação do material 3D é reduzida para `(.43,.46,.53)`, preservando sua opacidade. As nuvens gasosas sutis e a estrela principal com seus diffraction spikes giratórios continuam funcionando.
+
+**Intocados:** `star-journey.js`, câmera, Raycaster, halo de chegada, limites adaptativos de qualidade, link da ficha, créditos ESO. O teste Playwright mede a contagem de pontos, ausência de partículas no centro e visibilidade das imagens de poeira, além da viagem.
