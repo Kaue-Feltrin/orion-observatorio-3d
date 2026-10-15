@@ -70,3 +70,26 @@ test('cinco planos animados, bloom seletivo e controle de atmosfera',async({page
   expect(state.bloom).toBeGreaterThan(0);expect(state.layerToggles).toBeGreaterThanOrEqual(11);
   expect(state.sliders).toBeGreaterThanOrEqual(4);expect(errors).toEqual([]);
 });
+
+test('estrela distante aponta no mundo, mostra hover e seleciona via raycaster',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1');
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady)).toBe('1');
+  const state=await page.evaluate(()=>({
+    starZ:window.__orionStarDebug.heraldGroup.position.z,
+    backdrop:window.__orionDepthDebug.layers.find(x=>x.userData.layerName.includes('ESO')).position.z,
+    pickLayer:window.__orionStarDebug.heraldPickSprite.layers.mask,
+    starX:document.querySelector('#heraldTarget').getBoundingClientRect().x
+  }));
+  expect(state.starZ).toBeLessThan(-400);
+  expect(state.backdrop).toBeLessThan(state.starZ);
+  expect(state.pickLayer).toBe(4);
+  const target=page.locator('#heraldTarget');
+  const box=await target.boundingBox();
+  await page.mouse.move(box.x+box.width/2,box.y+box.height/2);
+  await expect(page.locator('body')).toHaveClass(/star-aimed/);
+  await expect(page.locator('#heraldCard')).toHaveClass(/visible/);
+  await page.mouse.click(box.x+box.width/2,box.y+box.height/2);
+  await expect.poll(async()=>page.evaluate(()=>window.__orionStarDebug.journey.active)).toBe(true);
+  await expect.poll(async()=>page.evaluate(()=>window.__orionStarDebug.journey.passedLayers),{timeout:3500}).toBeGreaterThanOrEqual(3);
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+});

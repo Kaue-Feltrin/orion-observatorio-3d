@@ -84,3 +84,11 @@ Quando a estrela é selecionada, `scene.attach(camera)` preserva a transformaç�
 - Bloom seletivo real: EffectComposer + UnrealBloomPass somente nos emissores da estrela (layer 1); foto renderizada nítida à parte.
 - Controles em `?debug=1`: densidade, fluxo e bloom, além de perspectiva.
 - A câmera 3D e a coreografia do hiperespaço foram preservadas.
+
+## v0.9 — Estrela Viva + Viagem Real
+
+A estrela passa a ser um astro distante em z=−470, integrado à fotografia ESO reposicionada para z=−540. Uma sprite invisível na camada 2 permite selecionar a estrela por raycasting, com a mesma acessibilidade por HTML/teclado.
+
+A animação nova está isolada em `star-journey.js`. Primeiro concentra o olhar, depois percorre fisicamente as profundidades das nuvens gasosas (a câmera vai de z~26 a z=−417, sempre a mais de 50 unidades da estrela), gerando streaks de partículas que passam pela câmera e suavizando as camadas já atravessadas. Durante o voo, o núcleo mantém um tamanho angular quase constante, e o halo só se expande no final, antes do véu de luz ocupar toda a tela. A fotografia ESO não recebe blur.
+
+`?debug=1` disponibiliza `__orionStarDebug` para testes. A versão de produção da main permanece preservada.

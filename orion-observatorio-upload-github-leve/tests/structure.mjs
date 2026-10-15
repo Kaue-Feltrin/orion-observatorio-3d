@@ -41,3 +41,11 @@ assert.match(await read('cosmic-atmosphere.js'), /uniform float uFlow/);
 assert.match(await read('cosmic-atmosphere.js'), /uniform float uDensity/);
 assert.match(await read('selective-bloom.js'), /UnrealBloomPass/);
 assert.match(await read('selective-bloom.js'), /camera\.layers\.set\(1\)/,'bloom layer isolation');
+
+assert.match(main,/createStarJourney\(/,'journey 3D integrada');
+assert.match(main,/new THREE\.Raycaster\(\)/,'raycaster 3D na estrela');
+assert.match(main,/heraldPickSprite\.layers\.set\(2\)/,'camada dedicada de selecao');
+assert.match(await read('star-journey.js'),/scene\.attach\(camera\)/,'camera viaja no mundo');
+assert.match(await read('star-journey.js'),/THREE\.MathUtils\.lerp\(startPos\.z,endpoint\.z,distancePhase\)/,'camera atravessa profundidades');
+assert.match(await read('star-journey.js'),/gasLayers\.map/,'camadas gasosas com fade de travessia');
+assert.match(await read('star-journey.js'),/onArrive\(\)/,'termina dentro da luz');
