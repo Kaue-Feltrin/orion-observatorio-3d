@@ -264,7 +264,7 @@ nebulaStarHalo.layers.enable(1);
 softHalo.layers.enable(1);
 mainGlow.layers.enable(1);
 coreGlow.layers.enable(1);
-const selectiveBloom=createSelectiveBloom(renderer,scene,camera,{initial:mobile?.28:.48,reducedMotion});
+const selectiveBloom=createSelectiveBloom(renderer,scene,camera,{initial:mobile?.28:.48,reducedMotion:reduceMotion});
 if(debugEnabled) {
   window.__orionBloomSliderFactory('Bloom seletivo',selectiveBloom.state.intensity,0,1.5,.05,selectiveBloom.setIntensity);
   window.__orionAtmosphereDebug={atmosphere,selectiveBloom};
