@@ -29,7 +29,7 @@ assert.match(main, /const rigRoot = new THREE.Group\(\)/, 'camera rig translatio
 assert.match(main, /const rigYaw = new THREE.Group\(\)/, 'camera rig yaw');
 assert.match(main, /const rigPitch = new THREE.Group\(\)/, 'camera rig pitch');
 assert.match(main, /const rigRoll = new THREE.Group\(\)/, 'camera rig roll');
-assert.match(main, /scene\.attach\(camera\)/, 'travel remains in world space');
+assert.match(await read('star-journey.js'), /scene\.attach\(camera\)/, 'travel remains in world space');
 assert.match(main, /const foregroundParticles = new THREE.Group\(\)/, 'near-camera volume');
 assert.match(main, /camera\.updateWorldMatrix\(true,false\)/, 'star projection current pose');
 assert.doesNotMatch(main, /const intendedX=smooth\.x\*8\.8/, 'remove old translation-only camera');
