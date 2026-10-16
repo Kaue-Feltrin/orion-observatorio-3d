@@ -124,3 +124,13 @@ assert.match(main,/'eco-plus':\{dpr:\.60,maxPixels:670000,bloomScale:\.22,gas:\[
 assert.match(main,/qualityOrder=\['eco','eco-plus','lite','balanced','high'\]/,'fallback gradual entre Eco+ e Eco');
 assert.match(await read('nebula-volume.js'),/\['lite','eco','eco-plus'\]/,'Eco+ mantém dois recortes em profundidade');
 assert.match(await read('performance-panel.js'),/Eco\+ sem bloom/,'comparativo entre Eco+ com e sem bloom');
+
+// v0.9.7 — profundidade puramente por transformação, sem shader ou textura extra.
+const volumeScript=await read('nebula-volume.js');
+assert.match(volumeScript,/parallaxOffsetX/,'paralaxe em coordenadas do mundo 3D');
+assert.match(volumeScript,/baseScaleX/,'respiração usa escala cacheada');
+assert.match(volumeScript,/parallaxEnabled=true/,'desligamento controlado de paralaxe A\/B');
+assert.match(main,/nebulaVolume\.update\(time,smooth\.x,smooth\.y,delta\)/,'câmera transmite deslocamento à nebulosa');
+assert.match(main,/parallaxEnabled:depthMotionEnabled/,'A\/B para comparar sem mexer na fotografia');
+assert.match(await read('performance-panel.js'),/Profundidade orgânica/,'painel registra efeito ativo');
+assert.match(await read('nebula-depth-specs.js'),/parallaxX:5\.0/,'véu da frente desloca mais que massa distante');
