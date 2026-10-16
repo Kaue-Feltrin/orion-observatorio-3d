@@ -117,7 +117,13 @@ test('v0.9.15 compara orientação de punhos FPS sem alterar Nox nem universo',a
     data.push(await page.evaluate(()=>{
       const h=window.__orionHandsDebug;
       return{tune:h.state.tune,framing:h.state.framing,meshes:h.meshes.length,
-        wrists:h.driven.slice(0,3).map(d=>d.bone.quaternion.toArray())};
+        wrists:(()=>{
+          const arr=[];
+          h.root.traverse(o=>{
+            if(o.isBone&&/^hand[lr]$/i.test(o.name.replace(/[^a-z0-9]/ig,'')))arr.push(o.quaternion.toArray());
+          });
+          return arr;
+        })()};
     }));
     await page.evaluate(()=>{const panel=document.querySelector('#debug');if(panel)panel.style.display='none';});
     await page.screenshot({path:'test-results/v0915-qa-pose-'+tune+'.png'});
