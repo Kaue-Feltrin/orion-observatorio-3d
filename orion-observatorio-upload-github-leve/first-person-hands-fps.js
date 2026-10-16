@@ -166,15 +166,15 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
           // deformada pelo skeleton e produzia punhos cortados/retilíneos.
           // Sem textura nova nem pass de pós-processamento.
           mat.onBeforeCompile=(shader)=>{
-            shader.vertexShader='varying float vOrionFpsClipY;\\n'+shader.vertexShader;
+            shader.vertexShader='varying float vOrionFpsClipY;\n'+shader.vertexShader;
             shader.vertexShader=shader.vertexShader.replace(
               '#include <project_vertex>',
-              '#include <project_vertex>\\nvOrionFpsClipY = gl_Position.y / gl_Position.w;'
+              '#include <project_vertex>\nvOrionFpsClipY = gl_Position.y / gl_Position.w;'
             );
-            shader.fragmentShader='varying float vOrionFpsClipY;\\n'+shader.fragmentShader;
+            shader.fragmentShader='varying float vOrionFpsClipY;\n'+shader.fragmentShader;
             shader.fragmentShader=shader.fragmentShader.replace(
               '#include <opaque_fragment>',
-              '#include <opaque_fragment>\\n' +
+              '#include <opaque_fragment>\n' +
               'gl_FragColor.a *= smoothstep(-1.08, -0.74, vOrionFpsClipY);'
             );
           };
