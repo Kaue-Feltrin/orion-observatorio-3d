@@ -26,9 +26,20 @@ const ART={
   calm:{wristY:-.88,fadeFrom:.735,fadeTo:.865,wristBend:-.43,wristRoll:-.16,opacity:.96,fadeInvert:true},
   cinematic:{wristY:-.84,fadeFrom:.73,fadeTo:.87,wristBend:-.55,wristRoll:-.35,opacity:.98,fadeInvert:true}
 }[STYLE];
+
+const TUNE=PARAMS.get('fpsTune')||'base';
+const TUNING={
+  base:{bend:ART.wristBend,yaw:0,roll:ART.wristRoll},
+  forward:{bend:-1.12,yaw:.26,roll:-.25},
+  reach:{bend:-1.47,yaw:.40,roll:-.18},
+  inward:{bend:-1.04,yaw:.62,roll:-.48},
+  back:{bend:.70,yaw:.30,roll:-.30}
+};
+const WRIST=TUNING[TUNE]||TUNING.base;
 const wristBendAxis=new THREE.Vector3(1,0,0);
+const wristYawAxis=new THREE.Vector3(0,1,0);
 const wristRollAxis=new THREE.Vector3(0,0,1);
-const wristBendQ=new THREE.Quaternion(),wristRollQ=new THREE.Quaternion();
+const wristBendQ=new THREE.Quaternion(),wristYawQ=new THREE.Quaternion(),wristRollQ=new THREE.Quaternion();
 
 function boneKey(name){return String(name||'').toLowerCase().replace(/[^a-z0-9]/g,'');}
 function findBone(bones,base){
@@ -45,7 +56,7 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
     mode:'fps',enabled:!!enabled,visible:!!enabled,loaded:false,
     motionEnabled:!reducedMotion,loadError:null,pose:CANDIDATE,
     joints:0,fingerJoints:0,triangles:0,textureCount:0,drawSurfaces:0,
-    swayX:0,swayY:0,leftX:0,rightX:0,framing:null,artStyle:STYLE,lightMode:LIGHT_MODE,
+    swayX:0,swayY:0,leftX:0,rightX:0,framing:null,artStyle:STYLE,lightMode:LIGHT_MODE,tune:TUNE,
   };
   if(!enabled)return{state,meshes:[],driven:[],ready:Promise.resolve(false),
     update(){},resize(){},beginTravel(){},dispose(){}};
@@ -241,10 +252,11 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
     }
     // Dedos apontam para dentro da cena. Rotação dos ossos reais dos
     // punhos, em vez de inclinar um plano bidimensional de cartão.
-    wristBendQ.setFromAxisAngle(wristBendAxis,ART.wristBend);
+    wristBendQ.setFromAxisAngle(wristBendAxis,WRIST.bend);
     for(const wrist of poseWrists){
-      wristRollQ.setFromAxisAngle(wristRollAxis,ART.wristRoll*wrist.side);
-      wrist.bone.quaternion.copy(wrist.base).multiply(wristBendQ).multiply(wristRollQ);
+      wristYawQ.setFromAxisAngle(wristYawAxis,WRIST.yaw*wrist.side);
+      wristRollQ.setFromAxisAngle(wristRollAxis,WRIST.roll*wrist.side);
+      wrist.bone.quaternion.copy(wrist.base).multiply(wristBendQ).multiply(wristYawQ).multiply(wristRollQ);
     }
   }
   function resize(){calibrate();}
