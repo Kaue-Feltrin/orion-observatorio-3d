@@ -3,7 +3,7 @@
 import * as THREE from 'three';
 import {nebulaDepthSpecs} from './nebula-depth-specs.js';
 
-export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false,parallaxEnabled=true}={}){
+export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false,parallaxEnabled=true,foregroundEnabled=true}={}){
   const loader=new THREE.TextureLoader();
   const layers=nebulaDepthSpecs.map((spec,i)=>{
     const material=new THREE.MeshBasicMaterial({
@@ -25,7 +25,7 @@ export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false,paralla
     scene.add(mesh);
     return mesh;
   });
-  const state={active:0,loaded:0,parallaxEnabled:parallaxEnabled&&!reducedMotion,parallaxStrength:1};
+  const state={active:0,loaded:0,parallaxEnabled:parallaxEnabled&&!reducedMotion,parallaxStrength:1,foregroundEnabled};
   function setParallaxStrength(value){
     const n=Number(value);
     if(Number.isFinite(n))state.parallaxStrength=THREE.MathUtils.clamp(n,.45,1.6);
@@ -48,8 +48,23 @@ export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false,paralla
   }
   function applyQuality(quality){
     // A versão leve recebe apenas duas massas para limitar RAM/VRAM.
-    const selected=['lite','eco','eco-plus'].includes(quality)?[1,3]:quality==='high'?[0,1,2,3]:[0,1,2];
+    // No Eco+ o terceiro fragmento já existe na preparação ESO, mas antes
+    // ficava oculto. Reprojetá-lo perto da câmera dá profundidade real sem
+    // partículas artificiais, sem alterar a foto e sem novo shader.
+    // A/B: ?foreground=off volta à composição v0.9.8 de dois fragmentos.
+    const selected=quality==='eco-plus'
+      ? (state.foregroundEnabled?[1,2,3]:[1,3])
+      : ['lite','eco'].includes(quality)?[1,3]
+      : quality==='high'?[0,1,2,3]:[0,1,2];
     layers.forEach((mesh,i)=>{
+      const nearVeil=quality==='eco-plus'&&state.foregroundEnabled&&i===2;
+      const spec=mesh.userData.spec;
+      mesh.position.z=nearVeil?-75:spec.z;
+      mesh.userData.opacityFactor=nearVeil?.38:1;
+      mesh.material.opacity=spec.opacity*mesh.userData.opacityFactor;
+      // Transparências precisam compor de trás para frente, mesmo quando
+      // a ordem física de Z muda pela promoção do véu a primeiro plano.
+      mesh.renderOrder=2.11+(425+mesh.position.z)*.0008;
       mesh.visible=selected.includes(i);
       if(mesh.visible)ensureTexture(mesh);
     });
@@ -61,7 +76,7 @@ export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false,paralla
     const photoDistance=26-mainPhoto.position.z;
     for(const mesh of layers){
       const s=mesh.userData.spec;
-      const ratio=(26-s.z)/photoDistance;
+      const ratio=(26-mesh.position.z)/photoDistance;
       mesh.userData.baseX=mainPhoto.position.x+(s.u-.5)*mainPhoto.scale.x*ratio;
       mesh.userData.baseY=mainPhoto.position.y+(.5-s.v)*mainPhoto.scale.y*ratio;
       mesh.position.x=mesh.userData.baseX;
@@ -97,7 +112,7 @@ export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false,paralla
       const breath=reducedMotion?0:.003*Math.sin(time*spec.rate*.67+spec.phase);
       layer.scale.x=data.baseScaleX*(1+breath);
       layer.scale.y=data.baseScaleY*(1+breath*.6);
-      layer.material.opacity=spec.opacity*(1+wave*.085);
+      layer.material.opacity=spec.opacity*data.opacityFactor*(1+wave*.085);
     }
   }
   function dispose(){
