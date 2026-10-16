@@ -14,6 +14,17 @@ const tempQ=new THREE.Quaternion();
 const bendAxis=new THREE.Vector3(1,0,0);
 const PARAMS=new URLSearchParams(window.location.search);
 const CANDIDATE=PARAMS.get('fpsPose')==='open'?'open':'relaxed';
+// Variações visuais sobre o mesmo modelo e a mesma cena, para QA por screenshot.
+const STYLE=['original','calm','cinematic'].includes(PARAMS.get('fpsStyle'))
+  ?PARAMS.get('fpsStyle'):'cinematic';
+const ART={
+  original:{wristY:-.84,fadeFrom:.615,fadeTo:.725,wristBend:0,wristRoll:0,opacity:.94},
+  calm:{wristY:-.91,fadeFrom:.735,fadeTo:.825,wristBend:-.40,wristRoll:.11,opacity:.90},
+  cinematic:{wristY:-.92,fadeFrom:.75,fadeTo:.835,wristBend:-.62,wristRoll:.18,opacity:.90}
+}[STYLE];
+const wristBendAxis=new THREE.Vector3(1,0,0);
+const wristRollAxis=new THREE.Vector3(0,0,1);
+const wristBendQ=new THREE.Quaternion(),wristRollQ=new THREE.Quaternion();
 
 function boneKey(name){return String(name||'').toLowerCase().replace(/[^a-z0-9]/g,'');}
 function findBone(bones,base){
@@ -30,7 +41,7 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
     mode:'fps',enabled:!!enabled,visible:!!enabled,loaded:false,
     motionEnabled:!reducedMotion,loadError:null,pose:CANDIDATE,
     joints:0,fingerJoints:0,triangles:0,textureCount:0,drawSurfaces:0,
-    swayX:0,swayY:0,leftX:0,rightX:0,framing:null,
+    swayX:0,swayY:0,leftX:0,rightX:0,framing:null,artStyle:STYLE,
   };
   if(!enabled)return{state,meshes:[],driven:[],ready:Promise.resolve(false),
     update(){},resize(){},beginTravel(){},dispose(){}};
@@ -40,6 +51,7 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
   camera.add(root);
   const meshes=[],materials=[],geometries=[],driven=[],bones=[];
   const anchors={wristL:null,wristR:null,tipL:null,tipR:null};
+  const poseWrists=[];
   let disposed=false,rootBase=new THREE.Vector3(),scale=1,tilt=0;
   let moveX=0,moveY=0;
   const targetDepth=2.05;
@@ -83,7 +95,7 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
     // O rig original tem L/R invertidos em X em relação à câmera FPS.
     // Espelhamento de um único eixo corrige isso sem inverter a direção dos dedos.
     root.scale.set(-scale,scale,scale);
-    rootBase.set(center.x*scale,-h*.84-center.y*scale,-targetDepth-center.z*scale);
+    rootBase.set(center.x*scale,h*ART.wristY-center.y*scale,-targetDepth-center.z*scale);
     root.position.copy(rootBase);
     root.updateMatrixWorld(true);
     camera.updateMatrixWorld(true);
@@ -120,7 +132,7 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
             const ly=positions.getY(i);
             const nz=normals?.getZ(i)??0,ny=normals?.getY(i)??0;
             const shade=THREE.MathUtils.clamp(.66+.20*nz+.12*ny,.45,.95);
-            const fade=THREE.MathUtils.smoothstep(ly,.615,.725);
+            const fade=THREE.MathUtils.smoothstep(ly,ART.fadeFrom,ART.fadeTo);
             colors[i*4]=shade*.94;colors[i*4+1]=shade*.84;
             colors[i*4+2]=shade*1.05;colors[i*4+3]=fade;
           }
@@ -128,7 +140,7 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
           geometries.push(cloned);
           const mat=new THREE.MeshBasicMaterial({
             color:0xbab2cc,vertexColors:true,
-            transparent:true,opacity:.94,side:THREE.DoubleSide,
+            transparent:true,opacity:ART.opacity,side:THREE.DoubleSide,
             depthTest:false,depthWrite:false,toneMapped:false
           });
           materials.push(mat);
@@ -155,6 +167,8 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
             side:(thumb?thumb[2]:finger[3]).toLowerCase()==='l'?1:-1});
         }
         if(!anchors.wristL||!anchors.wristR)throw new Error('Mãos importadas sem ossos dos punhos');
+        poseWrists.push({bone:anchors.wristL,side:-1,base:anchors.wristL.quaternion.clone()});
+        poseWrists.push({bone:anchors.wristR,side:1,base:anchors.wristR.quaternion.clone()});
         if(driven.length<25)throw new Error('Rig importado não fornece falanges suficientes: '+driven.length);
         root.add(model);
         state.joints=bones.length;state.fingerJoints=driven.length;
@@ -188,6 +202,13 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
       const curl=(poseCurl[state.pose]+flicker)*(d.segment===1?.52:d.segment===2?.71:.36);
       tempQ.setFromAxisAngle(bendAxis,curl*(d.digit==='thumb'?.45:1));
       d.bone.quaternion.copy(d.base).multiply(tempQ);
+    }
+    // Dedos apontam para dentro da cena. Rotação dos ossos reais dos
+    // punhos, em vez de inclinar um plano bidimensional de cartão.
+    wristBendQ.setFromAxisAngle(wristBendAxis,ART.wristBend);
+    for(const wrist of poseWrists){
+      wristRollQ.setFromAxisAngle(wristRollAxis,ART.wristRoll*wrist.side);
+      wrist.bone.quaternion.copy(wrist.base).multiply(wristBendQ).multiply(wristRollQ);
     }
   }
   function resize(){calibrate();}
