@@ -699,10 +699,11 @@ test('v0.9.10 mãos etéreas são viewmodel da câmera e não cobrem o Nox',asyn
     const h=window.__orionHandsDebug;
     const c=window.__orionDepthDebug.camera;
     const a=window.__orionDiagnostic.snapshot();
-    const projection=h.meshes.map(mesh=>{
-      const pos=mesh.getWorldPosition(new THREE.Vector3());
-      return pos.project(c).toArray();
-    });
+    // Local à câmera: projetar sem depender de THREE global no navegador.
+    const halfHeight=Math.tan(c.fov*Math.PI/360)*1.2;
+    const projection=h.meshes.map(mesh=>[
+      mesh.position.x/(halfHeight*c.aspect),mesh.position.y/halfHeight
+    ]);
     return {state:h.state,meshes:h.meshes.length,
       attached:h.meshes.every(m=>m.parent===c),
       sameTexture:h.meshes[0].material.map===h.meshes[1].material.map,
