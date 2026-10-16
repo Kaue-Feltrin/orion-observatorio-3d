@@ -47,7 +47,7 @@ test('mãos David: dedos reais avançam ao centro e respeitam o enquadramento de
     await page.evaluate(()=>{const d=document.querySelector('#debug');if(d)d.style.display='none';});
     await page.screenshot({path:'test-results/fps-natural-'+viewport.width+'x'+viewport.height+'.png'});
     await page.locator('#heraldTarget').click({force:true});
-    await expect(page).toHaveURL(/ficha\\.html/,{timeout:9000});
+    await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
   }
 });
 
