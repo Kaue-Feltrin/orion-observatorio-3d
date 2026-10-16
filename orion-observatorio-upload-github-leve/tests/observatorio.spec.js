@@ -517,7 +517,7 @@ test('v0.9.6 Eco+ sem bloom desliga apenas passes luminosos, mantendo profundida
   expect(p.bloomRest).toBe(false);
   expect(p.gasLayers).toBe(0);
   expect(p.volumeLayers).toBe(2);
-  await expect(page.locator('.perf-comparisons a[aria-current=page]')).toContainText('Eco+ sem bloom');
+  await expect(page.locator('.perf-comparisons[aria-label="Comparação de custos de renderização"] a[aria-current=page]')).toContainText('Eco+ sem bloom');
   await expect(page.locator('#heraldTarget')).toBeAttached();
 });
 
@@ -932,7 +932,10 @@ test('v0.9.13 carrega modelo FPS CC0 local com skeleton e juntas animáveis',asy
   expect(buffer.subarray(0,4).toString()).toBe('glTF');
   await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=rig',{waitUntil:'domcontentloaded'});
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
-  await expect.poll(async()=>page.evaluate(()=>window.__orionHandsDebug.state.loaded),{timeout:18000}).toBe(true);
+  await expect.poll(async()=>page.evaluate(()=>{
+    const state=window.__orionHandsDebug.state;
+    return state.loadError|| (state.loaded?'loaded':'loading');
+  }),{timeout:18000}).toBe('loaded');
   const a=await page.evaluate(()=>{
     const h=window.__orionHandsDebug;
     const s=window.__orionDiagnostic.snapshot();
