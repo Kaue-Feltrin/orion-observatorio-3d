@@ -1,3 +1,13 @@
+## Em andamento — v0.9.15 David Fischer FPS com rig original (16/10/2026)
+
+- **PR #22 draft:** https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/22, branch `preview/fps-hands-david-v0915`, base `preview/viewmodel-pesquisado-v0914`. **Produção `main` intocada.**
+- Pedido do usuário: integrar o **First Person hands rigged de David Fischer** e validar no nível mais alto de qualidade visual, estrutura, FPS e licença. Não continuar usando modelos procedurais/VR reprovados como padrão.
+- Pesquisados padrões de viewmodel em [IRONLINE (Three.js)](https://github.com/cktang88/3d-fps/blob/main/docs/FP_FRAMING.md), [s&box first-person viewmodel](https://sboxguide.dev/guides/first-person-viewmodel), bibliotecas Three.js SkinnedMesh/GLTFLoader, e a implementação do [KineTwin](https://github.com/Pruek-Sang/kinetwin) com essa mesma malha e rig. Seguir `PADRAO-PESQUISA-NOVAS-FUNCIONALIDADES.md` para toda feature.
+- **Arquivo CC BY original de David**, obtido da redistribuição documentada pelo KineTwin (via Sketchfab API em 22/06/2026), blob SHA `110be5c6f6a72c396058be927de5e89f3c7d1bb5`, 387.856 bytes, 63 ossos, 40 falanges e 7.966 triângulos, armazenado localmente. Atribuição completa em `LICENCAS/DAVID-FISCHER-FPS-HANDS-CC-BY-4.0.md`, visível em rodapé `#fpsHandsCredit`.
+- `first-person-hands-fps.js`: viewmodel preso à câmera, usa mesh original, calibra NDC de punhos e dedos, material violeta e alpha por vértice, quaternions de dedos, sway e movimento reduzido. `hands=fps` padrão na prévia desktop; fallback `hands=vr`, `hands=rig`, `hands=3d`, `hands=2d`, `hands=off`.
+- **Diagnóstico inicial passou:** [run 38933712805](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38933712805) 3/3 testes, com punhos NDC x±.54/y≈-.84 e ponta do médio y≈-.446; câmera 1748×864. Captura revelou **pose de "pare", braços longos** apesar de bom rig. Por isso foi adicionada comparação A/B `fpsStyle=original|calm|cinematic`, alterando flexão real dos punhos, fade e posição, com screenshots no CI antes de escolher o padrão.
+- CI completo, screenshot final, FPS/p95 no PC e aprovação visual do usuário **ainda em andamento**; não presumir 60 FPS atuais; não promover produção.
+
 ## Prévia v0.9.15 — integração do modelo profissional de David Fischer (16/10/2026)
 
 - O usuário aprovou a estratégia de migrar para **First Person hands rigged (David Fischer)** e pediu a execução completa após rejeitar visualmente o WRAD e o Wonderland VR. Sem mexer na produção `main`.
