@@ -1,3 +1,12 @@
+## QA final — v0.9.14 (16/10/2026)
+
+- **Correção após comparação visual:** a pose VR "pare" e dobra excessiva ainda estavam feias; nova pose `handPose=relaxed` (padrão) usa inclinação da palma em profundidade (pitch 2,11 rad), dedos curvados moderadamente, sway leve e braço/punho na periferia inferior. `handPose=open` preserva A/B.
+- [Calibração e capturas A/B #38928849138](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38928849138): **4/4 testes aprovados**. Medições 1748×864: punhos ±0,54/y≈-0,936, pontas dos médios ±0,495/y≈-0,635. Nox livre.
+- [CI completo #38928849187](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38928849187): **48/48 testes Playwright aprovados, sem flaky**, código/estrutura e compilação aprovados. [Cloudflare preview](https://preview-viewmodel-pesquisado.orion-observatorio-3d.pages.dev/?quality=eco-plus&hands=vr) confirmado no commit `e4ec6d2`.
+- O modelo VR MIT do Wonderland Engine é **provisório**; ergonomia está melhor, mas acabamento continua distante do visual de Clove e precisa de aprovação. Modelo FPS de David Fischer (Sketchfab CC BY 8,2k tri, Blender/FBX) é candidato **não incorporado**; confirmar licença e fonte original antes de qualquer download/conversão.
+- **Regra definitiva do projeto:** antes de introduzir qualquer recurso novo, estudar pelo menos duas implementações similares que já funcionam, fundamentar comparação, plano de custos e QA por screenshot; ver `PADRAO-PESQUISA-NOVAS-FUNCIONALIDADES.md`. Não promover para produção `main` sem autorização do usuário.
+- Pendente somente decisão de arte com o usuário e medição FPS/p95 no seu hardware (60 FPS históricos não atribuídos à revisão).
+
 # Continuidade do Observatório 3D
 
 Este é o ponto de entrada do desenvolvimento quando o histórico do chat do ChatGPT ficar grande ou for necessário abrir uma conversa nova.
