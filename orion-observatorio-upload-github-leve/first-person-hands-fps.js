@@ -32,7 +32,11 @@ const ART={
 
 const TUNE=PARAMS.get('fpsTune')||'base';
 const TUNING={
-  base:{bend:ART.wristBend,yaw:0,roll:ART.wristRoll},
+  // A captura A/B de ‘back’ foi a primeira em que a palma ficou 3/4,
+  // dedos diagonais e braços discretos. Promover essa pose verificada para
+  // natural, mantendo todos os outros modos antigos para comparação.
+  base:STYLE==='natural'?{bend:.70,yaw:.30,roll:-.30}:
+    {bend:ART.wristBend,yaw:0,roll:ART.wristRoll},
   forward:{bend:-1.12,yaw:.26,roll:-.25},
   reach:{bend:-1.47,yaw:.40,roll:-.18},
   inward:{bend:-1.04,yaw:.62,roll:-.48},
@@ -116,6 +120,16 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
   function aimNaturalPose(){
     if(STYLE!=='natural'||TUNE!=='base')return;
     camera.updateMatrixWorld(true);
+    // Não corrigir automaticamente uma pose que já cai na faixa natural.
+    // Isso evita transformar mãos diagonalmente relaxadas em "garras".
+    root.updateMatrixWorld(true);
+    const screen=b=>b.getWorldPosition(new THREE.Vector3()).project(camera);
+    const wl=screen(anchors.wristL),wr=screen(anchors.wristR);
+    const tl=screen(anchors.tipL),tr=screen(anchors.tipR);
+    if(tl.x-wl.x>.09&&tl.x-wl.x<.23&&
+       wr.x-tr.x>.09&&wr.x-tr.x<.23&&
+       tl.y-wl.y>.25&&tl.y-wl.y<.42&&
+       tr.y-wr.y>.25&&tr.y-wr.y<.42)return;
     const cameraQuat=camera.getWorldQuaternion(new THREE.Quaternion());
     const viewAxis=new THREE.Vector3(0,0,1).applyQuaternion(cameraQuat);
     const rightAxis=new THREE.Vector3(1,0,0).applyQuaternion(cameraQuat);
