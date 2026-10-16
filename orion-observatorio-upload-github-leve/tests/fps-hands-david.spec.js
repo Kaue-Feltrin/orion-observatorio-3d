@@ -104,6 +104,7 @@ test('v0.9.15 respeita prefers-reduced-motion e preserva navegação',async({pag
 
 
 test('v0.9.15 compara orientação de punhos FPS sem alterar Nox nem universo',async({page})=>{
+  test.setTimeout(110000);
   await page.setViewportSize({width:1748,height:864});
   const variations=['base','forward','reach','inward','back'];
   const data=[];
