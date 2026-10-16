@@ -35,19 +35,23 @@ debug.hidden = !debugEnabled;
 const constrainedDevice = mobile || (navigator.deviceMemory !== undefined && navigator.deviceMemory <= 4)
   || (navigator.hardwareConcurrency !== undefined && navigator.hardwareConcurrency <= 4);
 const qualityOverride=params.get('quality');
-const manualQuality=['eco','lite','low','balanced','high'].includes(qualityOverride);
+const manualQuality=['eco','eco-plus','lite','low','balanced','high'].includes(qualityOverride);
 const effectsMode=['no-bloom','no-gas'].includes(params.get('effects'))?params.get('effects'):'normal';
 const initialProfile=qualityOverride==='eco'?'eco':
+  qualityOverride==='eco-plus'?'eco-plus':
   qualityOverride==='lite'||qualityOverride==='low'?'lite':
   qualityOverride==='high'?'high':
   qualityOverride==='balanced'?'balanced':constrainedDevice?'lite':'balanced';
-const qualityOrder=['eco','lite','balanced','high'];
+const qualityOrder=['eco','eco-plus','lite','balanced','high'];
 let qualityMode=initialProfile;
 let performanceAdaptations=0;
 const qualityPresets={
   // Eco mantém a ESO e dois recortes em profundidade, mas reduz pixels e
   // elimina o fBm de tela cheia/bloom durante o repouso.
   eco:{dpr:.53,maxPixels:500000,bloomScale:.20,gas:[],fpsCap:60},
+  // Intermediário: 32% mais pixels que o Eco, gás procedural desativado,
+  // bloom preservado. Isola custo de resolução no comparativo A/B.
+  'eco-plus':{dpr:.60,maxPixels:670000,bloomScale:.22,gas:[],fpsCap:60},
   lite:{dpr:.75,maxPixels:950000,bloomScale:.24,gas:[2],fpsCap:60},
   balanced:{dpr:1,maxPixels:2200000,bloomScale:.34,gas:[0,2],fpsCap:60},
   high:{dpr:1.25,maxPixels:3200000,bloomScale:.42,gas:[0,1,2,3,4],fpsCap:60}
@@ -585,7 +589,8 @@ function adaptPerformance(now,frameMs){
   monitorSince=now;monitorSum=0;monitorFrames=0;
   slowIntervals=average>32?slowIntervals+1:Math.max(0,slowIntervals-1);
   // Qualidade explicitamente escolhida permanece estável para comparar modos.
-  // No automático, duas janelas lentas fazem o fallback lite -> eco.
+  // No automático, degradar em etapas: lite -> eco-plus -> eco,
+  // sem remover de uma vez o bloom da estrela. Perfis manuais ficam estáveis.
   if(slowIntervals>=2 && !manualQuality && qualityMode!=='eco'){
     qualityMode=qualityOrder[Math.max(0,qualityOrder.indexOf(qualityMode)-1)];
     performanceAdaptations++;
