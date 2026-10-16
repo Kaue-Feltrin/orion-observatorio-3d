@@ -279,3 +279,16 @@ Após a v0.9.9, o usuário validou 60 FPS com três recortes de nebulosa e pediu
 - Nenhuma mudança na foto original ESO/S. Brunier, seus créditos, no Nox, nas 146 estrelas procedurais ou nos 3 recortes já aprovados no Eco+.
 
 Não tratar como direção de arte definitiva nem mesclar em produção sem aprovação explícita.
+
+## v0.9.13 — WRAD ARMS: asset gratuito com rig animável (prévia)
+
+Substituir o modelo artesanal que o usuário considerou feio por **WRAD ARMS**, modelado por wriks, **CC0 1.0** (uso/modificação comercial permitidos), com as duas mãos e braços rigados no mesmo GLB de ~456 KB. A origem, licença e assinatura SHA constam de [ASSETS-TERCEIROS-MAOS.md](../ASSETS-TERCEIROS-MAOS.md).
+
+- `?quality=eco-plus&hands=rig` (padrão em desktop): GLB carregado do próprio Cloudflare Pages (`public/models/wrad-arms.glb`), rig com 50 ossos, 30 falanges dos dez dedos e **animação leve original** criada com quaternions a cada frame. Um SkinnedMesh, uma textura embutida no GLB; pintura violeta feita no material básico para não exigir luzes extras.
+- `?quality=eco-plus&hands=3d`: geometria artesanal da v0.9.12, mantida para A/B.
+- `?quality=eco-plus&hands=2d`: arte plana da v0.9.11.
+- `?quality=eco-plus&hands=off`: remove mãos e seu carregamento; touch off por padrão, com opt-in.
+- O painel `?debug=1` informa se o GLB carregou, ossos reconhecidos, juntas de dedos, modelo selecionado, draw calls e texturas; nenhuma telemetria remota.
+- Preservados Nox, 3 recortes da foto ESO/S. Brunier, bloom, 146 estrelas adicionais, viagem, performance adaptativa, a interface e produção `main`.
+- Os dedos podem ser animados para abrir/fechar/gesticular posteriormente; nesta primeira revisão usam **idle discreto**. O arquivo original não inclui clipes de animação. É estética retro leve, com possibilidade de trocar por um modelo anatômico realista numa etapa posterior.
+- Aceite: CI + screenshot e sobretudo medição de FPS/p95 e avaliação de modelo real no PC. 60 FPS da v0.9.9 são apenas referência.

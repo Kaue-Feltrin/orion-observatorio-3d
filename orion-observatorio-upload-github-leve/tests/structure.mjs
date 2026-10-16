@@ -155,7 +155,7 @@ assert.match(main,/import \{ createFirstPersonHands \} from '.\/first-person-han
 assert.match(main,/firstPersonHands\.beginTravel\(\)/,'mãos desaparecem antes da viagem');
 assert.match(main,/firstPersonHands\.resize\(\)/,'mãos respondem ao viewport');
 assert.match(main,/firstPersonHands\.update\(time,delta,mouse\.x,mouse\.y\)/,'sway das mãos em camera local');
-assert.match(main,/const handsEnabled=\['on','3d','2d'\]\.includes\(handsSetting\)/,'modos A/B 3D, 2D e opt-in no mobile');
+assert.match(main,/const handsEnabled=\['on','rig','3d','2d'\]\.includes\(handsSetting\)/,'modos A/B rig, 3D, 2D e opt-in no mobile');
 assert.match(hands,/new THREE\.CanvasTexture\(canvas\)/,'um asset CanvasTexture gerado uma única vez');
 assert.match(hands,/const left=new THREE\.Mesh\(geometry,material\)/,'mão esquerda compartilha material');
 assert.match(hands,/const right=new THREE\.Mesh\(geometry,material\)/,'mão direita compartilha material');
@@ -178,7 +178,7 @@ assert.match(handsV0911,/Math\.sin\(time\*\.81\)\*\.006/,'respiração leve');
 // v0.9.12: geometria real por mão e modos 3D/2D sem afetar fotografia ESO.
 const hands3d=await read('first-person-hands-3d.js');
 assert.match(main,/createFirstPersonHands3D/,'novo viewmodel 3D integrado');
-assert.match(main,/handsSetting==='2d'\?'2d':'3d'/,'modo 3D padrão e modo legado disponível');
+assert.match(main,/handsSetting==='3d'\?'3d':'rig'/,'rig gratuito padrão e versões anteriores disponíveis');
 assert.match(hands3d,/mergeGeometries\(parts,false\)/,'uma malha por mão via mesh merging');
 assert.match(hands3d,/vertexColors:true/,'cores por vértice sem nova textura');
 assert.match(hands3d,/fingerCount=5/,'cinco dedos distintos por mão');
@@ -190,3 +190,16 @@ assert.match(hands3d,/camera\.add\(left,right\)/,'mãos em primeira pessoa presa
 assert.match(hands3d,/hand\.renderOrder=30/,'renderizar mãos por cima do panorama');
 assert.match(hands3d,/hand\.visible=false/,'mãos ocultas durante viagem');
 assert.match(await read('performance-panel.js'),/triângulos por mão/,'diagnóstico expõe peso gráfico 3D');
+
+// v0.9.13 · GLB CC0 original no repositório, sem chamadas a assets externos.
+const rig=await read('first-person-hands-rig.js');
+assert.match(main,/createRiggedFirstPersonHands/,'mãos rigadas integradas à câmera');
+assert.match(rig,/const ASSET_URL='\/models\/wrad-arms\.glb'/,'asset local servido pela Cloudflare');
+assert.match(rig,/new GLTFLoader\(\)\.load/,'carregador local Three.js');
+assert.match(rig,/FINGER_NAMES=/,'cinco dedos com juntas identificáveis');
+assert.match(rig,/obj\.isBone/,'juntas reais disponíveis');
+assert.match(rig,/d\.bone\.quaternion\.copy\(d\.base\)\.multiply\(_rotation\)/,'animação de dedos por quaternion');
+assert.match(rig,/rigRoot\.visible=false/,'rig oculto durante viagem');
+assert.match(rig,/depthTest:false,depthWrite:false/,'mãos não atrapalham cena e Nox');
+assert.match(rig,/owner\.disposed=true/,'dispose seguro');
+assert.match(await read('performance-panel.js'),/juntas de dedos/,'contadores do rig no debug');

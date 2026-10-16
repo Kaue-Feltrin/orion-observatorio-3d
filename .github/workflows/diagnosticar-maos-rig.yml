@@ -1,0 +1,28 @@
+name: Diagnosticar rig CC0 (prévia)
+
+on:
+  pull_request:
+    branches: [preview/maos-3d-v0912]
+  push:
+    branches: [preview/maos-rig-gratuito-v0913]
+
+permissions:
+  contents: read
+
+jobs:
+  rig-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    defaults:
+      run:
+        working-directory: orion-observatorio-upload-github-leve
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-audit --no-fund
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - name: Validar carga GLB e esqueleto, sem executar bateria completa
+        run: npx playwright test --grep "v0.9.13 carrega modelo" --workers=1 --retries=0 --reporter=line
