@@ -155,14 +155,14 @@ export function createFirstPersonHands(camera,{enabled=true,reducedMotion=false}
   const texture=createHandTexture();
   const geometry=new THREE.PlaneGeometry(1,1);
   const material=new THREE.MeshBasicMaterial({
-    map:texture,transparent:true,opacity:.67,
+    map:texture,transparent:true,opacity:.78,
     depthTest:false,depthWrite:false,
     toneMapped:false,side:THREE.DoubleSide
   });
   const left=new THREE.Mesh(geometry,material);
   const right=new THREE.Mesh(geometry,material);
-  left.name='Mão etérea esquerda · protótipo';
-  right.name='Mão etérea direita · protótipo';
+  left.name='Mão etérea esquerda · pose de primeira pessoa v0.9.11';
+  right.name='Mão etérea direita · pose de primeira pessoa v0.9.11';
   // Mãos ficam fora do pós-processamento da estrela (layer 1) e não
   // interceptam o Raycaster que seleciona Nox.
   left.layers.set(0);right.layers.set(0);
@@ -170,18 +170,25 @@ export function createFirstPersonHands(camera,{enabled=true,reducedMotion=false}
   left.frustumCulled=false;right.frustumCulled=false;
   camera.add(left,right);
   const meshes=[left,right];
-  const z=-1.20;
-  const anchors={left:{x:-.82,y:-.83},right:{x:.82,y:-.83}};
+  // Percentuais relativos ao frustum da câmera: não escalam com pixels CSS.
+  // Assimetria de pose e profundidade vende a sensação de um corpo presente.
+  const poses={
+    left:{z:-1.10,x:-.70,y:-.72,size:1.10,roll:-.20,pitch:.055,yaw:.025,sway:.86},
+    right:{z:-1.00,x:.68,y:-.66,size:1.17,roll:.18,pitch:.035,yaw:-.025,sway:1.0}
+  };
   let targetX=0,targetY=0;
-  function layout(){
+  function extent(z){
     const hh=Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*Math.abs(z);
-    const hw=hh*camera.aspect;
-    const height=hh*.88;
-    const width=height*(320/512);
-    left.position.set(-hw*.82,-hh*.83,z);
-    right.position.set(hw*.82,-hh*.83,z);
-    left.scale.set(width,height,1);
-    right.scale.set(-width,height,1);
+    return{hh,hw:hh*camera.aspect};
+  }
+  function layout(){
+    for(const [mesh,pose,mirror] of [[left,poses.left,1],[right,poses.right,-1]]){
+      const {hh,hw}=extent(pose.z);
+      const height=hh*pose.size;
+      mesh.scale.set(mirror*height*(320/512),height,1);
+      mesh.position.set(hw*pose.x,hh*pose.y,pose.z);
+      mesh.rotation.set(pose.pitch,pose.yaw,pose.roll);
+    }
     state.leftX=left.position.x;
     state.rightX=right.position.x;
   }
@@ -196,16 +203,18 @@ export function createFirstPersonHands(camera,{enabled=true,reducedMotion=false}
     targetY+=(y-targetY)*factor;
     state.swayX=state.motionEnabled?targetX:0;
     state.swayY=state.motionEnabled?targetY:0;
-    const hh=Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*Math.abs(z);
-    const hw=hh*camera.aspect;
-    const breath=state.motionEnabled?Math.sin(time*.83)*.010:0;
-    // Menos de 3% da largura visível de deslocamento.
-    const swayX=state.swayX*hw*.023;
-    const swayY=state.swayY*hh*.028;
-    left.position.set(-hw*.82-swayX,-hh*.83-swayY+breath*hh,z);
-    right.position.set(hw*.82-swayX,-hh*.83-swayY+breath*hh*.94,z);
-    left.rotation.z=state.motionEnabled?-.075+state.swayX*.025:-.075;
-    right.rotation.z=state.motionEnabled?.075+state.swayX*.025:.075;
+    const breath=state.motionEnabled?Math.sin(time*.81)*.006:0;
+    for(const [mesh,pose,mult] of [[left,poses.left,.90],[right,poses.right,1]]){
+      const {hh,hw}=extent(pose.z);
+      const swayX=state.swayX*hw*.029*pose.sway;
+      const swayY=state.swayY*hh*.024*pose.sway;
+      mesh.position.set(hw*pose.x-swayX,hh*pose.y-swayY+breath*hh*mult,pose.z);
+      mesh.rotation.set(
+        pose.pitch+(state.motionEnabled?state.swayY*.012:0),
+        pose.yaw,
+        pose.roll+(state.motionEnabled?state.swayX*.020*pose.sway:0)
+      );
+    }
     state.leftX=left.position.x;
     state.rightX=right.position.x;
   }
