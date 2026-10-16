@@ -20,6 +20,8 @@ async function measureVisibleHands(png){
 }
 
 test('v0.9.15 comparar enquadramentos com antebraços atenuados e dedos 3D',async({page})=>{
+  // 3 reinicializações WebGL + screenshots: SwiftShader em CI leva mais de 25s.
+  test.setTimeout(150000);
   await page.setViewportSize({width:1748,height:864});
   const examples=[];
   for(const style of ['original','calm','cinematic']){
@@ -64,6 +66,8 @@ test('v0.9.15 comparar enquadramentos com antebraços atenuados e dedos 3D',asyn
 
 
 test('v0.9.15 comparar material iluminado e básico, sem tocar no Nox',async({page})=>{
+  // 2 reinicializações WebGL completas; manter timeout por carregamento.
+  test.setTimeout(100000);
   await page.setViewportSize({width:1748,height:864});
   const examples=[];
   for(const light of ['basic','lit']){
