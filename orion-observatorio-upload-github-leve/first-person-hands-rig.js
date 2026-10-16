@@ -87,8 +87,8 @@ export function createRiggedFirstPersonHands(camera,{enabled=true,reducedMotion=
     for(const [name,bone] of joints){
       // Cada falange tem seu próprio transform, permitindo animação de dedo
       // e futura abertura, fechamento, apontar e interação com Nox.
-      if(!/^finger_(index|middle|ring|pinky|thumb)[123][._][lr]$/.test(name))continue;
-      const match=/^finger_([a-z]+)([123])[._]([lr])$/.exec(name);
+      if(!/^finger_(index|middle|ring|pinky|thumb)[123][._]?[lr]$/.test(name))continue;
+      const match=/^finger_([a-z]+)([123])[._]?([lr])$/.exec(name);
       const ordinal=Number(match[2]),side=match[3];
       driven.push({
         name,bone,base:bone.quaternion.clone(),
@@ -97,8 +97,7 @@ export function createRiggedFirstPersonHands(camera,{enabled=true,reducedMotion=
         offset: FINGER_NAMES.indexOf('finger_'+match[1])*.73,
       });
     }
-    state.detectedBoneNames=[...joints.keys()];
-    if(driven.length<20)throw new Error('Rig incompleto: '+driven.length+' falanges de '+joints.size+' ossos. Exemplos: '+[...joints.keys()].slice(0,38).join(', '));
+    if(driven.length<30)throw new Error('Rig incompleto: '+driven.length+' falanges de '+joints.size+' ossos');
     state.joints=joints.size;
     state.fingerJoints=driven.length;
     state.textureCount=ownedTextures.length;
