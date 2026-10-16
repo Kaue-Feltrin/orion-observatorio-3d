@@ -155,7 +155,7 @@ assert.match(main,/import \{ createFirstPersonHands \} from '.\/first-person-han
 assert.match(main,/firstPersonHands\.beginTravel\(\)/,'mãos desaparecem antes da viagem');
 assert.match(main,/firstPersonHands\.resize\(\)/,'mãos respondem ao viewport');
 assert.match(main,/firstPersonHands\.update\(time,delta,mouse\.x,mouse\.y\)/,'sway das mãos em camera local');
-assert.match(main,/const handsEnabled=\['on','rig','3d','2d'\]\.includes\(handsSetting\)/,'modos A/B rig, 3D, 2D e opt-in no mobile');
+assert.match(main,/const handsEnabled=\['on','vr','rig','3d','2d'\]\.includes\(handsSetting\)/,'modos A/B VR, rig, 3D, 2D e opt-in no mobile');
 assert.match(hands,/new THREE\.CanvasTexture\(canvas\)/,'um asset CanvasTexture gerado uma única vez');
 assert.match(hands,/const left=new THREE\.Mesh\(geometry,material\)/,'mão esquerda compartilha material');
 assert.match(hands,/const right=new THREE\.Mesh\(geometry,material\)/,'mão direita compartilha material');
@@ -178,7 +178,7 @@ assert.match(handsV0911,/Math\.sin\(time\*\.81\)\*\.006/,'respiração leve');
 // v0.9.12: geometria real por mão e modos 3D/2D sem afetar fotografia ESO.
 const hands3d=await read('first-person-hands-3d.js');
 assert.match(main,/createFirstPersonHands3D/,'novo viewmodel 3D integrado');
-assert.match(main,/handsSetting==='3d'\?'3d':'rig'/,'rig gratuito padrão e versões anteriores disponíveis');
+assert.match(main,/handsSetting==='rig'\?'rig':'vr'/,'mãos anatômicas são o padrão experimental');
 assert.match(hands3d,/mergeGeometries\(parts,false\)/,'uma malha por mão via mesh merging');
 assert.match(hands3d,/vertexColors:true/,'cores por vértice sem nova textura');
 assert.match(hands3d,/fingerCount=5/,'cinco dedos distintos por mão');
@@ -203,3 +203,15 @@ assert.match(rig,/rigRoot\.visible=false/,'rig oculto durante viagem');
 assert.match(rig,/depthTest:false,depthWrite:false/,'mãos não atrapalham cena e Nox');
 assert.match(rig,/owner\.disposed=true/,'dispose seguro');
 assert.match(await read('performance-panel.js'),/juntas de dedos/,'contadores do rig no debug');
+
+// v0.9.14 — pesquisa antes de features, mão VR separada sem braços excessivos.
+const vr=await read('first-person-hands-vr.js');
+assert.match(main,/createVrFirstPersonHands/,'modelo anatômico VR usado em nova prévia');
+assert.match(vr,/const URLS=\['\/models\/wonderland-left\.glb','\/models\/wonderland-right\.glb'\]/,'dois GLBs locais de mãos anatômicas');
+assert.match(vr,/FINGER_RE=/,'ossos da mão mapeados por nome');
+assert.match(vr,/glbs\.forEach\(install\)/,'as duas mãos carregam independentemente');
+assert.match(vr,/new THREE\.MeshBasicMaterial/,'material leve sem iluminação nova');
+assert.match(vr,/camera\.add\(root\)/,'viewmodel preso à câmera');
+assert.match(vr,/new THREE\.Float32BufferAttribute\(rgba,4\)/,'fade no pulso e sombreado autoral');
+assert.match(await read('first-person-hands-rig.js'),/wristCoordinates/,'WRAD calibra pulso, não bounding box da cena');
+assert.match(await read('first-person-hands-rig.js'),/FRAMING\.pitch/,'orientação corrigida após referência de FPS');

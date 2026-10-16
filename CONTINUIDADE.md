@@ -1,9 +1,29 @@
+## QA final — v0.9.14 (16/10/2026)
+
+- **Correção após comparação visual:** a pose VR "pare" e dobra excessiva ainda estavam feias; nova pose `handPose=relaxed` (padrão) usa inclinação da palma em profundidade (pitch 2,11 rad), dedos curvados moderadamente, sway leve e braço/punho na periferia inferior. `handPose=open` preserva A/B.
+- [Calibração e capturas A/B #38928849138](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38928849138): **4/4 testes aprovados**. Medições 1748×864: punhos ±0,54/y≈-0,936, pontas dos médios ±0,495/y≈-0,635. Nox livre.
+- [CI completo #38928849187](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38928849187): **48/48 testes Playwright aprovados, sem flaky**, código/estrutura e compilação aprovados. [Cloudflare preview](https://preview-viewmodel-pesquisado.orion-observatorio-3d.pages.dev/?quality=eco-plus&hands=vr) confirmado no commit `e4ec6d2`.
+- O modelo VR MIT do Wonderland Engine é **provisório**; ergonomia está melhor, mas acabamento continua distante do visual de Clove e precisa de aprovação. Modelo FPS de David Fischer (Sketchfab CC BY 8,2k tri, Blender/FBX) é candidato **não incorporado**; confirmar licença e fonte original antes de qualquer download/conversão.
+- **Regra definitiva do projeto:** antes de introduzir qualquer recurso novo, estudar pelo menos duas implementações similares que já funcionam, fundamentar comparação, plano de custos e QA por screenshot; ver `PADRAO-PESQUISA-NOVAS-FUNCIONALIDADES.md`. Não promover para produção `main` sem autorização do usuário.
+- Pendente somente decisão de arte com o usuário e medição FPS/p95 no seu hardware (60 FPS históricos não atribuídos à revisão).
+
 # Continuidade do Observatório 3D
 
 Este é o ponto de entrada do desenvolvimento quando o histórico do chat do ChatGPT ficar grande ou for necessário abrir uma conversa nova.
 
 **Fonte de verdade:** o código e o histórico dos PRs do GitHub. Para decisões criativas, problemas e próximos passos, consultar a [issue permanente #10](https://github.com/Kaue-Feltrin/orion-observatorio-3d/issues/10). **Não presumir que este arquivo ou o chat substitui a inspeção do repositório.**
 
+
+## Processo revisado — pesquisa obrigatória e enquadramento real FPS (16/10/2026)
+
+- Instrução contínua do usuário: **sempre pesquisar sistemas similares que já funcionam antes de implementar qualquer recurso novo**. Seguir `PADRAO-PESQUISA-NOVAS-FUNCIONALIDADES.md` com no mínimo duas referências técnicas reais, licenças, viabilidade, plano de QA visual, métricas e prévia separada. **Não considerar CI verde como aprovação estética**.
+- Captura do usuário em v0.9.13: dois antebraços enormes rosa apontando para dentro; mãos e dedos ausentes. O WRAD ARMS é explicitamente PS1/retro e **não é estética final adequada**.
+- Referências pesquisadas: [IRONLINE/Three.js `FP_FRAMING.md`](https://github.com/cktang88/3d-fps/blob/main/docs/FP_FRAMING.md), que mede viewmodel por coordenadas de mão e câmera vFOV 52°, e [s&box Field Guide — FP Viewmodel](https://sboxguide.dev/guides/first-person-viewmodel), que separa pose de viewmodel da cena.
+- [PR #21 draft](https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/21), branch `preview/viewmodel-pesquisado-v0914`, baseada na v0.9.13, produção `main` preservada.
+- Diagnóstico mediu **punhos NDC ±0,572, y=-1,106 e dedos y≈-1,16** (abaixo da tela); ombros centrais em y=-0,53, precisamente a inversão mostrada na foto.
+- Corrigido: giro X=π do rig em espaço da câmera, enquadramento **pelos ossos dos punhos** em vez de pelo `Box3` global, vFOV 52° preservado. Primeira calibração passou: punhos x±.54/y=-.70, dedo médio x±.66/y=-.57, ombros y=-1.10 (fora da tela). Ajuste fino em andamento: punhos x±.47/y≈-.84; fade progressivo da malha dos ombros/antebraços por vertex alpha, para exibir mãos ao invés de braços intermináveis.
+- Captura e teste `tests/framing-probe.spec.js` exigem punhos/dedos **dentro** do quadro, ombros **fora**, mais screenshot sem painel. A/B mantém `hands=rig`, `hands=3d`, `hands=2d`, `hands=off`.
+- Pendente: CI e captura final, FPS/p95 no PC do usuário, e principalmente **seleção de modelo mais refinado, não retro**. Alternativas verificadas incluem [Rigged FPS Arms RafaP, CC BY](https://sketchfab.com/3d-models/rigged-fps-arms-6b1cde4746774b7893513f84cac7a866), com requisitos de licença/arquivo. Não promover modelo WRAD a definitivo sem feedback visual.
 
 ## Nova prévia — v0.9.13 Modelo CC0 rigado com dedos animáveis (16/10/2026)
 

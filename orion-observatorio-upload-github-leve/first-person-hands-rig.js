@@ -33,20 +33,52 @@ export function createRiggedFirstPersonHands(camera,{enabled=true,reducedMotion=
   const owner={disposed:false};
   let currentX=0,currentY=0,baseY=-.4;
   let restScale=1;
+  let jointsRef=null;
+  let wristCoordinates=null;
+  // Viewmodel calibrado segundo os landmarks de um FPS real, NÃO pelo
+  // bounding-box dos braços (que escondia os dedos abaixo da tela).
+  // WRAD foi exportado com os braços invertidos para nosso espaço da câmera:
+  // rotação de 180° no eixo X coloca os punhos acima dos ombros.
+  const FRAMING={depth:2.50,wristNdcX:.47,wristNdcY:-.84,pitch:Math.PI};
   function align(){
-    if(!state.loaded)return;
-    const depth=1.35;
-    const hh=Math.tan(THREE.MathUtils.degToRad(camera.fov*.5))*depth;
-    const hw=hh*camera.aspect;
-    // Enquadre conservador: manter espaço vazio no centro superior.
-    const allowedWidth=Math.min(hw*1.75,hh*3.70);
-    restScale=allowedWidth/(state.modelBounds?.width||11);
+    if(!state.loaded||!wristCoordinates)return;
+    const t=Math.tan(THREE.MathUtils.degToRad(camera.fov*.5));
+    const tanX=t*camera.aspect;
+    const {left,right}=wristCoordinates;
+    const halfSpan=Math.abs(right.x-left.x)*.5;
+    const wristLocalZ=(right.z+left.z)*.5;
+    // Após o flip, o deslocamento local Z do punho passa a ser -localZ.
+    const forwardOffset=-wristLocalZ;
+    const scale=(FRAMING.wristNdcX*tanX*FRAMING.depth)/
+      (halfSpan+FRAMING.wristNdcX*tanX*forwardOffset);
+    restScale=THREE.MathUtils.clamp(scale,.06,.45);
+    const wristDepth=FRAMING.depth-forwardOffset*restScale;
+    const wristLocalY=(right.y+left.y)*.5;
     rigRoot.scale.setScalar(restScale);
-    const b=state.modelBounds;
-    rigRoot.position.set(-(b.centerX||0)*restScale,
-      -hh*.30-b.top*restScale,-depth);
+    rigRoot.rotation.set(FRAMING.pitch,0,0);
+    rigRoot.position.set(
+      -(left.x+right.x)*.5*restScale,
+      FRAMING.wristNdcY*t*wristDepth+wristLocalY*restScale,
+      -FRAMING.depth
+    );
     baseY=rigRoot.position.y;
-    state.leftX=-hw*.67;state.rightX=hw*.67;
+    state.leftX=-FRAMING.wristNdcX*tanX*wristDepth;
+    state.rightX=FRAMING.wristNdcX*tanX*wristDepth;
+    state.framing={...FRAMING,scale:restScale,
+      baseY,wristDepth,halfSpan,localWristY:wristLocalY,localWristZ:wristLocalZ};
+    camera.updateMatrixWorld(true);
+    rigRoot.updateMatrixWorld(true);
+    function project(joint){
+      if(!joint)return null;
+      const v=joint.getWorldPosition(new THREE.Vector3()).project(camera);
+      return {x:v.x,y:v.y,z:v.z};
+    }
+    state.projectedWristLeft=project(jointsRef?.get('wristl'));
+    state.projectedWristRight=project(jointsRef?.get('wristr'));
+    state.projectedMiddleLeft=project(jointsRef?.get('finger_middle3l'));
+    state.projectedMiddleRight=project(jointsRef?.get('finger_middle3r'));
+    state.projectedShoulderLeft=project(jointsRef?.get('shoulderl'));
+    state.projectedShoulderRight=project(jointsRef?.get('shoulderr'));
   }
   function install(gltf){
     if(owner.disposed){
@@ -69,8 +101,24 @@ export function createRiggedFirstPersonHands(camera,{enabled=true,reducedMotion=
       const source=Array.isArray(obj.material)?obj.material[0]:obj.material;
       const map=source?.map||null;
       if(map&&!ownedTextures.includes(map))ownedTextures.push(map);
+      // Um viewmodel FPS mostra mãos e um trecho curto de antebraço.
+      // O WRAD original tem braços completos; atenuar as vértices
+      // próximos aos ombros, em vez de deixar dois cilindros enormes
+      // dominarem a imagem. A máscara é calculada uma única vez no load.
+      const geo=obj.geometry;
+      const positions=geo.getAttribute('position');
+      const rgba=new Float32Array(positions.count*4);
+      for(let i=0;i<positions.count;i++){
+        // Modelo simétrico: ombros perto de |x|=0, punhos perto de |x|=5.
+        const alpha=THREE.MathUtils.smoothstep(
+          Math.abs(positions.getX(i)),3.65,4.87
+        );
+        rgba[i*4]=1;rgba[i*4+1]=1;rgba[i*4+2]=1;rgba[i*4+3]=alpha;
+      }
+      geo.setAttribute('color',new THREE.Float32BufferAttribute(rgba,4));
       const mat=new THREE.MeshBasicMaterial({
-        map,color:0xb5a1d1,transparent:true,opacity:.90,
+        map,color:0x777a9d,vertexColors:true,
+        transparent:true,opacity:.86,
         depthTest:false,depthWrite:false,toneMapped:false,
         side:THREE.DoubleSide
       });
@@ -80,7 +128,6 @@ export function createRiggedFirstPersonHands(camera,{enabled=true,reducedMotion=
       obj.renderOrder=30;
       obj.frustumCulled=false;
       meshes.push(obj);
-      const geo=obj.geometry;
       state.triangles+=(geo.index?.count||geo.attributes.position?.count||0)/3;
     });
     if(!meshes.some(x=>x.isSkinnedMesh))throw new Error('WRAD ARMS veio sem malha SkinnedMesh');
@@ -98,12 +145,20 @@ export function createRiggedFirstPersonHands(camera,{enabled=true,reducedMotion=
       });
     }
     if(driven.length<30)throw new Error('Rig incompleto: '+driven.length+' falanges de '+joints.size+' ossos');
+    jointsRef=joints;
     state.joints=joints.size;
     state.fingerJoints=driven.length;
     state.textureCount=ownedTextures.length;
     state.drawSurfaces=meshes.length;
     model.name='WRAD ARMS CC0 · 50 ossos';
     rigRoot.add(model);
+    rigRoot.updateMatrixWorld(true);
+    const localBone=name=>{
+      const bone=joints.get(name);
+      if(!bone)throw new Error('Ausência de landmark do punho: '+name);
+      return rigRoot.worldToLocal(bone.getWorldPosition(new THREE.Vector3()));
+    };
+    wristCoordinates={left:localBone('wristl'),right:localBone('wristr')};
     state.loaded=true;
     align();
     rigRoot.visible=state.visible;
@@ -137,7 +192,7 @@ export function createRiggedFirstPersonHands(camera,{enabled=true,reducedMotion=
     rigRoot.position.x=-(state.modelBounds?.centerX||0)*restScale
       -state.swayX*hw*.023;
     rigRoot.position.y=baseY-state.swayY*hh*.02+idle*hh;
-    rigRoot.rotation.set(-.06+(state.motionEnabled?state.swayY*.012:0),0,
+    rigRoot.rotation.set(FRAMING.pitch+(state.motionEnabled?state.swayY*.012:0),0,
       state.motionEnabled?state.swayX*.015:0);
 
     // Movimento de dedos usa os ossos VERDADEIROS, sem mexer em vertices a CPU.
