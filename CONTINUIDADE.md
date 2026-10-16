@@ -5,6 +5,16 @@ Este é o ponto de entrada do desenvolvimento quando o histórico do chat do Cha
 **Fonte de verdade:** o código e o histórico dos PRs do GitHub. Para decisões criativas, problemas e próximos passos, consultar a [issue permanente #10](https://github.com/Kaue-Feltrin/orion-observatorio-3d/issues/10). **Não presumir que este arquivo ou o chat substitui a inspeção do repositório.**
 
 
+## Nova prévia — v0.9.11 Mãos mais visíveis / pose primeira pessoa (16/10/2026)
+
+- **PR #18 draft:** https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/18, branch `preview/maos-eterias-v0911`, base `preview/maos-primeira-pessoa-v0910`. **Produção `main` não tocada**.
+- Pedido: executar checklist com mãos mais ao estilo de linguagem etérea da Clove, em primeira pessoa, mais próximas/visíveis e assimétricas; usar arte autoral e não copiar game assets.
+- Módulo `first-person-hands.js`: redesenho CanvasTexture 320×512 com contorno de dedos relaxados, manga, gradientes violeta/rosa, luz interna pintada. Material alpha 0,67→0,78; 2 planos, 1 única textura/geometria/material.
+- Pose **esquerda**: z=-1.10, x=-0.70, y=-0.72, altura 1.10 relativo ao semi-frustum, rotação -.20 rad. **direita**: z=-1.00, x=+.68, y=-.66, altura 1.17, rotação +.18. Sway e respiração discretos, sem shaders ou sprites adicionais.
+- Mantém bloom do Nox, 3 recortes ESO, foto original, viagem, `hands=off` sem alocação e reduced-motion estático. Código de `main.js` da v0.9.10 preservado.
+- Instrução pronta: `INSTRUCAO-IMPLEMENTACAO-MAOS-v0911.md`, descrição arquivo a arquivo, referências de estilo, limites e testes.
+- **Pendente:** CI, screenshot e medição real FPS/p95 do usuário. Não assumir 60 FPS desta prévia antes de medir nem fazer merge na produção.
+
 ## Nova prévia — v0.9.10 Estudo + mãos etéreas em primeira pessoa (16/10/2026)
 
 - **PR #17 draft:** https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/17, branch `preview/maos-primeira-pessoa-v0910`, base v0.9.9 (`preview/veu-proximo-v099`). Produção `main` preservada.
