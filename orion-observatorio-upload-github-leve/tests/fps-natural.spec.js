@@ -13,8 +13,9 @@ test('mãos David: dedos reais avançam ao centro e respeitam o enquadramento de
       // O pose-calibrator não pode ignorar a flexão dos punhos depois da carga.
       h.update(0,1/60,0,0);
       c.updateMatrixWorld(true);h.root.updateMatrixWorld(true);
+      const normalize=n=>String(n).toLowerCase().replace(/[^a-z0-9]/g,'');
       const bone=name=>{let found=null;h.root.traverse(o=>{
-        if(o.isBone&&o.name===name)found=o;
+        if(o.isBone&&normalize(o.name)===normalize(name))found=o;
       });return found;};
       const project=b=>b.getWorldPosition(b.position.clone()).project(c);
       const frame=h.state.framing;
