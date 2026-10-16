@@ -419,7 +419,7 @@ test('v0.9.4: diagnóstico fica isolado no debug e coleta dados reais locais',as
   expect(state.drawCalls).toBeGreaterThan(1);
   expect(state.report).toContain('não é RAM total');
   expect(state.report).toContain('Shift+Esc');
-  await page.locator('.perf-copy').click();
+  await page.getByRole('button',{name:'Copiar diagnóstico'}).click();
   await expect(page.locator('.perf-copy-status')).not.toBeEmpty();
 });
 
@@ -750,7 +750,7 @@ test('v0.9.10 sem mãos restaura cena e não aloca viewmodel',async({page})=>{
     childCount:window.__orionHandsDebug.meshes.length,
     textures:window.__orionHandsDebug.state.textureCount,
     result:window.__orionDiagnostic.snapshot(),
-    toggle:[...document.querySelectorAll('.perf-depth-compare')].at(-1)?.textContent
+    toggle:document.querySelector('#orionHandsABSwitch')?.textContent
   }));
   expect(initial.enabled).toBe(false);
   expect(initial.childCount).toBe(0);
@@ -758,8 +758,8 @@ test('v0.9.10 sem mãos restaura cena e não aloca viewmodel',async({page})=>{
   expect(initial.result.handsVisible).toBe(false);
   expect(initial.result.handsSurfaces).toBe(0);
   expect(initial.result.volumeLayers).toBe(3);
-  expect(initial.toggle).toContain('Ativar mãos etéreas');
-  await page.locator('.perf-depth-compare').last().click();
+  expect(initial.toggle).toContain('Testar com mãos FPS');
+  await page.locator('#orionHandsABSwitch').click();
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   expect(await page.evaluate(()=>window.__orionDiagnostic.snapshot().handsVisible)).toBe(true);
 });
