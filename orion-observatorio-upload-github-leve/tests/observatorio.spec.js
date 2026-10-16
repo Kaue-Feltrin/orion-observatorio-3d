@@ -876,14 +876,14 @@ test('v0.9.12 modo legado 2D continua disponível e volta ao 3D pelo painel',asy
     mode:window.__orionHandsDebug.state.mode,
     geometry:window.__orionHandsDebug.meshes[0].geometry.type,
     texture:window.__orionDiagnostic.snapshot().handsTextures,
-    link:[...document.querySelectorAll('.perf-depth-compare')]
-      .find(a=>a.textContent.includes('mãos 3D reais'))?.href
+    link:[...document.querySelectorAll('.perf-comparisons[aria-label="Comparar modelos das mãos"] a')]
+      .find(a=>a.textContent.includes('Modelo 3D anterior'))?.href
   }));
   expect(p.mode).toBe('2d');
   expect(p.geometry).toBe('PlaneGeometry');
   expect(p.texture).toBe(1);
   expect(p.link).toContain('hands=3d');
-  await page.locator('.perf-depth-compare').filter({hasText:'Comparar mãos 3D reais'}).click();
+  await page.locator('.perf-comparisons[aria-label="Comparar modelos das mãos"] a').filter({hasText:'Modelo 3D anterior'}).click();
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   p=await page.evaluate(()=>({
     mode:window.__orionHandsDebug.state.mode,
