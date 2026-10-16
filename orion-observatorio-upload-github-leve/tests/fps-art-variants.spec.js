@@ -61,3 +61,30 @@ test('v0.9.15 comparar enquadramentos com antebraços atenuados e dedos 3D',asyn
   }
   expect(examples[0].framing.wristLeft.y).not.toEqual(examples[2].framing.wristLeft.y);
 });
+
+
+test('v0.9.15 comparar material iluminado e básico, sem tocar no Nox',async({page})=>{
+  await page.setViewportSize({width:1748,height:864});
+  const examples=[];
+  for(const light of ['basic','lit']){
+    await page.goto('http://127.0.0.1:4173/?quality=eco-plus&hands=fps&fpsStyle=cinematic&fpsLight='+light+'&debug=1',{waitUntil:'domcontentloaded'});
+    await expect.poll(async()=>page.evaluate(()=>window.__orionHandsDebug?.state.loaded?'loaded':window.__orionHandsDebug?.state.loadError||'loading'),{timeout:18000}).toBe('loaded');
+    const info=await page.evaluate(()=>({
+      light:window.__orionHandsDebug.state.lightMode,
+      materials:window.__orionHandsDebug.meshes.map(m=>m.material.type),
+      bloom:window.__orionDiagnostic.snapshot().bloomRest,
+      layers:window.__orionDiagnostic.snapshot().volumeLayers
+    }));
+    await page.waitForTimeout(160);
+    await page.evaluate(()=>{const el=document.querySelector('#debug');if(el)el.style.display='none';});
+    const png=await page.screenshot({path:'test-results/v0915-light-'+light+'.png'});
+    examples.push({...info,coverage:await measureVisibleHands(png)});
+  }
+  console.log('FPS_LIGHT_COMPARE',JSON.stringify(examples));
+  expect(examples[0].light).toBe('basic');
+  expect(examples[1].light).toBe('lit');
+  expect(examples[0].materials).toEqual(['MeshBasicMaterial']);
+  expect(examples[1].materials).toEqual(['MeshLambertMaterial']);
+  expect(examples.every(x=>x.bloom&&x.layers===3)).toBe(true);
+  expect(examples.every(x=>x.coverage.left>2&&x.coverage.right>2)).toBe(true);
+});
