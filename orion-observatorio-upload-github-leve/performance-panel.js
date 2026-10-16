@@ -97,9 +97,10 @@ export function createPerformancePanel(debugRoot, readScene) {
   const handModes=document.createElement('nav');
   handModes.className='perf-comparisons';
   handModes.setAttribute('aria-label','Comparar modelos das mãos');
-  const currentHands=new URLSearchParams(location.search).get('hands')||'rig';
+  const currentHands=new URLSearchParams(location.search).get('hands')||'vr';
   for(const {mode,label} of [
-    {mode:'rig',label:'Modelo gratuito rigado (novo)'},
+    {mode:'vr',label:'Mãos anatômicas (novo · MIT)'},
+    {mode:'rig',label:'WRAD retrô · 50 ossos'},
     {mode:'3d',label:'Modelo 3D anterior'},
     {mode:'2d',label:'Silhueta 2,5D'},
     {mode:'off',label:'Sem mãos'}
@@ -111,7 +112,7 @@ export function createPerformancePanel(debugRoot, readScene) {
     const a=document.createElement('a');
     a.href=url.pathname+url.search;
     a.textContent=label;
-    if(mode===currentHands||(mode==='rig'&&currentHands==='on'))a.setAttribute('aria-current','page');
+    if(mode===currentHands||(mode==='vr'&&currentHands==='on'))a.setAttribute('aria-current','page');
     handModes.appendChild(a);
   }
   field.append(compareHelp,comparisons,depthComparison,foregroundComparison,handModes,handsComparison);
@@ -185,7 +186,7 @@ export function createPerformancePanel(debugRoot, readScene) {
   function report() {
     const s = snapshot();
     return [
-      'Projeto Órion · Observatório v0.9.13 (prévia)',
+      'Projeto Órion · Observatório v0.9.14 (prévia)',
       new Date().toLocaleString('pt-BR'),
       format(s),
       'Amostras: ' + s.samples + ' · adaptações automáticas: ' + s.adaptations,
