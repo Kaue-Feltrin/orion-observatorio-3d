@@ -97,7 +97,8 @@ export function createRiggedFirstPersonHands(camera,{enabled=true,reducedMotion=
         offset: FINGER_NAMES.indexOf('finger_'+match[1])*.73,
       });
     }
-    if(driven.length<20)throw new Error('Rig incompleto: menos de 20 falanges controláveis');
+    state.detectedBoneNames=[...joints.keys()];
+    if(driven.length<20)throw new Error('Rig incompleto: '+driven.length+' falanges de '+joints.size+' ossos. Exemplos: '+[...joints.keys()].slice(0,38).join(', '));
     state.joints=joints.size;
     state.fingerJoints=driven.length;
     state.textureCount=ownedTextures.length;
