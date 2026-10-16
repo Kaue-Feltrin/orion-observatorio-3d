@@ -1,3 +1,13 @@
+## Prévia v0.9.15 — integração do modelo profissional de David Fischer (16/10/2026)
+
+- O usuário aprovou a estratégia de migrar para **First Person hands rigged (David Fischer)** e pediu a execução completa após rejeitar visualmente o WRAD e o Wonderland VR. Sem mexer na produção `main`.
+- [PR #22 draft](https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/22), branch `preview/fps-hands-david-v0915`, base `preview/viewmodel-pesquisado-v0914`.
+- Pesquisa: fonte Sketchfab original CC BY, Download API oficial exige autenticação; foi encontrada **redistribuição documentada KineTwin** de um GLB baixado pela API, com CC BY e mesma autoria. Importado sem modificar arquivo binário, SHA `110be5c6f6a72c396058be927de5e89f3c7d1bb5`, ~388KB, 63 ossos. Documentação `ESTUDO-MAOS-DAVID-FPS-v0915.md`, `ASSETS-TERCEIROS-MAOS.md`, `LICENCAS/DAVID-FISCHER-FPS-HANDS-CC-BY-4.0.md`.
+- Novo `first-person-hands-fps.js` monta SkinnedMesh principal com material discreto, fade dos braços, estado `ready`, pose relaxada, reduced-motion e seleção da viagem. **Calibra posição pelos ossos dos punhos e ponta dos dedos**, não pelos braços/Box3. UI dá atribuição visível CC BY quando FPS ativo.
+- `hands=fps` é padrão somente nesta prévia desktop; `hands=vr`, `rig`, `3d`, `2d`, `off` continuam reversíveis. Sem efeitos extra, e foto ESO/3 recortes/bloom/Nox/146 estrelas preservados.
+- Testes novos `tests/fps-hands.spec.js` exigem GLB local, ossos e dedos, screenshot e NDC de punhos/pontas, navegação ao Nox, reduced-motion e sem downloads quando off. CI isolado `.github/workflows/validar-fps-david.yml` para não esperar apenas pelo CI completo.
+- **Status:** integração feita, aguardando validação visual e técnica por GitHub Actions/Cloudflare e FPS no PC. Não afirmar 60 FPS da v0.9.15 sem medição e **nunca fazer merge na produção sem autorização explícita**.
+
 ## QA final — v0.9.14 (16/10/2026)
 
 - **Correção após comparação visual:** a pose VR "pare" e dobra excessiva ainda estavam feias; nova pose `handPose=relaxed` (padrão) usa inclinação da palma em profundidade (pitch 2,11 rad), dedos curvados moderadamente, sway leve e braço/punho na periferia inferior. `handPose=open` preserva A/B.
