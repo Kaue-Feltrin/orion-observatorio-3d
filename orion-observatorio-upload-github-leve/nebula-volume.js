@@ -3,7 +3,7 @@
 import * as THREE from 'three';
 import {nebulaDepthSpecs} from './nebula-depth-specs.js';
 
-export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false}={}){
+export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false,parallaxEnabled=true}={}){
   const loader=new THREE.TextureLoader();
   const layers=nebulaDepthSpecs.map((spec,i)=>{
     const material=new THREE.MeshBasicMaterial({
@@ -18,10 +18,14 @@ export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false}={}){
     mesh.userData.volumeFragment=true;
     mesh.userData.spec=spec;
     mesh.userData.loaded=false;
+    mesh.userData.parallaxOffsetX=0;
+    mesh.userData.parallaxOffsetY=0;
+    mesh.userData.baseScaleX=1;
+    mesh.userData.baseScaleY=1;
     scene.add(mesh);
     return mesh;
   });
-  const state={active:0,loaded:0};
+  const state={active:0,loaded:0,parallaxEnabled:parallaxEnabled&&!reducedMotion};
   function ensureTexture(mesh){
     if(mesh.userData.loaded)return;
     mesh.userData.loaded=true;
@@ -58,18 +62,35 @@ export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false}={}){
       mesh.userData.baseY=mainPhoto.position.y+(.5-s.v)*mainPhoto.scale.y*ratio;
       mesh.position.x=mesh.userData.baseX;
       mesh.position.y=mesh.userData.baseY;
-      mesh.scale.set(mainPhoto.scale.x*s.w*ratio*1.008,
-        mainPhoto.scale.y*s.h*ratio*1.008,1);
+      mesh.userData.baseScaleX=mainPhoto.scale.x*s.w*ratio*1.008;
+      mesh.userData.baseScaleY=mainPhoto.scale.y*s.h*ratio*1.008;
+      mesh.scale.set(mesh.userData.baseScaleX,mesh.userData.baseScaleY,1);
     }
   }
-  function update(time){
+  // Perspectiva de câmera real já separa os planos em Z. Uma deriva
+  // inercial mínima, com magnitude crescente para o plano próximo, acrescenta
+  // volume perceptível ao movimento lateral sem "descolar" o JPEG ESO.
+  // Esta atualização mexe apenas em transformações 3D já existentes:
+  // mesmo número de meshes, draw calls, materiais e texturas da v0.9.6.
+  function update(time,viewX=0,viewY=0,delta=1/60){
+    const moving=state.parallaxEnabled;
+    const factor=moving?1-Math.exp(-Math.max(0,Math.min(.1,delta))*4.2):1;
+    const x=moving?THREE.MathUtils.clamp(viewX,-1,1):0;
+    const y=moving?THREE.MathUtils.clamp(viewY,-1,1):0;
     for(const layer of layers){
       if(!layer.visible)continue;
       const spec=layer.userData.spec;
       const wave=reducedMotion?0:Math.sin(time*spec.rate+spec.phase);
       const drift=reducedMotion?0:Math.sin(time*spec.rate*.55+spec.phase*1.43);
-      layer.position.x=layer.userData.baseX+drift*spec.drift;
-      layer.position.y=layer.userData.baseY+wave*spec.drift*.32;
+      const data=layer.userData;
+      data.parallaxOffsetX+=(x*spec.parallaxX-data.parallaxOffsetX)*factor;
+      data.parallaxOffsetY+=(y*spec.parallaxY-data.parallaxOffsetY)*factor;
+      layer.position.x=data.baseX+drift*spec.drift+data.parallaxOffsetX;
+      layer.position.y=data.baseY+wave*spec.drift*.32+data.parallaxOffsetY;
+      // Respiração orgânica de escala inferior a 0,4%, sem shader ou ruído.
+      const breath=reducedMotion?0:.003*Math.sin(time*spec.rate*.67+spec.phase);
+      layer.scale.x=data.baseScaleX*(1+breath);
+      layer.scale.y=data.baseScaleY*(1+breath*.6);
       layer.material.opacity=spec.opacity*(1+wave*.085);
     }
   }
