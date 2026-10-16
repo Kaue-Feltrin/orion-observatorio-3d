@@ -19,8 +19,8 @@ const STYLE=['original','calm','cinematic'].includes(PARAMS.get('fpsStyle'))
   ?PARAMS.get('fpsStyle'):'cinematic';
 const ART={
   original:{wristY:-.84,fadeFrom:.615,fadeTo:.725,wristBend:0,wristRoll:0,opacity:.94},
-  calm:{wristY:-.91,fadeFrom:.735,fadeTo:.825,wristBend:-.40,wristRoll:.11,opacity:.90},
-  cinematic:{wristY:-.92,fadeFrom:.75,fadeTo:.835,wristBend:-.62,wristRoll:.18,opacity:.90}
+  calm:{wristY:-.88,fadeFrom:.635,fadeTo:.735,wristBend:-.35,wristRoll:-.10,opacity:.92},
+  cinematic:{wristY:-.91,fadeFrom:.645,fadeTo:.742,wristBend:-.48,wristRoll:-.15,opacity:.92}
 }[STYLE];
 const wristBendAxis=new THREE.Vector3(1,0,0);
 const wristRollAxis=new THREE.Vector3(0,0,1);
