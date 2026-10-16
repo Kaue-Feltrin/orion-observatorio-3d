@@ -163,3 +163,14 @@ assert.match(hands,/camera\.add\(left,right\)/,'viewmodel preso à câmera');
 assert.match(hands,/camera\.remove\(left,right\)/,'descarta corretamente as mãos');
 assert.match(hands,/meshes\.forEach\(mesh=>mesh\.visible=false\)/,'invisível ao viajar');
 assert.match(await read('performance-panel.js'),/Mãos em primeira pessoa/,'diagnóstico local identifica as mãos');
+
+// v0.9.11 — pose expressiva, material compartilhado e desenho autoral sem shaders novos.
+const handsV0911=await read('first-person-hands.js');
+assert.match(handsV0911,/const poses=\{/,'poses com ancoragem separadas');
+assert.match(handsV0911,/left:\{z:-1\.10,x:-\.70,y:-\.72,size:1\.10/,'mão esquerda mais alta');
+assert.match(handsV0911,/right:\{z:-1\.00,x:\.68,y:-\.66,size:1\.17/,'mão direita levemente mais próxima');
+assert.match(handsV0911,/opacity:\.78/,'mãos mais visíveis sem neon excessivo');
+assert.match(handsV0911,/const energy=ctx\.createRadialGradient/,'luz violeta pintada na textura');
+assert.match(handsV0911,/hand\.bezierCurveTo/,'cinco dedos com contorno orgânico autoral');
+assert.match(handsV0911,/new THREE\.CanvasTexture\(canvas\)/,'somente uma textura para as duas mãos');
+assert.match(handsV0911,/Math\.sin\(time\*\.81\)\*\.006/,'respiração leve');

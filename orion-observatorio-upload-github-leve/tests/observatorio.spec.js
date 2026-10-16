@@ -723,11 +723,13 @@ test('v0.9.10 mãos etéreas são viewmodel da câmera e não cobrem o Nox',asyn
   expect(data.sameTexture).toBe(true);
   expect(data.sameMaterial).toBe(true);
   expect(data.layer).toEqual([1,1]);
-  expect(data.opacity).toBeLessThanOrEqual(.7);
-  expect(data.depth).toEqual([-1.2,-1.2]);
-  expect(data.projection[0][0]).toBeLessThan(-.62);
-  expect(data.projection[1][0]).toBeGreaterThan(.62);
-  expect(data.projection.every(p=>p[1]<-.65)).toBe(true);
+  expect(data.opacity).toBeGreaterThanOrEqual(.72);
+  expect(data.opacity).toBeLessThanOrEqual(.82);
+  expect(data.depth).toEqual([-1.1,-1]);
+  expect(data.projection[0][0]).toBeLessThan(-.64);
+  expect(data.projection[1][0]).toBeGreaterThan(.50); // Centro livre mesmo após sway.
+  expect(data.projection[0][1]).toBeLessThan(-.53); // Base na região inferior, com sway vertical.
+  expect(data.projection[1][1]).toBeLessThan(-.47);
   expect(data.planes).toBe(3);
   expect(data.gas).toBe(0);
   expect(data.bloom).toBe(true);
@@ -735,7 +737,7 @@ test('v0.9.10 mãos etéreas são viewmodel da câmera e não cobrem o Nox',asyn
   expect(data.handsSurfaces).toBe(2);
   expect(data.photo).toBe(1);
   expect(errors).toEqual([]);
-  await page.screenshot({path:'test-results/v0910-maos-eterias.png'});
+  await page.screenshot({path:'test-results/v0911-maos-corpo-presenca.png'});
   await page.locator('#heraldTarget').click({force:true});
   await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
 });
@@ -756,7 +758,7 @@ test('v0.9.10 sem mãos restaura cena e não aloca viewmodel',async({page})=>{
   expect(initial.result.handsVisible).toBe(false);
   expect(initial.result.handsSurfaces).toBe(0);
   expect(initial.result.volumeLayers).toBe(3);
-  expect(initial.toggle).toContain('Ativar silhuetas');
+  expect(initial.toggle).toContain('Ativar mãos etéreas');
   await page.locator('.perf-depth-compare').last().click();
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   expect(await page.evaluate(()=>window.__orionDiagnostic.snapshot().handsVisible)).toBe(true);
@@ -778,4 +780,38 @@ test('v0.9.10 movimento reduzido remove sway e viagem oculta mãos',async({page}
   await page.locator('#heraldTarget').click({force:true});
   await expect.poll(async()=>page.evaluate(()=>window.__orionHandsDebug?.state.visible===false),{timeout:1200}).toBe(true);
   await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+});
+
+
+test('v0.9.11 nova pose deixa mãos mais altas e assimétricas, com mesma textura',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=on',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const p=await page.evaluate(()=>{
+    const m=window.__orionHandsDebug.meshes;
+    const camera=window.__orionDepthDebug.camera;
+    return{
+      poses:m.map(x=>{
+        const halfHeight=Math.tan(camera.fov*Math.PI/360)*Math.abs(x.position.z);
+        return{x:x.position.x/(halfHeight*camera.aspect),y:x.position.y/halfHeight,
+          roll:x.rotation.z,pitch:x.rotation.x,
+          scaledHeight:x.scale.y/halfHeight,z:x.position.z};
+      }),
+      mapped:m[0].material.map===m[1].material.map,
+      counts:window.__orionDiagnostic.snapshot()
+    };
+  });
+  expect(p.poses[0].x).toBeGreaterThan(-.76);
+  expect(p.poses[0].x).toBeLessThan(-.63);
+  expect(p.poses[1].x).toBeGreaterThan(.60);
+  expect(p.poses[1].x).toBeLessThan(.75);
+  expect(p.poses[0].y).toBeGreaterThan(-.80);
+  expect(p.poses[1].y).toBeGreaterThan(-.73);
+  expect(p.poses[0].scaledHeight).toBeGreaterThan(1.04);
+  expect(p.poses[1].scaledHeight).toBeGreaterThan(p.poses[0].scaledHeight);
+  expect(p.poses[0].roll).toBeLessThan(-.12);
+  expect(p.poses[1].roll).toBeGreaterThan(.12);
+  expect(p.mapped).toBe(true);
+  expect(p.counts.quality).toBe('eco-plus');
+  expect(p.counts.bloomRest).toBe(true);
+  expect(p.counts.volumeLayers).toBe(3);
 });

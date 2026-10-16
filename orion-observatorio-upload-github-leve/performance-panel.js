@@ -87,7 +87,7 @@ export function createPerformancePanel(debugRoot, readScene) {
   const handsOff=new URLSearchParams(location.search).get('hands')==='off';
   if(handsOff){
     handsUrl.searchParams.set('hands','on');
-    handsComparison.textContent='Ativar silhuetas das mãos · Eco+';
+    handsComparison.textContent='Ativar mãos etéreas · Eco+';
   }else{
     handsUrl.searchParams.set('hands','off');
     handsComparison.textContent='Comparar sem mãos · Eco+';
@@ -163,7 +163,7 @@ export function createPerformancePanel(debugRoot, readScene) {
   function report() {
     const s = snapshot();
     return [
-      'Projeto Órion · Observatório v0.9.10 (prévia)',
+      'Projeto Órion · Observatório v0.9.11 (prévia)',
       new Date().toLocaleString('pt-BR'),
       format(s),
       'Amostras: ' + s.samples + ' · adaptações automáticas: ' + s.adaptations,
