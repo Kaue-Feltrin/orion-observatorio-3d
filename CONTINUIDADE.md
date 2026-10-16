@@ -5,6 +5,16 @@ Este é o ponto de entrada do desenvolvimento quando o histórico do chat do Cha
 **Fonte de verdade:** o código e o histórico dos PRs do GitHub. Para decisões criativas, problemas e próximos passos, consultar a [issue permanente #10](https://github.com/Kaue-Feltrin/orion-observatorio-3d/issues/10). **Não presumir que este arquivo ou o chat substitui a inspeção do repositório.**
 
 
+## Nova prévia — v0.9.13 Modelo CC0 rigado com dedos animáveis (16/10/2026)
+
+- Feedback explícito do usuário: v0.9.12 funcionou mas **as mãos artificiais ficaram muito feias**. Pedido: pegar **modelo 3D gratuito e animável**.
+- **PR #20 draft:** https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/20. Branch `preview/maos-rig-gratuito-v0913` baseada na v0.9.12; **main e produção intocadas**.
+- Pesquisados modelos gratuitos com licenças; escolhidas as **duas mãos/braços do WRAD ARMS** de wriks, **CC0** com GLB local `orion-observatorio-upload-github-leve/public/models/wrad-arms.glb`, 456.328 bytes e blob SHA `be023c46705bf8571e9ab97dbd3e71d2f18f8473`. Um SkinnedMesh, **50 bones, 30 juntas de dedo** (5 por mão, 3 falanges), 1.196 triângulos, textura embutida. Fonte https://github.com/wwwriks/wrad-arms e documentação `ASSETS-TERCEIROS-MAOS.md`. Nenhum download externo é necessário em tempo de execução.
+- Módulo `first-person-hands-rig.js` usa GLTFLoader, modelagem original do artista, pigmentação violeta leve e **idle autoral com pequenas rotações por quaternion nos ossos reais**. Futuras animações: abrir/fechar dedos, gesto e interação. `hands=rig` / `hands=on` é o padrão em desktop; `hands=3d` preserva 3D rudimentar v0.9.12, `hands=2d` preserva v0.9.11 e `hands=off` sem modelo.
+- **A/B:** `?debug=1&quality=eco-plus&hands=rig`, versus `hands=3d`/`2d`/`off`; painel registra joints, número de falanges, texturas e erro de download se ocorrer.
+- Preservados Nox, 3 planos ESO, bloom, 146 estrelas, viagem, ficha e qualidade Eco+; `prefers-reduced-motion` mantém bones parados.
+- **Pendência:** CI/headless, conferir screenshot sem debug, FPS/p95 reais e opinião visual. WRAD é modelo retro leve e pode requerer futuro modelo mais realista. NÃO fazer merge em produção sem autorização.
+
 ## Próxima prévia — v0.9.12 Mãos 3D reais em primeira pessoa (16/10/2026)
 
 - [PR #19 draft](https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/19), branch `preview/maos-3d-v0912`, base `preview/maos-eterias-v0911`. `main` intocada.
