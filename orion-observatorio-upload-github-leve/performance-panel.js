@@ -1,3 +1,5 @@
+import { createHandsBenchmark } from './hands-benchmark.js';
+
 // v0.9.4 · Telemetria local e opcional para avaliar fluidez no próprio PC.
 // Não envia nada pela rede e não afirma medir RAM/VRAM totais do navegador.
 export function createPerformancePanel(debugRoot, readScene) {
@@ -86,8 +88,10 @@ export function createPerformancePanel(debugRoot, readScene) {
   handsUrl.searchParams.set('quality','eco-plus');
   const handsOff=new URLSearchParams(location.search).get('hands')==='off';
   if(handsOff){
-    handsUrl.searchParams.set('hands','on');
-    handsComparison.textContent='Ativar mãos etéreas · Eco+';
+    handsUrl.searchParams.set('hands','fps');
+    handsUrl.searchParams.set('fpsStyle','natural');
+    handsUrl.searchParams.delete('fpsTune');
+    handsComparison.textContent='Ativar mãos FPS David Fischer · Eco+';
   }else{
     handsUrl.searchParams.set('hands','off');
     handsComparison.textContent='Comparar sem mãos · Eco+';
@@ -198,6 +202,8 @@ export function createPerformancePanel(debugRoot, readScene) {
     ].join('\n');
   }
 
+  const handsAB=createHandsBenchmark(field, snapshot);
+
   function refresh(now) {
     if (now - lastRefresh < 1000) return;
     lastRefresh = now;
@@ -206,7 +212,7 @@ export function createPerformancePanel(debugRoot, readScene) {
   }
 
   copy.addEventListener('click', async () => {
-    const text = report();
+    const text = report()+'\n\n'+handsAB.report();
     try {
       if (!navigator.clipboard?.writeText) throw new Error('Clipboard indisponível');
       await navigator.clipboard.writeText(text);
