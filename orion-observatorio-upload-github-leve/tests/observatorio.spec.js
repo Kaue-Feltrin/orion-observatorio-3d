@@ -685,7 +685,97 @@ test('v0.9.9 sem véu frontal restaura exatamente os dois planos e mantém o blo
   expect(data.bloom).toBe(true);
   expect(data.href).toContain('quality=eco-plus');
   expect(data.href).not.toContain('foreground=off');
-  await page.locator('.perf-depth-compare').last().click();
+  // Painel v0.9.10 inclui também o toggle de mãos; escolher por função.
+  await page.locator('.perf-depth-compare').filter({hasText:'Ativar véu próximo'}).click();
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   expect(await page.evaluate(()=>window.__orionDiagnostic.snapshot().volumeLayers)).toBe(3);
+});
+
+
+test('v0.9.10 mãos etéreas são viewmodel da câmera e não cobrem o Nox',async({page})=>{
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=on',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const data=await page.evaluate(()=>{
+    const h=window.__orionHandsDebug;
+    const c=window.__orionDepthDebug.camera;
+    const a=window.__orionDiagnostic.snapshot();
+    // Local à câmera: projetar sem depender de THREE global no navegador.
+    const halfHeight=Math.tan(c.fov*Math.PI/360)*1.2;
+    const projection=h.meshes.map(mesh=>[
+      mesh.position.x/(halfHeight*c.aspect),mesh.position.y/halfHeight
+    ]);
+    return {state:h.state,meshes:h.meshes.length,
+      attached:h.meshes.every(m=>m.parent===c),
+      sameTexture:h.meshes[0].material.map===h.meshes[1].material.map,
+      sameMaterial:h.meshes[0].material===h.meshes[1].material,
+      depth:h.meshes.map(m=>m.position.z),
+      names:h.meshes.map(m=>m.name),
+      layer:h.meshes.map(m=>m.layers.mask),
+      opacity:h.meshes[0].material.opacity,
+      planes:a.volumeLayers,gas:a.gasLayers,bloom:a.bloomRest,
+      handsVisible:a.handsVisible,handsSurfaces:a.handsSurfaces,
+      projection:projection,photo:window.__orionRespirationDebug.nebula.material.opacity};
+  });
+  expect(data.meshes).toBe(2);
+  expect(data.state.visible).toBe(true);
+  expect(data.attached).toBe(true);
+  expect(data.sameTexture).toBe(true);
+  expect(data.sameMaterial).toBe(true);
+  expect(data.layer).toEqual([1,1]);
+  expect(data.opacity).toBeLessThanOrEqual(.7);
+  expect(data.depth).toEqual([-1.2,-1.2]);
+  expect(data.projection[0][0]).toBeLessThan(-.62);
+  expect(data.projection[1][0]).toBeGreaterThan(.62);
+  expect(data.projection.every(p=>p[1]<-.65)).toBe(true);
+  expect(data.planes).toBe(3);
+  expect(data.gas).toBe(0);
+  expect(data.bloom).toBe(true);
+  expect(data.handsVisible).toBe(true);
+  expect(data.handsSurfaces).toBe(2);
+  expect(data.photo).toBe(1);
+  expect(errors).toEqual([]);
+  await page.screenshot({path:'test-results/v0910-maos-eterias.png'});
+  await page.locator('#heraldTarget').click({force:true});
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+});
+
+test('v0.9.10 sem mãos restaura cena e não aloca viewmodel',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=off',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const initial=await page.evaluate(()=>({
+    enabled:window.__orionHandsDebug.state.enabled,
+    childCount:window.__orionHandsDebug.meshes.length,
+    textures:window.__orionHandsDebug.state.textureCount,
+    result:window.__orionDiagnostic.snapshot(),
+    toggle:[...document.querySelectorAll('.perf-depth-compare')].at(-1)?.textContent
+  }));
+  expect(initial.enabled).toBe(false);
+  expect(initial.childCount).toBe(0);
+  expect(initial.textures).toBe(0);
+  expect(initial.result.handsVisible).toBe(false);
+  expect(initial.result.handsSurfaces).toBe(0);
+  expect(initial.result.volumeLayers).toBe(3);
+  expect(initial.toggle).toContain('Ativar silhuetas');
+  await page.locator('.perf-depth-compare').last().click();
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  expect(await page.evaluate(()=>window.__orionDiagnostic.snapshot().handsVisible)).toBe(true);
+});
+
+test('v0.9.10 movimento reduzido remove sway e viagem oculta mãos',async({page})=>{
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=on',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const before=await page.evaluate(()=>window.__orionHandsDebug.meshes.map(m=>({x:m.position.x,y:m.position.y,rot:m.rotation.z})));
+  await page.mouse.move(1500,700);
+  await page.waitForTimeout(400);
+  const after=await page.evaluate(()=>({
+    current:window.__orionHandsDebug.meshes.map(m=>({x:m.position.x,y:m.position.y,rot:m.rotation.z})),
+    moving:window.__orionHandsDebug.state.motionEnabled
+  }));
+  expect(after.moving).toBe(false);
+  expect(after.current).toEqual(before);
+  await page.locator('#heraldTarget').click({force:true});
+  await expect.poll(async()=>page.evaluate(()=>window.__orionHandsDebug?.state.visible===false),{timeout:1200}).toBe(true);
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
 });

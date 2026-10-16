@@ -7,6 +7,7 @@ import { createStarJourney } from './star-journey.js';
 import { createCinematicStarSpikes } from './cinematic-star.js';
 import { createNebulaVolume } from './nebula-volume.js';
 import { createPerformancePanel } from './performance-panel.js';
+import { createFirstPersonHands } from './first-person-hands.js';
 
 const root = document.getElementById('observatory');
 const container = document.getElementById('world');
@@ -30,6 +31,9 @@ const params = new URLSearchParams(location.search);
 const debugEnabled = params.has('debug');
 const depthMotionEnabled=params.get('depthMotion')!=='off';
 const foregroundEnabled=params.get('foreground')!=='off';
+// Prévia reversível: mãos ativadas em desktop, desativadas em dispositivos
+// de toque por padrão. ?hands=on permite testar; ?hands=off restaura v0.9.9.
+const handsEnabled=params.get('hands')==='on'||(params.get('hands')!=='off'&&!mobile);
 debug.hidden = !debugEnabled;
 
 // Orçamento de GPU: DPR alto quadruplica os pixels por quadro, e as camadas
@@ -119,6 +123,10 @@ rigPitch.add(rigRoll);
 rigRoll.add(camera);
 rigRoot.position.set(0, 0, 26);
 camera.position.set(0, 0, 0);
+// Viewmodel em espaço de câmera: presença de primeira pessoa sem alterar
+// o mundo 3D, a paralaxe ESO ou o pós-processamento do Nox.
+const firstPersonHands=createFirstPersonHands(camera,{enabled:handsEnabled,reducedMotion:reduceMotion});
+if(debugEnabled)window.__orionHandsDebug=firstPersonHands;
 
 // Panorama and foreground cloud fragments occupy actual z positions, rather
 // than being DOM images shifted at different speeds. This makes camera motion
@@ -539,6 +547,7 @@ function beginTravel(){
  if(travelling)return;
  if(!starJourney.begin())return;
  travelling=true;
+ firstPersonHands.beginTravel();
  cardVisible=false;card.classList.remove('visible');card.setAttribute('aria-hidden','true');
  root.classList.add('jumping');
  document.body.classList.remove('star-aimed');
@@ -547,6 +556,7 @@ function beginTravel(){
 function resize(){
  cachedCardHeight=card.offsetHeight;
  camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
+ firstPersonHands.resize();
  renderer.setPixelRatio(pixelRatioForViewport());
  renderer.setSize(innerWidth,innerHeight);
  selectiveBloom.resize(innerWidth,innerHeight,gpuBudget().bloomScale);
@@ -571,6 +581,8 @@ const performancePanel=debugEnabled?createPerformancePanel(debug,()=>({
   gasLayers:atmosphere.layers.filter(layer=>layer.visible).length,
   volumeLayers:nebulaVolume.layers.filter(layer=>layer.visible).length,
   foregroundNear:nebulaVolume.layers.some(layer=>layer.visible&&layer.userData.volumeFragment&&layer.position.z>-100),
+  handsVisible:firstPersonHands.state.visible,
+  handsSurfaces:firstPersonHands.state.drawSurfaces,
   depthMotion:nebulaVolume.state.parallaxEnabled,
   parallaxStrength:nebulaVolume.state.parallaxStrength,
   drawCalls:renderer.info.render.calls,
@@ -672,6 +684,7 @@ function tick(now){
   orbitRing.material.opacity=0;
   // Nebulosa recebe o alvo direto do mouse; câmera mantém smoothing próprio.
   nebulaVolume.update(time,mouse.x,mouse.y,delta);
+  firstPersonHands.update(time,delta,mouse.x,mouse.y);
   flash.style.opacity='0';
   flash.style.setProperty('--veil-opacity','0');
  } else {

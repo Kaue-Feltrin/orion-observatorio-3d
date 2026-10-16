@@ -80,7 +80,21 @@ export function createPerformancePanel(debugRoot, readScene) {
   }
   foregroundComparison.href=fgUrl.pathname+fgUrl.search;
   foregroundComparison.className='perf-depth-compare';
-  field.append(compareHelp,comparisons,depthComparison,foregroundComparison);
+  const handsComparison=document.createElement('a');
+  const handsUrl=new URL(window.location.href);
+  handsUrl.searchParams.set('debug','1');
+  handsUrl.searchParams.set('quality','eco-plus');
+  const handsOff=new URLSearchParams(location.search).get('hands')==='off';
+  if(handsOff){
+    handsUrl.searchParams.set('hands','on');
+    handsComparison.textContent='Ativar silhuetas das mãos · Eco+';
+  }else{
+    handsUrl.searchParams.set('hands','off');
+    handsComparison.textContent='Comparar sem mãos · Eco+';
+  }
+  handsComparison.href=handsUrl.pathname+handsUrl.search;
+  handsComparison.className='perf-depth-compare';
+  field.append(compareHelp,comparisons,depthComparison,foregroundComparison,handsComparison);
   debugRoot.appendChild(field);
 
   const MAX_SAMPLES = 360, WINDOW_MS = 4000;
@@ -138,6 +152,7 @@ export function createPerformancePanel(debugRoot, readScene) {
       'Pixels do canvas: ' + s.canvasPixels,
       'Camadas: ' + s.gasLayers + ' gás / ' + s.volumeLayers + ' recortes',
       'Véu frontal próximo da câmera: ' + (s.foregroundNear?'sim':'não'),
+      'Mãos em primeira pessoa: ' + (s.handsVisible?'visíveis':'desligadas') + ' · superfícies: ' + s.handsSurfaces,
       'Profundidade orgânica: ' + (s.depthMotion?'ativa':'desativada') + ' · intensidade: ' + s.parallaxStrength,
       'Draw calls: ' + s.drawCalls + ' · texturas GPU: ' + s.textures,
       'Diferença interna mouse/câmera: ' + s.mouseDeltaPx + ' px',
@@ -148,7 +163,7 @@ export function createPerformancePanel(debugRoot, readScene) {
   function report() {
     const s = snapshot();
     return [
-      'Projeto Órion · Observatório v0.9.9 (prévia)',
+      'Projeto Órion · Observatório v0.9.10 (prévia)',
       new Date().toLocaleString('pt-BR'),
       format(s),
       'Amostras: ' + s.samples + ' · adaptações automáticas: ' + s.adaptations,
