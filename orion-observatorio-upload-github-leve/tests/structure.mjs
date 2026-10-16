@@ -104,7 +104,7 @@ assert.doesNotMatch(main,/card\.offsetHeight-18/,'não ler layout a cada frame')
 assert.match(main,/fpsCap:60/,'sem limite rígido de 30 fps');
 assert.match(main,/selectiveBloom\.render\(travelling\|\|bloomTick%2===1,/,'bloom fora do caminho crítico da câmera');
 assert.match(await read('selective-bloom.js'),/function render\(refreshBloom=true,enableBloom=true\)/,'renderização seletiva temporizada e desligável');
-assert.match(await read('nebula-volume.js'),/const selected=\['lite','eco','eco-plus'\]\.includes\(quality\)/,'qualidade variável com dois recortes em Eco+');
+assert.match(await read('nebula-volume.js'),/const selected=quality==='eco-plus'/,'Eco+ seleciona 3 recortes com véu opcional');
 assert.match(await read('nebula-depth-specs.js'),/export const nebulaDepthSpecs/,'recortes coordenados');
 assert.match(await read('scripts/prepare-astro-assets.mjs'),/eso-gas-/,'4 texturas RGBA preparadas no build');
 assert.doesNotMatch(await read('scripts/prepare-astro-assets.mjs'),/const preserve=1-eased/,'ESO integral não deve ser apagada');
@@ -122,7 +122,7 @@ assert.match(await read('selective-bloom.js'),/if\(!enableBloom\)/,'passagens de
 assert.match(main,/qualityOverride==='eco-plus'/,'perfil Eco+ selecionável');
 assert.match(main,/'eco-plus':\{dpr:\.60,maxPixels:670000,bloomScale:\.22,gas:\[\]/,'Eco+ contém gás desligado e orçamento de pixels intermediário');
 assert.match(main,/qualityOrder=\['eco','eco-plus','lite','balanced','high'\]/,'fallback gradual entre Eco+ e Eco');
-assert.match(await read('nebula-volume.js'),/\['lite','eco','eco-plus'\]/,'Eco+ mantém dois recortes em profundidade');
+assert.match(await read('nebula-volume.js'),/state\.foregroundEnabled\?\[1,2,3\]:\[1,3\]/,'Eco+ adiciona recorte frontal desligável');
 assert.match(await read('performance-panel.js'),/Eco\+ sem bloom/,'comparativo entre Eco+ com e sem bloom');
 
 // v0.9.7 — profundidade puramente por transformação, sem shader ou textura extra.
@@ -140,3 +140,10 @@ assert.match(await read('nebula-volume.js'),/Math\.exp\(-Math\.max\(0,Math\.min\
 assert.match(await read('nebula-volume.js'),/setParallaxStrength/,'intensidade ajustável sem reconstruir cena');
 assert.match(main,/addSlider\('Paralaxe da nebulosa'/,'controle opcional de intensidade na depuração');
 assert.match(await read('performance-panel.js'),/parallaxStrength/,'relatório registra intensidade da paralaxe');
+
+// v0.9.9 — véu ESO frontal com camada de comparação, sem foto alterada.
+assert.match(main,/foregroundEnabled=params\.get\('foreground'\)!=='off'/,'comparativo do véu próximo na URL');
+assert.match(volumeScript,/mesh\.position\.z=nearVeil\?-75:spec\.z/,'camada do meio promovida para Z=-75');
+assert.match(volumeScript,/mesh\.userData\.opacityFactor=nearVeil\?\.38:1/,'recorte frontal discreto');
+assert.match(volumeScript,/mesh\.renderOrder=2\.11\+\(425\+mesh\.position\.z\)\*\.0008/,'ordem transparente usa profundidade efetiva');
+assert.match(await read('performance-panel.js'),/Véu frontal próximo da câmera/,'comparador reporta presença do primeiro plano');
