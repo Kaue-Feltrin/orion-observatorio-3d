@@ -8,6 +8,7 @@ import { createCinematicStarSpikes } from './cinematic-star.js';
 import { createNebulaVolume } from './nebula-volume.js';
 import { createPerformancePanel } from './performance-panel.js';
 import { createFirstPersonHands } from './first-person-hands.js';
+import { createFirstPersonHands3D } from './first-person-hands-3d.js';
 
 const root = document.getElementById('observatory');
 const container = document.getElementById('world');
@@ -33,7 +34,10 @@ const depthMotionEnabled=params.get('depthMotion')!=='off';
 const foregroundEnabled=params.get('foreground')!=='off';
 // Prévia reversível: mãos ativadas em desktop, desativadas em dispositivos
 // de toque por padrão. ?hands=on permite testar; ?hands=off restaura v0.9.9.
-const handsEnabled=params.get('hands')==='on'||(params.get('hands')!=='off'&&!mobile);
+// 3D por padrão em desktop; ?hands=2d mantém a arte anterior para comparação.
+const handsSetting=params.get('hands');
+const handsEnabled=['on','3d','2d'].includes(handsSetting)||(handsSetting!=='off'&&!mobile);
+const handsMode=handsSetting==='2d'?'2d':'3d';
 debug.hidden = !debugEnabled;
 
 // Orçamento de GPU: DPR alto quadruplica os pixels por quadro, e as camadas
@@ -125,7 +129,10 @@ rigRoot.position.set(0, 0, 26);
 camera.position.set(0, 0, 0);
 // Viewmodel em espaço de câmera: presença de primeira pessoa sem alterar
 // o mundo 3D, a paralaxe ESO ou o pós-processamento do Nox.
-const firstPersonHands=createFirstPersonHands(camera,{enabled:handsEnabled,reducedMotion:reduceMotion});
+const firstPersonHands=handsMode==='2d'
+  ?createFirstPersonHands(camera,{enabled:handsEnabled,reducedMotion:reduceMotion})
+  :createFirstPersonHands3D(camera,{enabled:handsEnabled,reducedMotion:reduceMotion});
+firstPersonHands.state.mode=handsMode;
 if(debugEnabled)window.__orionHandsDebug=firstPersonHands;
 
 // Panorama and foreground cloud fragments occupy actual z positions, rather
@@ -583,6 +590,9 @@ const performancePanel=debugEnabled?createPerformancePanel(debug,()=>({
   foregroundNear:nebulaVolume.layers.some(layer=>layer.visible&&layer.userData.volumeFragment&&layer.position.z>-100),
   handsVisible:firstPersonHands.state.visible,
   handsSurfaces:firstPersonHands.state.drawSurfaces,
+  handsMode:firstPersonHands.state.mode,
+  handsTriangles:firstPersonHands.state.triangles||0,
+  handsTextures:firstPersonHands.state.textureCount,
   depthMotion:nebulaVolume.state.parallaxEnabled,
   parallaxStrength:nebulaVolume.state.parallaxStrength,
   drawCalls:renderer.info.render.calls,
