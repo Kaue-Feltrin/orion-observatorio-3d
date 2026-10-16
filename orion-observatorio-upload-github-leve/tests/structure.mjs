@@ -116,3 +116,10 @@ assert.match(main,/effectsMode==='no-gas'/,'A/B do gás sem mudança do panorama
 assert.match(main,/!manualQuality && qualityMode!=='eco'/,'fallback automático em caso de quadros lentos');
 assert.match(await read('performance-panel.js'),/Lite sem bloom/,'comparativo A/B no debug');
 assert.match(await read('selective-bloom.js'),/if\(!enableBloom\)/,'passagens de bloom realmente ignoradas');
+
+\n// v0.9.6: Eco+ intermediário sem gás, com bloom, e comparação controlada.
+assert.match(main,/qualityOverride==='eco-plus'/,'perfil Eco+ selecionável');
+assert.match(main,/'eco-plus':\{dpr:\.60,maxPixels:670000,bloomScale:\.22,gas:\[\]/,'Eco+ contém gás desligado e orçamento de pixels intermediário');
+assert.match(main,/qualityOrder=\['eco','eco-plus','lite','balanced','high'\]/,'fallback gradual entre Eco+ e Eco');
+assert.match(await read('nebula-volume.js'),/\['lite','eco','eco-plus'\]/,'Eco+ mantém dois recortes em profundidade');
+assert.match(await read('performance-panel.js'),/Eco\+ sem bloom/,'comparativo entre Eco+ com e sem bloom');
