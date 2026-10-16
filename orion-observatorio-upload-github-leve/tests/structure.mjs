@@ -184,7 +184,7 @@ assert.match(hands3d,/vertexColors:true/,'cores por vértice sem nova textura');
 assert.match(hands3d,/fingerCount=5/,'cinco dedos distintos por mão');
 assert.match(hands3d,/const fingers=\[/,'quatro dedos articulados mais polegar');
 assert.match(hands3d,/const t0=\[/,'polegar 3D com duas falanges');
-assert.match(hands3d,/const right=new THREE\.Mesh\(geometry,material\)/,'as duas mãos compartilham geometria');
+assert.match(hands3d,/const left=new THREE\.Mesh\(geometry,material\),right=new THREE\.Mesh\(geometry,material\)/,'as duas mãos compartilham geometria');
 assert.match(hands3d,/textureCount:0/,'mãos 3D não carregam texturas');
 assert.match(hands3d,/camera\.add\(left,right\)/,'mãos em primeira pessoa presas à câmera');
 assert.match(hands3d,/hand\.renderOrder=30/,'renderizar mãos por cima do panorama');
