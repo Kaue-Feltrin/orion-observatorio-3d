@@ -250,3 +250,17 @@ O usuário testou v0.9.7 e observou que **ainda havia pouco movimento responsivo
 - Nenhuma nova textura, material, shader, luz, estrela, mesh ou pass de renderização. Preservar `quality=eco-plus`, bloom, foto ESO e `star-journey.js`.
 
 **Teste no PC:** abrir `?debug=1&quality=eco-plus`, comparar com `?debug=1&quality=eco-plus&depthMotion=off`, testar movimento horizontal e vertical com o slider, verificar FPS/p95 e se os recortes parecem orgânicos, não peças soltas. A v0.9.6 Eco+ com bloom chegou a 60 FPS/p95 16,8ms no PC do usuário; isso **não garante** o desempenho desta nova revisão. Não mesclar sem aprovação visual e explícita.
+
+## v0.9.9 — Véu fotográfico próximo / profundidade em primeiro plano (prévia)
+
+Feedback em 16/10/2026: a v0.9.8 finalmente acompanha bem o mouse, mas o usuário ainda percebe ausência de **camadas próximas da câmera** e pergunta se **as mãos** poderiam resolver.
+
+**Decisão de composição:** mãos em primeira pessoa, quando o projeto tiver um modelo/asset definido e aprovado, podem ser uma âncora fortíssima de profundidade; **não substituem** nuvens em planos físicos distintos. Esta etapa não inventa mãos ou elementos novos. Testa primeiro um terceiro recorte fotográfico da **mesma fotografia ESO**.
+
+Em `?quality=eco-plus`, reutiliza o recorte ESO `03` já disponível no build, posicionado em **Z = −75** (em vez de −252) com apenas **38% da opacidade original** (aprox. 0,072), mantendo `02` em Z = −342 e `04` em Z = −185. A projeção inicial recalcula tamanho/posição para preservar alinhamento com a foto principal; o deslocamento do cursor cria paralaxe muito mais pronunciada devido à proximidade. A ordem das camadas transparentes agora é calculada pelo Z efetivo: o véu frontal deve ser composto depois do plano Z = −185. Não há shader, gás GLSL ou estrela adicional; **há um recorte e textura adicionais ativos** no Eco+, portanto pode haver pequeno custo adicional de GPU/VRAM. Não alegar 60 FPS sem dados reais.
+
+**Comparar no mesmo PC:** `?debug=1&quality=eco-plus` com 3 recortes, contra `?debug=1&quality=eco-plus&foreground=off` com os 2 recortes de antes; bloom aprovado mantido nos dois. Verificar se o véu parece uma massa de nebulosa com profundidade ou um objeto transparente deslizando, além de FPS/p95 e RAM total no Chrome (Shift+Esc). `?depthMotion=off` continua testando a inércia, separadamente.
+
+**Mãos:** não foram criadas nem incluídas nesta revisão. Se forem adicionadas posteriormente, considerar hierarquia frontal, oclusão, animação, sensibilidade a movimento reduzido e orçamento gráfico; testar com o usuário antes de fixar a estética.
+
+A produção `main` continua intacta.
