@@ -18,9 +18,12 @@ const CANDIDATE=PARAMS.get('fpsPose')==='open'?'open':'relaxed';
 const STYLE=['original','calm','cinematic'].includes(PARAMS.get('fpsStyle'))
   ?PARAMS.get('fpsStyle'):'cinematic';
 const ART={
-  original:{wristY:-.84,fadeFrom:.615,fadeTo:.725,wristBend:0,wristRoll:0,opacity:.94},
-  calm:{wristY:-.88,fadeFrom:.635,fadeTo:.735,wristBend:-.35,wristRoll:-.10,opacity:.92},
-  cinematic:{wristY:-.84,fadeFrom:.628,fadeTo:.735,wristBend:-.30,wristRoll:-.37,opacity:.95}
+  // O Y do GLB (0.615..0.912) avança da mão para o antebraço.
+  // O protótipo anterior INVERTIA esta prioridade: braço opaco, dedos apagados.
+  // Original fica como comparação; variantes corrigidas fazem fade no antebraço.
+  original:{wristY:-.84,fadeFrom:.615,fadeTo:.725,wristBend:0,wristRoll:0,opacity:.94,fadeInvert:false},
+  calm:{wristY:-.88,fadeFrom:.735,fadeTo:.865,wristBend:-.43,wristRoll:-.16,opacity:.96,fadeInvert:true},
+  cinematic:{wristY:-.84,fadeFrom:.73,fadeTo:.87,wristBend:-.55,wristRoll:-.35,opacity:.98,fadeInvert:true}
 }[STYLE];
 const wristBendAxis=new THREE.Vector3(1,0,0);
 const wristRollAxis=new THREE.Vector3(0,0,1);
@@ -132,7 +135,8 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
             const ly=positions.getY(i);
             const nz=normals?.getZ(i)??0,ny=normals?.getY(i)??0;
             const shade=THREE.MathUtils.clamp(.66+.20*nz+.12*ny,.45,.95);
-            const fade=THREE.MathUtils.smoothstep(ly,ART.fadeFrom,ART.fadeTo);
+            const f=THREE.MathUtils.smoothstep(ly,ART.fadeFrom,ART.fadeTo);
+            const fade=ART.fadeInvert?1-f:f;
             colors[i*4]=shade*.94;colors[i*4+1]=shade*.84;
             colors[i*4+2]=shade*1.05;colors[i*4+3]=fade;
           }
