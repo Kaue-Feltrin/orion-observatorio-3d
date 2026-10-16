@@ -59,3 +59,42 @@ test('v0.9.14 modo desligado não solicita nem aloca as mãos',async({page})=>{
   await page.locator('#heraldTarget').click({force:true});
   await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
 });
+
+
+test('v0.9.14 compara mãos relaxadas em 3/4 com pose aberta de referência',async({page})=>{
+  const poses=[];
+  await page.setViewportSize({width:1748,height:864});
+  for(const pose of ['open','relaxed']){
+    await page.goto('http://127.0.0.1:4173/?quality=eco-plus&hands=vr&handPose='+pose+'&debug=1',{waitUntil:'domcontentloaded'});
+    await expect.poll(async()=>page.evaluate(()=>window.__orionHandsDebug?.state.loaded),{timeout:18000}).toBe(true);
+    await page.waitForTimeout(300);
+    const metrics=await page.evaluate(()=>{
+      const h=window.__orionHandsDebug,c=window.__orionDepthDebug.camera;
+      c.updateMatrixWorld(true);h.root.updateMatrixWorld(true);
+      function sample(side){
+        const points={};
+        h.groups[side].traverse(obj=>{
+          if(!obj.isBone)return;
+          if(!/^(wrist|middle-finger-tip|index-finger-tip|thumb-tip)$/i.test(obj.name))return;
+          const ndc=obj.getWorldPosition(obj.position.clone()).project(c);
+          points[obj.name]=[ndc.x,ndc.y,ndc.z];
+        });
+        return points;
+      }
+      return{pose:h.state.pose,angles:h.driven.slice(0,3).map(x=>({name:x.bone.name,
+        q:x.bone.quaternion.toArray(),base:x.base.toArray()})),
+        groups:h.groups.map((g,i)=>({rotation:g.rotation.toArray().slice(0,3),points:sample(i)}))};
+    });
+    poses.push(metrics);
+    await page.evaluate(()=>document.querySelector('#debug').style.display='none');
+    await page.screenshot({path:'test-results/v0914-vr-'+pose+'.png'});
+  }
+  console.log('POSE_A_B',JSON.stringify(poses));
+  expect(poses.map(x=>x.pose)).toEqual(['open','relaxed']);
+  expect(poses[0].groups[0].rotation).not.toEqual(poses[1].groups[0].rotation);
+  expect(poses[0].angles[0].q).not.toEqual(poses[1].angles[0].q);
+  for(const group of poses[1].groups){
+    expect(group.points['wrist']).toBeDefined();
+    expect(group.points['middle-finger-tip']).toBeDefined();
+  }
+});
