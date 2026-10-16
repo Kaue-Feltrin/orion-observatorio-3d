@@ -65,7 +65,22 @@ export function createPerformancePanel(debugRoot, readScene) {
   }
   depthComparison.href=comparisonUrl.pathname+comparisonUrl.search;
   depthComparison.className='perf-depth-compare';
-  field.append(compareHelp,comparisons,depthComparison);
+  const foregroundComparison=document.createElement('a');
+  const fgUrl=new URL(window.location.href);
+  fgUrl.searchParams.set('debug','1');
+  fgUrl.searchParams.set('quality','eco-plus');
+  fgUrl.searchParams.delete('effects');
+  const foregroundOff=new URLSearchParams(location.search).get('foreground')==='off';
+  if(foregroundOff){
+    fgUrl.searchParams.delete('foreground');
+    foregroundComparison.textContent='Ativar véu próximo · Eco+';
+  }else{
+    fgUrl.searchParams.set('foreground','off');
+    foregroundComparison.textContent='Comparar sem véu próximo · Eco+';
+  }
+  foregroundComparison.href=fgUrl.pathname+fgUrl.search;
+  foregroundComparison.className='perf-depth-compare';
+  field.append(compareHelp,comparisons,depthComparison,foregroundComparison);
   debugRoot.appendChild(field);
 
   const MAX_SAMPLES = 360, WINDOW_MS = 4000;
@@ -122,6 +137,7 @@ export function createPerformancePanel(debugRoot, readScene) {
       'Efeitos: ' + s.effects + ' · bloom em repouso: ' + (s.bloomRest?'sim':'não'),
       'Pixels do canvas: ' + s.canvasPixels,
       'Camadas: ' + s.gasLayers + ' gás / ' + s.volumeLayers + ' recortes',
+      'Véu frontal próximo da câmera: ' + (s.foregroundNear?'sim':'não'),
       'Profundidade orgânica: ' + (s.depthMotion?'ativa':'desativada') + ' · intensidade: ' + s.parallaxStrength,
       'Draw calls: ' + s.drawCalls + ' · texturas GPU: ' + s.textures,
       'Diferença interna mouse/câmera: ' + s.mouseDeltaPx + ' px',
@@ -132,7 +148,7 @@ export function createPerformancePanel(debugRoot, readScene) {
   function report() {
     const s = snapshot();
     return [
-      'Projeto Órion · Observatório v0.9.8 (prévia)',
+      'Projeto Órion · Observatório v0.9.9 (prévia)',
       new Date().toLocaleString('pt-BR'),
       format(s),
       'Amostras: ' + s.samples + ' · adaptações automáticas: ' + s.adaptations,

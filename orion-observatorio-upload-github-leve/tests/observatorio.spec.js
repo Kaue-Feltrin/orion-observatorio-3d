@@ -486,7 +486,7 @@ test('v0.9.5 comparações não aparecem fora do modo de depuração',async({pag
 
 
 test('v0.9.6 Eco+ conserva bloom, duas massas e um limite de resolução intermediário',async({page})=>{
-  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus',{waitUntil:'domcontentloaded'});
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&foreground=off',{waitUntil:'domcontentloaded'});
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   await expect(page.locator('#orionPerfReadout')).toContainText('Perfil: eco-plus',{timeout:15000});
   const info=await page.evaluate(()=>({
@@ -509,7 +509,7 @@ test('v0.9.6 Eco+ conserva bloom, duas massas e um limite de resolução interme
 });
 
 test('v0.9.6 Eco+ sem bloom desliga apenas passes luminosos, mantendo profundidade',async({page})=>{
-  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&effects=no-bloom',{waitUntil:'domcontentloaded'});
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&foreground=off&effects=no-bloom',{waitUntil:'domcontentloaded'});
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   const p=await page.evaluate(()=>window.__orionDiagnostic.snapshot());
   expect(p.quality).toBe('eco-plus');
@@ -524,7 +524,7 @@ test('v0.9.6 Eco+ sem bloom desliga apenas passes luminosos, mantendo profundida
 
 test('v0.9.7 Eco+ tem paralaxe orgânica diferencial sem novos meshes ou gás',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus',{waitUntil:'domcontentloaded'});
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&foreground=off',{waitUntil:'domcontentloaded'});
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   await expect(page.locator('#orionPerfReadout')).toContainText('Profundidade orgânica: ativa',{timeout:15000});
   await page.evaluate(()=>{
@@ -564,7 +564,7 @@ test('v0.9.7 Eco+ tem paralaxe orgânica diferencial sem novos meshes ou gás',a
 });
 
 test('v0.9.7 comparativo legado e movimento reduzido não deslocam fotos',async({page})=>{
-  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&depthMotion=off',{waitUntil:'domcontentloaded'});
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&foreground=off&depthMotion=off',{waitUntil:'domcontentloaded'});
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   await page.evaluate(()=>{
     dispatchEvent(new PointerEvent('pointermove',{
@@ -582,7 +582,7 @@ test('v0.9.7 comparativo legado e movimento reduzido não deslocam fotos',async(
   expect(compare.offset).toEqual([0,0]);
   expect(compare.bloom).toBe(true);
   expect(compare.target).toContain('Ativar profundidade');
-  await page.locator('.perf-depth-compare').click();
+  await page.locator('.perf-depth-compare').first().click();
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   expect(await page.evaluate(()=>window.__orionDiagnostic.snapshot().depthMotion)).toBe(true);
   await page.emulateMedia({reducedMotion:'reduce'});
@@ -594,7 +594,7 @@ test('v0.9.7 comparativo legado e movimento reduzido não deslocam fotos',async(
 
 test('v0.9.8 responde rapidamente ao cursor com amplitude 3x maior sem camadas extras',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus',{waitUntil:'domcontentloaded'});
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&foreground=off',{waitUntil:'domcontentloaded'});
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   const first=await page.evaluate(()=>{
     const layers=window.__orionDepthDebug.layers.filter(x=>x.userData.volumeFragment&&x.visible);
@@ -622,7 +622,7 @@ test('v0.9.8 responde rapidamente ao cursor com amplitude 3x maior sem camadas e
 });
 
 test('v0.9.8 intensidade ajustável no debug sem alterar qualidade nem viagem',async({page})=>{
-  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus',{waitUntil:'domcontentloaded'});
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&foreground=off',{waitUntil:'domcontentloaded'});
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   await page.evaluate(()=>{
     const input=document.querySelector('input[aria-label="Paralaxe da nebulosa"]');
@@ -636,4 +636,56 @@ test('v0.9.8 intensidade ajustável no debug sem alterar qualidade nem viagem',a
   expect(p.canvasPixels).toBeLessThanOrEqual(680000);
   await page.locator('#heraldTarget').click({force:true});
   await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+});
+
+
+test('v0.9.9 Eco+ cria terceiro recorte ESO mais próximo com ordem correta',async({page})=>{
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  await expect(page.locator('#orionPerfReadout')).toContainText('Véu frontal próximo da câmera: sim',{timeout:15000});
+  const data=await page.evaluate(()=>{
+    const ls=window.__orionDepthDebug.layers.filter(l=>l.userData.volumeFragment&&l.visible);
+    return {depth:ls.map(l=>l.position.z),
+      order:ls.map(l=>l.renderOrder),
+      opacity:ls.map(l=>l.material.opacity),
+      originals:ls.map(l=>l.userData.spec.id),
+      status:window.__orionDiagnostic.snapshot(),
+      photo:window.__orionRespirationDebug.nebula.material.opacity};
+  });
+  expect(data.depth).toEqual([-342,-75,-185]);
+  expect(data.originals).toEqual(['02','03','04']);
+  expect(data.order[1]).toBeGreaterThan(data.order[2]); // -75 is in front of -185.
+  expect(data.opacity[1]).toBeLessThan(.095); // Soft photographic foreground.
+  expect(data.status.foregroundNear).toBe(true);
+  expect(data.status.volumeLayers).toBe(3);
+  expect(data.status.gasLayers).toBe(0);
+  expect(data.status.bloomRest).toBe(true);
+  expect(data.status.quality).toBe('eco-plus');
+  expect(data.photo).toBe(1);
+  expect(errors).toEqual([]);
+  await page.screenshot({path:'test-results/v099-terceiro-recorte-frontal.png'});
+  await page.locator('#heraldTarget').click({force:true});
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+});
+
+test('v0.9.9 sem véu frontal restaura exatamente os dois planos e mantém o bloom',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&foreground=off',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const data=await page.evaluate(()=>{
+    const ls=window.__orionDepthDebug.layers.filter(l=>l.userData.volumeFragment&&l.visible);
+    const stat=window.__orionDiagnostic.snapshot();
+    return{depth:ls.map(l=>l.position.z),volumes:stat.volumeLayers,
+      foreground:stat.foregroundNear,bloom:stat.bloomRest,
+      href:document.querySelectorAll('.perf-depth-compare')[1]?.href};
+  });
+  expect(data.depth).toEqual([-342,-185]);
+  expect(data.volumes).toBe(2);
+  expect(data.foreground).toBe(false);
+  expect(data.bloom).toBe(true);
+  expect(data.href).toContain('quality=eco-plus');
+  expect(data.href).not.toContain('foreground=off');
+  await page.locator('.perf-depth-compare').last().click();
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  expect(await page.evaluate(()=>window.__orionDiagnostic.snapshot().volumeLayers)).toBe(3);
 });
