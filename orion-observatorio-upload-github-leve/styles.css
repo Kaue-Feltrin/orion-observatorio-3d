@@ -152,3 +152,10 @@ rgba(187,150,225,.28) 51%,rgba(10,6,27,0) 80%);opacity:0}
 .fps-credit{bottom:35px}
 .fps-credit[hidden]{display:none}
 @media(max-width:670px){.fps-credit{bottom:27px}}
+
+/* v0.9.16: benchmarking opcional, apenas no painel debug; sem efeitos na cena. */
+.perf-ab-inspector{display:grid;gap:8px;min-width:0;padding-top:12px;margin-top:4px;border-top:1px solid rgba(232,207,146,.22)}
+.perf-ab-inspector strong{font:600 12px/1.35 'Segoe UI',Arial,sans-serif;color:#f1e2c5}
+.perf-ab-inspector .perf-values{overflow-wrap:anywhere}
+.perf-ab-inspector .perf-depth-compare{display:block}
+.perf-ab-inspector #orionHandsABStatus:empty{display:none}
