@@ -42,3 +42,15 @@ O arquivo GLB com 456 KB não representa RAM ou VRAM residente. No modo rig ativ
 - **Adaptações:** novo enquadramento por ossos, material violeta discreto, fade de antebraço e animação sutil de dedos, tudo no runtime, sem alterar os bytes do GLB original.
 - **Aviso legal e crédito:** ver `LICENCAS/DAVID-FISCHER-FPS-HANDS-CC-BY-4.0.md`. O nome do autor e a licença aparecem na interface quando `hands=fps`; a licença exige atribuição e indicação das modificações. Não há endosso do autor.
 - **Status:** modelo candidato em v0.9.15; sujeito a capturas, QA do Nox e medição FPS/p95 no PC. **Não aprovado visualmente ainda**.
+
+## v0.9.15 — David Fischer, First Person hands rigged (CC BY 4.0)
+
+- **Autor:** David Fischer; **obra:** [First Person hands rigged](https://sketchfab.com/3d-models/first-person-hands-rigged-547a45535f0c4fe787948f7a7a6a88db).
+- **Licença de redistribuição/adaptação:** [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), com atribuição e indicação de mudanças. Crédito visível na interface quando `hands=fps`.
+- **Origem da cópia:** [KineTwin (Pruek-Sang)](https://github.com/Pruek-Sang/kinetwin/blob/main/LICENSE-ASSETS.md), que registra download via API oficial do Sketchfab em 22/06/2026. GLB original sem alteração binária: Git blob `110be5c6f6a72c396058be927de5e89f3c7d1bb5`, 387.856 bytes.
+- **Arquivo local:** `orion-observatorio-upload-github-leve/public/models/david-fischer-fps-hands.glb`.
+- **Geometria verificada:** 63 joints, 1 SkinnedMesh principal com 4.564 vértices / 7.966 triângulos, uma malha secundária decorativa suprimida; 40 nós de falanges reconhecidos, nenhuma textura de rede externa.
+- **Transformações do Órion:** materiais roxos discretos, fade do antebraço por alpha dos vértices, transformação de viewmodel derivada de punhos e pontas de dedos, animação idle/sway própria e ocultação no Nox. Essas mudanças são em runtime, sem alterar o GLB distribuído.
+- Detalhes e texto legal: `LICENCAS/DAVID-FISCHER-FPS-HANDS-CC-BY-4.0.md`. Sem endosso do autor.
+
+A obra original já contém rig; a qualidade final da composição e desempenho da v0.9.15 só são aprovados após screenshot e medição no computador do usuário.
