@@ -590,3 +590,50 @@ test('v0.9.7 comparativo legado e movimento reduzido não deslocam fotos',async(
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   expect(await page.evaluate(()=>window.__orionDiagnostic.snapshot().depthMotion)).toBe(false);
 });
+
+
+test('v0.9.8 responde rapidamente ao cursor com amplitude 3x maior sem camadas extras',async({page})=>{
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const first=await page.evaluate(()=>{
+    const layers=window.__orionDepthDebug.layers.filter(x=>x.userData.volumeFragment&&x.visible);
+    return {amplitudes:layers.map(l=>l.userData.spec.parallaxX),
+      state:window.__orionDepthDebug.nebulaMotion.parallaxStrength};
+  });
+  expect(first.amplitudes).toEqual([5.2,16.5]);
+  expect(first.state).toBe(1);
+  await page.evaluate(()=>{
+    dispatchEvent(new PointerEvent('pointermove',{
+      clientX:innerWidth-20,clientY:innerHeight*.42,pointerType:'mouse',bubbles:true
+    }));
+  });
+  await expect.poll(async()=>page.evaluate(()=>{
+    const near=window.__orionDepthDebug.layers.find(l=>l.userData.volumeFragment&&l.userData.spec.id==='04');
+    return Math.abs(near.userData.parallaxOffsetX);
+  }),{timeout:18000}).toBeGreaterThan(8);
+  const sample=await page.evaluate(()=>window.__orionDiagnostic.snapshot());
+  expect(sample.quality).toBe('eco-plus');
+  expect(sample.gasLayers).toBe(0);
+  expect(sample.volumeLayers).toBe(2);
+  expect(sample.bloomRest).toBe(true);
+  expect(sample.parallaxStrength).toBe(1);
+  expect(errors).toEqual([]);
+});
+
+test('v0.9.8 intensidade ajustável no debug sem alterar qualidade nem viagem',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  await page.evaluate(()=>{
+    const input=document.querySelector('input[aria-label="Paralaxe da nebulosa"]');
+    input.value='1.6';
+    input.dispatchEvent(new Event('input',{bubbles:true}));
+  });
+  await expect.poll(async()=>page.evaluate(()=>window.__orionDepthDebug.nebulaMotion.parallaxStrength)).toBe(1.6);
+  const p=await page.evaluate(()=>window.__orionDiagnostic.snapshot());
+  expect(p.parallaxStrength).toBe(1.6);
+  expect(p.bloomRest).toBe(true);
+  expect(p.canvasPixels).toBeLessThanOrEqual(680000);
+  await page.locator('#heraldTarget').click({force:true});
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+});

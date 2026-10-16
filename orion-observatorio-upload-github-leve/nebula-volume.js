@@ -25,7 +25,11 @@ export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false,paralla
     scene.add(mesh);
     return mesh;
   });
-  const state={active:0,loaded:0,parallaxEnabled:parallaxEnabled&&!reducedMotion};
+  const state={active:0,loaded:0,parallaxEnabled:parallaxEnabled&&!reducedMotion,parallaxStrength:1};
+  function setParallaxStrength(value){
+    const n=Number(value);
+    if(Number.isFinite(n))state.parallaxStrength=THREE.MathUtils.clamp(n,.45,1.6);
+  }
   function ensureTexture(mesh){
     if(mesh.userData.loaded)return;
     mesh.userData.loaded=true;
@@ -68,13 +72,15 @@ export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false,paralla
     }
   }
   // Perspectiva de câmera real já separa os planos em Z. Uma deriva
-  // inercial mínima, com magnitude crescente para o plano próximo, acrescenta
+  // mais responsiva, com magnitude crescente para o plano próximo, acrescenta
   // volume perceptível ao movimento lateral sem "descolar" o JPEG ESO.
+  // Alvo do cursor alimenta diretamente esta interpolação (~70 ms), evitando
+  // uma segunda suavização lenta sobre a câmera que segue em ~55 ms.
   // Esta atualização mexe apenas em transformações 3D já existentes:
   // mesmo número de meshes, draw calls, materiais e texturas da v0.9.6.
   function update(time,viewX=0,viewY=0,delta=1/60){
     const moving=state.parallaxEnabled;
-    const factor=moving?1-Math.exp(-Math.max(0,Math.min(.1,delta))*4.2):1;
+    const factor=moving?1-Math.exp(-Math.max(0,Math.min(.1,delta))*14):1;
     const x=moving?THREE.MathUtils.clamp(viewX,-1,1):0;
     const y=moving?THREE.MathUtils.clamp(viewY,-1,1):0;
     for(const layer of layers){
@@ -83,8 +89,8 @@ export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false,paralla
       const wave=reducedMotion?0:Math.sin(time*spec.rate+spec.phase);
       const drift=reducedMotion?0:Math.sin(time*spec.rate*.55+spec.phase*1.43);
       const data=layer.userData;
-      data.parallaxOffsetX+=(-x*spec.parallaxX-data.parallaxOffsetX)*factor;
-      data.parallaxOffsetY+=(-y*spec.parallaxY-data.parallaxOffsetY)*factor;
+      data.parallaxOffsetX+=(-x*spec.parallaxX*state.parallaxStrength-data.parallaxOffsetX)*factor;
+      data.parallaxOffsetY+=(-y*spec.parallaxY*state.parallaxStrength-data.parallaxOffsetY)*factor;
       layer.position.x=data.baseX+drift*spec.drift+data.parallaxOffsetX;
       layer.position.y=data.baseY+wave*spec.drift*.32+data.parallaxOffsetY;
       // Respiração orgânica de escala inferior a 0,4%, sem shader ou ruído.
@@ -102,5 +108,5 @@ export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false,paralla
       scene.remove(mesh);
     }
   }
-  return {layers,state,resize,update,applyQuality,dispose};
+  return {layers,state,resize,update,applyQuality,dispose,setParallaxStrength};
 }

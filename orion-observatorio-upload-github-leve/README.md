@@ -238,3 +238,15 @@ Referência aprovada para preservar: **Eco+ com bloom** da v0.9.6 (medido no PC 
 Comparar ao mover o mouse para esquerda/direita e observar a diferença de profundidade. Copiar o FPS/p95 de ambos e avaliar se há movimento artificial ou brilho excessivo. **Não mesclar em produção até aprovação explícita.**
 
 Registro central: https://github.com/Kaue-Feltrin/orion-observatorio-3d/issues/10
+
+## v0.9.8 — Paralaxe mais responsiva sem aumentar a carga gráfica
+
+O usuário testou v0.9.7 e observou que **ainda havia pouco movimento responsivo da nebulosa**. A nova prévia resolve especificamente essa percepção, sem alterar a fotografia integral ESO ou o brilho aprovado do Nox.
+
+- A nuvem central passa de 1,7 para **5,2 unidades** de deslocamento lateral; o véu próximo passa de 5,0 para **16,5 unidades**, tornando a diferença entre os planos em Z mais visível ao atravessar a tela com o mouse.
+- O alvo é agora a posição **direta do cursor**, e não a câmera já suavizada. A interpolação do véu foi acelerada de 4,2/s (~240ms) para **14/s (~70ms)**. A câmera mantém seu smoothing próprio.
+- Movimentos verticais proporcionais (nuvem central: 2,1; véu próximo: 6,2) ajudam a perceber profundidade sem mover a imagem panorâmica de base.
+- Em `?debug=1`, o slider **Paralaxe da nebulosa** permite calibrar intensidade de 0,45× a 1,60× instantaneamente. O valor padrão é 1,0× sobre amplitudes já reforçadas. Continua possível usar `?depthMotion=off` para comparar.
+- Nenhuma nova textura, material, shader, luz, estrela, mesh ou pass de renderização. Preservar `quality=eco-plus`, bloom, foto ESO e `star-journey.js`.
+
+**Teste no PC:** abrir `?debug=1&quality=eco-plus`, comparar com `?debug=1&quality=eco-plus&depthMotion=off`, testar movimento horizontal e vertical com o slider, verificar FPS/p95 e se os recortes parecem orgânicos, não peças soltas. A v0.9.6 Eco+ com bloom chegou a 60 FPS/p95 16,8ms no PC do usuário; isso **não garante** o desempenho desta nova revisão. Não mesclar sem aprovação visual e explícita.

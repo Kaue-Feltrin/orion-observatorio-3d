@@ -122,7 +122,7 @@ export function createPerformancePanel(debugRoot, readScene) {
       'Efeitos: ' + s.effects + ' · bloom em repouso: ' + (s.bloomRest?'sim':'não'),
       'Pixels do canvas: ' + s.canvasPixels,
       'Camadas: ' + s.gasLayers + ' gás / ' + s.volumeLayers + ' recortes',
-      'Profundidade orgânica: ' + (s.depthMotion?'ativa':'desativada'),
+      'Profundidade orgânica: ' + (s.depthMotion?'ativa':'desativada') + ' · intensidade: ' + s.parallaxStrength,
       'Draw calls: ' + s.drawCalls + ' · texturas GPU: ' + s.textures,
       'Diferença interna mouse/câmera: ' + s.mouseDeltaPx + ' px',
       'Heap JavaScript: ' + (s.jsHeapMB == null ? 'indisponível' : s.jsHeapMB + ' MB') + ' (não é RAM total)'
@@ -132,7 +132,7 @@ export function createPerformancePanel(debugRoot, readScene) {
   function report() {
     const s = snapshot();
     return [
-      'Projeto Órion · Observatório v0.9.7 (prévia)',
+      'Projeto Órion · Observatório v0.9.8 (prévia)',
       new Date().toLocaleString('pt-BR'),
       format(s),
       'Amostras: ' + s.samples + ' · adaptações automáticas: ' + s.adaptations,
