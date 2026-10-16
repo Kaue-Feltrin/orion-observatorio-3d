@@ -14,6 +14,7 @@ const tempQ=new THREE.Quaternion();
 const bendAxis=new THREE.Vector3(1,0,0);
 const PARAMS=new URLSearchParams(window.location.search);
 const CANDIDATE=PARAMS.get('fpsPose')==='open'?'open':'relaxed';
+const LIGHT_MODE=PARAMS.get('fpsLight')==='basic'?'basic':'lit';
 // Variações visuais sobre o mesmo modelo e a mesma cena, para QA por screenshot.
 const STYLE=['original','calm','cinematic'].includes(PARAMS.get('fpsStyle'))
   ?PARAMS.get('fpsStyle'):'cinematic';
@@ -44,7 +45,7 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
     mode:'fps',enabled:!!enabled,visible:!!enabled,loaded:false,
     motionEnabled:!reducedMotion,loadError:null,pose:CANDIDATE,
     joints:0,fingerJoints:0,triangles:0,textureCount:0,drawSurfaces:0,
-    swayX:0,swayY:0,leftX:0,rightX:0,framing:null,artStyle:STYLE,
+    swayX:0,swayY:0,leftX:0,rightX:0,framing:null,artStyle:STYLE,lightMode:LIGHT_MODE,
   };
   if(!enabled)return{state,meshes:[],driven:[],ready:Promise.resolve(false),
     update(){},resize(){},beginTravel(){},dispose(){}};
@@ -52,6 +53,18 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
   const root=new THREE.Group();
   root.name='Órion · mãos FPS de David Fischer, viewmodel local';
   camera.add(root);
+  // Viewmodel FPS com iluminação de preenchimento própria. Os elementos
+  // do universo ESO/Nox usam materiais básicos ou shaders independentes,
+  // então não ficam artificialmente mais claros.
+  const handsLights=[];
+  if(LIGHT_MODE==='lit'){
+    const fill=new THREE.HemisphereLight(0xe3d7ff,0x17132d,1.45);
+    const key=new THREE.DirectionalLight(0xf4e9ff,1.15);
+    key.position.set(-.70,1.6,2.3);
+    key.target.position.set(0,0,-2);
+    camera.add(fill,key,key.target);
+    handsLights.push(fill,key,key.target);
+  }
   const meshes=[],materials=[],geometries=[],driven=[],bones=[];
   const anchors={wristL:null,wristR:null,tipL:null,tipR:null};
   const poseWrists=[];
@@ -142,8 +155,9 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
           }
           cloned.setAttribute('color',new THREE.Float32BufferAttribute(colors,4));
           geometries.push(cloned);
-          const mat=new THREE.MeshBasicMaterial({
-            color:0xbab2cc,vertexColors:true,
+          const Material=LIGHT_MODE==='lit'?THREE.MeshLambertMaterial:THREE.MeshBasicMaterial;
+          const mat=new Material({
+            color:LIGHT_MODE==='lit'?0xa9a0c6:0xbab2cc,vertexColors:true,
             transparent:true,opacity:ART.opacity,side:THREE.DoubleSide,
             depthTest:false,depthWrite:false,toneMapped:false
           });
@@ -220,6 +234,7 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
   function dispose(){
     disposed=true;
     camera.remove(root);
+    handsLights.forEach(light=>camera.remove(light));
     geometries.forEach(g=>g.dispose());
     materials.forEach(m=>m.dispose());
     root.clear();
