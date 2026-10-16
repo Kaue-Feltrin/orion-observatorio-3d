@@ -101,3 +101,29 @@ test('v0.9.15 respeita prefers-reduced-motion e preserva navegação',async({pag
   await expect.poll(async()=>page.evaluate(()=>window.__orionHandsDebug.state.visible),{timeout:1000}).toBe(false);
   await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
 });
+
+
+test('v0.9.15 compara orientação de punhos FPS sem alterar Nox nem universo',async({page})=>{
+  await page.setViewportSize({width:1748,height:864});
+  const variations=['base','forward','reach','inward','back'];
+  const data=[];
+  for(const tune of variations){
+    await page.goto(base+'?debug=1&quality=eco-plus&hands=fps&fpsTune='+tune,{waitUntil:'domcontentloaded'});
+    await expect.poll(async()=>page.evaluate(()=>{
+      const s=window.__orionHandsDebug?.state;
+      return s?.loadError||(s?.loaded?'loaded':'waiting');
+    }),{timeout:20000}).toBe('loaded');
+    await page.waitForTimeout(240);
+    data.push(await page.evaluate(()=>{
+      const h=window.__orionHandsDebug;
+      return{tune:h.state.tune,framing:h.state.framing,meshes:h.meshes.length,
+        wrists:h.driven.slice(0,3).map(d=>d.bone.quaternion.toArray())};
+    }));
+    await page.evaluate(()=>{const panel=document.querySelector('#debug');if(panel)panel.style.display='none';});
+    await page.screenshot({path:'test-results/v0915-qa-pose-'+tune+'.png'});
+  }
+  console.log('DAVID_FPS_POSE_SWEEP',JSON.stringify(data));
+  expect(data.map(x=>x.tune)).toEqual(variations);
+  expect(data.every(x=>x.meshes>0&&x.framing?.wristLeft&&x.framing?.wristRight)).toBe(true);
+  expect(data[0].wrists).not.toEqual(data[1].wrists);
+});
