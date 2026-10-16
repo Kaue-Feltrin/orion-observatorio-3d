@@ -906,3 +906,18 @@ test('v0.9.12 mãos 3D em movimento reduzido ficam estáticas e desaparecem no v
   await expect.poll(async()=>page.evaluate(()=>window.__orionHandsDebug.state.visible)).toBe(false);
   await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
 });
+
+
+test('v0.9.12 mãos 3D são apresentadas também sem o painel de debug',async({page})=>{
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('http://127.0.0.1:4173/?quality=eco-plus&hands=3d',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  await expect(page.locator('#orionPerfReadout')).toHaveCount(0);
+  await expect(page.locator('.perf-depth-compare')).toHaveCount(0);
+  await expect(page.locator('#world canvas')).toHaveCount(1);
+  await page.waitForTimeout(400);
+  await page.screenshot({path:'test-results/v0912-maos-3d-publico.png'});
+  expect(errors).toEqual([]);
+  await page.locator('#heraldTarget').click({force:true});
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+});
