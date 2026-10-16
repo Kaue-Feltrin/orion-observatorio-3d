@@ -758,7 +758,7 @@ test('v0.9.10 sem mãos restaura cena e não aloca viewmodel',async({page})=>{
   expect(initial.result.handsVisible).toBe(false);
   expect(initial.result.handsSurfaces).toBe(0);
   expect(initial.result.volumeLayers).toBe(3);
-  expect(initial.toggle).toContain('Ativar silhuetas');
+  expect(initial.toggle).toContain('Ativar mãos etéreas');
   await page.locator('.perf-depth-compare').last().click();
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   expect(await page.evaluate(()=>window.__orionDiagnostic.snapshot().handsVisible)).toBe(true);
