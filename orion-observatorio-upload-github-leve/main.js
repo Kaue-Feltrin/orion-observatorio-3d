@@ -42,6 +42,8 @@ const handsSetting=params.get('hands');
 const handsEnabled=['on','fps','vr','rig','3d','2d'].includes(handsSetting)||(handsSetting!=='off'&&!mobile);
 // Nova prévia de arte anatômica: WRAD retrô continua disponível apenas via ?hands=rig.
 const handsMode=handsSetting==='2d'?'2d':handsSetting==='3d'?'3d':handsSetting==='rig'?'rig':handsSetting==='vr'?'vr':'fps';
+const fpsHandsCredit=document.getElementById('fpsHandsCredit');
+if(fpsHandsCredit)fpsHandsCredit.hidden=!handsEnabled||handsMode!=='fps';
 debug.hidden = !debugEnabled;
 
 // Orçamento de GPU: DPR alto quadruplica os pixels por quadro, e as camadas
