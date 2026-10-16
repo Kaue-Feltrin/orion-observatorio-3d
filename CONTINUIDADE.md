@@ -1,3 +1,14 @@
+## Etapa v0.9.16 — benchmark A/B das mãos FPS (16/10/2026)
+
+- Usuário pediu continuar o Observatório v0.9.15 e solicitou **um arquivo de contexto novo em cada resposta**, para retomar integralmente o trabalho em outro chat. A fonte permanente ainda é este arquivo + PRs/GitHub; respostas devem anexar um Markdown atualizado em `/mnt/data`.
+- V0.9.15 confirmada com **4 workflows aprovados no commit 02233a8** (QA, enquadramento, viewmodel e suíte geral). PR [#22](https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/22) é **draft**, não mesclado. Pose padrão David Fischer `fpsStyle=natural` / variante `rest1`, bend=1.0/yaw ±.36/roll ∓.38, aguardando aprovação artística do usuário e medição real no hardware.
+- Para avançar sem comprometer a cena, criada a **branch independente** `preview/benchmark-maos-fps-v0916`, baseada na v0.9.15, PR [#23](https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/23) **draft** contra a branch da v0.9.15, não contra produção.
+- Pesquisa oficial: MDN `requestAnimationFrame`, web.dev smoothness do Chrome, MDN Page Visibility API. Decisão: **reutilizar FPS/p95 capturados pelo único loop de renderização existente**, sem RAF extra, shaders, meshes ou mudanças de câmera. Registro somente mediante clique.
+- Novo `orion-observatorio-upload-github-leve/hands-benchmark.js`: botões de registrar amostra, alternar `hands=fps`/ `off` e limpar; `sessionStorage` somente da aba, sem rede, com assinatura de qualidade, efeitos, bloom, DPR, janela, pixels, recortes, foreground e paralaxe. A comparação só aparece quando as duas assinaturas são idênticas. Captura rejeita aba oculta, menos de 10s ou menos de 30 frames, qualidade diferente de `eco-plus`, rig não carregado.
+- `performance-panel.js` integra o controle no painel `?debug=1`, deixa `hands=off` alternar expressamente para `hands=fps&fpsStyle=natural` e acrescenta o comparativo ao **Copiar diagnóstico** existente. `styles.css` dá legibilidade isolada no debug. O resto da UI/3D não muda.
+- `tests/hands-benchmark.spec.js` verifica o painel no **build Vite**, persistência, delta e reset; `tests/structure.mjs` valida os cálculos puros e a ausência de novo RAF/fetch. Documento `ESTUDO-BENCHMARK-MAOS-FPS-v0916.md` descreve pesquisa e protocolo.
+- Próximos passos: confirmar CI completo e screenshot do novo painel; obter amostras **no PC do usuário** após 10 s por modo, duas repetições, com mesma viewport; comparar FPS e p95, inspecionar hands natural ao vivo; se aprovados, decidir promoção com autorização expressa. **Não fazer merge na main nem deploy em produção sem aprovação.**
+
 ## Continuação concluída — v0.9.15 mãos FPS posição relaxada (16/10/2026)
 
 - **Fonte de verdade:** PR #22 em draft na branch `preview/fps-hands-david-v0915`; código verificado no commit `0ad834394c8acdc1a7714e068246b07bf8d9c20f`. A produção `main` e o restante do universo 3D foram preservados.
