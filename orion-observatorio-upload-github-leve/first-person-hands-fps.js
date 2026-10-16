@@ -142,12 +142,15 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
           if(/^handr/.test(n))anchors.wristR=bone;
           if(/^fmiddle03l/.test(n))anchors.tipL=bone;
           if(/^fmiddle03r/.test(n))anchors.tipR=bone;
-          const m=String(bone.name||'').match(FINGER)||String(bone.name||'').match(THUMB);
-          if(!m)continue;
-          const isThumb=m[0].toLowerCase().startsWith('thumb');
+          const name=String(bone.name||'');
+          const finger=name.match(FINGER),thumb=name.match(THUMB);
+          if(!finger&&!thumb)continue;
+          // O polegar tem dois grupos de captura (falange, lado), enquanto
+          // os outros dedos têm três (dedo, falange, lado).
           driven.push({bone,base:bone.quaternion.clone(),
-            digit:isThumb?'thumb':m[1].toLowerCase(),segment:Number(m[2]),
-            side:m[3].toLowerCase()==='l'?1:-1});
+            digit:thumb?'thumb':finger[1].toLowerCase(),
+            segment:thumb?Number(thumb[1]):Number(finger[2]),
+            side:(thumb?thumb[2]:finger[3]).toLowerCase()==='l'?1:-1});
         }
         if(!anchors.wristL||!anchors.wristR)throw new Error('Mãos importadas sem ossos dos punhos');
         if(driven.length<25)throw new Error('Rig importado não fornece falanges suficientes: '+driven.length);
