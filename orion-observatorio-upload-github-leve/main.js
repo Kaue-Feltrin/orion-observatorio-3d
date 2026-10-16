@@ -9,6 +9,7 @@ import { createNebulaVolume } from './nebula-volume.js';
 import { createPerformancePanel } from './performance-panel.js';
 import { createFirstPersonHands } from './first-person-hands.js';
 import { createFirstPersonHands3D } from './first-person-hands-3d.js';
+import { createRiggedFirstPersonHands } from './first-person-hands-rig.js';
 
 const root = document.getElementById('observatory');
 const container = document.getElementById('world');
@@ -34,10 +35,10 @@ const depthMotionEnabled=params.get('depthMotion')!=='off';
 const foregroundEnabled=params.get('foreground')!=='off';
 // Prévia reversível: mãos ativadas em desktop, desativadas em dispositivos
 // de toque por padrão. ?hands=on permite testar; ?hands=off restaura v0.9.9.
-// 3D por padrão em desktop; ?hands=2d mantém a arte anterior para comparação.
+// Rig artístico CC0 padrão; ?hands=3d conserva modelo anterior e ?hands=2d o plano.
 const handsSetting=params.get('hands');
-const handsEnabled=['on','3d','2d'].includes(handsSetting)||(handsSetting!=='off'&&!mobile);
-const handsMode=handsSetting==='2d'?'2d':'3d';
+const handsEnabled=['on','rig','3d','2d'].includes(handsSetting)||(handsSetting!=='off'&&!mobile);
+const handsMode=handsSetting==='2d'?'2d':handsSetting==='3d'?'3d':'rig';
 debug.hidden = !debugEnabled;
 
 // Orçamento de GPU: DPR alto quadruplica os pixels por quadro, e as camadas
@@ -131,7 +132,9 @@ camera.position.set(0, 0, 0);
 // o mundo 3D, a paralaxe ESO ou o pós-processamento do Nox.
 const firstPersonHands=handsMode==='2d'
   ?createFirstPersonHands(camera,{enabled:handsEnabled,reducedMotion:reduceMotion})
-  :createFirstPersonHands3D(camera,{enabled:handsEnabled,reducedMotion:reduceMotion});
+  :handsMode==='3d'
+    ?createFirstPersonHands3D(camera,{enabled:handsEnabled,reducedMotion:reduceMotion})
+    :createRiggedFirstPersonHands(camera,{enabled:handsEnabled,reducedMotion:reduceMotion});
 firstPersonHands.state.mode=handsMode;
 if(debugEnabled)window.__orionHandsDebug=firstPersonHands;
 
@@ -593,6 +596,10 @@ const performancePanel=debugEnabled?createPerformancePanel(debug,()=>({
   handsMode:firstPersonHands.state.mode,
   handsTriangles:firstPersonHands.state.triangles||0,
   handsTextures:firstPersonHands.state.textureCount,
+  handsReady:firstPersonHands.state.loaded??firstPersonHands.state.enabled,
+  handsJoints:firstPersonHands.state.joints||0,
+  handsFingerJoints:firstPersonHands.state.fingerJoints||0,
+  handsLoadError:firstPersonHands.state.loadError||null,
   depthMotion:nebulaVolume.state.parallaxEnabled,
   parallaxStrength:nebulaVolume.state.parallaxStrength,
   drawCalls:renderer.info.render.calls,
