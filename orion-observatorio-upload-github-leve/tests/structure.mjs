@@ -104,7 +104,7 @@ assert.doesNotMatch(main,/card\.offsetHeight-18/,'não ler layout a cada frame')
 assert.match(main,/fpsCap:60/,'sem limite rígido de 30 fps');
 assert.match(main,/selectiveBloom\.render\(travelling\|\|bloomTick%2===1,/,'bloom fora do caminho crítico da câmera');
 assert.match(await read('selective-bloom.js'),/function render\(refreshBloom=true,enableBloom=true\)/,'renderização seletiva temporizada e desligável');
-assert.match(await read('nebula-volume.js'),/const selected=quality===.lite./,'qualidade variável');
+assert.match(await read('nebula-volume.js'),/const selected=\['lite','eco','eco-plus'\]\.includes\(quality\)/,'qualidade variável com dois recortes em Eco+');
 assert.match(await read('nebula-depth-specs.js'),/export const nebulaDepthSpecs/,'recortes coordenados');
 assert.match(await read('scripts/prepare-astro-assets.mjs'),/eso-gas-/,'4 texturas RGBA preparadas no build');
 assert.doesNotMatch(await read('scripts/prepare-astro-assets.mjs'),/const preserve=1-eased/,'ESO integral não deve ser apagada');
@@ -114,5 +114,13 @@ assert.match(main,/eco:\{dpr:\.53,maxPixels:500000/,'perfil eco limita pixels');
 assert.match(main,/qualityMode!=='eco'/,'bloom desligável durante o repouso Eco');
 assert.match(main,/effectsMode==='no-gas'/,'A/B do gás sem mudança do panorama');
 assert.match(main,/!manualQuality && qualityMode!=='eco'/,'fallback automático em caso de quadros lentos');
-assert.match(await read('performance-panel.js'),/Lite sem bloom/,'comparativo A/B no debug');
+assert.match(await read('performance-panel.js'),/Eco\+ sem bloom/,'comparativo A/B no debug');
 assert.match(await read('selective-bloom.js'),/if\(!enableBloom\)/,'passagens de bloom realmente ignoradas');
+
+
+// v0.9.6: Eco+ intermediário sem gás, com bloom, e comparação controlada.
+assert.match(main,/qualityOverride==='eco-plus'/,'perfil Eco+ selecionável');
+assert.match(main,/'eco-plus':\{dpr:\.60,maxPixels:670000,bloomScale:\.22,gas:\[\]/,'Eco+ contém gás desligado e orçamento de pixels intermediário');
+assert.match(main,/qualityOrder=\['eco','eco-plus','lite','balanced','high'\]/,'fallback gradual entre Eco+ e Eco');
+assert.match(await read('nebula-volume.js'),/\['lite','eco','eco-plus'\]/,'Eco+ mantém dois recortes em profundidade');
+assert.match(await read('performance-panel.js'),/Eco\+ sem bloom/,'comparativo entre Eco+ com e sem bloom');

@@ -40,7 +40,7 @@ export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false}={}){
   }
   function applyQuality(quality){
     // A versão leve recebe apenas duas massas para limitar RAM/VRAM.
-    const selected=quality==='lite'||quality==='eco'?[1,3]:quality==='high'?[0,1,2,3]:[0,1,2];
+    const selected=['lite','eco','eco-plus'].includes(quality)?[1,3]:quality==='high'?[0,1,2,3]:[0,1,2];
     layers.forEach((mesh,i)=>{
       mesh.visible=selected.includes(i);
       if(mesh.visible)ensureTexture(mesh);
