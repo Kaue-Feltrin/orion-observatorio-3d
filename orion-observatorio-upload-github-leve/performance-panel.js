@@ -26,10 +26,11 @@ export function createPerformancePanel(debugRoot, readScene) {
   comparisons.className='perf-comparisons';
   comparisons.setAttribute('aria-label','Comparação de custos de renderização');
   const choices=[
-    {label:'Lite original',quality:'lite',effects:null},
-    {label:'Lite sem bloom',quality:'lite',effects:'no-bloom'},
+    {label:'Lite original · 950k px',quality:'lite',effects:null},
     {label:'Lite sem gás GLSL',quality:'lite',effects:'no-gas'},
-    {label:'Eco (menos pixels, sem bloom/gás)',quality:'eco',effects:null}
+    {label:'Eco+ · 670k px + bloom',quality:'eco-plus',effects:null},
+    {label:'Eco+ sem bloom',quality:'eco-plus',effects:'no-bloom'},
+    {label:'Eco · 500k px',quality:'eco',effects:null}
   ];
   for(const choice of choices){
     const url=new URL(window.location.href);
@@ -47,7 +48,7 @@ export function createPerformancePanel(debugRoot, readScene) {
     comparisons.appendChild(anchor);
   }
   const compareHelp=document.createElement('small');
-  compareHelp.textContent='Compare FPS após estabilizar cada versão. Uma diferença grande indica qual efeito pesa mais neste computador.';
+  compareHelp.textContent='Compare após ~10 s em cada modo e repita as medições. Lite sem gás e Eco+ preservam o bloom: a diferença isola principalmente a resolução; Eco+ sem bloom mostra o custo do bloom na mesma resolução.';
   field.append(compareHelp,comparisons);
   debugRoot.appendChild(field);
 
@@ -114,7 +115,7 @@ export function createPerformancePanel(debugRoot, readScene) {
   function report() {
     const s = snapshot();
     return [
-      'Projeto Órion · Observatório v0.9.5 (prévia)',
+      'Projeto Órion · Observatório v0.9.6 (prévia)',
       new Date().toLocaleString('pt-BR'),
       format(s),
       'Amostras: ' + s.samples + ' · adaptações automáticas: ' + s.adaptations,
