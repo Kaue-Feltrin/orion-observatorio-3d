@@ -16,7 +16,7 @@ const PARAMS=new URLSearchParams(window.location.search);
 const CANDIDATE=PARAMS.get('fpsPose')==='open'?'open':'relaxed';
 // Variações visuais sobre o mesmo modelo e a mesma cena, para QA por screenshot.
 const STYLE=['original','calm','cinematic'].includes(PARAMS.get('fpsStyle'))
-  ?PARAMS.get('fpsStyle'):'calm';
+  ?PARAMS.get('fpsStyle'):'cinematic';
 const ART={
   original:{wristY:-.84,fadeFrom:.615,fadeTo:.725,wristBend:0,wristRoll:0,opacity:.94},
   calm:{wristY:-.88,fadeFrom:.635,fadeTo:.735,wristBend:-.35,wristRoll:-.10,opacity:.92},
