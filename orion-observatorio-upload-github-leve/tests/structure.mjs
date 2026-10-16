@@ -96,7 +96,7 @@ assert.match(css,/radial-gradient\(ellipse 22% 28% at var\(--nox-focus-x/,'spotl
 
 // v0.9.3: 4 recortes fotográficos reais (sem editar o panorama) e cena mais leve.
 assert.match(main,/createNebulaVolume\(scene,mainCloud/,'recortes da foto ESO em planos 3D');
-assert.match(main,/nebulaVolume\.update\(time,smooth\.x,smooth\.y,delta\)/,'nuvens independentes com paralaxe de câmera');
+assert.match(main,/nebulaVolume\.update\(time,mouse\.x,mouse\.y,delta\)/,'nuvens independentes e resposta imediata ao alvo do cursor');
 assert.match(main,/nebulaVolume\.resize\(\)/,'enquadramento na projeção');
 assert.match(main,/Math\.exp\(-Math\.max\(\.001,delta\)\*18\)/,'mouse responde rapidamente');
 assert.match(main,/cachedCardHeight/,'evitar reflow por quadro');
@@ -130,7 +130,13 @@ const volumeScript=await read('nebula-volume.js');
 assert.match(volumeScript,/parallaxOffsetX/,'paralaxe em coordenadas do mundo 3D');
 assert.match(volumeScript,/baseScaleX/,'respiração usa escala cacheada');
 assert.match(volumeScript,/parallaxEnabled=true/,'desligamento controlado de paralaxe A\/B');
-assert.match(main,/nebulaVolume\.update\(time,smooth\.x,smooth\.y,delta\)/,'câmera transmite deslocamento à nebulosa');
+assert.match(main,/nebulaVolume\.update\(time,mouse\.x,mouse\.y,delta\)/,'cursor alimenta paralaxe sem uma segunda inércia da câmera');
 assert.match(main,/parallaxEnabled:depthMotionEnabled/,'A\/B para comparar sem mexer na fotografia');
 assert.match(await read('performance-panel.js'),/Profundidade orgânica/,'painel registra efeito ativo');
-assert.match(await read('nebula-depth-specs.js'),/parallaxX:5\.0/,'véu da frente desloca mais que massa distante');
+assert.match(await read('nebula-depth-specs.js'),/parallaxX:16\.5/,'véu da frente desloca mais que massa distante');
+
+// v0.9.8: amplitude visível com resposta rápida, sem trabalho gráfico extra.
+assert.match(await read('nebula-volume.js'),/Math\.exp\(-Math\.max\(0,Math\.min\(\.1,delta\)\)\*14\)/,'inércia da nebulosa de aproximadamente 70ms');
+assert.match(await read('nebula-volume.js'),/setParallaxStrength/,'intensidade ajustável sem reconstruir cena');
+assert.match(main,/addSlider\('Paralaxe da nebulosa'/,'controle opcional de intensidade na depuração');
+assert.match(await read('performance-panel.js'),/parallaxStrength/,'relatório registra intensidade da paralaxe');
