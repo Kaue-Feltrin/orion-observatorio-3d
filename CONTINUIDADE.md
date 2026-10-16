@@ -1,3 +1,11 @@
+## Inspeção visual adicional da pose David FPS (16/10/2026)
+
+- Captura `v0915-qa-pose-base.png` inspecionada após a primeira correção: dedos convergiam mais ao centro, mas palmas ainda estavam frontais e verticais, como gesto de "pare". **Primeiro resultado reprovado visualmente, apesar de NDC válido**.
+- Refinamento seguinte: `aimNaturalPose()` busca dois graus de liberdade por punho — roll na tela e pitch para dentro da profundidade real da câmera. O objetivo é reduzir a verticalidade dos dedos, deixar parte das palmas em 3/4 e apontar a mão para frente sem quebrar o rig. Busca executada apenas no carregamento e resize, sem custo contínuo.
+- Os testes antigos não mediam realmente os ossos pós-pose; agora `tests/fps-natural.spec.js` resolve os nomes sanitizados do GLTF e compara a projeção verdadeira dos dedos contra os landmarks.
+- **Ainda pendente:** conferir nova captura do navegador e qualidade anatômica, validar CI completo e FPS/p95 do usuário. Um teste intermediário falhou por procura literal do nome `f_middle.03.L_end` em vez de usar a normalização dos nomes do GLTF; teste corrigido, não era falha de renderização.
+- PR #22 segue draft, produção intocada.
+
 ## Correção da pose natural — continuação da v0.9.15 (16/10/2026)
 
 - Feedback do usuário: o modelo original de David Fischer continua, mas os punhos e dedos não têm uma posição natural de primeira pessoa. **Não trocar o GLB nem redesenhar o universo.**
