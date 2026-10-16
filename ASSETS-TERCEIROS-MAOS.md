@@ -32,3 +32,13 @@ O arquivo GLB com 456 KB não representa RAM ou VRAM residente. No modo rig ativ
 - **Características medidas do GLB:** 25 joints por mão, uma `SkinnedMesh` de aproximadamente 1.360 vértices por mão, sem textura embutida, ~95 KB por arquivo. Padrão de articulação anatômica: punho, polegar, indicadores, médios, anelares e mínimos.
 - **Integração no Observatório:** `first-person-hands-vr.js` combina ambos os modelos em uma pose de primeira pessoa, sombreia discretamente com cor por vértice e permite animar ossos. `hands=vr`; `hands=rig` mantém WRAD retrô para comparação.
 - **Limitação:** mãos VR isoladas (sem braços/mangas) e visual neutro. **Não é a arte final do Observatório**, mas uma alternativa tecnicamente mais apropriada que um par de antebraços PS1 volumosos.
+
+## David Fischer — First Person hands rigged (CC BY 4.0)
+
+- **Obra/autor:** [First Person hands rigged — David Fischer](https://sketchfab.com/3d-models/first-person-hands-rigged-547a45535f0c4fe787948f7a7a6a88db), CC BY 4.0 ([licença](https://creativecommons.org/licenses/by/4.0/)).
+- **Cópia original verificada:** [KineTwin, por Pruek-Sang](https://github.com/Pruek-Sang/kinetwin/blob/main/LICENSE-ASSETS.md); foi obtida pelo Sketchfab Download API em 22/06/2026 e redistribuída com atribuição. URL do GLB nesse repositório: `src/deploy/blender/models/first_person_hands_rigged.glb`.
+- **Arquivo importado no Órion:** `orion-observatorio-upload-github-leve/public/models/david-fischer-fps-hands.glb`, **SHA Git `110be5c6f6a72c396058be927de5e89f3c7d1bb5`**, gerador Sketchfab-12.64.0, ~388 KB.
+- **Características:** 63 bones, rig humano, aproximadamente 8,2k triângulos, malha principal e pequeno objeto secundário; geometria base local sem texturas externas.
+- **Adaptações:** novo enquadramento por ossos, material violeta discreto, fade de antebraço e animação sutil de dedos, tudo no runtime, sem alterar os bytes do GLB original.
+- **Aviso legal e crédito:** ver `LICENCAS/DAVID-FISCHER-FPS-HANDS-CC-BY-4.0.md`. O nome do autor e a licença aparecem na interface quando `hands=fps`; a licença exige atribuição e indicação das modificações. Não há endosso do autor.
+- **Status:** modelo candidato em v0.9.15; sujeito a capturas, QA do Nox e medição FPS/p95 no PC. **Não aprovado visualmente ainda**.
