@@ -174,3 +174,19 @@ assert.match(handsV0911,/const energy=ctx\.createRadialGradient/,'luz violeta pi
 assert.match(handsV0911,/hand\.bezierCurveTo/,'cinco dedos com contorno orgânico autoral');
 assert.match(handsV0911,/new THREE\.CanvasTexture\(canvas\)/,'somente uma textura para as duas mãos');
 assert.match(handsV0911,/Math\.sin\(time\*\.81\)\*\.006/,'respiração leve');
+
+// v0.9.12: geometria real por mão e modos 3D/2D sem afetar fotografia ESO.
+const hands3d=await read('first-person-hands-3d.js');
+assert.match(main,/createFirstPersonHands3D/,'novo viewmodel 3D integrado');
+assert.match(main,/handsSetting==='2d'\?'2d':'3d'/,'modo 3D padrão e modo legado disponível');
+assert.match(hands3d,/mergeGeometries\(parts,false\)/,'uma malha por mão via mesh merging');
+assert.match(hands3d,/vertexColors:true/,'cores por vértice sem nova textura');
+assert.match(hands3d,/fingerCount=5/,'cinco dedos distintos por mão');
+assert.match(hands3d,/const fingers=\[/,'quatro dedos articulados mais polegar');
+assert.match(hands3d,/const t0=\[/,'polegar 3D com duas falanges');
+assert.match(hands3d,/const right=new THREE\.Mesh\(geometry,material\)/,'as duas mãos compartilham geometria');
+assert.match(hands3d,/textureCount:0/,'mãos 3D não carregam texturas');
+assert.match(hands3d,/camera\.add\(left,right\)/,'mãos em primeira pessoa presas à câmera');
+assert.match(hands3d,/hand\.renderOrder=30/,'renderizar mãos por cima do panorama');
+assert.match(hands3d,/hand\.visible=false/,'mãos ocultas durante viagem');
+assert.match(await read('performance-panel.js'),/triângulos por mão/,'diagnóstico expõe peso gráfico 3D');
