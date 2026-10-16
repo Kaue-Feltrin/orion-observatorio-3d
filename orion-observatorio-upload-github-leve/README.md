@@ -292,3 +292,20 @@ Substituir o modelo artesanal que o usuário considerou feio por **WRAD ARMS**, 
 - Preservados Nox, 3 recortes da foto ESO/S. Brunier, bloom, 146 estrelas adicionais, viagem, performance adaptativa, a interface e produção `main`.
 - Os dedos podem ser animados para abrir/fechar/gesticular posteriormente; nesta primeira revisão usam **idle discreto**. O arquivo original não inclui clipes de animação. É estética retro leve, com possibilidade de trocar por um modelo anatômico realista numa etapa posterior.
 - Aceite: CI + screenshot e sobretudo medição de FPS/p95 e avaliação de modelo real no PC. 60 FPS da v0.9.9 são apenas referência.
+
+
+## v0.9.15 — mãos de David Fischer com rig profissional (prévia)
+
+A v0.9.15 substitui **somente na branch de prévia** as mãos VR/retro anteriores pelo modelo [First Person hands rigged, David Fischer](https://sketchfab.com/3d-models/first-person-hands-rigged-547a45535f0c4fe787948f7a7a6a88db), sob **CC BY 4.0**. A cópia GLB (~388 KB) foi obtida da redistribuição [KineTwin](https://github.com/Pruek-Sang/kinetwin/blob/main/LICENSE-ASSETS.md), que documenta download via API oficial Sketchfab, e armazenada localmente em `public/models/david-fischer-fps-hands.glb`, mantendo o blob original. Créditos e condições de licença em `../LICENCAS/DAVID-FISCHER-FPS-HANDS-CC-BY-4.0.md`; a interface exibe atribuição quando a versão FPS está ativa.
+
+**Arquitetura:** `first-person-hands-fps.js` usa `SkinnedMesh` real com 63 bones e cerca de 7.966 triângulos, enquadramento pelos ossos dos punhos e ponta dos dedos, material básico e apenas uma variante de luminosidade (sem luzes, texturas novas ou bloom). `prefers-reduced-motion` desliga idle/sway. As mãos são ocultas na viagem. O arquivo original não tem clipes de animação; o Órion aplica gestos discretos aos ossos.
+
+**Testes A/B da prévia:**
+- `?quality=eco-plus&hands=fps`: novo modelo FPS David (padrão desktop na **prévia**).
+- `&fpsStyle=cinematic`: palmas/dedos preservados e braços atenuados; `calm` e `original` para comparação.
+- `&fpsPose=open`: pose aberta original, para comparar com `relaxed`.
+- `?quality=eco-plus&hands=vr`: modelo anatômico da versão anterior.
+- `?quality=eco-plus&hands=off`: sem mãos, nenhuma carga do GLB de David.
+- `&debug=1`: FPS, p95, draw calls e projeção de landmarks, além dos custos do Nox/nebula.
+
+**Critério de aceite:** não declarar o site “bonito” só porque o GLB carrega ou os testes passam. Conferir capturas 1748×864 e 1920×951, dedos/antebraços e o Nox livre. A meta de 60 FPS é histórica e **precisa de nova medição no hardware do usuário**. Nenhum merge/deploy de produção `main` sem autorização explícita.

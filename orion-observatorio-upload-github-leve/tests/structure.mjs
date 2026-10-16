@@ -155,7 +155,7 @@ assert.match(main,/import \{ createFirstPersonHands \} from '.\/first-person-han
 assert.match(main,/firstPersonHands\.beginTravel\(\)/,'mãos desaparecem antes da viagem');
 assert.match(main,/firstPersonHands\.resize\(\)/,'mãos respondem ao viewport');
 assert.match(main,/firstPersonHands\.update\(time,delta,mouse\.x,mouse\.y\)/,'sway das mãos em camera local');
-assert.match(main,/const handsEnabled=\['on','vr','rig','3d','2d'\]\.includes\(handsSetting\)/,'modos A/B VR, rig, 3D, 2D e opt-in no mobile');
+assert.match(main,/const handsEnabled=\['on','fps','vr','rig','3d','2d'\]\.includes\(handsSetting\)/,'mãos FPS e comparativos anteriores disponíveis');
 assert.match(hands,/new THREE\.CanvasTexture\(canvas\)/,'um asset CanvasTexture gerado uma única vez');
 assert.match(hands,/const left=new THREE\.Mesh\(geometry,material\)/,'mão esquerda compartilha material');
 assert.match(hands,/const right=new THREE\.Mesh\(geometry,material\)/,'mão direita compartilha material');
@@ -178,7 +178,7 @@ assert.match(handsV0911,/Math\.sin\(time\*\.81\)\*\.006/,'respiração leve');
 // v0.9.12: geometria real por mão e modos 3D/2D sem afetar fotografia ESO.
 const hands3d=await read('first-person-hands-3d.js');
 assert.match(main,/createFirstPersonHands3D/,'novo viewmodel 3D integrado');
-assert.match(main,/handsSetting==='rig'\?'rig':'vr'/,'mãos anatômicas são o padrão experimental');
+assert.match(main,/handsSetting==='vr'\?'vr':'fps'/,'David Fischer é o padrão experimental FPS');
 assert.match(hands3d,/mergeGeometries\(parts,false\)/,'uma malha por mão via mesh merging');
 assert.match(hands3d,/vertexColors:true/,'cores por vértice sem nova textura');
 assert.match(hands3d,/fingerCount=5/,'cinco dedos distintos por mão');
@@ -215,3 +215,17 @@ assert.match(vr,/camera\.add\(root\)/,'viewmodel preso à câmera');
 assert.match(vr,/new THREE\.Float32BufferAttribute\(rgba,4\)/,'fade no pulso e sombreado autoral');
 assert.match(await read('first-person-hands-rig.js'),/wristCoordinates/,'WRAD calibra pulso, não bounding box da cena');
 assert.match(await read('first-person-hands-rig.js'),/FRAMING\.pitch/,'orientação corrigida após referência de FPS');
+
+// v0.9.15 — asset de David Fischer CC BY, enquadramento por landmarks e fallback.
+const fps=await read('first-person-hands-fps.js');
+assert.match(main,/createFpsFirstPersonHands/,'asset de David está integrado à câmera');
+assert.match(fps,/const ASSET='\/models\/david-fischer-fps-hands\.glb'/,'asset local, sem fetch do Sketchfab');
+assert.match(fps,/new GLTFLoader\(\)\.load/,'carregador legítimo e local de GLB');
+assert.match(fps,/getWorldPosition/,'landmarks reais dos ossos no mundo');
+assert.match(fps,/anchors\.wristL/,'enquadramento por punhos');
+assert.match(fps,/anchors\.tipL/,'enquadramento considera os dedos');
+assert.match(fps,/obj\.isSkinnedMesh/,'não substitui rig real por polígonos novos');
+assert.match(fps,/depthTest:false,depthWrite:false/,'mãos sem oclusão do panorama');
+assert.match(fps,/driven\.length<25/,'suporte a falanges animáveis');
+assert.match(fps,/root\.visible=false/,'mãos ocultas durante viagem');
+assert.match(fps,/disposed=true/,'ciclo de vida de malhas e materiais');

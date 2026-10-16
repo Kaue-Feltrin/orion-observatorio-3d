@@ -147,3 +147,8 @@ rgba(187,150,225,.28) 51%,rgba(10,6,27,0) 80%);opacity:0}
 /* v0.9.7 · Comparativo apenas no modo de depuração. */
 .perf-depth-compare{display:block;text-align:center;padding:9px 7px;border-radius:7px;border:1px solid rgba(232,207,146,.24);color:#e9d7b0;background:rgba(232,207,146,.08);font:11px/1.4 'Segoe UI',Arial,sans-serif;text-decoration:none}
 .perf-depth-compare:hover,.perf-depth-compare:focus-visible{background:rgba(232,207,146,.16);border-color:rgba(232,207,146,.5)}
+
+/* Atribuição CC BY 4.0 do modelo de David Fischer, próxima ao crédito ESO. */
+.fps-credit{bottom:35px}
+.fps-credit[hidden]{display:none}
+@media(max-width:670px){.fps-credit{bottom:27px}}

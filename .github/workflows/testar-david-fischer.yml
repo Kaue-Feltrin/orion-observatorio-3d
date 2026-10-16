@@ -1,0 +1,33 @@
+name: Enquadramento David Fischer v0.9.15
+on:
+  push:
+    branches: [preview/fps-hands-david-v0915]
+  pull_request:
+    branches: [preview/viewmodel-pesquisado-v0914]
+permissions:
+  contents: read
+jobs:
+  fps-hands:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: orion-observatorio-upload-github-leve
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-audit --no-fund
+      - name: Verificar sintaxe e estrutura
+        run: npm run check
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - name: Validar asset, ossos, visibilidade e viagem
+        run: npx playwright test tests/fps-hands-david.spec.js --workers=1 --retries=0 --reporter=line
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: david-fischer-fps-screenshots
+          path: orion-observatorio-upload-github-leve/test-results/*.png
+          retention-days: 5

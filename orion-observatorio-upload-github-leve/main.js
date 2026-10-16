@@ -11,6 +11,7 @@ import { createFirstPersonHands } from './first-person-hands.js';
 import { createFirstPersonHands3D } from './first-person-hands-3d.js';
 import { createRiggedFirstPersonHands } from './first-person-hands-rig.js';
 import { createVrFirstPersonHands } from './first-person-hands-vr.js';
+import { createFpsFirstPersonHands } from './first-person-hands-fps.js';
 
 const root = document.getElementById('observatory');
 const container = document.getElementById('world');
@@ -38,9 +39,11 @@ const foregroundEnabled=params.get('foreground')!=='off';
 // de toque por padrão. ?hands=on permite testar; ?hands=off restaura v0.9.9.
 // Rig artístico CC0 padrão; ?hands=3d conserva modelo anterior e ?hands=2d o plano.
 const handsSetting=params.get('hands');
-const handsEnabled=['on','vr','rig','3d','2d'].includes(handsSetting)||(handsSetting!=='off'&&!mobile);
+const handsEnabled=['on','fps','vr','rig','3d','2d'].includes(handsSetting)||(handsSetting!=='off'&&!mobile);
 // Nova prévia de arte anatômica: WRAD retrô continua disponível apenas via ?hands=rig.
-const handsMode=handsSetting==='2d'?'2d':handsSetting==='3d'?'3d':handsSetting==='rig'?'rig':'vr';
+const handsMode=handsSetting==='2d'?'2d':handsSetting==='3d'?'3d':handsSetting==='rig'?'rig':handsSetting==='vr'?'vr':'fps';
+const fpsHandsCredit=document.getElementById('fpsHandsCredit');
+if(fpsHandsCredit)fpsHandsCredit.hidden=!handsEnabled||handsMode!=='fps';
 debug.hidden = !debugEnabled;
 
 // Orçamento de GPU: DPR alto quadruplica os pixels por quadro, e as camadas
@@ -138,7 +141,9 @@ const firstPersonHands=handsMode==='2d'
     ?createFirstPersonHands3D(camera,{enabled:handsEnabled,reducedMotion:reduceMotion})
     :handsMode==='rig'
       ?createRiggedFirstPersonHands(camera,{enabled:handsEnabled,reducedMotion:reduceMotion})
-      :createVrFirstPersonHands(camera,{enabled:handsEnabled,reducedMotion:reduceMotion});
+      :handsMode==='vr'
+        ?createVrFirstPersonHands(camera,{enabled:handsEnabled,reducedMotion:reduceMotion})
+        :createFpsFirstPersonHands(camera,{enabled:handsEnabled,reducedMotion:reduceMotion});
 firstPersonHands.state.mode=handsMode;
 if(debugEnabled)window.__orionHandsDebug=firstPersonHands;
 

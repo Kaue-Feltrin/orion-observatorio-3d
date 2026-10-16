@@ -1,3 +1,66 @@
+## Continuação concluída — v0.9.15 mãos FPS posição relaxada (16/10/2026)
+
+- **Fonte de verdade:** PR #22 em draft na branch `preview/fps-hands-david-v0915`; código verificado no commit `0ad834394c8acdc1a7714e068246b07bf8d9c20f`. A produção `main` e o restante do universo 3D foram preservados.
+- A falha era a pose inicial com as mãos abertas verticalmente (efeito "pare") e uma calibração que media as pontas ANTES de atualizar o rig. Corrigidos os landmarks medidos DEPOIS da pose do punho, com correspondência entre NDC registrado e projeção verdadeira.
+- Rodada A/B com **8 variantes** (base, forward, reach, inward, back, rest1, rest2, rest3), fotos reais armazenadas nas capturas do workflow [Enquadramento David #38951107610](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38951107610).
+- Escolhida como novo padrão `?hands=fps&fpsStyle=natural` a pose **rest1**, com flexão `bend=+1.0`, yaw `±0.36` e roll `∓0.38`, com palmas mais diagonais e dedos direcionados para frente, sem excesso de braço no quadro. Preservada `?fpsTune=back` para referência, `rest2` e `rest3` para A/B e todos os modos antigos.
+- **Código final aprovado pelos testes específicos:** [QA #38951577356](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38951577356), [enquadramento #38951577454](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38951577454), [viewmodel #38951577441](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38951577441). Nox, 3 recortes ESO, bloom, rig original de 63 ossos, 40 falanges, CC BY, `hands=off` e reduced-motion preservados. Browser de CI não é medidor de desempenho do hardware real.
+- **Pendência de aceite:** análise do usuário da nova captura de mão em 1748×864 e medição FPS/p95 com `?debug=1&quality=eco-plus&hands=fps` vs `hands=off`. Não fazer merge para `main` nem promover produção sem autorização explícita. A regressão geral pode ter execução mais longa que o QA isolado; conferir o workflow geral antes de qualquer merge.
+
+## Resultado da revisão visual das mãos — v0.9.15 (16/10/2026)
+
+- **Padrão atual aprovado tecnicamente, aguardando aceite estético do usuário:** `?quality=eco-plus&hands=fps&fpsStyle=natural` usa a pose diagonal do antigo `fpsTune=back` (`bend=+0,70`, `yaw=±0,30`, `roll=∓0,30`). A comparação visual real mostrou palmas em 3/4 e dedos apontando para frente, melhores que a antiga pose frontal e que o autoaim exagerado em "garra".
+- A busca de orientação por projeção/quatérnios permanece como fallback apenas quando as pontas não estiverem nas faixas de enquadramento; caso a pose diagonal esteja correta, ela **não é alterada pelo otimizador**. Mantém GLB original David Fischer, 63 ossos, 40 falanges, 7.966 tri, 1 SkinnedMesh e 0 texturas novas. Calibração atual lê landmarks DEPOIS da pose.
+- **CI da última revisão de código `20fae007`:** [QA de mãos #38949868330](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38949868330) **9/9 aprovado**; [enquadramento #38949868349](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38949868349) **aprovado**; [validação do viewmodel #38949868312](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38949868312) **aprovada**. Capturas 1748×864 e 1920×951 renderizadas, inspecionadas e comparadas com original/cinematic. O teste de 2 viewports confirmou mão esquerda ponta x≈-0,390 vs punho x≈-0,540, mão direita ponta x≈0,392 vs punho x≈0,540, y ponta≈-0,495 vs punho≈-0,850, com projeção pós-pose idêntica à medida; Nox e bloom preservados.
+- O teste headless em GitHub Actions usa GPU virtual e NÃO mede FPS no hardware real. **Faltam** comparação `hands=fps` vs `hands=off` com FPS/p95/RAM no PC, resultado do CI geral, e aceite visual explícito antes de mesclar. Produção `main` absolutamente intocada.
+- Preview e PR existentes: [PR #22](https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/22) em draft. Comparar `fpsStyle=natural` (padrão) contra `fpsStyle=cinematic` e `fpsTune=back` (legado).
+
+## Inspeção visual adicional da pose David FPS (16/10/2026)
+
+- Captura `v0915-qa-pose-base.png` inspecionada após a primeira correção: dedos convergiam mais ao centro, mas palmas ainda estavam frontais e verticais, como gesto de "pare". **Primeiro resultado reprovado visualmente, apesar de NDC válido**.
+- Refinamento seguinte: `aimNaturalPose()` busca dois graus de liberdade por punho — roll na tela e pitch para dentro da profundidade real da câmera. O objetivo é reduzir a verticalidade dos dedos, deixar parte das palmas em 3/4 e apontar a mão para frente sem quebrar o rig. Busca executada apenas no carregamento e resize, sem custo contínuo.
+- Os testes antigos não mediam realmente os ossos pós-pose; agora `tests/fps-natural.spec.js` resolve os nomes sanitizados do GLTF e compara a projeção verdadeira dos dedos contra os landmarks.
+- **Ainda pendente:** conferir nova captura do navegador e qualidade anatômica, validar CI completo e FPS/p95 do usuário. Um teste intermediário falhou por procura literal do nome `f_middle.03.L_end` em vez de usar a normalização dos nomes do GLTF; teste corrigido, não era falha de renderização.
+- PR #22 segue draft, produção intocada.
+
+## Correção da pose natural — continuação da v0.9.15 (16/10/2026)
+
+- Feedback do usuário: o modelo original de David Fischer continua, mas os punhos e dedos não têm uma posição natural de primeira pessoa. **Não trocar o GLB nem redesenhar o universo.**
+- Diagnóstico comprovado nas capturas do CI #38940487099: na variante cinematic, o NDC salvo para a ponta do dedo indicava y≈-0,45, enquanto a projeção real após girar os punhos era y≈-0,61. A causa é medição dos landmarks antes de aplicar a pose definitiva.
+- Correção de código: extrair `setBonePose()` comum a calibração/animação; medir punhos e pontas após posicionamento dos bones, orientar suavemente cada mão para o centro por comparação de projeções reais, e atualizar `state.framing` após o ajuste.
+- Nova variante padrão `fpsStyle=natural`: punhos sem dobra FBX extrema; ajuste individual em espaço da câmera, procurando ponta do médio levemente acima e para dentro, mantendo a origem do punho fixa. `fpsStyle=original|calm|cinematic` e `fpsTune` seguem disponíveis para comparações.
+- Nova regressão `tests/fps-natural.spec.js` validada em 1748×864 e 1920×951: posição de ponta dos dedos pós-pose, direção para dentro do quadro, Nox, 3 planos ESO, bloom; anexa screenshots no CI dedicado. Imagens e FPS/p95 real ainda são **pendências até o resultado do CI e inspeção humana**, não declarar pose final aprovada.
+- Branch `preview/fps-hands-david-v0915`, PR #22 em draft. **Nenhuma promoção para produção `main` sem aprovação explícita.** Processo de pesquisa obrigatória para novidades permanece em vigor.
+
+## Continuação v0.9.15 — QA visual real (16/10/2026)
+
+- Após duas interrupções de conexão, trabalho retomado na `preview/fps-hands-david-v0915`. O modelo de David Fischer, licença CC BY, crédito visível, código e PR #22 já estavam presentes e foram preservados. A produção `main` permanece intacta.
+- [Teste de integração local #38940487126](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38940487126) passou **4/4**: arquivo GLB, 63 ossos e falanges, Nox/viagem, movimento reduzido, atribuição e modo `hands=off`. Capturas de 1748×864 e 1920×951 analisadas.
+- [QA artístico #38940487099](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38940487099) passou **7/7**; foram comparados `fpsStyle=original|calm|cinematic` e luzes básicas/dedicadas. A malha profissional é bem mais anatômica que o WRAD, mas a pose padrão ainda estava excessivamente vertical.
+- Para evitar aprovar o visual apenas pelo CI, criados ajustes A/B `fpsTune=base|forward|reach|inward|back`, com screenshots idênticos. Comparação visual inicial: `forward`, `reach` e `inward` escondem ou deformam demais os dedos; **`base` permanece a pose mais legível** até avaliação do usuário. Os ajustes extremos ficam disponíveis somente como parâmetros técnicos, não padrão.
+- `tests/fps-hands-david.spec.js` e CI isolado `testar-david-fischer.yml` verificam GLB, NDC, créditos, reduzido, Nox e screenshot nas duas resoluções; regressão completa segue em execução. Corrigida expectativa obsoleta do teste A/B dos punhos e timeout de captura multi-variante.
+- Pendente: fechar o CI final, aprovar a direção estética com o usuário e obter FPS/p95 reais com `hands=fps` e `hands=off`. **Nunca promover para produção sem autorização explícita.**
+
+## Em andamento — v0.9.15 David Fischer FPS com rig original (16/10/2026)
+
+- **PR #22 draft:** https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/22, branch `preview/fps-hands-david-v0915`, base `preview/viewmodel-pesquisado-v0914`. **Produção `main` intocada.**
+- Pedido do usuário: integrar o **First Person hands rigged de David Fischer** e validar no nível mais alto de qualidade visual, estrutura, FPS e licença. Não continuar usando modelos procedurais/VR reprovados como padrão.
+- Pesquisados padrões de viewmodel em [IRONLINE (Three.js)](https://github.com/cktang88/3d-fps/blob/main/docs/FP_FRAMING.md), [s&box first-person viewmodel](https://sboxguide.dev/guides/first-person-viewmodel), bibliotecas Three.js SkinnedMesh/GLTFLoader, e a implementação do [KineTwin](https://github.com/Pruek-Sang/kinetwin) com essa mesma malha e rig. Seguir `PADRAO-PESQUISA-NOVAS-FUNCIONALIDADES.md` para toda feature.
+- **Arquivo CC BY original de David**, obtido da redistribuição documentada pelo KineTwin (via Sketchfab API em 22/06/2026), blob SHA `110be5c6f6a72c396058be927de5e89f3c7d1bb5`, 387.856 bytes, 63 ossos, 40 falanges e 7.966 triângulos, armazenado localmente. Atribuição completa em `LICENCAS/DAVID-FISCHER-FPS-HANDS-CC-BY-4.0.md`, visível em rodapé `#fpsHandsCredit`.
+- `first-person-hands-fps.js`: viewmodel preso à câmera, usa mesh original, calibra NDC de punhos e dedos, material violeta e alpha por vértice, quaternions de dedos, sway e movimento reduzido. `hands=fps` padrão na prévia desktop; fallback `hands=vr`, `hands=rig`, `hands=3d`, `hands=2d`, `hands=off`.
+- **Diagnóstico inicial passou:** [run 38933712805](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38933712805) 3/3 testes, com punhos NDC x±.54/y≈-.84 e ponta do médio y≈-.446; câmera 1748×864. Captura revelou **pose de "pare", braços longos** apesar de bom rig. Por isso foi adicionada comparação A/B `fpsStyle=original|calm|cinematic`, alterando flexão real dos punhos, fade e posição, com screenshots no CI antes de escolher o padrão.
+- CI completo, screenshot final, FPS/p95 no PC e aprovação visual do usuário **ainda em andamento**; não presumir 60 FPS atuais; não promover produção.
+
+## Prévia v0.9.15 — integração do modelo profissional de David Fischer (16/10/2026)
+
+- O usuário aprovou a estratégia de migrar para **First Person hands rigged (David Fischer)** e pediu a execução completa após rejeitar visualmente o WRAD e o Wonderland VR. Sem mexer na produção `main`.
+- [PR #22 draft](https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/22), branch `preview/fps-hands-david-v0915`, base `preview/viewmodel-pesquisado-v0914`.
+- Pesquisa: fonte Sketchfab original CC BY, Download API oficial exige autenticação; foi encontrada **redistribuição documentada KineTwin** de um GLB baixado pela API, com CC BY e mesma autoria. Importado sem modificar arquivo binário, SHA `110be5c6f6a72c396058be927de5e89f3c7d1bb5`, ~388KB, 63 ossos. Documentação `ESTUDO-MAOS-DAVID-FPS-v0915.md`, `ASSETS-TERCEIROS-MAOS.md`, `LICENCAS/DAVID-FISCHER-FPS-HANDS-CC-BY-4.0.md`.
+- Novo `first-person-hands-fps.js` monta SkinnedMesh principal com material discreto, fade dos braços, estado `ready`, pose relaxada, reduced-motion e seleção da viagem. **Calibra posição pelos ossos dos punhos e ponta dos dedos**, não pelos braços/Box3. UI dá atribuição visível CC BY quando FPS ativo.
+- `hands=fps` é padrão somente nesta prévia desktop; `hands=vr`, `rig`, `3d`, `2d`, `off` continuam reversíveis. Sem efeitos extra, e foto ESO/3 recortes/bloom/Nox/146 estrelas preservados.
+- Testes novos `tests/fps-hands.spec.js` exigem GLB local, ossos e dedos, screenshot e NDC de punhos/pontas, navegação ao Nox, reduced-motion e sem downloads quando off. CI isolado `.github/workflows/validar-fps-david.yml` para não esperar apenas pelo CI completo.
+- **Status:** integração feita, aguardando validação visual e técnica por GitHub Actions/Cloudflare e FPS no PC. Não afirmar 60 FPS da v0.9.15 sem medição e **nunca fazer merge na produção sem autorização explícita**.
+
 ## QA final — v0.9.14 (16/10/2026)
 
 - **Correção após comparação visual:** a pose VR "pare" e dobra excessiva ainda estavam feias; nova pose `handPose=relaxed` (padrão) usa inclinação da palma em profundidade (pitch 2,11 rad), dedos curvados moderadamente, sway leve e braço/punho na periferia inferior. `handPose=open` preserva A/B.
