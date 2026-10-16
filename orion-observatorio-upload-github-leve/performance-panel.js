@@ -94,7 +94,16 @@ export function createPerformancePanel(debugRoot, readScene) {
   }
   handsComparison.href=handsUrl.pathname+handsUrl.search;
   handsComparison.className='perf-depth-compare';
-  field.append(compareHelp,comparisons,depthComparison,foregroundComparison,handsComparison);
+  const handsStyle=document.createElement('a');
+  const styleUrl=new URL(window.location.href);
+  styleUrl.searchParams.set('debug','1');
+  styleUrl.searchParams.set('quality','eco-plus');
+  const old2D=new URLSearchParams(location.search).get('hands')==='2d';
+  styleUrl.searchParams.set('hands',old2D?'3d':'2d');
+  handsStyle.textContent=old2D?'Comparar mãos 3D reais · Eco+':'Comparar mãos 2,5D antigas · Eco+';
+  handsStyle.href=styleUrl.pathname+styleUrl.search;
+  handsStyle.className='perf-depth-compare';
+  field.append(compareHelp,comparisons,depthComparison,foregroundComparison,handsStyle,handsComparison);
   debugRoot.appendChild(field);
 
   const MAX_SAMPLES = 360, WINDOW_MS = 4000;
@@ -152,7 +161,7 @@ export function createPerformancePanel(debugRoot, readScene) {
       'Pixels do canvas: ' + s.canvasPixels,
       'Camadas: ' + s.gasLayers + ' gás / ' + s.volumeLayers + ' recortes',
       'Véu frontal próximo da câmera: ' + (s.foregroundNear?'sim':'não'),
-      'Mãos em primeira pessoa: ' + (s.handsVisible?'visíveis':'desligadas') + ' · superfícies: ' + s.handsSurfaces,
+      'Mãos em primeira pessoa: ' + (s.handsVisible?'visíveis':'desligadas') + ' · modo: ' + s.handsMode + ' · superfícies: ' + s.handsSurfaces + ' · texturas de mãos: ' + s.handsTextures + ' · triângulos por mão: ' + s.handsTriangles,
       'Profundidade orgânica: ' + (s.depthMotion?'ativa':'desativada') + ' · intensidade: ' + s.parallaxStrength,
       'Draw calls: ' + s.drawCalls + ' · texturas GPU: ' + s.textures,
       'Diferença interna mouse/câmera: ' + s.mouseDeltaPx + ' px',
@@ -163,7 +172,7 @@ export function createPerformancePanel(debugRoot, readScene) {
   function report() {
     const s = snapshot();
     return [
-      'Projeto Órion · Observatório v0.9.11 (prévia)',
+      'Projeto Órion · Observatório v0.9.12 (prévia)',
       new Date().toLocaleString('pt-BR'),
       format(s),
       'Amostras: ' + s.samples + ' · adaptações automáticas: ' + s.adaptations,

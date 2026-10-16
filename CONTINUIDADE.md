@@ -5,6 +5,16 @@ Este é o ponto de entrada do desenvolvimento quando o histórico do chat do Cha
 **Fonte de verdade:** o código e o histórico dos PRs do GitHub. Para decisões criativas, problemas e próximos passos, consultar a [issue permanente #10](https://github.com/Kaue-Feltrin/orion-observatorio-3d/issues/10). **Não presumir que este arquivo ou o chat substitui a inspeção do repositório.**
 
 
+## Próxima prévia — v0.9.12 Mãos 3D reais em primeira pessoa (16/10/2026)
+
+- [PR #19 draft](https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/19), branch `preview/maos-3d-v0912`, base `preview/maos-eterias-v0911`. `main` intocada.
+- Usuário: v0.9.11 funcionando; agora quer mãos **verdadeiramente tridimensionais** mantendo estilo primeira pessoa e fluidez.
+- Módulo novo `first-person-hands-3d.js`: palma/dorso, cinco dedos com falanges e polegar, punho/antebraço/manga 3D; primitivas mescladas num único BufferGeometry, **2 meshes, 1 material, 0 texturas**. Vertex colors com alpha e reflexos violetas estilizados, sem shaders/luzes/bloom adicionais.
+- `main.js`: desktop usa **3D padrão**; `hands=on`/`hands=3d` seleciona 3D, `hands=2d` preserva totalmente arte v0.9.11, `hands=off` cria zero modelos de mãos; mobile sem mãos por padrão. `?debug=1` mostra A/B e vértices/triângulos, modo, texturas.
+- `ESTUDO-MAOS-3D-v0912.md` contém arquitetura, custos, análise estética e URLs de teste.
+- Nox, 3 recortes ESO, bloom, 146 estrelas, céu vazio, viagem, fichas e produção intocados.
+- CI, screenshot e FPS reais pendentes; **60 FPS permanecem meta do histórico, não resultado desta versão**. Não mesclar sem autorização.
+
 ## Nova prévia — v0.9.11 Mãos mais visíveis / pose primeira pessoa (16/10/2026)
 
 - **PR #18 draft:** https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/18, branch `preview/maos-eterias-v0911`, base `preview/maos-primeira-pessoa-v0910`. **Produção `main` não tocada**.
