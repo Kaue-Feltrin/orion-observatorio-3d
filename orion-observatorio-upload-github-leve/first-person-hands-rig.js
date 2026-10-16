@@ -39,7 +39,7 @@ export function createRiggedFirstPersonHands(camera,{enabled=true,reducedMotion=
   // bounding-box dos braços (que escondia os dedos abaixo da tela).
   // WRAD foi exportado com os braços invertidos para nosso espaço da câmera:
   // rotação de 180° no eixo X coloca os punhos acima dos ombros.
-  const FRAMING={depth:2.50,wristNdcX:.54,wristNdcY:-.70,pitch:Math.PI};
+  const FRAMING={depth:2.50,wristNdcX:.47,wristNdcY:-.84,pitch:Math.PI};
   function align(){
     if(!state.loaded||!wristCoordinates)return;
     const t=Math.tan(THREE.MathUtils.degToRad(camera.fov*.5));
@@ -101,8 +101,24 @@ export function createRiggedFirstPersonHands(camera,{enabled=true,reducedMotion=
       const source=Array.isArray(obj.material)?obj.material[0]:obj.material;
       const map=source?.map||null;
       if(map&&!ownedTextures.includes(map))ownedTextures.push(map);
+      // Um viewmodel FPS mostra mãos e um trecho curto de antebraço.
+      // O WRAD original tem braços completos; atenuar as vértices
+      // próximos aos ombros, em vez de deixar dois cilindros enormes
+      // dominarem a imagem. A máscara é calculada uma única vez no load.
+      const geo=obj.geometry;
+      const positions=geo.getAttribute('position');
+      const rgba=new Float32Array(positions.count*4);
+      for(let i=0;i<positions.count;i++){
+        // Modelo simétrico: ombros perto de |x|=0, punhos perto de |x|=5.
+        const alpha=THREE.MathUtils.smoothstep(
+          Math.abs(positions.getX(i)),3.65,4.87
+        );
+        rgba[i*4]=1;rgba[i*4+1]=1;rgba[i*4+2]=1;rgba[i*4+3]=alpha;
+      }
+      geo.setAttribute('color',new THREE.Float32BufferAttribute(rgba,4));
       const mat=new THREE.MeshBasicMaterial({
-        map,color:0x8585ad,transparent:true,opacity:.84,
+        map,color:0x777a9d,vertexColors:true,
+        transparent:true,opacity:.86,
         depthTest:false,depthWrite:false,toneMapped:false,
         side:THREE.DoubleSide
       });
@@ -112,7 +128,6 @@ export function createRiggedFirstPersonHands(camera,{enabled=true,reducedMotion=
       obj.renderOrder=30;
       obj.frustumCulled=false;
       meshes.push(obj);
-      const geo=obj.geometry;
       state.triangles+=(geo.index?.count||geo.attributes.position?.count||0)/3;
     });
     if(!meshes.some(x=>x.isSkinnedMesh))throw new Error('WRAD ARMS veio sem malha SkinnedMesh');
