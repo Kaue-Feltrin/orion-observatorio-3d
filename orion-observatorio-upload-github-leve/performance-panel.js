@@ -20,6 +20,35 @@ export function createPerformancePanel(debugRoot, readScene) {
   feedback.className = 'perf-copy-status';
   feedback.setAttribute('aria-live', 'polite');
   field.append(legend, info, explain, copy, feedback);
+  // Links recarregam o mesmo Observatório sob configurações comparáveis.
+  // O usuário pode copiar um diagnóstico de cada variante.
+  const comparisons=document.createElement('nav');
+  comparisons.className='perf-comparisons';
+  comparisons.setAttribute('aria-label','Comparação de custos de renderização');
+  const choices=[
+    {label:'Lite original',quality:'lite',effects:null},
+    {label:'Lite sem bloom',quality:'lite',effects:'no-bloom'},
+    {label:'Lite sem gás GLSL',quality:'lite',effects:'no-gas'},
+    {label:'Eco (menos pixels, sem bloom/gás)',quality:'eco',effects:null}
+  ];
+  for(const choice of choices){
+    const url=new URL(window.location.href);
+    url.searchParams.set('debug','1');
+    url.searchParams.set('quality',choice.quality);
+    if(choice.effects)url.searchParams.set('effects',choice.effects);
+    else url.searchParams.delete('effects');
+    const anchor=document.createElement('a');
+    anchor.href=url.pathname+url.search;
+    anchor.textContent=choice.label;
+    if(choice.quality===new URLSearchParams(location.search).get('quality') &&
+      (choice.effects||'normal') === (new URLSearchParams(location.search).get('effects')||'normal')){
+      anchor.setAttribute('aria-current','page');
+    }
+    comparisons.appendChild(anchor);
+  }
+  const compareHelp=document.createElement('small');
+  compareHelp.textContent='Compare FPS após estabilizar cada versão. Uma diferença grande indica qual efeito pesa mais neste computador.';
+  field.append(compareHelp,comparisons);
   debugRoot.appendChild(field);
 
   const MAX_SAMPLES = 360, WINDOW_MS = 4000;
@@ -73,6 +102,8 @@ export function createPerformancePanel(debugRoot, readScene) {
       'Quadro p95: ' + (s.p95Ms ?? '—') + ' ms',
       'Quadros acima de 33 ms: ' + (s.longFrames ?? '—') + '%',
       'Perfil: ' + s.quality + ' · DPR: ' + s.dpr,
+      'Efeitos: ' + s.effects + ' · bloom em repouso: ' + (s.bloomRest?'sim':'não'),
+      'Pixels do canvas: ' + s.canvasPixels,
       'Camadas: ' + s.gasLayers + ' gás / ' + s.volumeLayers + ' recortes',
       'Draw calls: ' + s.drawCalls + ' · texturas GPU: ' + s.textures,
       'Diferença interna mouse/câmera: ' + s.mouseDeltaPx + ' px',
@@ -83,7 +114,7 @@ export function createPerformancePanel(debugRoot, readScene) {
   function report() {
     const s = snapshot();
     return [
-      'Projeto Órion · Observatório v0.9.4 (prévia)',
+      'Projeto Órion · Observatório v0.9.5 (prévia)',
       new Date().toLocaleString('pt-BR'),
       format(s),
       'Amostras: ' + s.samples + ' · adaptações automáticas: ' + s.adaptations,
