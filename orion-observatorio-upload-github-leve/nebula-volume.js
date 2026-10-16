@@ -83,8 +83,8 @@ export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false,paralla
       const wave=reducedMotion?0:Math.sin(time*spec.rate+spec.phase);
       const drift=reducedMotion?0:Math.sin(time*spec.rate*.55+spec.phase*1.43);
       const data=layer.userData;
-      data.parallaxOffsetX+=(x*spec.parallaxX-data.parallaxOffsetX)*factor;
-      data.parallaxOffsetY+=(y*spec.parallaxY-data.parallaxOffsetY)*factor;
+      data.parallaxOffsetX+=(-x*spec.parallaxX-data.parallaxOffsetX)*factor;
+      data.parallaxOffsetY+=(-y*spec.parallaxY-data.parallaxOffsetY)*factor;
       layer.position.x=data.baseX+drift*spec.drift+data.parallaxOffsetX;
       layer.position.y=data.baseY+wave*spec.drift*.32+data.parallaxOffsetY;
       // Respiração orgânica de escala inferior a 0,4%, sem shader ou ruído.
