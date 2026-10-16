@@ -1,3 +1,11 @@
+## Resultado da revisão visual das mãos — v0.9.15 (16/10/2026)
+
+- **Padrão atual aprovado tecnicamente, aguardando aceite estético do usuário:** `?quality=eco-plus&hands=fps&fpsStyle=natural` usa a pose diagonal do antigo `fpsTune=back` (`bend=+0,70`, `yaw=±0,30`, `roll=∓0,30`). A comparação visual real mostrou palmas em 3/4 e dedos apontando para frente, melhores que a antiga pose frontal e que o autoaim exagerado em "garra".
+- A busca de orientação por projeção/quatérnios permanece como fallback apenas quando as pontas não estiverem nas faixas de enquadramento; caso a pose diagonal esteja correta, ela **não é alterada pelo otimizador**. Mantém GLB original David Fischer, 63 ossos, 40 falanges, 7.966 tri, 1 SkinnedMesh e 0 texturas novas. Calibração atual lê landmarks DEPOIS da pose.
+- **CI da última revisão de código `20fae007`:** [QA de mãos #38949868330](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38949868330) **9/9 aprovado**; [enquadramento #38949868349](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38949868349) **aprovado**; [validação do viewmodel #38949868312](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38949868312) **aprovada**. Capturas 1748×864 e 1920×951 renderizadas, inspecionadas e comparadas com original/cinematic. O teste de 2 viewports confirmou mão esquerda ponta x≈-0,390 vs punho x≈-0,540, mão direita ponta x≈0,392 vs punho x≈0,540, y ponta≈-0,495 vs punho≈-0,850, com projeção pós-pose idêntica à medida; Nox e bloom preservados.
+- O teste headless em GitHub Actions usa GPU virtual e NÃO mede FPS no hardware real. **Faltam** comparação `hands=fps` vs `hands=off` com FPS/p95/RAM no PC, resultado do CI geral, e aceite visual explícito antes de mesclar. Produção `main` absolutamente intocada.
+- Preview e PR existentes: [PR #22](https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/22) em draft. Comparar `fpsStyle=natural` (padrão) contra `fpsStyle=cinematic` e `fpsTune=back` (legado).
+
 ## Inspeção visual adicional da pose David FPS (16/10/2026)
 
 - Captura `v0915-qa-pose-base.png` inspecionada após a primeira correção: dedos convergiam mais ao centro, mas palmas ainda estavam frontais e verticais, como gesto de "pare". **Primeiro resultado reprovado visualmente, apesar de NDC válido**.
