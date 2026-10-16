@@ -465,7 +465,7 @@ test('v0.9.5 comparação isola bloom e gás sem perder seleção do Nox',async(
   expect(b.effects).toBe('no-bloom');
   expect(b.bloomRest).toBe(false);
   expect(b.gasLayers).toBe(1);
-  await expect(page.locator('.perf-comparisons a')).toHaveCount(4);
+  await expect(page.locator('.perf-comparisons a')).toHaveCount(5);
   await page.locator('.perf-comparisons a').filter({hasText:'Lite sem gás GLSL'}).click();
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   const g=await page.evaluate(()=>window.__orionDiagnostic.snapshot());
@@ -482,4 +482,41 @@ test('v0.9.5 comparações não aparecem fora do modo de depuração',async({pag
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   await expect(page.locator('.perf-comparisons a')).toHaveCount(0);
   await expect(page.locator('#orionPerfReadout')).toHaveCount(0);
+});
+
+
+test('v0.9.6 Eco+ conserva bloom, duas massas e um limite de resolução intermediário',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  await expect(page.locator('#orionPerfReadout')).toContainText('Perfil: eco-plus',{timeout:15000});
+  const info=await page.evaluate(()=>({
+    snapshot:window.__orionDiagnostic.snapshot(),
+    photo:window.__orionRespirationDebug.nebula.material.opacity,
+    maxPixels:window.__orionPerformance.maxPixels,
+    pixels:document.querySelector('#world canvas').width*document.querySelector('#world canvas').height,
+    volumeZ:window.__orionDepthDebug.layers.filter(l=>l.userData.volumeFragment&&l.visible).map(l=>l.position.z)
+  }));
+  expect(info.snapshot.quality).toBe('eco-plus');
+  expect(info.snapshot.bloomRest).toBe(true);
+  expect(info.snapshot.gasLayers).toBe(0);
+  expect(info.snapshot.volumeLayers).toBe(2);
+  expect(info.volumeZ).toEqual([-342,-185]);
+  expect(info.photo).toBe(1);
+  expect(info.maxPixels).toBe(670000);
+  expect(info.pixels).toBeLessThanOrEqual(680000);
+  await page.locator('#heraldTarget').click({force:true});
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+});
+
+test('v0.9.6 Eco+ sem bloom desliga apenas passes luminosos, mantendo profundidade',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&effects=no-bloom',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const p=await page.evaluate(()=>window.__orionDiagnostic.snapshot());
+  expect(p.quality).toBe('eco-plus');
+  expect(p.effects).toBe('no-bloom');
+  expect(p.bloomRest).toBe(false);
+  expect(p.gasLayers).toBe(0);
+  expect(p.volumeLayers).toBe(2);
+  await expect(page.locator('.perf-comparisons a[aria-current=page]')).toContainText('Eco+ sem bloom');
+  await expect(page.locator('#heraldTarget')).toBeAttached();
 });
