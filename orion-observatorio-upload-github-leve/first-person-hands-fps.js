@@ -40,7 +40,10 @@ const TUNING={
   forward:{bend:-1.12,yaw:.26,roll:-.25},
   reach:{bend:-1.47,yaw:.40,roll:-.18},
   inward:{bend:-1.04,yaw:.62,roll:-.48},
-  back:{bend:.70,yaw:.30,roll:-.30}
+  back:{bend:.70,yaw:.30,roll:-.30},
+  rest1:{bend:1.0,yaw:.36,roll:-.38},
+  rest2:{bend:1.24,yaw:.38,roll:-.40},
+  rest3:{bend:.86,yaw:.48,roll:-.48}
 };
 const WRIST=TUNING[TUNE]||TUNING.base;
 const wristBendAxis=new THREE.Vector3(1,0,0);
