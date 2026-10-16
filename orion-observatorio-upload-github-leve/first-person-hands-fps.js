@@ -16,15 +16,18 @@ const PARAMS=new URLSearchParams(window.location.search);
 const CANDIDATE=PARAMS.get('fpsPose')==='open'?'open':'relaxed';
 const LIGHT_MODE=PARAMS.get('fpsLight')==='basic'?'basic':'lit';
 // Variações visuais sobre o mesmo modelo e a mesma cena, para QA por screenshot.
-const STYLE=['original','calm','cinematic'].includes(PARAMS.get('fpsStyle'))
-  ?PARAMS.get('fpsStyle'):'cinematic';
+const STYLE=['original','calm','cinematic','natural'].includes(PARAMS.get('fpsStyle'))
+  ?PARAMS.get('fpsStyle'):'natural';
 const ART={
   // O Y do GLB (0.615..0.912) avança da mão para o antebraço.
   // O protótipo anterior INVERTIA esta prioridade: braço opaco, dedos apagados.
   // Original fica como comparação; variantes corrigidas fazem fade no antebraço.
   original:{wristY:-.84,fadeFrom:.615,fadeTo:.725,wristBend:0,wristRoll:0,opacity:.94,fadeInvert:false},
   calm:{wristY:-.88,fadeFrom:.735,fadeTo:.865,wristBend:-.43,wristRoll:-.16,opacity:.96,fadeInvert:true},
-  cinematic:{wristY:-.84,fadeFrom:.73,fadeTo:.87,wristBend:-.55,wristRoll:-.35,opacity:.98,fadeInvert:true}
+  cinematic:{wristY:-.84,fadeFrom:.73,fadeTo:.87,wristBend:-.55,wristRoll:-.35,opacity:.98,fadeInvert:true},
+  // Pose anatômica em repouso: orientar a mão inteira em espaço de câmera,
+  // nunca dobrar punhos ~30° em eixos FBX arbitrários para simular o gesto.
+  natural:{wristY:-.85,fadeFrom:.72,fadeTo:.88,wristBend:0,wristRoll:0,opacity:.96,fadeInvert:true}
 }[STYLE];
 
 const TUNE=PARAMS.get('fpsTune')||'base';
@@ -80,12 +83,71 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
   const anchors={wristL:null,wristR:null,tipL:null,tipR:null};
   const poseWrists=[];
   let disposed=false,rootBase=new THREE.Vector3(),scale=1,tilt=0;
+  const naturalAimAngles={left:0,right:0};
   let moveX=0,moveY=0;
   const targetDepth=2.05;
   const poseCurl={open:.07,relaxed:.17};
 
+  // Aplicar pose ANTES de medir landmarks. A implementação anterior media os
+  // ossos em bind pose e só então os girava no update(), invalidando o NDC.
+  function setBonePose(time=0){
+    wristBendQ.setFromAxisAngle(wristBendAxis,WRIST.bend);
+    for(const w of poseWrists){
+      wristYawQ.setFromAxisAngle(wristYawAxis,WRIST.yaw*w.side);
+      wristRollQ.setFromAxisAngle(wristRollAxis,WRIST.roll*w.side);
+      w.bone.quaternion.copy(w.aimed||w.base);
+      if(!w.aimed)w.bone.quaternion.multiply(wristBendQ).multiply(wristYawQ).multiply(wristRollQ);
+    }
+    for(let i=0;i<driven.length;i++){
+      const d=driven[i];
+      const flicker=state.motionEnabled?Math.sin(time*.7+i*.79)*.012:0;
+      const curl=(poseCurl[state.pose]+flicker)*(d.segment===1?.52:d.segment===2?.71:.36);
+      tempQ.setFromAxisAngle(bendAxis,curl*(d.digit==='thumb'?.45:1));
+      d.bone.quaternion.copy(d.base).multiply(tempQ);
+    }
+  }
+
+  // Gira cada mão em torno do PRÓPRIO punho no eixo de visão da câmera.
+  // Comparam-se as posições reais das falanges em cada candidato, não
+  // ângulos locais do arquivo FBX, que não são eixos anatômicos universais.
+  // Esta busca roda somente na carga/resize; custo zero por frame.
+  function aimNaturalPose(){
+    if(STYLE!=='natural'||TUNE!=='base')return;
+    camera.updateMatrixWorld(true);
+    const viewAxis=new THREE.Vector3(0,0,1)
+      .applyQuaternion(camera.getWorldQuaternion(new THREE.Quaternion()));
+    const trials=[0,-.12,.12,-.22,.22,-.32,.32,-.42,.42];
+    const project=b=>b.getWorldPosition(new THREE.Vector3()).project(camera);
+    for(const wrist of poseWrists){
+      const tip=wrist.side===-1?anchors.tipL:anchors.tipR;
+      if(!tip)continue;
+      const localAxis=viewAxis.clone().applyQuaternion(
+        wrist.bone.parent.getWorldQuaternion(new THREE.Quaternion()).invert()
+      ).normalize();
+      const initial=wrist.bone.quaternion.clone();
+      let best={score:Infinity,angle:0,quaternion:initial.clone()};
+      for(const angle of trials){
+        const q=new THREE.Quaternion().setFromAxisAngle(localAxis,angle);
+        wrist.bone.quaternion.copy(initial).premultiply(q);
+        root.updateMatrixWorld(true);
+        const p=project(wrist.bone),t=project(tip);
+        const dx=t.x-p.x,dy=t.y-p.y;
+        const desiredDx=wrist.side===-1?.145:-.145;
+        const score=Math.abs(dx-desiredDx)*1.3+Math.abs(dy-.32)*.35
+          +Math.abs(angle)*.045+(dy<.17?1:0);
+        if(score<best.score)best={score,angle,quaternion:wrist.bone.quaternion.clone()};
+      }
+      wrist.aimed=best.quaternion;
+      wrist.bone.quaternion.copy(best.quaternion);
+      naturalAimAngles[wrist.side===-1?'left':'right']=best.angle;
+      root.updateMatrixWorld(true);
+    }
+  }
+
   function calibrate(){
     if(!state.loaded||!anchors.wristL||!anchors.wristR)return;
+    for(const w of poseWrists)w.aimed=null;
+    setBonePose(0);
     // Calibração em coordenadas locais do modelo a partir dos ossos
     // dos punhos e pontas dos dedos, não do bounding-box dos braços.
     root.position.set(0,0,0);root.scale.setScalar(1);root.rotation.set(0,0,0);
@@ -116,7 +178,6 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
     if(!best)throw new Error('Não foi possível calibrar o rig FPS por punhos');
     tilt=best.pitch;scale=best.s;
     const center=best.l.clone().add(best.r).multiplyScalar(.5);
-    const wristZ=center.z;
     // Manter a média dos punhos num plano de profundidade conhecido.
     root.rotation.set(tilt,0,0);
     // O rig original tem L/R invertidos em X em relação à câmera FPS.
@@ -126,12 +187,15 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
     root.position.copy(rootBase);
     root.updateMatrixWorld(true);
     camera.updateMatrixWorld(true);
+    aimNaturalPose();
+    root.updateMatrixWorld(true);
     const projected=(bone)=>{
       if(!bone)return null;
       const ndc=bone.getWorldPosition(V.clone()).project(camera);
       return {x:ndc.x,y:ndc.y,z:ndc.z};
     };
     state.framing={pitch:tilt,scale,rawRise:best.rise,
+      aimAngles:{...naturalAimAngles},posedLandmarks:true,
       wristLeft:projected(anchors.wristL),wristRight:projected(anchors.wristR),
       tipLeft:projected(anchors.tipL),tipRight:projected(anchors.tipR)};
     state.leftX=state.framing.wristLeft?.x||0;
@@ -242,22 +306,8 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
       rootBase.y-state.swayY*h*.016+breath,rootBase.z);
     root.rotation.set(tilt+(state.motionEnabled?state.swayY*.008:0),
       0,state.motionEnabled?state.swayX*.012:0);
-    // Poses autorais pequenas; nunca substituir as rotações de bind.
-    for(let i=0;i<driven.length;i++){
-      const d=driven[i];
-      const flicker=state.motionEnabled?Math.sin(time*.7+i*.79)*.012:0;
-      const curl=(poseCurl[state.pose]+flicker)*(d.segment===1?.52:d.segment===2?.71:.36);
-      tempQ.setFromAxisAngle(bendAxis,curl*(d.digit==='thumb'?.45:1));
-      d.bone.quaternion.copy(d.base).multiply(tempQ);
-    }
-    // Dedos apontam para dentro da cena. Rotação dos ossos reais dos
-    // punhos, em vez de inclinar um plano bidimensional de cartão.
-    wristBendQ.setFromAxisAngle(wristBendAxis,WRIST.bend);
-    for(const wrist of poseWrists){
-      wristYawQ.setFromAxisAngle(wristYawAxis,WRIST.yaw*wrist.side);
-      wristRollQ.setFromAxisAngle(wristRollAxis,WRIST.roll*wrist.side);
-      wrist.bone.quaternion.copy(wrist.base).multiply(wristBendQ).multiply(wristYawQ).multiply(wristRollQ);
-    }
+    // Rest pose + flexão leve, com orientação individual já calibrada.
+    setBonePose(time);
   }
   function resize(){calibrate();}
   function beginTravel(){state.visible=false;root.visible=false;}
