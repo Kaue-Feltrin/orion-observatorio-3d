@@ -67,7 +67,7 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
       const TL=tl.clone().applyEuler(e),TR=tr.clone().applyEuler(e);
       const span=Math.abs(R.x-L.x);
       if(span<.005)continue;
-      const s=THREE.MathUtils.clamp((w*.54)/(span*.5),.1,6.5);
+      const s=THREE.MathUtils.clamp((w*.54)/(span*.5),.003,6.5);
       const rise=((TL.y-L.y)+(TR.y-R.y))*.5*s/h;
       // A ponta dos dedos deve estar acima dos punhos (ND C y maior).
       const score=Math.abs(rise-.32)+(rise<=.05?3:0)+(rise>.72?2:0)
@@ -80,8 +80,10 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
     const wristZ=center.z;
     // Manter a média dos punhos num plano de profundidade conhecido.
     root.rotation.set(tilt,0,0);
-    root.scale.setScalar(scale);
-    rootBase.set(-center.x*scale,-h*.84-center.y*scale,-targetDepth-center.z*scale);
+    // O rig original tem L/R invertidos em X em relação à câmera FPS.
+    // Espelhamento de um único eixo corrige isso sem inverter a direção dos dedos.
+    root.scale.set(-scale,scale,scale);
+    rootBase.set(center.x*scale,-h*.84-center.y*scale,-targetDepth-center.z*scale);
     root.position.copy(rootBase);
     root.updateMatrixWorld(true);
     camera.updateMatrixWorld(true);
