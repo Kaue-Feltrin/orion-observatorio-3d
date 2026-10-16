@@ -229,3 +229,25 @@ assert.match(fps,/depthTest:false,depthWrite:false/,'mãos sem oclusão do panor
 assert.match(fps,/driven\.length<25/,'suporte a falanges animáveis');
 assert.match(fps,/root\.visible=false/,'mãos ocultas durante viagem');
 assert.match(fps,/disposed=true/,'ciclo de vida de malhas e materiais');
+
+
+// v0.9.16 — comparação A/B baseada na telemetria já existente, sem segundo RAF.
+const benchmark=await import('../hands-benchmark.js');
+const same={quality:'eco-plus',effects:'normal',bloomRest:true,viewport:'1920×951',dpr:.6,
+  canvasPixels:670000,gasLayers:0,volumeLayers:3,foregroundNear:true,
+  depthMotion:true,parallaxStrength:1};
+const sig=benchmark.benchmarkSignature(same);
+const off={mode:'off',signature:sig,fps:60,p95Ms:16.8,drawCalls:25,textures:14};
+const on={mode:'fps',signature:sig,fps:57,p95Ms:19.2,drawCalls:26,textures:14};
+assert.deepEqual(benchmark.compareHandsSamples(off,on),{
+  ok:true,fpsDifference:-3,p95Difference:2.4,drawCallsDifference:1,texturesDifference:0
+});
+assert.equal(benchmark.compareHandsSamples(off,{...on,signature:'different-resolution'}).ok,false);
+assert.equal(benchmark.compareHandsSamples(off,null).ok,false);
+const abCode=await read('hands-benchmark.js');
+assert.doesNotMatch(abCode,/requestAnimationFrame\s*\(/,'benchmark NÃO cria RAF próprio');
+assert.doesNotMatch(abCode,/fetch\s*\(/,'benchmark NÃO transmite dados');
+assert.match(abCode,/sessionStorage/,'amostras limitadas à sessão local');
+assert.match(abCode,/document\.hidden/,'impede coleta com aba oculta');
+assert.match(await read('performance-panel.js'),/createHandsBenchmark\(field, snapshot\)/,'integração via snapshot existente');
+console.log('OK: benchmark A/B, delta, configuração incompatível e isolamento da cena.');
