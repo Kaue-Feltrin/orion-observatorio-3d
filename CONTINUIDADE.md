@@ -5,6 +5,17 @@ Este é o ponto de entrada do desenvolvimento quando o histórico do chat do Cha
 **Fonte de verdade:** o código e o histórico dos PRs do GitHub. Para decisões criativas, problemas e próximos passos, consultar a [issue permanente #10](https://github.com/Kaue-Feltrin/orion-observatorio-3d/issues/10). **Não presumir que este arquivo ou o chat substitui a inspeção do repositório.**
 
 
+## Processo revisado — pesquisa obrigatória e enquadramento real FPS (16/10/2026)
+
+- Instrução contínua do usuário: **sempre pesquisar sistemas similares que já funcionam antes de implementar qualquer recurso novo**. Seguir `PADRAO-PESQUISA-NOVAS-FUNCIONALIDADES.md` com no mínimo duas referências técnicas reais, licenças, viabilidade, plano de QA visual, métricas e prévia separada. **Não considerar CI verde como aprovação estética**.
+- Captura do usuário em v0.9.13: dois antebraços enormes rosa apontando para dentro; mãos e dedos ausentes. O WRAD ARMS é explicitamente PS1/retro e **não é estética final adequada**.
+- Referências pesquisadas: [IRONLINE/Three.js `FP_FRAMING.md`](https://github.com/cktang88/3d-fps/blob/main/docs/FP_FRAMING.md), que mede viewmodel por coordenadas de mão e câmera vFOV 52°, e [s&box Field Guide — FP Viewmodel](https://sboxguide.dev/guides/first-person-viewmodel), que separa pose de viewmodel da cena.
+- [PR #21 draft](https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/21), branch `preview/viewmodel-pesquisado-v0914`, baseada na v0.9.13, produção `main` preservada.
+- Diagnóstico mediu **punhos NDC ±0,572, y=-1,106 e dedos y≈-1,16** (abaixo da tela); ombros centrais em y=-0,53, precisamente a inversão mostrada na foto.
+- Corrigido: giro X=π do rig em espaço da câmera, enquadramento **pelos ossos dos punhos** em vez de pelo `Box3` global, vFOV 52° preservado. Primeira calibração passou: punhos x±.54/y=-.70, dedo médio x±.66/y=-.57, ombros y=-1.10 (fora da tela). Ajuste fino em andamento: punhos x±.47/y≈-.84; fade progressivo da malha dos ombros/antebraços por vertex alpha, para exibir mãos ao invés de braços intermináveis.
+- Captura e teste `tests/framing-probe.spec.js` exigem punhos/dedos **dentro** do quadro, ombros **fora**, mais screenshot sem painel. A/B mantém `hands=rig`, `hands=3d`, `hands=2d`, `hands=off`.
+- Pendente: CI e captura final, FPS/p95 no PC do usuário, e principalmente **seleção de modelo mais refinado, não retro**. Alternativas verificadas incluem [Rigged FPS Arms RafaP, CC BY](https://sketchfab.com/3d-models/rigged-fps-arms-6b1cde4746774b7893513f84cac7a866), com requisitos de licença/arquivo. Não promover modelo WRAD a definitivo sem feedback visual.
+
 ## Nova prévia — v0.9.13 Modelo CC0 rigado com dedos animáveis (16/10/2026)
 
 - Feedback explícito do usuário: v0.9.12 funcionou mas **as mãos artificiais ficaram muito feias**. Pedido: pegar **modelo 3D gratuito e animável**.
