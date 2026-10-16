@@ -9,6 +9,9 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 const URLS=['/models/wonderland-left.glb','/models/wonderland-right.glb'];
 const SIDES=['left','right'];
 const FINGER_RE=/(index|middle|ring|pinky|thumb)[_-]finger[_-]phalanx[_-](proximal|intermediate|distal)/i;
+const REST_CURL={index:.37,middle:.47,ring:.56,pinky:.63,thumb:.22};
+const FLEX_AXIS=new THREE.Vector3(1,0,0);
+const TEMP_QUATERNION=new THREE.Quaternion();
 
 export function createVrFirstPersonHands(camera,{enabled=true,reducedMotion=false}={}){
   const state={
@@ -45,7 +48,7 @@ export function createVrFirstPersonHands(camera,{enabled=true,reducedMotion=fals
         const m=obj.name.match(FINGER_RE);
         if(m&&m[2]!=='metacarpal'){
           driven.push({bone:obj,base:obj.quaternion.clone(),
-            side:i===0?-1:1,
+            side:i===0?-1:1,finger:m[1],
             segment:m[2]==='proximal'?1:m[2]==='intermediate'?2:3,
             phase:['index','middle','ring','pinky','thumb'].indexOf(m[1])*.64});
         }
@@ -56,13 +59,14 @@ export function createVrFirstPersonHands(camera,{enabled=true,reducedMotion=fals
       const normals=geo.getAttribute('normal');
       const rgba=new Float32Array(pos.count*4);
       for(let j=0;j<pos.count;j++){
-        const light=THREE.MathUtils.clamp(.44+.28*normals.getZ(j)+.20*normals.getY(j),.30,.90);
+        const light=THREE.MathUtils.clamp(.38+.37*normals.getZ(j)+.23*normals.getY(j),.24,.95);
         // Ponta do pulso se dissolve; a mão permanece sólida e nítida.
         const y=pos.getY(j);
         const alpha=1-THREE.MathUtils.smoothstep(y,-.045,.018)*.75;
-        rgba[j*4]=light*.76;
-        rgba[j*4+1]=light*.69;
-        rgba[j*4+2]=light*.99;
+        const tip=1-THREE.MathUtils.smoothstep(y,-.17,-.04);
+        rgba[j*4]=light*(.74+.13*tip);
+        rgba[j*4+1]=light*(.65+.07*tip);
+        rgba[j*4+2]=light*(.95+.04*tip);
         rgba[j*4+3]=alpha;
       }
       geo.setAttribute('color',new THREE.Float32BufferAttribute(rgba,4));
@@ -97,8 +101,8 @@ export function createVrFirstPersonHands(camera,{enabled=true,reducedMotion=fals
     for(let i=0;i<2;i++){
       const g=groups[i],side=i===0?-1:1;
       g.scale.setScalar(s);
-      g.rotation.set(Math.PI,0,side*-.13);
-      g.position.set(side*w*.52,-h*.91,-depth);
+      g.rotation.set(Math.PI-.23,side*-.28,side*.25);
+      g.position.set(side*w*.54,-h*.94,-depth);
     }
     state.leftX=groups[0].position.x;
     state.rightX=groups[1].position.x;
@@ -131,20 +135,21 @@ export function createVrFirstPersonHands(camera,{enabled=true,reducedMotion=fals
     const breath=state.motionEnabled?Math.sin(time*.72)*h*.005:0;
     for(let i=0;i<2;i++){
       const g=groups[i],sign=i===0?-1:1;
-      g.position.x=sign*w*.52-state.swayX*w*.016;
-      g.position.y=-h*.91-state.swayY*h*.018+breath*(i===0?.9:1);
-      g.rotation.set(Math.PI+(state.motionEnabled?state.swayY*.009:0),0,
-        sign*-.13+(state.motionEnabled?state.swayX*.014:0));
+      g.position.x=sign*w*.54-state.swayX*w*.016;
+      g.position.y=-h*.94-state.swayY*h*.018+breath*(i===0?.9:1);
+      g.rotation.set(Math.PI-.23+(state.motionEnabled?state.swayY*.009:0),
+        sign*-.28,sign*.25+(state.motionEnabled?state.swayX*.014:0));
     }
     // Pouquíssimo movimento no idle, com ossos reais e sem clipes externos.
     if(time-timeLast>=0){
       for(const d of driven){
-        const small=state.motionEnabled?.022*Math.sin(time*.7+d.phase+d.side*.3):0;
-        d.bone.quaternion.copy(d.base);
-        d.bone.quaternion.multiply(
-          new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1,0,0),
-            small*d.side*(d.segment===1?1:d.segment===2?.68:.46))
-        );
+        // As mãos NÃO ficam em pose de "pare": falanges dobradas em repouso.
+        // O movimento de idle apenas oscila levemente ao redor dessa pose.
+        const small=state.motionEnabled?.018*Math.sin(time*.7+d.phase+d.side*.3):0;
+        const amount=(REST_CURL[d.finger]+small)*
+          (d.segment===1?1:d.segment===2?.78:.48);
+        TEMP_QUATERNION.setFromAxisAngle(FLEX_AXIS,amount);
+        d.bone.quaternion.copy(d.base).multiply(TEMP_QUATERNION);
       }
     }
     timeLast=time;
