@@ -582,7 +582,7 @@ test('v0.9.7 comparativo legado e movimento reduzido não deslocam fotos',async(
   expect(compare.offset).toEqual([0,0]);
   expect(compare.bloom).toBe(true);
   expect(compare.target).toContain('Ativar profundidade');
-  await page.locator('.perf-depth-compare').click();
+  await page.locator('.perf-depth-compare').first().click();
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   expect(await page.evaluate(()=>window.__orionDiagnostic.snapshot().depthMotion)).toBe(true);
   await page.emulateMedia({reducedMotion:'reduce'});
