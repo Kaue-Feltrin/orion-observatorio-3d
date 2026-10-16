@@ -465,8 +465,8 @@ test('v0.9.5 comparação isola bloom e gás sem perder seleção do Nox',async(
   expect(b.effects).toBe('no-bloom');
   expect(b.bloomRest).toBe(false);
   expect(b.gasLayers).toBe(1);
-  await expect(page.locator('.perf-comparisons a')).toHaveCount(5);
-  await page.locator('.perf-comparisons a').filter({hasText:'Lite sem gás GLSL'}).click();
+  await expect(page.locator('.perf-comparisons[aria-label="Comparação de custos de renderização"] a')).toHaveCount(5);
+  await page.locator('.perf-comparisons[aria-label="Comparação de custos de renderização"] a').filter({hasText:'Lite sem gás GLSL'}).click();
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   const g=await page.evaluate(()=>window.__orionDiagnostic.snapshot());
   expect(g.effects).toBe('no-gas');
@@ -480,7 +480,7 @@ test('v0.9.5 comparação isola bloom e gás sem perder seleção do Nox',async(
 test('v0.9.5 comparações não aparecem fora do modo de depuração',async({page})=>{
   await page.goto('http://127.0.0.1:4173/?quality=eco',{waitUntil:'domcontentloaded'});
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
-  await expect(page.locator('.perf-comparisons a')).toHaveCount(0);
+  await expect(page.locator('.perf-comparisons[aria-label="Comparação de custos de renderização"] a')).toHaveCount(0);
   await expect(page.locator('#orionPerfReadout')).toHaveCount(0);
 });
 
