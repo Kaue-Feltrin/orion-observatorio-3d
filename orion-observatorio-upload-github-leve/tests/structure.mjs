@@ -96,7 +96,7 @@ assert.match(css,/radial-gradient\(ellipse 22% 28% at var\(--nox-focus-x/,'spotl
 
 // v0.9.3: 4 recortes fotográficos reais (sem editar o panorama) e cena mais leve.
 assert.match(main,/createNebulaVolume\(scene,mainCloud/,'recortes da foto ESO em planos 3D');
-assert.match(main,/nebulaVolume\.update\(time\)/,'nuvens independentes');
+assert.match(main,/nebulaVolume\.update\(time,smooth\.x,smooth\.y,delta\)/,'nuvens independentes com paralaxe de câmera');
 assert.match(main,/nebulaVolume\.resize\(\)/,'enquadramento na projeção');
 assert.match(main,/Math\.exp\(-Math\.max\(\.001,delta\)\*18\)/,'mouse responde rapidamente');
 assert.match(main,/cachedCardHeight/,'evitar reflow por quadro');
