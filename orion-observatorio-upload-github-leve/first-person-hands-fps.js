@@ -35,7 +35,7 @@ const TUNING={
   // A captura A/B de ‘back’ foi a primeira em que a palma ficou 3/4,
   // dedos diagonais e braços discretos. Promover essa pose verificada para
   // natural, mantendo todos os outros modos antigos para comparação.
-  base:STYLE==='natural'?{bend:.70,yaw:.30,roll:-.30}:
+  base:STYLE==='natural'?{bend:1.0,yaw:.36,roll:-.38}:
     {bend:ART.wristBend,yaw:0,roll:ART.wristRoll},
   forward:{bend:-1.12,yaw:.26,roll:-.25},
   reach:{bend:-1.47,yaw:.40,roll:-.18},
