@@ -15,7 +15,7 @@ test('mede landmarks de mãos FPS no enquadramento atual',async({page})=>{
       'finger_thumbl','finger_thumbr','finger_thumb3l','finger_thumb3r'];
     const nodes=[];
     h.rigRoot.traverse(o=>{
-      if(names.some(n=>o.name.toLowerCase().replace(/[^a-z0-9]/g,'')===n)){
+      if(names.some(n=>o.name.toLowerCase().replace(/[^a-z0-9]/g,'')===n.replace(/[^a-z0-9]/g,''))){
         const w=o.getWorldPosition(o.position.clone()),ndc=w.clone().project(cam);
         const cv=cam.worldToLocal(w.clone());
         nodes.push({name:o.name,ndc:ndc.toArray().map(x=>+x.toFixed(3)),
