@@ -29,6 +29,23 @@ test('mede landmarks de mãos FPS no enquadramento atual',async({page})=>{
       cameraFov:cam.fov,aspect:cam.aspect};
   });
   console.log('FPS_FRAMING_LANDMARKS',JSON.stringify(pose));
-  await page.screenshot({path:'test-results/v0914-antes.png'});
+  // Medições precisam verificar PALMA E DEDOS, não apenas carregar ossos.
+  const point=name=>pose.nodes.find(n=>n.name.toLowerCase().replace(/[^a-z0-9]/g,'')===name.replace(/[^a-z0-9]/g,''));
+  for(const side of ['l','r']){
+    const wrist=point('wrist'+side),tip=point('finger_middle3'+side),shoulder=point('shoulder'+side);
+    expect(wrist,'Punho não localizado').toBeTruthy();
+    expect(tip,'Ponta do dedo não localizada').toBeTruthy();
+    expect(wrist.ndc[1]).toBeGreaterThan(-.98);
+    expect(wrist.ndc[1]).toBeLessThan(-.73);
+    expect(tip.ndc[1]).toBeGreaterThan(wrist.ndc[1]+.08);
+    expect(tip.ndc[1]).toBeLessThan(-.51);
+    expect(shoulder.ndc[1]).toBeLessThan(-1.05);
+    expect(Math.abs(wrist.ndc[0])).toBeGreaterThan(.39);
+    expect(Math.abs(wrist.ndc[0])).toBeLessThan(.57);
+  }
   expect(pose.nodes.length).toBeGreaterThan(10);
+  // Mesmo debug ativado para medições, a captura deve exibir a
+  // experiência do visitante, sem o inspector cobrindo a mão esquerda.
+  await page.evaluate(()=>{document.querySelector('#debug').style.display='none';});
+  await page.screenshot({path:'test-results/v0914-framing-corrigido.png'});
 });
