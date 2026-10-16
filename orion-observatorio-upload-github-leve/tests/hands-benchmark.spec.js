@@ -19,6 +19,7 @@ test('v0.9.16 painel A/B registra, compara e limpa medições locais',async({pag
   await page.reload({waitUntil:'domcontentloaded'});
   await expect(page.locator('#orionHandsABResult')).toContainText('60 → com mãos 57',{timeout:18000});
   await expect(page.locator('#orionHandsABResult')).toContainText('16.8 → 19.2 ms');
+  await page.locator('.perf-ab-inspector').screenshot({path:'test-results/v0916-benchmark-panel.png'});
   await page.locator('#orionHandsABClear').click();
   await expect(page.locator('#orionHandsABResult')).toContainText('pendente');
   const value=await page.evaluate(()=>sessionStorage.getItem('orion-observatorio-hands-ab-v1'));
