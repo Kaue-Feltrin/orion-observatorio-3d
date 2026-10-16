@@ -1,3 +1,12 @@
+## Continuação v0.9.15 — QA visual real (16/10/2026)
+
+- Após duas interrupções de conexão, trabalho retomado na `preview/fps-hands-david-v0915`. O modelo de David Fischer, licença CC BY, crédito visível, código e PR #22 já estavam presentes e foram preservados. A produção `main` permanece intacta.
+- [Teste de integração local #38940487126](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38940487126) passou **4/4**: arquivo GLB, 63 ossos e falanges, Nox/viagem, movimento reduzido, atribuição e modo `hands=off`. Capturas de 1748×864 e 1920×951 analisadas.
+- [QA artístico #38940487099](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38940487099) passou **7/7**; foram comparados `fpsStyle=original|calm|cinematic` e luzes básicas/dedicadas. A malha profissional é bem mais anatômica que o WRAD, mas a pose padrão ainda estava excessivamente vertical.
+- Para evitar aprovar o visual apenas pelo CI, criados ajustes A/B `fpsTune=base|forward|reach|inward|back`, com screenshots idênticos. Comparação visual inicial: `forward`, `reach` e `inward` escondem ou deformam demais os dedos; **`base` permanece a pose mais legível** até avaliação do usuário. Os ajustes extremos ficam disponíveis somente como parâmetros técnicos, não padrão.
+- `tests/fps-hands-david.spec.js` e CI isolado `testar-david-fischer.yml` verificam GLB, NDC, créditos, reduzido, Nox e screenshot nas duas resoluções; regressão completa segue em execução. Corrigida expectativa obsoleta do teste A/B dos punhos e timeout de captura multi-variante.
+- Pendente: fechar o CI final, aprovar a direção estética com o usuário e obter FPS/p95 reais com `hands=fps` e `hands=off`. **Nunca promover para produção sem autorização explícita.**
+
 ## Em andamento — v0.9.15 David Fischer FPS com rig original (16/10/2026)
 
 - **PR #22 draft:** https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/22, branch `preview/fps-hands-david-v0915`, base `preview/viewmodel-pesquisado-v0914`. **Produção `main` intocada.**
