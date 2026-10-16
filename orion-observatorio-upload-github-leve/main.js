@@ -6,6 +6,7 @@ import { createSelectiveBloom } from './selective-bloom.js';
 import { createStarJourney } from './star-journey.js';
 import { createCinematicStarSpikes } from './cinematic-star.js';
 import { createNebulaVolume } from './nebula-volume.js';
+import { createPerformancePanel } from './performance-panel.js';
 
 const root = document.getElementById('observatory');
 const container = document.getElementById('world');
@@ -547,6 +548,22 @@ function resize(){
 }
 window.addEventListener('resize',resize);resize();
 
+// Diagnóstico local opcional: nenhum HUD ou coleta adicional no site normal.
+const performancePanel=debugEnabled?createPerformancePanel(debug,()=>({
+  quality:qualityMode,
+  dpr:Number(renderer.getPixelRatio().toFixed(2)),
+  gasLayers:atmosphere.layers.filter(layer=>layer.visible).length,
+  volumeLayers:nebulaVolume.layers.filter(layer=>layer.visible).length,
+  drawCalls:renderer.info.render.calls,
+  textures:renderer.info.memory.textures,
+  mouseDeltaPx:Number(Math.hypot(
+    (smooth.x-mouse.x)*innerWidth*.5,
+    (smooth.y-mouse.y)*innerHeight*.5).toFixed(1)),
+  adaptations:performanceAdaptations,
+  viewport:innerWidth+'×'+innerHeight
+})):null;
+if(debugEnabled)window.__orionDiagnostic=performancePanel;
+
 // Quando a GPU ou o renderizador via software não acompanha a tela,
 // reduzir a carga automaticamente em vez de insistir em resolução 4x maior.
 let renderedAt=0;
@@ -566,7 +583,7 @@ function adaptPerformance(now,frameMs){
   }
 }
 document.addEventListener('visibilitychange',()=>{
-  if(!document.hidden){lastFrame=performance.now();monitorSince=lastFrame;monitorSum=0;monitorFrames=0;}
+  if(!document.hidden){lastFrame=performance.now();monitorSince=lastFrame;monitorSum=0;monitorFrames=0;performancePanel?.reset();}
 });
 let bloomTick=0;
 function tick(now){
@@ -575,8 +592,10 @@ function tick(now){
  const q=gpuBudget();
  // Não desenhar quadros extras em máquinas limitadas.
  if(!travelling && q.fpsCap<60 && renderedAt && now-renderedAt<1000/q.fpsCap-1)return;
- const rawMs=renderedAt?Math.min(100,now-renderedAt):16.67;
+ const actualFrameMs=renderedAt?now-renderedAt:16.67;
+ const rawMs=Math.min(100,actualFrameMs);
  renderedAt=now;
+ performancePanel?.record(now,actualFrameMs);
  adaptPerformance(now,rawMs);
  const delta=Math.min((now-lastFrame)/1000,.05);lastFrame=now;
  const time=now*.001;
@@ -649,6 +668,7 @@ function tick(now){
  bloomTick++;
  renderer.info.reset();
  selectiveBloom.render(travelling||bloomTick%2===1);
+ performancePanel?.refresh(now);
 }
 requestAnimationFrame(tick);
 document.documentElement.dataset.sceneReady='1';
