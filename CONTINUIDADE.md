@@ -5,6 +5,16 @@ Este é o ponto de entrada do desenvolvimento quando o histórico do chat do Cha
 **Fonte de verdade:** o código e o histórico dos PRs do GitHub. Para decisões criativas, problemas e próximos passos, consultar a [issue permanente #10](https://github.com/Kaue-Feltrin/orion-observatorio-3d/issues/10). **Não presumir que este arquivo ou o chat substitui a inspeção do repositório.**
 
 
+## Nova prévia — v0.9.10 Estudo + mãos etéreas em primeira pessoa (16/10/2026)
+
+- **PR #17 draft:** https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/17, branch `preview/maos-primeira-pessoa-v0910`, base v0.9.9 (`preview/veu-proximo-v099`). Produção `main` preservada.
+- **Solicitação:** fazer um estudo de como adicionar mãos em primeira pessoa e implementar o protótipo mantendo a estética discreta do Observatório e a referência de 60 FPS já medida na v0.9.9.
+- **Estudo integral:** `ESTUDO-MAOS-PRIMEIRA-PESSOA-v0910.md` compara sobreposição CSS, viewmodel de planos, low-poly 3D e glTF rigado, além de riscos de oclusão, motion sickness, acessibilidade e orçamento.
+- **Prova de conceito:** novo módulo `first-person-hands.js` desenha duas silhuetas etéreas **provisórias**, usando 1 CanvasTexture compartilhada e 2 meshes planares sob a câmera (layer 0, fora do bloom). Sway mínimo e respiração sutil; `prefers-reduced-motion` remove animação; mãos escondidas na viagem.
+- **Comparativos:** `?debug=1&quality=eco-plus&hands=on` versus `?debug=1&quality=eco-plus&hands=off`; telas touch ficam sem mãos por padrão. A/B mantém foto ESO, Nox, bloom, 3 recortes ESO e viagem.
+- **Meta:** estimativa de +2 draw calls e +1 textura; FPS/p95 do hardware do usuário **ainda não confirmados** na v0.9.10. Verificar também percepção visual: mãos reconhecíveis, sem cobrir Nox/UI, sem aspecto de papel colado.
+- **Próximo:** validar CI/Cloudflare, analisar screenshot e testes, comparar performance real e aprovar/rejeitar conceito antes de pensar em asset final. Nunca mesclar `main` sem consentimento explícito.
+
 ## Próxima prévia — v0.9.9 Primeiro plano de nebulosa (16/10/2026)
 
 - [PR #16 draft](https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/16) na branch `preview/veu-proximo-v099`, base `preview/paralaxe-responsiva-v098`; `main`/produção não alterada.
