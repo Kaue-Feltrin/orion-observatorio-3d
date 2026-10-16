@@ -207,3 +207,18 @@ A versão não edita o JPEG ESO, o Nox, os raios giratórios, o `star-journey.js
 Copiar diagnóstico de cada opção e comparar FPS/p95 e aparência. Resultado do Chromium/SwiftShader no CI **não representa GPU do computador do usuário**; mudanças só serão mescladas após avaliação real. Medir RAM total separadamente com Shift+Esc no Chrome.
 
 **Registro central:** https://github.com/Kaue-Feltrin/orion-observatorio-3d/issues/10
+
+## v0.9.6 — Eco+ intermediário / comparação de nitidez (prévia)
+
+Em 15/10/2026, o usuário mediu **Lite 20 FPS (p95 72,2 ms), Lite sem bloom 17 FPS (72,3 ms), Lite sem gás 23 FPS (50,1 ms) e Eco 33 FPS (38,9 ms)**. A redução de resolução e a remoção de gás/efeitos foram concomitantes no Eco, então não é possível concluir qual delas foi determinante, nem afirmar que o bloom "piora" ou "melhora" o desempenho isoladamente.
+
+Novo perfil **Eco+**: `?debug=1&quality=eco-plus` usa DPR máximo 0,60, orçamento máximo de 670 mil pixels, preserva duas massas fotográficas reais em Z e **mantém o bloom seletivo de repouso**, sem GLSL de gás. `?debug=1&quality=eco-plus&effects=no-bloom` desativa apenas o bloom e preserva o restante. A escala intermediária busca melhor nitidez que Eco (0,53) e menos custo que Lite (0,75); **qualidade e FPS reais continuam dependendo do dispositivo**.
+
+No painel de debug, comparar na mesma resolução de janela e com tempo semelhante:
+- Lite original: `?debug=1&quality=lite`
+- Lite sem gás: `?debug=1&quality=lite&effects=no-gas`
+- Eco+ (gás off, bloom on): `?debug=1&quality=eco-plus`
+- Eco+ sem bloom: `?debug=1&quality=eco-plus&effects=no-bloom`
+- Eco básico: `?debug=1&quality=eco`
+
+Deixar cada teste estabilizar, copiar pelo menos duas medições e observar também nitidez da ESO, percepção de volume e luminosidade do Nox. O perfil automático passa gradualmente Lite → Eco+ → Eco em lentidão prolongada, mas a escolha manual via URL permanece constante durante comparações. Nenhum dado é enviado automaticamente; o histórico e o estado de aprovação estão na [issue #10](https://github.com/Kaue-Feltrin/orion-observatorio-3d/issues/10). Não publicar em produção sem aprovação explícita.
