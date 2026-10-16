@@ -137,3 +137,9 @@ rgba(187,150,225,.28) 51%,rgba(10,6,27,0) 80%);opacity:0}
 .perf-inspector .perf-copy{display:block;width:100%;min-height:34px;border:1px solid rgba(232,207,146,.25);background:rgba(232,207,146,.10);color:var(--cream);border-radius:8px;padding:7px 10px;cursor:pointer}
 .perf-inspector .perf-copy:hover,.perf-inspector .perf-copy:focus-visible{background:rgba(232,207,146,.18)}
 .perf-inspector .perf-fallback{display:block;width:100%;min-height:90px;resize:vertical;border:1px solid rgba(232,207,146,.25);background:#0c0b1b;color:var(--cream);font:11px/1.4 ui-monospace,Consolas,monospace;border-radius:8px;padding:7px}
+
+/* v0.9.5 — comparativos só no painel de depuração. */
+.perf-comparisons{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.perf-comparisons a{display:flex;align-items:center;justify-content:center;text-align:center;min-height:38px;padding:7px 5px;border-radius:7px;border:1px solid rgba(232,207,146,.17);background:rgba(232,207,146,.065);color:#efe5d6;font:10px/1.35 'Segoe UI',Arial,sans-serif;text-decoration:none}
+.perf-comparisons a:hover,.perf-comparisons a:focus-visible{border-color:rgba(232,207,146,.45);background:rgba(232,207,146,.15)}
+.perf-comparisons a[aria-current=page]{border-color:rgba(232,207,146,.55);background:rgba(232,207,146,.17)}
