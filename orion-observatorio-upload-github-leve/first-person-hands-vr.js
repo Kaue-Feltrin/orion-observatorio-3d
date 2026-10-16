@@ -9,7 +9,16 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 const URLS=['/models/wonderland-left.glb','/models/wonderland-right.glb'];
 const SIDES=['left','right'];
 const FINGER_RE=/(index|middle|ring|pinky|thumb)[_-]finger[_-]phalanx[_-](proximal|intermediate|distal)/i;
-const REST_CURL={index:.37,middle:.47,ring:.56,pinky:.63,thumb:.22};
+// A pose aberta pertence ao teste original; a nova pose de repouso
+// usa flexão por falange, como no hand-poser/WebXR, com dedos relaxados.
+// ?handPose=open permite comparação A/B sem mudar os modelos 3D.
+const FINGER_CURL={
+  relaxed:{index:.76,middle:.93,ring:1.04,pinky:1.16,thumb:.42},
+  open:{index:.37,middle:.47,ring:.56,pinky:.63,thumb:.22},
+};
+const poseRequested=new URLSearchParams(location.search).get('handPose');
+const poseName=poseRequested==='open'?'open':'relaxed';
+const REST_CURL=FINGER_CURL[poseName];
 const FLEX_AXIS=new THREE.Vector3(1,0,0);
 const TEMP_QUATERNION=new THREE.Quaternion();
 
@@ -18,7 +27,7 @@ export function createVrFirstPersonHands(camera,{enabled=true,reducedMotion=fals
     mode:'vr',enabled:!!enabled,visible:!!enabled,
     loaded:false,loadError:null,motionEnabled:!reducedMotion,
     drawSurfaces:0,textureCount:0,joints:0,fingerJoints:0,triangles:0,
-    swayX:0,swayY:0,leftX:0,rightX:0
+    swayX:0,swayY:0,leftX:0,rightX:0,pose:poseName
   };
   if(!enabled){
     return{state,meshes:[],ready:Promise.resolve(false),update(){},resize(){},beginTravel(){},dispose(){}};
@@ -101,7 +110,9 @@ export function createVrFirstPersonHands(camera,{enabled=true,reducedMotion=fals
     for(let i=0;i<2;i++){
       const g=groups[i],side=i===0?-1:1;
       g.scale.setScalar(s);
-      g.rotation.set(Math.PI-.23,side*-.28,side*.25);
+      // Vista 3/4, com os punhos entrando pelos cantos inferiores.
+      // As palmas deixam de parecer duas placas verticais de "pare".
+      g.rotation.set(Math.PI-.36,side*-.42,side*.29);
       g.position.set(side*w*.54,-h*.94,-depth);
     }
     state.leftX=groups[0].position.x;
@@ -137,8 +148,8 @@ export function createVrFirstPersonHands(camera,{enabled=true,reducedMotion=fals
       const g=groups[i],sign=i===0?-1:1;
       g.position.x=sign*w*.54-state.swayX*w*.016;
       g.position.y=-h*.94-state.swayY*h*.018+breath*(i===0?.9:1);
-      g.rotation.set(Math.PI-.23+(state.motionEnabled?state.swayY*.009:0),
-        sign*-.28,sign*.25+(state.motionEnabled?state.swayX*.014:0));
+      g.rotation.set(Math.PI-.36+(state.motionEnabled?state.swayY*.009:0),
+        sign*-.42,sign*.29+(state.motionEnabled?state.swayX*.014:0));
     }
     // Pouquíssimo movimento no idle, com ossos reais e sem clipes externos.
     if(time-timeLast>=0){
