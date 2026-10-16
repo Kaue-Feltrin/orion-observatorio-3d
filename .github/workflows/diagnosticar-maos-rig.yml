@@ -1,6 +1,8 @@
 name: Diagnosticar rig CC0 (prévia)
 
 on:
+  pull_request:
+    branches: [preview/maos-3d-v0912]
   push:
     branches: [preview/maos-rig-gratuito-v0913]
 
