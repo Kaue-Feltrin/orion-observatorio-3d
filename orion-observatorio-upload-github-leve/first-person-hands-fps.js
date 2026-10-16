@@ -15,7 +15,7 @@ const bendAxis=new THREE.Vector3(1,0,0);
 const PARAMS=new URLSearchParams(window.location.search);
 const CANDIDATE=PARAMS.get('fpsPose')==='open'?'open':'relaxed';
 
-function boneKey(name){return name.toLowerCase().replace(/[^a-z0-9]/g,'');}
+function boneKey(name){return String(name||'').toLowerCase().replace(/[^a-z0-9]/g,'');}
 function findBone(bones,base){
   const key=boneKey(base);
   return bones.find(b=>boneKey(b.name)===key)||null;
@@ -142,7 +142,7 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
           if(/^handr/.test(n))anchors.wristR=bone;
           if(/^fmiddle03l/.test(n))anchors.tipL=bone;
           if(/^fmiddle03r/.test(n))anchors.tipR=bone;
-          const m=bone.name.match(FINGER)||bone.name.match(THUMB);
+          const m=String(bone.name||'').match(FINGER)||String(bone.name||'').match(THUMB);
           if(!m)continue;
           const isThumb=m[0].toLowerCase().startsWith('thumb');
           driven.push({bone,base:bone.quaternion.clone(),
