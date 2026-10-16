@@ -102,9 +102,17 @@ assert.match(main,/Math\.exp\(-Math\.max\(\.001,delta\)\*18\)/,'mouse responde r
 assert.match(main,/cachedCardHeight/,'evitar reflow por quadro');
 assert.doesNotMatch(main,/card\.offsetHeight-18/,'não ler layout a cada frame');
 assert.match(main,/fpsCap:60/,'sem limite rígido de 30 fps');
-assert.match(main,/selectiveBloom\.render\(travelling\|\|bloomTick%2===1\)/,'bloom fora do caminho crítico da câmera');
-assert.match(await read('selective-bloom.js'),/function render\(refreshBloom=true\)/,'renderização seletiva temporizada');
+assert.match(main,/selectiveBloom\.render\(travelling\|\|bloomTick%2===1,/,'bloom fora do caminho crítico da câmera');
+assert.match(await read('selective-bloom.js'),/function render\(refreshBloom=true,enableBloom=true\)/,'renderização seletiva temporizada e desligável');
 assert.match(await read('nebula-volume.js'),/const selected=quality===.lite./,'qualidade variável');
 assert.match(await read('nebula-depth-specs.js'),/export const nebulaDepthSpecs/,'recortes coordenados');
 assert.match(await read('scripts/prepare-astro-assets.mjs'),/eso-gas-/,'4 texturas RGBA preparadas no build');
 assert.doesNotMatch(await read('scripts/prepare-astro-assets.mjs'),/const preserve=1-eased/,'ESO integral não deve ser apagada');
+
+// v0.9.5: perfil eco + experimentos não alteram a foto original ou a viagem.
+assert.match(main,/eco:\{dpr:\.53,maxPixels:500000/,'perfil eco limita pixels');
+assert.match(main,/qualityMode!=='eco'/,'bloom desligável durante o repouso Eco');
+assert.match(main,/effectsMode==='no-gas'/,'A/B do gás sem mudança do panorama');
+assert.match(main,/!manualQuality && qualityMode!=='eco'/,'fallback automático em caso de quadros lentos');
+assert.match(await read('performance-panel.js'),/Lite sem bloom/,'comparativo A/B no debug');
+assert.match(await read('selective-bloom.js'),/if\(!enableBloom\)/,'passagens de bloom realmente ignoradas');

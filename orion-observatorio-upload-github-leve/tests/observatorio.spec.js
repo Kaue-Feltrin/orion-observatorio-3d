@@ -432,3 +432,54 @@ test('v0.9.4: sem debug não adiciona painel nem métricas expostas',async({page
   await page.locator('#heraldTarget').click({force:true});
   await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
 });
+
+
+test('v0.9.5 Eco mantém a foto e duas massas, sem gás ou bloom em repouso',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  await expect(page.locator('#orionPerfReadout')).toContainText('Perfil: eco',{timeout:15000});
+  const value=await page.evaluate(()=>({
+    scene:window.__orionDiagnostic.snapshot(),
+    photo:window.__orionRespirationDebug.nebula.material.opacity,
+    z:window.__orionDepthDebug.layers.filter(layer=>layer.userData.volumeFragment&&layer.visible).map(layer=>layer.position.z),
+    budget:window.__orionPerformance.maxPixels,
+    actualPixels:document.querySelector('#world canvas').width*document.querySelector('#world canvas').height
+  }));
+  expect(value.scene.quality).toBe('eco');
+  expect(value.scene.gasLayers).toBe(0);
+  expect(value.scene.volumeLayers).toBe(2);
+  expect(value.scene.bloomRest).toBe(false);
+  expect(value.photo).toBe(1);
+  expect(value.z).toEqual([-342,-185]);
+  expect(value.budget).toBe(500000);
+  expect(value.actualPixels).toBeLessThanOrEqual(value.budget+10000);
+  await page.locator('#heraldTarget').click({force:true});
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+});
+
+test('v0.9.5 comparação isola bloom e gás sem perder seleção do Nox',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=lite&effects=no-bloom',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const b=await page.evaluate(()=>window.__orionDiagnostic.snapshot());
+  expect(b.quality).toBe('lite');
+  expect(b.effects).toBe('no-bloom');
+  expect(b.bloomRest).toBe(false);
+  expect(b.gasLayers).toBe(1);
+  await expect(page.locator('.perf-comparisons a')).toHaveCount(4);
+  await page.locator('.perf-comparisons a').filter({hasText:'Lite sem gás GLSL'}).click();
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const g=await page.evaluate(()=>window.__orionDiagnostic.snapshot());
+  expect(g.effects).toBe('no-gas');
+  expect(g.bloomRest).toBe(true);
+  expect(g.gasLayers).toBe(0);
+  expect(g.volumeLayers).toBe(2);
+  await page.locator('#heraldTarget').click({force:true});
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+});
+
+test('v0.9.5 comparações não aparecem fora do modo de depuração',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?quality=eco',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  await expect(page.locator('.perf-comparisons a')).toHaveCount(0);
+  await expect(page.locator('#orionPerfReadout')).toHaveCount(0);
+});

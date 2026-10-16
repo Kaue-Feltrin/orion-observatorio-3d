@@ -30,7 +30,16 @@ export function createSelectiveBloom(renderer,scene,camera,{initial=.48,reducedM
     const ratio=THREE.MathUtils.clamp(scale,.20,.50);
     composer.setSize(Math.max(64,Math.floor(width*ratio)), Math.max(64,Math.floor(height*ratio)));
   }
-  function render(refreshBloom=true){
+  function render(refreshBloom=true,enableBloom=true){
+    // Perfil Eco: sem composer e sem overlay no repouso.
+    // Luzes/sprites de Nox continuam renderizadas na cena principal.
+    // A viagem pode reativar o bloom sem perder o clarão final.
+    if(!enableBloom){
+      camera.layers.set(0);
+      renderer.setRenderTarget(null);
+      renderer.render(scene,camera);
+      return;
+    }
     // Renderizar a névoa luminosa a meia frequência economiza GPU.
     // A cena principal e o movimento da câmera continuam por quadro.
     if(refreshBloom){
