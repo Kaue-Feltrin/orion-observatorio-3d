@@ -13,7 +13,7 @@ Este é o ponto de entrada do desenvolvimento quando o histórico do chat do Cha
 - Pose **esquerda**: z=-1.10, x=-0.70, y=-0.72, altura 1.10 relativo ao semi-frustum, rotação -.20 rad. **direita**: z=-1.00, x=+.68, y=-.66, altura 1.17, rotação +.18. Sway e respiração discretos, sem shaders ou sprites adicionais.
 - Mantém bloom do Nox, 3 recortes ESO, foto original, viagem, `hands=off` sem alocação e reduced-motion estático. Código de `main.js` da v0.9.10 preservado.
 - Instrução pronta: `INSTRUCAO-IMPLEMENTACAO-MAOS-v0911.md`, descrição arquivo a arquivo, referências de estilo, limites e testes.
-- **Pendente:** CI, screenshot e medição real FPS/p95 do usuário. Não assumir 60 FPS desta prévia antes de medir nem fazer merge na produção.
+- **Validação técnica concluída:** [CI #59](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38912033362) com **36/36 testes Playwright aprovados, sem flaky**, check e build aprovados; Cloudflare confirmou [prévia v0.9.11 publicada](https://preview-maos-eterias-v0911.orion-observatorio-3d.pages.dev/?quality=eco-plus&hands=on) no commit `f16949e`. Screenshot do CI analisado: mão direita presente na borda inferior, centro/Nox desobstruído; painel de depuração cobre parcialmente mão esquerda. **Pendente apenas feedback visual e FPS/p95 reais do usuário**, não assumir 60 FPS desta prévia nem mesclar em produção.
 
 ## Nova prévia — v0.9.10 Estudo + mãos etéreas em primeira pessoa (16/10/2026)
 
