@@ -155,7 +155,7 @@ assert.match(main,/import \{ createFirstPersonHands \} from '.\/first-person-han
 assert.match(main,/firstPersonHands\.beginTravel\(\)/,'mãos desaparecem antes da viagem');
 assert.match(main,/firstPersonHands\.resize\(\)/,'mãos respondem ao viewport');
 assert.match(main,/firstPersonHands\.update\(time,delta,mouse\.x,mouse\.y\)/,'sway das mãos em camera local');
-assert.match(main,/handsEnabled=params\.get\('hands'\)==='on'/,'comparativo e opt-in no mobile');
+assert.match(main,/const handsEnabled=\['on','3d','2d'\]\.includes\(handsSetting\)/,'modos A/B 3D, 2D e opt-in no mobile');
 assert.match(hands,/new THREE\.CanvasTexture\(canvas\)/,'um asset CanvasTexture gerado uma única vez');
 assert.match(hands,/const left=new THREE\.Mesh\(geometry,material\)/,'mão esquerda compartilha material');
 assert.match(hands,/const right=new THREE\.Mesh\(geometry,material\)/,'mão direita compartilha material');
