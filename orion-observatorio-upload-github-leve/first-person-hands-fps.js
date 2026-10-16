@@ -58,8 +58,8 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
   // então não ficam artificialmente mais claros.
   const handsLights=[];
   if(LIGHT_MODE==='lit'){
-    const fill=new THREE.HemisphereLight(0xe3d7ff,0x17132d,1.45);
-    const key=new THREE.DirectionalLight(0xf4e9ff,1.15);
+    const fill=new THREE.HemisphereLight(0xece2ff,0x675884,1.85);
+    const key=new THREE.DirectionalLight(0xfff4ff,1.22);
     key.position.set(-.70,1.6,2.3);
     key.target.position.set(0,0,-2);
     camera.add(fill,key,key.target);
@@ -157,7 +157,7 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
           geometries.push(cloned);
           const Material=LIGHT_MODE==='lit'?THREE.MeshLambertMaterial:THREE.MeshBasicMaterial;
           const mat=new Material({
-            color:LIGHT_MODE==='lit'?0xa9a0c6:0xbab2cc,vertexColors:true,
+            color:LIGHT_MODE==='lit'?0xd0c4e1:0xbab2cc,vertexColors:true,
             transparent:true,opacity:ART.opacity,side:THREE.DoubleSide,
             depthTest:false,depthWrite:false,toneMapped:false
           });
