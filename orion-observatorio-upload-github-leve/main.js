@@ -225,6 +225,7 @@ if(debugEnabled){
   };
   addSlider('Densidade do gás',atmosphere.state.density,0,1.5,.05,atmosphere.setDensity);
   addSlider('Fluxo orgânico',atmosphere.state.flow,0,1,.05,atmosphere.setFlow);
+  addSlider('Paralaxe da nebulosa',nebulaVolume.state.parallaxStrength,.45,1.6,.05,nebulaVolume.setParallaxStrength);
   window.__orionBloomSliderFactory=addSlider;
   debug.appendChild(controls);
 }
@@ -569,6 +570,7 @@ const performancePanel=debugEnabled?createPerformancePanel(debug,()=>({
   gasLayers:atmosphere.layers.filter(layer=>layer.visible).length,
   volumeLayers:nebulaVolume.layers.filter(layer=>layer.visible).length,
   depthMotion:nebulaVolume.state.parallaxEnabled,
+  parallaxStrength:nebulaVolume.state.parallaxStrength,
   drawCalls:renderer.info.render.calls,
   textures:renderer.info.memory.textures,
   mouseDeltaPx:Number(Math.hypot(
@@ -666,7 +668,8 @@ function tick(now){
   beaconGlow.scale.setScalar(154+42*beacon);
   beaconGlow.material.opacity=.046*beacon*(cardVisible?1.55:1);
   orbitRing.material.opacity=0;
-  nebulaVolume.update(time,smooth.x,smooth.y,delta);
+  // Nebulosa recebe o alvo direto do mouse; câmera mantém smoothing próprio.
+  nebulaVolume.update(time,mouse.x,mouse.y,delta);
   flash.style.opacity='0';
   flash.style.setProperty('--veil-opacity','0');
  } else {
