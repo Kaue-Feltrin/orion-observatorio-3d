@@ -666,7 +666,7 @@ test('v0.9.9 Eco+ cria terceiro recorte ESO mais próximo com ordem correta',asy
   expect(errors).toEqual([]);
   await page.screenshot({path:'test-results/v099-terceiro-recorte-frontal.png'});
   await page.locator('#heraldTarget').click({force:true});
-  await expect(page).toHaveURL(/ficha\\.html/,{timeout:9000});
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
 });
 
 test('v0.9.9 sem véu frontal restaura exatamente os dois planos e mantém o bloom',async({page})=>{
