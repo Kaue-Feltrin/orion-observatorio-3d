@@ -991,7 +991,7 @@ test('v0.9.13 rig altera quaternion dos dedos e reduced motion interrompe',async
 test('v0.9.13 compara modelo rigado e modelo 3D legado sem perder o Nox',async({page})=>{
   await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=rig',{waitUntil:'domcontentloaded'});
   await expect.poll(async()=>page.evaluate(()=>window.__orionHandsDebug?.state.loaded),{timeout:18000}).toBe(true);
-  await expect(page.locator('.perf-comparisons[aria-label="Comparar modelos das mãos"] a')).toHaveCount(5);
+  await expect(page.locator('.perf-comparisons[aria-label="Comparar modelos das mãos"] a')).toHaveCount(6);
   await page.locator('.perf-comparisons[aria-label="Comparar modelos das mãos"] a').filter({hasText:'Modelo 3D anterior'}).click();
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   expect(await page.evaluate(()=>window.__orionDiagnostic.snapshot().handsMode)).toBe('3d');
