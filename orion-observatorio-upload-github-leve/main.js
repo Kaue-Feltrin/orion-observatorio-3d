@@ -35,13 +35,19 @@ debug.hidden = !debugEnabled;
 const constrainedDevice = mobile || (navigator.deviceMemory !== undefined && navigator.deviceMemory <= 4)
   || (navigator.hardwareConcurrency !== undefined && navigator.hardwareConcurrency <= 4);
 const qualityOverride=params.get('quality');
-const initialProfile=qualityOverride==='lite'||qualityOverride==='low'?'lite':
+const manualQuality=['eco','lite','low','balanced','high'].includes(qualityOverride);
+const effectsMode=['no-bloom','no-gas'].includes(params.get('effects'))?params.get('effects'):'normal';
+const initialProfile=qualityOverride==='eco'?'eco':
+  qualityOverride==='lite'||qualityOverride==='low'?'lite':
   qualityOverride==='high'?'high':
   qualityOverride==='balanced'?'balanced':constrainedDevice?'lite':'balanced';
-const qualityOrder=['lite','balanced','high'];
+const qualityOrder=['eco','lite','balanced','high'];
 let qualityMode=initialProfile;
 let performanceAdaptations=0;
 const qualityPresets={
+  // Eco mantém a ESO e dois recortes em profundidade, mas reduz pixels e
+  // elimina o fBm de tela cheia/bloom durante o repouso.
+  eco:{dpr:.53,maxPixels:500000,bloomScale:.20,gas:[],fpsCap:60},
   lite:{dpr:.75,maxPixels:950000,bloomScale:.24,gas:[2],fpsCap:60},
   balanced:{dpr:1,maxPixels:2200000,bloomScale:.34,gas:[0,2],fpsCap:60},
   high:{dpr:1.25,maxPixels:3200000,bloomScale:.42,gas:[0,1,2,3,4],fpsCap:60}
@@ -175,7 +181,7 @@ layers.push(...atmosphere.layers);
 const nebulaVolume=createNebulaVolume(scene,mainCloud,{reducedMotion:reduceMotion||mobile});
 layers.push(...nebulaVolume.layers);
 function applyGasBudget(){
-  const enabled=new Set(gpuBudget().gas);
+  const enabled=new Set(effectsMode==='no-gas'?[]:gpuBudget().gas);
   atmosphere.layers.forEach((mesh,index)=>{
     mesh.visible=enabled.has(index);
   });
@@ -551,6 +557,9 @@ window.addEventListener('resize',resize);resize();
 // Diagnóstico local opcional: nenhum HUD ou coleta adicional no site normal.
 const performancePanel=debugEnabled?createPerformancePanel(debug,()=>({
   quality:qualityMode,
+  effects:effectsMode,
+  bloomRest:qualityMode!=='eco'&&effectsMode!=='no-bloom',
+  canvasPixels:renderer.domElement.width*renderer.domElement.height,
   dpr:Number(renderer.getPixelRatio().toFixed(2)),
   gasLayers:atmosphere.layers.filter(layer=>layer.visible).length,
   volumeLayers:nebulaVolume.layers.filter(layer=>layer.visible).length,
@@ -575,7 +584,9 @@ function adaptPerformance(now,frameMs){
   const average=monitorSum/Math.max(1,monitorFrames);
   monitorSince=now;monitorSum=0;monitorFrames=0;
   slowIntervals=average>32?slowIntervals+1:Math.max(0,slowIntervals-1);
-  if(slowIntervals>=2 && qualityMode!=='lite'){
+  // Qualidade explicitamente escolhida permanece estável para comparar modos.
+  // No automático, duas janelas lentas fazem o fallback lite -> eco.
+  if(slowIntervals>=2 && !manualQuality && qualityMode!=='eco'){
     qualityMode=qualityOrder[Math.max(0,qualityOrder.indexOf(qualityMode)-1)];
     performanceAdaptations++;
     slowIntervals=0;
@@ -667,7 +678,9 @@ function tick(now){
  // Durante a viagem, atualizar em todo quadro para preservar o clarão.
  bloomTick++;
  renderer.info.reset();
- selectiveBloom.render(travelling||bloomTick%2===1);
+ // Sem bloom no repouso Eco. Durante a viagem o clarão permanece intacto.
+ selectiveBloom.render(travelling||bloomTick%2===1,
+   travelling||(qualityMode!=='eco'&&effectsMode!=='no-bloom'));
  performancePanel?.refresh(now);
 }
 requestAnimationFrame(tick);
