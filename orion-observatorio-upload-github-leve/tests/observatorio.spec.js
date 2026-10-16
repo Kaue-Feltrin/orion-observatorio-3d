@@ -398,3 +398,36 @@ test('diagnóstico do frame time e uso de recursos da prévia',async({page})=>{
   expect(perf.fragments).toBe(3);
   expect(perf.drawCalls).toBeGreaterThan(1);
 });
+
+test('v0.9.4: diagnóstico fica isolado no debug e coleta dados reais locais',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=balanced',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  await expect(page.locator('#orionPerfReadout')).toContainText('Perfil: balanced',{timeout:15000});
+  await expect(page.locator('#orionPerfReadout')).toContainText('Diferença interna mouse/câmera:');
+  const state=await page.evaluate(()=>{
+    const o=window.__orionDiagnostic.snapshot();
+    return {
+      samples:o.samples,quality:o.quality,gas:o.gasLayers,volume:o.volumeLayers,
+      fps:o.fps,drawCalls:o.drawCalls,textures:o.textures,report:window.__orionDiagnostic.report()
+    };
+  });
+  expect(state.samples).toBeGreaterThan(0);
+  expect(state.quality).toBe('balanced');
+  expect(state.gas).toBe(2);
+  expect(state.volume).toBe(3);
+  expect(state.drawCalls).toBeGreaterThan(1);
+  expect(state.report).toContain('não é RAM total');
+  expect(state.report).toContain('Shift+Esc');
+  await page.locator('.perf-copy').click();
+  await expect(page.locator('.perf-copy-status')).not.toBeEmpty();
+});
+
+test('v0.9.4: sem debug não adiciona painel nem métricas expostas',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  await expect(page.locator('#orionPerfReadout')).toHaveCount(0);
+  await expect(page.locator('.perf-copy')).toHaveCount(0);
+  expect(await page.evaluate(()=>window.__orionDiagnostic)).toBeUndefined();
+  await page.locator('#heraldTarget').click({force:true});
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+});
