@@ -121,7 +121,7 @@ test('v0.9.15 compara orientação de punhos FPS sem alterar Nox nem universo',a
         wrists:(()=>{
           const arr=[];
           h.root.traverse(o=>{
-            if(o.isBone&&/^hand[lr]$/i.test(o.name.replace(/[^a-z0-9]/ig,'')))arr.push(o.quaternion.toArray());
+            if(o.isBone&&/^hand[lr]/i.test(o.name.replace(/[^a-z0-9]/ig,'')))arr.push(o.quaternion.toArray());
           });
           return arr;
         })()};
