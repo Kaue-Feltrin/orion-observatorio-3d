@@ -68,16 +68,28 @@ test('v0.9.15 captura real 1920×951 com Nox sem obstrução',async({page})=>{
 
 test('v0.9.15 anima dedos do GLB e para ao respeitar movimento reduzido',async({page})=>{
   await loadFps(page);
-  const before=await page.evaluate(()=>window.__orionHandsDebug.driven.slice(0,5).map(d=>d.bone.quaternion.toArray()));
-  await page.waitForTimeout(290);
-  const after=await page.evaluate(()=>window.__orionHandsDebug.driven.slice(0,5).map(d=>d.bone.quaternion.toArray()));
+  // SwiftShader em CI pode levar >290ms por frame. Forçar dois ticks
+  // reproduzíveis testa o rig em si, sem depender da velocidade da GPU.
+  const before=await page.evaluate(()=>{
+    window.__orionHandsDebug.update(100,1/60,0,0);
+    return window.__orionHandsDebug.driven.slice(0,5).map(d=>d.bone.quaternion.toArray());
+  });
+  const after=await page.evaluate(()=>{
+    window.__orionHandsDebug.update(103,1/60,0,0);
+    return window.__orionHandsDebug.driven.slice(0,5).map(d=>d.bone.quaternion.toArray());
+  });
   expect(after).not.toEqual(before);
   await page.emulateMedia({reducedMotion:'reduce'});
   await page.reload({waitUntil:'domcontentloaded'});
   await expect.poll(async()=>page.evaluate(()=>window.__orionHandsDebug?.state.loaded),{timeout:18000}).toBe(true);
-  const fixed=await page.evaluate(()=>window.__orionHandsDebug.driven.slice(0,5).map(d=>d.bone.quaternion.toArray()));
-  await page.waitForTimeout(260);
-  const fixed2=await page.evaluate(()=>window.__orionHandsDebug.driven.slice(0,5).map(d=>d.bone.quaternion.toArray()));
+  const fixed=await page.evaluate(()=>{
+    window.__orionHandsDebug.update(100,1/60,1,-1);
+    return window.__orionHandsDebug.driven.slice(0,5).map(d=>d.bone.quaternion.toArray());
+  });
+  const fixed2=await page.evaluate(()=>{
+    window.__orionHandsDebug.update(108,1/60,-1,1);
+    return window.__orionHandsDebug.driven.slice(0,5).map(d=>d.bone.quaternion.toArray());
+  });
   expect(fixed2).toEqual(fixed);
 });
 
