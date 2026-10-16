@@ -97,9 +97,10 @@ export function createPerformancePanel(debugRoot, readScene) {
   const handModes=document.createElement('nav');
   handModes.className='perf-comparisons';
   handModes.setAttribute('aria-label','Comparar modelos das mãos');
-  const currentHands=new URLSearchParams(location.search).get('hands')||'vr';
+  const currentHands=new URLSearchParams(location.search).get('hands')||'fps';
   for(const {mode,label} of [
-    {mode:'vr',label:'Mãos anatômicas (novo · MIT)'},
+    {mode:'fps',label:'David Fischer · FPS (CC BY)'},
+    {mode:'vr',label:'Mãos anatômicas VR · MIT'},
     {mode:'rig',label:'WRAD retrô · 50 ossos'},
     {mode:'3d',label:'Modelo 3D anterior'},
     {mode:'2d',label:'Silhueta 2,5D'},
@@ -112,7 +113,7 @@ export function createPerformancePanel(debugRoot, readScene) {
     const a=document.createElement('a');
     a.href=url.pathname+url.search;
     a.textContent=label;
-    if(mode===currentHands||(mode==='vr'&&currentHands==='on'))a.setAttribute('aria-current','page');
+    if(mode===currentHands||(mode==='fps'&&currentHands==='on'))a.setAttribute('aria-current','page');
     handModes.appendChild(a);
   }
   field.append(compareHelp,comparisons,depthComparison,foregroundComparison,handModes,handsComparison);
@@ -175,6 +176,7 @@ export function createPerformancePanel(debugRoot, readScene) {
       'Véu frontal próximo da câmera: ' + (s.foregroundNear?'sim':'não'),
       'Mãos em primeira pessoa: ' + (s.handsVisible?'visíveis':'desligadas') + ' · modo: ' + s.handsMode + ' · superfícies: ' + s.handsSurfaces + ' · texturas de mãos: ' + s.handsTextures + ' · triângulos por mão: ' + s.handsTriangles,
       'Rig pronto: ' + (s.handsReady?'sim':'carregando/indisponível') + ' · ossos: ' + s.handsJoints + ' · juntas de dedos: ' + s.handsFingerJoints,
+      ...(s.handsMode==='fps' && window.__orionHandsDebug?.state?.framing ? ['FPS | punhos NDC: '+JSON.stringify(window.__orionHandsDebug.state.framing)] : []),
       ...(s.handsLoadError ? ['Falha no rig: ' + s.handsLoadError] : []),
       'Profundidade orgânica: ' + (s.depthMotion?'ativa':'desativada') + ' · intensidade: ' + s.parallaxStrength,
       'Draw calls: ' + s.drawCalls + ' · texturas GPU: ' + s.textures,
@@ -186,7 +188,7 @@ export function createPerformancePanel(debugRoot, readScene) {
   function report() {
     const s = snapshot();
     return [
-      'Projeto Órion · Observatório v0.9.14 (prévia)',
+      'Projeto Órion · Observatório v0.9.15 (prévia)',
       new Date().toLocaleString('pt-BR'),
       format(s),
       'Amostras: ' + s.samples + ' · adaptações automáticas: ' + s.adaptations,
