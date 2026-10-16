@@ -136,8 +136,9 @@ export function createFirstPersonHands3D(camera,{enabled=true,reducedMotion=fals
   camera.add(left,right);
   const meshes=[left,right];
   const poses={
-    left:{z:-1.10,x:-.70,y:-.72,size:.75,roll:-.20,pitch:-.13,yaw:-.13,sway:.86},
-    right:{z:-1.00,x:.68,y:-.66,size:.79,roll:.18,pitch:-.11,yaw:.12,sway:1}
+    // Um pouco mais abaixo/lateral que a prova inicial: centro do Nox livre.
+    left:{z:-1.10,x:-.78,y:-.82,size:.65,roll:-.20,pitch:-.13,yaw:-.13,sway:.86},
+    right:{z:-1.00,x:.76,y:-.80,size:.68,roll:.18,pitch:-.11,yaw:.12,sway:1}
   };
   function extent(z){
     const hh=Math.tan(THREE.MathUtils.degToRad(camera.fov*.5))*Math.abs(z);
