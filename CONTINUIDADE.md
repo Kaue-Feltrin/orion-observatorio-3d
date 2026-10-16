@@ -1,3 +1,12 @@
+## Correção da pose natural — continuação da v0.9.15 (16/10/2026)
+
+- Feedback do usuário: o modelo original de David Fischer continua, mas os punhos e dedos não têm uma posição natural de primeira pessoa. **Não trocar o GLB nem redesenhar o universo.**
+- Diagnóstico comprovado nas capturas do CI #38940487099: na variante cinematic, o NDC salvo para a ponta do dedo indicava y≈-0,45, enquanto a projeção real após girar os punhos era y≈-0,61. A causa é medição dos landmarks antes de aplicar a pose definitiva.
+- Correção de código: extrair `setBonePose()` comum a calibração/animação; medir punhos e pontas após posicionamento dos bones, orientar suavemente cada mão para o centro por comparação de projeções reais, e atualizar `state.framing` após o ajuste.
+- Nova variante padrão `fpsStyle=natural`: punhos sem dobra FBX extrema; ajuste individual em espaço da câmera, procurando ponta do médio levemente acima e para dentro, mantendo a origem do punho fixa. `fpsStyle=original|calm|cinematic` e `fpsTune` seguem disponíveis para comparações.
+- Nova regressão `tests/fps-natural.spec.js` validada em 1748×864 e 1920×951: posição de ponta dos dedos pós-pose, direção para dentro do quadro, Nox, 3 planos ESO, bloom; anexa screenshots no CI dedicado. Imagens e FPS/p95 real ainda são **pendências até o resultado do CI e inspeção humana**, não declarar pose final aprovada.
+- Branch `preview/fps-hands-david-v0915`, PR #22 em draft. **Nenhuma promoção para produção `main` sem aprovação explícita.** Processo de pesquisa obrigatória para novidades permanece em vigor.
+
 ## Continuação v0.9.15 — QA visual real (16/10/2026)
 
 - Após duas interrupções de conexão, trabalho retomado na `preview/fps-hands-david-v0915`. O modelo de David Fischer, licença CC BY, crédito visível, código e PR #22 já estavam presentes e foram preservados. A produção `main` permanece intacta.
