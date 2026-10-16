@@ -104,7 +104,7 @@ assert.doesNotMatch(main,/card\.offsetHeight-18/,'não ler layout a cada frame')
 assert.match(main,/fpsCap:60/,'sem limite rígido de 30 fps');
 assert.match(main,/selectiveBloom\.render\(travelling\|\|bloomTick%2===1,/,'bloom fora do caminho crítico da câmera');
 assert.match(await read('selective-bloom.js'),/function render\(refreshBloom=true,enableBloom=true\)/,'renderização seletiva temporizada e desligável');
-assert.match(await read('nebula-volume.js'),/const selected=quality===.lite./,'qualidade variável');
+assert.match(await read('nebula-volume.js'),/const selected=\['lite','eco','eco-plus'\]\.includes\(quality\)/,'qualidade variável com dois recortes em Eco+');
 assert.match(await read('nebula-depth-specs.js'),/export const nebulaDepthSpecs/,'recortes coordenados');
 assert.match(await read('scripts/prepare-astro-assets.mjs'),/eso-gas-/,'4 texturas RGBA preparadas no build');
 assert.doesNotMatch(await read('scripts/prepare-astro-assets.mjs'),/const preserve=1-eased/,'ESO integral não deve ser apagada');
