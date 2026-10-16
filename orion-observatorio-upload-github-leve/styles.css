@@ -143,3 +143,7 @@ rgba(187,150,225,.28) 51%,rgba(10,6,27,0) 80%);opacity:0}
 .perf-comparisons a{display:flex;align-items:center;justify-content:center;text-align:center;min-height:38px;padding:7px 5px;border-radius:7px;border:1px solid rgba(232,207,146,.17);background:rgba(232,207,146,.065);color:#efe5d6;font:10px/1.35 'Segoe UI',Arial,sans-serif;text-decoration:none}
 .perf-comparisons a:hover,.perf-comparisons a:focus-visible{border-color:rgba(232,207,146,.45);background:rgba(232,207,146,.15)}
 .perf-comparisons a[aria-current=page]{border-color:rgba(232,207,146,.55);background:rgba(232,207,146,.17)}
+
+/* v0.9.7 · Comparativo apenas no modo de depuração. */
+.perf-depth-compare{display:block;text-align:center;padding:9px 7px;border-radius:7px;border:1px solid rgba(232,207,146,.24);color:#e9d7b0;background:rgba(232,207,146,.08);font:11px/1.4 'Segoe UI',Arial,sans-serif;text-decoration:none}
+.perf-depth-compare:hover,.perf-depth-compare:focus-visible{background:rgba(232,207,146,.16);border-color:rgba(232,207,146,.5)}
