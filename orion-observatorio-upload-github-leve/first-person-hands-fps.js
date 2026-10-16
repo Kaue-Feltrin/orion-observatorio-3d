@@ -149,7 +149,7 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
             Math.abs(depthDelta+.38)*.32+
             Math.abs(pitch)*.022+Math.abs(roll)*.027+
             (dy<.13?.8:0)+(dy>.39?.15:0)+
-            ((tNdc.x*wrist.side)>0?.35:0);
+            ((tNdc.x*wrist.side)<0?.35:0);
           if(score<best.score)best={score,pitch,roll,quaternion:wrist.bone.quaternion.clone()};
         }
       }
