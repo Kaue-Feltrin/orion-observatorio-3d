@@ -1,3 +1,12 @@
+## Continuação concluída — v0.9.15 mãos FPS posição relaxada (16/10/2026)
+
+- **Fonte de verdade:** PR #22 em draft na branch `preview/fps-hands-david-v0915`; código verificado no commit `0ad834394c8acdc1a7714e068246b07bf8d9c20f`. A produção `main` e o restante do universo 3D foram preservados.
+- A falha era a pose inicial com as mãos abertas verticalmente (efeito "pare") e uma calibração que media as pontas ANTES de atualizar o rig. Corrigidos os landmarks medidos DEPOIS da pose do punho, com correspondência entre NDC registrado e projeção verdadeira.
+- Rodada A/B com **8 variantes** (base, forward, reach, inward, back, rest1, rest2, rest3), fotos reais armazenadas nas capturas do workflow [Enquadramento David #38951107610](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38951107610).
+- Escolhida como novo padrão `?hands=fps&fpsStyle=natural` a pose **rest1**, com flexão `bend=+1.0`, yaw `±0.36` e roll `∓0.38`, com palmas mais diagonais e dedos direcionados para frente, sem excesso de braço no quadro. Preservada `?fpsTune=back` para referência, `rest2` e `rest3` para A/B e todos os modos antigos.
+- **Código final aprovado pelos testes específicos:** [QA #38951577356](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38951577356), [enquadramento #38951577454](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38951577454), [viewmodel #38951577441](https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/38951577441). Nox, 3 recortes ESO, bloom, rig original de 63 ossos, 40 falanges, CC BY, `hands=off` e reduced-motion preservados. Browser de CI não é medidor de desempenho do hardware real.
+- **Pendência de aceite:** análise do usuário da nova captura de mão em 1748×864 e medição FPS/p95 com `?debug=1&quality=eco-plus&hands=fps` vs `hands=off`. Não fazer merge para `main` nem promover produção sem autorização explícita. A regressão geral pode ter execução mais longa que o QA isolado; conferir o workflow geral antes de qualquer merge.
+
 ## Resultado da revisão visual das mãos — v0.9.15 (16/10/2026)
 
 - **Padrão atual aprovado tecnicamente, aguardando aceite estético do usuário:** `?quality=eco-plus&hands=fps&fpsStyle=natural` usa a pose diagonal do antigo `fpsTune=back` (`bend=+0,70`, `yaw=±0,30`, `roll=∓0,30`). A comparação visual real mostrou palmas em 3/4 e dedos apontando para frente, melhores que a antiga pose frontal e que o autoaim exagerado em "garra".
