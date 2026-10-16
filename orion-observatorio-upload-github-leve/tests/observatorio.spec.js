@@ -520,3 +520,73 @@ test('v0.9.6 Eco+ sem bloom desliga apenas passes luminosos, mantendo profundida
   await expect(page.locator('.perf-comparisons a[aria-current=page]')).toContainText('Eco+ sem bloom');
   await expect(page.locator('#heraldTarget')).toBeAttached();
 });
+
+
+test('v0.9.7 Eco+ tem paralaxe orgânica diferencial sem novos meshes ou gás',async({page})=>{
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  await expect(page.locator('#orionPerfReadout')).toContainText('Profundidade orgânica: ativa',{timeout:15000});
+  await page.evaluate(()=>{
+    dispatchEvent(new PointerEvent('pointermove',{
+      clientX:innerWidth-35,clientY:innerHeight*.20,pointerType:'mouse',bubbles:true
+    }));
+  });
+  await expect.poll(async()=>page.evaluate(()=>{
+    const l=window.__orionDepthDebug.layers.find(x=>x.userData.volumeFragment&&x.userData.spec.id==='04');
+    return Math.abs(l.userData.parallaxOffsetX);
+  }),{timeout:18000}).toBeGreaterThan(.6);
+  const data=await page.evaluate(()=>{
+    const l=window.__orionDepthDebug.layers.filter(x=>x.userData.volumeFragment&&x.visible);
+    const a=window.__orionDiagnostic.snapshot();
+    return{
+      motion:window.__orionDepthDebug.nebulaMotion.parallaxEnabled,
+      z:l.map(x=>x.position.z),offsets:l.map(x=>Math.abs(x.userData.parallaxOffsetX)),
+      scales:l.map(x=>x.scale.x/x.userData.baseScaleX),
+      gas:a.gasLayers,volumes:a.volumeLayers,bloom:a.bloomRest,
+      photo:window.__orionRespirationDebug.nebula.material.opacity,
+      budget:window.__orionPerformance.maxPixels
+    };
+  });
+  expect(data.motion).toBe(true);
+  expect(data.z).toEqual([-342,-185]);
+  expect(data.offsets[1]).toBeGreaterThan(data.offsets[0]);
+  expect(data.scales.every(v=>v>.995&&v<1.005)).toBe(true);
+  expect(data.gas).toBe(0);
+  expect(data.volumes).toBe(2);
+  expect(data.bloom).toBe(true);
+  expect(data.photo).toBe(1);
+  expect(data.budget).toBe(670000);
+  expect(errors).toEqual([]);
+  await page.screenshot({path:'test-results/eco-plus-v097-profundidade.png'});
+  await page.locator('#heraldTarget').click({force:true});
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+});
+
+test('v0.9.7 comparativo legado e movimento reduzido não deslocam fotos',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&depthMotion=off',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  await page.evaluate(()=>{
+    dispatchEvent(new PointerEvent('pointermove',{
+      clientX:innerWidth-25,clientY:15,pointerType:'mouse',bubbles:true
+    }));
+  });
+  await page.waitForTimeout(450);
+  const compare=await page.evaluate(()=>{
+    const l=window.__orionDepthDebug.layers.filter(x=>x.userData.volumeFragment&&x.visible);
+    return{motion:window.__orionDiagnostic.snapshot().depthMotion,
+      offset:l.map(x=>x.userData.parallaxOffsetX),bloom:window.__orionDiagnostic.snapshot().bloomRest,
+      target:document.querySelector('.perf-depth-compare')?.textContent};
+  });
+  expect(compare.motion).toBe(false);
+  expect(compare.offset).toEqual([0,0]);
+  expect(compare.bloom).toBe(true);
+  expect(compare.target).toContain('Ativar profundidade');
+  await page.locator('.perf-depth-compare').click();
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  expect(await page.evaluate(()=>window.__orionDiagnostic.snapshot().depthMotion)).toBe(true);
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.reload({waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  expect(await page.evaluate(()=>window.__orionDiagnostic.snapshot().depthMotion)).toBe(false);
+});
