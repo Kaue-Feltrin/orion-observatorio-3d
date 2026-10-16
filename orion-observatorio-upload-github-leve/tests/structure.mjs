@@ -147,3 +147,19 @@ assert.match(volumeScript,/mesh\.position\.z=nearVeil\?-75:spec\.z/,'camada do m
 assert.match(volumeScript,/mesh\.userData\.opacityFactor=nearVeil\?\.38:1/,'recorte frontal discreto');
 assert.match(volumeScript,/mesh\.renderOrder=2\.11\+\(425\+mesh\.position\.z\)\*\.0008/,'ordem transparente usa profundidade efetiva');
 assert.match(await read('performance-panel.js'),/Véu frontal próximo da câmera/,'comparador reporta presença do primeiro plano');
+
+
+// v0.9.10 — protótipo acessível e reversível sem WebGL extra pesado.
+const hands=await read('first-person-hands.js');
+assert.match(main,/import \{ createFirstPersonHands \} from '.\/first-person-hands.js'/,'mãos têm módulo isolado');
+assert.match(main,/firstPersonHands\.beginTravel\(\)/,'mãos desaparecem antes da viagem');
+assert.match(main,/firstPersonHands\.resize\(\)/,'mãos respondem ao viewport');
+assert.match(main,/firstPersonHands\.update\(time,delta,mouse\.x,mouse\.y\)/,'sway das mãos em camera local');
+assert.match(main,/handsEnabled=params\.get\('hands'\)==='on'/,'comparativo e opt-in no mobile');
+assert.match(hands,/new THREE\.CanvasTexture\(canvas\)/,'um asset CanvasTexture gerado uma única vez');
+assert.match(hands,/const left=new THREE\.Mesh\(geometry,material\)/,'mão esquerda compartilha material');
+assert.match(hands,/const right=new THREE\.Mesh\(geometry,material\)/,'mão direita compartilha material');
+assert.match(hands,/camera\.add\(left,right\)/,'viewmodel preso à câmera');
+assert.match(hands,/camera\.remove\(left,right\)/,'descarta corretamente as mãos');
+assert.match(hands,/meshes\.forEach\(mesh=>mesh\.visible=false\)/,'invisível ao viajar');
+assert.match(await read('performance-panel.js'),/Mãos em primeira pessoa/,'diagnóstico local identifica as mãos');
