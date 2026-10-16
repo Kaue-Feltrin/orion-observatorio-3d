@@ -186,3 +186,24 @@ Use **Copiar diagnóstico** e cole o texto no chat. Não é enviado automaticame
 Para observar RAM total no Chrome do Windows, abra o gerenciador de tarefas interno com **Shift+Esc**. Compare também o perfil `?debug=1&quality=lite` e a qualidade padrão. A janela de diagnóstico e o módulo de métricas são instanciados apenas em modo debug; em `/` não aparece UI adicional.
 
 A frequência de quadros do Chromium headless com SwiftShader (CI) não é referência para FPS do PC do usuário. O deploy atual deve ser avaliado visualmente antes de qualquer merge.
+
+## v0.9.5 — Eco + testes comparativos de GPU (prévia)
+
+**Motivo:** diagnóstico coletado no PC do usuário em 15/10/2026, resolução 1920×951, `quality=lite`, DPR ~0,72: **14 FPS médios; p95 de 105,5–111,1 ms; 100% dos quadros acima de 33 ms; 25 draw calls; 20 texturas GPU; diferença interna mouse/câmera de 0,2–0,4 px**. Essas métricas não permitem atribuir a culpa exclusivamente à GPU; justificam experimentos separados.
+
+A versão não edita o JPEG ESO, o Nox, os raios giratórios, o `star-journey.js`, a viagem, a ficha ou as 146 estrelas procedurais. O modo padrão mantém a estética anterior até que medições justifiquem um ajuste.
+
+**Modo Eco experimental:** `?debug=1&quality=eco`
+- Limita a 500 mil pixels por quadro (DPR máximo 0,53) e conserva **2 recortes fotográficos posicionados em profundidades reais**.
+- Desativa o gás procedural GLSL e **todos os passes de bloom em repouso**, mas mantém sprites do Nox, fotografia original e movimento das massas. Durante a viagem, o bloom volta para preservar o clarão.
+- O perfil automático pode cair de Lite para Eco após dois intervalos lentos, em vez de continuar preso em Lite mesmo a ~14 FPS. Selecionar uma qualidade explicitamente na URL impede essa mudança durante a comparação.
+
+**Comparação controlada no painel de debug:** quatro links abrem variantes mantendo o resto da composição:
+1. `?debug=1&quality=lite` — referência v0.9.4.
+2. `?debug=1&quality=lite&effects=no-bloom` — isola bloom em repouso, mantém gás.
+3. `?debug=1&quality=lite&effects=no-gas` — isola gás GLSL, mantém bloom.
+4. `?debug=1&quality=eco` — reduz pixels, remove os dois efeitos pesados em repouso.
+
+Copiar diagnóstico de cada opção e comparar FPS/p95 e aparência. Resultado do Chromium/SwiftShader no CI **não representa GPU do computador do usuário**; mudanças só serão mescladas após avaliação real. Medir RAM total separadamente com Shift+Esc no Chrome.
+
+**Registro central:** https://github.com/Kaue-Feltrin/orion-observatorio-3d/issues/10
