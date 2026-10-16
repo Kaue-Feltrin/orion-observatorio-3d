@@ -169,3 +169,20 @@ Todos os arquivos da câmera, shaders, bloom, viagem e partículas continuam com
 - Testes Playwright novos verificam alinhamento de planos, assets, movimento orgânico, resposta da mira, qualidade adaptativa e seleção/viagem.
 
 Os testes de funcionamento não são um benchmark real de RAM/FPS em hardware do usuário.
+
+## v0.9.4 — Diagnóstico de Fluidez (prévia isolada)
+
+A v0.9.3 permanece como base. Esta versão **não altera a composição visual, a fotografia ESO, as estrelas, o Nox, a viagem nem a produção**.
+
+Acesse a prévia com `?debug=1` para abrir o painel local "Diagnóstico de fluidez" no painel de ajustes. Ele atualiza a cada ~1 segundo e mostra:
+- FPS médio e p95 de duração de quadros (~4 segundos), além da proporção acima de 33,3 ms;
+- perfil adaptativo, DPR, número de camadas GLSL e massas fotográficas;
+- draw calls por quadro e contagem de texturas GPU;
+- diferença entre o alvo do ponteiro e a posição suavizada da câmera em pixels estimados (não é latência ponta a ponta);
+- heap JavaScript, **apenas se disponível**, que não mede a RAM total da aba nem VRAM.
+
+Use **Copiar diagnóstico** e cole o texto no chat. Não é enviado automaticamente a lugar nenhum. Caso o navegador impeça a cópia, aparece uma caixa para seleção manual.
+
+Para observar RAM total no Chrome do Windows, abra o gerenciador de tarefas interno com **Shift+Esc**. Compare também o perfil `?debug=1&quality=lite` e a qualidade padrão. A janela de diagnóstico e o módulo de métricas são instanciados apenas em modo debug; em `/` não aparece UI adicional.
+
+A frequência de quadros do Chromium headless com SwiftShader (CI) não é referência para FPS do PC do usuário. O deploy atual deve ser avaliado visualmente antes de qualquer merge.
