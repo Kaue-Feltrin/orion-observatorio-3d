@@ -222,3 +222,19 @@ No painel de debug, comparar na mesma resolução de janela e com tempo semelhan
 - Eco básico: `?debug=1&quality=eco`
 
 Deixar cada teste estabilizar, copiar pelo menos duas medições e observar também nitidez da ESO, percepção de volume e luminosidade do Nox. O perfil automático passa gradualmente Lite → Eco+ → Eco em lentidão prolongada, mas a escolha manual via URL permanece constante durante comparações. Nenhum dado é enviado automaticamente; o histórico e o estado de aprovação estão na [issue #10](https://github.com/Kaue-Feltrin/orion-observatorio-3d/issues/10). Não publicar em produção sem aprovação explícita.
+
+## v0.9.7 — Profundidade orgânica sem custo adicional de renderização (prévia)
+
+Referência aprovada para preservar: **Eco+ com bloom** da v0.9.6 (medido no PC do usuário em 16/10/2026: 60 FPS, p95 16,8 ms, 0% de quadros acima de 33 ms, 1920×951, DPR 0,60, 656.640 pixels, 2 recortes, 0 gás GLSL). O modo Eco+ sem bloom deu os mesmos 60 FPS e o usuário preferiu manter o brilho extra. A meta é preservar essa fluidez, **não alegar que a v0.9.7 também atinge 60 FPS antes de medir no PC**.
+
+**Implementação:** os planos já existentes de recortes orgânicos da foto ESO respondem ao movimento suavizado da câmera com uma leve inércia independente. O véu próximo recebe mais deslocamento do que a nuvem distante; ambos preservam seus valores z reais. Uma respiração de escala abaixo de 0,4% soma uma sensação de vida sem parecer oscilação de imagem inteira. Reduções de movimento do sistema desativam o efeito adicional.
+
+**Custos e preservações:** 0 novas texturas, 0 novos materiais, 0 meshes, 0 shaders e 0 passes extras de bloom. Não modifica o JPEG ESO/S. Brunier, as 146 estrelas, o brilho/espículas do Nox, a interação, `star-journey.js` ou a estética da interface. Apenas atualiza posição e escala de recortes já desenhados pela GPU.
+
+**Comparação visual na mesma prévia:**
+- `?debug=1&quality=eco-plus` — Eco+ com profundidade orgânica ligada.
+- `?debug=1&quality=eco-plus&depthMotion=off` — Eco+ com a paralaxe adicional desligada, preservando a respiração e o bloom anteriores.
+
+Comparar ao mover o mouse para esquerda/direita e observar a diferença de profundidade. Copiar o FPS/p95 de ambos e avaliar se há movimento artificial ou brilho excessivo. **Não mesclar em produção até aprovação explícita.**
+
+Registro central: https://github.com/Kaue-Feltrin/orion-observatorio-3d/issues/10

@@ -28,6 +28,7 @@ depthInput.value = String(perspective);
 depthValue.textContent = perspective.toFixed(1).replace('.', ',') + '×';
 const params = new URLSearchParams(location.search);
 const debugEnabled = params.has('debug');
+const depthMotionEnabled=params.get('depthMotion')!=='off';
 debug.hidden = !debugEnabled;
 
 // Orçamento de GPU: DPR alto quadruplica os pixels por quadro, e as camadas
@@ -182,7 +183,7 @@ const atmosphere = createCosmicAtmosphere(scene,{reducedMotion:reduceMotion || m
 layers.push(...atmosphere.layers);
 // 4 regiões recortadas da própria fotografia ESO, sobrepostas em Z.
 // Sem mais estrelas ou efeitos de tela inteira.
-const nebulaVolume=createNebulaVolume(scene,mainCloud,{reducedMotion:reduceMotion||mobile});
+const nebulaVolume=createNebulaVolume(scene,mainCloud,{reducedMotion:reduceMotion||mobile,parallaxEnabled:depthMotionEnabled});
 layers.push(...nebulaVolume.layers);
 function applyGasBudget(){
   const enabled=new Set(effectsMode==='no-gas'?[]:gpuBudget().gas);
@@ -324,7 +325,7 @@ scene.add(foregroundParticles);
 // instrumentação e testes; GPU não desenha nenhum fragmento dele.
 createStars(0,-56,-6,128,72,[.65,1.0],['#d6dfff','#d3baff','#f7eacf'],{group:foregroundParticles,opacity:0});
 if (debugEnabled) {
-  window.__orionDepthDebug = { rigRoot, rigYaw, rigPitch, rigRoll, camera, foregroundParticles, layers };
+  window.__orionDepthDebug = { rigRoot, rigYaw, rigPitch, rigRoll, camera, foregroundParticles, layers, nebulaMotion:nebulaVolume.state };
 }
 
 // Native Three.js sprites anchored at the same point in space.
@@ -567,6 +568,7 @@ const performancePanel=debugEnabled?createPerformancePanel(debug,()=>({
   dpr:Number(renderer.getPixelRatio().toFixed(2)),
   gasLayers:atmosphere.layers.filter(layer=>layer.visible).length,
   volumeLayers:nebulaVolume.layers.filter(layer=>layer.visible).length,
+  depthMotion:nebulaVolume.state.parallaxEnabled,
   drawCalls:renderer.info.render.calls,
   textures:renderer.info.memory.textures,
   mouseDeltaPx:Number(Math.hypot(
@@ -664,7 +666,7 @@ function tick(now){
   beaconGlow.scale.setScalar(154+42*beacon);
   beaconGlow.material.opacity=.046*beacon*(cardVisible?1.55:1);
   orbitRing.material.opacity=0;
-  nebulaVolume.update(time);
+  nebulaVolume.update(time,smooth.x,smooth.y,delta);
   flash.style.opacity='0';
   flash.style.setProperty('--veil-opacity','0');
  } else {

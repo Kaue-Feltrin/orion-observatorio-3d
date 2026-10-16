@@ -36,20 +36,36 @@ export function createPerformancePanel(debugRoot, readScene) {
     const url=new URL(window.location.href);
     url.searchParams.set('debug','1');
     url.searchParams.set('quality',choice.quality);
+    url.searchParams.delete('depthMotion');
     if(choice.effects)url.searchParams.set('effects',choice.effects);
     else url.searchParams.delete('effects');
     const anchor=document.createElement('a');
     anchor.href=url.pathname+url.search;
     anchor.textContent=choice.label;
     if(choice.quality===new URLSearchParams(location.search).get('quality') &&
-      (choice.effects||'normal') === (new URLSearchParams(location.search).get('effects')||'normal')){
+      (choice.effects||'normal') === (new URLSearchParams(location.search).get('effects')||'normal') &&
+      new URLSearchParams(location.search).get('depthMotion')!=='off'){
       anchor.setAttribute('aria-current','page');
     }
     comparisons.appendChild(anchor);
   }
   const compareHelp=document.createElement('small');
   compareHelp.textContent='Compare após ~10 s em cada modo e repita as medições. Lite sem gás e Eco+ preservam o bloom: a diferença isola principalmente a resolução; Eco+ sem bloom mostra o custo do bloom na mesma resolução.';
-  field.append(compareHelp,comparisons);
+  const depthComparison=document.createElement('a');
+  const comparisonUrl=new URL(window.location.href);
+  comparisonUrl.searchParams.set('debug','1');
+  comparisonUrl.searchParams.set('quality','eco-plus');
+  comparisonUrl.searchParams.delete('effects');
+  if(new URLSearchParams(location.search).get('depthMotion')==='off'){
+    comparisonUrl.searchParams.delete('depthMotion');
+    depthComparison.textContent='Ativar profundidade orgânica · Eco+';
+  }else{
+    comparisonUrl.searchParams.set('depthMotion','off');
+    depthComparison.textContent='Comparar profundidade original · Eco+';
+  }
+  depthComparison.href=comparisonUrl.pathname+comparisonUrl.search;
+  depthComparison.className='perf-depth-compare';
+  field.append(compareHelp,comparisons,depthComparison);
   debugRoot.appendChild(field);
 
   const MAX_SAMPLES = 360, WINDOW_MS = 4000;
@@ -106,6 +122,7 @@ export function createPerformancePanel(debugRoot, readScene) {
       'Efeitos: ' + s.effects + ' · bloom em repouso: ' + (s.bloomRest?'sim':'não'),
       'Pixels do canvas: ' + s.canvasPixels,
       'Camadas: ' + s.gasLayers + ' gás / ' + s.volumeLayers + ' recortes',
+      'Profundidade orgânica: ' + (s.depthMotion?'ativa':'desativada'),
       'Draw calls: ' + s.drawCalls + ' · texturas GPU: ' + s.textures,
       'Diferença interna mouse/câmera: ' + s.mouseDeltaPx + ' px',
       'Heap JavaScript: ' + (s.jsHeapMB == null ? 'indisponível' : s.jsHeapMB + ' MB') + ' (não é RAM total)'
@@ -115,7 +132,7 @@ export function createPerformancePanel(debugRoot, readScene) {
   function report() {
     const s = snapshot();
     return [
-      'Projeto Órion · Observatório v0.9.6 (prévia)',
+      'Projeto Órion · Observatório v0.9.7 (prévia)',
       new Date().toLocaleString('pt-BR'),
       format(s),
       'Amostras: ' + s.samples + ' · adaptações automáticas: ' + s.adaptations,
