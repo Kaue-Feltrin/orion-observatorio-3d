@@ -921,3 +921,92 @@ test('v0.9.12 mãos 3D são apresentadas também sem o painel de debug',async({p
   await page.locator('#heraldTarget').click({force:true});
   await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
 });
+
+
+test('v0.9.13 carrega modelo FPS CC0 local com skeleton e juntas animáveis',async({page})=>{
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  const asset=await page.request.get('http://127.0.0.1:4173/models/wrad-arms.glb');
+  expect(asset.ok()).toBe(true);
+  const buffer=await asset.body();
+  expect(buffer.length).toBeGreaterThan(100000);
+  expect(buffer.subarray(0,4).toString()).toBe('glTF');
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=rig',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  await expect.poll(async()=>page.evaluate(()=>window.__orionHandsDebug.state.loaded),{timeout:18000}).toBe(true);
+  const a=await page.evaluate(()=>{
+    const h=window.__orionHandsDebug;
+    const s=window.__orionDiagnostic.snapshot();
+    return{
+      mode:h.state.mode,error:h.state.loadError,
+      fingers:h.state.fingerJoints,bones:h.state.joints,
+      meshCount:h.meshes.length,skin:h.meshes.some(m=>m.isSkinnedMesh),
+      size:h.state.modelBounds?.width,
+      triangles:h.state.triangles,texture:h.state.textureCount,
+      parent:h.rigRoot.parent===window.__orionDepthDebug.camera,
+      snap:s
+    };
+  });
+  expect(a.error).toBe(null);
+  expect(a.mode).toBe('rig');
+  expect(a.meshCount).toBe(1);
+  expect(a.skin).toBe(true);
+  expect(a.fingers).toBe(30);
+  expect(a.bones).toBeGreaterThanOrEqual(50);
+  expect(a.size).toBeGreaterThan(8);
+  expect(a.triangles).toBeGreaterThan(500);
+  expect(a.triangles).toBeLessThan(2000);
+  expect(a.texture).toBe(1);
+  expect(a.parent).toBe(true);
+  expect(a.snap.handsReady).toBe(true);
+  expect(a.snap.handsMode).toBe('rig');
+  expect(a.snap.handsFingerJoints).toBe(30);
+  expect(a.snap.handsSurfaces).toBe(1);
+  expect(a.snap.volumeLayers).toBe(3);
+  expect(a.snap.bloomRest).toBe(true);
+  expect(errors).toEqual([]);
+  await page.screenshot({path:'test-results/v0913-maos-rig-principal.png'});
+  await page.locator('#heraldTarget').click({force:true});
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+});
+
+test('v0.9.13 rig altera quaternion dos dedos e reduced motion interrompe',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=rig',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>window.__orionHandsDebug?.state.loaded),{timeout:18000}).toBe(true);
+  const first=await page.evaluate(()=>window.__orionHandsDebug.driven[0].bone.quaternion.toArray());
+  await page.waitForTimeout(240);
+  const later=await page.evaluate(()=>window.__orionHandsDebug.driven[0].bone.quaternion.toArray());
+  expect(later).not.toEqual(first);
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.reload({waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>window.__orionHandsDebug?.state.loaded),{timeout:18000}).toBe(true);
+  const before=await page.evaluate(()=>window.__orionHandsDebug.driven.slice(0,4).map(x=>x.bone.quaternion.toArray()));
+  await page.waitForTimeout(250);
+  const after=await page.evaluate(()=>window.__orionHandsDebug.driven.slice(0,4).map(x=>x.bone.quaternion.toArray()));
+  expect(after).toEqual(before);
+});
+
+test('v0.9.13 compara modelo rigado e modelo 3D legado sem perder o Nox',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=rig',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>window.__orionHandsDebug?.state.loaded),{timeout:18000}).toBe(true);
+  await expect(page.locator('.perf-comparisons[aria-label="Comparar modelos das mãos"] a')).toHaveCount(4);
+  await page.locator('.perf-comparisons[aria-label="Comparar modelos das mãos"] a').filter({hasText:'Modelo 3D anterior'}).click();
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  expect(await page.evaluate(()=>window.__orionDiagnostic.snapshot().handsMode)).toBe('3d');
+  await page.locator('.perf-comparisons[aria-label="Comparar modelos das mãos"] a').filter({hasText:'Modelo gratuito rigado'}).click();
+  await expect.poll(async()=>page.evaluate(()=>window.__orionHandsDebug?.state.loaded),{timeout:18000}).toBe(true);
+  expect(await page.evaluate(()=>window.__orionDiagnostic.snapshot().handsMode)).toBe('rig');
+  await page.locator('#heraldTarget').click({force:true});
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+});
+
+test('v0.9.13 modelo rigado sem painel mantém composição da primeira pessoa',async({page})=>{
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('http://127.0.0.1:4173/?quality=eco-plus&hands=rig',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  await expect(page.locator('#orionPerfReadout')).toHaveCount(0);
+  await page.waitForTimeout(850);
+  await page.screenshot({path:'test-results/v0913-maos-rig-sem-debug.png'});
+  expect(errors).toEqual([]);
+  await page.locator('#heraldTarget').click({force:true});
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+});
