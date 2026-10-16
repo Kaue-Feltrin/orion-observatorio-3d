@@ -694,7 +694,7 @@ test('v0.9.9 sem véu frontal restaura exatamente os dois planos e mantém o blo
 
 test('v0.9.10 mãos etéreas são viewmodel da câmera e não cobrem o Nox',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=on',{waitUntil:'domcontentloaded'});
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=2d',{waitUntil:'domcontentloaded'});
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   const data=await page.evaluate(()=>{
     const h=window.__orionHandsDebug;
@@ -766,7 +766,7 @@ test('v0.9.10 sem mãos restaura cena e não aloca viewmodel',async({page})=>{
 
 test('v0.9.10 movimento reduzido remove sway e viagem oculta mãos',async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});
-  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=on',{waitUntil:'domcontentloaded'});
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=2d',{waitUntil:'domcontentloaded'});
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   const before=await page.evaluate(()=>window.__orionHandsDebug.meshes.map(m=>({x:m.position.x,y:m.position.y,rot:m.rotation.z})));
   await page.mouse.move(1500,700);
@@ -784,7 +784,7 @@ test('v0.9.10 movimento reduzido remove sway e viagem oculta mãos',async({page}
 
 
 test('v0.9.11 nova pose deixa mãos mais altas e assimétricas, com mesma textura',async({page})=>{
-  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=on',{waitUntil:'domcontentloaded'});
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=2d',{waitUntil:'domcontentloaded'});
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   const p=await page.evaluate(()=>{
     const m=window.__orionHandsDebug.meshes;
@@ -814,4 +814,95 @@ test('v0.9.11 nova pose deixa mãos mais altas e assimétricas, com mesma textur
   expect(p.counts.quality).toBe('eco-plus');
   expect(p.counts.bloomRest).toBe(true);
   expect(p.counts.volumeLayers).toBe(3);
+});
+
+
+test('v0.9.12 mãos 3D compartilham geometria com cinco dedos reais e sem textura',async({page})=>{
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=3d',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const p=await page.evaluate(()=>{
+    const h=window.__orionHandsDebug, g=h.meshes[0].geometry;
+    const camera=window.__orionDepthDebug.camera;
+    const snap=window.__orionDiagnostic.snapshot();
+    return{
+      mode:h.state.mode,visible:h.state.visible,meshes:h.meshes.length,
+      commonGeometry:h.meshes[0].geometry===h.meshes[1].geometry,
+      commonMaterial:h.meshes[0].material===h.meshes[1].material,
+      attached:h.meshes.every(m=>m.parent===camera),
+      fingers:g.userData.fingerCount,sections:g.userData.sections,
+      triangles:g.userData.triangles,vertices:g.getAttribute('position').count,
+      hasDepth:g.boundingBox?g.boundingBox.max.z-g.boundingBox.min.z:null,
+      fourChannelColors:g.getAttribute('color').itemSize,
+      map:h.meshes[0].material.map||null,
+      materialVertexColor:h.meshes[0].material.vertexColors,
+      z:h.meshes.map(m=>m.position.z),
+      opacity:h.meshes[0].material.opacity,
+      snap
+    };
+  });
+  expect(p.mode).toBe('3d');
+  expect(p.visible).toBe(true);
+  expect(p.meshes).toBe(2);
+  expect(p.commonGeometry).toBe(true);
+  expect(p.commonMaterial).toBe(true);
+  expect(p.attached).toBe(true);
+  expect(p.fingers).toBe(5);
+  expect(p.sections).toBeGreaterThan(20);
+  expect(p.triangles).toBeGreaterThan(400);
+  expect(p.triangles).toBeLessThan(6000);
+  expect(p.fourChannelColors).toBe(4);
+  expect(p.materialVertexColor).toBe(true);
+  expect(p.map).toBeNull();
+  expect(p.z).toEqual([-1.1,-1]);
+  expect(p.opacity).toBeGreaterThan(.85);
+  expect(p.snap.handsMode).toBe('3d');
+  expect(p.snap.handsVisible).toBe(true);
+  expect(p.snap.handsSurfaces).toBe(2);
+  expect(p.snap.handsTextures).toBe(0);
+  expect(p.snap.gasLayers).toBe(0);
+  expect(p.snap.volumeLayers).toBe(3);
+  expect(p.snap.bloomRest).toBe(true);
+  expect(errors).toEqual([]);
+  await page.screenshot({path:'test-results/v0912-maos-tridimensionais.png'});
+  await page.locator('#heraldTarget').click({force:true});
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
+});
+
+test('v0.9.12 modo legado 2D continua disponível e volta ao 3D pelo painel',async({page})=>{
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=2d',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  let p=await page.evaluate(()=>({
+    mode:window.__orionHandsDebug.state.mode,
+    geometry:window.__orionHandsDebug.meshes[0].geometry.type,
+    texture:window.__orionDiagnostic.snapshot().handsTextures,
+    link:[...document.querySelectorAll('.perf-depth-compare')]
+      .find(a=>a.textContent.includes('mãos 3D reais'))?.href
+  }));
+  expect(p.mode).toBe('2d');
+  expect(p.geometry).toBe('PlaneGeometry');
+  expect(p.texture).toBe(1);
+  expect(p.link).toContain('hands=3d');
+  await page.locator('.perf-depth-compare').filter({hasText:'Comparar mãos 3D reais'}).click();
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  p=await page.evaluate(()=>({
+    mode:window.__orionHandsDebug.state.mode,
+    texture:window.__orionDiagnostic.snapshot().handsTextures
+  }));
+  expect(p.mode).toBe('3d');
+  expect(p.texture).toBe(0);
+});
+
+test('v0.9.12 mãos 3D em movimento reduzido ficam estáticas e desaparecem no voo',async({page})=>{
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=3d',{waitUntil:'domcontentloaded'});
+  await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
+  const initial=await page.evaluate(()=>window.__orionHandsDebug.meshes.map(m=>[m.position.x,m.position.y,m.rotation.z]));
+  await page.mouse.move(1720,800);
+  await page.waitForTimeout(350);
+  const latter=await page.evaluate(()=>window.__orionHandsDebug.meshes.map(m=>[m.position.x,m.position.y,m.rotation.z]));
+  expect(latter).toEqual(initial);
+  await page.locator('#heraldTarget').click({force:true});
+  await expect.poll(async()=>page.evaluate(()=>window.__orionHandsDebug.state.visible)).toBe(false);
+  await expect(page).toHaveURL(/ficha\.html/,{timeout:9000});
 });
