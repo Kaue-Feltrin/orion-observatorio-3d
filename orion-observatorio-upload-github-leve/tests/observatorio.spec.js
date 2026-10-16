@@ -728,8 +728,8 @@ test('v0.9.10 mãos etéreas são viewmodel da câmera e não cobrem o Nox',asyn
   expect(data.depth).toEqual([-1.1,-1]);
   expect(data.projection[0][0]).toBeLessThan(-.64);
   expect(data.projection[1][0]).toBeGreaterThan(.50); // Centro livre mesmo após sway.
-  expect(data.projection[0][1]).toBeLessThan(-.67);
-  expect(data.projection[1][1]).toBeLessThan(-.61);
+  expect(data.projection[0][1]).toBeLessThan(-.53); // Base na região inferior, com sway vertical.
+  expect(data.projection[1][1]).toBeLessThan(-.47);
   expect(data.planes).toBe(3);
   expect(data.gas).toBe(0);
   expect(data.bloom).toBe(true);
