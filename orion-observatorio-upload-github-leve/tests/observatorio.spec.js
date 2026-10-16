@@ -685,7 +685,8 @@ test('v0.9.9 sem véu frontal restaura exatamente os dois planos e mantém o blo
   expect(data.bloom).toBe(true);
   expect(data.href).toContain('quality=eco-plus');
   expect(data.href).not.toContain('foreground=off');
-  await page.locator('.perf-depth-compare').last().click();
+  // Painel v0.9.10 inclui também o toggle de mãos; escolher por função.
+  await page.locator('.perf-depth-compare').filter({hasText:'Ativar véu próximo'}).click();
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   expect(await page.evaluate(()=>window.__orionDiagnostic.snapshot().volumeLayers)).toBe(3);
 });
