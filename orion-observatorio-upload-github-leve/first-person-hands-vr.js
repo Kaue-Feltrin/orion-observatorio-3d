@@ -13,12 +13,18 @@ const FINGER_RE=/(index|middle|ring|pinky|thumb)[_-]finger[_-]phalanx[_-](proxim
 // usa flexão por falange, como no hand-poser/WebXR, com dedos relaxados.
 // ?handPose=open permite comparação A/B sem mudar os modelos 3D.
 const FINGER_CURL={
-  relaxed:{index:.76,middle:.93,ring:1.04,pinky:1.16,thumb:.42},
+  relaxed:{index:.44,middle:.53,ring:.61,pinky:.69,thumb:.26},
   open:{index:.37,middle:.47,ring:.56,pinky:.63,thumb:.22},
 };
 const poseRequested=new URLSearchParams(location.search).get('handPose');
 const poseName=poseRequested==='open'?'open':'relaxed';
 const REST_CURL=FINGER_CURL[poseName];
+// A mão não pode ficar vertical olhando para a câmera ("pare").
+// Inclinação do punho faz os dedos apontarem para dentro da cena.
+// Usar pose aberta antiga apenas como referência de comparação.
+const HAND_PITCH=poseName==='relaxed'?2.11:Math.PI-.36;
+const HAND_YAW=poseName==='relaxed'?.30:.42;
+const HAND_ROLL=poseName==='relaxed'?.22:.29;
 const FLEX_AXIS=new THREE.Vector3(1,0,0);
 const TEMP_QUATERNION=new THREE.Quaternion();
 
@@ -112,7 +118,7 @@ export function createVrFirstPersonHands(camera,{enabled=true,reducedMotion=fals
       g.scale.setScalar(s);
       // Vista 3/4, com os punhos entrando pelos cantos inferiores.
       // As palmas deixam de parecer duas placas verticais de "pare".
-      g.rotation.set(Math.PI-.36,side*-.42,side*.29);
+      g.rotation.set(HAND_PITCH,side*-HAND_YAW,side*HAND_ROLL);
       g.position.set(side*w*.54,-h*.94,-depth);
     }
     state.leftX=groups[0].position.x;
@@ -148,8 +154,8 @@ export function createVrFirstPersonHands(camera,{enabled=true,reducedMotion=fals
       const g=groups[i],sign=i===0?-1:1;
       g.position.x=sign*w*.54-state.swayX*w*.016;
       g.position.y=-h*.94-state.swayY*h*.018+breath*(i===0?.9:1);
-      g.rotation.set(Math.PI-.36+(state.motionEnabled?state.swayY*.009:0),
-        sign*-.42,sign*.29+(state.motionEnabled?state.swayX*.014:0));
+      g.rotation.set(HAND_PITCH+(state.motionEnabled?state.swayY*.009:0),
+        sign*-HAND_YAW,sign*HAND_ROLL+(state.motionEnabled?state.swayX*.014:0));
     }
     // Pouquíssimo movimento no idle, com ossos reais e sem clipes externos.
     if(time-timeLast>=0){
