@@ -264,3 +264,18 @@ Em `?quality=eco-plus`, reutiliza o recorte ESO `03` já disponível no build, p
 **Mãos:** não foram criadas nem incluídas nesta revisão. Se forem adicionadas posteriormente, considerar hierarquia frontal, oclusão, animação, sensibilidade a movimento reduzido e orçamento gráfico; testar com o usuário antes de fixar a estética.
 
 A produção `main` continua intacta.
+
+## v0.9.10 — Prova de conceito de mãos etéreas em primeira pessoa (prévia)
+
+**Estudo técnico integral:** [ESTUDO-MAOS-PRIMEIRA-PESSOA-v0910.md](../ESTUDO-MAOS-PRIMEIRA-PESSOA-v0910.md).
+
+Após a v0.9.9, o usuário validou 60 FPS com três recortes de nebulosa e pediu estudar e testar mãos em primeira pessoa para presença e escala. O protótipo usa duas silhuetas abertas discretas nas bordas inferiores, desenhadas em Canvas 2D uma vez e exibidas como **duas superfícies transparentes que compartilham uma textura**. A cor/pose são placeholders, não assets finais.
+
+- `?debug=1&quality=eco-plus&hands=on`: mãos visíveis (desktop é o padrão nesta **prévia**).
+- `?debug=1&quality=eco-plus&hands=off`: mesmas nebulosas, brilho, câmera e viagem, sem mãos.
+- Em telas de toque, mãos ficam desligadas por padrão; `hands=on` serve para testar.
+- A câmera contém as mãos como filhos, sem pós-processamento de bloom, sombra, novo shader, glTF ou ossos; a viagem as oculta. `prefers-reduced-motion` as mantém estáticas.
+- O painel registra estado e quantidade de superfícies. Custo estimado no repouso: 2 draw calls e 1 textura; só o PC do usuário poderá verificar FPS/p95 e RAM total.
+- Nenhuma mudança na foto original ESO/S. Brunier, seus créditos, no Nox, nas 146 estrelas procedurais ou nos 3 recortes já aprovados no Eco+.
+
+Não tratar como direção de arte definitiva nem mesclar em produção sem aprovação explícita.
