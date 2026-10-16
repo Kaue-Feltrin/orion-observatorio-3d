@@ -84,6 +84,7 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
   const poseWrists=[];
   let disposed=false,rootBase=new THREE.Vector3(),scale=1,tilt=0;
   const naturalAimAngles={left:0,right:0};
+  const naturalDepthAngles={left:0,right:0};
   let moveX=0,moveY=0;
   const targetDepth=2.05;
   const poseCurl={open:.07,relaxed:.17};
@@ -107,39 +108,56 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
     }
   }
 
-  // Gira cada mão em torno do PRÓPRIO punho no eixo de visão da câmera.
-  // Comparam-se as posições reais das falanges em cada candidato, não
-  // ângulos locais do arquivo FBX, que não são eixos anatômicos universais.
-  // Esta busca roda somente na carga/resize; custo zero por frame.
+  // A mão de FPS deve projetar os dedos para a frente, em profundidade,
+  // não mostrar a palma vertical como gesto de "pare". Ajustar DOIS eixos
+  // no próprio punho, com quaternions transportados ao espaço da câmera.
+  // Avaliar a ponta de cada dedo já deformada pelo skinning real.
+  // Busca pequena somente na carga/resize, nunca no render loop.
   function aimNaturalPose(){
     if(STYLE!=='natural'||TUNE!=='base')return;
     camera.updateMatrixWorld(true);
-    const viewAxis=new THREE.Vector3(0,0,1)
-      .applyQuaternion(camera.getWorldQuaternion(new THREE.Quaternion()));
-    const trials=[0,-.12,.12,-.22,.22,-.32,.32,-.42,.42];
-    const project=b=>b.getWorldPosition(new THREE.Vector3()).project(camera);
+    const cameraQuat=camera.getWorldQuaternion(new THREE.Quaternion());
+    const viewAxis=new THREE.Vector3(0,0,1).applyQuaternion(cameraQuat);
+    const rightAxis=new THREE.Vector3(1,0,0).applyQuaternion(cameraQuat);
+    const pitches=[0,-.34,.34,-.5,.5,-.65,.65,-.8,.8];
+    const rolls=[0,-.14,.14,-.26,.26,-.38,.38,-.46,.46];
     for(const wrist of poseWrists){
       const tip=wrist.side===-1?anchors.tipL:anchors.tipR;
       if(!tip)continue;
-      const localAxis=viewAxis.clone().applyQuaternion(
-        wrist.bone.parent.getWorldQuaternion(new THREE.Quaternion()).invert()
-      ).normalize();
+      const parentInverse=wrist.bone.parent.getWorldQuaternion(new THREE.Quaternion()).invert();
+      const rollAxisLocal=viewAxis.clone().applyQuaternion(parentInverse).normalize();
+      const pitchAxisLocal=rightAxis.clone().applyQuaternion(parentInverse).normalize();
       const initial=wrist.bone.quaternion.clone();
-      let best={score:Infinity,angle:0,quaternion:initial.clone()};
-      for(const angle of trials){
-        const q=new THREE.Quaternion().setFromAxisAngle(localAxis,angle);
-        wrist.bone.quaternion.copy(initial).premultiply(q);
-        root.updateMatrixWorld(true);
-        const p=project(wrist.bone),t=project(tip);
-        const dx=t.x-p.x,dy=t.y-p.y;
-        const desiredDx=wrist.side===-1?.145:-.145;
-        const score=Math.abs(dx-desiredDx)*1.3+Math.abs(dy-.32)*.35
-          +Math.abs(angle)*.045+(dy<.17?1:0);
-        if(score<best.score)best={score,angle,quaternion:wrist.bone.quaternion.clone()};
+      const desiredDx=wrist.side===-1?.115:-.115;
+      const desiredDy=wrist.side===-1?.26:.245;
+      let best={score:Infinity,pitch:0,roll:0,quaternion:initial.clone()};
+      for(const pitch of pitches){
+        const qp=new THREE.Quaternion().setFromAxisAngle(pitchAxisLocal,pitch);
+        for(const roll of rolls){
+          const qr=new THREE.Quaternion().setFromAxisAngle(rollAxisLocal,roll);
+          wrist.bone.quaternion.copy(initial).premultiply(qp).premultiply(qr);
+          root.updateMatrixWorld(true);
+          const wWorld=wrist.bone.getWorldPosition(new THREE.Vector3());
+          const tWorld=tip.getWorldPosition(new THREE.Vector3());
+          const wNdc=wWorld.clone().project(camera),tNdc=tWorld.clone().project(camera);
+          const depthDelta=camera.worldToLocal(tWorld).z-camera.worldToLocal(wWorld).z;
+          const dx=tNdc.x-wNdc.x,dy=tNdc.y-wNdc.y;
+          // Inward + elevado moderadamente + dedos avançando na cena.
+          // Valores são objetivos de enquadramento, não ângulos copiados de jogo.
+          const score=Math.abs(dx-desiredDx)*1.4+
+            Math.abs(dy-desiredDy)*.8+
+            Math.abs(depthDelta+.38)*.32+
+            Math.abs(pitch)*.022+Math.abs(roll)*.027+
+            (dy<.13?.8:0)+(dy>.39?.15:0)+
+            ((tNdc.x*wrist.side)>0?.35:0);
+          if(score<best.score)best={score,pitch,roll,quaternion:wrist.bone.quaternion.clone()};
+        }
       }
       wrist.aimed=best.quaternion;
       wrist.bone.quaternion.copy(best.quaternion);
-      naturalAimAngles[wrist.side===-1?'left':'right']=best.angle;
+      const side=wrist.side===-1?'left':'right';
+      naturalAimAngles[side]=best.roll;
+      naturalDepthAngles[side]=best.pitch;
       root.updateMatrixWorld(true);
     }
   }
@@ -195,7 +213,7 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
       return {x:ndc.x,y:ndc.y,z:ndc.z};
     };
     state.framing={pitch:tilt,scale,rawRise:best.rise,
-      aimAngles:{...naturalAimAngles},posedLandmarks:true,
+      aimAngles:{...naturalAimAngles},depthAngles:{...naturalDepthAngles},posedLandmarks:true,
       wristLeft:projected(anchors.wristL),wristRight:projected(anchors.wristR),
       tipLeft:projected(anchors.tipL),tipRight:projected(anchors.tipR)};
     state.leftX=state.framing.wristLeft?.x||0;
