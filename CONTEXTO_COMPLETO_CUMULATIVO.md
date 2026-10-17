@@ -767,3 +767,21 @@ Consultado o exemplo oficial Three.js r180 `webgl_animation_skinning_morph.html`
 - Conferir a captura de proporção atualizada e dizer se o tamanho/enquadramento corresponde à referência.
 - MMV já esclarecido pelo usuário: animação de imagem estática no estilo de mangá animado. Não repetir essa pergunta.
 - Não há configuração de rede adicional pendente nesta consulta. Não foi feito merge; main e produção permanecem preservadas.
+
+
+---
+
+## Proporção aprovada e correção do acabamento inferior — 17/10/2026
+
+O usuário aprovou expressamente a proporção: “essa proporção ta boa”, mas identificou um vazamento/contorno visível na parte inferior direita da mão. Essa aprovação se refere à proporção, não autoriza merge ou produção.
+
+- Escalas, ancoragens e assets aprovados mantidos exatamente como no commit `0d09c27`.
+- Causa: o desenho do antebraço termina antes da borda da textura. A máscara alpha anterior só chegava a zero no extremo do sprite, deixando visível o fim da arte no interior da tela.
+- Correção em `first-person-hands-mesh.js`: ampliada a dissolução suave somente no canto do antebraço, atingindo alpha zero antes do término da imagem. A geometria compartilhada aplica o acabamento às poses neutra e apontando. Palma e dedos mantêm os pesos alpha originais; não se alterou a opacidade base.
+- `tests/hands-hover.unit.mjs` agora exige transparência completa na região do corte e preservação do alpha da região superior. Mesma malha, sem shader ou loop novo.
+- Check, build completo ESO e duas suítes unitárias aprovados. Validação de navegador desta revisão registrada após a conclusão abaixo.
+- Capturas de produção 1920×1080: `docs/qa/v0921/acabamento-1920x1080-neutral.webp` e `acabamento-1920x1080-hover.webp`; PNGs originais em `/workspace/orion-evidence/acabamento/`.
+- Mesma branch e PR #28; main preservada. O rig/MMV permanece como possibilidade técnica já discutida, sem implementação nesta correção.
+- O que depende do usuário: conferir somente o acabamento inferior na nova captura. Não é necessário repetir a aprovação da proporção nem configurar rede.
+
+Resultado final desta correção: 10/10 testes Playwright sobre o build de produção aprovados, sem retries, em 1,7 minuto, além de check/build e das duas suítes unitárias. CI remoto da revisão depende da execução após o push.

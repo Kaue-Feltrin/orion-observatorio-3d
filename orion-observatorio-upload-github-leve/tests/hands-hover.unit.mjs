@@ -19,6 +19,16 @@ try {
   assert.equal(h.meshes[1].visible,false);
   assert.equal(neutral.visible,true);
   assert.equal(neutral.geometry,h.meshes[1].geometry,'poses alinhadas e sem geometria duplicada');
+  const uv=neutral.geometry.getAttribute('uv'),color=neutral.geometry.getAttribute('color');
+  let cutVertices=0;
+  for(let i=0;i<uv.count;i++){
+    if(uv.getX(i)>=.94&&uv.getY(i)<=.16){
+      assert.equal(color.getW(i),0,'corte do antebraço completamente transparente nas duas poses');
+      cutVertices++;
+    }
+    if(uv.getY(i)>=.40)assert.equal(color.getW(i),1,'palma e dedos preservados');
+  }
+  assert.ok(cutVertices>0);
   h.setStarHovered(true);
   h.update(1,1/60);
   assert.ok(h.state.rightBlend>0&&h.state.rightBlend<.5,'entrada começa suavemente');

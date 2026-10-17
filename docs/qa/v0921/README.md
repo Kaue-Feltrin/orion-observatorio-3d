@@ -13,6 +13,14 @@ Base conferida por `git ls-remote`: `preview/star-hover-hands-v0921`, commit `2a
 
 ## Comparação visual
 
+### Acabamento inferior após aprovação da proporção
+
+O usuário aprovou o tamanho e identificou o contorno do antebraço aparecendo no canto inferior direito. A arte termina antes da borda da textura; a máscara anterior ainda deixava alpha nesse corte. Ampliada apenas a dissolução do antebraço nesse canto, com transparência completa antes do término da imagem. Escala, ancoragem, opacidades base, assets e gesto foram preservados. A máscara da geometria é compartilhada pelo neutro e apontamento; palma e dedos mantêm seu alpha original.
+
+[Repouso com acabamento](acabamento-1920x1080-neutral.webp) · [Hover com acabamento](acabamento-1920x1080-hover.webp).
+
+O teste unitário exige alpha zero na região do corte e alpha unitário na região superior da geometria (palma/dedos). As capturas e o teste de enquadramento usam a mesma proporção aprovada.
+
 ### Ajuste pela referência do usuário (1920×1080)
 
 Após a primeira entrega, o usuário forneceu uma imagem com mãos maiores, recortadas nas bordas inferiores. O enquadramento foi ajustado mantendo as proporções originais de cada textura: esquerda com altura de plano 56,5% e direita 66% da janela, com a margem transparente da imagem preservada. A silhueta começa aproximadamente em 56% da altura à esquerda e 52% à direita em repouso, conforme a referência. O gesto de apontamento continua exclusivo do hover. Não se alteraram os assets nem a opacidade.

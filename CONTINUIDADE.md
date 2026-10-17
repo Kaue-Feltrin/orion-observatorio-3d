@@ -1,3 +1,9 @@
+## 17/10/2026 — proporção aprovada; acabamento inferior da direita
+
+- Usuário aprovou a proporção e apontou um vazamento/contorno no canto inferior direito. Mantidos escala e posicionamento aprovados; ampliada somente a máscara alpha do antebraço, que terminava antes da borda da textura. A mesma máscara atende neutro e apontamento, preservando palma e dedos.
+- Check/build, duas suítes unitárias e 10/10 testes Playwright sobre produção aprovados, sem retries. Acrescentada verificação unitária do corte transparente e da região superior intacta. [Capturas de acabamento](docs/qa/v0921/README.md). Sem redesenho de assets, novo rig ou alterações na main.
+- Ação do usuário: conferir apenas o acabamento inferior na nova captura; a proporção já está aprovada.
+
 ## 17/10/2026 — proporção conforme referência e consulta sobre rig
 
 - Usuário forneceu referência 1920×1080 com mãos maiores nas extremidades inferiores. Ajustadas escala e ancoragem, mantendo proporções dos assets, transparência, centro livre e hover exclusivo do Nox. [Capturas atualizadas](docs/qa/v0921/README.md).

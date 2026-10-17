@@ -67,14 +67,14 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      const pos=geom.getAttribute('position'),uv=geom.getAttribute('uv');
      const rest=new Float32Array(pos.array),uvLocal=new Float32Array(uv.array);
      if(side==='right'){
-       // Dissolver o corte retangular do antebraço no limite inferior direito,
-       // sem afetar o contorno dos dedos apontando para a estrela.
+       // A arte termina antes da borda do sprite: zerar o alpha antes desse
+       // corte evita um punho flutuante no canto, sem mover ou escalar a mão.
        const colors=new Float32Array(uv.count*4);
        const smooth=t=>{t=clamp(t,0,1);return t*t*(3-2*t);};
        for(let j=0;j<uv.count;j++){
          const u=uvLocal[j*2],v=uvLocal[j*2+1];
-         const rightEdge=smooth((u-.80)/.20);
-         const nearBottom=1-smooth((v-.16)/.16);
+         const rightEdge=smooth((u-.68)/.26);
+         const nearBottom=1-smooth((v-.16)/.22);
          const k=j*4;
          colors[k]=1;colors[k+1]=1;colors[k+2]=1;
          colors[k+3]=1-rightEdge*nearBottom;
