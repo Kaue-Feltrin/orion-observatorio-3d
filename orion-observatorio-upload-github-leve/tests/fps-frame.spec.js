@@ -62,7 +62,7 @@ test('v0.9.17 enquadramento arcano: C com polegar e indicador, sem bloquear Nox'
 });
 
 test('v0.9.17 mantém natural como comparação e não carrega GLB com hands=off',async({page})=>{
-  await page.goto(url+'?hands=fps&fpsStyle=natural&quality=eco-plus',{waitUntil:'domcontentloaded'});
+  await page.goto(url+'?debug=1&hands=fps&fpsStyle=natural&quality=eco-plus',{waitUntil:'domcontentloaded'});
   await expect.poll(async()=>page.evaluate(()=>{
     const s=window.__orionHandsDebug?.state;
     return s?.loadError||(s?.loaded?'loaded':'waiting');
@@ -73,4 +73,27 @@ test('v0.9.17 mantém natural como comparação e não carrega GLB com hands=off
   await page.goto(url+'?quality=eco-plus&hands=off',{waitUntil:'domcontentloaded'});
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:18000}).toBe('1');
   expect(requests).toEqual([]);
+});
+
+test('v0.9.17 comparar contorno C e gesto das mãos no navegador',async({page})=>{
+  test.setTimeout(170000);
+  await page.setViewportSize({width:1755,height:865});
+  const variants=['frameA','frameB','frameC','frameD'];
+  const snapshots=[];
+  for(const preset of variants){
+    await page.goto(url+'?quality=eco-plus&debug=1&hands=fps&fpsStyle=frame&fpsTune='+preset,{waitUntil:'domcontentloaded'});
+    await expect.poll(async()=>page.evaluate(()=>{
+      const s=window.__orionHandsDebug?.state;
+      return s?.loadError||(s?.loaded?'loaded':'waiting');
+    }),{timeout:24000}).toBe('loaded');
+    snapshots.push(await page.evaluate(()=>{
+      const s=window.__orionHandsDebug.state;
+      return {preset:s.tune,frame:s.framing,triangles:s.triangles,light:s.lightMode};
+    }));
+    await page.evaluate(()=>{document.querySelector('#debug')?.setAttribute('hidden','');});
+    await page.screenshot({path:'test-results/v0917-pose-'+preset+'.png'});
+  }
+  console.log('FPS_FRAME_AB',JSON.stringify(snapshots));
+  expect(snapshots.map(x=>x.preset)).toEqual(variants);
+  expect(snapshots.every(x=>x.triangles>7000)).toBe(true);
 });
