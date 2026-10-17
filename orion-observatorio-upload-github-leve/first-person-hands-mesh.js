@@ -5,7 +5,7 @@ import {MESH_COLS,MESH_ROWS,deformHandVertices,HAND_PROFILES} from './hands-mesh
 
 const HANDS=Object.freeze({
  left:{file:'/overlay/left-hand-ethereal.webp',baseOpacity:.44,height:.56,
-   screenLeft:.055,screenTop:.57,swayX:-.010,swayY:-.010,breath:.0044,phase:.45,
+   screenLeft:.105,screenTop:.57,swayX:-.010,swayY:-.010,breath:.0044,phase:.45,
    pointer:false,columns:MESH_COLS,rows:MESH_ROWS},
  right:{file:'/overlay/right-hand-pointing.webp',baseOpacity:.49,height:.62,
    screenLeft:.725,screenTop:.54,swayX:-.018,swayY:-.014,breath:.007,phase:1.15,
@@ -156,7 +156,10 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      neutralMesh.rotation.z=meshes[1].rotation.z*.5;
      neutralMesh.material.opacity=HANDS.right.baseOpacity*alpha*(1-pointBlend);
    }
-   state.maxVertexDelta=max;
+   meshes[1].visible=pointBlend>.003;
+     if(neutralMesh)neutralMesh.visible=pointBlend<.997;
+     state.drawSurfaces=pointBlend>.003&&pointBlend<.997?3:2;
+     state.maxVertexDelta=max;
  }
  function setStarHovered(v){starHovered=!!v&&!travel;state.rightHover=starHovered;}
  function beginTravel(){travel=true;setStarHovered(false);}
