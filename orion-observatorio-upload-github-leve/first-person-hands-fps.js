@@ -32,7 +32,7 @@ const ART={
   natural:{wristY:-.85,fadeFrom:.72,fadeTo:.88,wristBend:0,wristRoll:0,opacity:.96,fadeInvert:true},
   // Referência do usuário: silhueta em C, mãos próximas às bordas,
   // costas da mão escuras e contorno frio visível sem luz na cena.
-  frame:{wristY:-.89,fadeFrom:.70,fadeTo:.89,wristBend:0,wristRoll:0,opacity:1,fadeInvert:true,scaleFactor:1.62}
+  frame:{wristY:-.89,fadeFrom:.70,fadeTo:.89,wristBend:0,wristRoll:0,opacity:1,fadeInvert:true,scaleFactor:1.74}
 }[STYLE];
 
 const TUNE=PARAMS.get('fpsTune')||'base';
@@ -40,7 +40,7 @@ const TUNING={
   // A captura A/B de ‘back’ foi a primeira em que a palma ficou 3/4,
   // dedos diagonais e braços discretos. Promover essa pose verificada para
   // natural, mantendo todos os outros modos antigos para comparação.
-  base:STYLE==='frame'?{bend:.76,yaw:.47,roll:-.43}:
+  base:STYLE==='frame'?{bend:.36,yaw:.46,roll:-.40}:
     STYLE==='natural'?{bend:1.0,yaw:.36,roll:-.38}:
     {bend:ART.wristBend,yaw:0,roll:ART.wristRoll},
   forward:{bend:-1.12,yaw:.26,roll:-.25},
@@ -321,13 +321,13 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
               '#include <opaque_fragment>\n' +
               'gl_FragColor.a *= smoothstep(-1.08, -0.74, vOrionFpsClipY);'+
               (STYLE==='frame'?
-                '\nfloat orionRim = pow(clamp(vOrionFpsRim, 0.0, 1.0), 1.45);'+
-                '\ngl_FragColor.rgb = gl_FragColor.rgb * 0.17 + vec3(0.75,0.79,1.0) * orionRim * 1.08;'
+                '\nfloat orionRim = pow(clamp(vOrionFpsRim, 0.0, 1.0), 1.25);'+
+                '\ngl_FragColor.rgb = gl_FragColor.rgb * 0.13 + vec3(0.82,0.83,1.0) * orionRim * 1.23;'
                 :'')
             );
           };
           mat.customProgramCacheKey=()=> STYLE==='frame'?
-            'orion-fps-arcane-frame-v2':'orion-fps-screen-feather-v1';
+            'orion-fps-arcane-frame-v3':'orion-fps-screen-feather-v1';
           materials.push(mat);
           obj.geometry=cloned;obj.material=mat;
           obj.frustumCulled=false;obj.renderOrder=35;obj.layers.set(0);
