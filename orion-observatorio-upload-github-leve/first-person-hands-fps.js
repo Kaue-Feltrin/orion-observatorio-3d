@@ -12,12 +12,14 @@ const THUMB=/^thumb(?:\.|_)?0?([123])(?:\.|_)?([lr])/i;
 const V=new THREE.Vector3();
 const tempQ=new THREE.Quaternion();
 const bendAxis=new THREE.Vector3(1,0,0);
+const thumbSpreadAxis=new THREE.Vector3(0,0,1);
+const thumbSpreadQ=new THREE.Quaternion();
 const PARAMS=new URLSearchParams(window.location.search);
 const CANDIDATE=PARAMS.get('fpsPose')==='open'?'open':'relaxed';
 const LIGHT_MODE=PARAMS.get('fpsLight')==='basic'?'basic':'lit';
 // Variações visuais sobre o mesmo modelo e a mesma cena, para QA por screenshot.
-const STYLE=['original','calm','cinematic','natural'].includes(PARAMS.get('fpsStyle'))
-  ?PARAMS.get('fpsStyle'):'natural';
+const STYLE=['original','calm','cinematic','natural','frame'].includes(PARAMS.get('fpsStyle'))
+  ?PARAMS.get('fpsStyle'):'frame';
 const ART={
   // O Y do GLB (0.615..0.912) avança da mão para o antebraço.
   // O protótipo anterior INVERTIA esta prioridade: braço opaco, dedos apagados.
@@ -27,7 +29,10 @@ const ART={
   cinematic:{wristY:-.84,fadeFrom:.73,fadeTo:.87,wristBend:-.55,wristRoll:-.35,opacity:.98,fadeInvert:true},
   // Pose anatômica em repouso: orientar a mão inteira em espaço de câmera,
   // nunca dobrar punhos ~30° em eixos FBX arbitrários para simular o gesto.
-  natural:{wristY:-.85,fadeFrom:.72,fadeTo:.88,wristBend:0,wristRoll:0,opacity:.96,fadeInvert:true}
+  natural:{wristY:-.85,fadeFrom:.72,fadeTo:.88,wristBend:0,wristRoll:0,opacity:.96,fadeInvert:true},
+  // Referência do usuário: silhueta em C, mãos próximas às bordas,
+  // costas da mão escuras e contorno frio visível sem luz na cena.
+  frame:{wristY:-.89,fadeFrom:.70,fadeTo:.89,wristBend:0,wristRoll:0,opacity:1,fadeInvert:true,scaleFactor:1.62}
 }[STYLE];
 
 const TUNE=PARAMS.get('fpsTune')||'base';
@@ -35,7 +40,8 @@ const TUNING={
   // A captura A/B de ‘back’ foi a primeira em que a palma ficou 3/4,
   // dedos diagonais e braços discretos. Promover essa pose verificada para
   // natural, mantendo todos os outros modos antigos para comparação.
-  base:STYLE==='natural'?{bend:1.0,yaw:.36,roll:-.38}:
+  base:STYLE==='frame'?{bend:.76,yaw:.47,roll:-.43}:
+    STYLE==='natural'?{bend:1.0,yaw:.36,roll:-.38}:
     {bend:ART.wristBend,yaw:0,roll:ART.wristRoll},
   forward:{bend:-1.12,yaw:.26,roll:-.25},
   reach:{bend:-1.47,yaw:.40,roll:-.18},
@@ -43,7 +49,10 @@ const TUNING={
   back:{bend:.70,yaw:.30,roll:-.30},
   rest1:{bend:1.0,yaw:.36,roll:-.38},
   rest2:{bend:1.24,yaw:.38,roll:-.40},
-  rest3:{bend:.86,yaw:.48,roll:-.48}
+  rest3:{bend:.86,yaw:.48,roll:-.48},
+  frameA:{bend:.76,yaw:.47,roll:-.43},
+  frameB:{bend:.60,yaw:.56,roll:-.50},
+  frameC:{bend:.94,yaw:.39,roll:-.35}
 };
 const WRIST=TUNING[TUNE]||TUNING.base;
 const wristBendAxis=new THREE.Vector3(1,0,0);
@@ -67,6 +76,7 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
     motionEnabled:!reducedMotion,loadError:null,pose:CANDIDATE,
     joints:0,fingerJoints:0,triangles:0,textureCount:0,drawSurfaces:0,
     swayX:0,swayY:0,leftX:0,rightX:0,framing:null,artStyle:STYLE,lightMode:LIGHT_MODE,tune:TUNE,
+    referencePose:STYLE==='frame'?'arcane-frame':null,
   };
   if(!enabled)return{state,meshes:[],driven:[],ready:Promise.resolve(false),
     update(){},resize(){},beginTravel(){},dispose(){}};
@@ -95,6 +105,12 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
   let moveX=0,moveY=0;
   const targetDepth=2.05;
   const poseCurl={open:.07,relaxed:.17};
+  // A silhueta de referência exige indicador/polegar como bordas do "C";
+  // médio, anelar e mínimo recuam sem fundir dedos ou girar juntas de forma rígida.
+  const frameCurl={
+    index:[.055,.045,.025],middle:[.22,.32,.24],
+    ring:[.33,.43,.31],pinky:[.42,.48,.37],thumb:[.035,.045,.015]
+  };
 
   // Aplicar pose ANTES de medir landmarks. A implementação anterior media os
   // ossos em bind pose e só então os girava no update(), invalidando o NDC.
@@ -109,9 +125,16 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
     for(let i=0;i<driven.length;i++){
       const d=driven[i];
       const flicker=state.motionEnabled?Math.sin(time*.7+i*.79)*.012:0;
-      const curl=(poseCurl[state.pose]+flicker)*(d.segment===1?.52:d.segment===2?.71:.36);
-      tempQ.setFromAxisAngle(bendAxis,curl*(d.digit==='thumb'?.45:1));
+      const curl=STYLE==='frame'
+        ?frameCurl[d.digit][d.segment-1]+flicker*.35
+        :(poseCurl[state.pose]+flicker)*(d.segment===1?.52:d.segment===2?.71:.36)*(d.digit==='thumb'?.45:1);
+      tempQ.setFromAxisAngle(bendAxis,curl);
       d.bone.quaternion.copy(d.base).multiply(tempQ);
+      if(STYLE==='frame'&&d.digit==='thumb'&&d.segment===1){
+        // Abre discretamente a base do polegar para marcar o C em silhueta.
+        thumbSpreadQ.setFromAxisAngle(thumbSpreadAxis,.12*d.side);
+        d.bone.quaternion.multiply(thumbSpreadQ);
+      }
     }
   }
 
@@ -211,7 +234,7 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
       if(!best||score<best.score)best={pitch,score,s,l:L,r:R,tl:TL,tr:TR,rise};
     }
     if(!best)throw new Error('Não foi possível calibrar o rig FPS por punhos');
-    tilt=best.pitch;scale=best.s;
+    tilt=best.pitch;scale=best.s*(ART.scaleFactor||1);
     const center=best.l.clone().add(best.r).multiplyScalar(.5);
     // Manter a média dos punhos num plano de profundidade conhecido.
     root.rotation.set(tilt,0,0);
@@ -257,17 +280,22 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
           for(let i=0;i<positions.count;i++){
             const ly=positions.getY(i);
             const nz=normals?.getZ(i)??0,ny=normals?.getY(i)??0;
-            const shade=THREE.MathUtils.clamp(.66+.20*nz+.12*ny,.45,.95);
+            const shade=STYLE==='frame'
+            ?THREE.MathUtils.clamp(.51+.13*nz+.10*ny,.34,.80)
+            :THREE.MathUtils.clamp(.66+.20*nz+.12*ny,.45,.95);
             const f=THREE.MathUtils.smoothstep(ly,ART.fadeFrom,ART.fadeTo);
             const fade=ART.fadeInvert?1-f:f;
-            colors[i*4]=shade*.94;colors[i*4+1]=shade*.84;
-            colors[i*4+2]=shade*1.05;colors[i*4+3]=fade;
+            colors[i*4]=shade*(STYLE==='frame'?.69:.94);
+            colors[i*4+1]=shade*(STYLE==='frame'?.72:.84);
+            colors[i*4+2]=shade*(STYLE==='frame'?.97:1.05);
+            colors[i*4+3]=fade;
           }
           cloned.setAttribute('color',new THREE.Float32BufferAttribute(colors,4));
           geometries.push(cloned);
           const Material=LIGHT_MODE==='lit'?THREE.MeshLambertMaterial:THREE.MeshBasicMaterial;
           const mat=new Material({
-            color:LIGHT_MODE==='lit'?0xd0c4e1:0xbab2cc,vertexColors:true,
+            color:STYLE==='frame'?0x807596:
+              (LIGHT_MODE==='lit'?0xd0c4e1:0xbab2cc),vertexColors:true,
             transparent:true,opacity:ART.opacity,side:THREE.DoubleSide,
             depthTest:false,depthWrite:false,toneMapped:false
           });
@@ -276,19 +304,29 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
           // deformada pelo skeleton e produzia punhos cortados/retilíneos.
           // Sem textura nova nem pass de pós-processamento.
           mat.onBeforeCompile=(shader)=>{
-            shader.vertexShader='varying float vOrionFpsClipY;\n'+shader.vertexShader;
+            shader.vertexShader='varying float vOrionFpsClipY;\n'+
+              (STYLE==='frame'?'varying float vOrionFpsRim;\n':'')+
+              shader.vertexShader;
             shader.vertexShader=shader.vertexShader.replace(
               '#include <project_vertex>',
-              '#include <project_vertex>\nvOrionFpsClipY = gl_Position.y / gl_Position.w;'
+              '#include <project_vertex>\nvOrionFpsClipY = gl_Position.y / gl_Position.w;' +
+              (STYLE==='frame'? '\nvOrionFpsRim = 1.0 - abs(dot(normalize(transformedNormal), normalize(-mvPosition.xyz)));':'')
             );
-            shader.fragmentShader='varying float vOrionFpsClipY;\n'+shader.fragmentShader;
+            shader.fragmentShader='varying float vOrionFpsClipY;\n'+
+              (STYLE==='frame'?'varying float vOrionFpsRim;\n':'')+
+              shader.fragmentShader;
             shader.fragmentShader=shader.fragmentShader.replace(
               '#include <opaque_fragment>',
               '#include <opaque_fragment>\n' +
-              'gl_FragColor.a *= smoothstep(-1.08, -0.74, vOrionFpsClipY);'
+              'gl_FragColor.a *= smoothstep(-1.08, -0.74, vOrionFpsClipY);'+
+              (STYLE==='frame'?
+                '\nfloat orionRim = pow(clamp(vOrionFpsRim, 0.0, 1.0), 2.0);'+
+                '\ngl_FragColor.rgb = gl_FragColor.rgb * 0.25 + vec3(0.76,0.80,1.0) * orionRim * 0.88;'
+                :'')
             );
           };
-          mat.customProgramCacheKey=()=> 'orion-fps-screen-feather-v1';
+          mat.customProgramCacheKey=()=> STYLE==='frame'?
+            'orion-fps-arcane-frame-v1':'orion-fps-screen-feather-v1';
           materials.push(mat);
           obj.geometry=cloned;obj.material=mat;
           obj.frustumCulled=false;obj.renderOrder=35;obj.layers.set(0);
