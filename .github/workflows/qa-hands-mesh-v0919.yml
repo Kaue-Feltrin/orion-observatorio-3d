@@ -1,0 +1,33 @@
+name: QA mãos 2,5D mesh v0.9.19
+on:
+  push:
+    branches: [preview/mesh-hands-anim-v0919]
+  pull_request:
+    branches: [preview/ethereal-hands-overlay-v0918]
+permissions:
+  contents: read
+jobs:
+  mesh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    defaults:
+      run:
+        working-directory: orion-observatorio-upload-github-leve
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Dependências
+        run: npm install --no-audit --no-fund
+      - name: Testes de limites da malha
+        run: node tests/hands-mesh.unit.mjs
+      - name: Compatibilidade da cena
+        run: npm run check
+      - name: Build Vite
+        run: npm run build
+      - name: Asset da referência obrigatório antes de aprovar o deploy
+        run: |
+          if [ ! -s public/overlay/orion-hands-frame.webp ]; then
+            echo "::warning::O WebP original não está nesta branch. Ainda não há mãos completas no Cloudflare."
+          fi
