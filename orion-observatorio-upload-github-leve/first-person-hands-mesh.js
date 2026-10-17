@@ -4,11 +4,11 @@ import * as THREE from 'three';
 import {MESH_COLS,MESH_ROWS,deformHandVertices,HAND_PROFILES} from './hands-mesh-motion.js';
 
 const HANDS=Object.freeze({
- left:{file:'/overlay/left-hand-ethereal.webp',baseOpacity:.40,height:.63,
-   screenLeft:-.035,screenTop:.48,swayX:-.010,swayY:-.010,breath:.0044,phase:.45,
+ left:{file:'/overlay/left-hand-ethereal.webp',baseOpacity:.44,height:.56,
+   screenLeft:.055,screenTop:.57,swayX:-.010,swayY:-.010,breath:.0044,phase:.45,
    pointer:false,columns:MESH_COLS,rows:MESH_ROWS},
- right:{file:'/overlay/right-hand-pointing.webp',baseOpacity:.51,height:.84,
-   screenLeft:.443,screenTop:.285,swayX:-.018,swayY:-.014,breath:.007,phase:1.15,
+ right:{file:'/overlay/right-hand-pointing.webp',baseOpacity:.49,height:.62,
+   screenLeft:.725,screenTop:.54,swayX:-.018,swayY:-.014,breath:.007,phase:1.15,
    pointer:true,columns:36,rows:28}
 });
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -16,14 +16,16 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
  const state={mode:'mesh',enabled:!!enabled,visible:false,loaded:false,loadError:null,
    motionEnabled:!reducedMotion,drawSurfaces:0,triangles:0,textureCount:0,
    joints:0,fingerJoints:0,swayX:0,swayY:0,maxVertexDelta:0,
-   pose:'feminine-asymmetric',handProfiles:Object.keys(HAND_PROFILES)};
+   pose:'feminine-star-hover',handProfiles:Object.keys(HAND_PROFILES),
+   rightHover:false,rightBlend:0};
  const root=new THREE.Group();
  root.name='OrionFeminineHands2p5D';
  root.visible=false;
  camera.add(root);
  const meshes=[],hands=[];
+ let neutralMesh=null,starHovered=false,pointBlend=0;
  if(!enabled)return {state,root,meshes,ready:Promise.resolve(false),
-   update(){},resize(){},beginTravel(){},dispose(){camera.remove(root)}};
+   update(){},resize(){},setStarHovered(){},beginTravel(){},dispose(){camera.remove(root)}};
  let disposed=false,travel=false,alpha=1,smX=0,smY=0;
  const textures=[];
  const loader=new THREE.TextureLoader();
@@ -45,6 +47,10 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
  function resize(){
    if(disposed)return;
    for(const hand of hands)place(hand);
+   if(neutralMesh&&meshes[1]){
+     neutralMesh.scale.copy(meshes[1].scale);
+     neutralMesh.position.copy(meshes[1].position);
+   }
  }
  const ready=Promise.all([load(HANDS.left.file),load(HANDS.right.file)]).then(loaded=>{
    if(disposed){loaded.forEach(tex=>tex.dispose());return false;}
@@ -86,6 +92,24 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      const hand={side,config,mesh,rest,uvLocal,aspect:width/height};
      hands.push(hand);place(hand);
    }
+   // Pose neutra da direita: malha espelhada da arte de enquadramento já
+   // licenciada no projeto. O asset independente poderá substituí-la sem
+   // mudar a lógica de interação ou de animação.
+   const neutralGeometry=meshes[0].geometry.clone();
+   const neutralUV=neutralGeometry.getAttribute('uv');
+   for(let j=0;j<neutralUV.count;j++)neutralUV.setX(j,1-neutralUV.getX(j));
+   neutralUV.needsUpdate=true;
+   const neutralMaterial=new THREE.MeshBasicMaterial({
+     map:textures[0],transparent:true,opacity:HANDS.right.baseOpacity,
+     side:THREE.DoubleSide,depthTest:false,depthWrite:false,toneMapped:false
+   });
+   neutralMesh=new THREE.Mesh(neutralGeometry,neutralMaterial);
+   neutralMesh.name='OrionFeminineRightNeutral';
+   neutralMesh.renderOrder=301;neutralMesh.frustumCulled=false;
+   root.add(neutralMesh);
+   // O visual neutro acompanha exatamente o enquadramento da mão direita.
+   neutralMesh.scale.copy(meshes[1].scale);
+   neutralMesh.position.copy(meshes[1].position);
    state.loaded=true;state.visible=true;
    state.textureCount=2;state.drawSurfaces=2;
    state.triangles=hands.reduce((n,h)=>n+h.config.columns*h.config.rows*2,0);
@@ -106,6 +130,10 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    state.swayX=reducedMotion?0:smX;
    state.swayY=reducedMotion?0:smY;
    if(travel)alpha=Math.max(0,alpha-step*3.8);
+   const desired=starHovered&&!travel?1:0;
+   pointBlend=reducedMotion?desired:pointBlend+(desired-pointBlend)*(1-Math.exp(-step*9.5));
+   pointBlend=clamp(pointBlend,0,1);
+   state.rightBlend=pointBlend;
    if(alpha===0){root.visible=false;state.visible=false;return;}
    let max=0;
    for(const hand of hands){
@@ -120,18 +148,26 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      place(hand,fx,fy);
      // Mãos distintas: direita aponta, esquerda emoldura; sem giro brusco.
      mesh.rotation.z=reducedMotion?0:Math.sin(seconds*.72+c.phase)*(c.pointer?.010:.006);
-     mesh.material.opacity=c.baseOpacity*alpha;
+     mesh.material.opacity=c.baseOpacity*alpha*(hand.side==='right'?pointBlend:1);
+   }
+   if(neutralMesh&&meshes[1]){
+     neutralMesh.position.copy(meshes[1].position);
+     neutralMesh.scale.copy(meshes[1].scale);
+     neutralMesh.rotation.z=meshes[1].rotation.z*.5;
+     neutralMesh.material.opacity=HANDS.right.baseOpacity*alpha*(1-pointBlend);
    }
    state.maxVertexDelta=max;
  }
- function beginTravel(){travel=true;}
+ function setStarHovered(v){starHovered=!!v&&!travel;state.rightHover=starHovered;}
+ function beginTravel(){travel=true;setStarHovered(false);}
  function dispose(){
    if(disposed)return;disposed=true;root.visible=false;
    for(const m of meshes){m.geometry.dispose();m.material.dispose();root.remove(m);}
+   if(neutralMesh){neutralMesh.geometry.dispose();neutralMesh.material.dispose();root.remove(neutralMesh);}
    for(const t of textures)t.dispose();
    camera.remove(root);
    meshes.length=0;hands.length=0;
    state.visible=false;state.loaded=false;
  }
- return {state,root,meshes,ready,update,resize,beginTravel,dispose};
+ return {state,root,meshes,ready,update,resize,setStarHovered,beginTravel,dispose};
 }
