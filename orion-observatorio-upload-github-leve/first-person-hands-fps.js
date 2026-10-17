@@ -52,7 +52,8 @@ const TUNING={
   rest3:{bend:.86,yaw:.48,roll:-.48},
   frameA:{bend:.76,yaw:.47,roll:-.43},
   frameB:{bend:.60,yaw:.56,roll:-.50},
-  frameC:{bend:.94,yaw:.39,roll:-.35}
+  frameC:{bend:.94,yaw:.39,roll:-.35},
+  frameD:{bend:.36,yaw:.46,roll:-.40}
 };
 const WRIST=TUNING[TUNE]||TUNING.base;
 const wristBendAxis=new THREE.Vector3(1,0,0);
@@ -320,13 +321,13 @@ export function createFpsFirstPersonHands(camera,{enabled=true,reducedMotion=fal
               '#include <opaque_fragment>\n' +
               'gl_FragColor.a *= smoothstep(-1.08, -0.74, vOrionFpsClipY);'+
               (STYLE==='frame'?
-                '\nfloat orionRim = pow(clamp(vOrionFpsRim, 0.0, 1.0), 2.0);'+
-                '\ngl_FragColor.rgb = gl_FragColor.rgb * 0.25 + vec3(0.76,0.80,1.0) * orionRim * 0.88;'
+                '\nfloat orionRim = pow(clamp(vOrionFpsRim, 0.0, 1.0), 1.45);'+
+                '\ngl_FragColor.rgb = gl_FragColor.rgb * 0.17 + vec3(0.75,0.79,1.0) * orionRim * 1.08;'
                 :'')
             );
           };
           mat.customProgramCacheKey=()=> STYLE==='frame'?
-            'orion-fps-arcane-frame-v1':'orion-fps-screen-feather-v1';
+            'orion-fps-arcane-frame-v2':'orion-fps-screen-feather-v1';
           materials.push(mat);
           obj.geometry=cloned;obj.material=mat;
           obj.frustumCulled=false;obj.renderOrder=35;obj.layers.set(0);
