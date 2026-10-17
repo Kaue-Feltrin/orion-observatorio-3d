@@ -8,7 +8,7 @@ const HANDS=Object.freeze({
    screenLeft:-.035,screenTop:.48,swayX:-.010,swayY:-.010,breath:.0044,phase:.45,
    pointer:false,columns:MESH_COLS,rows:MESH_ROWS},
  right:{file:'/overlay/right-hand-pointing.webp',baseOpacity:.51,height:.84,
-   screenLeft:.405,screenTop:.315,swayX:-.018,swayY:-.014,breath:.007,phase:1.15,
+   screenLeft:.443,screenTop:.285,swayX:-.018,swayY:-.014,breath:.007,phase:1.15,
    pointer:true,columns:36,rows:28}
 });
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -57,9 +57,25 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      const geom=new THREE.PlaneGeometry(1,1,config.columns,config.rows);
      const pos=geom.getAttribute('position'),uv=geom.getAttribute('uv');
      const rest=new Float32Array(pos.array),uvLocal=new Float32Array(uv.array);
+     if(side==='right'){
+       // Dissolver o corte retangular do antebraço no limite inferior direito,
+       // sem afetar o contorno dos dedos apontando para a estrela.
+       const colors=new Float32Array(uv.count*4);
+       const smooth=t=>{t=clamp(t,0,1);return t*t*(3-2*t);};
+       for(let j=0;j<uv.count;j++){
+         const u=uvLocal[j*2],v=uvLocal[j*2+1];
+         const rightEdge=smooth((u-.80)/.20);
+         const nearBottom=1-smooth((v-.16)/.16);
+         const k=j*4;
+         colors[k]=1;colors[k+1]=1;colors[k+2]=1;
+         colors[k+3]=1-rightEdge*nearBottom;
+       }
+       geom.setAttribute('color',new THREE.Float32BufferAttribute(colors,4));
+     }
      const material=new THREE.MeshBasicMaterial({
        map:texture,transparent:true,opacity:config.baseOpacity,
-       side:THREE.DoubleSide,depthTest:false,depthWrite:false,toneMapped:false
+       side:THREE.DoubleSide,depthTest:false,depthWrite:false,toneMapped:false,
+       vertexColors:side==='right'
      });
      const mesh=new THREE.Mesh(geom,material);
      mesh.name=side==='left'?'OrionFeminineLeftFraming':'OrionFeminineRightPointing';
