@@ -1,3 +1,12 @@
+## 17/10/2026 — revisão do rig: movimento perceptível e indicador articulado
+
+- Feedback: primeira versão funcional, mas quase imóvel e apontamento apenas por fade. Mesma branch `codex/maos-rig-mmv`, PR #29; HEAD remoto `884bd5d` com CI/Cloudflare aprovados, conferido antes de alterar.
+- Repouso 3× nos dedos/palma e 4× no punho. Hover agora estende a malha do indicador por morph de contorno na GPU, combinado aos ossos de repouso; retorno/reversões por mola amortecida. Blend de textura concentrado no meio do gesto, com deformação real antes/depois. Correspondências das bordas das imagens reduzem o contorno duplo; remapeamento monotônico evita inversões.
+- Enquadramento, transparência, máscara inferior e assets preservados. Rig continua opcional com `handsMotion=rig`; reduced-motion estático e off sem alocações. Sem alterações na main ou no restante da cena.
+- Check/build, três suítes unitárias e **9/9 testes de navegador aprovados, sem retries, em 2,3 minutos**. Após o morph, 9/9 passaram novamente; após refinar bordas, build/gravação e 3/3 casos do rig repetidos com sucesso. CI remoto do novo commit a conferir após push.
+- [Detalhes, testes e evidências atualizados](docs/rig-mmv/README.md). [Contexto cumulativo integral](CONTEXTO_COMPLETO_CUMULATIVO.md).
+- Ação do usuário: avaliar intensidade e movimento do indicador na nova prévia; proporção já aprovada. Sem configuração adicional, merge ou promoção automática.
+
 ## 17/10/2026 — protótipo MMV/rig 2,5D opcional
 
 - Usuário autorizou explicitamente avançar para animação MMV/rig 2,5D. Base `8811a40`, com CI completo e Cloudflare aprovados; branch nova `codex/maos-rig-mmv`, destinada à branch do PR #28, sem alterar main.

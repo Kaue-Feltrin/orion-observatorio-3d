@@ -25,12 +25,38 @@ const PROFILES={
   }
 };
 const CONTROLS=[
-  ['wrist',null,.0035,.47],['palm','wrist',.003,.61],
-  ['index','palm',.010,.83],['indexDistal','index',.013,.92],
-  ['thumb','palm',.008,.65],['thumbDistal','thumb',.010,.73],
-  ['middle','palm',.007,.76],['ring','palm',.006,.69],['little','palm',.005,.63]
+  ['wrist',null,.014,.70],['palm','wrist',.009,.81],
+  ['index','palm',.030,1.03],['indexDistal','index',.039,1.12],
+  ['thumb','palm',.024,.85],['thumbDistal','thumb',.030,.93],
+  ['middle','palm',.021,.96],['ring','palm',.018,.89],['little','palm',.015,.83]
 ];
 const LANDMARKS=['wrist','palm','indexTip','thumbTip','middleTip','ringTip','littleTip'];
+
+// Correspondências das bordas do indicador nas duas imagens existentes.
+// Cada coluna mapeia piso/borda inferior/borda superior monotonamente: o dedo
+// muda de contorno sem dobrar a malha nem deixar duas silhuetas no crossfade.
+const INDEX_BANDS=[
+  [150,503,490,314,291],[180,522,461,359,279],
+  [220,518,427,391,300],[270,489,402,420,330],
+  [320,478,389,446,358],[370,495,380,486,381],
+  [420,525,401,525,404],[480,550,455,550,458],
+  [530,565,493,565,496]
+].map(([x,low,high,toLow,toHigh])=>[x/1122,1-low/1402,1-high/1402,1-toLow/1402,1-toHigh/1402]);
+function mappedIndexV(u,v,inverse){
+  if(u>INDEX_BANDS.at(-1)[0])return v;
+  let a=INDEX_BANDS[0],b=a;
+  for(let i=1;i<INDEX_BANDS.length;i++){
+    b=INDEX_BANDS[i];if(u<=b[0])break;a=b;
+  }
+  const t=a===b?0:THREE.MathUtils.clamp((u-a[0])/(b[0]-a[0]),0,1);
+  const band=a.map((value,i)=>THREE.MathUtils.lerp(value,b[i],t));
+  const fromLow=band[inverse?3:1],fromHigh=band[inverse?4:2];
+  const toLow=band[inverse?1:3],toHigh=band[inverse?2:4],floor=.54;
+  if(v<=floor)return v;
+  if(v<fromLow)return THREE.MathUtils.lerp(floor,toLow,(v-floor)/(fromLow-floor));
+  if(v<fromHigh)return THREE.MathUtils.lerp(toLow,toHigh,(v-fromLow)/(fromHigh-fromLow));
+  return v+toHigh-fromHigh;
+}
 
 function influence(u,v,a,b,radius){
   const dx=b[0]-a[0],dy=b[1]-a[1],length=dx*dx+dy*dy;
@@ -64,8 +90,9 @@ export function createHandImageRig(geometry,material,pose){
       const [name]=CONTROLS[j];
       const endpoint=profile[name+'Tip']||profile.indexTip;
       const a=profile[name];
-      const b=name.endsWith('Distal')?profile[name.replace('Distal','')+'Tip']:endpoint;
-      const radius=name.startsWith('index')?.09:name.startsWith('thumb')?.08:.065;
+      const b=name.endsWith('Distal')?profile[name.replace('Distal','')+'Tip']:
+        (profile[name+'Distal']||endpoint);
+      const radius=name.startsWith('index')?.14:name.startsWith('thumb')?.08:.065;
       candidates.push({index:j,weight:influence(u,v,a,b,radius)*(1-wristWeight)*3});
     }
     candidates.sort((a,b)=>b.weight-a.weight);
@@ -79,6 +106,12 @@ export function createHandImageRig(geometry,material,pose){
       if(distance<landmarkIndices[name].distance)landmarkIndices[name]={index:i,distance};
     }
   }
+  if(pose!=='left'){
+    const positions=geometry.getAttribute('position');
+    const target=new Float32Array(positions.array);
+    for(let i=0;i<uv.count;i++)target[i*3+1]=mappedIndexV(uv.getX(i),uv.getY(i),pose==='pointing')-.5;
+    geometry.morphAttributes.position=[new THREE.Float32BufferAttribute(target,3)];
+  }
   geometry.setAttribute('skinIndex',new THREE.Uint16BufferAttribute(indices,4));
   geometry.setAttribute('skinWeight',new THREE.Float32BufferAttribute(weights,4));
   const mesh=new THREE.SkinnedMesh(geometry,material);
@@ -87,12 +120,18 @@ export function createHandImageRig(geometry,material,pose){
   mesh.frustumCulled=false;
   let disposed=false;
 
-  function update(seconds,reducedMotion=false){
+  function update(seconds,reducedMotion=false,pointing=pose==='pointing'?1:0){
     if(disposed)return;
     for(let i=0;i<CONTROLS.length;i++){
       const [, ,amplitude,frequency]=CONTROLS[i];
-      // Frequências lentas, sem seguir a mira ou criar apontamento fora do hover.
+      // Respiração e flexões legíveis; não seguem a mira.
       bones[i].rotation.z=reducedMotion?0:Math.sin(seconds*frequency+profile.phase+i*.43)*amplitude;
+    }
+    if(pose!=='left'){
+      const progress=THREE.MathUtils.clamp(pointing,0,1);
+      // Morph de contorno na GPU + ossos de repouso: as duas texturas mostram
+      // o mesmo estágio do dedo antes de misturar sua iluminação/detalhes.
+      mesh.morphTargetInfluences[0]=reducedMotion?0:pose==='neutral'?progress:1-progress;
     }
   }
   function measure(){

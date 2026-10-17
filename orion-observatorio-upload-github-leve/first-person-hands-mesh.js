@@ -28,7 +28,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
  const meshes=[],hands=[],rigs=[];
  if(useRig)Object.defineProperty(state,'maxVertexDelta',{enumerable:true,
    get:()=>Math.max(0,...rigs.map(r=>r.measure().maxVertexDelta))});
- let neutralMesh=null,starHovered=false,pointBlend=0;
+ let neutralMesh=null,starHovered=false,pointBlend=0,pointVelocity=0;
  if(!enabled)return {state,root,meshes,rigs,ready:Promise.resolve(false),
    update(){},resize(){},setStarHovered(){},beginTravel(){},dispose(){camera.remove(root)}};
  let disposed=false,travel=false,alpha=1,smX=0,smY=0;
@@ -142,12 +142,22 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    state.swayY=reducedMotion?0:smY;
    if(travel)alpha=Math.max(0,alpha-step*3.8);
    const desired=starHovered&&!travel?1:0;
-   pointBlend=reducedMotion?desired:pointBlend+(desired-pointBlend)*(1-Math.exp(-step*9.5));
+   if(reducedMotion){pointBlend=desired;pointVelocity=0;}
+   else if(useRig){
+     // Mola criticamente amortecida: gesto legível, sem salto ao reverter hover.
+     const omega=6.5,offset=pointBlend-desired,decay=Math.exp(-omega*step);
+     const advance=(pointVelocity+omega*offset)*step;
+     pointBlend=desired+(offset+advance)*decay;
+     pointVelocity=(pointVelocity-omega*advance)*decay;
+   }else pointBlend+=(desired-pointBlend)*(1-Math.exp(-step*9.5));
    pointBlend=clamp(pointBlend,0,1);
    state.rightBlend=pointBlend;
    if(alpha===0){root.visible=false;state.visible=false;state.drawSurfaces=0;state.triangles=0;return;}
    let max=0;
-   for(const rig of rigs)rig.update(seconds,reducedMotion);
+   for(const rig of rigs)rig.update(seconds,reducedMotion,pointBlend);
+   // O rig articula durante todo o gesto; a troca de textura fica concentrada
+   // no trecho central, em vez de substituir a animação do indicador.
+   const textureBlend=useRig&&!reducedMotion?THREE.MathUtils.smoothstep(pointBlend,.25,.75):pointBlend;
    for(const hand of hands){
      const c=hand.config,{mesh,rest,uvLocal}=hand;
      const pos=mesh.geometry.getAttribute('position');
@@ -162,16 +172,16 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      place(hand,fx,fy);
      // Mãos distintas: direita aponta, esquerda emoldura; sem giro brusco.
      mesh.rotation.z=reducedMotion?0:Math.sin(seconds*.72+c.phase)*(c.pointer?.010:.006);
-     mesh.material.opacity=c.baseOpacity*alpha*(hand.side==='right'?pointBlend:1);
+     mesh.material.opacity=c.baseOpacity*alpha*(hand.side==='right'?textureBlend:1);
    }
    if(neutralMesh&&meshes[1]){
      neutralMesh.position.copy(meshes[1].position);
      neutralMesh.scale.copy(meshes[1].scale);
      neutralMesh.rotation.z=meshes[1].rotation.z;
-     neutralMesh.material.opacity=HANDS.right.baseOpacity*alpha*(1-pointBlend);
+     neutralMesh.material.opacity=HANDS.right.baseOpacity*alpha*(1-textureBlend);
    }
-   meshes[1].visible=pointBlend>.003;
-   neutralMesh.visible=pointBlend<.997;
+   meshes[1].visible=textureBlend>.003;
+   neutralMesh.visible=textureBlend<.997;
    state.drawSurfaces=1+Number(meshes[1].visible)+Number(neutralMesh.visible);
    state.triangles=HANDS.left.columns*HANDS.left.rows*2+
      (state.drawSurfaces-1)*HANDS.right.columns*HANDS.right.rows*2;

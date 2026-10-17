@@ -25,8 +25,9 @@ async function metrics(page){
           left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);
         }
         return {pose:r.pose,skin:m.isSkinnedMesh,bones:r.bones.length,
-          angles:r.bones.map(b=>b.rotation.z),landmarks,bounds:{left,right,top,bottom},
+          angles:r.bones.map(b=>b.rotation.z),morph:r.mesh.morphTargetInfluences?.[0]||0,landmarks,bounds:{left,right,top,bottom},
           maxVertexDelta:diagnostic.maxVertexDelta,boneTextureBytes:diagnostic.boneTextureBytes,
+          morphBytes:(m.geometry.morphAttributes.position||[]).reduce((sum,a)=>sum+a.array.byteLength,0),
           geometryBytes:Object.values(m.geometry.attributes).reduce((sum,a)=>sum+a.array.byteLength,0)+m.geometry.index.array.byteLength};
       })};
   });
@@ -37,7 +38,7 @@ function expectFraming(data){
     else expect(r.bounds.left).toBeGreaterThan(.70);
     expect(r.bounds.left).toBeGreaterThan(-.055);
     expect(r.bounds.right).toBeLessThan(1.055);
-    expect(r.maxVertexDelta).toBeLessThan(.012);
+    expect(r.maxVertexDelta).toBeLessThan(.18);
     for(const point of Object.values(r.landmarks)){
       expect(point.x).toBeGreaterThan(-.05);expect(point.x).toBeLessThan(1.05);
       if(r.pose==='left')expect(point.x).toBeLessThan(.30);
@@ -77,8 +78,14 @@ test('MMV rig articula os dedos, protege enquadramento e mantém hover/viagem',a
     await page.mouse.move(15,20);
     await expect.poll(()=>page.evaluate(()=>window.__orionHandsDebug.state.rightBlend)).toBeLessThan(.003);
     expectFraming(await metrics(page));
+    const resting=await metrics(page);
     await aim(page);
     const hovered=await metrics(page);expectFraming(hovered);
+    const restFinger=resting.rigs.find(r=>r.pose==='neutral');
+    const extendedFinger=hovered.rigs.find(r=>r.pose==='neutral');
+    expect(extendedFinger.morph).toBeGreaterThan(.997);
+    expect(restFinger.morph).toBeLessThan(.003);
+    expect(restFinger.landmarks.indexTip.y-extendedFinger.landmarks.indexTip.y).toBeGreaterThan(viewport.width<500?.015:.05);
     expect(hovered.state.drawSurfaces).toBe(2);
     expect(hovered.rigs.reduce((sum,r)=>sum+r.boneTextureBytes,0)).toBeLessThanOrEqual(3072);
     await page.screenshot({path:test.info().outputPath(viewport.width+'x'+viewport.height+'-hover.png')});
@@ -116,7 +123,7 @@ test('MMV é opt-in e hands=off não aloca skeleton nem baixa os sprites',async(
   const baselineTextures=await page.evaluate(()=>window.__orionPerformance.textures);
   await page.goto(base+query);await ready(page);await aim(page);
   const rigTextures=await page.evaluate(()=>window.__orionPerformance.textures);
-  expect(rigTextures-baselineTextures).toBe(3);
+  expect(rigTextures-baselineTextures).toBe(5);
   console.log('MMV_GPU_TEXTURES',JSON.stringify({baseline:baselineTextures,rig:rigTextures,additional:rigTextures-baselineTextures}));
   const requests=[];
   page.on('request',r=>{if(/\/overlay\/(left-hand|right-hand)/.test(r.url()))requests.push(r.url());});

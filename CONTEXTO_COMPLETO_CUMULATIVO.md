@@ -838,3 +838,27 @@ Antes de iniciar, foram conferidos o HEAD remoto `8811a40dc347e13e46dd075fbc9bbd
 O que depende do usuário agora é avaliar **naturalidade e intensidade do movimento** no vídeo/prévia: se punho e dedos parecem delicados, se precisa de mais/menos movimento e se a navegação fica fluida no seu computador. A proporção já está aprovada. Não há segredo novo nem configuração de rede obrigatória para assistir ao artefato local.
 
 O rig continua opcional até revisão artística. Não foi autorizado merge, alteração de main ou deploy de produção. Encerrar este protótipo após entregar evidências e PR; gestos maiores, dedos fechando ou novos assets não fazem parte desta etapa.
+
+
+## 17/10/2026 — revisão MMV solicitada: intensidade e gesto real
+
+Feedback literal do usuário: “funcionou mas eu acho que as animações ficaram sutis demais, quase n da pra ver e ainda não tem a animação apontando somente um fade”. Continuidade na mesma branch `codex/maos-rig-mmv`, PR #29, baseada no acabamento aprovado `8811a40`. Estado remoto conferido antes de editar: HEAD `884bd5d26df7560729582d05f602c269365616e9`, CI geral e Cloudflare aprovados. Main preservada; sem merge ou publicação em produção.
+
+Alterações: repouso do punho com amplitude 4×, palma/dedos 3×, ciclos um pouco mais rápidos. Proporção, posição, máscara inferior, texturas e translucidez aprovadas preservadas. O hover real do Raycaster agora controla as duas articulações do indicador em ambas as representações direitas. A neutra começa a estender antes da mudança de textura; a apontando termina de estender depois dela. Mistura das imagens concentrada em 25%–75% do gesto; não foi eliminada, mas já não substitui o movimento dos ossos. Mola criticamente amortecida suaviza entrada, saída e reversões. Reduced-motion preserva imagens estáticas e resposta imediata. Modo anterior sem `handsMotion=rig` preservado.
+
+Pesos do indicador ajustados para evitar dobras/inversões durante amplitudes maiores. Sem novos assets de imagem, subdivisões, dependências, câmera, loop ou mudanças no restante do Observatório. Pesquisa nativa Three.js/Spine documentada em `docs/rig-mmv/README.md`; nenhuma biblioteca Spine incorporada.
+
+Validação unitária: repouso limitado a 3,5% da imagem e pico acima de 2%; gesto abaixo de 12%; 21 progressos por pose direita sem inversão; dedo sobe por geometria; primeiros 100ms do hover articulam com opacidade neutra constante, sem imagem apontando visível; retorno recupera a posição; reversões e equivalência 30/60Hz. Check, build e três suítes unitárias aprovados. Resultados de navegador e evidências da revisão registrados na documentação do rig ao concluir.
+
+Próxima ação do usuário: abrir a nova prévia com `?quality=eco-plus&hands=mesh&handsMotion=rig`, observar mãos em repouso por alguns segundos, passar e retirar o cursor do Nox e avaliar se intensidade/gesto ficaram naturais. Nenhuma configuração adicional necessária. Não repetir aprovação da proporção nem iniciar melhorias adicionais. Não promover o rig a padrão nem fazer merge sem autorização explícita.
+
+Resultado final local desta revisão: **9/9 testes Playwright aprovados, sem retries, em 2,3 minutos** sobre o build de produção. Capturas desktop e celular e comparação de recursos atualizadas em `docs/rig-mmv/`. Check/build e três suítes unitárias aprovados. Vídeo atualizado inclui repouso, hover e retorno. CI remoto da revisão conferido após o push; não confundir o sucesso do commit anterior com o novo.
+
+
+### Ajuste visual dentro desta revisão
+
+A inspeção do vídeo encontrou contorno duplo do indicador no trecho de mistura. Foi acrescentado um morph corretivo nativo de Three.js: a malha aproxima os contornos das poses antes de misturar as imagens. Correspondências por coluna medidas a partir das bordas alpha das imagens existentes; remapeamento vertical monotônico. Ossos mantêm o repouso; morph anima a grande extensão do indicador na GPU. Buffers de posições e morph calculados uma única vez, apenas coeficientes mudam por frame. Consultado o exemplo oficial r180 `webgl_morphtargets.html`. Não foram redesenhados assets. A mistura das texturas ainda existe no meio do gesto e deve ser descrita honestamente como acabamento, não como animação eliminada.
+
+Testes do gesto ampliados para 21 progressos em cinco instantes por pose direita; limite geométrico 18% da imagem, com triângulos positivos/área limitada. Reduced-motion congela tanto ossos quanto morph. O custo adicional passa de três para cinco texturas no renderer: três de ossos e duas de dados de morph. Nenhuma imagem adicional. Medidas e resultados da última execução estão no README/metrics da documentação do rig. Avaliação visual e FPS/RAM reais continuam dependentes do equipamento do usuário.
+
+Validação final após morph: **9/9 testes de navegador aprovados em 2,3 minutos**, sem retries. Após refinar as correspondências a partir do alpha real das imagens, novo build e **3/3 testes do rig repetidos com sucesso**, sem retries. As seis regressões de mãos padrão já passaram e não dependem do mapeamento do rig. Check e três suítes unitárias aprovados. Vídeo final de 20,5 segundos e frame intermediário inspecionados, capturas e métricas finais atualizadas. Renderer A/B final 24→29 texturas; 25752 bytes adicionais de arrays de morph, sem novas imagens. Main e branch de referência remotas reconferidas intactas. O usuário deve avaliar intensidade/naturalidade na prévia; nenhuma outra ação de configuração necessária.
