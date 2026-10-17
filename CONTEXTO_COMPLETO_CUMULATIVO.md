@@ -725,6 +725,7 @@ Finalizar exclusivamente as mãos etéreas: uma em cada extremidade, esquerda di
 
 - Branch de trabalho: `codex/finalizar-maos-etereas-v0921`.
 - Destino do PR: `preview/star-hover-hands-v0921`, sem promoção para `main`.
-- Commit e link do PR serão registrados no fechamento deste checkpoint após a criação efetiva; não se inferem de títulos ou links antigos.
+- Commit de implementação e evidências: `86f251f` (`fix(hands): finalize ethereal edge framing and Nox hover poses`). O fechamento documental fica no commit subsequente desta mesma branch; consulte o HEAD do PR para o hash final.
+- PR criado e confirmado: [#28 — v0.9.21: finalizar mãos etéreas nas bordas e hover do Nox](https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/28), em draft, destino `preview/star-hover-hands-v0921`. Nenhum merge realizado.
 - Publicação do ambiente reutilizável, criação de um PR e deploy do Cloudflare são operações diferentes. Não foi feito merge nem deploy manual de produção.
 - A aprovação visual do usuário e eventuais medições no seu dispositivo continuam pendentes. A entrega encerra esta etapa; qualquer evolução adicional depende de novo pedido.

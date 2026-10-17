@@ -1,6 +1,7 @@
 ## 17/10/2026 — v0.9.21: mãos nas bordas e apontamento contextual
 
 - Base remota conferida antes das alterações: `preview/star-hover-hands-v0921`, `2a2c6a06157cc6141d81842f1f8d37dd8c54aaa1`. Trabalho exclusivo na nova branch `codex/finalizar-maos-etereas-v0921`; PR destinado à branch de referência, sem alterar `main`.
+- Implementação/evidências no commit `86f251f`; [PR #28 em draft](https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/28), sem merge. O commit documental subsequente registra estes identificadores no contexto completo.
 - Uma mão em cada extremidade, esquerda discreta; largura dos planos limitada a 28% da janela. A direita possui novo asset neutro próprio (`right-hand-neutral.webp`), gerado a partir do asset direito existente, sem espelhar a esquerda. Assets anteriores preservados.
 - Raycaster do Nox como único gatilho de apontamento; retorno suave ao sair e reset em saída da janela, blur, aba oculta e viagem. Movimento reduzido respeitado. Corrigida a chamada de update das mãos durante a viagem para permitir o fade que já existia no módulo.
 - Mesmo renderizador/loop, sem novo shader. Geometria compartilhada entre as poses direitas, 2 draws estáveis/3 transitórios e 3 texturas de mãos. A textura adicional ocupa aproximadamente 104 KiB em disco. Nenhuma alegação de FPS/RAM no PC do usuário.
