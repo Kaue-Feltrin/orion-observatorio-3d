@@ -83,6 +83,9 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
     if(meshes[0])meshes[0].material.opacity=alpha;
     if(alpha<=0){root.visible=false;state.visible=false;return;}
     let maxD=0;
+    const depth=2.5,planeHeight=2*Math.tan(THREE.MathUtils.degToRad(camera.fov*.5))*depth;
+    const viewportWidth=planeHeight*camera.aspect;
+    const halfW=Math.min(planeHeight*REF_ASPECT*.5,viewportWidth*.58);
     for(let i=0;i<meshes.length;i++){
       const mesh=meshes[i],d=restData[i];
       const pos=mesh.geometry.getAttribute('position');
@@ -92,7 +95,10 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
       if(!reducedMotion){
         mesh.position.y=(i===0?1:-1)*.002*Math.sin(seconds*.83)+
           state.swayY*-.006;
-        mesh.position.x+=(state.swayX*(i===0?-.0007:-.0006));
+        mesh.position.x=(i===0?-1:1)*(viewportWidth-halfW)*.5+
+          state.swayX*(i===0?-.007:-.006);
+      }else{
+        mesh.position.set((i===0?-1:1)*(viewportWidth-halfW)*.5,0,-depth);
       }
     }
     state.maxVertexDelta=maxD;
