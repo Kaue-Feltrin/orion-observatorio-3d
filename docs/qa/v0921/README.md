@@ -4,7 +4,7 @@ Base conferida por `git ls-remote`: `preview/star-hover-hands-v0921`, commit `2a
 
 ## Resultado
 
-- A esquerda enquadra discretamente a borda esquerda; a direita permanece na borda direita. A largura de cada plano é limitada a 28% do viewport, preservando o centro também em janelas estreitas.
+- A esquerda enquadra discretamente a borda esquerda; a direita permanece na borda direita. A largura de cada plano é limitada a 30% do viewport, preservando o centro também em janelas estreitas.
 - A direita possui um asset neutro próprio, com indicador relaxado e palma/punho alinhados ao asset de apontamento. Os dois assets anteriores foram preservados.
 - Somente o Raycaster existente do Nox ativa o apontamento. Saída do hover, saída da janela, perda de foco, aba oculta e viagem encerram esse estado. Foco por teclado não ativa o gesto.
 - Blend exponencial existente, sem novo loop ou shader. As poses da direita compartilham a mesma geometria e transformação. Dois draws estáveis; três apenas no blend. A terceira textura tem cerca de 104 KiB em disco; a contagem de texturas das mãos passa de dois para três. FPS/RAM no dispositivo do usuário não foram medidos.
@@ -12,6 +12,14 @@ Base conferida por `git ls-remote`: `preview/star-hover-hands-v0921`, commit `2a
 - Fotografia ESO, Nox, bloom, câmera, painel, viagem e assets de fundo não foram redesenhados nem reconfigurados.
 
 ## Comparação visual
+
+### Ajuste pela referência do usuário (1920×1080)
+
+Após a primeira entrega, o usuário forneceu uma imagem com mãos maiores, recortadas nas bordas inferiores. O enquadramento foi ajustado mantendo as proporções originais de cada textura: esquerda com altura de plano 56,5% e direita 66% da janela, com a margem transparente da imagem preservada. A silhueta começa aproximadamente em 56% da altura à esquerda e 52% à direita em repouso, conforme a referência. O gesto de apontamento continua exclusivo do hover. Não se alteraram os assets nem a opacidade.
+
+[Repouso atualizado](proporcao-1920x1080-neutral.webp) · [Hover atualizado](proporcao-1920x1080-hover.webp) · [Retorno](proporcao-1920x1080-returned.webp).
+
+### Histórico: comparação da primeira entrega
 
 Capturas reais de Chromium/SwiftShader, qualidade `eco-plus`, no tamanho indicado. Imagens do mesmo Observatório, com a fotografia ESO efetivamente carregada. A comparação anterior usa o módulo de mãos do commit base, servido com os imports locais adaptados, sem alterar o arquivo rastreado. A cena animada e sua fase variam entre capturas; estas imagens avaliam enquadramento e poses, não igualdade pixel a pixel.
 
@@ -31,7 +39,7 @@ WebP de documentação com qualidade 82, sem redimensionamento, para limitar o t
 
 ## Validação
 
-Resultado final: `check` e build aprovados, duas suítes unitárias aprovadas e **8/8 testes Playwright aprovados em 1,3 minuto, sem retries**, usando o build de produção. As tentativas anteriores revelaram o fade que não era atualizado durante a viagem; a integração foi corrigida e a seleção completa foi executada novamente com sucesso.
+Resultado após o ajuste de proporção: `check` e build aprovados, duas suítes unitárias aprovadas e **10/10 testes Playwright aprovados em 1,7 minuto, sem retries**, usando o build de produção. Acrescentada a janela de referência 1920×1080. O CI remoto anterior terminou com 72 aprovados e uma falha de tempo limite: três saídas de hover compartilhavam 25 segundos. Os casos foram separados por evento, mantendo as mesmas verificações; cada caso possui orçamento próprio de 45 segundos. O próximo CI remoto deve validar essa revisão; não se alega que já concluiu.
 
 No diretório `orion-observatorio-upload-github-leve`:
 
@@ -53,6 +61,6 @@ XDG_CONFIG_HOME=/workspace/.cache/orion/chromium-config CI=1 npm run test:browse
   --config /workspace/.cloud-setup/orion/playwright.config.mjs --workers=1 --retries=0
 ```
 
-O teste de composição projeta os limites das malhas na câmera e exige que o centro entre 30% e 70% da largura fique livre. Verifica assets independentes, transparência, hover real, retorno, descarte de superfícies invisíveis, saída da janela/foco/aba, teclado, `hands=off`, movimento reduzido e ocultação antes da chegada à ficha. As regressões selecionadas verificam inicialização, câmera/paralaxe, clique/viagem e Raycaster do Nox. A suíte histórica completa e o desempenho em GPU física não são critérios alegados nesta etapa.
+O teste de composição projeta os limites das malhas na câmera e exige que o centro entre 30% e 70% da largura fique livre. Verifica assets independentes, transparência, hover real, retorno, descarte de superfícies invisíveis, saída da janela/foco/aba, teclado, `hands=off`, movimento reduzido e ocultação antes da chegada à ficha. As capturas incluem largura e altura no nome para não sobrescrever 1920×1080 com 1920×951. As regressões selecionadas verificam inicialização, câmera/paralaxe, clique/viagem e Raycaster do Nox. A suíte histórica completa não foi executada localmente nesta revisão; o desempenho em GPU física não foi medido.
 
 Aceite artístico pelo usuário, FPS/RAM no seu equipamento e qualquer promoção para produção continuam pendentes. Esta entrega não autoriza merge nem deploy na `main`.

@@ -729,3 +729,41 @@ Finalizar exclusivamente as mãos etéreas: uma em cada extremidade, esquerda di
 - PR criado e confirmado: [#28 — v0.9.21: finalizar mãos etéreas nas bordas e hover do Nox](https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/28), em draft, destino `preview/star-hover-hands-v0921`. Nenhum merge realizado.
 - Publicação do ambiente reutilizável, criação de um PR e deploy do Cloudflare são operações diferentes. Não foi feito merge nem deploy manual de produção.
 - A aprovação visual do usuário e eventuais medições no seu dispositivo continuam pendentes. A entrega encerra esta etapa; qualquer evolução adicional depende de novo pedido.
+
+
+---
+
+## Ajuste de proporção e consulta sobre rig/MMV — 17/10/2026
+
+### Direção visual nova do usuário
+
+O usuário enviou referência 1920×1080 e determinou usar aquela proporção: mãos maiores nos cantos inferiores, esquerda com a silhueta começando perto de 56% da altura, direita perto de 52%, com punhos/antebraços cortados pelas bordas e centro livre. Pediu também saber se é possível animar as imagens com rig, mencionando “MMV”.
+
+- Código mantido na mesma branch de trabalho do PR #28, sem alterar main.
+- Enquadramento ajustado em `first-person-hands-mesh.js`: altura do plano esquerdo 56,5%, direito 66%, ancoragem inferior/lateral revista, cap de largura 30%. A margem transparente dos sprites faz a silhueta visível corresponder à referência. Nenhuma imagem foi esticada em um único eixo ou redesenhada nesta revisão.
+- Opacidade, materiais, assets e lógica neutro/hover/retorno preservados. Centro protegido entre 30% e 70% da largura pelos testes de projeção.
+- Screenshot de produção 1920×1080 inspecionada em neutro, hover e retorno; imagens em `docs/qa/v0921/proporcao-1920x1080-*.webp` e PNGs originais nos artefatos da tarefa.
+
+### Resultado do CI anterior e correção dos testes
+
+O CI `39049543751` do commit `222cbc9` terminou com 72 testes aprovados e 1 falha: o teste que reunia pointerleave, blur e visibilitychange excedeu o orçamento total de 25 segundos no runner. Os valores registrados ainda convergiam para o neutro; a falha foi de tempo global ao acumular os três casos.
+
+Os eventos foram separados em testes independentes, cada um com timeout de 45 segundos e as mesmas verificações. Não foram removidas assertions nem desabilitados testes. Acrescentada a janela 1920×1080 e nomes de captura com largura e altura, evitando colisão com 1920×951.
+
+Validação desta revisão: `npm run check`, build completo com a fotografia ESO original, as duas suítes unitárias e **10/10 testes de navegador sobre o build de produção, sem retries, em 1,7 minuto**, aprovados. Novo CI remoto será disparado com o push; seu resultado não deve ser presumido antes de concluir.
+
+O acesso a preview/logs foi restabelecido. O asset neutro da prévia anterior respondeu HTTP 200 e seu SHA-256 coincidiu com o arquivo local. Isso verifica a prévia antiga, não comprova que o deploy da revisão de proporção já terminou.
+
+### Animação de imagem com rig
+
+É tecnicamente viável manter as imagens em malhas 2D/2,5D e usar ossos/controles para punho, palma e dedos no próprio Three.js, sem outro renderizador. O módulo atual possui deformação suave por campos de influência, não um esqueleto articulado completo.
+
+Recomendação técnica: usar rig com amplitudes pequenas para repouso, pulso e flexão sutil dos dedos, mantendo inicialmente os assets neutro/apontando alinhados para a mudança de gesto. Grandes dobras ou mudanças de perspectiva exigem separar partes em camadas e preparar áreas ocultas; uma única imagem não contém essas partes. Não prometer articulação 3D completa sem essa preparação.
+
+Consultado o exemplo oficial Three.js r180 `webgl_animation_skinning_morph.html` e a implementação de `SkinnedMesh` já instalada. Não foi incorporada uma biblioteca externa nem implementado um novo rig nesta revisão. O usuário confirmou que se refere a dar vida a imagens estáticas, como nos mangás animados/MMVs, sem indicar um programa específico. Essa confirmação orienta a recomendação de rig 2,5D leve; o novo rig ainda não foi implementado.
+
+### O que depende do usuário
+
+- Conferir a captura de proporção atualizada e dizer se o tamanho/enquadramento corresponde à referência.
+- MMV já esclarecido pelo usuário: animação de imagem estática no estilo de mangá animado. Não repetir essa pergunta.
+- Não há configuração de rede adicional pendente nesta consulta. Não foi feito merge; main e produção permanecem preservadas.

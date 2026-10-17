@@ -45,7 +45,8 @@ function expectEdges(boxes){
   for(const b of boxes){
     expect(b.left).toBeGreaterThan(-.05);
     expect(b.right).toBeLessThan(1.05);
-    expect(b.top).toBeGreaterThan(.40);
+    // O plano inclui a margem transparente acima da silhueta dos dedos.
+    expect(b.top).toBeGreaterThan(.32);
     expect(b.bottom).toBeLessThan(1.06);
   }
 }
@@ -65,7 +66,8 @@ test('v0.9.21 bordas protegidas, neutra própria, hover real e retorno suave',as
   expect(assets.sharedRightGeometry).toBe(true);
   expect(new Set(assets.urls).size).toBe(3);
   expect(assets.urls[2]).toContain('/right-hand-neutral.webp');
-  for(const viewport of [{width:1755,height:865},{width:1920,height:951},{width:390,height:844}]){
+  for(const viewport of [{width:1920,height:1080},{width:1755,height:865},{width:1920,height:951},{width:390,height:844}]){
+    const size=viewport.width+'x'+viewport.height;
     await page.setViewportSize(viewport);
     await page.mouse.move(15,20);
     await expect.poll(()=>blend(page)).toBeLessThan(.003);
@@ -83,13 +85,13 @@ test('v0.9.21 bordas protegidas, neutra própria, hover real e retorno suave',as
     expect(neutral.draw).toBe(2);
     expect(neutral.triangles).toBe(3552);
     await page.evaluate(()=>document.querySelector('#debug').hidden=true);
-    await page.screenshot({path:test.info().outputPath(viewport.width+'-neutral.png')});
+    await page.screenshot({path:test.info().outputPath(size+'-neutral.png')});
     await aim(page);
     await expect.poll(()=>blend(page)).toBeGreaterThan(.997);
     expectEdges(await bounds(page));
     expect(await page.evaluate(()=>window.__orionHandsDebug.root
       .getObjectByName('OrionFeminineRightNeutral').visible)).toBe(false);
-    await page.screenshot({path:test.info().outputPath(viewport.width+'-hover.png')});
+    await page.screenshot({path:test.info().outputPath(size+'-hover.png')});
     await page.mouse.move(15,20);
     const returning=await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>{
       resolve({...window.__orionHandsDebug.state});
@@ -98,7 +100,7 @@ test('v0.9.21 bordas protegidas, neutra própria, hover real e retorno suave',as
     expect(returning.rightBlend).toBeGreaterThan(0);
     await expect.poll(()=>blend(page)).toBeLessThan(.003);
     expectEdges(await bounds(page));
-    await page.screenshot({path:test.info().outputPath(viewport.width+'-returned.png')});
+    await page.screenshot({path:test.info().outputPath(size+'-returned.png')});
   }
   expect(errors).toEqual([]);
   await page.evaluate(()=>window.addEventListener('pagehide',()=>{
@@ -111,10 +113,11 @@ test('v0.9.21 bordas protegidas, neutra própria, hover real e retorno suave',as
     .toEqual({visible:false,rightHover:false});
 });
 
-test('v0.9.21 saída da janela e perda de foco encerram o hover',async({page})=>{
-  await page.goto(url+'?debug=1&quality=eco-plus&hands=mesh');
-  await ready(page);
-  for(const event of ['pointerleave','blur','visibilitychange']){
+for(const event of ['pointerleave','blur','visibilitychange']){
+  test('v0.9.21 encerra hover em '+event,async({page})=>{
+    test.setTimeout(45000);
+    await page.goto(url+'?debug=1&quality=eco-plus&hands=mesh');
+    await ready(page);
     await aim(page);
     await expect.poll(()=>blend(page)).toBeGreaterThan(.9);
     await page.evaluate(name=>{
@@ -128,10 +131,10 @@ test('v0.9.21 saída da janela e perda de foco encerram o hover',async({page})=>
     },event);
     await expect.poll(()=>blend(page)).toBeLessThan(.003);
     await page.mouse.move(15,20);
-  }
-  await page.locator('#heraldTarget').focus();
-  expect(await page.evaluate(()=>window.__orionHandsDebug.state.rightHover)).toBe(false);
-});
+    await page.locator('#heraldTarget').focus();
+    expect(await page.evaluate(()=>window.__orionHandsDebug.state.rightHover)).toBe(false);
+  });
+}
 
 test('v0.9.21 hands=off não baixa nenhum asset das mãos',async({page})=>{
   const urls=[];

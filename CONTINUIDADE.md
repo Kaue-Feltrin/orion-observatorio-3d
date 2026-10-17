@@ -1,3 +1,11 @@
+## 17/10/2026 — proporção conforme referência e consulta sobre rig
+
+- Usuário forneceu referência 1920×1080 com mãos maiores nas extremidades inferiores. Ajustadas escala e ancoragem, mantendo proporções dos assets, transparência, centro livre e hover exclusivo do Nox. [Capturas atualizadas](docs/qa/v0921/README.md).
+- CI anterior `39049543751`: 72 aprovados, 1 timeout no teste que acumulava três saídas de hover. Separados pointerleave, blur e visibilitychange em testes independentes, com as mesmas assertions e orçamento próprio. Acrescentada a resolução da referência e nomes de screenshots sem colisão.
+- Check/build, duas suítes unitárias e **10/10 testes Chromium sobre produção, sem retries**, aprovados. Novo CI remoto ainda precisa concluir após o push.
+- Rig 2D/2,5D é viável no Three.js para punho e flexões sutis, preservando as imagens. Grandes articulações exigem camadas/áreas ocultas preparadas. Não foi implantado novo rig. O usuário confirmou MMV como animação de imagem estática, no estilo de mangá animado; não repetir essa pergunta.
+- Ação do usuário: avaliar tamanho/enquadramento na nova captura. Acesso de rede restabelecido; nenhuma configuração adicional necessária nesta consulta. Mesma branch do PR #28, sem merge ou alteração da main.
+
 ## 17/10/2026 — v0.9.21: mãos nas bordas e apontamento contextual
 
 - Base remota conferida antes das alterações: `preview/star-hover-hands-v0921`, `2a2c6a06157cc6141d81842f1f8d37dd8c54aaa1`. Trabalho exclusivo na nova branch `codex/finalizar-maos-etereas-v0921`; PR destinado à branch de referência, sem alterar `main`.

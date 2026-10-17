@@ -4,11 +4,11 @@ import * as THREE from 'three';
 import {MESH_COLS,MESH_ROWS,deformHandVertices,HAND_PROFILES} from './hands-mesh-motion.js';
 
 const HANDS=Object.freeze({
- left:{file:'/overlay/left-hand-ethereal.webp',baseOpacity:.38,height:.53,
-   edgeInset:-.018,bottom:-.035,swayX:-.006,swayY:-.005,breath:.003,phase:.45,
+ left:{file:'/overlay/left-hand-ethereal.webp',baseOpacity:.38,height:.565,
+   edgeInset:-.030,bottom:-.020,swayX:-.006,swayY:-.005,breath:.003,phase:.45,
    pointer:false,columns:MESH_COLS,rows:MESH_ROWS},
- right:{file:'/overlay/right-hand-pointing.webp',neutralFile:'/overlay/right-hand-neutral.webp',baseOpacity:.46,height:.60,
-   edgeInset:-.018,bottom:-.035,swayX:-.006,swayY:-.005,breath:.003,phase:1.15,
+ right:{file:'/overlay/right-hand-pointing.webp',neutralFile:'/overlay/right-hand-neutral.webp',baseOpacity:.46,height:.66,
+   edgeInset:-.018,bottom:-.005,swayX:-.006,swayY:-.005,breath:.003,phase:1.15,
    pointer:true,columns:36,rows:28}
 });
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -38,7 +38,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
  function place(hand,fx=0,fy=0){
    const v=viewport(),c=hand.config;
    // Cap horizontal protege o centro também em janelas estreitas/portrait.
-   const h=Math.min(v.height*c.height,v.width*.28/hand.aspect),w=h*hand.aspect;
+   const h=Math.min(v.height*c.height,v.width*.30/hand.aspect),w=h*hand.aspect;
    hand.mesh.scale.set(w,h,1);
    const x=(hand.side==='left'?-v.width/2+c.edgeInset*v.width+w/2:
      v.width/2-c.edgeInset*v.width-w/2)+fx*v.width;
