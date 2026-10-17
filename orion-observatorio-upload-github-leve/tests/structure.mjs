@@ -178,7 +178,7 @@ assert.match(handsV0911,/Math\.sin\(time\*\.81\)\*\.006/,'respiração leve');
 // v0.9.12: geometria real por mão e modos 3D/2D sem afetar fotografia ESO.
 const hands3d=await read('first-person-hands-3d.js');
 assert.match(main,/createFirstPersonHands3D/,'novo viewmodel 3D integrado');
-assert.match(main,/handsSetting==='vr'\?'vr':'fps'/,'David Fischer é o padrão experimental FPS');
+assert.match(main,/handsSetting==='fps'\?'fps':'overlay'/,'overlay 2,5D padrão na prévia, FPS 3D disponível para comparação');
 assert.match(hands3d,/mergeGeometries\(parts,false\)/,'uma malha por mão via mesh merging');
 assert.match(hands3d,/vertexColors:true/,'cores por vértice sem nova textura');
 assert.match(hands3d,/fingerCount=5/,'cinco dedos distintos por mão');
