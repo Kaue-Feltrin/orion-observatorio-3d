@@ -512,8 +512,8 @@ function setHover(state) {
   card.setAttribute('aria-hidden',String(!state));
   hint.textContent=state?'Nox · Clique para atravessar o véu':'Concentre seu olhar sobre uma estrela';
 }
-target.addEventListener('mouseenter',()=>{if(!mobile)setHover(true)});
-target.addEventListener('mouseleave',()=>{if(!mobile)setHover(false)});
+target.addEventListener('mouseenter',()=>{if(!mobile){setHover(true);firstPersonHands.setStarHovered?.(true);}});
+target.addEventListener('mouseleave',()=>{if(!mobile){setHover(false);firstPersonHands.setStarHovered?.(false);}});
 target.addEventListener('focus',()=>setHover(true));
 target.addEventListener('blur',()=>{if(!mobile)setHover(false)});
 const armClick=(e)=>{
@@ -544,6 +544,7 @@ window.addEventListener('pointermove',e=>{
   mouse.y=(.5-e.clientY/innerHeight)*2;
   const aimed=isAimedAtStar(e.clientX,e.clientY);
   document.body.classList.toggle('star-aimed',aimed);
+  firstPersonHands.setStarHovered?.(aimed);
   if(cardVisible!==aimed && document.activeElement!==target)setHover(aimed);
 },{passive:true});
 window.addEventListener('pointerdown',e=>{
@@ -572,7 +573,8 @@ function beginTravel(){
  if(travelling)return;
  if(!starJourney.begin())return;
  travelling=true;
- firstPersonHands.beginTravel();
+ firstPersonHands.setStarHovered?.(false);
+  firstPersonHands.beginTravel();
  cardVisible=false;card.classList.remove('visible');card.setAttribute('aria-hidden','true');
  root.classList.add('jumping');
  document.body.classList.remove('star-aimed');
