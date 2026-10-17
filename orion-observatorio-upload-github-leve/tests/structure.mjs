@@ -178,7 +178,7 @@ assert.match(handsV0911,/Math\.sin\(time\*\.81\)\*\.006/,'respiração leve');
 // v0.9.12: geometria real por mão e modos 3D/2D sem afetar fotografia ESO.
 const hands3d=await read('first-person-hands-3d.js');
 assert.match(main,/createFirstPersonHands3D/,'novo viewmodel 3D integrado');
-assert.match(main,/handsSetting==='fps'\?'fps':'overlay'/,'overlay 2,5D padrão na prévia, FPS 3D disponível para comparação');
+assert.match(main,/handsSetting==='overlay'\?'overlay':'mesh'/,'malha 2,5D animada padrão; overlay estático e FPS disponíveis');
 assert.match(hands3d,/mergeGeometries\(parts,false\)/,'uma malha por mão via mesh merging');
 assert.match(hands3d,/vertexColors:true/,'cores por vértice sem nova textura');
 assert.match(hands3d,/fingerCount=5/,'cinco dedos distintos por mão');
@@ -251,3 +251,10 @@ assert.match(abCode,/sessionStorage/,'amostras limitadas à sessão local');
 assert.match(abCode,/document\.hidden/,'impede coleta com aba oculta');
 assert.match(await read('performance-panel.js'),/createHandsBenchmark\(field, snapshot\)/,'integração via snapshot existente');
 console.log('OK: benchmark A/B, delta, configuração incompatível e isolamento da cena.');
+
+const handMesh=await read('first-person-hands-mesh.js');
+const deformation=await read('hands-mesh-motion.js');
+assert.match(main,/createEtherealHandsMesh\(camera/,'malha ligada à mesma câmera');
+assert.match(handMesh,/deformHandVertices\(/,'malha deformada de fato, não transform CSS');
+assert.match(handMesh,/PlaneGeometry\(1,1,MESH_COLS,MESH_ROWS\)/,'malha subdividida');
+assert.match(deformation,/\.012/,'limite evita anatomia deformada');

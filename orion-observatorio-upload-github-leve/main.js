@@ -13,6 +13,7 @@ import { createRiggedFirstPersonHands } from './first-person-hands-rig.js';
 import { createVrFirstPersonHands } from './first-person-hands-vr.js';
 import { createFpsFirstPersonHands } from './first-person-hands-fps.js';
 import { createEtherealHandsOverlay } from './first-person-hands-overlay.js';
+import { createEtherealHandsMesh } from './first-person-hands-mesh.js';
 
 const root = document.getElementById('observatory');
 const container = document.getElementById('world');
@@ -40,9 +41,9 @@ const foregroundEnabled=params.get('foreground')!=='off';
 // de toque por padrão. ?hands=on permite testar; ?hands=off restaura v0.9.9.
 // Rig artístico CC0 padrão; ?hands=3d conserva modelo anterior e ?hands=2d o plano.
 const handsSetting=params.get('hands');
-const handsEnabled=['on','fps','vr','rig','3d','2d'].includes(handsSetting)||handsSetting==='overlay'||(handsSetting!=='off'&&!mobile);
+const handsEnabled=['on','fps','vr','rig','3d','2d'].includes(handsSetting)||['overlay','mesh'].includes(handsSetting)||(handsSetting!=='off'&&!mobile);
 // Nova prévia de arte anatômica: WRAD retrô continua disponível apenas via ?hands=rig.
-const handsMode=handsSetting==='2d'?'2d':handsSetting==='3d'?'3d':handsSetting==='rig'?'rig':handsSetting==='vr'?'vr':handsSetting==='fps'?'fps':'overlay';
+const handsMode=handsSetting==='2d'?'2d':handsSetting==='3d'?'3d':handsSetting==='rig'?'rig':handsSetting==='vr'?'vr':handsSetting==='fps'?'fps':handsSetting==='overlay'?'overlay':'mesh';
 const fpsHandsCredit=document.getElementById('fpsHandsCredit');
 if(fpsHandsCredit)fpsHandsCredit.hidden=!handsEnabled||handsMode!=='fps';
 debug.hidden = !debugEnabled;
@@ -136,7 +137,9 @@ rigRoot.position.set(0, 0, 26);
 camera.position.set(0, 0, 0);
 // Viewmodel em espaço de câmera: presença de primeira pessoa sem alterar
 // o mundo 3D, a paralaxe ESO ou o pós-processamento do Nox.
-const firstPersonHands=handsMode==='overlay'
+const firstPersonHands=handsMode==='mesh'
+  ?createEtherealHandsMesh(camera,{enabled:handsEnabled,reducedMotion:reduceMotion})
+  :handsMode==='overlay'
   ?createEtherealHandsOverlay(root,{enabled:handsEnabled,reducedMotion:reduceMotion})
   :handsMode==='2d'
   ?createFirstPersonHands(camera,{enabled:handsEnabled,reducedMotion:reduceMotion})
@@ -719,6 +722,7 @@ function tick(now){
  } else {
   beaconGlow.visible=false;
   starJourney.update(now,delta);
+  if(handsMode==='mesh')firstPersonHands.update(time,delta,mouse.x,mouse.y);
  }
  for(const mat of starMaterials){
    mat.uniforms.uTime.value=reduceMotion?0:time;
