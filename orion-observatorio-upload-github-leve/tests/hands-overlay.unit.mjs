@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {createEtherealHandsOverlay} from '../first-person-hands-overlay.js';
 let requests=0;
 function element(tag){
-  return{tag,className:'',style:{},children:[],attributes:{},
+  return{tag,className:'',style:{},dataset:{},children:[],attributes:{},
     appendChild(x){this.children.push(x);return x},
     setAttribute(k,v){this.attributes[k]=v},
     remove(){this.removed=true},
