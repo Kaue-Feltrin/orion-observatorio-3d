@@ -89,7 +89,7 @@ export function createPerformancePanel(debugRoot, readScene) {
   const handsOff=new URLSearchParams(location.search).get('hands')==='off';
   if(handsOff){
     handsUrl.searchParams.set('hands','fps');
-    handsUrl.searchParams.set('fpsStyle','natural');
+    handsUrl.searchParams.set('fpsStyle','frame');
     handsUrl.searchParams.delete('fpsTune');
     handsComparison.textContent='Ativar mãos FPS David Fischer · Eco+';
   }else{
