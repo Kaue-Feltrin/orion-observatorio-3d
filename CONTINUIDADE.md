@@ -1,3 +1,29 @@
+## 17/10/2026 — proporção aprovada; acabamento inferior da direita
+
+- Usuário aprovou a proporção e apontou um vazamento/contorno no canto inferior direito. Mantidos escala e posicionamento aprovados; ampliada somente a máscara alpha do antebraço, que terminava antes da borda da textura. A mesma máscara atende neutro e apontamento, preservando palma e dedos.
+- Check/build, duas suítes unitárias e 10/10 testes Playwright sobre produção aprovados, sem retries. Acrescentada verificação unitária do corte transparente e da região superior intacta. [Capturas de acabamento](docs/qa/v0921/README.md). Sem redesenho de assets, novo rig ou alterações na main.
+- Ação do usuário: conferir apenas o acabamento inferior na nova captura; a proporção já está aprovada.
+
+## 17/10/2026 — proporção conforme referência e consulta sobre rig
+
+- Usuário forneceu referência 1920×1080 com mãos maiores nas extremidades inferiores. Ajustadas escala e ancoragem, mantendo proporções dos assets, transparência, centro livre e hover exclusivo do Nox. [Capturas atualizadas](docs/qa/v0921/README.md).
+- CI anterior `39049543751`: 72 aprovados, 1 timeout no teste que acumulava três saídas de hover. Separados pointerleave, blur e visibilitychange em testes independentes, com as mesmas assertions e orçamento próprio. Acrescentada a resolução da referência e nomes de screenshots sem colisão.
+- Check/build, duas suítes unitárias e **10/10 testes Chromium sobre produção, sem retries**, aprovados. Novo CI remoto ainda precisa concluir após o push.
+- Rig 2D/2,5D é viável no Three.js para punho e flexões sutis, preservando as imagens. Grandes articulações exigem camadas/áreas ocultas preparadas. Não foi implantado novo rig. O usuário confirmou MMV como animação de imagem estática, no estilo de mangá animado; não repetir essa pergunta.
+- Ação do usuário: avaliar tamanho/enquadramento na nova captura. Acesso de rede restabelecido; nenhuma configuração adicional necessária nesta consulta. Mesma branch do PR #28, sem merge ou alteração da main.
+
+## 17/10/2026 — v0.9.21: mãos nas bordas e apontamento contextual
+
+- Base remota conferida antes das alterações: `preview/star-hover-hands-v0921`, `2a2c6a06157cc6141d81842f1f8d37dd8c54aaa1`. Trabalho exclusivo na nova branch `codex/finalizar-maos-etereas-v0921`; PR destinado à branch de referência, sem alterar `main`.
+- Implementação/evidências no commit `86f251f`; [PR #28 em draft](https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/28), sem merge. O commit documental subsequente registra estes identificadores no contexto completo.
+- Uma mão em cada extremidade, esquerda discreta; largura dos planos limitada a 28% da janela. A direita possui novo asset neutro próprio (`right-hand-neutral.webp`), gerado a partir do asset direito existente, sem espelhar a esquerda. Assets anteriores preservados.
+- Raycaster do Nox como único gatilho de apontamento; retorno suave ao sair e reset em saída da janela, blur, aba oculta e viagem. Movimento reduzido respeitado. Corrigida a chamada de update das mãos durante a viagem para permitir o fade que já existia no módulo.
+- Mesmo renderizador/loop, sem novo shader. Geometria compartilhada entre as poses direitas, 2 draws estáveis/3 transitórios e 3 texturas de mãos. A textura adicional ocupa aproximadamente 104 KiB em disco. Nenhuma alegação de FPS/RAM no PC do usuário.
+- Validação final: `npm run check`, `NODE_USE_ENV_PROXY=1 npm run build`, `node tests/hands-mesh.unit.mjs`, `node tests/hands-hover.unit.mjs` e **8/8 testes Playwright selecionados no build de produção, sem retries**. Testes de bordas/poses em 1755×865, 1920×951 e 390×844, reduced-motion, off, saída/blur/aba e regressões de Nox/câmera/navegação.
+- [Comparação visual e protocolo](docs/qa/v0921/README.md). [Contexto completo cumulativo](CONTEXTO_COMPLETO_CUMULATIVO.md): preserva integralmente o documento anexado e acrescenta o checkpoint desta etapa.
+- Fotografia ESO, Nox, bloom, câmera, painel, viagem e demais componentes preservados. O acesso a `cdn.eso.org` foi restabelecido na configuração do ambiente; TLS mantido. Aviso do chunk Vite acima de 500 KiB permanece fora deste escopo.
+- Pendente: revisão artística do usuário, métricas no seu hardware e eventual promoção expressamente autorizada. Nenhum merge ou deploy de produção executado. A tarefa termina nesta etapa.
+
 ## Etapa v0.9.16 — benchmark A/B das mãos FPS (16/10/2026)
 
 - Usuário pediu continuar o Observatório v0.9.15 e solicitou **um arquivo de contexto novo em cada resposta**, para retomar integralmente o trabalho em outro chat. A fonte permanente ainda é este arquivo + PRs/GitHub; respostas devem anexar um Markdown atualizado em `/mnt/data`.

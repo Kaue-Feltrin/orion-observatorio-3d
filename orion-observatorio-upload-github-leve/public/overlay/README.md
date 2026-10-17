@@ -1,7 +1,11 @@
-# Mãos etéreas · asset v0.9.18
+# Mãos etéreas · v0.9.21
 
-Este diretório deve conter `orion-hands-frame.webp`, composição RGBA original aprovada pelo usuário e animada pelo módulo `first-person-hands-overlay.js`.
+O modo padrão `hands=mesh` usa três texturas RGBA locais, em 1122×1402:
 
-**Atenção:** o arquivo binário ainda precisa ser enviado à branch `preview/ethereal-hands-overlay-v0918`. O pacote `observatorio-maos-2p5d-v0918.zip` foi entregue na conversa que criou a prévia e inclui `public/overlay/orion-hands-frame.webp` e PNG original.
+- `left-hand-ethereal.webp`: enquadramento discreto à esquerda, preservado.
+- `right-hand-pointing.webp`: apontamento à direita, preservado.
+- `right-hand-neutral.webp`: nova pose relaxada da direita, sem indicador estendido. Gerada com a ferramenta de imagens da OpenAI a partir do asset de apontamento existente, mantendo palma, punho, dimensões e transparência; exportada como WebP (qualidade 92, alpha 100). Não é a mão esquerda espelhada.
 
-Não considerar o deploy concluído enquanto `/overlay/orion-hands-frame.webp` não responder HTTP 200 e os testes de navegador não validarem o asset. Não promover produção antes da aprovação visual do usuário.
+As duas poses direitas compartilham geometria e enquadramento. Somente o hover real do Nox ativa a transição; saída, perda de foco, aba oculta e viagem encerram o apontamento. Há dois draws em repouso e no apontamento, três apenas durante o blend. O modo `hands=off` não solicita essas imagens.
+
+`orion-hands-frame.webp` continua disponível para o modo anterior `hands=overlay`. Nenhum asset anterior foi substituído. Aprovação visual e medições de FPS/RAM no dispositivo do usuário permanecem separadas dos testes automatizados; não promover a produção sem autorização.
