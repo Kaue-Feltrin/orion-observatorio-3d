@@ -1,5 +1,8 @@
 import assert from 'node:assert/strict';
-import {MESH_COLS,MESH_ROWS,deformHandVertices} from '../hands-mesh-motion.js';
+import {MESH_COLS,MESH_ROWS,deformHandVertices,HAND_PROFILES} from '../hands-mesh-motion.js';
+assert.equal(HAND_PROFILES.left.id,'left-framing');
+assert.equal(HAND_PROFILES.right.id,'right-pointing');
+assert.ok(HAND_PROFILES.right.indexAmplitude>HAND_PROFILES.left.indexAmplitude);
 const make=(side)=>{
   const n=(MESH_COLS+1)*(MESH_ROWS+1),rest=new Float32Array(n*3),pos=new Float32Array(n*3),uv=new Float32Array(n*2);
   let i=0;
@@ -23,4 +26,6 @@ const make=(side)=>{
   return max;
 };
 const l=make('left'),r=make('right');
+assert.ok(l<=.0091,'esquerda tem limite próprio, menor que o da direita');
+assert.ok(r<=.0121,'direita respeita limite de articulação');
 console.log('OK: continuous GPU-ready finger mesh weights; displacement bound',l.toFixed(5),r.toFixed(5));
