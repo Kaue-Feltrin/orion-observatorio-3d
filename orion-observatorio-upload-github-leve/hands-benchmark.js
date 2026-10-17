@@ -73,7 +73,7 @@ export function createHandsBenchmark(field,snapshot){
   url.searchParams.set('debug','1');
   url.searchParams.set('quality','eco-plus');
   url.searchParams.set('hands',off?'fps':'off');
-  url.searchParams.set('fpsStyle','natural');
+  url.searchParams.set('fpsStyle','frame');
   url.searchParams.delete('fpsTune');
   swap.href=url.pathname+url.search;
   swap.textContent=off?'Testar com mãos FPS':'Testar sem mãos FPS';
