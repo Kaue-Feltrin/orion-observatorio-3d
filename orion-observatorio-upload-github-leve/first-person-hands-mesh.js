@@ -1,7 +1,9 @@
 // Observatório v0.9.21: mãos nas bordas; direita neutra fora do hover do Nox.
-// Mesma câmera e mesmo loop; as duas poses direitas compartilham geometria.
+// Mesma câmera e loop. No modo base as poses direitas compartilham geometria;
+// o rig MMV opcional usa pesos próprios para cada pose da imagem.
 import * as THREE from 'three';
 import {MESH_COLS,MESH_ROWS,deformHandVertices,HAND_PROFILES} from './hands-mesh-motion.js';
+import {createHandImageRig} from './hands-image-rig.js';
 
 const HANDS=Object.freeze({
  left:{file:'/overlay/left-hand-ethereal.webp',baseOpacity:.38,height:.565,
@@ -12,19 +14,22 @@ const HANDS=Object.freeze({
    pointer:true,columns:36,rows:28}
 });
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false}={}){
+export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false,animation='mesh'}={}){
+ const useRig=animation==='rig';
  const state={mode:'mesh',enabled:!!enabled,visible:false,loaded:false,loadError:null,
    motionEnabled:!reducedMotion,drawSurfaces:0,triangles:0,textureCount:0,
    joints:0,fingerJoints:0,swayX:0,swayY:0,maxVertexDelta:0,
    pose:'feminine-star-hover',handProfiles:Object.keys(HAND_PROFILES),
-   rightHover:false,rightBlend:0};
+   rightHover:false,rightBlend:0,animation:useRig?'rig':'mesh'};
  const root=new THREE.Group();
  root.name='OrionFeminineHands2p5D';
  root.visible=false;
  camera.add(root);
- const meshes=[],hands=[];
+ const meshes=[],hands=[],rigs=[];
+ if(useRig)Object.defineProperty(state,'maxVertexDelta',{enumerable:true,
+   get:()=>Math.max(0,...rigs.map(r=>r.measure().maxVertexDelta))});
  let neutralMesh=null,starHovered=false,pointBlend=0;
- if(!enabled)return {state,root,meshes,ready:Promise.resolve(false),
+ if(!enabled)return {state,root,meshes,rigs,ready:Promise.resolve(false),
    update(){},resize(){},setStarHovered(){},beginTravel(){},dispose(){camera.remove(root)}};
  let disposed=false,travel=false,alpha=1,smX=0,smY=0;
  const textures=[];
@@ -86,7 +91,9 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
        side:THREE.DoubleSide,depthTest:false,depthWrite:false,toneMapped:false,
        vertexColors:side==='right'
      });
-     const mesh=new THREE.Mesh(geom,material);
+     const rig=useRig?createHandImageRig(geom,material,side==='left'?'left':'pointing'):null;
+     if(rig)rigs.push(rig);
+     const mesh=rig?rig.mesh:new THREE.Mesh(geom,material);
      mesh.name=side==='left'?'OrionFeminineLeftFraming':'OrionFeminineRightPointing';
      mesh.renderOrder=300+i;mesh.frustumCulled=false;
      meshes.push(mesh);root.add(mesh);
@@ -96,13 +103,16 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      hands.push(hand);place(hand);
    }
    // Asset neutro próprio, com palma/punho alinhados ao apontamento.
-   // Compartilhar a malha mantém a mesma deformação durante o blend.
-   const neutralGeometry=meshes[1].geometry;
+   // O modo base compartilha a malha; o rig precisa de pesos próprios para
+   // o indicador relaxado, mantendo os pivôs da palma e do punho alinhados.
+   const neutralGeometry=useRig?meshes[1].geometry.clone():meshes[1].geometry;
    const neutralMaterial=new THREE.MeshBasicMaterial({
      map:textures[2],transparent:true,opacity:HANDS.right.baseOpacity,
      side:THREE.DoubleSide,depthTest:false,depthWrite:false,toneMapped:false,vertexColors:true
    });
-   neutralMesh=new THREE.Mesh(neutralGeometry,neutralMaterial);
+   const neutralRig=useRig?createHandImageRig(neutralGeometry,neutralMaterial,'neutral'):null;
+   if(neutralRig)rigs.push(neutralRig);
+   neutralMesh=neutralRig?neutralRig.mesh:new THREE.Mesh(neutralGeometry,neutralMaterial);
    neutralMesh.name='OrionFeminineRightNeutral';
    neutralMesh.renderOrder=301;neutralMesh.frustumCulled=false;
    root.add(neutralMesh);
@@ -111,6 +121,8 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    neutralMesh.position.copy(meshes[1].position);
    state.loaded=true;state.visible=true;
    state.textureCount=3;
+   state.joints=rigs.reduce((sum,r)=>sum+r.bones.length,0);
+   state.fingerJoints=rigs.reduce((sum,r)=>sum+r.bones.length-2,0);
    root.visible=true;complete=true;
    update(0,0);
    return true;
@@ -135,12 +147,15 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    state.rightBlend=pointBlend;
    if(alpha===0){root.visible=false;state.visible=false;state.drawSurfaces=0;state.triangles=0;return;}
    let max=0;
+   for(const rig of rigs)rig.update(seconds,reducedMotion);
    for(const hand of hands){
      const c=hand.config,{mesh,rest,uvLocal}=hand;
      const pos=mesh.geometry.getAttribute('position');
-     max=Math.max(max,deformHandVertices(rest,pos.array,uvLocal,hand.side,
-       seconds,state.swayX,state.swayY,reducedMotion));
-     pos.needsUpdate=!reducedMotion;
+     if(!useRig){
+       max=Math.max(max,deformHandVertices(rest,pos.array,uvLocal,hand.side,
+         seconds,state.swayX,state.swayY,reducedMotion));
+       pos.needsUpdate=!reducedMotion;
+     }
      const fx=reducedMotion?0:state.swayX*c.swayX;
      const fy=reducedMotion?0:state.swayY*c.swayY+
        Math.sin(seconds*.94+c.phase)*c.breath;
@@ -160,18 +175,22 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    state.drawSurfaces=1+Number(meshes[1].visible)+Number(neutralMesh.visible);
    state.triangles=HANDS.left.columns*HANDS.left.rows*2+
      (state.drawSurfaces-1)*HANDS.right.columns*HANDS.right.rows*2;
-   state.maxVertexDelta=max;
+   if(!useRig)state.maxVertexDelta=max;
  }
  function setStarHovered(v){starHovered=!!v&&!travel;state.rightHover=starHovered;}
  function beginTravel(){travel=true;setStarHovered(false);}
  function dispose(){
    if(disposed)return;disposed=true;root.visible=false;
    for(const m of meshes){m.geometry.dispose();m.material.dispose();root.remove(m);}
-   if(neutralMesh){neutralMesh.material.dispose();root.remove(neutralMesh);}
+   if(neutralMesh){
+     if(useRig)neutralMesh.geometry.dispose();
+     neutralMesh.material.dispose();root.remove(neutralMesh);
+   }
+   for(const rig of rigs)rig.dispose();
    for(const t of textures)t.dispose();
    camera.remove(root);
-   meshes.length=0;hands.length=0;
+   meshes.length=0;hands.length=0;rigs.length=0;
    state.visible=false;state.loaded=false;
  }
- return {state,root,meshes,ready,update,resize,setStarHovered,beginTravel,dispose};
+ return {state,root,meshes,rigs,ready,update,resize,setStarHovered,beginTravel,dispose};
 }

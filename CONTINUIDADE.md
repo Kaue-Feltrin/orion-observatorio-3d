@@ -1,3 +1,13 @@
+## 17/10/2026 — protótipo MMV/rig 2,5D opcional
+
+- Usuário autorizou explicitamente avançar para animação MMV/rig 2,5D. Base `8811a40`, com CI completo e Cloudflare aprovados; branch nova `codex/maos-rig-mmv`, destinada à branch do PR #28, sem alterar main.
+- Ativar com `?hands=mesh&handsMotion=rig`. Rig nativo Three.js: punho, palma e dedos, nove controles por pose; pivôs/pesos próprios para esquerda, direita neutra e apontando. Mesmas imagens, câmera, enquadramento, máscara e loop. O modo anterior permanece sem o parâmetro.
+- Pesos calculados na construção; GPU articula os vértices. Reduced-motion sem animação dos ossos; off sem cargas/alocações. Apontamento somente pelo hover real do Nox. Sem novo runtime ou dependência.
+- Check/build, três suítes unitárias e 9/9 testes Playwright sobre produção aprovados, sem retries, em 2,4 minutos. Verificados landmarks projetados, deformação/triângulos limitados e descarte. CI remoto da nova branch ainda deve concluir.
+- A/B medido: renderer de 24 para 27 texturas, três extras de ossos com 3072 bytes de dados totais. Duas superfícies estáveis/três no blend; sem imagens novas. FPS/RAM físicos não medidos.
+- [Pesquisa, capturas, vídeo, protocolo e medidas](docs/rig-mmv/README.md). [Contexto cumulativo integral](CONTEXTO_COMPLETO_CUMULATIVO.md).
+- Ação do usuário: avaliar naturalidade/intensidade do movimento e fluidez no seu equipamento. Proporção já aprovada; não repetir essa pergunta. Não promover rig a padrão nem fazer merge/main/produção sem autorização.
+
 ## 17/10/2026 — proporção aprovada; acabamento inferior da direita
 
 - Usuário aprovou a proporção e apontou um vazamento/contorno no canto inferior direito. Mantidos escala e posicionamento aprovados; ampliada somente a máscara alpha do antebraço, que terminava antes da borda da textura. A mesma máscara atende neutro e apontamento, preservando palma e dedos.

@@ -785,3 +785,56 @@ O usuário aprovou expressamente a proporção: “essa proporção ta boa”, m
 - O que depende do usuário: conferir somente o acabamento inferior na nova captura. Não é necessário repetir a aprovação da proporção nem configurar rede.
 
 Resultado final desta correção: 10/10 testes Playwright sobre o build de produção aprovados, sem retries, em 1,7 minuto, além de check/build e das duas suítes unitárias. CI remoto da revisão depende da execução após o push.
+
+
+---
+
+## Protótipo MMV/rig 2,5D autorizado — 17/10/2026
+
+### Pedido e ponto de partida
+
+Após pedir “continue”, o usuário confirmou explicitamente: **“Avançar para animação MMV/rig 2,5D”**. O estilo MMV significa animar imagens estáticas, como nos mangás animados. A proporção e o enquadramento já foram aprovados; não repetir essa aprovação nem redesenhar os assets.
+
+Antes de iniciar, foram conferidos o HEAD remoto `8811a40dc347e13e46dd075fbc9bbd13dcd0c25e`, o PR #28 e seus checks: **CI completo e Cloudflare Pages aprovados** para o acabamento da v0.9.21. Branch nova criada a partir desse commit: `codex/maos-rig-mmv`. O PR desta etapa tem como base `codex/finalizar-maos-etereas-v0921`, mantendo separadas a entrega aprovada e a experiência de rig. Main permanece preservada.
+
+### Pesquisa e escolha
+
+- Exemplo oficial Three.js r180 `docs/api/en/objects/SkinnedMesh.html`: índices/pesos, Bone, Skeleton e bind aplicáveis a uma malha plana texturizada. MIT, dependência já presente.
+- Exemplo oficial Spine 4.2 `spine-ts/spine-webgl/example/index.html` e licença dos runtimes: referência funcional de animação 2D por esqueleto/attachments; demanda runtime/autoria/licença específicos. Nenhum código, runtime ou asset Spine foi incorporado.
+- Escolha: skinning nativo do Three.js no mesmo renderizador/câmera/loop, com amplitudes pequenas. Não tentar inventar partes ocultas ou fechar completamente os dedos de uma imagem única.
+
+### Implementação do protótipo
+
+- Ativação por `?hands=mesh&handsMotion=rig` (opcional, para revisão). Sem `handsMotion=rig`, permanece a deformação anterior das mãos aprovadas. `quality=eco-plus` reproduz as capturas; `debug=1` expõe somente diagnósticos.
+- Novo `hands-image-rig.js`: três SkinnedMesh para esquerda, direita neutra e direita apontando. Nove controles por pose: punho, palma, dois para indicador, dois para polegar e um para cada outro dedo. Total de 27 controles, 21 de dedos nas três representações.
+- Pesos e pivôs próprios por pose, especialmente no indicador neutro versus apontamento. Punho e palma direitos alinhados no blend. Quatro influências normalizadas por vértice; pesos calculados apenas na construção.
+- A GPU aplica os ossos; buffers de vértices permanecem estáticos. O update normal apenas altera os controles. Medição completa dos vértices ocorre sob solicitação de diagnóstico/testes.
+- Sem novos assets de imagem, dependências, renderizadores, resolução ou subdivisões. Mantidos materiais básicos, transparência, máscara inferior e proporção aprovada.
+- Hover real do Raycaster continua sendo o único gatilho do apontamento. Idle do rig não transforma o neutro em apontamento. Reduced-motion mantém ângulos exatamente zero. Hands=off não carrega sprites nem aloca skeletons. Skeletons, texturas de ossos e geometrias são descartados ao encerrar.
+
+### Validação e evidências
+
+- `npm run check`: aprovado.
+- Build completo, incluindo download original da ESO, com `NODE_USE_ENV_PROXY=1 npm run build`: aprovado.
+- Três suítes unitárias aprovadas: `hands-image-rig.unit.mjs`, `hands-hover.unit.mjs`, `hands-mesh.unit.mjs`.
+- Nova suíte unitária percorre 24 amostras temporais por pose, verificando pesos, índices, articulação real de palma/cinco dedos, deslocamento abaixo de 1,2% nas amostras, ausência de inversão/estiramento excessivo dos triângulos, buffers estáticos, reduced-motion, integração de câmera, hover/viagem/off e descarte.
+- **9/9 testes Playwright aprovados, sem retries, em 2,4 minutos**, sobre o build de produção com Chromium/SwiftShader. São 3 testes do rig e 6 regressões das mãos aprovadas. Cobre 1920×1080, 1920×951 e 390×844, landmarks projetados, shader, hover/retorno/viagem, off, opt-in e reduced-motion.
+- Uma tentativa inicial encontrou apenas erro numérico de aproximadamente 1,05e-6 no limite de imagem parada após transformação mundial com pesos Float32. Mantida a exigência de ângulos exatamente zero; tolerância espacial subpixel passou a 1e-5. Depois, a seleção inteira foi repetida e passou.
+- Workflow `validar-observatorio.yml` inclui a nova suíte unitária; a suíte de navegador completa já seleciona o novo arquivo automaticamente. CI remoto da nova branch ainda precisa concluir depois do push.
+- Capturas de 1920×1080 em repouso A/B, hover e retorno em `docs/rig-mmv/`. PNGs e vídeo originais em `/workspace/orion-evidence/mmv/`.
+- Vídeo `docs/rig-mmv/rig-mmv.mp4`: repouso → hover → retorno, capturado do canvas WebGL em resolução nativa Eco+, sem HUD/vinheta CSS. Usar a prévia interativa para avaliar a composição completa.
+- `docs/rig-mmv/README.md` registra pesquisa, operação, testes, limites e referências. `metrics.json` registra a comparação A/B e landmarks da última amostra em 390×844.
+
+### Orçamento observado
+
+- Renderer: 24 texturas no modo anterior, 27 no rig após passar pelas duas poses. As três extras são texturas de ossos, não novas imagens.
+- Dados de ossos: 1024 bytes por skeleton, 3072 bytes no total. Não equivale à memória total do driver/GPU.
+- Arrays de geometria: 234120 bytes no total, incluindo atributos/índices; direita neutra usa pesos próprios. Não se aumentaram as subdivisões.
+- Duas superfícies estáveis e três durante o blend; 3552 triângulos estáveis, como na base.
+- Chunk principal aproximadamente 687,36 kB, antes 683,49 kB; aviso de 500 kB já existia. Sem alegação de FPS/p95/RAM em hardware do usuário.
+
+### Ação do usuário e limites da entrega
+
+O que depende do usuário agora é avaliar **naturalidade e intensidade do movimento** no vídeo/prévia: se punho e dedos parecem delicados, se precisa de mais/menos movimento e se a navegação fica fluida no seu computador. A proporção já está aprovada. Não há segredo novo nem configuração de rede obrigatória para assistir ao artefato local.
+
+O rig continua opcional até revisão artística. Não foi autorizado merge, alteração de main ou deploy de produção. Encerrar este protótipo após entregar evidências e PR; gestos maiores, dedos fechando ou novos assets não fazem parte desta etapa.

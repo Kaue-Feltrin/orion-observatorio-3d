@@ -138,7 +138,8 @@ camera.position.set(0, 0, 0);
 // Viewmodel em espaço de câmera: presença de primeira pessoa sem alterar
 // o mundo 3D, a paralaxe ESO ou o pós-processamento do Nox.
 const firstPersonHands=handsMode==='mesh'
-  ?createEtherealHandsMesh(camera,{enabled:handsEnabled,reducedMotion:reduceMotion})
+  ?createEtherealHandsMesh(camera,{enabled:handsEnabled,reducedMotion:reduceMotion,
+    animation:params.get('handsMotion')==='rig'?'rig':'mesh'})
   :handsMode==='overlay'
   ?createEtherealHandsOverlay(root,{enabled:handsEnabled,reducedMotion:reduceMotion})
   :handsMode==='2d'
