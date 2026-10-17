@@ -1,41 +1,51 @@
-// v0.9.19: campo de deformação 2,5D contínuo. Coordenadas UV locais 0..1.
-// Nenhum vertex é separado e os UVs da arte original permanecem intocados.
+// Observatório v0.9.20 · dois campos de animação independentes.
+// UV local da imagem inteira (0..1), sem atlas compartilhado.
 export const MESH_COLS=32;
 export const MESH_ROWS=24;
-
-const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
-const weight=(u,v,x,y,rx,ry)=>{
-  const dx=(u-x)/rx,dy=(v-y)/ry;
-  return Math.exp(-2.25*(dx*dx+dy*dy));
-};
-export function deformHandVertices(rest,positions,uvLocal,side,seconds,mouseX=0,mouseY=0,reduceMotion=false){
-  if(rest.length!==positions.length||rest.length/3*2!==uvLocal.length)
+export const HAND_PROFILES=Object.freeze({
+  left: Object.freeze({
+    id:'left-framing',limit:.009,
+    index:{x:.58,y:.73,px:.48,py:.48,rx:.25,ry:.31},
+    thumb:{x:.72,y:.44,px:.55,py:.37,rx:.24,ry:.20},
+    indexAmplitude:.027,thumbAmplitude:.018,phase:.38
+  }),
+  right:Object.freeze({
+    id:'right-pointing',limit:.012,
+    index:{x:.27,y:.79,px:.43,py:.63,rx:.25,ry:.24},
+    thumb:{x:.28,y:.52,px:.45,py:.43,rx:.22,ry:.18},
+    indexAmplitude:.046,thumbAmplitude:.026,phase:1.16
+  })
+});
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function influence(u,v,b){
+  const x=(u-b.x)/b.rx,y=(v-b.y)/b.ry;
+  return Math.exp(-2.3*(x*x+y*y));
+}
+function rotated(u,v,p,a){
+  const dx=u-p.px,dy=v-p.py,s=Math.sin(a),c=Math.cos(a);
+  return [dx*c-dy*s-dx,dx*s+dy*c-dy];
+}
+export function deformHandVertices(rest,positions,uv,side,seconds,mouseX=0,mouseY=0,reduceMotion=false){
+  if(!HAND_PROFILES[side])throw new Error('Lado da mão não reconhecido');
+  if(rest.length!==positions.length||rest.length/3*2!==uv.length)
     throw new Error('Geometria de mãos incompatível');
-  const left=side==='left',sym=left?1:-1;
-  const look=reduceMotion?0:clamp(mouseX,-1,1);
-  const glance=reduceMotion?0:clamp(mouseY,-1,1);
-  const indexAngle=reduceMotion?0:(.018*Math.sin(seconds*.77+(left?.3:1.1))+.008*look)*sym;
-  const thumbAngle=reduceMotion?0:(.020*Math.sin(seconds*.56+(left?1.2:.6))-.009*glance)*sym;
-  const pivotIx=left?.27:.73,pivotIy=.26;
-  const pivotTx=left?.28:.72,pivotTy=.16;
-  // Pré-calcular seno/cosseno evita custo por vértice.
-  const si=Math.sin(indexAngle),ci=Math.cos(indexAngle);
-  const st=Math.sin(thumbAngle),ct=Math.cos(thumbAngle);
-  let maxDelta=0;
+  if(reduceMotion){positions.set(rest);return 0;}
+  const p=HAND_PROFILES[side];
+  const look=clamp(mouseX,-1,1),glance=clamp(mouseY,-1,1);
+  const indexAngle=p.indexAmplitude*Math.sin(seconds*.83+p.phase)+look*.012;
+  const thumbAngle=p.thumbAmplitude*Math.sin(seconds*.65+p.phase+1.4)-glance*.008;
+  let max=0;
   for(let i=0,n=rest.length/3;i<n;i++){
-    const j=i*3,k=i*2,u=uvLocal[k],v=uvLocal[k+1];
-    const wi=weight(u,v,left?.39:.61,.47,.25,.30);
-    const wt=weight(u,v,left?.48:.52,.105,.24,.15);
-    const diX=u-pivotIx,diY=v-pivotIy;
-    const dtX=u-pivotTx,dtY=v-pivotTy;
-    const du=(diX*ci-diY*si-diX)*wi+(dtX*ct-dtY*st-dtX)*wt;
-    const dv=(diX*si+diY*ci-diY)*wi+(dtX*st+dtY*ct-dtY)*wt;
-    // Limite técnico: nunca permitir deslocar um ponto > 1.2% da mão.
-    const dx=clamp(du,-.012,.012),dy=clamp(dv,-.012,.012);
+    const j=i*3,k=i*2,u=uv[k],v=uv[k+1];
+    const wi=influence(u,v,p.index),wt=influence(u,v,p.thumb);
+    const [ix,iy]=rotated(u,v,p.index,indexAngle);
+    const [tx,ty]=rotated(u,v,p.thumb,thumbAngle);
+    const dx=clamp(ix*wi+tx*wt,-p.limit,p.limit);
+    const dy=clamp(iy*wi+ty*wt,-p.limit,p.limit);
     positions[j]=rest[j]+dx;
     positions[j+1]=rest[j+1]+dy;
     positions[j+2]=rest[j+2];
-    maxDelta=Math.max(maxDelta,Math.abs(dx),Math.abs(dy));
+    max=Math.max(max,Math.abs(dx),Math.abs(dy));
   }
-  return maxDelta;
+  return max;
 }

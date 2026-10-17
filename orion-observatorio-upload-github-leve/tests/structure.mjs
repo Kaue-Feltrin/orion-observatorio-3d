@@ -256,5 +256,5 @@ const handMesh=await read('first-person-hands-mesh.js');
 const deformation=await read('hands-mesh-motion.js');
 assert.match(main,/createEtherealHandsMesh\(camera/,'malha ligada à mesma câmera');
 assert.match(handMesh,/deformHandVertices\(/,'malha deformada de fato, não transform CSS');
-assert.match(handMesh,/PlaneGeometry\(1,1,MESH_COLS,MESH_ROWS\)/,'malha subdividida');
+assert.match(handMesh,/PlaneGeometry\(1,1,config\.columns,config\.rows\)/,'duas malhas subdivididas independentes');
 assert.match(deformation,/\.012/,'limite evita anatomia deformada');

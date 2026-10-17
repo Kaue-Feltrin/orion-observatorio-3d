@@ -722,7 +722,6 @@ function tick(now){
  } else {
   beaconGlow.visible=false;
   starJourney.update(now,delta);
-  if(handsMode==='mesh')firstPersonHands.update(time,delta,mouse.x,mouse.y);
  }
  for(const mat of starMaterials){
    mat.uniforms.uTime.value=reduceMotion?0:time;

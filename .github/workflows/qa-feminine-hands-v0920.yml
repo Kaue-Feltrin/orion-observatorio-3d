@@ -1,0 +1,40 @@
+name: QA mãos femininas v0.9.20
+on:
+  push:
+    branches: [preview/independent-feminine-hands-v0920]
+  pull_request:
+    branches: [preview/mesh-hands-anim-v0919]
+permissions:
+  contents: read
+jobs:
+  feminine-hands:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: orion-observatorio-upload-github-leve
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Dependências
+        run: npm install --no-audit --no-fund
+      - name: Exigir ambos os WebPs
+        run: test -s public/overlay/left-hand-ethereal.webp && test -s public/overlay/right-hand-pointing.webp
+      - name: Testar movimentos independentes
+        run: node tests/hands-mesh.unit.mjs
+      - name: Verificação estrutural
+        run: npm run check
+      - name: Compilar prévia
+        run: npm run build
+      - name: Instalar Chromium
+        run: npx playwright install --with-deps chromium
+      - name: QA real no navegador com screenshots
+        run: npx playwright test tests/hands-mesh.spec.js --workers=1 --retries=0 --reporter=line
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v0920-mãos-femininas-capturas
+          path: orion-observatorio-upload-github-leve/test-results
+          retention-days: 7
