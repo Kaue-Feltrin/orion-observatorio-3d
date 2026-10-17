@@ -159,3 +159,26 @@ rgba(187,150,225,.28) 51%,rgba(10,6,27,0) 80%);opacity:0}
 .perf-ab-inspector .perf-values{overflow-wrap:anywhere}
 .perf-ab-inspector .perf-depth-compare{display:block}
 .perf-ab-inspector #orionHandsABStatus:empty{display:none}
+
+
+/* v0.9.18 — animação 2,5D com fidelidade exata da composição selecionada. */
+.orion-ethereal-hands{
+  position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden;
+  user-select:none;-webkit-user-select:none;opacity:0;
+  transition:opacity .33s ease;
+}
+.orion-ethereal-hands.is-ready{opacity:1}
+.orion-ethereal-hands.is-leaving{opacity:0;transition-duration:.24s}
+.orion-ethereal-hand{
+  position:absolute;bottom:0;
+  width:calc(100dvh * 1.77683316);height:100dvh;
+  will-change:transform;transform:translate3d(0,0,0);
+  pointer-events:none;contain:layout style;
+}
+.orion-ethereal-hand--left{left:0;clip-path:inset(0 50% 0 0)}
+.orion-ethereal-hand--right{right:0;clip-path:inset(0 0 0 50%)}
+.orion-ethereal-hand img{display:block;width:100%;height:100%;object-fit:fill;max-width:none;pointer-events:none}
+@media (prefers-reduced-motion:reduce){
+ .orion-ethereal-hand{will-change:auto;transform:none!important}
+ .orion-ethereal-hands{transition:none}
+}
