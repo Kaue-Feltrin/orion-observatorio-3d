@@ -40,7 +40,7 @@ const foregroundEnabled=params.get('foreground')!=='off';
 // de toque por padrão. ?hands=on permite testar; ?hands=off restaura v0.9.9.
 // Rig artístico CC0 padrão; ?hands=3d conserva modelo anterior e ?hands=2d o plano.
 const handsSetting=params.get('hands');
-const handsEnabled=['on','fps','vr','rig','3d','2d','overlay'].includes(handsSetting)||(handsSetting!=='off'&&!mobile);
+const handsEnabled=(['on','fps','vr','rig','3d','2d'].includes(handsSetting)||handsSetting==='overlay')||(handsSetting!=='off'&&!mobile);
 // Nova prévia de arte anatômica: WRAD retrô continua disponível apenas via ?hands=rig.
 const handsMode=handsSetting==='2d'?'2d':handsSetting==='3d'?'3d':handsSetting==='rig'?'rig':handsSetting==='vr'?'vr':handsSetting==='fps'?'fps':'overlay';
 const fpsHandsCredit=document.getElementById('fpsHandsCredit');
