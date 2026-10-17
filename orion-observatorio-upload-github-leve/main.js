@@ -512,8 +512,8 @@ function setHover(state) {
   card.setAttribute('aria-hidden',String(!state));
   hint.textContent=state?'Nox · Clique para atravessar o véu':'Concentre seu olhar sobre uma estrela';
 }
-target.addEventListener('mouseenter',()=>{if(!mobile){setHover(true);firstPersonHands.setStarHovered?.(true);}});
-target.addEventListener('mouseleave',()=>{if(!mobile){setHover(false);firstPersonHands.setStarHovered?.(false);}});
+target.addEventListener('mouseenter',()=>{if(!mobile)setHover(true);});
+target.addEventListener('mouseleave',()=>{if(!mobile)setHover(false);});
 target.addEventListener('focus',()=>setHover(true));
 target.addEventListener('blur',()=>{if(!mobile)setHover(false)});
 const armClick=(e)=>{
@@ -547,6 +547,11 @@ window.addEventListener('pointermove',e=>{
   firstPersonHands.setStarHovered?.(aimed);
   if(cardVisible!==aimed && document.activeElement!==target)setHover(aimed);
 },{passive:true});
+// Sair da janela ou trocar de aba não produz necessariamente pointermove.
+// Foco por teclado e toque continuam sem ativar o apontamento das mãos.
+const resetHandHover=()=>firstPersonHands.setStarHovered?.(false);
+document.documentElement.addEventListener('pointerleave',resetHandHover);
+window.addEventListener('blur',resetHandHover);
 window.addEventListener('pointerdown',e=>{
   if(e.pointerType==='touch'||travelling||e.button!==0)return;
   if(e.target.closest('a,button,input,.debug'))return;
@@ -651,6 +656,7 @@ function adaptPerformance(now,frameMs){
   }
 }
 document.addEventListener('visibilitychange',()=>{
+  if(document.hidden)resetHandHover();
   if(!document.hidden){lastFrame=performance.now();monitorSince=lastFrame;monitorSum=0;monitorFrames=0;performancePanel?.reset();}
 });
 let bloomTick=0;
@@ -718,13 +724,14 @@ function tick(now){
   orbitRing.material.opacity=0;
   // Nebulosa recebe o alvo direto do mouse; câmera mantém smoothing próprio.
   nebulaVolume.update(time,mouse.x,mouse.y,delta);
-  firstPersonHands.update(time,delta,mouse.x,mouse.y);
   flash.style.opacity='0';
   flash.style.setProperty('--veil-opacity','0');
  } else {
   beaconGlow.visible=false;
   starJourney.update(now,delta);
  }
+ // A retirada das mãos precisa continuar durante a viagem, no mesmo loop.
+ firstPersonHands.update(time,delta,mouse.x,mouse.y);
  for(const mat of starMaterials){
    mat.uniforms.uTime.value=reduceMotion?0:time;
    mat.uniforms.uOpacity.value=mat.userData.baseOpacity*(travelling?1.24:1);

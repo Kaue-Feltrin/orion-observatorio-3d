@@ -1,14 +1,14 @@
-// Observatório v0.9.20: mãos femininas etéreas em duas malhas independentes.
-// Arte: duas imagens PNG/WebP RGBA, câmera e loop de renderização já existentes.
+// Observatório v0.9.21: mãos nas bordas; direita neutra fora do hover do Nox.
+// Mesma câmera e mesmo loop; as duas poses direitas compartilham geometria.
 import * as THREE from 'three';
 import {MESH_COLS,MESH_ROWS,deformHandVertices,HAND_PROFILES} from './hands-mesh-motion.js';
 
 const HANDS=Object.freeze({
- left:{file:'/overlay/left-hand-ethereal.webp',baseOpacity:.44,height:.56,
-   screenLeft:.105,screenTop:.57,swayX:-.010,swayY:-.010,breath:.0044,phase:.45,
+ left:{file:'/overlay/left-hand-ethereal.webp',baseOpacity:.38,height:.53,
+   edgeInset:-.018,bottom:-.035,swayX:-.006,swayY:-.005,breath:.003,phase:.45,
    pointer:false,columns:MESH_COLS,rows:MESH_ROWS},
- right:{file:'/overlay/right-hand-pointing.webp',baseOpacity:.49,height:.62,
-   screenLeft:.725,screenTop:.54,swayX:-.018,swayY:-.014,breath:.007,phase:1.15,
+ right:{file:'/overlay/right-hand-pointing.webp',neutralFile:'/overlay/right-hand-neutral.webp',baseOpacity:.46,height:.60,
+   edgeInset:-.018,bottom:-.035,swayX:-.006,swayY:-.005,breath:.003,phase:1.15,
    pointer:true,columns:36,rows:28}
 });
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -37,11 +37,12 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
  }
  function place(hand,fx=0,fy=0){
    const v=viewport(),c=hand.config;
-   const h=v.height*c.height,w=h*hand.aspect;
+   // Cap horizontal protege o centro também em janelas estreitas/portrait.
+   const h=Math.min(v.height*c.height,v.width*.28/hand.aspect),w=h*hand.aspect;
    hand.mesh.scale.set(w,h,1);
-   // (0,0) em screenLeft/screenTop = canto superior esquerdo da janela.
-   const x=-v.width/2+(c.screenLeft+fx)*v.width+w/2;
-   const y=v.height/2-(c.screenTop+fy)*v.height-h/2;
+   const x=(hand.side==='left'?-v.width/2+c.edgeInset*v.width+w/2:
+     v.width/2-c.edgeInset*v.width-w/2)+fx*v.width;
+   const y=-v.height/2+(c.bottom+fy)*v.height+h/2;
    hand.mesh.position.set(x,y,-v.depth);
  }
  function resize(){
@@ -52,14 +53,16 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      neutralMesh.position.copy(meshes[1].position);
    }
  }
- const ready=Promise.all([load(HANDS.left.file),load(HANDS.right.file)]).then(loaded=>{
+ const ready=Promise.all([load(HANDS.left.file),load(HANDS.right.file),load(HANDS.right.neutralFile)]).then(loaded=>{
    if(disposed){loaded.forEach(tex=>tex.dispose());return false;}
-   for(let i=0;i<2;i++){
-     const side=i===0?'left':'right',config=HANDS[side],texture=loaded[i];
+   for(const texture of loaded){
      texture.colorSpace=THREE.SRGBColorSpace;
      texture.magFilter=THREE.LinearFilter;
      texture.minFilter=THREE.LinearMipmapLinearFilter;
      textures.push(texture);
+   }
+   for(let i=0;i<2;i++){
+     const side=i===0?'left':'right',config=HANDS[side],texture=loaded[i];
      const geom=new THREE.PlaneGeometry(1,1,config.columns,config.rows);
      const pos=geom.getAttribute('position'),uv=geom.getAttribute('uv');
      const rest=new Float32Array(pos.array),uvLocal=new Float32Array(uv.array);
@@ -92,16 +95,12 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      const hand={side,config,mesh,rest,uvLocal,aspect:width/height};
      hands.push(hand);place(hand);
    }
-   // Pose neutra da direita: malha espelhada da arte de enquadramento já
-   // licenciada no projeto. O asset independente poderá substituí-la sem
-   // mudar a lógica de interação ou de animação.
-   const neutralGeometry=meshes[0].geometry.clone();
-   const neutralUV=neutralGeometry.getAttribute('uv');
-   for(let j=0;j<neutralUV.count;j++)neutralUV.setX(j,1-neutralUV.getX(j));
-   neutralUV.needsUpdate=true;
+   // Asset neutro próprio, com palma/punho alinhados ao apontamento.
+   // Compartilhar a malha mantém a mesma deformação durante o blend.
+   const neutralGeometry=meshes[1].geometry;
    const neutralMaterial=new THREE.MeshBasicMaterial({
-     map:textures[0],transparent:true,opacity:HANDS.right.baseOpacity,
-     side:THREE.DoubleSide,depthTest:false,depthWrite:false,toneMapped:false
+     map:textures[2],transparent:true,opacity:HANDS.right.baseOpacity,
+     side:THREE.DoubleSide,depthTest:false,depthWrite:false,toneMapped:false,vertexColors:true
    });
    neutralMesh=new THREE.Mesh(neutralGeometry,neutralMaterial);
    neutralMesh.name='OrionFeminineRightNeutral';
@@ -111,12 +110,12 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    neutralMesh.scale.copy(meshes[1].scale);
    neutralMesh.position.copy(meshes[1].position);
    state.loaded=true;state.visible=true;
-   state.textureCount=2;state.drawSurfaces=2;
-   state.triangles=hands.reduce((n,h)=>n+h.config.columns*h.config.rows*2,0);
+   state.textureCount=3;
    root.visible=true;complete=true;
+   update(0,0);
    return true;
  }).catch(err=>{
-   state.loadError='Falha ao carregar os dois assets das mãos';
+   state.loadError='Falha ao carregar os assets das mãos';
    state.loaded=false;state.visible=false;root.visible=false;
    textures.forEach(t=>t.dispose());
    console.warn('[Observatório] Assets das mãos indisponíveis',err);
@@ -134,7 +133,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    pointBlend=reducedMotion?desired:pointBlend+(desired-pointBlend)*(1-Math.exp(-step*9.5));
    pointBlend=clamp(pointBlend,0,1);
    state.rightBlend=pointBlend;
-   if(alpha===0){root.visible=false;state.visible=false;return;}
+   if(alpha===0){root.visible=false;state.visible=false;state.drawSurfaces=0;state.triangles=0;return;}
    let max=0;
    for(const hand of hands){
      const c=hand.config,{mesh,rest,uvLocal}=hand;
@@ -153,20 +152,22 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    if(neutralMesh&&meshes[1]){
      neutralMesh.position.copy(meshes[1].position);
      neutralMesh.scale.copy(meshes[1].scale);
-     neutralMesh.rotation.z=meshes[1].rotation.z*.5;
+     neutralMesh.rotation.z=meshes[1].rotation.z;
      neutralMesh.material.opacity=HANDS.right.baseOpacity*alpha*(1-pointBlend);
    }
    meshes[1].visible=pointBlend>.003;
-     if(neutralMesh)neutralMesh.visible=pointBlend<.997;
-     state.drawSurfaces=pointBlend>.003&&pointBlend<.997?3:2;
-     state.maxVertexDelta=max;
+   neutralMesh.visible=pointBlend<.997;
+   state.drawSurfaces=1+Number(meshes[1].visible)+Number(neutralMesh.visible);
+   state.triangles=HANDS.left.columns*HANDS.left.rows*2+
+     (state.drawSurfaces-1)*HANDS.right.columns*HANDS.right.rows*2;
+   state.maxVertexDelta=max;
  }
  function setStarHovered(v){starHovered=!!v&&!travel;state.rightHover=starHovered;}
  function beginTravel(){travel=true;setStarHovered(false);}
  function dispose(){
    if(disposed)return;disposed=true;root.visible=false;
    for(const m of meshes){m.geometry.dispose();m.material.dispose();root.remove(m);}
-   if(neutralMesh){neutralMesh.geometry.dispose();neutralMesh.material.dispose();root.remove(neutralMesh);}
+   if(neutralMesh){neutralMesh.material.dispose();root.remove(neutralMesh);}
    for(const t of textures)t.dispose();
    camera.remove(root);
    meshes.length=0;hands.length=0;

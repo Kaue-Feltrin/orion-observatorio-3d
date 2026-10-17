@@ -1,3 +1,14 @@
+## 17/10/2026 — v0.9.21: mãos nas bordas e apontamento contextual
+
+- Base remota conferida antes das alterações: `preview/star-hover-hands-v0921`, `2a2c6a06157cc6141d81842f1f8d37dd8c54aaa1`. Trabalho exclusivo na nova branch `codex/finalizar-maos-etereas-v0921`; PR destinado à branch de referência, sem alterar `main`.
+- Uma mão em cada extremidade, esquerda discreta; largura dos planos limitada a 28% da janela. A direita possui novo asset neutro próprio (`right-hand-neutral.webp`), gerado a partir do asset direito existente, sem espelhar a esquerda. Assets anteriores preservados.
+- Raycaster do Nox como único gatilho de apontamento; retorno suave ao sair e reset em saída da janela, blur, aba oculta e viagem. Movimento reduzido respeitado. Corrigida a chamada de update das mãos durante a viagem para permitir o fade que já existia no módulo.
+- Mesmo renderizador/loop, sem novo shader. Geometria compartilhada entre as poses direitas, 2 draws estáveis/3 transitórios e 3 texturas de mãos. A textura adicional ocupa aproximadamente 104 KiB em disco. Nenhuma alegação de FPS/RAM no PC do usuário.
+- Validação final: `npm run check`, `NODE_USE_ENV_PROXY=1 npm run build`, `node tests/hands-mesh.unit.mjs`, `node tests/hands-hover.unit.mjs` e **8/8 testes Playwright selecionados no build de produção, sem retries**. Testes de bordas/poses em 1755×865, 1920×951 e 390×844, reduced-motion, off, saída/blur/aba e regressões de Nox/câmera/navegação.
+- [Comparação visual e protocolo](docs/qa/v0921/README.md). [Contexto completo cumulativo](CONTEXTO_COMPLETO_CUMULATIVO.md): preserva integralmente o documento anexado e acrescenta o checkpoint desta etapa.
+- Fotografia ESO, Nox, bloom, câmera, painel, viagem e demais componentes preservados. O acesso a `cdn.eso.org` foi restabelecido na configuração do ambiente; TLS mantido. Aviso do chunk Vite acima de 500 KiB permanece fora deste escopo.
+- Pendente: revisão artística do usuário, métricas no seu hardware e eventual promoção expressamente autorizada. Nenhum merge ou deploy de produção executado. A tarefa termina nesta etapa.
+
 ## Etapa v0.9.16 — benchmark A/B das mãos FPS (16/10/2026)
 
 - Usuário pediu continuar o Observatório v0.9.15 e solicitou **um arquivo de contexto novo em cada resposta**, para retomar integralmente o trabalho em outro chat. A fonte permanente ainda é este arquivo + PRs/GitHub; respostas devem anexar um Markdown atualizado em `/mnt/data`.
