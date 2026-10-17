@@ -1,0 +1,33 @@
+name: QA hands overlay v0.9.18
+on:
+  push:
+    branches: [preview/ethereal-hands-overlay-v0918]
+  pull_request:
+    branches: [preview/fps-frame-hands-v0917]
+permissions:
+  contents: read
+jobs:
+  unit-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    defaults:
+      run:
+        working-directory: orion-observatorio-upload-github-leve
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install
+        run: npm install --no-audit --no-fund
+      - name: Scene regression structure
+        run: npm run check
+      - name: Overlay reduced-motion and animation unit QA
+        run: node tests/hands-overlay.unit.mjs
+      - name: Compile site
+        run: npm run build
+      - name: Check binary artwork presence
+        run: |
+          if [ ! -s public/overlay/orion-hands-frame.webp ]; then
+            echo "::warning::Imagem 2,5D ainda não enviada para public/overlay/orion-hands-frame.webp. Código aprovado ≠ deploy visual aprovado."
+          fi
