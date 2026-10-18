@@ -1,3 +1,11 @@
+## 18/10/2026 — ponta do indicador achatada no repouso
+
+- Base remota `0fd3f62` conferida antes de alterar, Cloudflare aprovado e CI geral ainda em execução. Usuário apontou somente a ponta com aspecto quebrado.
+- O morph reduzia o trecho x=150 de 69 para 22 pixels de espessura (~32%), por usar o contorno da ponta antiga sobre a falange da imagem atual. Contorno local recalibrado para preservar a espessura; arco de repouso ajustado para acomodá-la. Apontamento final e demais dedos preservados. Sem redesenhar assets.
+- Regressão mede alpha real em quatro colunas da ponta/falange e exige espessura entre 90–110% em cinco estágios, além dos testes anteriores sem limites relaxados. Código apenas em hands-perspective-motion.js e seu teste unitário. Ver [evidências e resultado](docs/rig-mmv/fingertip/README.md).
+- Check/build, quatro suítes unitárias e 4/4 casos de navegador da perspectiva aprovados, sem retries, em 1,8 min. Nove posições e antes/depois inspecionados. Recursos preservados; CI remoto da rodada a conferir após push.
+- Mesmo PR #29/branch, sem main/merge. Ação do usuário ao receber prévia: conferir a ponta parada e ao entrar/sair do hover do Nox. Sem nova configuração/upload necessário. Encerrar esta etapa sem melhorias adicionais.
+
 ## 18/10/2026 — quinas no indicador e nos três dedos (ambos confirmados)
 
 - Base remota `29a571d` conferida com CI e Cloudflare aprovados. Usuário ainda observou aspecto quebrado e confirmou ambos: indicador e três dedos dobrados.

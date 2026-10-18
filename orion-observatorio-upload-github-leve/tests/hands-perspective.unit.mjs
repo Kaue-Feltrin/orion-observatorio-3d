@@ -44,6 +44,24 @@ for(let u=.33;u<=1;u+=.01)for(let v=0;v<=1;v+=.01)
 for(let stage=0;stage<4;stage++)for(const [u,v] of [[350/1122,1-520/1402],[.20,.50],[.29,.46],[.38,.46]])
   assert.equal(mapPerspectiveIndexV(4,stage,u,v),v,'articulação do médio e pontas dos três dedos fora do morph');
 
+// Regressão da ponta achatada: medir o trecho real da imagem, não só o
+// landmark central. A ponta e a falange distal não podem virar uma lâmina.
+const {data:rgba,info}=await asset.clone().ensureAlpha().raw().toBuffer({resolveWithObject:true});
+for(const x of [100,150,180,220]){
+  let top,bottom;
+  for(let y=220;y<600;y++){
+    const alpha=rgba[(y*info.width+x)*4+3];
+    if(top===undefined&&alpha>64)top=y;
+    if(top!==undefined&&alpha<=64){bottom=y-1;break;}
+  }
+  assert.ok(bottom>top,'ponta/falange presente na arte');
+  const u=x/info.width,high=1-top/info.height,low=1-bottom/info.height;
+  for(let stage=0;stage<=4;stage++){
+    const ratio=(mapPerspectiveIndexV(4,stage,u,high)-mapPerspectiveIndexV(4,stage,u,low))/(high-low);
+    assert.ok(ratio>.90&&ratio<1.10,'espessura preservada na ponta x='+x+', estágio='+stage+': '+ratio);
+  }
+}
+
 const originalLoad=THREE.TextureLoader.prototype.load,requests=[];
 THREE.TextureLoader.prototype.load=function(file,onLoad){
   requests.push(file);queueMicrotask(()=>onLoad(new THREE.Texture({width:1122,height:1402})));
@@ -100,7 +118,7 @@ try{
       const [x,y,z]=ids.map(k=>new THREE.Vector3().fromBufferAttribute(pos,k));
       const rest=(y.x-x.x)*(z.y-x.y)-(y.y-x.y)*(z.x-x.x);
       minArea=Math.min(minArea,area/rest);maxArea=Math.max(maxArea,area/rest);
-      assert.ok(area/rest>.10&&area/rest<4,'sem inversão/compressão extrema: '+area/rest);
+      assert.ok(area/rest>.10&&area/rest<4,'sem inversão/compressão extrema: '+area/rest+' progresso='+sample/40+' tempo='+time+' UV='+ids.map(k=>[uv.getX(k),uv.getY(k)]).join(';'));
     }
   }
   for(const target of g.morphAttributes.position.slice(0,4))for(let j=0;j<uv.count;j++)if(uv.getY(j)<=.54){

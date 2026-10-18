@@ -1,6 +1,6 @@
 # Protótipo MMV das mãos
 
-Revisão atual: [contornos suaves do indicador e dos três dedos dobrados](smooth/README.md). A revisão de imagem inteira em `continuous/` ainda recebeu feedback de quinas e foi refinada nesta rodada. A tentativa de separar o indicador em `fingers/` foi rejeitada pelo usuário e substituída.
+Revisão atual: [ponta do indicador sem compressão](fingertip/README.md). O refinamento dos outros contornos está registrado em [smooth/](smooth/README.md). A revisão de imagem inteira em `continuous/` ainda recebeu feedback de quinas e foi refinada nesta rodada. A tentativa de separar o indicador em `fingers/` foi rejeitada pelo usuário e substituída.
 
 Nova avaliação autorizada: [três poses intermediárias e apontamento com perspectiva](perspective/README.md), ativada por `handsMotion=perspective`. O rig descrito abaixo continua disponível para comparação.
 

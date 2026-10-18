@@ -1,3 +1,5 @@
+> Continuação: [correção localizada da ponta do indicador no repouso](../fingertip/README.md). As capturas abaixo são da etapa anterior.
+
 # Contornos suaves do indicador e dos três dedos dobrados
 
 Feedback do usuário sobre `29a571d`: ainda parecia quebrado; confirmou **ambos**, indicador e três dedos dobrados. Base GitHub conferida antes de alterar, com CI completo e Cloudflare aprovados. Mesma branch `codex/maos-rig-mmv`, PR #29, sem modificar main ou a branch de referência.

@@ -961,3 +961,19 @@ Check/build e quatro suítes unitárias aprovados. 13/13 casos de navegador pass
 A/B real: rig anterior 29 → perspectiva 26 texturas, igual à rodada anterior. Duas imagens, dois rigs/18 controles, duas superfícies/11904 triângulos (antes 3552). Arrays base 501312 bytes, morphs 319740 bytes, dados de skeleton 2048 bytes. Não representam RAM/VRAM totais ou FPS físico. Nenhuma dependência ou renderer/loop novo.
 
 Arquivos de código: first-person-hands-mesh.js, hands-image-rig.js e hands-perspective-motion.js. Testes hands-perspective.unit.mjs e hands-perspective.spec.js, novo asset e documentação/evidências/contexto. Procedência, hashes, variante de referência e conversão sem resize/crop em docs/rig-mmv/smooth/asset.json. Mesma branch/PR #29. CI remoto desta rodada a conferir após push. Não afirmar aceite artístico; usuário deve conferir indicador e três dedos na nova prévia. Sem configuração/upload/credenciais necessários; não alterar main nem começar outra etapa.
+
+
+---
+
+## 18/10/2026 — ponta do indicador achatada no repouso
+
+- Base remota `0fd3f62` conferida antes de alterar, Cloudflare aprovado e CI geral ainda em execução. Usuário apontou somente a ponta com aspecto quebrado.
+- O morph reduzia o trecho x=150 de 69 para 22 pixels de espessura (~32%), por usar o contorno da ponta antiga sobre a falange da imagem atual. Contorno local recalibrado para preservar a espessura; arco de repouso ajustado para acomodá-la. Apontamento final e demais dedos preservados. Sem redesenhar assets.
+- Regressão mede alpha real em quatro colunas da ponta/falange e exige espessura entre 90–110% em cinco estágios, além dos testes anteriores sem limites relaxados. Código apenas em hands-perspective-motion.js e seu teste unitário. Ver [evidências e resultado](docs/rig-mmv/fingertip/README.md).
+- Mesmo PR #29/branch, sem main/merge. Ação do usuário ao receber prévia: conferir a ponta parada e ao entrar/sair do hover do Nox. Sem nova configuração/upload necessário. Encerrar esta etapa sem melhorias adicionais.
+
+### Resultado local da correção da ponta
+
+Check/build, quatro suítes unitárias e 4/4 casos de navegador da perspectiva aprovados, sem retries, em 1,8 min. Nove posições e antes/depois inspecionados: ponta arredondada no repouso e espessura preservada nos intermediários; desenho do apontamento final mantido. Regressão lê alpha real do WebP em quatro colunas e exige 90–110% da espessura em cinco estágios (x=150 passou de ~32% para 100%). Área relativa dos triângulos 0,1141–1,7117 em 41 progressos/quatro instantes, sem relaxar os limites anteriores. Incluídos hover real/retorno, viagem, shader, reduced/off, descarte e enquadramento/landmarks em desktop/celular. Os modos anteriores não usam o contorno alterado e suas regressões já haviam passado na etapa anterior.
+
+Evidências em docs/rig-mmv/fingertip/: comparison.webp, poses.webp, capturas e metrics.json. Sem vídeo novo para esta alteração localizada; imagens e recursos preservados (26 texturas, duas imagens, 18 controles, duas superfícies/11904 triângulos). Código apenas em hands-perspective-motion.js, regressão em tests/hands-perspective.unit.mjs, mais documentação/contexto. Nenhum asset alterado. Mesma branch/PR #29; CI remoto do novo commit a conferir após push. Ação do usuário: avaliar a ponta no repouso e ao entrar/sair do hover na nova prévia. Sem configurar/upload/credenciais; não alterar main nem iniciar outra etapa.

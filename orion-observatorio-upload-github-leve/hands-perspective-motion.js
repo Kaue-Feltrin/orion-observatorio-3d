@@ -9,9 +9,11 @@ export const PERSPECTIVE_FRAMES=Object.freeze([
 export const HAND_REACH_DEPTH=.14;
 
 // Contorno neutro e extensão distal: a base do indicador permanece ancorada.
+// Preserva a espessura da ponta ao dobrar; não comprimir a nova arte
+// contra o contorno fino da antiga ponta, cuja posição era diferente.
 // Interpolação Hermite monotônica evita as quinas entre colunas lineares.
 const COLUMNS=[100,150,180,220,270,320,370,420,480,530];
-const NEUTRAL=[[520,540],[486,508],[460,522],[425,516],[401,487],[390,477],[416,510],[439,550],[477,590],[501,620]];
+const NEUTRAL=[[500,519],[465,534],[450,522],[425,504],[401,485],[390,475],[416,510],[439,550],[477,590],[501,620]];
 const EXTENDED=[[335,354],[333,402],[344,416],[358,437],[379,463],[399,484],[416,510],[439,550],[477,590],[501,620]];
 const CONTOURS=[0,.25,.5,.75,1].map(p=>NEUTRAL.map((point,i)=>
   point.map((y,j)=>y+(EXTENDED[i][j]-y)*p)));
