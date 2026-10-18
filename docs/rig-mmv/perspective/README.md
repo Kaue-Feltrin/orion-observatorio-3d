@@ -1,6 +1,6 @@
 # Apontamento com poses intermediárias e perspectiva
 
-Este documento registra a primeira sequência (`95566fe`). A tentativa posterior de separar o indicador em `fingers/` foi rejeitada pelo usuário por quebrar a anatomia. [Revisão atual com a mão inteira, sem recortes ou crossfade](../continuous/README.md). As medidas abaixo pertencem à primeira sequência.
+Este documento registra a primeira sequência (`95566fe`). A tentativa posterior de separar o indicador em `fingers/` foi rejeitada pelo usuário por quebrar a anatomia. [Revisão atual com a mão inteira, sem recortes ou crossfade](../smooth/README.md). As medidas abaixo pertencem à primeira sequência.
 
 Base conferida: `c3dce97` na branch `codex/maos-rig-mmv`, PR #29. CI completo e Cloudflare da base aprovados. Usuário autorizou três poses intermediárias com pequena mudança de perspectiva, mantendo proporção e visual etéreo. Trabalho apenas na prévia.
 

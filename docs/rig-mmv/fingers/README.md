@@ -1,4 +1,4 @@
-> **Revisão rejeitada pelo usuário:** a emenda do indicador quebrou a anatomia. Esta pasta é histórica. [Correção atual com a mão inteira](../continuous/README.md). As afirmações de continuidade abaixo não constituem aceite visual.
+> **Revisão rejeitada pelo usuário:** a emenda do indicador quebrou a anatomia. Esta pasta é histórica. [Correção atual com a mão inteira](../smooth/README.md). As afirmações de continuidade abaixo não constituem aceite visual.
 
 # Correção da transição dos dedos recolhidos
 

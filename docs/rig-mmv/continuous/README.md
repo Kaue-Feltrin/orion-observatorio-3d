@@ -1,3 +1,5 @@
+> **Revisão anterior (`29a571d`):** o usuário ainda observou quinas no indicador e nos três dedos dobrados. [Revisão atual](../smooth/README.md). As medidas e evidências abaixo são históricas.
+
 # Mão inteira, sem recortes ou crossfade
 
 A revisão `41071db` foi rejeitada pelo usuário: o recorte do indicador sobre a mão neutra criou uma emenda visível e anatomia quebrada. Os testes funcionais anteriores não detectaram esse defeito artístico. As evidências de `fingers/` são históricas e não representam uma correção aceita.

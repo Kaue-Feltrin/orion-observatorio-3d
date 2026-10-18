@@ -61,7 +61,7 @@ test('perspectiva deforma mão inteira sem fades, com intermediários e hover re
   expect(idle.state.joints).toBe(18);expect(idle.state.drawSurfaces).toBe(2);
   expect(idle.state.rightFrameWeights).toEqual([1,0,0,0,0]);framing(idle);
   expect(requests.filter(url=>/right-hand-reach-/.test(url))).toHaveLength(0);
-  expect(requests.some(url=>/right-hand-pointing/.test(url))).toBe(false);
+  expect(requests.some(url=>/right-hand-pointing\.webp/.test(url))).toBe(false);
   await page.evaluate(()=>{
     document.querySelector('#debug').hidden=true;
     window.__sequenceSamples=[];window.__sequenceSampling=true;
@@ -147,7 +147,7 @@ test('registra nove poses da mesma mão, incluindo meios das transições',async
     },step/8);
     expect(result.progress).toBeCloseTo(step/8,2);
     expect(result.opacity).toBe(.46);expect(result.draws).toBe(2);
-    expect(result.map).toContain('right-hand-neutral.webp');
+    expect(result.map).toContain('right-hand-pointing-smooth.webp');
     await page.screenshot({path:test.info().outputPath('pose-'+step+'.png'),clip:{x:1360,y:490,width:560,height:590}});
   }
 });

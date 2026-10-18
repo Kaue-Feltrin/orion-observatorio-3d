@@ -25,6 +25,7 @@ const PROFILES={
     ring:[.52,.55],ringTip:[.29,.46],little:[.57,.52],littleTip:[.38,.46],phase:1.2
   }
 };
+PROFILES.perspective={...PROFILES.neutral,indexDistal:[.28,.72],indexTip:[.10,.75]};
 const CONTROLS=[
   ['wrist',null,.014,.70],['palm','wrist',.009,.81],
   ['index','palm',.030,1.03],['indexDistal','index',.039,1.12],
@@ -114,11 +115,14 @@ export function createHandImageRig(geometry,material,pose,{perspective=false}={}
   if(pose!=='left'){
     const positions=geometry.getAttribute('position'),targets=[];
     if(perspective){
-      // A textura neutra inteira percorre os quatro contornos medidos.
+      // A imagem íntegra já apontando se dobra até os contornos de repouso.
       // Os demais dedos continuam na mesma imagem: sem emenda ou crossfade.
-      for(let neighbor=1;neighbor<=4;neighbor++){
+      for(let neighbor=0;neighbor<4;neighbor++){
         const target=new Float32Array(positions.array);
-        for(let i=0;i<uv.count;i++)target[i*3+1]+=mapPerspectiveIndexV(0,neighbor,uv.getX(i),uv.getY(i))-uv.getY(i);
+        for(let i=0;i<uv.count;i++){
+          const u=uv.getX(i),v=uv.getY(i);
+          target[i*3+1]+=mapPerspectiveIndexV(4,neighbor,u,v)-v;
+        }
         targets.push(new THREE.Float32BufferAttribute(target,3));
       }
     }
@@ -153,7 +157,7 @@ export function createHandImageRig(geometry,material,pose,{perspective=false}={}
       // anterior, duas texturas compartilham o estágio do indicador.
       if(perspective){
         const weights=perspectiveFrameWeights(progress);
-        for(let i=0;i<4;i++)mesh.morphTargetInfluences[i]=weights[i+1];
+        for(let i=0;i<4;i++)mesh.morphTargetInfluences[i]=weights[i];
         mesh.morphTargetInfluences[4]=reducedMotion?0:progress;
       }else mesh.morphTargetInfluences[0]=reducedMotion?0:pose==='neutral'?progress:1-progress;
     }

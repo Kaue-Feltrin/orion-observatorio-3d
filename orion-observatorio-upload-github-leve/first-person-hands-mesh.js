@@ -61,7 +61,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    }
  }
  // Uma imagem íntegra por mão: nenhum recorte nem troca de alpha no gesto.
- const files=usePerspective?[HANDS.left.file,HANDS.right.neutralFile]:
+ const files=usePerspective?[HANDS.left.file,'/overlay/right-hand-pointing-smooth.webp']:
    [HANDS.left.file,HANDS.right.file,HANDS.right.neutralFile];
  const ready=Promise.all(files.map(load)).then(loaded=>{
    if(disposed){loaded.forEach(tex=>tex.dispose());return false;}
@@ -72,9 +72,21 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      textures.push(texture);
    }
    for(let i=0;i<2;i++){
-     const side=i===0?'left':'right',config=HANDS[side],texture=loaded[i];
+     const side=i===0?'left':'right',texture=loaded[i];
+     // Mais amostras só no modo em perspectiva: dedos sem facetas visíveis.
+     const config=usePerspective&&side==='right'?{...HANDS[side],columns:72,rows:72}:HANDS[side];
      const geom=new THREE.PlaneGeometry(1,1,config.columns,config.rows);
      const pos=geom.getAttribute('position'),uv=geom.getAttribute('uv');
+     if(usePerspective&&side==='right'){
+       // Concentra 56 das 72 faixas em todos os dedos (UV .38–.85).
+       // O contorno ganha amostras sem subdividir todo o antebraço igualmente.
+       for(let j=0;j<uv.count;j++){
+         const v=uv.getY(j),lower=10/72,upper=66/72;
+         const refined=v<=lower?v/lower*.38:v<=upper?
+           .38+(v-lower)/(upper-lower)*.47:.85+(v-upper)/(1-upper)*.15;
+         uv.setY(j,refined);pos.setY(j,refined-.5);
+       }
+     }
      const rest=new Float32Array(pos.array),uvLocal=new Float32Array(uv.array);
      if(side==='right'){
        // A arte termina antes da borda do sprite: zerar o alpha antes desse
@@ -96,7 +108,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
        side:THREE.DoubleSide,depthTest:false,depthWrite:false,toneMapped:false,
        vertexColors:side==='right'
      });
-     const rig=useRig?createHandImageRig(geom,material,side==='left'?'left':usePerspective?'neutral':'pointing',
+     const rig=useRig?createHandImageRig(geom,material,side==='left'?'left':usePerspective?'perspective':'pointing',
        {perspective:usePerspective&&side==='right'}):null;
      if(rig)rigs.push(rig);
      const mesh=rig?rig.mesh:new THREE.Mesh(geom,material);
@@ -196,8 +208,8 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      state.rightDepth=reducedMotion?0:pointBlend*HAND_REACH_DEPTH;
    }
    state.drawSurfaces=usePerspective?2:1+Number(meshes[1].visible)+Number(neutralMesh.visible);
-   state.triangles=HANDS.left.columns*HANDS.left.rows*2+
-     (state.drawSurfaces-1)*HANDS.right.columns*HANDS.right.rows*2;
+   state.triangles=meshes[0].geometry.index.count/3+
+     (state.drawSurfaces-1)*meshes[1].geometry.index.count/3;
    if(!useRig)state.maxVertexDelta=max;
  }
  function setStarHovered(v){starHovered=!!v&&!travel;state.rightHover=starHovered;}

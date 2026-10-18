@@ -1,7 +1,16 @@
 import assert from 'node:assert/strict';
 import * as THREE from 'three';
+import sharp from 'sharp';
+import {fileURLToPath} from 'node:url';
 import {perspectiveFrameWeights,PERSPECTIVE_FRAMES,HAND_REACH_DEPTH,mapPerspectiveIndexV} from '../hands-perspective-motion.js';
 import {createEtherealHandsMesh} from '../first-person-hands-mesh.js';
+
+// A nova arte deve manter canvas e transparência reais, além do mock do loader.
+const asset=sharp(fileURLToPath(new URL('../public/overlay/right-hand-pointing-smooth.webp',import.meta.url)));
+const metadata=await asset.metadata(),statistics=await asset.stats();
+assert.equal(metadata.width,1122);assert.equal(metadata.height,1402);assert.equal(metadata.hasAlpha,true);
+assert.equal(statistics.channels[3].min,0);assert.ok(statistics.channels[3].max>200);
+assert.equal(statistics.isOpaque,false,'nenhum retângulo opaco na cena');
 
 for(let i=0;i<=4;i++){
   assert.deepEqual(perspectiveFrameWeights(i/4),[0,0,0,0,0].map((_,j)=>Number(i===j)));
@@ -22,6 +31,19 @@ for(let from=0;from<5;from++)for(const to of [Math.max(0,from-1),Math.min(4,from
   }
 }
 
+// Sem quina de tangente nos encontros das colunas, incluindo a raiz presa.
+for(const x of [100,150,180,220,270,320,370,420,480,530]){
+  const u=x/1122,h=1e-6;
+  const value=x=>mapPerspectiveIndexV(0,4,x,.9);
+  const left=(value(u)-value(u-h))/h,right=(value(u+h)-value(u))/h;
+  assert.ok(Math.abs(left-right)<.005,'contorno C1 no encontro '+x);
+}
+for(let u=.33;u<=1;u+=.01)for(let v=0;v<=1;v+=.01)
+  assert.ok(Math.abs(mapPerspectiveIndexV(0,4,u,v)-v)<1e-6,'base/palma fora da extensão distal');
+
+for(let stage=0;stage<4;stage++)for(const [u,v] of [[350/1122,1-520/1402],[.20,.50],[.29,.46],[.38,.46]])
+  assert.equal(mapPerspectiveIndexV(4,stage,u,v),v,'articulação do médio e pontas dos três dedos fora do morph');
+
 const originalLoad=THREE.TextureLoader.prototype.load,requests=[];
 THREE.TextureLoader.prototype.load=function(file,onLoad){
   requests.push(file);queueMicrotask(()=>onLoad(new THREE.Texture({width:1122,height:1402})));
@@ -33,12 +55,16 @@ try{
   assert.equal(hands.state.textureCount,2);assert.equal(hands.state.joints,18);
   assert.equal(hands.rightFrames.length,1);assert.equal(hands.rigs.length,2);
   assert.ok(!requests.some(file=>file.endsWith('right-hand-pointing.webp')),'não carrega a arte antiga de apontar');
-  assert.deepEqual(requests,['/overlay/left-hand-ethereal.webp','/overlay/right-hand-neutral.webp']);
+  assert.deepEqual(requests,['/overlay/left-hand-ethereal.webp','/overlay/right-hand-pointing-smooth.webp']);
   const saved=hands.rigs.map(r=>new Float32Array(r.mesh.geometry.attributes.position.array));
   hands.update(2,0);
   assert.deepEqual(hands.state.rightFrameWeights,[1,0,0,0,0]);
   assert.equal(hands.state.drawSurfaces,2);assert.equal(hands.state.rightDepth,0);
   const whole=hands.rightFrames[0],map=whole.material.map;
+  assert.equal(whole.geometry.index.count/3,10368);
+  assert.equal(hands.state.triangles,11904,'contagem usa a geometria real');
+  const levels=[...new Set(whole.geometry.attributes.uv.array.filter((_,i)=>i%2===1))].sort((a,b)=>a-b);
+  for(let i=1;i<levels.length;i++)if(levels[i]>.39&&levels[i]<.84)assert.ok(levels[i]-levels[i-1]<.009,'amostras densas na região dos dedos');
   assert.equal(whole.material.onBeforeCompile,THREE.Material.prototype.onBeforeCompile,'sem recorte no shader');
   const visited=new Set([0]);hands.setStarHovered(true);
   for(let i=0;i<150;i++){
@@ -61,7 +87,7 @@ try{
   }
   // A mesma superfície deve manter orientação durante o gesto inteiro,
   // inclusive nos meios das passagens; não basta validar os extremos.
-  const rig=hands.rigs.find(r=>r.pose==='neutral'),g=rig.mesh.geometry;
+  const rig=hands.rigs.find(r=>r.pose==='perspective'),g=rig.mesh.geometry;
   const pos=g.attributes.position,uv=g.attributes.uv,tri=g.index;
   let minArea=Infinity,maxArea=0;
   for(let sample=0;sample<=40;sample++)for(const time of [0,2,5,9]){
@@ -104,7 +130,7 @@ try{
   for(const rig of reduced.rigs){
     assert.ok(rig.bones.every(b=>b.rotation.z===0));
     if(rig.pose!=='left'){
-      assert.deepEqual(rig.mesh.morphTargetInfluences,[0,0,0,1,0],'apontamento estático, sem profundidade');
+      assert.deepEqual(rig.mesh.morphTargetInfluences,[0,0,0,0,0],'apontamento estático, sem profundidade');
       const staticPose=[...rig.mesh.morphTargetInfluences];rig.update(20,true,1);
       assert.deepEqual(rig.mesh.morphTargetInfluences,staticPose);
     }

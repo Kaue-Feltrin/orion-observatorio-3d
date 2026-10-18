@@ -936,3 +936,28 @@ Recursos observados: rig anterior 29→perspectiva 26 texturas na mesma janela; 
 Arquivos alterados: first-person-hands-mesh.js, hands-image-rig.js, hands-perspective-motion.js; hands-index-layer.js removido. Testes hands-perspective.spec.js e hands-perspective.unit.mjs atualizados, CI com um worker em playwright.config.js. Documentação e comparações em docs/rig-mmv/continuous/, referências históricas marcadas como rejeitadas/superadas. Vídeo atual de hover/retorno/interrupção acompanha as capturas. CI remoto desta rodada a conferir após push.
 
 Ação do usuário na entrega: abrir a nova prévia e avaliar continuidade/naturalidade ao passar e retirar o cursor do Nox. Nenhuma configuração, credencial ou upload necessário. Não repetir aprovação de proporção; não fazer merge/main ou iniciar outra melhoria.
+
+
+---
+
+## 18/10/2026 — quinas no indicador e nos três dedos (ambos confirmados)
+
+- Base remota `29a571d` conferida com CI e Cloudflare aprovados. Usuário ainda observou aspecto quebrado e confirmou ambos: indicador e três dedos dobrados.
+- Curvas monotônicas C1 no indicador, base/palma ancoradas e faixa de influência reduzida. Grade direita 72×72 só na perspectiva, concentrada em todos os dedos. Arte própria já apontando refinada por ImageGen para manter o indicador estendido sem vinco e arredondar articulações/pontas dos três dedos; a malha dobra a imagem inteira até o repouso, com mesmo canvas/alpha/registro. Imagens/modos anteriores mantidos.
+- Mesma imagem íntegra durante o gesto, sem shader de recorte ou fades. Proporção, saída inferior, hover/retorno, profundidade, Nox/ESO/câmera/cena preservados. Ver [documentação e evidências](docs/rig-mmv/smooth/README.md). Mesma branch/PR #29, sem main/merge.
+- Ação do usuário após entrega: avaliar ambos os contornos na nova prévia ao passar/retirar o cursor do Nox. Sem nova configuração/upload necessário. Não iniciar melhorias adicionais.
+
+
+A autorização original permite redesenhar assets quando necessário para melhorar qualidade. Nesta rodada a inspeção mostrou dobras angulosas na imagem original dos três dedos; por isso foi criada uma nova variante para a perspectiva, sem substituir os assets dos outros modos. Procedência, hashes e conversão documentados. O usuário confirmou “Ambos” à pergunta sobre indicador/três dedos; não repetir essa pergunta.
+
+### Resultado final local dos contornos de ambos os grupos de dedos
+
+A imagem usada na perspectiva é `public/overlay/right-hand-pointing-smooth.webp`, derivada por ImageGen do asset próprio, com os três dedos recolhidos arredondados e o indicador já desenhado estendido. O rig dobra a imagem inteira até o repouso; o apontamento final preserva a arte estendida, sem esticar um vinco desenhado dobrado. As imagens anteriores não foram substituídas. A variante neutra intermediária de autoria não é carregada nem publicada na pasta do site.
+
+Curvas monotônicas C1, raiz/palma ancoradas e faixa restrita junto ao indicador. Um ponto da articulação do médio ainda se movia aproximadamente 1,82 pixel; o ajuste final exclui esse ponto e as pontas dos três dedos do morph, com regressão unitária específica. Grade 72×72 apenas na direita/perspectiva, com 56 faixas em v=0,38–0,85. Perfil/ponta do indicador ajustados à nova imagem. Proporção/ancoragem, máscara inferior, alpha, profundidade, hover/retorno, Nox/ESO/câmera/viagem mantidos.
+
+Check/build e quatro suítes unitárias aprovados. 13/13 casos de navegador passaram sem retries, em 3,8 min. Após o ajuste final da articulação do médio, os 4/4 casos da perspectiva foram repetidos e passaram, sem retries, em 1,9 min; nove regressões anteriores não usam essa função e já haviam passado. Imagem real validada em 1122×1402 com alpha não opaco. Amostra de 41 progressos/quatro instantes sem inversões, área relativa 0,1811–1,6173, sem relaxar os limites anteriores. Capturas finais de nove posições, antes/depois, desktop/celular e vídeo em docs/rig-mmv/smooth/.
+
+A/B real: rig anterior 29 → perspectiva 26 texturas, igual à rodada anterior. Duas imagens, dois rigs/18 controles, duas superfícies/11904 triângulos (antes 3552). Arrays base 501312 bytes, morphs 319740 bytes, dados de skeleton 2048 bytes. Não representam RAM/VRAM totais ou FPS físico. Nenhuma dependência ou renderer/loop novo.
+
+Arquivos de código: first-person-hands-mesh.js, hands-image-rig.js e hands-perspective-motion.js. Testes hands-perspective.unit.mjs e hands-perspective.spec.js, novo asset e documentação/evidências/contexto. Procedência, hashes, variante de referência e conversão sem resize/crop em docs/rig-mmv/smooth/asset.json. Mesma branch/PR #29. CI remoto desta rodada a conferir após push. Não afirmar aceite artístico; usuário deve conferir indicador e três dedos na nova prévia. Sem configuração/upload/credenciais necessários; não alterar main nem começar outra etapa.

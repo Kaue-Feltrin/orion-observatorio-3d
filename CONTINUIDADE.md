@@ -1,3 +1,11 @@
+## 18/10/2026 — quinas no indicador e nos três dedos (ambos confirmados)
+
+- Base remota `29a571d` conferida com CI e Cloudflare aprovados. Usuário ainda observou aspecto quebrado e confirmou ambos: indicador e três dedos dobrados.
+- Curvas monotônicas C1 no indicador, base/palma ancoradas e faixa de influência reduzida. Grade direita 72×72 só na perspectiva, concentrada em todos os dedos. Arte própria já apontando refinada por ImageGen para manter o indicador estendido sem vinco e arredondar articulações/pontas dos três dedos; a malha dobra a imagem inteira até o repouso, com mesmo canvas/alpha/registro. Imagens/modos anteriores mantidos.
+- Mesma imagem íntegra durante o gesto, sem shader de recorte ou fades. Proporção, saída inferior, hover/retorno, profundidade, Nox/ESO/câmera/cena preservados. Ver [documentação e evidências](docs/rig-mmv/smooth/README.md). Mesma branch/PR #29, sem main/merge.
+- Check/build e quatro suítes unitárias aprovados. 13/13 casos de navegador em 3,8 min; depois do ajuste final junto ao médio, 4/4 da perspectiva repetidos em 1,9 min, sem retries. Nove posições e antes/depois inspecionados. Dois rigs/18 controles, duas imagens, duas superfícies/11904 triângulos; GPU A/B 29→26 texturas. CI remoto do novo commit a conferir após push.
+- Ação do usuário após entrega: avaliar ambos os contornos na nova prévia ao passar/retirar o cursor do Nox. Sem nova configuração/upload necessário. Não iniciar melhorias adicionais.
+
 ## 18/10/2026 — reparo da anatomia após recorte rejeitado
 
 - Usuário relatou “tudo quebrado” e forneceu captura. A revisão `41071db` foi visualmente rejeitada: a junção artificial do indicador sobre a mão neutra rompeu o contorno. Os testes anteriores não cobriam adequadamente a anatomia durante as passagens.
