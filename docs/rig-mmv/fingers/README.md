@@ -1,3 +1,5 @@
+> **Revisão rejeitada pelo usuário:** a emenda do indicador quebrou a anatomia. Esta pasta é histórica. [Correção atual com a mão inteira](../continuous/README.md). As afirmações de continuidade abaixo não constituem aceite visual.
+
 # Correção da transição dos dedos recolhidos
 
 Feedback: os fades da perspectiva não estavam bem alinhados, principalmente médio, anelar e mínimo. Base remota conferida `95566fe`, PR #29. Cloudflare aprovado; CI geral da base ainda em execução ao iniciar esta correção. Mesma branch, sem alterar main.

@@ -1,6 +1,6 @@
 # Protótipo MMV das mãos
 
-Revisão atual: [transição dos três dedos recolhidos sem mistura de silhuetas](fingers/README.md).
+Revisão atual: [mão inteira animada sem recortes ou crossfade](continuous/README.md). A tentativa de separar o indicador em `fingers/` foi rejeitada pelo usuário e substituída.
 
 Nova avaliação autorizada: [três poses intermediárias e apontamento com perspectiva](perspective/README.md), ativada por `handsMotion=perspective`. O rig descrito abaixo continua disponível para comparação.
 

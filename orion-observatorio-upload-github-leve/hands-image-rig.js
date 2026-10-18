@@ -1,6 +1,6 @@
 // Rig 2,5D: controles locais à imagem aprovada; não cria volume oculto.
 import * as THREE from 'three';
-import {HAND_REACH_DEPTH,PERSPECTIVE_FRAMES,mapPerspectiveIndexV} from './hands-perspective-motion.js';
+import {HAND_REACH_DEPTH,perspectiveFrameWeights,mapPerspectiveIndexV} from './hands-perspective-motion.js';
 
 const PROFILES={
   left:{
@@ -70,7 +70,7 @@ function influence(u,v,a,b,radius){
   return Math.exp(-2.5*distance);
 }
 
-export function createHandImageRig(geometry,material,pose,{perspective=false,bodyOnly=false}={}){
+export function createHandImageRig(geometry,material,pose,{perspective=false}={}){
   const profile=PROFILES[pose];
   if(!profile)throw new Error('Pose de rig de mãos desconhecida');
   const bones=[],byName={};
@@ -111,14 +111,14 @@ export function createHandImageRig(geometry,material,pose,{perspective=false,bod
       if(distance<landmarkIndices[name].distance)landmarkIndices[name]={index:i,distance};
     }
   }
-  const perspectiveIndex=perspective?PERSPECTIVE_FRAMES.findIndex(frame=>frame.pose===pose):-1;
   if(pose!=='left'){
     const positions=geometry.getAttribute('position'),targets=[];
     if(perspective){
-      // As duas poses visíveis percorrem o mesmo contorno intermediário.
-      for(const neighbor of [Math.max(0,perspectiveIndex-1),Math.min(4,perspectiveIndex+1)]){
+      // A textura neutra inteira percorre os quatro contornos medidos.
+      // Os demais dedos continuam na mesma imagem: sem emenda ou crossfade.
+      for(let neighbor=1;neighbor<=4;neighbor++){
         const target=new Float32Array(positions.array);
-        for(let i=0;i<uv.count;i++)target[i*3+1]=mapPerspectiveIndexV(perspectiveIndex,neighbor,uv.getX(i),uv.getY(i))-.5;
+        for(let i=0;i<uv.count;i++)target[i*3+1]+=mapPerspectiveIndexV(0,neighbor,uv.getX(i),uv.getY(i))-uv.getY(i);
         targets.push(new THREE.Float32BufferAttribute(target,3));
       }
     }
@@ -149,13 +149,12 @@ export function createHandImageRig(geometry,material,pose,{perspective=false,bod
     }
     if(pose!=='left'){
       const progress=THREE.MathUtils.clamp(pointing,0,1);
-      // Morph de contorno na GPU + ossos de repouso: as duas texturas mostram
-      // o mesmo estágio do dedo antes de misturar sua iluminação/detalhes.
+      // Na perspectiva, os contornos deformam uma imagem íntegra. No rig
+      // anterior, duas texturas compartilham o estágio do indicador.
       if(perspective){
-        const base=perspectiveIndex/4;
-        mesh.morphTargetInfluences[0]=reducedMotion||bodyOnly?0:THREE.MathUtils.clamp((base-progress)*4,0,1);
-        mesh.morphTargetInfluences[1]=reducedMotion||bodyOnly?0:THREE.MathUtils.clamp((progress-base)*4,0,1);
-        mesh.morphTargetInfluences[2]=reducedMotion?0:progress;
+        const weights=perspectiveFrameWeights(progress);
+        for(let i=0;i<4;i++)mesh.morphTargetInfluences[i]=weights[i+1];
+        mesh.morphTargetInfluences[4]=reducedMotion?0:progress;
       }else mesh.morphTargetInfluences[0]=reducedMotion?0:pose==='neutral'?progress:1-progress;
     }
   }
@@ -183,5 +182,5 @@ export function createHandImageRig(geometry,material,pose,{perspective=false,bod
     if(disposed)return;
     disposed=true;mesh.skeleton.dispose();
   }
-  return {pose,role:bodyOnly?'body':'pose',mesh,bones,update,measure,dispose};
+  return {pose,mesh,bones,update,measure,dispose};
 }

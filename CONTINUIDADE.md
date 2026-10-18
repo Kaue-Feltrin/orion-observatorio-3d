@@ -1,3 +1,10 @@
+## 18/10/2026 — reparo da anatomia após recorte rejeitado
+
+- Usuário relatou “tudo quebrado” e forneceu captura. A revisão `41071db` foi visualmente rejeitada: a junção artificial do indicador sobre a mão neutra rompeu o contorno. Os testes anteriores não cobriam adequadamente a anatomia durante as passagens.
+- `handsMotion=perspective` passa a uma imagem íntegra da direita, uma superfície contínua e quatro contornos geométricos intermediários/final + profundidade. Sem shader de recorte, camada corporal ou crossfade. Demais dedos/palma preservados na mesma textura; corrigido calombo na raiz do indicador. Assets existentes preservados, intermediários antigos sem download nesse modo. Proporção/acabamento inferior mantidos.
+- 18 controles/duas imagens/duas superfícies durante todo o gesto. Reduced-motion estático, off sem alocação, mesmos hover/retorno/câmera/cena. CI passa a um worker para evitar concorrência de cenas SwiftShader; quatro falhas anteriores eram timeouts, não prova da correção visual.
+- Check/build, quatro suítes unitárias e **13/13 testes de navegador aprovados, sem retries, em 4,1 minutos**. Nove posições ampliadas inspecionadas. A/B rig 29→perspectiva 26 texturas (revisão rejeitada: 40), duas superfícies constantes. CI remoto desta rodada a conferir após push. Ver [evidências e limites](docs/rig-mmv/continuous/README.md). Mesma branch/PR #29, sem alterar main ou branch de referência. Nenhuma nova configuração/upload/credencial necessária do usuário; após entrega, conferir apenas naturalidade/continuidade do gesto na nova prévia.
+
 ## 18/10/2026 — correção dos fades dos dedos recolhidos (em avaliação visual)
 
 - Feedback: transições ruins, principalmente médio/anelar/mínimo. Base remota `95566fe`, Cloudflare aprovado e CI geral ainda em execução ao iniciar. Mesma branch `codex/maos-rig-mmv`, PR #29.

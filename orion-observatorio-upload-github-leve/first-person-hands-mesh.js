@@ -5,7 +5,6 @@ import * as THREE from 'three';
 import {MESH_COLS,MESH_ROWS,deformHandVertices,HAND_PROFILES} from './hands-mesh-motion.js';
 import {createHandImageRig} from './hands-image-rig.js';
 import {PERSPECTIVE_FRAMES,perspectiveFrameWeights,HAND_REACH_DEPTH} from './hands-perspective-motion.js';
-import {isolateHandIndex} from './hands-index-layer.js';
 
 const HANDS=Object.freeze({
  left:{file:'/overlay/left-hand-ethereal.webp',baseOpacity:.38,height:.565,
@@ -28,11 +27,11 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
  root.name='OrionFeminineHands2p5D';
  root.visible=false;
  camera.add(root);
- const meshes=[],hands=[],rigs=[],rightFrames=[],intermediateMeshes=[];
+ const meshes=[],hands=[],rigs=[],rightFrames=[];
  if(useRig)Object.defineProperty(state,'maxVertexDelta',{enumerable:true,
    get:()=>Math.max(0,...rigs.map(r=>r.measure().maxVertexDelta))});
- let neutralMesh=null,bodyMesh=null,starHovered=false,pointBlend=0,pointVelocity=0;
- if(!enabled)return {state,root,meshes,rigs,rightFrames,rightBody:null,ready:Promise.resolve(false),
+ let neutralMesh=null,starHovered=false,pointBlend=0,pointVelocity=0;
+ if(!enabled)return {state,root,meshes,rigs,rightFrames,ready:Promise.resolve(false),
    update(){},resize(){},setStarHovered(){},beginTravel(){},dispose(){camera.remove(root)}};
  let disposed=false,travel=false,alpha=1,smX=0,smY=0;
  const textures=[];
@@ -60,11 +59,10 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      neutralMesh.scale.copy(meshes[1].scale);
      neutralMesh.position.copy(meshes[1].position);
    }
-   for(const mesh of intermediateMeshes){mesh.scale.copy(meshes[1].scale);mesh.position.copy(meshes[1].position);}
-   if(bodyMesh){bodyMesh.scale.copy(meshes[1].scale);bodyMesh.position.copy(meshes[1].position);}
  }
- const files=[HANDS.left.file,usePerspective?PERSPECTIVE_FRAMES[4].file:HANDS.right.file,HANDS.right.neutralFile];
- if(usePerspective)files.push(...PERSPECTIVE_FRAMES.slice(1,4).map(frame=>frame.file));
+ // Uma imagem íntegra por mão: nenhum recorte nem troca de alpha no gesto.
+ const files=usePerspective?[HANDS.left.file,HANDS.right.neutralFile]:
+   [HANDS.left.file,HANDS.right.file,HANDS.right.neutralFile];
  const ready=Promise.all(files.map(load)).then(loaded=>{
    if(disposed){loaded.forEach(tex=>tex.dispose());return false;}
    for(const texture of loaded){
@@ -98,7 +96,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
        side:THREE.DoubleSide,depthTest:false,depthWrite:false,toneMapped:false,
        vertexColors:side==='right'
      });
-     const rig=useRig?createHandImageRig(geom,material,side==='left'?'left':'pointing',
+     const rig=useRig?createHandImageRig(geom,material,side==='left'?'left':usePerspective?'neutral':'pointing',
        {perspective:usePerspective&&side==='right'}):null;
      if(rig)rigs.push(rig);
      const mesh=rig?rig.mesh:new THREE.Mesh(geom,material);
@@ -113,42 +111,22 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    // Asset neutro próprio, com palma/punho alinhados ao apontamento.
    // O modo base compartilha a malha; o rig precisa de pesos próprios para
    // o indicador relaxado, mantendo os pivôs da palma e do punho alinhados.
-   const neutralGeometry=useRig?meshes[1].geometry.clone():meshes[1].geometry;
-   const neutralMaterial=new THREE.MeshBasicMaterial({
-     map:textures[2],transparent:true,opacity:HANDS.right.baseOpacity,
-     side:THREE.DoubleSide,depthTest:false,depthWrite:false,toneMapped:false,vertexColors:true
-   });
-   const neutralRig=useRig?createHandImageRig(neutralGeometry,neutralMaterial,'neutral',{perspective:usePerspective}):null;
-   if(neutralRig)rigs.push(neutralRig);
-   neutralMesh=neutralRig?neutralRig.mesh:new THREE.Mesh(neutralGeometry,neutralMaterial);
-   neutralMesh.name='OrionFeminineRightNeutral';
-   neutralMesh.renderOrder=301;neutralMesh.frustumCulled=false;
-   root.add(neutralMesh);
-   // O visual neutro acompanha exatamente o enquadramento da mão direita.
-   neutralMesh.scale.copy(meshes[1].scale);
-   neutralMesh.position.copy(meshes[1].position);
-   if(usePerspective){
-     rightFrames.push(neutralMesh);
-     for(let i=1;i<=3;i++){
-       const geometry=meshes[1].geometry.clone(),material=neutralMaterial.clone();
-       material.map=textures[i+2];
-       const rig=createHandImageRig(geometry,material,PERSPECTIVE_FRAMES[i].pose,{perspective:true});
-       rigs.push(rig);
-       const mesh=rig.mesh;mesh.name='OrionFeminineRight_'+PERSPECTIVE_FRAMES[i].pose;
-       mesh.renderOrder=301;mesh.position.copy(meshes[1].position);mesh.scale.copy(meshes[1].scale);
-       root.add(mesh);intermediateMeshes.push(mesh);rightFrames.push(mesh);
-     }
-     rightFrames.push(meshes[1]);
-     const bodyMaterial=neutralMaterial.clone();
-     isolateHandIndex(bodyMaterial,0,{body:true});
-     const bodyRig=createHandImageRig(neutralGeometry.clone(),bodyMaterial,'neutral',
-       {perspective:true,bodyOnly:true});
-     rigs.push(bodyRig);bodyMesh=bodyRig.mesh;bodyMesh.name='OrionFeminineRightBody';
-     bodyMesh.renderOrder=301;root.add(bodyMesh);
-     for(let i=0;i<rightFrames.length;i++){
-       isolateHandIndex(rightFrames[i].material,i);rightFrames[i].renderOrder=302;
-     }
-   }
+   if(!usePerspective){
+     const neutralGeometry=useRig?meshes[1].geometry.clone():meshes[1].geometry;
+     const neutralMaterial=new THREE.MeshBasicMaterial({
+       map:textures[2],transparent:true,opacity:HANDS.right.baseOpacity,
+       side:THREE.DoubleSide,depthTest:false,depthWrite:false,toneMapped:false,vertexColors:true
+     });
+     const neutralRig=useRig?createHandImageRig(neutralGeometry,neutralMaterial,'neutral',{perspective:usePerspective}):null;
+     if(neutralRig)rigs.push(neutralRig);
+     neutralMesh=neutralRig?neutralRig.mesh:new THREE.Mesh(neutralGeometry,neutralMaterial);
+     neutralMesh.name='OrionFeminineRightNeutral';
+     neutralMesh.renderOrder=301;neutralMesh.frustumCulled=false;
+     root.add(neutralMesh);
+     // O visual neutro acompanha exatamente o enquadramento da mão direita.
+     neutralMesh.scale.copy(meshes[1].scale);
+     neutralMesh.position.copy(meshes[1].position);
+   }else rightFrames.push(meshes[1]);
    state.loaded=true;state.visible=true;
    state.textureCount=textures.length;
    state.joints=rigs.reduce((sum,r)=>sum+r.bones.length,0);
@@ -202,7 +180,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      place(hand,fx,fy);
      // Mãos distintas: direita aponta, esquerda emoldura; sem giro brusco.
      mesh.rotation.z=reducedMotion?0:Math.sin(seconds*.72+c.phase)*(c.pointer?.010:.006);
-     mesh.material.opacity=c.baseOpacity*alpha*(hand.side==='right'?textureBlend:1);
+     mesh.material.opacity=c.baseOpacity*alpha*(hand.side==='right'&&!usePerspective?textureBlend:1);
    }
    if(neutralMesh&&meshes[1]){
      neutralMesh.position.copy(meshes[1].position);
@@ -210,25 +188,14 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      neutralMesh.rotation.z=meshes[1].rotation.z;
      neutralMesh.material.opacity=HANDS.right.baseOpacity*alpha*(1-textureBlend);
    }
-   meshes[1].visible=textureBlend>.003;
-   neutralMesh.visible=textureBlend<.997;
+   meshes[1].visible=usePerspective||textureBlend>.003;
+   if(neutralMesh)neutralMesh.visible=textureBlend<.997;
    if(usePerspective){
      const weights=perspectiveFrameWeights(pointBlend);
      state.rightFrameWeights=weights;
      state.rightDepth=reducedMotion?0:pointBlend*HAND_REACH_DEPTH;
-     for(let i=0;i<rightFrames.length;i++){
-       const mesh=rightFrames[i];
-       mesh.position.copy(meshes[1].position);mesh.scale.copy(meshes[1].scale);
-       mesh.rotation.copy(meshes[1].rotation);
-       mesh.material.opacity=HANDS.right.baseOpacity*alpha*weights[i];
-       mesh.visible=weights[i]>.003;
-     }
-     bodyMesh.position.copy(meshes[1].position);bodyMesh.scale.copy(meshes[1].scale);
-     bodyMesh.rotation.copy(meshes[1].rotation);
-     bodyMesh.material.opacity=HANDS.right.baseOpacity*alpha;
    }
-   state.drawSurfaces=usePerspective?2+rightFrames.filter(mesh=>mesh.visible).length:
-     1+Number(meshes[1].visible)+Number(neutralMesh.visible);
+   state.drawSurfaces=usePerspective?2:1+Number(meshes[1].visible)+Number(neutralMesh.visible);
    state.triangles=HANDS.left.columns*HANDS.left.rows*2+
      (state.drawSurfaces-1)*HANDS.right.columns*HANDS.right.rows*2;
    if(!useRig)state.maxVertexDelta=max;
@@ -242,13 +209,11 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      if(useRig)neutralMesh.geometry.dispose();
      neutralMesh.material.dispose();root.remove(neutralMesh);
    }
-   for(const mesh of intermediateMeshes){mesh.geometry.dispose();mesh.material.dispose();root.remove(mesh);}
-   if(bodyMesh){bodyMesh.geometry.dispose();bodyMesh.material.dispose();root.remove(bodyMesh);}
    for(const rig of rigs)rig.dispose();
    for(const t of textures)t.dispose();
    camera.remove(root);
-   meshes.length=0;hands.length=0;rigs.length=0;rightFrames.length=0;intermediateMeshes.length=0;
+   meshes.length=0;hands.length=0;rigs.length=0;rightFrames.length=0;
    state.visible=false;state.loaded=false;
  }
- return {state,root,meshes,rigs,rightFrames,get rightBody(){return bodyMesh;},ready,update,resize,setStarHovered,beginTravel,dispose};
+ return {state,root,meshes,rigs,rightFrames,ready,update,resize,setStarHovered,beginTravel,dispose};
 }

@@ -914,3 +914,25 @@ Vídeo corrigido de 32 s e quadros reais inspecionados em `docs/rig-mmv/fingers/
 Recursos A/B no mesmo viewport: rig anterior 29 → perspectiva corrigida 40 texturas (antes 38). Uma superfície e um skeleton/morph corporais extras, sem imagem nova. Três superfícies estáveis/quatro em passagem; 63 controles em sete representações. Arrays base 591528 bytes, morphs 231768 bytes, dados de texturas de ossos 7168 bytes. Esses valores não são RAM/VRAM total nem FPS físico. Main e branch de referência remotas reconferidas intactas.
 
 Entrega segue no PR #29 e na branch `codex/maos-rig-mmv`, sem merge ou produção. Próxima ação do usuário: abrir a prévia atualizada, passar/retirar o cursor do Nox e avaliar especificamente a continuidade dos três dedos recolhidos. Nenhum upload, credencial ou configuração adicional necessário. Não iniciar melhorias extras.
+
+
+---
+
+## 18/10/2026 — reparo da anatomia após recorte rejeitado
+
+- Usuário relatou “tudo quebrado” e forneceu captura. A revisão `41071db` foi visualmente rejeitada: a junção artificial do indicador sobre a mão neutra rompeu o contorno. Os testes anteriores não cobriam adequadamente a anatomia durante as passagens.
+- `handsMotion=perspective` passa a uma imagem íntegra da direita, uma superfície contínua e quatro contornos geométricos intermediários/final + profundidade. Sem shader de recorte, camada corporal ou crossfade. Demais dedos/palma preservados na mesma textura; corrigido calombo na raiz do indicador. Assets existentes preservados, intermediários antigos sem download nesse modo. Proporção/acabamento inferior mantidos.
+- 18 controles/duas imagens/duas superfícies durante todo o gesto. Reduced-motion estático, off sem alocação, mesmos hover/retorno/câmera/cena. CI passa a um worker para evitar concorrência de cenas SwiftShader; quatro falhas anteriores eram timeouts, não prova da correção visual.
+- Ver [evidências e limites](docs/rig-mmv/continuous/README.md). Mesma branch/PR #29, sem alterar main ou branch de referência. Nenhuma nova configuração/upload/credencial necessária do usuário; após entrega, conferir apenas naturalidade/continuidade do gesto na nova prévia.
+
+A implementação desta rodada mantém o desenho neutro dos três dedos recolhidos durante o apontar, com o rig de repouso existente; ela não reproduz as oclusões diferentes das artes geradas. O gesto do indicador usa deformação real da malha e alcance Z, eliminando a mudança de transparência que produzia silhuetas sobrepostas. O histórico anterior foi preservado integralmente, mas suas declarações de correção de anatomia são substituídas pelo registro desta rejeição e pela nova evidência.
+
+### Resultado local do reparo de anatomia
+
+Check/build, quatro suítes unitárias e **13/13 testes Playwright aprovados, sem retries, em 4,1 minutos**. Teste adicional captura nove posições, incluindo os meios entre os contornos; elas foram inspecionadas ampliadas. A mesma mão não alterna imagens, opacidade ou recortes. Testes exigem duas superfícies durante o gesto, ausência de inversão em 41 progressos/quatro instantes, profundidade/hover/retorno/viagem, centro livre em desktop/celular e reduced/off/descarte. Área relativa dos triângulos 0,5375–2,1464. Isso não equivale à aprovação artística pelo usuário.
+
+Recursos observados: rig anterior 29→perspectiva 26 texturas na mesma janela; a tentativa rejeitada tinha 40. Dois rigs/18 controles, duas imagens, duas superfícies/3552 triângulos constantes. Arrays base 144768 bytes, morphs 64380 bytes, dados dos skeletons 2048 bytes. Nenhum redesenho de asset; imagens intermediárias antigas mantidas como histórico, sem download na perspectiva atual. Sem alegar FPS/RAM no equipamento do usuário.
+
+Arquivos alterados: first-person-hands-mesh.js, hands-image-rig.js, hands-perspective-motion.js; hands-index-layer.js removido. Testes hands-perspective.spec.js e hands-perspective.unit.mjs atualizados, CI com um worker em playwright.config.js. Documentação e comparações em docs/rig-mmv/continuous/, referências históricas marcadas como rejeitadas/superadas. Vídeo atual de hover/retorno/interrupção acompanha as capturas. CI remoto desta rodada a conferir após push.
+
+Ação do usuário na entrega: abrir a nova prévia e avaliar continuidade/naturalidade ao passar e retirar o cursor do Nox. Nenhuma configuração, credencial ou upload necessário. Não repetir aprovação de proporção; não fazer merge/main ou iniciar outra melhoria.

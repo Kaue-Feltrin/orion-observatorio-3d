@@ -27,7 +27,7 @@ async function metrics(page){
         const screen=p.clone().project(camera),local=p.clone().applyMatrix4(camera.matrixWorldInverse);
         landmarks[name]={x:(screen.x+1)/2,y:(1-screen.y)/2,z:local.z};
       }
-      return {pose:r.pose,role:r.role,left,right,landmarks,bones:r.bones.length,
+      return {pose:r.pose,left,right,landmarks,bones:r.bones.length,
         angles:r.bones.map(b=>b.rotation.z),morph:r.mesh.morphTargetInfluences?.[0]||0,
         boneTextureBytes:data.boneTextureBytes,
         morphBytes:(r.mesh.geometry.morphAttributes.position||[]).reduce((s,a)=>s+a.array.byteLength,0),
@@ -48,7 +48,7 @@ function framing(data){
   }
 }
 
-test('perspectiva usa três intermediários, profundidade e retorno no hover real',async({page})=>{
+test('perspectiva deforma mão inteira sem fades, com intermediários e hover real',async({page})=>{
   test.setTimeout(150000);
   const errors=[],requests=[];
   page.on('pageerror',e=>errors.push(e.message));
@@ -57,10 +57,10 @@ test('perspectiva usa três intermediários, profundidade e retorno no hover rea
   await page.setViewportSize({width:1920,height:1080});
   await page.goto(base+query);await ready(page);await page.mouse.move(15,20);
   const idle=await metrics(page);
-  expect(idle.state.animation).toBe('perspective');expect(idle.state.textureCount).toBe(6);
-  expect(idle.state.joints).toBe(63);expect(idle.state.drawSurfaces).toBe(3);
+  expect(idle.state.animation).toBe('perspective');expect(idle.state.textureCount).toBe(2);
+  expect(idle.state.joints).toBe(18);expect(idle.state.drawSurfaces).toBe(2);
   expect(idle.state.rightFrameWeights).toEqual([1,0,0,0,0]);framing(idle);
-  expect(requests.filter(url=>/right-hand-reach-/.test(url))).toHaveLength(4);
+  expect(requests.filter(url=>/right-hand-reach-/.test(url))).toHaveLength(0);
   expect(requests.some(url=>/right-hand-pointing/.test(url))).toBe(false);
   await page.evaluate(()=>{
     document.querySelector('#debug').hidden=true;
@@ -68,7 +68,7 @@ test('perspectiva usa três intermediários, profundidade e retorno no hover rea
     function sample(){
       if(!window.__sequenceSampling)return;
       const s=window.__orionHandsDebug.state;
-      window.__sequenceSamples.push({progress:s.rightBlend,weights:[...s.rightFrameWeights],draws:s.drawSurfaces,bodyOpacity:window.__orionHandsDebug.rightBody.material.opacity,bodyMap:window.__orionHandsDebug.rightBody.material.map.uuid});
+      window.__sequenceSamples.push({progress:s.rightBlend,weights:[...s.rightFrameWeights],draws:s.drawSurfaces,opacity:window.__orionHandsDebug.rightFrames[0].material.opacity,map:window.__orionHandsDebug.rightFrames[0].material.map.uuid});
       requestAnimationFrame(sample);
     }
     requestAnimationFrame(sample);
@@ -77,15 +77,14 @@ test('perspectiva usa três intermediários, profundidade e retorno no hover rea
   await aim(page);
   const samples=await page.evaluate(()=>{window.__sequenceSampling=false;return window.__sequenceSamples;});
   for(let i=0;i<5;i++)expect(samples.some(sample=>sample.weights[i]>.6)).toBe(true);
-  expect(samples.every(sample=>sample.draws<=4)).toBe(true);
-  expect(samples.every(sample=>sample.bodyOpacity===.46)).toBe(true);
-  expect(new Set(samples.map(sample=>sample.bodyMap)).size).toBe(1);
+  expect(samples.every(sample=>sample.draws===2&&sample.opacity===.46)).toBe(true);
+  expect(new Set(samples.map(sample=>sample.map)).size).toBe(1);
   for(const viewport of [{width:1920,height:1080},{width:1920,height:951},{width:390,height:844}]){
     await page.setViewportSize(viewport);await page.mouse.move(15,20);
     await expect.poll(()=>page.evaluate(()=>window.__orionHandsDebug.state.rightBlend)).toBeLessThan(.003);
     framing(await metrics(page));await aim(page);
     const pointed=await metrics(page);framing(pointed);
-    expect(pointed.state.drawSurfaces).toBe(3);expect(pointed.state.rightDepth).toBeGreaterThan(.139);
+    expect(pointed.state.drawSurfaces).toBe(2);expect(pointed.state.rightDepth).toBeGreaterThan(.139);
     for(const surface of pointed.surfaces.filter(s=>s.pose!=='left'))
       expect(surface.landmarks.indexTip.z-surface.landmarks.wrist.z).toBeLessThan(-.08);
     await page.screenshot({path:test.info().outputPath(viewport.width+'x'+viewport.height+'-pointing.png')});
@@ -105,7 +104,7 @@ test('perspectiva reduced-motion usa somente extremos estáticos',async({page})=
   const neutral=await metrics(page);expect(neutral.state.rightFrameWeights).toEqual([1,0,0,0,0]);
   await aim(page);const pointed=await metrics(page);
   expect(pointed.state.rightFrameWeights).toEqual([0,0,0,0,1]);expect(pointed.state.rightDepth).toBe(0);
-  for(const surface of pointed.surfaces){expect(surface.angles.every(a=>a===0)).toBe(true);expect(surface.morph).toBe(0);}
+  for(const surface of pointed.surfaces)expect(surface.angles.every(a=>a===0)).toBe(true);
   await page.mouse.move(15,20);
   await expect.poll(()=>page.evaluate(()=>window.__orionHandsDebug.state.rightBlend)).toBe(0);
 });
@@ -123,7 +122,32 @@ test('perspectiva não aloca nada em off e mantém alternativa rig',async({page}
   await aim(page);
   const before=await page.evaluate(()=>window.__orionPerformance.textures);
   await page.goto(base+query);await ready(page);await aim(page);
-  await expect.poll(()=>page.evaluate(()=>window.__orionPerformance.textures)).toBe(before+11);
+  await expect.poll(()=>page.evaluate(()=>window.__orionPerformance.textures)).toBe(before-3);
   console.log('PERSPECTIVE_GPU_TEXTURES',JSON.stringify({rig:before,
-    perspective:await page.evaluate(()=>window.__orionPerformance.textures),additional:11}));
+    perspective:await page.evaluate(()=>window.__orionPerformance.textures),additional:-3}));
+});
+
+
+test('registra nove poses da mesma mão, incluindo meios das transições',async({page})=>{
+  test.setTimeout(90000);
+  await page.setViewportSize({width:1920,height:1080});
+  await page.goto(base+query);await ready(page);await page.mouse.move(15,20);
+  await page.evaluate(()=>{
+    document.querySelector('#debug').hidden=true;
+    const h=window.__orionHandsDebug;window.__handRealUpdate=h.update;h.update=()=>{};
+  });
+  for(let step=0;step<=8;step++){
+    const result=await page.evaluate(target=>{
+      const h=window.__orionHandsDebug,update=window.__handRealUpdate;
+      h.setStarHovered(false);for(let j=0;j<220;j++)update(0,.06);
+      h.setStarHovered(true);
+      while(h.state.rightBlend<target&&h.state.rightBlend<.99999)update(0,.001);
+      return {progress:h.state.rightBlend,opacity:h.meshes[1].material.opacity,
+        map:h.meshes[1].material.map.image.currentSrc,draws:h.state.drawSurfaces};
+    },step/8);
+    expect(result.progress).toBeCloseTo(step/8,2);
+    expect(result.opacity).toBe(.46);expect(result.draws).toBe(2);
+    expect(result.map).toContain('right-hand-neutral.webp');
+    await page.screenshot({path:test.info().outputPath('pose-'+step+'.png'),clip:{x:1360,y:490,width:560,height:590}});
+  }
 });
