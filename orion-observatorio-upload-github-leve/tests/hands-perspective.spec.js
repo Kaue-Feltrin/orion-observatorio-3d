@@ -27,7 +27,7 @@ async function metrics(page){
         const screen=p.clone().project(camera),local=p.clone().applyMatrix4(camera.matrixWorldInverse);
         landmarks[name]={x:(screen.x+1)/2,y:(1-screen.y)/2,z:local.z};
       }
-      return {pose:r.pose,left,right,landmarks,bones:r.bones.length,
+      return {pose:r.pose,role:r.role,left,right,landmarks,bones:r.bones.length,
         angles:r.bones.map(b=>b.rotation.z),morph:r.mesh.morphTargetInfluences?.[0]||0,
         boneTextureBytes:data.boneTextureBytes,
         morphBytes:(r.mesh.geometry.morphAttributes.position||[]).reduce((s,a)=>s+a.array.byteLength,0),
@@ -58,7 +58,7 @@ test('perspectiva usa três intermediários, profundidade e retorno no hover rea
   await page.goto(base+query);await ready(page);await page.mouse.move(15,20);
   const idle=await metrics(page);
   expect(idle.state.animation).toBe('perspective');expect(idle.state.textureCount).toBe(6);
-  expect(idle.state.joints).toBe(54);expect(idle.state.drawSurfaces).toBe(2);
+  expect(idle.state.joints).toBe(63);expect(idle.state.drawSurfaces).toBe(3);
   expect(idle.state.rightFrameWeights).toEqual([1,0,0,0,0]);framing(idle);
   expect(requests.filter(url=>/right-hand-reach-/.test(url))).toHaveLength(4);
   expect(requests.some(url=>/right-hand-pointing/.test(url))).toBe(false);
@@ -68,7 +68,7 @@ test('perspectiva usa três intermediários, profundidade e retorno no hover rea
     function sample(){
       if(!window.__sequenceSampling)return;
       const s=window.__orionHandsDebug.state;
-      window.__sequenceSamples.push({progress:s.rightBlend,weights:[...s.rightFrameWeights],draws:s.drawSurfaces});
+      window.__sequenceSamples.push({progress:s.rightBlend,weights:[...s.rightFrameWeights],draws:s.drawSurfaces,bodyOpacity:window.__orionHandsDebug.rightBody.material.opacity,bodyMap:window.__orionHandsDebug.rightBody.material.map.uuid});
       requestAnimationFrame(sample);
     }
     requestAnimationFrame(sample);
@@ -77,13 +77,15 @@ test('perspectiva usa três intermediários, profundidade e retorno no hover rea
   await aim(page);
   const samples=await page.evaluate(()=>{window.__sequenceSampling=false;return window.__sequenceSamples;});
   for(let i=0;i<5;i++)expect(samples.some(sample=>sample.weights[i]>.6)).toBe(true);
-  expect(samples.every(sample=>sample.draws<=3)).toBe(true);
+  expect(samples.every(sample=>sample.draws<=4)).toBe(true);
+  expect(samples.every(sample=>sample.bodyOpacity===.46)).toBe(true);
+  expect(new Set(samples.map(sample=>sample.bodyMap)).size).toBe(1);
   for(const viewport of [{width:1920,height:1080},{width:1920,height:951},{width:390,height:844}]){
     await page.setViewportSize(viewport);await page.mouse.move(15,20);
     await expect.poll(()=>page.evaluate(()=>window.__orionHandsDebug.state.rightBlend)).toBeLessThan(.003);
     framing(await metrics(page));await aim(page);
     const pointed=await metrics(page);framing(pointed);
-    expect(pointed.state.drawSurfaces).toBe(2);expect(pointed.state.rightDepth).toBeGreaterThan(.139);
+    expect(pointed.state.drawSurfaces).toBe(3);expect(pointed.state.rightDepth).toBeGreaterThan(.139);
     for(const surface of pointed.surfaces.filter(s=>s.pose!=='left'))
       expect(surface.landmarks.indexTip.z-surface.landmarks.wrist.z).toBeLessThan(-.08);
     await page.screenshot({path:test.info().outputPath(viewport.width+'x'+viewport.height+'-pointing.png')});
@@ -121,7 +123,7 @@ test('perspectiva não aloca nada em off e mantém alternativa rig',async({page}
   await aim(page);
   const before=await page.evaluate(()=>window.__orionPerformance.textures);
   await page.goto(base+query);await ready(page);await aim(page);
-  await expect.poll(()=>page.evaluate(()=>window.__orionPerformance.textures)).toBe(before+9);
+  await expect.poll(()=>page.evaluate(()=>window.__orionPerformance.textures)).toBe(before+11);
   console.log('PERSPECTIVE_GPU_TEXTURES',JSON.stringify({rig:before,
-    perspective:await page.evaluate(()=>window.__orionPerformance.textures),additional:9}));
+    perspective:await page.evaluate(()=>window.__orionPerformance.textures),additional:11}));
 });

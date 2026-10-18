@@ -888,3 +888,29 @@ Evidências finais: `docs/rig-mmv/perspective/` tem galeria das cinco artes, cap
 Recursos observados: 38 texturas no renderer após todas as poses; seis imagens, seis skeletons, cinco texturas de morph. Arrays base de geometria 502176 bytes, morphs 193140 bytes, dados das texturas de ossos 6144 bytes. Não equiparar esses buffers a VRAM ou RAM totais. Build principal ~691,63 kB. Sem dependência/câmera/loop novos. Main e branch de referência remotas reconferidas intactas antes da entrega.
 
 Ação do usuário: abrir a nova prévia com `?quality=eco-plus&hands=mesh&handsMotion=perspective`, observar/retirar o cursor do Nox e avaliar se o giro, a profundidade e a transição ficaram naturais. Comparação anterior disponível em `handsMotion=rig`. Nenhum arquivo/configuração extra necessário. Não repetir aprovação da proporção, promover a padrão, mesclar main ou iniciar outra melhoria sem autorização. PR e commit desta entrega registrados na cópia integral anexada.
+
+
+## 18/10/2026 — correção dos fades, principalmente dos três dedos recolhidos
+
+Feedback do usuário: “os fades não estão bem transicionados principalmente os outros 3 dedos que não estão apontando”. Estado conferido antes de alterar: branch `codex/maos-rig-mmv`, PR #29, HEAD remoto `95566fe0844e7b2e10c72da87c29256542c9fb98`; Cloudflare SUCCESS, CI geral ainda em execução naquele momento. Não alterar main ou outras cenas/projetos.
+
+Diagnóstico: a correspondência anterior ajustava o indicador; as cinco artes têm posições/oclusões diferentes do médio/anelar/mínimo e continuavam misturando essas silhuetas. Só mudar a curva do fade não resolve a falta de correspondência.
+
+Correção: corpo da mão (palma, polegar e três dedos recolhidos) renderizado uma única vez a partir da textura neutra existente, com opacidade estável durante hover e animação pelo rig/depth. Os quadros intermediários/final recebem recorte de indicador via máscara UV no shader. O corpo recebe a máscara complementar; não recebe morphs XY que trocam o contorno do indicador. O indicador continua com os cinco quadros, correspondências e alcance de profundidade. Nenhum WebP foi redesenhado/regenerado. Mesmo enquadramento, transparência, recorte inferior, câmera, loop, Raycaster e modos anteriores. Preservar redução de movimento, off, retorno e viagem.
+
+Referências do ajuste: fragmento alpha oficial Three.js r180 e Sprite/AnimatedSprite oficiais PixiJS 8.6.6; links e comparação em `docs/rig-mmv/fingers/README.md`. Adaptado ao renderer existente; sem bibliotecas/loops novos, modelos/assets de terceiros ou novo download de imagem.
+
+O custo visualmente necessário é uma superfície corporal extra (três estáveis/quatro na passagem), um skeleton e dados de morph adicionais. A imagem corporal é compartilhada com a neutra já carregada, sem duplicar textura de imagem. Descarte verificado com imagens deduplicadas, para não descartar duas vezes o recurso compartilhado. Medidas finais e testes de navegador registrados ao concluir.
+
+Check/build e quatro suítes unitárias passaram. Novas verificações exigem corpo com mesma textura/opacidade durante todo o gesto e as regiões dos três dedos fora dos quadros misturados. Vídeo e quadros reais inspecionados: dedos recolhidos mantêm uma única silhueta. Regresso de navegador ainda em andamento ao registrar. O teste de imagem/anatomia não é aprovado apenas por CI verde; pedir avaliação visual ao usuário na nova prévia. Não promover/mesclar main ou iniciar etapa adicional sem autorização.
+
+
+### Resultado local final da correção dos dedos
+
+Check/build e quatro suítes unitárias aprovados. **12/12 testes de navegador aprovados, sem retries, em 4,0 minutos**. Regiões dos três dedos/palma/polegar excluídas dos quadros misturados; corpo com mesma textura/opacidade durante a sequência; todos os quadros do indicador, profundidade, centro protegido em desktop/celular, shader, retorno/viagem/reduced/off e modos anteriores verificados.
+
+Vídeo corrigido de 32 s e quadros reais inspecionados em `docs/rig-mmv/fingers/`. Registro da gravação: 172 amostras, alpha corporal mínimo/máximo 0,46/0,46 e uma única identidade de textura. Indicador mantém todas as poses; os três dedos recolhidos deixam de alternar entre as diferentes oclusões das artes. Não declarar aparência/performance aprovada sem avaliação do usuário.
+
+Recursos A/B no mesmo viewport: rig anterior 29 → perspectiva corrigida 40 texturas (antes 38). Uma superfície e um skeleton/morph corporais extras, sem imagem nova. Três superfícies estáveis/quatro em passagem; 63 controles em sete representações. Arrays base 591528 bytes, morphs 231768 bytes, dados de texturas de ossos 7168 bytes. Esses valores não são RAM/VRAM total nem FPS físico. Main e branch de referência remotas reconferidas intactas.
+
+Entrega segue no PR #29 e na branch `codex/maos-rig-mmv`, sem merge ou produção. Próxima ação do usuário: abrir a prévia atualizada, passar/retirar o cursor do Nox e avaliar especificamente a continuidade dos três dedos recolhidos. Nenhum upload, credencial ou configuração adicional necessário. Não iniciar melhorias extras.

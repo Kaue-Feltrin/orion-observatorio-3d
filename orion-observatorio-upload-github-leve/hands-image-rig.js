@@ -70,7 +70,7 @@ function influence(u,v,a,b,radius){
   return Math.exp(-2.5*distance);
 }
 
-export function createHandImageRig(geometry,material,pose,{perspective=false}={}){
+export function createHandImageRig(geometry,material,pose,{perspective=false,bodyOnly=false}={}){
   const profile=PROFILES[pose];
   if(!profile)throw new Error('Pose de rig de mãos desconhecida');
   const bones=[],byName={};
@@ -153,8 +153,8 @@ export function createHandImageRig(geometry,material,pose,{perspective=false}={}
       // o mesmo estágio do dedo antes de misturar sua iluminação/detalhes.
       if(perspective){
         const base=perspectiveIndex/4;
-        mesh.morphTargetInfluences[0]=reducedMotion?0:THREE.MathUtils.clamp((base-progress)*4,0,1);
-        mesh.morphTargetInfluences[1]=reducedMotion?0:THREE.MathUtils.clamp((progress-base)*4,0,1);
+        mesh.morphTargetInfluences[0]=reducedMotion||bodyOnly?0:THREE.MathUtils.clamp((base-progress)*4,0,1);
+        mesh.morphTargetInfluences[1]=reducedMotion||bodyOnly?0:THREE.MathUtils.clamp((progress-base)*4,0,1);
         mesh.morphTargetInfluences[2]=reducedMotion?0:progress;
       }else mesh.morphTargetInfluences[0]=reducedMotion?0:pose==='neutral'?progress:1-progress;
     }
@@ -183,5 +183,5 @@ export function createHandImageRig(geometry,material,pose,{perspective=false}={}
     if(disposed)return;
     disposed=true;mesh.skeleton.dispose();
   }
-  return {pose,mesh,bones,update,measure,dispose};
+  return {pose,role:bodyOnly?'body':'pose',mesh,bones,update,measure,dispose};
 }

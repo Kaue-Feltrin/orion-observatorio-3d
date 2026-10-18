@@ -1,5 +1,7 @@
 # Apontamento com poses intermediárias e perspectiva
 
+Este documento registra a primeira sequência (`95566fe`). A revisão posterior corrige as silhuetas sobrepostas dos dedos recolhidos: [correção dos fades](../fingers/README.md). As medidas abaixo pertencem à primeira sequência.
+
 Base conferida: `c3dce97` na branch `codex/maos-rig-mmv`, PR #29. CI completo e Cloudflare da base aprovados. Usuário autorizou três poses intermediárias com pequena mudança de perspectiva, mantendo proporção e visual etéreo. Trabalho apenas na prévia.
 
 ## Referências consultadas antes da implementação

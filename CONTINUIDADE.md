@@ -1,3 +1,11 @@
+## 18/10/2026 — correção dos fades dos dedos recolhidos (em avaliação visual)
+
+- Feedback: transições ruins, principalmente médio/anelar/mínimo. Base remota `95566fe`, Cloudflare aprovado e CI geral ainda em execução ao iniciar. Mesma branch `codex/maos-rig-mmv`, PR #29.
+- Causa: as artes alteram posições/oclusões dos três dedos, mas só o indicador tinha correspondência geométrica. A mistura do resto da mão produzia silhuetas sobrepostas.
+- Correção: palma, polegar e dedos recolhidos passam a uma única camada com a imagem neutra e o rig/depth atuais, com opacidade constante durante hover. Os cinco quadros são recortados no shader para mostrar apenas o indicador. Sem redesenhar assets. Enquadramento, máscara inferior, transparência, hover/retorno, perspectiva, Nox/ESO/viagem e modos anteriores preservados.
+- Custo previsto/medido nas evidências: uma superfície extra e um skeleton/morph adicionais, sem imagem nova. Quatro superfícies máximas na passagem. Ver [documentação e evidências](docs/rig-mmv/fingers/README.md).
+- Check/build, quatro suítes unitárias e **12/12 testes de navegador aprovados, sem retries, em 4,0 minutos**. Vídeo de 32 s inspecionado; corpo com mesma textura e alpha 0,46 durante todo o gesto. A/B rig 29→perspectiva 40 texturas, sem imagem nova. CI remoto do novo commit a conferir após push. Ação do usuário após receber prévia: avaliar a transição desses três dedos, sem repetir aprovação da proporção ou iniciar melhorias extras.
+
 ## 17/10/2026 — sequência MMV com perspectiva (em avaliação visual)
 
 - Usuário autorizou três poses intermediárias com profundidade/perspectiva. Base remota conferida `c3dce97`, com CI completo e Cloudflare aprovados. Mesma branch `codex/maos-rig-mmv`, PR #29; sem alteração da main.

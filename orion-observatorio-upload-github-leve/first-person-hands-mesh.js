@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import {MESH_COLS,MESH_ROWS,deformHandVertices,HAND_PROFILES} from './hands-mesh-motion.js';
 import {createHandImageRig} from './hands-image-rig.js';
 import {PERSPECTIVE_FRAMES,perspectiveFrameWeights,HAND_REACH_DEPTH} from './hands-perspective-motion.js';
+import {isolateHandIndex} from './hands-index-layer.js';
 
 const HANDS=Object.freeze({
  left:{file:'/overlay/left-hand-ethereal.webp',baseOpacity:.38,height:.565,
@@ -30,8 +31,8 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
  const meshes=[],hands=[],rigs=[],rightFrames=[],intermediateMeshes=[];
  if(useRig)Object.defineProperty(state,'maxVertexDelta',{enumerable:true,
    get:()=>Math.max(0,...rigs.map(r=>r.measure().maxVertexDelta))});
- let neutralMesh=null,starHovered=false,pointBlend=0,pointVelocity=0;
- if(!enabled)return {state,root,meshes,rigs,rightFrames,ready:Promise.resolve(false),
+ let neutralMesh=null,bodyMesh=null,starHovered=false,pointBlend=0,pointVelocity=0;
+ if(!enabled)return {state,root,meshes,rigs,rightFrames,rightBody:null,ready:Promise.resolve(false),
    update(){},resize(){},setStarHovered(){},beginTravel(){},dispose(){camera.remove(root)}};
  let disposed=false,travel=false,alpha=1,smX=0,smY=0;
  const textures=[];
@@ -60,6 +61,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      neutralMesh.position.copy(meshes[1].position);
    }
    for(const mesh of intermediateMeshes){mesh.scale.copy(meshes[1].scale);mesh.position.copy(meshes[1].position);}
+   if(bodyMesh){bodyMesh.scale.copy(meshes[1].scale);bodyMesh.position.copy(meshes[1].position);}
  }
  const files=[HANDS.left.file,usePerspective?PERSPECTIVE_FRAMES[4].file:HANDS.right.file,HANDS.right.neutralFile];
  if(usePerspective)files.push(...PERSPECTIVE_FRAMES.slice(1,4).map(frame=>frame.file));
@@ -137,6 +139,15 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
        root.add(mesh);intermediateMeshes.push(mesh);rightFrames.push(mesh);
      }
      rightFrames.push(meshes[1]);
+     const bodyMaterial=neutralMaterial.clone();
+     isolateHandIndex(bodyMaterial,0,{body:true});
+     const bodyRig=createHandImageRig(neutralGeometry.clone(),bodyMaterial,'neutral',
+       {perspective:true,bodyOnly:true});
+     rigs.push(bodyRig);bodyMesh=bodyRig.mesh;bodyMesh.name='OrionFeminineRightBody';
+     bodyMesh.renderOrder=301;root.add(bodyMesh);
+     for(let i=0;i<rightFrames.length;i++){
+       isolateHandIndex(rightFrames[i].material,i);rightFrames[i].renderOrder=302;
+     }
    }
    state.loaded=true;state.visible=true;
    state.textureCount=textures.length;
@@ -212,8 +223,11 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
        mesh.material.opacity=HANDS.right.baseOpacity*alpha*weights[i];
        mesh.visible=weights[i]>.003;
      }
+     bodyMesh.position.copy(meshes[1].position);bodyMesh.scale.copy(meshes[1].scale);
+     bodyMesh.rotation.copy(meshes[1].rotation);
+     bodyMesh.material.opacity=HANDS.right.baseOpacity*alpha;
    }
-   state.drawSurfaces=usePerspective?1+rightFrames.filter(mesh=>mesh.visible).length:
+   state.drawSurfaces=usePerspective?2+rightFrames.filter(mesh=>mesh.visible).length:
      1+Number(meshes[1].visible)+Number(neutralMesh.visible);
    state.triangles=HANDS.left.columns*HANDS.left.rows*2+
      (state.drawSurfaces-1)*HANDS.right.columns*HANDS.right.rows*2;
@@ -229,11 +243,12 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      neutralMesh.material.dispose();root.remove(neutralMesh);
    }
    for(const mesh of intermediateMeshes){mesh.geometry.dispose();mesh.material.dispose();root.remove(mesh);}
+   if(bodyMesh){bodyMesh.geometry.dispose();bodyMesh.material.dispose();root.remove(bodyMesh);}
    for(const rig of rigs)rig.dispose();
    for(const t of textures)t.dispose();
    camera.remove(root);
    meshes.length=0;hands.length=0;rigs.length=0;rightFrames.length=0;intermediateMeshes.length=0;
    state.visible=false;state.loaded=false;
  }
- return {state,root,meshes,rigs,rightFrames,ready,update,resize,setStarHovered,beginTravel,dispose};
+ return {state,root,meshes,rigs,rightFrames,get rightBody(){return bodyMesh;},ready,update,resize,setStarHovered,beginTravel,dispose};
 }
