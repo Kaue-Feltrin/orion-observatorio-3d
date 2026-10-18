@@ -1,5 +1,6 @@
 // Rig 2,5D: controles locais à imagem aprovada; não cria volume oculto.
 import * as THREE from 'three';
+import {HAND_REACH_DEPTH,PERSPECTIVE_FRAMES,mapPerspectiveIndexV} from './hands-perspective-motion.js';
 
 const PROFILES={
   left:{
@@ -31,6 +32,10 @@ const CONTROLS=[
   ['middle','palm',.021,.96],['ring','palm',.018,.89],['little','palm',.015,.83]
 ];
 const LANDMARKS=['wrist','palm','indexTip','thumbTip','middleTip','ringTip','littleTip'];
+for(const [pose,t] of [['reach025',.25],['reach050',.5],['reach075',.75]]){
+  PROFILES[pose]=Object.fromEntries(Object.entries(PROFILES.neutral).map(([name,value])=>
+    [name,Array.isArray(value)?value.map((v,i)=>THREE.MathUtils.lerp(v,PROFILES.pointing[name][i],t)):value]));
+}
 
 // Correspondências das bordas do indicador nas duas imagens existentes.
 // Cada coluna mapeia piso/borda inferior/borda superior monotonamente: o dedo
@@ -65,7 +70,7 @@ function influence(u,v,a,b,radius){
   return Math.exp(-2.5*distance);
 }
 
-export function createHandImageRig(geometry,material,pose){
+export function createHandImageRig(geometry,material,pose,{perspective=false}={}){
   const profile=PROFILES[pose];
   if(!profile)throw new Error('Pose de rig de mãos desconhecida');
   const bones=[],byName={};
@@ -106,11 +111,26 @@ export function createHandImageRig(geometry,material,pose){
       if(distance<landmarkIndices[name].distance)landmarkIndices[name]={index:i,distance};
     }
   }
+  const perspectiveIndex=perspective?PERSPECTIVE_FRAMES.findIndex(frame=>frame.pose===pose):-1;
   if(pose!=='left'){
-    const positions=geometry.getAttribute('position');
+    const positions=geometry.getAttribute('position'),targets=[];
+    if(perspective){
+      // As duas poses visíveis percorrem o mesmo contorno intermediário.
+      for(const neighbor of [Math.max(0,perspectiveIndex-1),Math.min(4,perspectiveIndex+1)]){
+        const target=new Float32Array(positions.array);
+        for(let i=0;i<uv.count;i++)target[i*3+1]=mapPerspectiveIndexV(perspectiveIndex,neighbor,uv.getX(i),uv.getY(i))-.5;
+        targets.push(new THREE.Float32BufferAttribute(target,3));
+      }
+    }
     const target=new Float32Array(positions.array);
-    for(let i=0;i<uv.count;i++)target[i*3+1]=mappedIndexV(uv.getX(i),uv.getY(i),pose==='pointing')-.5;
-    geometry.morphAttributes.position=[new THREE.Float32BufferAttribute(target,3)];
+    for(let i=0;i<uv.count;i++){
+      // Profundidade só na mão, mantendo antebraço e borda central ancorados.
+      if(perspective)target[i*3+2]=-HAND_REACH_DEPTH*THREE.MathUtils.smoothstep(uv.getY(i),.20,.72)*
+        THREE.MathUtils.smoothstep(uv.getX(i),0,.15);
+      else target[i*3+1]=mappedIndexV(uv.getX(i),uv.getY(i),pose==='pointing')-.5;
+    }
+    targets.push(new THREE.Float32BufferAttribute(target,3));
+    geometry.morphAttributes.position=targets;
   }
   geometry.setAttribute('skinIndex',new THREE.Uint16BufferAttribute(indices,4));
   geometry.setAttribute('skinWeight',new THREE.Float32BufferAttribute(weights,4));
@@ -131,7 +151,12 @@ export function createHandImageRig(geometry,material,pose){
       const progress=THREE.MathUtils.clamp(pointing,0,1);
       // Morph de contorno na GPU + ossos de repouso: as duas texturas mostram
       // o mesmo estágio do dedo antes de misturar sua iluminação/detalhes.
-      mesh.morphTargetInfluences[0]=reducedMotion?0:pose==='neutral'?progress:1-progress;
+      if(perspective){
+        const base=perspectiveIndex/4;
+        mesh.morphTargetInfluences[0]=reducedMotion?0:THREE.MathUtils.clamp((base-progress)*4,0,1);
+        mesh.morphTargetInfluences[1]=reducedMotion?0:THREE.MathUtils.clamp((progress-base)*4,0,1);
+        mesh.morphTargetInfluences[2]=reducedMotion?0:progress;
+      }else mesh.morphTargetInfluences[0]=reducedMotion?0:pose==='neutral'?progress:1-progress;
     }
   }
   function measure(){

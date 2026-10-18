@@ -1,5 +1,7 @@
 # Protótipo MMV das mãos
 
+Nova avaliação autorizada: [três poses intermediárias e apontamento com perspectiva](perspective/README.md), ativada por `handsMotion=perspective`. O rig descrito abaixo continua disponível para comparação.
+
 Base: `8811a40`, acabamento e proporção da v0.9.21. O CI completo e o deploy dessa base foram confirmados como aprovados antes de iniciar esta etapa. Trabalho isolado em `codex/maos-rig-mmv`.
 
 Objetivo: dar movimento perceptível às imagens aprovadas, com articulação de punho, palma e dedos, preservando enquadramento, translucidez, saída inferior e apontamento somente no hover do Nox. Protótipo opt-in por `?hands=mesh&handsMotion=rig`; a apresentação aprovada continua disponível sem esse parâmetro.

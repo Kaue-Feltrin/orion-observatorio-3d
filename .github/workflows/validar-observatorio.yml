@@ -24,7 +24,9 @@ jobs:
       - name: Verificar estrutura e sintaxe
         run: npm run check
       - name: Verificar rig 2,5D das imagens
-        run: node tests/hands-image-rig.unit.mjs
+        run: |
+          node tests/hands-image-rig.unit.mjs
+          node tests/hands-perspective.unit.mjs
       - name: Compilar site
         run: npm run build
 

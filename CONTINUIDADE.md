@@ -1,3 +1,12 @@
+## 17/10/2026 — sequência MMV com perspectiva (em avaliação visual)
+
+- Usuário autorizou três poses intermediárias com profundidade/perspectiva. Base remota conferida `c3dce97`, com CI completo e Cloudflare aprovados. Mesma branch `codex/maos-rig-mmv`, PR #29; sem alteração da main.
+- Novo modo opcional `handsMotion=perspective`: neutra existente → três intermediários gerados → apontamento final com mudança de perspectiva. O modo anterior `handsMotion=rig` permanece disponível para comparação.
+- Transição por contornos correspondentes na GPU + ossos de repouso + profundidade de até 0,14 unidade na região da mão. Punho/saída inferior e borda central ancorados. Mesma câmera, loop, proporção, máscara, Nox/ESO/viagem. Só dois quadros vizinhos visíveis, duas superfícies estáveis/três na passagem.
+- Imagens novas 896×1120 com alpha, total 311174 bytes; três intermediárias e uma final. Procedência e pesquisa oficial Three.js/PixiJS documentadas. Sem novo runtime/dependência.
+- Check/build e quatro suítes unitárias aprovados; **12/12 testes de navegador em 3,4 minutos, sem retries**. Caso de recursos ampliado/repetido: **1/1 aprovado**, A/B 29→38 texturas na mesma janela. Vídeo de 32,9 s e capturas inspecionados. CI remoto do novo commit a conferir após push. Resultado final na [documentação da perspectiva](docs/rig-mmv/perspective/README.md).
+- Próxima ação do usuário ao receber a prévia: comparar naturalidade/profundidade do gesto. Proporção já aprovada; não repetir essa pergunta. Não promover a padrão, fazer merge ou iniciar etapa adicional sem autorização.
+
 ## 17/10/2026 — revisão do rig: movimento perceptível e indicador articulado
 
 - Feedback: primeira versão funcional, mas quase imóvel e apontamento apenas por fade. Mesma branch `codex/maos-rig-mmv`, PR #29; HEAD remoto `884bd5d` com CI/Cloudflare aprovados, conferido antes de alterar.
