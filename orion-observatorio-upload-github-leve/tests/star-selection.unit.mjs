@@ -61,14 +61,15 @@ try{
     advance(selection,sampleAt);hands.setStarHovered(false);hands.update(0,0);
     assert.equal(confirmed,0,'confirmar só depois do gesto');
     assert.equal(hands.state.selecting,true);assert.equal(hands.meshes[1].material.map,map);
-    assert.equal(hands.meshes[1].material.opacity,.46);assert.equal(hands.state.drawSurfaces,2);
+    assert.equal(hands.meshes[1].material.opacity,.38);assert.equal(hands.state.drawSurfaces,2);
     assert.deepEqual(hands.meshes[0].position,left,'clique não movimenta a esquerda');
     if(reducedMotion){
       assert.deepEqual(hands.meshes[1].position,baseline);assert.equal(hands.state.selectionPress,0);
       assert.ok(hands.rigs.every(r=>r.bones.every(b=>b.rotation.z===0)));
     }else{
-      assert.ok(hands.meshes[1].position.z>baseline.z+.08,'avanço real em profundidade');
-      assert.ok(hands.state.rightBlend<.85&&hands.state.rightBlend>.83,'indicador articula no clique');
+      assert.ok(hands.meshes[1].position.z>baseline.z+.04&&hands.meshes[1].position.z<=baseline.z+.046,
+        'avanço discreto em profundidade');
+      assert.ok(hands.state.rightBlend<.51&&hands.state.rightBlend>.49,'indicador articula sem extensão exagerada');
       assert.ok(selection.rings[0].material.opacity>0);
     }
     advance(selection,1);hands.update(0,0);

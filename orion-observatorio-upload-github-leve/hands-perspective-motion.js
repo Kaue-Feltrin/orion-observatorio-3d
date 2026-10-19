@@ -7,6 +7,9 @@ export const PERSPECTIVE_FRAMES=Object.freeze([
   {pose:'pointing',file:'/overlay/right-hand-reach-100.webp',progress:1}
 ]);
 export const HAND_REACH_DEPTH=.14;
+// O hover para antes da extensão total; profundidade mais discreta.
+export const PERSPECTIVE_POINT_LIMIT=.60;
+export const PERSPECTIVE_DEPTH_SCALE=.5;
 
 // Contorno neutro e extensão distal: a base do indicador permanece ancorada.
 // Preserva a espessura da ponta ao dobrar; não comprimir a nova arte

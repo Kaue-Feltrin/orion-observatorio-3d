@@ -80,7 +80,7 @@ test('v0.9.21 bordas protegidas, neutra própria, hover real e retorno suave',as
     });
     expect(neutral.pointVisible).toBe(false);
     expect(neutral.neutralVisible).toBe(true);
-    expect(neutral.neutralOpacity).toBeCloseTo(.46,2);
+    expect(neutral.neutralOpacity).toBeCloseTo(.38,2);
     expect(neutral.leftOpacity).toBeCloseTo(.38,2);
     expect(neutral.draw).toBe(2);
     expect(neutral.triangles).toBe(3552);

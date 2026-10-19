@@ -1,6 +1,6 @@
 // Rig 2,5D: controles locais à imagem aprovada; não cria volume oculto.
 import * as THREE from 'three';
-import {HAND_REACH_DEPTH,perspectiveFrameWeights,mapPerspectiveIndexV} from './hands-perspective-motion.js';
+import {HAND_REACH_DEPTH,PERSPECTIVE_DEPTH_SCALE,perspectiveFrameWeights,mapPerspectiveIndexV} from './hands-perspective-motion.js';
 
 const PROFILES={
   left:{
@@ -144,7 +144,7 @@ export function createHandImageRig(geometry,material,pose,{perspective=false}={}
   mesh.frustumCulled=false;
   let disposed=false;
 
-  function update(seconds,reducedMotion=false,pointing=pose==='pointing'?1:0){
+  function update(seconds,reducedMotion=false,pointing=pose==='pointing'?1:0,accompany=0){
     if(disposed)return;
     const focus=perspective?THREE.MathUtils.smoothstep(pointing,0,1):0;
     for(let i=0;i<CONTROLS.length;i++){
@@ -158,6 +158,11 @@ export function createHandImageRig(geometry,material,pose,{perspective=false}={}
       const settle=i>=2?1-.18*focus:1;
       bones[i].rotation.z=wave*amplitude*settle;
     }
+    if(pose==='left'&&!reducedMotion){
+      const follow=THREE.MathUtils.clamp(accompany,0,1);
+      byName.wrist.rotation.z+=.012*follow;
+      byName.palm.rotation.z-=.006*follow;
+    }
     if(pose!=='left'){
       const progress=THREE.MathUtils.clamp(pointing,0,1);
       // Na perspectiva, os contornos deformam uma imagem íntegra. No rig
@@ -165,7 +170,7 @@ export function createHandImageRig(geometry,material,pose,{perspective=false}={}
       if(perspective){
         const weights=perspectiveFrameWeights(progress);
         for(let i=0;i<4;i++)mesh.morphTargetInfluences[i]=weights[i];
-        mesh.morphTargetInfluences[4]=reducedMotion?0:progress;
+        mesh.morphTargetInfluences[4]=reducedMotion?0:progress*PERSPECTIVE_DEPTH_SCALE;
       }else mesh.morphTargetInfluences[0]=reducedMotion?0:pose==='neutral'?progress:1-progress;
     }
   }

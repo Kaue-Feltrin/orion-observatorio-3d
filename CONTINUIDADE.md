@@ -1,3 +1,15 @@
+## 19/10/2026 — equilíbrio das mãos e apontamento contido
+
+- Feedback: direita menos transparente, mãos desalinhadas nos dois eixos, esquerda sem acompanhar o hover e apontamento exagerado/esticado. Base `823e0d0` conferida no GitHub antes de alterar. Mesma branch `codex/maos-rig-mmv`/PR #29; sem main/merge.
+- Enquadramento compartilhado: alpha 0,38, altura-base 0,565, margem lateral −0,030 espelhada e ancoragem inferior −0,020. Direita reduzida à escala da esquerda, preservando proporção da imagem e limite de 30% por lateral. Poses anatômicas próprias mantidas; nenhuma imagem redesenhada.
+- Perspectiva limita apontar a 60% da sequência e profundidade efetiva a 0,042 (antes 0,14). Avanço do clique 0,045 (antes 0,09), pressão/rotação menores. Contorno, ponta arredondada, pesos e grade aprovados preservados; nenhuma inversão/limite anatômico relaxado.
+- Esquerda acompanha o hover com pequena elevação/aproximação e movimento real de punho/palma. Mesmo progresso suave de entrada/retorno; reduced-motion congela a esquerda e remove profundidade. `hoverBlend` registra entrada completa; `rightBlend`, pose efetiva contida. Seleção luminosa e viagem mantidas.
+- Check/build e seis suítes unitárias aprovados. **19/19 casos de navegador** (mesh, rig, perspectiva e seleção) sem retries em 5,3 min; **2/2 regressões da navegação padrão** sem retries em 26,9 s. Unidade nova `tests/hands-balance.unit.mjs` incluída no CI, cobrindo igualdade de frame/alpha em três enquadramentos, acompanhamento/retorno sem escala e limites de pose/depth. Anatomia matemática completa permanece testada, inclusive poses não usadas pelo hover contido.
+- Antes/depois, repouso/hover/retorno em desktop/celular, fases do clique e vídeo real de 16,63 s sem erros em [docs/rig-mmv/balance/](docs/rig-mmv/balance/README.md). Evidência local Chromium/SwiftShader; não é aceite artístico nem medição de hardware do usuário.
+- CI da base `823e0d0`: FAILURE em Testar WebGL, causa ainda desconhecida. Usuário forneceu resumo do run `39247654033`/artefato `12184518033`; sem erro específico. Download de logs/artefato bloqueado neste ambiente. Avisos de Node/Ubuntu não identificam a causa. CI da nova revisão a conferir após push; resultados locais não substituem o CI completo.
+- Código: first-person-hands-mesh.js, hands-image-rig.js e hands-perspective-motion.js; regressões/CI e documentação/contexto. Assets, câmera, fotografia/créditos ESO, Nox, ondas de seleção e star-journey.js preservados.
+- Ação do usuário na entrega: abrir a nova prévia, observar repouso, passar/retirar o cursor da Nox e clicar; avaliar transparência, alinhamento e naturalidade do gesto. Nenhum upload, instalação ou credencial necessário. Encerrar após esta etapa.
+
 ## 19/10/2026 — estudo de mesh/rig e refinamento pequeno
 
 - Pedido explícito: estudar esse tipo de animação por mesh/rig e melhorar um pouco a mão e a seleção da estrela. Base GitHub conferida `058cd21`, Cloudflare aprovado, CI completo ainda em execução ao iniciar. Mesma branch codex/maos-rig-mmv/PR #29, sem main/merge.

@@ -9,7 +9,7 @@ async function ready(page){
 async function aim(page){
   const box=await page.locator('#heraldTarget').boundingBox();
   await page.mouse.move(box.x+box.width/2,box.y+box.height/2);
-  await expect.poll(()=>page.evaluate(()=>window.__orionHandsDebug.state.rightBlend)).toBeGreaterThan(.997);
+  await expect.poll(()=>page.evaluate(()=>window.__orionHandsDebug.state.hoverBlend)).toBeGreaterThan(.997);
 }
 async function watch(page){
   await page.evaluate(()=>{
@@ -60,11 +60,12 @@ test('clique real confirma com pressão e onda de luz antes da viagem, sem dupli
   // Um segundo evento no mesmo alvo não reinicia nem repete a viagem.
   await target.dispatchEvent('click',{detail:1});
   const samples=await result(page);
-  expect(samples.some(s=>s.press>.8&&s.blend<.9)).toBe(true);
+  expect(samples.some(s=>s.press>.8&&s.blend<.53)).toBe(true);
+  expect(samples.every(s=>s.blend<=.60)).toBe(true);
   expect(samples.some(s=>s.anticipation>.1)).toBe(true);
   expect(samples.some(s=>s.followThrough>.5&&s.press<.5)).toBe(true);
-  expect(samples.some(s=>s.z>-2.42)).toBe(true);
-  expect(samples.every(s=>s.opacity===.46&&s.draws===2)).toBe(true);
+  expect(samples.some(s=>s.z>-2.46)).toBe(true);
+  expect(samples.every(s=>s.opacity===.38&&s.draws===2)).toBe(true);
   expect(samples.every(s=>s.fov===51)).toBe(true);
   expect(new Set(samples.map(s=>s.map)).size).toBe(1);
   expect(samples.some(s=>s.light[0]>.2)).toBe(true);expect(errors).toEqual([]);
@@ -135,7 +136,7 @@ test('registra etapas do clique e preservação do centro em desktop e celular',
           rings:d.rings.map(r=>({radius:r.scale.x,opacity:r.material.opacity,singlePass:r.material.forceSinglePass}))};
       },p);
       expect(data.p).toBeCloseTo(p,4);
-      expect(data.tipX).toBeGreaterThan(.70);expect(data.opacity).toBe(.46);expect(data.draws).toBe(2);
+      expect(data.tipX).toBeGreaterThan(.70);expect(data.opacity).toBe(.38);expect(data.draws).toBe(2);
       expect(data.rings.every(r=>r.singlePass)).toBe(true);
       if(p===.08){expect(data.z).toBeLessThan(-2.51);expect(data.rings[1].opacity).toBe(0);}
       if(p===.5)expect(data.rings[1].opacity).toBeGreaterThan(.15);

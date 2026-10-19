@@ -4,14 +4,15 @@
 import * as THREE from 'three';
 import {MESH_COLS,MESH_ROWS,deformHandVertices,HAND_PROFILES} from './hands-mesh-motion.js';
 import {createHandImageRig} from './hands-image-rig.js';
-import {PERSPECTIVE_FRAMES,perspectiveFrameWeights,HAND_REACH_DEPTH} from './hands-perspective-motion.js';
+import {perspectiveFrameWeights,HAND_REACH_DEPTH,PERSPECTIVE_POINT_LIMIT,PERSPECTIVE_DEPTH_SCALE} from './hands-perspective-motion.js';
 
+const FRAME=Object.freeze({baseOpacity:.38,height:.565,edgeInset:-.030,bottom:-.020});
 const HANDS=Object.freeze({
- left:{file:'/overlay/left-hand-ethereal.webp',baseOpacity:.38,height:.565,
-   edgeInset:-.030,bottom:-.020,swayX:-.006,swayY:-.005,breath:.003,phase:.45,
+ left:{...FRAME,file:'/overlay/left-hand-ethereal.webp',
+   swayX:-.006,swayY:-.005,breath:.003,phase:.45,
    pointer:false,columns:MESH_COLS,rows:MESH_ROWS},
- right:{file:'/overlay/right-hand-pointing.webp',neutralFile:'/overlay/right-hand-neutral.webp',baseOpacity:.46,height:.66,
-   edgeInset:-.018,bottom:-.005,swayX:-.006,swayY:-.005,breath:.003,phase:1.15,
+ right:{...FRAME,file:'/overlay/right-hand-pointing.webp',neutralFile:'/overlay/right-hand-neutral.webp',
+   swayX:-.006,swayY:-.005,breath:.003,phase:1.15,
    pointer:true,columns:36,rows:28}
 });
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -21,7 +22,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    motionEnabled:!reducedMotion,drawSurfaces:0,triangles:0,textureCount:0,
    joints:0,fingerJoints:0,swayX:0,swayY:0,maxVertexDelta:0,
    pose:'feminine-star-hover',handProfiles:Object.keys(HAND_PROFILES),
-   rightHover:false,rightBlend:0,animation:usePerspective?'perspective':useRig?'rig':'mesh',
+   rightHover:false,rightBlend:0,hoverBlend:0,leftFollow:0,animation:usePerspective?'perspective':useRig?'rig':'mesh',
    rightFrameWeights:[],rightDepth:0,selecting:false,selectionReach:0,selectionPress:0,
    selectionAnticipation:0,selectionFollowThrough:0};
  const root=new THREE.Group();
@@ -172,11 +173,13 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      pointVelocity=(pointVelocity-omega*advance)*decay;
    }else pointBlend+=(desired-pointBlend)*(1-Math.exp(-step*9.5));
    pointBlend=clamp(pointBlend,0,1);
-   const gestureBlend=clamp(pointBlend-(reducedMotion?0:.16*state.selectionPress),0,1);
+   state.hoverBlend=pointBlend;state.leftFollow=reducedMotion?0:pointBlend;
+   const limit=usePerspective?PERSPECTIVE_POINT_LIMIT:1,press=usePerspective?.10:.16;
+   const gestureBlend=clamp(pointBlend*limit-(reducedMotion?0:press*state.selectionPress),0,limit);
    state.rightBlend=gestureBlend;
    if(alpha===0){root.visible=false;state.visible=false;state.drawSurfaces=0;state.triangles=0;return;}
    let max=0;
-   for(const rig of rigs)rig.update(seconds,reducedMotion,gestureBlend);
+   for(const rig of rigs)rig.update(seconds,reducedMotion,gestureBlend,rig.pose==='left'?state.leftFollow:0);
    // O rig articula durante todo o gesto; a troca de textura fica concentrada
    // no trecho central, em vez de substituir a animação do indicador.
    const textureBlend=useRig&&!reducedMotion?THREE.MathUtils.smoothstep(gestureBlend,.25,.75):gestureBlend;
@@ -194,13 +197,19 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      place(hand,fx,fy);
      // Mãos distintas: direita aponta, esquerda emoldura; sem giro brusco.
      mesh.rotation.z=reducedMotion?0:Math.sin(seconds*.72+c.phase)*(c.pointer?.010:.006);
+     if(hand.side==='left'&&state.leftFollow>0){
+       const v=viewport();
+       mesh.position.x+=v.width*.0025*state.leftFollow;
+       mesh.position.y+=v.height*.0035*state.leftFollow;
+       if(!useRig)mesh.rotation.z+=.008*state.leftFollow;
+     }
      if(hand.side==='right'&&state.selecting&&!reducedMotion){
        const v=viewport(),reach=state.selectionReach;
        const anticipation=state.selectionAnticipation,follow=state.selectionFollowThrough;
        mesh.position.x-=v.width*.004*reach;
        mesh.position.y+=v.height*(.012*reach-.002*anticipation+.001*follow);
-       mesh.position.z+=.09*reach-.012*anticipation;
-       mesh.rotation.z+=.014*reach-.045*state.selectionPress+.010*anticipation+.007*follow;
+       mesh.position.z+=.045*reach-.012*anticipation;
+       mesh.rotation.z+=.014*reach-.030*state.selectionPress+.010*anticipation+.007*follow;
      }
      mesh.material.opacity=c.baseOpacity*alpha*(hand.side==='right'&&!usePerspective?textureBlend:1);
    }
@@ -215,7 +224,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    if(usePerspective){
      const weights=perspectiveFrameWeights(gestureBlend);
      state.rightFrameWeights=weights;
-     state.rightDepth=reducedMotion?0:gestureBlend*HAND_REACH_DEPTH;
+     state.rightDepth=reducedMotion?0:gestureBlend*HAND_REACH_DEPTH*PERSPECTIVE_DEPTH_SCALE;
    }
    state.drawSurfaces=usePerspective?2:1+Number(meshes[1].visible)+Number(neutralMesh.visible);
    state.triangles=meshes[0].geometry.index.count/3+

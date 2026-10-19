@@ -1,6 +1,6 @@
 # Protótipo MMV das mãos
 
-Revisão atual: [estudo de mesh/rig e refinamento de movimento](study/README.md), sobre o [gesto de clique e seleção luminosa da Nox](selection/README.md). A [ponta do indicador sem compressão](fingertip/README.md) foi aprovada visualmente pelo usuário em 19/10/2026; o refinamento atual aguarda avaliação. O refinamento dos outros contornos está registrado em [smooth/](smooth/README.md). A revisão de imagem inteira em `continuous/` ainda recebeu feedback de quinas e foi refinada posteriormente. A tentativa de separar o indicador em `fingers/` foi rejeitada pelo usuário e substituída.
+Revisão atual: [equilíbrio das mãos, acompanhamento da esquerda e apontamento contido](balance/README.md). O [estudo de mesh/rig](study/README.md) e o [gesto de clique/seleção](selection/README.md) registram as etapas anteriores. A [ponta do indicador sem compressão](fingertip/README.md) foi aprovada visualmente pelo usuário em 19/10/2026; o equilíbrio e a intensidade do gesto receberam novo feedback e foram ajustados. O refinamento dos outros contornos está em [smooth/](smooth/README.md). A tentativa de separar o indicador em `fingers/` foi rejeitada e substituída.
 
 Nova avaliação autorizada: [três poses intermediárias e apontamento com perspectiva](perspective/README.md), ativada por `handsMotion=perspective`. O rig descrito abaixo continua disponível para comparação.
 

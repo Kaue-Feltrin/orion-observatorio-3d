@@ -89,14 +89,17 @@ try{
     hands.update(2,1/60);
     hands.state.rightFrameWeights.forEach((w,j)=>{if(w>.6)visited.add(j);});
     assert.equal(whole.material.map,map,'mesma imagem íntegra durante o gesto');
-    assert.equal(whole.material.opacity,.46,'sem fade de dedos ou palma');
+    assert.equal(whole.material.opacity,.38,'sem fade de dedos ou palma');
     assert.equal(hands.state.drawSurfaces,2,'uma superfície contínua para cada mão');
   }
-  assert.deepEqual([...visited].sort(),[0,1,2,3,4],'todas as poses participam do hover');
-  assert.ok(hands.state.rightDepth>HAND_REACH_DEPTH*.99);
+  assert.deepEqual([...visited].sort(),[0,1,2],'hover contido, sem alcançar extensão total');
+  assert.ok(hands.state.rightBlend>.599&&hands.state.rightBlend<=.60);
+  assert.equal(hands.state.rightFrameWeights[4],0);
+  assert.ok(hands.state.rightDepth>.041&&hands.state.rightDepth<=.042);
   for(const rig of hands.rigs.filter(r=>r.pose!=='left')){
     const {landmarks}=rig.measure();
-    assert.ok(landmarks.indexTip.z<landmarks.wrist.z-.08,'ponta avança para dentro da cena, punho ancorado');
+    assert.ok(landmarks.indexTip.z<landmarks.wrist.z-.02&&landmarks.indexTip.z>landmarks.wrist.z-.05,
+      'profundidade moderada, punho ancorado');
     const target=rig.mesh.geometry.morphAttributes.position[4],uv=rig.mesh.geometry.attributes.uv;
     for(let i=0;i<target.count;i++){
       assert.ok(target.getZ(i)>=-HAND_REACH_DEPTH-1e-7&&target.getZ(i)<=0);
@@ -127,7 +130,7 @@ try{
   console.log('Área relativa dos triângulos na sequência:',minArea,maxArea);
   // Interromper/reverter o gesto usa os mesmos quadros; nenhuma troca instantânea.
   hands.setStarHovered(false);hands.update(2,1/60);
-  assert.ok(hands.state.rightBlend>.9);
+  assert.ok(hands.state.rightBlend>.59&&hands.state.rightBlend<=.60);
   for(let i=0;i<150;i++)hands.update(2,1/60);
   assert.ok(hands.state.rightFrameWeights[0]>.999);
   assert.ok(hands.state.rightDepth<1e-5);
@@ -143,13 +146,14 @@ try{
   assert.equal(geometries,2);assert.equal(disposedMaterials,1);assert.equal(disposedTextures,2);
   const reduced=createEtherealHandsMesh(camera,{animation:'perspective',reducedMotion:true});
   await reduced.ready;reduced.setStarHovered(true);reduced.update(5,1/60);
-  assert.deepEqual(reduced.state.rightFrameWeights,[0,0,0,0,1]);
+  assert.deepEqual(reduced.state.rightFrameWeights,perspectiveFrameWeights(.60));
   assert.equal(reduced.state.rightDepth,0);
   for(const rig of reduced.rigs){
     assert.ok(rig.bones.every(b=>b.rotation.z===0));
     if(rig.pose!=='left'){
-      assert.deepEqual(rig.mesh.morphTargetInfluences,[0,0,0,0,0],'apontamento estático, sem profundidade');
-      const staticPose=[...rig.mesh.morphTargetInfluences];rig.update(20,true,1);
+      assert.deepEqual(rig.mesh.morphTargetInfluences,[...perspectiveFrameWeights(.60).slice(0,4),0],
+        'apontamento contido estático, sem profundidade');
+      const staticPose=[...rig.mesh.morphTargetInfluences];rig.update(20,true,.60);
       assert.deepEqual(rig.mesh.morphTargetInfluences,staticPose);
     }
   }

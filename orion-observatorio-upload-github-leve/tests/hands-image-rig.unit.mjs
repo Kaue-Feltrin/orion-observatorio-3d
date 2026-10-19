@@ -99,7 +99,7 @@ try {
   // 100ms: indicador já se move, embora só a imagem neutra esteja visível.
   for(let i=0;i<6;i++)hands.update(3,1/60);
   assert.equal(hands.meshes[1].visible,false,'primeira fase não usa fade');
-  assert.equal(neutral.material.opacity,.46,'opacidade constante na primeira fase');
+  assert.equal(neutral.material.opacity,.38,'opacidade constante na primeira fase');
   assert.ok(r.measure().landmarks.indexTip.y-resting.y>.001,'ossos articulam antes da troca de textura');
   for(let i=0;i<90;i++)hands.update(3+i/60,1/60);
   assert.equal(neutral.visible,false);
