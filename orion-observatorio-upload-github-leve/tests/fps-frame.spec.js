@@ -43,7 +43,7 @@ test('v0.9.17 enquadramento arcano: C com polegar e indicador, sem bloquear Nox'
     expect(snapshot.fingers).toBeGreaterThanOrEqual(25);
     expect(snapshot.meshCount).toBeGreaterThan(0);
     expect(snapshot.nox).toBe(true);
-    expect(snapshot.volume).toBe(3);
+    expect(snapshot.volume).toBe(5);
     expect(snapshot.framing.wristLeft.x).toBeLessThan(-.66);
     expect(snapshot.framing.wristRight.x).toBeGreaterThan(.66);
     for(const key of ['indexL','indexR','thumbL','thumbR']){

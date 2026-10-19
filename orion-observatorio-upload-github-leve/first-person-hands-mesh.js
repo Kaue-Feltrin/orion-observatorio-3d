@@ -7,11 +7,13 @@ import {createHandImageRig} from './hands-image-rig.js';
 import {perspectiveFrameWeights,HAND_REACH_DEPTH,PERSPECTIVE_POINT_LIMIT,PERSPECTIVE_DEPTH_SCALE} from './hands-perspective-motion.js';
 
 const FRAME=Object.freeze({baseOpacity:.38,height:.565,edgeInset:-.030,bottom:-.020});
+// As artes têm antebraços diferentes: a esquerda precisa de compensação
+// óptica para entrar pela lateral na mesma altura da direita, fora da quina.
 const HANDS=Object.freeze({
- left:{...FRAME,file:'/overlay/left-hand-ethereal.webp',
+ left:{...FRAME,edgeInset:-.042,rotation:-.20,file:'/overlay/left-hand-ethereal.webp',
    swayX:-.006,swayY:-.005,breath:.003,phase:.45,
    pointer:false,columns:MESH_COLS,rows:MESH_ROWS},
- right:{...FRAME,file:'/overlay/right-hand-pointing.webp',neutralFile:'/overlay/right-hand-neutral.webp',
+ right:{...FRAME,rotation:0,file:'/overlay/right-hand-pointing.webp',neutralFile:'/overlay/right-hand-neutral.webp',
    swayX:-.006,swayY:-.005,breath:.003,phase:1.15,
    pointer:true,columns:36,rows:28}
 });
@@ -90,9 +92,9 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
        }
      }
      const rest=new Float32Array(pos.array),uvLocal=new Float32Array(uv.array);
-     if(side==='right'){
-       // A arte termina antes da borda do sprite: zerar o alpha antes desse
-       // corte evita um punho flutuante no canto, sem mover ou escalar a mão.
+     {
+       // Acabamento suave dos dois antebraços, calibrado para cada arte:
+       // desaparecem antes da borda inferior, sem punho flutuante.
        const colors=new Float32Array(uv.count*4);
        const smooth=t=>{t=clamp(t,0,1);return t*t*(3-2*t);};
        for(let j=0;j<uv.count;j++){
@@ -101,14 +103,14 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
          const nearBottom=1-smooth((v-.16)/.22);
          const k=j*4;
          colors[k]=1;colors[k+1]=1;colors[k+2]=1;
-         colors[k+3]=1-rightEdge*nearBottom;
+         colors[k+3]=side==='left'?smooth((v-.09)/.21):1-rightEdge*nearBottom;
        }
        geom.setAttribute('color',new THREE.Float32BufferAttribute(colors,4));
      }
      const material=new THREE.MeshBasicMaterial({
        map:texture,transparent:true,opacity:config.baseOpacity,
        side:THREE.DoubleSide,depthTest:false,depthWrite:false,toneMapped:false,
-       vertexColors:side==='right'
+       vertexColors:true
      });
      const rig=useRig?createHandImageRig(geom,material,side==='left'?'left':usePerspective?'perspective':'pointing',
        {perspective:usePerspective&&side==='right'}):null;
@@ -196,7 +198,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
        Math.sin(seconds*.94+c.phase)*c.breath;
      place(hand,fx,fy);
      // Mãos distintas: direita aponta, esquerda emoldura; sem giro brusco.
-     mesh.rotation.z=reducedMotion?0:Math.sin(seconds*.72+c.phase)*(c.pointer?.010:.006);
+     mesh.rotation.z=c.rotation+(reducedMotion?0:Math.sin(seconds*.72+c.phase)*(c.pointer?.010:.006));
      if(hand.side==='left'&&state.leftFollow>0){
        const v=viewport();
        mesh.position.x+=v.width*.0025*state.leftFollow;

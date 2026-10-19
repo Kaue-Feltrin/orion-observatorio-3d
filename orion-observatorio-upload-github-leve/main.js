@@ -217,7 +217,7 @@ const respirationState={gas:1,star:1,beacon:0};
 // Five independent GLSL gas planes in front of the ESO image; no photo blur.
 const atmosphere = createCosmicAtmosphere(scene,{reducedMotion:reduceMotion || mobile});
 layers.push(...atmosphere.layers);
-// 4 regiões recortadas da própria fotografia ESO, sobrepostas em Z.
+// 6 regiões recortadas da própria fotografia ESO, sobrepostas em Z.
 // Sem mais estrelas ou efeitos de tela inteira.
 const nebulaVolume=createNebulaVolume(scene,mainCloud,{reducedMotion:reduceMotion||mobile,parallaxEnabled:depthMotionEnabled,foregroundEnabled});
 layers.push(...nebulaVolume.layers);

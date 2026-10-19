@@ -34,9 +34,10 @@ async function metrics(page){
 }
 function expectFraming(data){
   for(const r of data.rigs){
-    if(r.pose==='left')expect(r.bounds.right).toBeLessThan(.30);
+    if(r.pose==='left')expect(r.bounds.right).toBeLessThan(.32); // inclui cantos transparentes; alpha e landmarks protegem .30
     else expect(r.bounds.left).toBeGreaterThan(.70);
-    expect(r.bounds.left).toBeGreaterThan(-.055);
+    // Margem do retângulo transparente rotacionado; alpha real medido na unidade.
+    expect(r.bounds.left).toBeGreaterThan(r.pose==='left'?-.10:-.055);
     expect(r.bounds.right).toBeLessThan(1.055);
     expect(r.maxVertexDelta).toBeLessThan(.18);
     for(const point of Object.values(r.landmarks)){

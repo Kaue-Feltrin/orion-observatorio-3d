@@ -1,6 +1,6 @@
 # Protótipo MMV das mãos
 
-Revisão atual: [equilíbrio das mãos, acompanhamento da esquerda e apontamento contido](balance/README.md). O [estudo de mesh/rig](study/README.md) e o [gesto de clique/seleção](selection/README.md) registram as etapas anteriores. A [ponta do indicador sem compressão](fingertip/README.md) foi aprovada visualmente pelo usuário em 19/10/2026; o equilíbrio e a intensidade do gesto receberam novo feedback e foram ajustados. O refinamento dos outros contornos está em [smooth/](smooth/README.md). A tentativa de separar o indicador em `fingers/` foi rejeitada e substituída.
+Revisão atual: [fechamento da esquerda, entrada lateral alinhada e atmosfera com mais profundidade](closure-atmosphere/README.md). A revisão de [equilíbrio das mãos](balance/README.md) não tornou o acompanhamento esquerdo perceptível ao usuário e alinhava retângulos, não as silhuetas; o novo feedback pediu fechamento dos dedos, braços entrando pela mesma borda e mais camadas de paralaxe. O [estudo de mesh/rig](study/README.md), a [seleção](selection/README.md) e o [reparo aprovado da ponta](fingertip/README.md) permanecem documentados no histórico.
 
 Nova avaliação autorizada: [três poses intermediárias e apontamento com perspectiva](perspective/README.md), ativada por `handsMotion=perspective`. O rig descrito abaixo continua disponível para comparação.
 

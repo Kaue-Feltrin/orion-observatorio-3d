@@ -36,18 +36,20 @@ async function bounds(page){
   });
 }
 function expectEdges(boxes){
-  expect(boxes[0].right).toBeLessThan(.30);
+  expect(boxes[0].right).toBeLessThan(.32); // retângulo rotacionado; alpha real protegido em .30
   expect(boxes[0].left).toBeLessThan(.04);
   for(const b of boxes.slice(1)){
     expect(b.left).toBeGreaterThan(.70);
     expect(b.right).toBeGreaterThan(.96);
   }
-  for(const b of boxes){
-    expect(b.left).toBeGreaterThan(-.05);
+  // A rotação óptica da esquerda leva cantos transparentes para fora da tela.
+  // hands-balance.unit mede o alpha real nas entradas laterais.
+  for(const [i,b] of boxes.entries()){
+    expect(b.left).toBeGreaterThan(i===0?-.10:-.05);
     expect(b.right).toBeLessThan(1.05);
     // O plano inclui a margem transparente acima da silhueta dos dedos.
     expect(b.top).toBeGreaterThan(.32);
-    expect(b.bottom).toBeLessThan(1.06);
+    expect(b.bottom).toBeLessThan(i===0?1.10:1.06);
   }
 }
 
@@ -153,7 +155,7 @@ test('v0.9.21 movimento reduzido mantém dedos estáticos e troca de pose sem an
   await aim(page);
   await expect.poll(()=>blend(page)).toBe(1);
   expect(await page.evaluate(()=>window.__orionHandsDebug.state.maxVertexDelta)).toBe(0);
-  expect(await page.evaluate(()=>window.__orionHandsDebug.meshes.map(m=>m.rotation.z))).toEqual([0,0]);
+  expect(await page.evaluate(()=>window.__orionHandsDebug.meshes.map(m=>m.rotation.z))).toEqual([-.20,0]);
   expect(await page.evaluate(()=>window.__orionHandsDebug.meshes.map(m=>Array.from(m.geometry.attributes.position.array)))).toEqual(vertices);
   await page.mouse.move(15,20);
   await expect.poll(()=>blend(page)).toBe(0);

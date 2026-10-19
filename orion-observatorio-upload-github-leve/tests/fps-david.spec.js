@@ -42,7 +42,7 @@ test('v0.9.15 GLB original David Fischer e rig FPS com atribuição correta',asy
   expect(data.attached).toBe(true);
   expect(data.credit).toBe(false);
   expect(data.snapshot.handsMode).toBe('fps');
-  expect(data.snapshot.volumeLayers).toBe(3);
+  expect(data.snapshot.volumeLayers).toBe(5);
   expect(data.snapshot.bloomRest).toBe(true);
   expect(errors).toEqual([]);
   expect(data.framing.wristLeft).toBeTruthy();

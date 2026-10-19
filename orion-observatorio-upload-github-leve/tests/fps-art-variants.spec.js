@@ -89,6 +89,6 @@ test('v0.9.15 comparar material iluminado e básico, sem tocar no Nox',async({pa
   expect(examples[1].light).toBe('lit');
   expect(examples[0].materials).toEqual(['MeshBasicMaterial']);
   expect(examples[1].materials).toEqual(['MeshLambertMaterial']);
-  expect(examples.every(x=>x.bloom&&x.layers===3)).toBe(true);
+  expect(examples.every(x=>x.bloom&&x.layers===5)).toBe(true);
   expect(examples.every(x=>x.coverage.left>2&&x.coverage.right>2)).toBe(true);
 });

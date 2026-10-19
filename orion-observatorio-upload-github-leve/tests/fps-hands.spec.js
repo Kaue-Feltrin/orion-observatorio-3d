@@ -42,7 +42,7 @@ test('v0.9.15 David Fischer: GLB local, ossos completos e enquadramento FPS medi
   expect(metrics.meshes[0].vertices).toBeGreaterThan(4000);
   expect(metrics.meshes[0].colors).toBe(4);
   expect(metrics.credit).toBe(true);
-  expect(metrics.layers).toBe(3);
+  expect(metrics.layers).toBe(5);
   expect(metrics.bloom).toBe(true);
   const f=metrics.state.framing;
   expect(f).toBeTruthy();

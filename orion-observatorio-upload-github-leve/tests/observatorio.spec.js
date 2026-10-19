@@ -273,13 +273,13 @@ test('filtro segue o Nox sem editar os pixels da fotografia astronômica',async(
   expect(errors).toEqual([]);
 });
 
-test('Nebulosa em Volume tem quatro recortes fotográficos com paralaxe real',async({page})=>{
+test('Nebulosa em Volume tem seis recortes fotográficos com paralaxe real',async({page})=>{
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
   await page.goto('http://127.0.0.1:4173/?debug=1&quality=high',{waitUntil:'domcontentloaded'});
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
   const data=await page.evaluate(async()=>{
     const ls=window.__orionDepthDebug.layers.filter(x=>x.userData.volumeFragment);
-    const existing=await Promise.all(['01','02','03','04'].map(async id=>{
+    const existing=await Promise.all(['01','02','03','04','05','06'].map(async id=>{
       const res=await fetch('/assets/depth/eso-gas-'+id+'.webp');
       return {status:res.status,type:res.headers.get('content-type'),bytes:(await res.arrayBuffer()).byteLength};
     }));
@@ -289,8 +289,8 @@ test('Nebulosa em Volume tem quatro recortes fotográficos com paralaxe real',as
     return {length:ls.length,initial,final,existing,starZ:window.__orionStarDebug.heraldGroup.position.z,
       photo:window.__orionRespirationDebug.nebula.material.opacity};
   });
-  expect(data.length).toBe(4);
-  expect(data.initial.map(l=>l.z)).toEqual([-425,-342,-252,-185]);
+  expect(data.length).toBe(6);
+  expect(data.initial.map(l=>l.z)).toEqual([-425,-342,-252,-185,-130,-42]);
   expect(data.initial.every(l=>l.width>20&&l.visible&&l.opacity>0&&l.opacity<.28)).toBe(true);
   expect(data.existing.every(x=>x.status===200&&x.bytes>3000)).toBe(true);
   expect(data.initial.some((p,i)=>Math.abs(data.final[i].x-p.x)>.03)).toBe(true);
@@ -310,7 +310,7 @@ test('mouse segue a direção rapidamente sem forçar layout a cada quadro',asyn
     card:document.querySelector('#heraldCard').style.left,
     ratio:window.__orionPerformance.pixelRatio
   }));
-  expect(state.layers).toBe(4);
+  expect(state.layers).toBe(6);
   expect(state.difference).toBeLessThan(.13);
   expect(state.card).toMatch(/px$/);
 });
@@ -323,7 +323,7 @@ test('modo leve carrega menos fragmentos sem limitar câmera a 30fps',async({pag
     return {count:ls.length,visible:ls.filter(l=>l.visible).length,
       ratio:window.__orionPerformance.pixelRatio};
   });
-  expect(result.count).toBe(4);
+  expect(result.count).toBe(6);
   expect(result.visible).toBe(2);
   expect(result.ratio).toBeLessThanOrEqual(.75);
   await page.locator('#heraldTarget').click({force:true});
@@ -395,7 +395,7 @@ test('diagnóstico do frame time e uso de recursos da prévia',async({page})=>{
   console.log('ORION-PERF-SMOKE',JSON.stringify(perf));
   // SwiftShader no CI pode entregar menos de 2 FPS: registrar o valor
   // como diagnóstico, sem impor um limite de FPS do hardware do usuário.
-  expect(perf.fragments).toBe(3);
+  expect(perf.fragments).toBe(5);
   expect(perf.drawCalls).toBeGreaterThan(1);
 });
 
@@ -653,12 +653,12 @@ test('v0.9.9 Eco+ cria terceiro recorte ESO mais próximo com ordem correta',asy
       status:window.__orionDiagnostic.snapshot(),
       photo:window.__orionRespirationDebug.nebula.material.opacity};
   });
-  expect(data.depth).toEqual([-342,-75,-185]);
-  expect(data.originals).toEqual(['02','03','04']);
+  expect(data.depth).toEqual([-342,-75,-185,-130,-42]);
+  expect(data.originals).toEqual(['02','03','04','05','06']);
   expect(data.order[1]).toBeGreaterThan(data.order[2]); // -75 is in front of -185.
   expect(data.opacity[1]).toBeLessThan(.095); // Soft photographic foreground.
   expect(data.status.foregroundNear).toBe(true);
-  expect(data.status.volumeLayers).toBe(3);
+  expect(data.status.volumeLayers).toBe(5);
   expect(data.status.gasLayers).toBe(0);
   expect(data.status.bloomRest).toBe(true);
   expect(data.status.quality).toBe('eco-plus');
@@ -688,7 +688,7 @@ test('v0.9.9 sem véu frontal restaura exatamente os dois planos e mantém o blo
   // Painel v0.9.10 inclui também o toggle de mãos; escolher por função.
   await page.locator('.perf-depth-compare').filter({hasText:'Ativar véu próximo'}).click();
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
-  expect(await page.evaluate(()=>window.__orionDiagnostic.snapshot().volumeLayers)).toBe(3);
+  expect(await page.evaluate(()=>window.__orionDiagnostic.snapshot().volumeLayers)).toBe(5);
 });
 
 
@@ -730,7 +730,7 @@ test('v0.9.10 mãos etéreas são viewmodel da câmera e não cobrem o Nox',asyn
   expect(data.projection[1][0]).toBeGreaterThan(.50); // Centro livre mesmo após sway.
   expect(data.projection[0][1]).toBeLessThan(-.53); // Base na região inferior, com sway vertical.
   expect(data.projection[1][1]).toBeLessThan(-.47);
-  expect(data.planes).toBe(3);
+  expect(data.planes).toBe(5);
   expect(data.gas).toBe(0);
   expect(data.bloom).toBe(true);
   expect(data.handsVisible).toBe(true);
@@ -757,7 +757,7 @@ test('v0.9.10 sem mãos restaura cena e não aloca viewmodel',async({page})=>{
   expect(initial.textures).toBe(0);
   expect(initial.result.handsVisible).toBe(false);
   expect(initial.result.handsSurfaces).toBe(0);
-  expect(initial.result.volumeLayers).toBe(3);
+  expect(initial.result.volumeLayers).toBe(5);
   expect(initial.toggle).toContain('Testar com mãos FPS');
   await page.locator('#orionHandsABSwitch').click();
   await expect.poll(async()=>page.evaluate(()=>document.documentElement.dataset.sceneReady),{timeout:15000}).toBe('1');
@@ -813,7 +813,7 @@ test('v0.9.11 nova pose deixa mãos mais altas e assimétricas, com mesma textur
   expect(p.mapped).toBe(true);
   expect(p.counts.quality).toBe('eco-plus');
   expect(p.counts.bloomRest).toBe(true);
-  expect(p.counts.volumeLayers).toBe(3);
+  expect(p.counts.volumeLayers).toBe(5);
 });
 
 
@@ -861,7 +861,7 @@ test('v0.9.12 mãos 3D compartilham geometria com cinco dedos reais e sem textur
   expect(p.snap.handsSurfaces).toBe(2);
   expect(p.snap.handsTextures).toBe(0);
   expect(p.snap.gasLayers).toBe(0);
-  expect(p.snap.volumeLayers).toBe(3);
+  expect(p.snap.volumeLayers).toBe(5);
   expect(p.snap.bloomRest).toBe(true);
   expect(errors).toEqual([]);
   await page.screenshot({path:'test-results/v0912-maos-tridimensionais.png'});
@@ -964,7 +964,7 @@ test('v0.9.13 carrega modelo FPS CC0 local com skeleton e juntas animáveis',asy
   expect(a.snap.handsMode).toBe('rig');
   expect(a.snap.handsFingerJoints).toBe(30);
   expect(a.snap.handsSurfaces).toBe(1);
-  expect(a.snap.volumeLayers).toBe(3);
+  expect(a.snap.volumeLayers).toBe(5);
   expect(a.snap.bloomRest).toBe(true);
   expect(errors).toEqual([]);
   await page.screenshot({path:'test-results/v0913-maos-rig-principal.png'});

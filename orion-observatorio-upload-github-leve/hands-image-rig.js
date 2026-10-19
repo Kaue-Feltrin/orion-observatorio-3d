@@ -162,6 +162,15 @@ export function createHandImageRig(geometry,material,pose,{perspective=false}={}
       const follow=THREE.MathUtils.clamp(accompany,0,1);
       byName.wrist.rotation.z+=.012*follow;
       byName.palm.rotation.z-=.006*follow;
+      // Fecha o arco da mão: flexão dos dedos e oposição leve do polegar.
+      // A mesma malha/arte acompanha a mola; sem trocar imagem ou alpha.
+      byName.index.rotation.z-=.17*follow;
+      byName.indexDistal.rotation.z-=.13*follow;
+      byName.middle.rotation.z-=.15*follow;
+      byName.ring.rotation.z-=.12*follow;
+      byName.little.rotation.z-=.09*follow;
+      byName.thumb.rotation.z+=.09*follow;
+      byName.thumbDistal.rotation.z+=.06*follow;
     }
     if(pose!=='left'){
       const progress=THREE.MathUtils.clamp(pointing,0,1);

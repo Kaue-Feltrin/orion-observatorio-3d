@@ -88,7 +88,7 @@ assert.match(main,/gas:\[0,2\]/,'equilibrado usa 2 planos GLSL');
 // v0.9.2d: não processar/remover as estrelas impressas na foto.
 // A nova branch parte de v0.9.2b, ANTES da mediana destrutiva da v0.9.2c.
 const photoScript=await read('scripts/prepare-astro-assets.mjs');
-assert.doesNotMatch(photoScript.split('// Os quatro recortes abaixo')[0],/\.median\(/,'não aplicar mediana no panorama ESO principal');
+assert.doesNotMatch(photoScript.split('// Os recortes abaixo')[0],/\.median\(/,'não aplicar mediana no panorama ESO principal');
 assert.doesNotMatch(photoScript,/const preserve=1-eased/,'não apagar estrelas da foto');
 assert.match(main,/--nox-focus-x/,'filtro acompanha posição da estrela em tela');
 assert.match(css,/v0\.9\.2d/,'filtro simples implementado via CSS');
@@ -106,7 +106,7 @@ assert.match(main,/selectiveBloom\.render\(travelling\|\|bloomTick%2===1,/,'bloo
 assert.match(await read('selective-bloom.js'),/function render\(refreshBloom=true,enableBloom=true\)/,'renderização seletiva temporizada e desligável');
 assert.match(await read('nebula-volume.js'),/const selected=quality==='eco-plus'/,'Eco+ seleciona 3 recortes com véu opcional');
 assert.match(await read('nebula-depth-specs.js'),/export const nebulaDepthSpecs/,'recortes coordenados');
-assert.match(await read('scripts/prepare-astro-assets.mjs'),/eso-gas-/,'4 texturas RGBA preparadas no build');
+assert.match(await read('scripts/prepare-astro-assets.mjs'),/eso-gas-/,'6 texturas RGBA preparadas no build');
 assert.doesNotMatch(await read('scripts/prepare-astro-assets.mjs'),/const preserve=1-eased/,'ESO integral não deve ser apagada');
 
 // v0.9.5: perfil eco + experimentos não alteram a foto original ou a viagem.
@@ -122,7 +122,7 @@ assert.match(await read('selective-bloom.js'),/if\(!enableBloom\)/,'passagens de
 assert.match(main,/qualityOverride==='eco-plus'/,'perfil Eco+ selecionável');
 assert.match(main,/'eco-plus':\{dpr:\.60,maxPixels:670000,bloomScale:\.22,gas:\[\]/,'Eco+ contém gás desligado e orçamento de pixels intermediário');
 assert.match(main,/qualityOrder=\['eco','eco-plus','lite','balanced','high'\]/,'fallback gradual entre Eco+ e Eco');
-assert.match(await read('nebula-volume.js'),/state\.foregroundEnabled\?\[1,2,3\]:\[1,3\]/,'Eco+ adiciona recorte frontal desligável');
+assert.match(await read('nebula-volume.js'),/state\.foregroundEnabled\?\[1,2,3,4,5\]:\[1,3\]/,'Eco+ adiciona recorte frontal desligável');
 assert.match(await read('performance-panel.js'),/Eco\+ sem bloom/,'comparativo entre Eco+ com e sem bloom');
 
 // v0.9.7 — profundidade puramente por transformação, sem shader ou textura extra.
