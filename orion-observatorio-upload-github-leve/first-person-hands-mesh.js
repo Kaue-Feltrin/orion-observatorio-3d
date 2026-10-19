@@ -22,7 +22,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    joints:0,fingerJoints:0,swayX:0,swayY:0,maxVertexDelta:0,
    pose:'feminine-star-hover',handProfiles:Object.keys(HAND_PROFILES),
    rightHover:false,rightBlend:0,animation:usePerspective?'perspective':useRig?'rig':'mesh',
-   rightFrameWeights:[],rightDepth:0};
+   rightFrameWeights:[],rightDepth:0,selecting:false,selectionReach:0,selectionPress:0};
  const root=new THREE.Group();
  root.name='OrionFeminineHands2p5D';
  root.visible=false;
@@ -32,7 +32,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    get:()=>Math.max(0,...rigs.map(r=>r.measure().maxVertexDelta))});
  let neutralMesh=null,starHovered=false,pointBlend=0,pointVelocity=0;
  if(!enabled)return {state,root,meshes,rigs,rightFrames,ready:Promise.resolve(false),
-   update(){},resize(){},setStarHovered(){},beginTravel(){},dispose(){camera.remove(root)}};
+   update(){},resize(){},setStarHovered(){},setStarSelection(){},beginTravel(){},dispose(){camera.remove(root)}};
  let disposed=false,travel=false,alpha=1,smX=0,smY=0;
  const textures=[];
  const loader=new THREE.TextureLoader();
@@ -161,7 +161,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    state.swayX=reducedMotion?0:smX;
    state.swayY=reducedMotion?0:smY;
    if(travel)alpha=Math.max(0,alpha-step*3.8);
-   const desired=starHovered&&!travel?1:0;
+   const desired=(starHovered||state.selecting)&&!travel?1:0;
    if(reducedMotion){pointBlend=desired;pointVelocity=0;}
    else if(useRig){
      // Mola criticamente amortecida: gesto legível, sem salto ao reverter hover.
@@ -171,13 +171,14 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      pointVelocity=(pointVelocity-omega*advance)*decay;
    }else pointBlend+=(desired-pointBlend)*(1-Math.exp(-step*9.5));
    pointBlend=clamp(pointBlend,0,1);
-   state.rightBlend=pointBlend;
+   const gestureBlend=clamp(pointBlend-(reducedMotion?0:.16*state.selectionPress),0,1);
+   state.rightBlend=gestureBlend;
    if(alpha===0){root.visible=false;state.visible=false;state.drawSurfaces=0;state.triangles=0;return;}
    let max=0;
-   for(const rig of rigs)rig.update(seconds,reducedMotion,pointBlend);
+   for(const rig of rigs)rig.update(seconds,reducedMotion,gestureBlend);
    // O rig articula durante todo o gesto; a troca de textura fica concentrada
    // no trecho central, em vez de substituir a animação do indicador.
-   const textureBlend=useRig&&!reducedMotion?THREE.MathUtils.smoothstep(pointBlend,.25,.75):pointBlend;
+   const textureBlend=useRig&&!reducedMotion?THREE.MathUtils.smoothstep(gestureBlend,.25,.75):gestureBlend;
    for(const hand of hands){
      const c=hand.config,{mesh,rest,uvLocal}=hand;
      const pos=mesh.geometry.getAttribute('position');
@@ -192,6 +193,13 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      place(hand,fx,fy);
      // Mãos distintas: direita aponta, esquerda emoldura; sem giro brusco.
      mesh.rotation.z=reducedMotion?0:Math.sin(seconds*.72+c.phase)*(c.pointer?.010:.006);
+     if(hand.side==='right'&&!reducedMotion){
+       const v=viewport(),reach=state.selectionReach;
+       mesh.position.x-=v.width*.004*reach;
+       mesh.position.y+=v.height*.012*reach;
+       mesh.position.z+=.09*reach;
+       mesh.rotation.z+=.014*reach-.045*state.selectionPress;
+     }
      mesh.material.opacity=c.baseOpacity*alpha*(hand.side==='right'&&!usePerspective?textureBlend:1);
    }
    if(neutralMesh&&meshes[1]){
@@ -203,9 +211,9 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    meshes[1].visible=usePerspective||textureBlend>.003;
    if(neutralMesh)neutralMesh.visible=textureBlend<.997;
    if(usePerspective){
-     const weights=perspectiveFrameWeights(pointBlend);
+     const weights=perspectiveFrameWeights(gestureBlend);
      state.rightFrameWeights=weights;
-     state.rightDepth=reducedMotion?0:pointBlend*HAND_REACH_DEPTH;
+     state.rightDepth=reducedMotion?0:gestureBlend*HAND_REACH_DEPTH;
    }
    state.drawSurfaces=usePerspective?2:1+Number(meshes[1].visible)+Number(neutralMesh.visible);
    state.triangles=meshes[0].geometry.index.count/3+
@@ -213,7 +221,12 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    if(!useRig)state.maxVertexDelta=max;
  }
  function setStarHovered(v){starHovered=!!v&&!travel;state.rightHover=starHovered;}
- function beginTravel(){travel=true;setStarHovered(false);}
+ function setStarSelection(pose){
+   state.selecting=!!pose&&!travel&&!disposed;
+   state.selectionReach=state.selecting&&!reducedMotion?clamp(pose.reach,0,1):0;
+   state.selectionPress=state.selecting&&!reducedMotion?clamp(pose.press,0,1):0;
+ }
+ function beginTravel(){travel=true;setStarSelection(null);setStarHovered(false);}
  function dispose(){
    if(disposed)return;disposed=true;root.visible=false;
    for(const m of meshes){m.geometry.dispose();m.material.dispose();root.remove(m);}
@@ -227,5 +240,5 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    meshes.length=0;hands.length=0;rigs.length=0;rightFrames.length=0;
    state.visible=false;state.loaded=false;
  }
- return {state,root,meshes,rigs,rightFrames,ready,update,resize,setStarHovered,beginTravel,dispose};
+ return {state,root,meshes,rigs,rightFrames,ready,update,resize,setStarHovered,setStarSelection,beginTravel,dispose};
 }

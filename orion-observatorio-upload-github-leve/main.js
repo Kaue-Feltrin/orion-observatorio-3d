@@ -4,6 +4,7 @@ import * as THREE from "three";
 import { createCosmicAtmosphere } from './cosmic-atmosphere.js';
 import { createSelectiveBloom } from './selective-bloom.js';
 import { createStarJourney } from './star-journey.js';
+import { createStarSelection } from './star-selection.js';
 import { createCinematicStarSpikes } from './cinematic-star.js';
 import { createNebulaVolume } from './nebula-volume.js';
 import { createPerformancePanel } from './performance-panel.js';
@@ -450,6 +451,7 @@ if(debugEnabled) {
 let mouse={x:0,y:0}; let smooth={x:0,y:0}; let selected=false;let jumpStart=0;
 let cardVisible=false;
 let travelling=false;
+let selectionStartedAt=0;
 // Evitar forced reflow: altura do card é estável durante animação.
 let cachedCardHeight=card.offsetHeight;
 const domPosition={x:NaN,y:NaN,cx:NaN,cy:NaN,focusAt:0,focusX:NaN,focusY:NaN};
@@ -507,7 +509,7 @@ function updateTargetScreen() {
   }
 }
 function setHover(state) {
-  if(travelling)return;
+  if(travelling||starSelection.state.active)return;
   cardVisible=state;
   card.classList.toggle('visible',state);
   card.setAttribute('aria-hidden',String(!state));
@@ -515,12 +517,15 @@ function setHover(state) {
 }
 target.addEventListener('mouseenter',()=>{if(!mobile)setHover(true);});
 target.addEventListener('mouseleave',()=>{if(!mobile)setHover(false);});
-target.addEventListener('focus',()=>setHover(true));
+target.addEventListener('focus',()=>{
+  // Toque abre o card no click; foco de teclado continua oferecendo a descrição.
+  if(!mobile||target.matches(':focus-visible'))setHover(true);
+});
 target.addEventListener('blur',()=>{if(!mobile)setHover(false)});
 const armClick=(e)=>{
-  if(travelling)return;
+  if(travelling||starSelection.state.active)return;
   if((mobile||e.detail===0)&&!cardVisible){setHover(true);return;}
-  beginTravel();
+  selectStar();
 };
 target.addEventListener('click',armClick);
 function isAimedAtStar(clientX,clientY){
@@ -539,7 +544,7 @@ function isAimedAtStar(clientX,clientY){
   return starRaycaster.intersectObject(heraldPickSprite,false).length>0;
 }
 window.addEventListener('pointermove',e=>{
-  if(e.pointerType==='touch'||travelling)return;
+  if(e.pointerType==='touch'||travelling||starSelection.state.active)return;
   interactionMetrics.pointerEvents++;
   mouse.x=(e.clientX/innerWidth-.5)*2;
   mouse.y=(.5-e.clientY/innerHeight)*2;
@@ -554,9 +559,9 @@ const resetHandHover=()=>firstPersonHands.setStarHovered?.(false);
 document.documentElement.addEventListener('pointerleave',resetHandHover);
 window.addEventListener('blur',resetHandHover);
 window.addEventListener('pointerdown',e=>{
-  if(e.pointerType==='touch'||travelling||e.button!==0)return;
+  if(e.pointerType==='touch'||travelling||starSelection.state.active||e.button!==0)return;
   if(e.target.closest('a,button,input,.debug'))return;
-  if(isAimedAtStar(e.clientX,e.clientY)){e.preventDefault();beginTravel();}
+  if(isAimedAtStar(e.clientX,e.clientY)){e.preventDefault();selectStar();}
 });
 
 // A viagem fica isolada do rig de repouso e so termina no clarão.
@@ -574,7 +579,17 @@ const starJourney=createStarJourney({
    window.location.href='ficha.html';
  }
 });
-if(debugEnabled)window.__orionStarDebug={journey:starJourney,heraldGroup,heraldPickSprite,raycaster:starRaycaster};
+const starSelection=createStarSelection(heraldGroup,{
+ camera,hands:firstPersonHands,reducedMotion:reduceMotion,onConfirm:beginTravel
+});
+if(debugEnabled)window.__orionStarDebug={journey:starJourney,selection:starSelection,heraldGroup,heraldPickSprite,raycaster:starRaycaster};
+function selectStar(){
+ if(travelling||!starSelection.begin())return;
+ selectionStartedAt=performance.now();
+ cardVisible=false;card.classList.remove('visible');card.setAttribute('aria-hidden','true');
+ document.body.classList.remove('star-aimed');
+ hint.textContent='Nox selecionada · Atravessando o véu…';
+}
 function beginTravel(){
  if(travelling)return;
  if(!starJourney.begin())return;
@@ -672,8 +687,12 @@ function tick(now){
  renderedAt=now;
  performancePanel?.record(now,actualFrameMs);
  adaptPerformance(now,rawMs);
- const delta=Math.min((now-lastFrame)/1000,.05);lastFrame=now;
+ const elapsed=Math.max(0,(now-lastFrame)/1000);
+ const delta=Math.min(elapsed,.05);lastFrame=now;
  const time=now*.001;
+ // Relógio da confirmação independente do limite usado pela física.
+ // O primeiro delta não inclui o tempo do quadro anterior ao clique.
+ starSelection.update(Math.min(elapsed,Math.max(0,(now-selectionStartedAt)/1000)));
  if(!travelling){
   heraldGroup.position.copy(heraldBasePos);
   starsGroup.position.z=0;
@@ -688,8 +707,9 @@ function tick(now){
   rigYaw.rotation.y=-smooth.x*.068*perspective;
   rigPitch.rotation.x=smooth.y*.052*perspective;
   rigRoll.rotation.z=reduceMotion?0:-smooth.x*.011*perspective+Math.sin(time*.27)*.0015;
-  camera.position.z=cardVisible&&!reduceMotion?-.9:0;
-  const newFov=cardVisible&&!reduceMotion?51:52;
+  const starFocused=cardVisible||starSelection.state.active;
+  camera.position.z=starFocused&&!reduceMotion?-.9:0;
+  const newFov=starFocused&&!reduceMotion?51:52;
   if(Math.abs(camera.fov-newFov)>.001){
     camera.fov=newFov;
     camera.updateProjectionMatrix();
@@ -710,19 +730,25 @@ function tick(now){
   const beacon=reduceMotion?0:Math.pow(Math.max(0,Math.cos(time*.7392-1.35)),10);
   respirationState.beacon=beacon;
   respirationState.star=1+.028*pulse+.013*shimmer;
-  const emphasized=cardVisible?1.22:1;
+  const emphasized=starFocused?1.22:1;
   nebulaStarHalo.scale.setScalar(156*(respirationState.star+.055*beacon)*emphasized);
   softHalo.scale.setScalar(118*(1+.034*pulse+.045*beacon)*emphasized);
   mainGlow.scale.setScalar(66*(1+.048*pulse+.022*shimmer+.075*beacon)*emphasized);
-  coreGlow.scale.setScalar(18*(1+.026*shimmer)*(cardVisible?1.18:1));
+  coreGlow.scale.setScalar(18*(1+.026*shimmer)*(starFocused?1.18:1));
   // O astro deve comandar o olhar sem espalhar luz por toda a composição.
-  nebulaStarHalo.material.opacity=.075+(cardVisible?.045:0)+.012*pulse+.028*beacon;
-  softHalo.material.opacity=.13+(cardVisible?.085:0)+.012*pulse+.024*beacon;
-  mainGlow.material.opacity=.48+(cardVisible?.19:0)+.015*shimmer+.040*beacon;
+  nebulaStarHalo.material.opacity=.075+(starFocused?.045:0)+.012*pulse+.028*beacon;
+  softHalo.material.opacity=.13+(starFocused?.085:0)+.012*pulse+.024*beacon;
+  mainGlow.material.opacity=.48+(starFocused?.19:0)+.015*shimmer+.040*beacon;
   coreGlow.material.opacity=.94;
   beaconGlow.scale.setScalar(154+42*beacon);
-  beaconGlow.material.opacity=.046*beacon*(cardVisible?1.55:1);
+  beaconGlow.material.opacity=.046*beacon*(starFocused?1.55:1);
   orbitRing.material.opacity=0;
+  if(starSelection.state.active){
+    const light=starSelection.state.light;
+    mainGlow.material.opacity+=.16*light;
+    softHalo.material.opacity+=.10*light;
+    coreGlow.scale.multiplyScalar(1+.10*light);
+  }
   // Nebulosa recebe o alvo direto do mouse; câmera mantém smoothing próprio.
   nebulaVolume.update(time,mouse.x,mouse.y,delta);
   flash.style.opacity='0';
@@ -737,7 +763,7 @@ function tick(now){
    mat.uniforms.uTime.value=reduceMotion?0:time;
    mat.uniforms.uOpacity.value=mat.userData.baseOpacity*(travelling?1.24:1);
  }
- cinematicSpikes.update(time,cardVisible,travelling);
+ cinematicSpikes.update(time,cardVisible||starSelection.state.active,travelling);
  camera.updateWorldMatrix(true,false);
  updateTargetScreen();
  atmosphere.update(time);

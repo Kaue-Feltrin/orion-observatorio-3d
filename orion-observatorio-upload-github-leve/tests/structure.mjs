@@ -79,7 +79,7 @@ assert.match(main,/starBackdrop\.visible=false/,'remover base com centenas de po
 assert.match(main,/dustCloud\.visible=false/,'remover poeira rasterizada');
 assert.match(main,/targetSlopeY=43\/\(26\+470\)/,'área limpa ao redor da estrela');
 assert.match(main,/createCinematicStarSpikes/,'pontas de estrela procedurais');
-assert.match(main,/cinematicSpikes\.update\(time,cardVisible,travelling\)/,'rotação das pontas no loop');
+assert.match(main,/cinematicSpikes\.update\(time,cardVisible\|\|starSelection\.state\.active,travelling\)/,'rotação das pontas no loop mantém foco durante seleção');
 assert.match(await read('cinematic-star.js'),/material\.rotation/,'pontas com rotação na GPU');
 assert.match(await read('cinematic-star.js'),/AdditiveBlending/,'difração sem blocos opacos');
 assert.match(await read('cinematic-star.js'),/reducedMotion/,'movimento reduzido');
