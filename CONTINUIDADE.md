@@ -1,3 +1,14 @@
+## 19/10/2026 — estudo de mesh/rig e refinamento pequeno
+
+- Pedido explícito: estudar esse tipo de animação por mesh/rig e melhorar um pouco a mão e a seleção da estrela. Base GitHub conferida `058cd21`, Cloudflare aprovado, CI completo ainda em execução ao iniciar. Mesma branch codex/maos-rig-mmv/PR #29, sem main/merge.
+- Estudo de referências primárias Three.js r180 (SkinnedMesh e forceSinglePass), timelines de bones/deform do Spine 4.2 e guia de easing/sincronização do Tween.js. Fontes, revisões e decisões em [docs/rig-mmv/study/](docs/rig-mmv/study/README.md). Nenhuma biblioteca/código/asset dessas referências foi incorporado.
+- Curvas C2 com velocidade/aceleração nulas nas bordas; pequeno recuo preparatório (-0,012 Z), avanço/pressão anteriores e assentamento do punho depois do indicador (+0,007 rad). Na perspectiva, dedos se acomodam até 18% da amplitude e recebem onda lenta com peso de até 16% durante o apontamento. Neutra/esquerda/modos anteriores mantêm movimento original.
+- Seleção: segunda onda começa aos 30% e acompanha a pressão; expansão desacelera e brilho acentua o contato, com opacidades um pouco menores. Mesmo raio máximo 54, geometria e duas superfícies. Anéis planos usam forceSinglePass, uma passagem por superfície. Sem textura, dependência ou loop novos.
+- Cinco suítes unitárias, check/build e 10/10 casos de navegador aprovados sem retries em 2,8 min. Cobertos gesto, hover/retorno, mesma imagem/alpha, anatomia sem inversões, profundidade, centro livre, toque/teclado/reduced/off, navegação real e descarte. Testes novos verificam preparação antes do avanço, assentamento depois da pressão e energia dos dedos reduzida ao apontar; nenhum limite anatômico relaxado. Área relativa da malha permanece 0,1141668645–1,7116198024 na amostra anterior.
+- Doze capturas (antes e cinco fases em desktop/celular), gráfico das curvas, comparação com 058cd21 e vídeo real de 6,96 s acompanham o estudo. Evidência local Chromium/SwiftShader; não é aceite artístico ou medição de FPS/RAM no equipamento do usuário. CI remoto da nova revisão a conferir após push.
+- Código: star-selection.js, first-person-hands-mesh.js e hands-image-rig.js; testes da seleção, documentação/contexto. Assets, pesos, grid, contorno aprovado, ESO/créditos, câmera e star-journey.js preservados.
+- Ação do usuário após entrega: abrir a nova prévia, passar/retirar o cursor e clicar na Nox para avaliar o refinamento leve. Sem upload, credenciais ou configuração adicional. Encerrar após esta etapa.
+
 ## 19/10/2026 — clique da mão e seleção luminosa da Nox
 
 - Usuário aprovou a revisão `62eff3a` (“ficou ótimo”). CI completo e Cloudflare dessa base conferidos como aprovados. Pediu explicitamente uma nova animação da mão ao clicar na estrela e um efeito de seleção; esse é o novo escopo autorizado, sem autorização de merge/produção.

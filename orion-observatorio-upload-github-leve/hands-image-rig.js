@@ -146,10 +146,17 @@ export function createHandImageRig(geometry,material,pose,{perspective=false}={}
 
   function update(seconds,reducedMotion=false,pointing=pose==='pointing'?1:0){
     if(disposed)return;
+    const focus=perspective?THREE.MathUtils.smoothstep(pointing,0,1):0;
     for(let i=0;i<CONTROLS.length;i++){
       const [, ,amplitude,frequency]=CONTROLS[i];
       // Respiração e flexões legíveis; não seguem a mira.
-      bones[i].rotation.z=reducedMotion?0:Math.sin(seconds*frequency+profile.phase+i*.43)*amplitude;
+      if(reducedMotion){bones[i].rotation.z=0;continue;}
+      const primary=Math.sin(seconds*frequency+profile.phase+i*.43);
+      const wave=focus>0?THREE.MathUtils.lerp(primary,
+        Math.sin(seconds*frequency*.57+profile.phase+i*.61),.16*focus):primary;
+      // A mão se acomoda ao apontar; dedos estáveis, punho ainda respira.
+      const settle=i>=2?1-.18*focus:1;
+      bones[i].rotation.z=wave*amplitude*settle;
     }
     if(pose!=='left'){
       const progress=THREE.MathUtils.clamp(pointing,0,1);

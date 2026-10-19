@@ -1,5 +1,7 @@
 # Clique na Nox: gesto e confirmação luminosa
 
+Registro da implementação `058cd21`. O refinamento atual de timing e ondas está no [estudo de mesh/rig](../study/README.md); as evidências abaixo preservam o antes dessa revisão.
+
 Base `62eff3a`, aprovada visualmente pelo usuário em 19/10/2026 (“ficou ótimo”). Novo pedido: animar a mão no clique e sinalizar a seleção da estrela. Mesmo PR #29 e branch `codex/maos-rig-mmv`; sem merge ou alteração da main.
 
 O clique inicia uma confirmação de aproximadamente 840 ms antes da viagem existente. A direita avança 0,09 unidade em Z, sobe levemente e faz uma pressão com o indicador, usando até 16% do contorno de flexão já validado. Punho acompanha e retorna antes da retirada normal da viagem. A esquerda mantém sua animação anterior. A imagem inteira, a opacidade de 0,46 e as duas superfícies da perspectiva permanecem constantes no gesto; nenhum asset foi redesenhado. O foco/brilho da Nox e a aproximação de hover são mantidos durante a confirmação, mesmo com a descrição fechada.

@@ -15,9 +15,13 @@ for(let i=0;i<=200;i++){
 for(const p of [0,1]){
   const sample=sampleStarSelection(SELECTION_DURATION*p);
   assert.equal(sample.reach,0);assert.equal(sample.press,0);assert.equal(sample.light,0);
+  assert.equal(sample.anticipation,0);assert.equal(sample.followThrough,0);
 }
 assert.equal(sampleStarSelection(.84*.48).press,1);
 assert.equal(sampleStarSelection(.84*.4).reach,1);
+const prepare=sampleStarSelection(.84*.08),settle=sampleStarSelection(.84*.75);
+assert.equal(prepare.anticipation,1);assert.equal(prepare.reach,0);assert.equal(prepare.press,0);
+assert.equal(settle.followThrough,1);assert.ok(settle.press<.5,'punho termina depois da pressão do indicador');
 
 const original=THREE.TextureLoader.prototype.load;
 THREE.TextureLoader.prototype.load=function(file,onLoad){
@@ -31,10 +35,25 @@ try{
     for(let i=0;i<160;i++)hands.update(0,1/60);
     const baseline=hands.meshes[1].position.clone(),left=hands.meshes[0].position.clone();
     const map=hands.meshes[1].material.map;let confirmed=0;
+    hands.setStarSelection(prepare);hands.update(0,0);
+    if(reducedMotion){
+      assert.deepEqual(hands.meshes[1].position,baseline);
+      assert.equal(hands.state.selectionAnticipation,0);assert.equal(hands.state.selectionFollowThrough,0);
+    }else{
+      assert.ok(hands.meshes[1].position.z<baseline.z-.01,'antecipação recua antes do avanço');
+      const rig=hands.rigs[1];let idleEnergy=0,focusedEnergy=0;
+      for(let i=0;i<240;i++){
+        rig.update(i/20,false,0);idleEnergy+=rig.bones.slice(2).reduce((sum,b)=>sum+b.rotation.z**2,0);
+        rig.update(i/20,false,1);focusedEnergy+=rig.bones.slice(2).reduce((sum,b)=>sum+b.rotation.z**2,0);
+      }
+      assert.ok(focusedEnergy<idleEnergy*.85,'dedos se acomodam ao manter o apontamento');
+      hands.update(0,0);
+    }
     const selection=createStarSelection(star,{camera,hands,reducedMotion,onConfirm:()=>{confirmed++;hands.beginTravel();}});
     assert.equal(selection.rings.length,0,'repouso não aloca geometria/material do efeito');
     assert.equal(selection.begin(),true);assert.equal(selection.begin(),false);
     assert.equal(selection.rings.length,2);
+    assert.ok(selection.rings.every(r=>r.material.forceSinglePass),'anéis planos dispensam passagem duplicada');
     const geometry=selection.rings[0].geometry;let geometriesDisposed=0,materialsDisposed=0;
     geometry.addEventListener('dispose',()=>geometriesDisposed++);
     for(const ring of selection.rings)ring.material.addEventListener('dispose',()=>materialsDisposed++);
@@ -56,6 +75,7 @@ try{
     assert.equal(confirmed,1);assert.equal(selection.state.completed,true);
     assert.equal(selection.root.visible,false);assert.equal(hands.state.selecting,false);
     assert.equal(hands.state.selectionReach,0);assert.equal(hands.state.selectionPress,0);
+    assert.equal(hands.state.selectionAnticipation,0);assert.equal(hands.state.selectionFollowThrough,0);
     assert.equal(selection.begin(),false);selection.update(1);assert.equal(confirmed,1);
     selection.dispose();selection.dispose();assert.equal(geometriesDisposed,1);assert.equal(materialsDisposed,2);
     hands.dispose();

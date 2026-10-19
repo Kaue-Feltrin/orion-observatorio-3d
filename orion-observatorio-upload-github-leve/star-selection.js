@@ -2,20 +2,25 @@
 import * as THREE from 'three';
 
 const clamp=x=>Math.max(0,Math.min(1,x));
-const smooth=(x,a,b)=>{const t=clamp((x-a)/(b-a));return t*t*(3-2*t);};
+// Curva C2: velocidade e aceleração chegam a zero nos encontros das fases.
+const smooth=(x,a,b)=>{const t=clamp((x-a)/(b-a));return clamp(t*t*t*(t*(t*6-15)+10));};
 export const SELECTION_DURATION=.84;
 export const REDUCED_SELECTION_DURATION=.16;
 
 export function sampleStarSelection(elapsed,reducedMotion=false){
   const progress=clamp(elapsed/(reducedMotion?REDUCED_SELECTION_DURATION:SELECTION_DURATION));
-  if(reducedMotion)return {progress,reach:0,press:0,light:progress<1?.30:0};
-  const reach=smooth(progress,0,.32)*(1-smooth(progress,.72,1));
+  if(reducedMotion)return {progress,reach:0,press:0,anticipation:0,followThrough:0,light:progress<1?.30:0};
+  const anticipation=smooth(progress,0,.07)*(1-smooth(progress,.09,.20));
+  const reach=smooth(progress,.08,.36)*(1-smooth(progress,.72,1));
   const press=smooth(progress,.28,.48)*(1-smooth(progress,.55,.86));
-  return {progress,reach,press,light:smooth(progress,0,.25)*(1-smooth(progress,.65,1))};
+  const followThrough=smooth(progress,.55,.72)*(1-smooth(progress,.78,1));
+  const light=smooth(progress,0,.25)*(1-smooth(progress,.65,1))*(.75+.25*press);
+  return {progress,reach,press,anticipation,followThrough,light};
 }
 
 export function createStarSelection(star,{camera,hands,reducedMotion=false,onConfirm}){
-  const state={active:false,completed:false,elapsed:0,progress:0,reach:0,press:0,light:0,activations:0};
+  const state={active:false,completed:false,elapsed:0,progress:0,reach:0,press:0,
+    anticipation:0,followThrough:0,light:0,activations:0};
   const root=new THREE.Group();root.name='NoxSelectionLight';root.visible=false;star.add(root);
   const rings=[],orientation=new THREE.Quaternion(),cameraOrientation=new THREE.Quaternion();
   let geometry=null,disposed=false,pendingReducedFrame=false;
@@ -32,7 +37,7 @@ export function createStarSelection(star,{camera,hands,reducedMotion=false,onCon
     for(const color of [0xf5dda8,0xb9a5ef]){
       const material=new THREE.MeshBasicMaterial({color,vertexColors:true,transparent:true,
         opacity:0,side:THREE.DoubleSide,depthTest:false,depthWrite:false,
-        blending:THREE.AdditiveBlending,toneMapped:false});
+        blending:THREE.AdditiveBlending,toneMapped:false,forceSinglePass:true});
       const ring=new THREE.Mesh(geometry,material);ring.renderOrder=15;
       ring.frustumCulled=false;root.add(ring);rings.push(ring);
     }
@@ -52,15 +57,17 @@ export function createStarSelection(star,{camera,hands,reducedMotion=false,onCon
     // A 10 FPS ou mais, a duração continua sendo 840 ms.
     state.elapsed+=Math.max(0,reducedMotion?delta:Math.min(delta,.10));
     Object.assign(state,sampleStarSelection(state.elapsed,reducedMotion));
-    hands.setStarSelection?.({reach:state.reach,press:state.press});
+    hands.setStarSelection?.({reach:state.reach,press:state.press,
+      anticipation:state.anticipation,followThrough:state.followThrough});
     star.getWorldQuaternion(orientation);camera.getWorldQuaternion(cameraOrientation);
     root.quaternion.copy(orientation.invert().multiply(cameraOrientation));
     for(let i=0;i<rings.length;i++){
-      const p=clamp((state.progress-i*.14)/(1-i*.14));
-      const radius=reducedMotion?20:12+42*smooth(p,0,1);
+      // Resposta imediata na primeira onda; segunda acompanha a pressão.
+      const delay=i*.30,p=clamp((state.progress-delay)/(1-delay));
+      const radius=reducedMotion?20:12+42*(1-(1-p)**2);
       rings[i].scale.setScalar(radius);
       rings[i].material.opacity=reducedMotion?(i===0?state.light:0):
-        (i===0?.48:.27)*smooth(p,0,.16)*(1-smooth(p,.4,1));
+        (i===0?.42:.24)*smooth(p,0,.16)*(1-smooth(p,.4,1));
     }
     if(state.progress>=1){
       state.active=false;state.completed=true;root.visible=false;

@@ -18,6 +18,7 @@ async function watch(page){
       const d=window.__orionStarDebug,h=window.__orionHandsDebug;
       if(d.selection.state.active){
         samples.push({p:d.selection.state.progress,reach:h.state.selectionReach,press:h.state.selectionPress,
+          anticipation:h.state.selectionAnticipation,followThrough:h.state.selectionFollowThrough,
           blend:h.state.rightBlend,z:h.meshes?.[1]?.position.z,opacity:h.meshes?.[1]?.material.opacity,
           map:h.meshes?.[1]?.material.map.uuid,draws:h.state.drawSurfaces,
           journey:d.journey.active,fov:window.__orionDepthDebug.camera.fov,
@@ -60,6 +61,8 @@ test('clique real confirma com pressão e onda de luz antes da viagem, sem dupli
   await target.dispatchEvent('click',{detail:1});
   const samples=await result(page);
   expect(samples.some(s=>s.press>.8&&s.blend<.9)).toBe(true);
+  expect(samples.some(s=>s.anticipation>.1)).toBe(true);
+  expect(samples.some(s=>s.followThrough>.5&&s.press<.5)).toBe(true);
   expect(samples.some(s=>s.z>-2.42)).toBe(true);
   expect(samples.every(s=>s.opacity===.46&&s.draws===2)).toBe(true);
   expect(samples.every(s=>s.fov===51)).toBe(true);
@@ -118,7 +121,7 @@ test('registra etapas do clique e preservação do centro em desktop e celular',
     await page.screenshot({path:test.info().outputPath(`${viewport.width}-before.png`)});
     const box=await page.locator('#heraldTarget').boundingBox();
     await page.mouse.click(box.x+box.width/2,box.y+box.height/2);
-    for(const p of [.25,.50,.75]){
+    for(const p of [.08,.25,.50,.75,.92]){
       const data=await page.evaluate(p=>{
         const d=window.__orionStarDebug.selection,h=window.__orionHandsDebug;
         while(d.state.elapsed<.84*p-1e-9)
@@ -127,10 +130,15 @@ test('registra etapas do clique e preservação do centro em desktop e celular',
         const camera=window.__orionDepthDebug.camera;camera.updateWorldMatrix(true,true);
         const point=h.rigs[1].measure().landmarks.indexTip.clone().project(camera);
         return {p:d.state.progress,tipX:(point.x+1)/2,z:h.meshes[1].position.z,
-          opacity:h.meshes[1].material.opacity,draws:h.state.drawSurfaces,light:d.rings.map(r=>r.material.opacity)};
+          anticipation:h.state.selectionAnticipation,followThrough:h.state.selectionFollowThrough,
+          opacity:h.meshes[1].material.opacity,draws:h.state.drawSurfaces,
+          rings:d.rings.map(r=>({radius:r.scale.x,opacity:r.material.opacity,singlePass:r.material.forceSinglePass}))};
       },p);
       expect(data.p).toBeCloseTo(p,4);
       expect(data.tipX).toBeGreaterThan(.70);expect(data.opacity).toBe(.46);expect(data.draws).toBe(2);
+      expect(data.rings.every(r=>r.singlePass)).toBe(true);
+      if(p===.08){expect(data.z).toBeLessThan(-2.51);expect(data.rings[1].opacity).toBe(0);}
+      if(p===.5)expect(data.rings[1].opacity).toBeGreaterThan(.15);
       console.log('SELECTION_POSE',JSON.stringify({viewport,...data}));
       await page.screenshot({path:test.info().outputPath(`${viewport.width}-click-${Math.round(p*100)}.png`)});
     }

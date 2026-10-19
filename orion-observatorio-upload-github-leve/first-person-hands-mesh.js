@@ -22,7 +22,8 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    joints:0,fingerJoints:0,swayX:0,swayY:0,maxVertexDelta:0,
    pose:'feminine-star-hover',handProfiles:Object.keys(HAND_PROFILES),
    rightHover:false,rightBlend:0,animation:usePerspective?'perspective':useRig?'rig':'mesh',
-   rightFrameWeights:[],rightDepth:0,selecting:false,selectionReach:0,selectionPress:0};
+   rightFrameWeights:[],rightDepth:0,selecting:false,selectionReach:0,selectionPress:0,
+   selectionAnticipation:0,selectionFollowThrough:0};
  const root=new THREE.Group();
  root.name='OrionFeminineHands2p5D';
  root.visible=false;
@@ -193,12 +194,13 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      place(hand,fx,fy);
      // Mãos distintas: direita aponta, esquerda emoldura; sem giro brusco.
      mesh.rotation.z=reducedMotion?0:Math.sin(seconds*.72+c.phase)*(c.pointer?.010:.006);
-     if(hand.side==='right'&&!reducedMotion){
+     if(hand.side==='right'&&state.selecting&&!reducedMotion){
        const v=viewport(),reach=state.selectionReach;
+       const anticipation=state.selectionAnticipation,follow=state.selectionFollowThrough;
        mesh.position.x-=v.width*.004*reach;
-       mesh.position.y+=v.height*.012*reach;
-       mesh.position.z+=.09*reach;
-       mesh.rotation.z+=.014*reach-.045*state.selectionPress;
+       mesh.position.y+=v.height*(.012*reach-.002*anticipation+.001*follow);
+       mesh.position.z+=.09*reach-.012*anticipation;
+       mesh.rotation.z+=.014*reach-.045*state.selectionPress+.010*anticipation+.007*follow;
      }
      mesh.material.opacity=c.baseOpacity*alpha*(hand.side==='right'&&!usePerspective?textureBlend:1);
    }
@@ -225,6 +227,8 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    state.selecting=!!pose&&!travel&&!disposed;
    state.selectionReach=state.selecting&&!reducedMotion?clamp(pose.reach,0,1):0;
    state.selectionPress=state.selecting&&!reducedMotion?clamp(pose.press,0,1):0;
+   state.selectionAnticipation=state.selecting&&!reducedMotion?clamp(pose.anticipation??0,0,1):0;
+   state.selectionFollowThrough=state.selecting&&!reducedMotion?clamp(pose.followThrough??0,0,1):0;
  }
  function beginTravel(){travel=true;setStarSelection(null);setStarHovered(false);}
  function dispose(){
