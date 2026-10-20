@@ -42,7 +42,8 @@ for(const hz of [30,60,120])for(const aspect of [1280/720,3440/1440])for(const t
   }
   assert.ok(camera.position.z<=lastZ+1e-9);lastZ=camera.position.z;
   assert.deepEqual(sky.uniforms.uSkyBasis.value.toArray(),basis,'céu não herda a perspectiva do giro');
-  assert.equal(sky.uniforms.uSkyTanHalf.value,tan,'avanço e FOV não aproximam o céu');
+  assert.equal(sky.uniforms.uSkyTanHalf.value,tan,'FOV não altera a perspectiva do céu');
+  if(elapsed<=700)assert.equal(sky.state.zoom,1,'zoom só começa quando a câmera avança');
   assert.ok(camera.fov<=56+1e-8,'expansão do campo de visão contida');
   assert.ok(fragment.position.distanceTo(fragmentStart)<1e-10,'centro da nuvem permanece no mundo');
   assert.ok(fragment.scale.distanceTo(fragmentScale)<1e-10,'crescimento aparente vem da aproximação real');
@@ -55,7 +56,18 @@ for(const hz of [30,60,120])for(const aspect of [1280/720,3440/1440])for(const t
  assert.ok(gasBoost>1.5,'gás deve continuar perceptível durante o avanço');
  assert.ok(fragmentBoost>1.5,'recortes distantes não podem desaparecer antes de viajar');
  assert.equal(mist.material.opacity,0,'véu próximo desaparece antes de atravessar o olho');
+ assert.equal(sky.state.zoom,1.22);
  assert.equal(arrivals,1);assert.ok(Math.abs(camera.position.z-(-470+53))<1e-10);
  assert.ok(star.position.clone().sub(camera.position).normalize().distanceTo(direction)<1e-10,'aproximação mantém direção e distância segura');
 }
 console.log('OK: curva sem reversão, avanço alinhado, saída das outras estrelas antes do giro, gás sem salto, céu sem perspectiva de parede e nuvens em profundidade sem dissipação precoce a 30/60/120 Hz.');
+
+// Acessibilidade: a mesma viagem reduzida não recebe a ampliação adicional.
+{
+ const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(52,1.8,.2,900),star=new THREE.Group();scene.add(camera,star);
+ camera.position.z=26;star.position.set(200,10,-470);const zooms=[];
+ const glows=Object.fromEntries(['halo','soft','main','core'].map(k=>[k,new THREE.Sprite(new THREE.SpriteMaterial())]));
+ const journey=createStarJourney({scene,camera,star,glows,layers:[],gasLayers:[],reducedMotion:true,
+  sky:{begin(){},update(amount){zooms.push(amount)}},selectiveBloom:{state:{intensity:0},setIntensity(){}},flash:{style:{setProperty(){}}},onArrive(){}});
+ journey.begin(0);for(let t=0;t<=850;t+=10)journey.update(t,.01);assert.ok(zooms.every(value=>value===0));
+}

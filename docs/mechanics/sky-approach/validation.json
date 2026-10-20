@@ -1,0 +1,114 @@
+{
+  "date": "2026-10-20",
+  "branch": "codex/maos-rig-mmv",
+  "base": "c2c6b951945b978b036ac3bf6fdfecdf2976050a",
+  "pullRequest": "https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/29",
+  "checks": {
+    "npm run check": "passed",
+    "NODE_USE_ENV_PROXY=1 npm run build": "passed",
+    "unitSuites": [
+      "distant-sky.unit.mjs",
+      "journey-motion.unit.mjs"
+    ]
+  },
+  "browser": {
+    "distinctPassed": 7,
+    "rounds": [
+      {
+        "passed": 4,
+        "failed": 0,
+        "retries": 0,
+        "cases": [
+          {
+            "file": "tests/distant-sky.spec.js",
+            "name": "shader preserva formato no giro e aplica aproximação uniforme controlada"
+          },
+          {
+            "file": "tests/journey-depth.spec.js",
+            "name": "destino 1: céu panorâmico e nuvens atravessadas em profundidade"
+          },
+          {
+            "file": "tests/journey-depth.spec.js",
+            "name": "destino 2: céu panorâmico e nuvens atravessadas em profundidade"
+          },
+          {
+            "file": "tests/journey-depth.spec.js",
+            "name": "destino 3: céu panorâmico e nuvens atravessadas em profundidade"
+          }
+        ]
+      },
+      {
+        "passed": 2,
+        "failed": 0,
+        "retries": 0,
+        "cases": [
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "viagem lateral 1: câmera mantém direção e outras estrelas não deslizam na curva"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "viagem lateral 2: câmera mantém direção e outras estrelas não deslizam na curva"
+          }
+        ]
+      },
+      {
+        "passed": 1,
+        "failed": 0,
+        "retries": 0,
+        "cases": [
+          {
+            "file": "tests/observatorio.spec.js",
+            "name": "clique na estrela realiza transição para a ficha"
+          }
+        ]
+      }
+    ]
+  },
+  "shaderPixelDifference": {
+    "lockedPan": {
+      "mean": 0.00022569444444444443,
+      "changed": 0
+    },
+    "angularPan": {
+      "mean": 31.939338831018517,
+      "changed": 0.9254564525462963
+    }
+  },
+  "zoomPixelDifference": {
+    "zoomDifference": {
+      "mean": 17.69049189814815,
+      "changed": 0.8516945167824074
+    },
+    "uniformDifference": {
+      "mean": 2.742796585648148,
+      "changed": 0.397896412037037
+    }
+  },
+  "beforeVideo": "../panoramic-flight/right.mp4",
+  "newRecording": "recordings.json",
+  "sourceSHA256": {
+    "distant-sky.js": "06c58d6a90e026271ec0d382fc835e40cb8761a4237734047248cfbc1f1ddcbd",
+    "star-journey.js": "311a87dbaaeb36e65f241a3c1eb75e8259da323af377c21795f67fb15ed274c2"
+  },
+  "modifiedFiles": [
+    "CONTEXTO_COMPLETO_CUMULATIVO.md",
+    "CONTINUIDADE.md",
+    "docs/mechanics/sky-approach/README.md",
+    "docs/mechanics/sky-approach/recordings.json",
+    "docs/mechanics/sky-approach/right-3-stars.webp",
+    "docs/mechanics/sky-approach/right-arrival.webp",
+    "docs/mechanics/sky-approach/right-hover.webp",
+    "docs/mechanics/sky-approach/right.mp4",
+    "docs/mechanics/sky-approach/validation.json",
+    "orion-observatorio-upload-github-leve/distant-sky.js",
+    "orion-observatorio-upload-github-leve/star-journey.js",
+    "orion-observatorio-upload-github-leve/tests/distant-sky.spec.js",
+    "orion-observatorio-upload-github-leve/tests/distant-sky.unit.mjs",
+    "orion-observatorio-upload-github-leve/tests/journey-depth.spec.js",
+    "orion-observatorio-upload-github-leve/tests/journey-motion.unit.mjs"
+  ],
+  "environment": "Chromium /usr/bin/chromium; SwiftShader; build local, sem medição em dispositivo real",
+  "scope": "Zoom uniforme de até 22%, ligado ao avanço, após alinhamento; reduced-motion sem zoom adicional. Panorama, nuvens, mãos, seleção/destinos/transição preservados; sem main/merge, criação de personagem ou nova adaptação mobile.",
+  "ci": "Consultar CI completo da nova revisão após publicar; validações locais não o substituem."
+}

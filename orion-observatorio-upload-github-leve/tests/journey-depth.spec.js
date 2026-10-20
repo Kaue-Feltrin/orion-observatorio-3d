@@ -10,7 +10,7 @@ for(const index of [0,1,2])test(`destino ${index+1}: céu panorâmico e nuvens a
    const d=window.__orionStarDebug,{camera,layers}=window.__orionDepthDebug;
    if(d.journey.active){
     seen=true;
-    samples.push({p:d.journey.progress,pan:d.sky.uniforms.uSkyPan.value.toArray(),clouds:layers.filter(l=>l.visible&&l.userData.volumeFragment).map(l=>{
+    samples.push({p:d.journey.progress,zoom:d.sky.state.zoom,pan:d.sky.uniforms.uSkyPan.value.toArray(),clouds:layers.filter(l=>l.visible&&l.userData.volumeFragment).map(l=>{
      const center=l.position.clone().project(camera),local=l.position.clone().applyMatrix4(camera.matrixWorldInverse);
      return {id:l.uuid,depth:-local.z,size:l.scale.x/Math.max(.01,-local.z),center:[center.x,center.y],alpha:l.material.opacity,
       facing:Math.abs(l.quaternion.dot(camera.quaternion)),position:l.position.toArray(),scale:l.scale.toArray()};
@@ -36,8 +36,15 @@ for(const index of [0,1,2])test(`destino ${index+1}: céu panorâmico e nuvens a
   expect(c.facing).toBeGreaterThan(.999999);
  }
  const final=samples.at(-1);
+ expect(samples[0].zoom).toBeCloseTo(1,5);
+ expect(final.zoom).toBeGreaterThan(1.21);
+ for(let i=1;i<samples.length;i++){
+  expect(samples[i].zoom).toBeGreaterThanOrEqual(samples[i-1].zoom);
+  expect(samples[i].zoom).toBeLessThanOrEqual(1.22);
+  if(samples[i].p<700/2550)expect(samples[i].zoom).toBe(1);
+ }
  expect(final.clouds.some(c=>c.depth<0&&c.alpha===0)).toBe(true);
  if(index>0)expect(final.pan.some(v=>Math.abs(v)>.01)).toBe(true);
  expect(errors).toEqual([]);
- console.log('JOURNEY_DEPTH',JSON.stringify({index,visiblePasses:visiblePasses.length,maxGrowth:Math.max(...visiblePasses.map(c=>c.size/initial.find(b=>b.id===c.id).size)),finalPan:final.pan}));
+ console.log('JOURNEY_DEPTH',JSON.stringify({index,visiblePasses:visiblePasses.length,maxGrowth:Math.max(...visiblePasses.map(c=>c.size/initial.find(b=>b.id===c.id).size)),finalPan:final.pan,finalZoom:final.zoom}));
 });

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import * as THREE from 'three';
-import {createDistantSky} from '../distant-sky.js';
+import {createDistantSky,SKY_APPROACH_ZOOM} from '../distant-sky.js';
 for(const aspect of [390/844,1280/720,3440/1440,1920/458]){
  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(51,aspect,.2,900),photo=new THREE.Mesh(new THREE.PlaneGeometry(1,1),new THREE.MeshBasicMaterial({map:new THREE.Texture()}));
  camera.position.set(5,-2,25.1);camera.rotation.set(.02,-.03,.004);scene.add(camera,photo);
@@ -36,7 +36,23 @@ for(const aspect of [390/844,1280/720,3440/1440,1920/458]){
   }
   assert.ok(Number.isFinite(sky.state.panX)&&Number.isFinite(sky.state.panY));
  }
+ // Aproximação explícita uniforme: o mesmo ponto do céu aparece a 1,22×
+ // em ambos os eixos, sem modificar a orientação ou a perspectiva capturada.
+ for(const amount of [0,.1,.5,1]){
+  sky.update(amount);
+  assert.equal(sky.state.zoom,1+(SKY_APPROACH_ZOOM-1)*amount);
+  assert.deepEqual(u.uSkyBasis.value.toArray(),basis.toArray());
+  for(const point of points){
+   const projected=new THREE.Vector2(point.x*sky.state.zoom,point.y*sky.state.zoom);
+   const ray=new THREE.Vector3(projected.x/sky.state.zoom*aspect*tan,projected.y/sky.state.zoom*tan,-1).applyMatrix3(basis);
+   const hit=u.uSkyDistance.value/-ray.z;
+   const uv=new THREE.Vector2((u.uSkyEye.value.x+ray.x*hit-u.uSkyCenter.value.x)/u.uSkySize.value.x+.5,
+    (u.uSkyEye.value.y+ray.y*hit-u.uSkyCenter.value.y)/u.uSkySize.value.y+.5);
+   assert.ok(uv.distanceTo(point.uv)<1e-12,'zoom uniforme conserva a geometria da imagem');
+  }
+ }
+ sky.update(-1);assert.equal(sky.state.zoom,1);sky.update(2);assert.equal(sky.state.zoom,SKY_APPROACH_ZOOM);
  camera.quaternion.copy(originalQ);sky.update();assert.ok(u.uSkyPan.value.length()<1e-12,'voltar à orientação inicial devolve o mesmo céu, mesmo após transladar');
  assert.equal(photo.geometry,geometry);assert.equal(photo.material,material);assert.equal(photo.material.map,map);assert.equal(camera.far,900);
 }
-console.log('OK: projeção inicial idêntica, céu sem aproximação/perspectiva de parede, pan reversível, cobertura em quatro aspectos e mesmos recursos.');
+console.log('OK: projeção inicial idêntica, céu sem perspectiva de parede, aproximação explícita uniforme de 22%, pan reversível, cobertura em quatro aspectos e mesmos recursos.');

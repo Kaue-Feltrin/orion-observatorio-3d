@@ -118,7 +118,8 @@ export function createStarJourney({scene,camera,star,glows,layers,gasLayers,sele
     const handoff=smoother(elapsed,0,lockDuration);
     camera.fov=THREE.MathUtils.lerp(startFov,52,handoff)+(reducedMotion?0:4*Math.sin(Math.PI*flight)**2);
     camera.updateProjectionMatrix();
-    sky?.update();
+    // Aproximação discreta ligada ao avanço real, após terminar o alinhamento.
+    sky?.update(reducedMotion?0:distancePhase);
 
     // O céu conserva sua projeção. A profundidade vem das nuvens existentes:
     // elas crescem ao serem aproximadas e cedem a poucos metros da câmera.
