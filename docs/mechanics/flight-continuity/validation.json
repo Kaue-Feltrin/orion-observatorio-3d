@@ -1,0 +1,162 @@
+{
+  "date": "2026-10-20",
+  "branch": "codex/maos-rig-mmv",
+  "base": "6c7972d22d55d540347528b49abf4f21fa80a6e5",
+  "pullRequest": "https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/29",
+  "checks": {
+    "npm run check": "passed",
+    "NODE_USE_ENV_PROXY=1 npm run build": "passed",
+    "unitSuites": [
+      "journey-motion.unit.mjs",
+      "herald-navigation.unit.mjs",
+      "selection-handoff.unit.mjs"
+    ]
+  },
+  "browser": {
+    "distinctPassed": 23,
+    "rounds": [
+      {
+        "passed": 20,
+        "retries": 0,
+        "cases": [
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "1 estrela(s): destino 1 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "2 estrela(s): destino 1 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "2 estrela(s): destino 2 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "3 estrela(s): destino 1 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "3 estrela(s): destino 2 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "3 estrela(s): destino 3 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "raio do mouse escolhe cada estrela e compartilha texturas sem misturar resumos"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "véu cobre saída e primeiro quadro da chegada até módulo atrasado ficar pronto"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "movimento reduzido, acesso direto e destino inválido mantêm chegada utilizável"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "regressão do toque compartilhado › segunda estrela abre resumo sem viagem e confirmação chega ao destino correto"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "limite de três, fallback de contagem inválida e reposicionamento mantêm alvos separados"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "voltar pelo navegador restaura o Observatório sem clarão ou seleção travados"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "viagem lateral 1: câmera mantém direção e outras estrelas não deslizam na curva"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "viagem lateral 2: câmera mantém direção e outras estrelas não deslizam na curva"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "clique real confirma com pressão e onda de luz antes da viagem, sem duplicar"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "teclado seleciona sem exigir hover e mantém navegação"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "movimento reduzido confirma sem avanço, pressão ou expansão luminosa"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "mãos desligadas mantêm confirmação luminosa e viagem"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "toque › toque abre resumo e botão explícito confirma com gesto e viaja"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "registra etapas do clique e preservação do centro em desktop e celular"
+          }
+        ]
+      },
+      {
+        "passed": 3,
+        "retries": 0,
+        "cases": [
+          {
+            "file": "tests/observatorio.spec.js",
+            "name": "clique na estrela realiza transição para a ficha"
+          },
+          {
+            "file": "tests/observatorio.spec.js",
+            "name": "estrela distante aponta no mundo, mostra hover e seleciona via raycaster"
+          },
+          {
+            "file": "tests/observatorio.spec.js",
+            "name": "respiração cósmica anima apenas véus e mantém a fotografia ESO intacta"
+          }
+        ]
+      }
+    ],
+    "note": "Duas rodadas no mesmo build final, sem retries e sem falhas."
+  },
+  "newMotionCoverage": [
+    "Direção sem reversão e deslocamento colinear a 30/60/120 Hz",
+    "Outros destinos invisíveis antes do giro e posições de mundo preservadas",
+    "Cobertura sem contra-zoom e recortes fotográficos alinhados, sem mudar Z",
+    "Gás/névoa no valor real de partida, sem salto",
+    "Cobertura e recorte da câmera em quatro proporções e nova duração completa",
+    "Viagens reais para os destinos esquerdo e direito; destinos/retorno/reduced/off e véu mantidos"
+  ],
+  "recordings": "recordings.json",
+  "sourceSHA256": {
+    "main.js": "7094d3a376cdf1a991eb93b297cd266144377ae0bab0ed4bd28ebd74ac108bda",
+    "star-journey.js": "8af244e2a7233c7e75f406e2129b66e96569319060c42aa35958350b509ad52b"
+  },
+  "modifiedFiles": [
+    ".github/workflows/validar-observatorio.yml",
+    "CONTEXTO_COMPLETO_CUMULATIVO.md",
+    "CONTINUIDADE.md",
+    "docs/mechanics/flight-continuity/README.md",
+    "docs/mechanics/flight-continuity/after-3-stars.webp",
+    "docs/mechanics/flight-continuity/after-arrival.webp",
+    "docs/mechanics/flight-continuity/after-hover.webp",
+    "docs/mechanics/flight-continuity/after.mp4",
+    "docs/mechanics/flight-continuity/before-3-stars.webp",
+    "docs/mechanics/flight-continuity/before-arrival.webp",
+    "docs/mechanics/flight-continuity/before-hover.webp",
+    "docs/mechanics/flight-continuity/before.mp4",
+    "docs/mechanics/flight-continuity/recordings.json",
+    "docs/mechanics/flight-continuity/validation.json",
+    "orion-observatorio-upload-github-leve/main.js",
+    "orion-observatorio-upload-github-leve/star-journey.js",
+    "orion-observatorio-upload-github-leve/tests/herald-navigation.spec.js",
+    "orion-observatorio-upload-github-leve/tests/herald-navigation.unit.mjs",
+    "orion-observatorio-upload-github-leve/tests/journey-motion.unit.mjs"
+  ],
+  "environment": "Chromium /usr/bin/chromium; SwiftShader; verificação local, não desempenho em dispositivo real",
+  "scope": "Somente viagem/cobertura e testes. Nenhum asset, nova adaptação mobile ou criação de personagem. Sem main/merge.",
+  "ci": "Base 6c7972d: SUCCESS no run 39427021272. Conferir CI do novo commit no PR."
+}

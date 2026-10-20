@@ -879,7 +879,7 @@ function tick(now){
    if(entry===activeHerald)continue;
    entry.spikes.update(time,false,travelling);
    if(travelling){
-     const fade=1-THREE.MathUtils.smoothstep(starJourney.progress,0,.32);
+     const fade=starJourney.companionOpacity;
      entry.group.traverse(object=>{if(object.material)object.material.opacity=object.userData.departureOpacity*fade;});
    }
  }

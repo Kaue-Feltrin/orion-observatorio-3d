@@ -1,0 +1,102 @@
+[
+  {
+    "name": "before",
+    "port": 4174,
+    "count": 3,
+    "index": 2,
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "source": "http://127.0.0.1:4174/?debug=1&quality=eco-plus&hands=mesh&handsMotion=perspective&stars=3",
+    "errors": [],
+    "metrics": {
+      "textures": 28,
+      "drawCalls": 78,
+      "destinations": [
+        {
+          "id": "nox",
+          "name": "Nox",
+          "screen": {
+            "x": 640.2700146421687,
+            "y": 179.04093072320453
+          }
+        },
+        {
+          "id": "preview-2",
+          "name": "Estrela II",
+          "screen": {
+            "x": 319.59839812565946,
+            "y": 309.565179487374
+          }
+        },
+        {
+          "id": "preview-3",
+          "name": "Estrela III",
+          "screen": {
+            "x": 960.5506855441254,
+            "y": 310.5215642832626
+          }
+        }
+      ]
+    },
+    "arrived": {
+      "name": "Estrela III",
+      "url": "http://127.0.0.1:4174/ficha.html?stars=3&quality=eco-plus&hands=mesh&handsMotion=perspective&herald=preview-3",
+      "ready": "1"
+    },
+    "frames": 97,
+    "duration": 10.854886054992676,
+    "clock": "real; full-page CDP timestamps; actual document navigation; no interception"
+  },
+  {
+    "name": "after",
+    "port": 4173,
+    "count": 3,
+    "index": 2,
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "source": "http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=mesh&handsMotion=perspective&stars=3",
+    "errors": [],
+    "metrics": {
+      "textures": 28,
+      "drawCalls": 78,
+      "destinations": [
+        {
+          "id": "nox",
+          "name": "Nox",
+          "screen": {
+            "x": 640.2370556943085,
+            "y": 178.9146745393873
+          }
+        },
+        {
+          "id": "preview-2",
+          "name": "Estrela II",
+          "screen": {
+            "x": 319.55834249434673,
+            "y": 309.51351299835625
+          }
+        },
+        {
+          "id": "preview-3",
+          "name": "Estrela III",
+          "screen": {
+            "x": 960.5727409893987,
+            "y": 310.35265395530865
+          }
+        }
+      ]
+    },
+    "arrived": {
+      "name": "Estrela III",
+      "url": "http://127.0.0.1:4173/ficha.html?stars=3&quality=eco-plus&hands=mesh&handsMotion=perspective&herald=preview-3",
+      "ready": "1"
+    },
+    "frames": 120,
+    "duration": 11.925457000732422,
+    "clock": "real; full-page CDP timestamps; actual document navigation; no interception"
+  }
+]

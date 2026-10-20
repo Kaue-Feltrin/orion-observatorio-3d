@@ -125,3 +125,34 @@ test('voltar pelo navegador restaura o Observatório sem clarão ou seleção tr
  await expect.poll(()=>page.locator('#arrivalFlash').evaluate(node=>getComputedStyle(node).opacity)).toBe('0');
  await page.locator('#heraldTarget').focus();await page.keyboard.press('Enter');await expect(page).toHaveURL(/herald=nox/,{timeout:15000});
 });
+for(const index of [1,2])test(`viagem lateral ${index}: câmera mantém direção e outras estrelas não deslizam na curva`,async({page})=>{
+ test.setTimeout(45000);await page.goto(`${base}?${query}&stars=3`);await ready(page,3);
+ await page.evaluate(()=>{
+  const frames=[];let seen=false;
+  function sample(){
+   const d=window.__orionStarDebug,c=window.__orionDepthDebug.camera;
+   if(d.journey.active){
+    seen=true;frames.push({p:d.journey.progress,fade:d.journey.companionOpacity,camera:c.position.toArray(),q:c.quaternion.toArray(),
+     scale:window.__orionRespirationDebug.nebula.scale.x,others:d.heralds.filter(h=>h.data.id!==d.selectedHeraldId).map(h=>({
+      position:h.group.position.toArray(),alpha:Math.max(...Object.values(h.glows).map(g=>g.material.opacity),h.spikes.primary.material.opacity)}))});
+   }else if(seen){sessionStorage.setItem('orion-flight-motion-test',JSON.stringify(frames));return;}
+   requestAnimationFrame(sample);
+  }requestAnimationFrame(sample);
+ });
+ await page.locator('.herald-target').nth(index).click({force:true});
+ await expect(page).toHaveURL(/ficha\.html/,{timeout:15000});
+ const frames=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('orion-flight-motion-test')));
+ expect(frames.length).toBeGreaterThan(15);
+ const early=frames.filter(f=>f.p<.06),late=frames.filter(f=>f.p>.30);
+ expect(early.length).toBeGreaterThan(0);expect(late.length).toBeGreaterThan(5);
+ const angularDistance=(a,b)=>2*Math.acos(Math.min(1,Math.abs(a.reduce((sum,n,i)=>sum+n*b[i],0))));
+ for(const frame of early)expect(angularDistance(frame.q,early[0].q)).toBeLessThan(1e-6);
+ for(const frame of late){
+  expect(angularDistance(frame.q,late[0].q)).toBeLessThan(1e-6);
+  expect(frame.fade).toBe(0);expect(frame.others.every(h=>h.alpha===0)).toBe(true);
+ }
+ for(let i=1;i<frames.length;i++){
+  expect(frames[i].scale).toBeGreaterThanOrEqual(frames[i-1].scale-1e-8);
+  expect(frames[i].others.map(h=>h.position)).toEqual(frames[0].others.map(h=>h.position));
+ }
+});

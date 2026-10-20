@@ -3,6 +3,8 @@
 import * as THREE from 'three';
 
 const clamp01 = x => Math.min(1, Math.max(0, x));
+const smoother=(x,a,b)=>{const t=clamp01((x-a)/(b-a));return t*t*t*(t*(t*6-15)+10);};
+export const JOURNEY_DURATION=2550;
 const smooth = (x,a,b) => { const t=clamp01((x-a)/(b-a)); return t*t*(3-2*t); };
 
 export function createStarJourney({scene,camera,star,glows,layers,gasLayers,selectiveBloom,flash,reducedMotion,onArrive,background=null}) {
@@ -15,16 +17,20 @@ export function createStarJourney({scene,camera,star,glows,layers,gasLayers,sele
   let startFov=52,startFar=camera.far;
   let starZ = star.position.z; // Nao permitir colidir com o astro.
   const endpoint = new THREE.Vector3(star.position.x,star.position.y,starZ+53);
-  const travelDuration = reducedMotion ? 850 : 2150;
-  const lockDuration = reducedMotion ? 80 : 290;
+  const travelDuration = reducedMotion ? 850 : JOURNEY_DURATION;
+  const lockDuration = reducedMotion ? 80 : 700;
+  const turnDelay=reducedMotion?0:160;
   const lastLight = reducedMotion ? .70 : .77;
   const startPos = new THREE.Vector3();
   const initialQ = new THREE.Quaternion();
   const aimedQ = new THREE.Quaternion();
   const aimM = new THREE.Matrix4();
   const up = new THREE.Vector3(0,1,0);
-  const focusPoint = new THREE.Vector3();
   const backgroundScale=new THREE.Vector3();
+  const photoFollowers=layers.filter(layer=>layer.userData.volumeFragment).map(layer=>({
+    layer,scale:new THREE.Vector3(),offset:new THREE.Vector2(),anchor:new THREE.Vector2()
+  }));
+  let coverageFactor=1,coverageFar=camera.far;
   const cornerRay=new THREE.Vector3(),cornerPoint=new THREE.Vector3();
   const aimAngles=new THREE.Euler(0,0,0,'YXZ');
   function coverBackground(){
@@ -41,13 +47,24 @@ export function createStarJourney({scene,camera,star,glows,layers,gasLayers,sele
       factor=Math.max(factor,Math.abs(cornerPoint.x-background.position.x)*2/backgroundScale.x,
         Math.abs(cornerPoint.y-background.position.y)*2/backgroundScale.y);
     }
-    background.scale.copy(backgroundScale).multiplyScalar(1+Math.max(0,factor-1)*1.02);
-    camera.far=far;
+    // A cobertura conquistada na curva permanece: não contrair o panorama
+    // enquanto a câmera avança, o que parecia um zoom em sentido contrário.
+    coverageFactor=Math.max(coverageFactor,1+Math.max(0,factor-1)*1.02);
+    coverageFar=Math.max(coverageFar,far);
+    background.scale.copy(backgroundScale).multiplyScalar(coverageFactor);
+    camera.far=coverageFar;
+    // Os recortes da mesma fotografia acompanham sua cobertura. Ampliar só
+    // o JPEG fazia as nuvens transparentes se descolarem do panorama.
+    for(const {layer,scale,offset,anchor} of photoFollowers){
+      layer.scale.set(scale.x*coverageFactor,scale.y*coverageFactor,scale.z);
+      layer.position.x=anchor.x+offset.x*coverageFactor;
+      layer.position.y=anchor.y+offset.y*coverageFactor;
+    }
   }
   const bloomOriginal = selectiveBloom.state.intensity;
-  let active=false, completed=false, started=0, progress=0;
-  const shaderLayerStrength = gasLayers.map(o => [o, o.material.uniforms.uStrength.value]);
-  const staticLayerOpacity = layers.filter(o=>o.material?.opacity!==undefined).map(o=>[o,o.material.opacity]);
+  let active=false, completed=false, started=0, progress=0,companionOpacity=1;
+  const shaderLayerStrength = gasLayers.map(o => [o, o.material.uniforms.uStrength.value,1]);
+  const staticLayerOpacity = layers.filter(o=>o.material?.opacity!==undefined).map(o=>[o,o.material.opacity,1]);
 
   // Streaks along the viewing direction, with genuine forward motion in camera space.
   const count = reducedMotion ? 0 : 540;
@@ -92,13 +109,38 @@ export function createStarJourney({scene,camera,star,glows,layers,gasLayers,sele
     startPos.copy(camera.position);
     initialQ.copy(camera.quaternion);
     startFov=camera.fov;startFar=camera.far;
-    if(background)backgroundScale.copy(background.scale);
+    if(background){
+      backgroundScale.copy(background.scale);
+      for(const follower of photoFollowers){
+        const ratio=(startPos.z-follower.layer.position.z)/(startPos.z-background.position.z);
+        follower.anchor.set(startPos.x+(background.position.x-startPos.x)*ratio,
+          startPos.y+(background.position.y-startPos.y)*ratio);
+        follower.offset.set(follower.layer.position.x-follower.anchor.x,follower.layer.position.y-follower.anchor.y);
+        follower.scale.copy(follower.layer.scale);
+      }
+    }
+    coverageFactor=1;coverageFar=startFar;companionOpacity=1;
+    // Capturar o estado real de cada véu no instante da partida.
+    for(const entry of shaderLayerStrength){entry[1]=entry[0].material.uniforms.uStrength.value;entry[2]=smooth(startPos.z-entry[0].position.z,-14,95);}
+    for(const entry of staticLayerOpacity){entry[1]=entry[0].material.opacity;entry[2]=smooth(startPos.z-entry[0].position.z,-14,95);}
+    // Avançar pela linha de mira inicial, sem passar ao lado da estrela e
+    // precisar desfazer a rotação perto da chegada. Preserva a folga em Z.
+    endpoint.copy(startPos).lerp(star.position,(startPos.z-(starZ+53))/(startPos.z-starZ));
     for(const spec of specs){
       spec.startScale=spec.object.scale.x;
       spec.startOpacity=spec.object.material.opacity;
     }
     aimM.lookAt(startPos,star.position,up);
     aimedQ.setFromRotationMatrix(aimM);
+    if(background){
+      const halfVertical=THREE.MathUtils.degToRad(56/2);
+      const halfHorizontal=Math.atan(Math.tan(halfVertical)*camera.aspect);
+      const maxYaw=Math.max(0,1.25-halfHorizontal);
+      aimAngles.setFromQuaternion(aimedQ,'YXZ');
+      aimAngles.y=THREE.MathUtils.clamp(aimAngles.y,-maxYaw,maxYaw);
+      aimAngles.x=THREE.MathUtils.clamp(aimAngles.x,-.40,.40);
+      aimedQ.setFromEuler(aimAngles);
+    }
     started=now;active=true;progress=0;
     streaks.visible=!reducedMotion;
     return true;
@@ -110,41 +152,29 @@ export function createStarJourney({scene,camera,star,glows,layers,gasLayers,sele
     const t=clamp01(elapsed/travelDuration);
     progress=t;
     const flight=clamp01((elapsed-lockDuration)/(travelDuration-lockDuration));
-    // Primeira fase: mira na estrela sem teleportar a camera.
-    const distancePhase=Math.pow(smooth(flight,0,1),1.18);
+    // Primeiro dissipar os destinos restantes, depois orientar, depois avançar.
+    // Uma única direção até a chegada, sem oscilação lateral ou contra-curva.
+    companionOpacity=reducedMotion?0:1-smoother(elapsed,0,turnDelay);
+    const distancePhase=smoother(flight,0,1);
     const x=THREE.MathUtils.lerp(startPos.x,endpoint.x,distancePhase);
     const y=THREE.MathUtils.lerp(startPos.y,endpoint.y,distancePhase);
-    const lateral=reducedMotion?0:Math.sin(flight*Math.PI*2.6)*4.3*Math.sin(flight*Math.PI);
-    const vertical=reducedMotion?0:Math.sin(flight*Math.PI*3.8)*2.3*Math.sin(flight*Math.PI);
-    camera.position.set(x+lateral,y+vertical,THREE.MathUtils.lerp(startPos.z,endpoint.z,distancePhase));
-    focusPoint.copy(star.position);
-    aimM.lookAt(camera.position,focusPoint,up);
-    aimedQ.setFromRotationMatrix(aimM);
-    if(background){
-      // Em telas largas, não virar o frustum além do plano fotográfico.
-      const halfVertical=THREE.MathUtils.degToRad(63/2);
-      const halfHorizontal=Math.atan(Math.tan(halfVertical)*camera.aspect);
-      aimAngles.setFromQuaternion(aimedQ,'YXZ');
-      aimAngles.y=THREE.MathUtils.clamp(aimAngles.y,-Math.max(0,1.25-halfHorizontal),Math.max(0,1.25-halfHorizontal));
-      aimAngles.x=THREE.MathUtils.clamp(aimAngles.x,-.40,.40);
-      aimedQ.setFromEuler(aimAngles);
-    }
-    camera.quaternion.slerpQuaternions(initialQ,aimedQ,smooth(t,0,.25));
-    const handoff=smooth(elapsed,0,lockDuration);
-    camera.fov=THREE.MathUtils.lerp(startFov,52,handoff) + (reducedMotion?0:11*Math.sin(Math.PI*flight));
+    camera.position.set(x,y,THREE.MathUtils.lerp(startPos.z,endpoint.z,distancePhase));
+    camera.quaternion.slerpQuaternions(initialQ,aimedQ,smoother(elapsed,turnDelay,lockDuration));
+    const handoff=smoother(elapsed,0,lockDuration);
+    camera.fov=THREE.MathUtils.lerp(startFov,52,handoff)+(reducedMotion?0:4*Math.sin(Math.PI*flight)**2);
     coverBackground();
     camera.updateProjectionMatrix();
 
     // Nuvens atravessam o plano da camera e desaparecem suavemente depois.
-    for(const [layer,strength] of shaderLayerStrength) {
+    for(const [layer,strength,initialVisibility] of shaderLayerStrength) {
       const d=camera.position.z-layer.position.z;
       const visibility=smooth(d,-14,95);
-      layer.material.uniforms.uStrength.value=strength*visibility;
+      layer.material.uniforms.uStrength.value=strength*clamp01(visibility/Math.max(1e-6,initialVisibility));
     }
-    for(const [layer,alpha] of staticLayerOpacity) {
+    for(const [layer,alpha,initialVisibility] of staticLayerOpacity) {
       if(layer.position.z < starZ-25) continue; // base fotografica de fundo, sem blur
       const d=camera.position.z-layer.position.z;
-      layer.material.opacity=alpha*smooth(d,-14,95);
+      layer.material.opacity=alpha*clamp01(smooth(d,-14,95)/Math.max(1e-6,initialVisibility));
     }
 
     const light=smooth(t,lastLight,.995);
@@ -170,7 +200,7 @@ export function createStarJourney({scene,camera,star,glows,layers,gasLayers,sele
       positions[a+3]=p.x;positions[a+4]=p.y;positions[a+5]=p.z-Math.min(28,p.len*(1+2.2*flight));
     }
     geometry.attributes.position.needsUpdate=true;
-    material.opacity=reducedMotion?0:(.04+.50*smooth(flight,0,.55))*(1-light*.88);
+    material.opacity=reducedMotion?0:smooth(flight,0,.18)*(.04+.50*smooth(flight,0,.55))*(1-light*.88);
     flash.style.opacity=String(light);
     flash.style.setProperty('--veil-opacity',String(smooth(t,.90,1)));
     if(t>=1 && !completed){
@@ -178,5 +208,5 @@ export function createStarJourney({scene,camera,star,glows,layers,gasLayers,sele
     }
     return t;
   }
-  return {begin,update,setDestination,get active(){return active},get progress(){return progress},get streakCount(){return count},get passedLayers(){return gasLayers.filter(x=>camera.position.z<x.position.z).length}};
+  return {begin,update,setDestination,get active(){return active},get progress(){return progress},get companionOpacity(){return companionOpacity},get streakCount(){return count},get passedLayers(){return gasLayers.filter(x=>camera.position.z<x.position.z).length}};
 }

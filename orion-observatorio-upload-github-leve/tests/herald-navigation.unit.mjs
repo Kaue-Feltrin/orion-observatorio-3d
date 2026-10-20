@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import * as THREE from 'three';
 import {MAX_HERALDS,heraldCount,getHeralds,getHeraldLayout,arrivalURL,observatoryURL} from '../herald-catalog.js';
-import {createStarJourney} from '../star-journey.js';
+import {createStarJourney,JOURNEY_DURATION} from '../star-journey.js';
 assert.equal(MAX_HERALDS,3);
 for(const [input,expected] of [[undefined,1],[null,1],['',1],['abc',1],['Infinity',1],[-2,1],[1,1],[2,2],[2.9,2],[3,3],[99,3]])assert.equal(heraldCount(input),expected);
 assert.deepEqual(getHeralds().map(h=>h.id),['nox']);
@@ -23,7 +23,8 @@ for(const count of [1,2,3])for(const aspect of [390/844,1280/720,1920/1080]){
    assert.equal(journey.setDestination(other,chosen),true);assert.equal(journey.begin(1000),true);
    journey.update(1000,0);assert.deepEqual(camera.position.toArray(),[4,-3,26],'partida contínua para todo destino');
    assert.equal(journey.setDestination(star,original),false,'destino travado durante viagem');
-   journey.update(4000,.05);assert.ok(camera.position.distanceTo(new THREE.Vector3(point.x,point.y,point.z+53))<1e-10);
+   journey.update(4000,.05);assert.ok(Math.abs(camera.position.z-(point.z+53))<1e-10);
+   assert.ok(new THREE.Vector3(point.x-4,point.y+3,point.z-26).cross(camera.position.clone().sub(new THREE.Vector3(4,-3,26))).length()<1e-8,'aproximação alinhada à mira, sem correção lateral final');
    assert.ok(Object.values(original).every(g=>g.material.opacity===.42),'não anima o brilho do destino anterior');
    assert.equal(chosen.core.material.opacity,1);journey.update(5000,.05);assert.equal(arrivals,1);
    assert.equal(journey.setDestination(star,original),false);assert.equal(journey.begin(),false);
@@ -46,7 +47,7 @@ for(const aspect of [390/844,1280/720,1920/1080,3440/1440])for(const point of ge
  const journey=createStarJourney({scene,camera,star,glows,layers:[background],background,gasLayers:[],reducedMotion:false,
   selectiveBloom:{state:{intensity:.1},setIntensity(){}},flash:{style:{setProperty(){}}},onArrive(){}});
  journey.begin(0);journey.update(0,0);assert.ok(background.scale.distanceTo(originalScale)<1e-10,'sem salto na foto na partida');
- for(let time=0;time<=2150;time+=1000/60){
+ for(let time=0;time<=JOURNEY_DURATION+1000/60;time+=1000/60){
   journey.update(time,1/60);const tangent=Math.tan(THREE.MathUtils.degToRad(camera.fov/2));
   for(const x of [-1,1])for(const y of [-1,1]){
    const ray=new THREE.Vector3(x*tangent*aspect,y*tangent,-1).applyQuaternion(camera.quaternion);
