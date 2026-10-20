@@ -42,7 +42,7 @@ test('shader preserva formato no giro e aplica aproximação uniforme controlada
  await page.evaluate(()=>{window.__skyApproach=1;});await frames(page);
  const zoomed=await page.locator('#world canvas').screenshot();
  const {width,height}=await sharp(panned).metadata();
- const cropWidth=Math.round(width/1.22),cropHeight=Math.round(height/1.22);
+ const cropWidth=Math.round(width/1.32),cropHeight=Math.round(height/1.32);
  const expected=await sharp(panned).extract({left:Math.round((width-cropWidth)/2),top:Math.round((height-cropHeight)/2),width:cropWidth,height:cropHeight}).resize(width,height).png().toBuffer();
  const zoomDifference=await difference(panned,zoomed),uniformDifference=await difference(expected,zoomed);
  console.log('SKY_ZOOM_COMPARISON',JSON.stringify({zoomDifference,uniformDifference}));
@@ -54,5 +54,8 @@ test('shader preserva formato no giro e aplica aproximação uniforme controlada
  await test.info().attach('sky-initial',{body:before,contentType:'image/png'});
  await test.info().attach('sky-turned-locked-pan',{body:turned,contentType:'image/png'});
  await test.info().attach('sky-angular-pan',{body:panned,contentType:'image/png'});
- await test.info().attach('sky-approach-22-percent',{body:zoomed,contentType:'image/png'});
+ await test.info().attach('sky-approach-32-percent',{body:zoomed,contentType:'image/png'});
+ // Comparação visual isolada com a intensidade anterior, na mesma pose/pan.
+ await page.evaluate(()=>{window.__skyApproach=.22/.32;});await frames(page);
+ await test.info().attach('sky-previous-22-percent',{body:await page.locator('#world canvas').screenshot(),contentType:'image/png'});
 });

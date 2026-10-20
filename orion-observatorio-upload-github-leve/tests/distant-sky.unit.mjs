@@ -36,7 +36,7 @@ for(const aspect of [390/844,1280/720,3440/1440,1920/458]){
   }
   assert.ok(Number.isFinite(sky.state.panX)&&Number.isFinite(sky.state.panY));
  }
- // Aproximação explícita uniforme: o mesmo ponto do céu aparece a 1,22×
+ // Aproximação explícita uniforme: o mesmo ponto do céu aparece a 1,32×
  // em ambos os eixos, sem modificar a orientação ou a perspectiva capturada.
  for(const amount of [0,.1,.5,1]){
   sky.update(amount);
@@ -55,4 +55,4 @@ for(const aspect of [390/844,1280/720,3440/1440,1920/458]){
  camera.quaternion.copy(originalQ);sky.update();assert.ok(u.uSkyPan.value.length()<1e-12,'voltar à orientação inicial devolve o mesmo céu, mesmo após transladar');
  assert.equal(photo.geometry,geometry);assert.equal(photo.material,material);assert.equal(photo.material.map,map);assert.equal(camera.far,900);
 }
-console.log('OK: projeção inicial idêntica, céu sem perspectiva de parede, aproximação explícita uniforme de 22%, pan reversível, cobertura em quatro aspectos e mesmos recursos.');
+console.log('OK: projeção inicial idêntica, céu sem perspectiva de parede, aproximação explícita uniforme de 32%, pan reversível, cobertura em quatro aspectos e mesmos recursos.');

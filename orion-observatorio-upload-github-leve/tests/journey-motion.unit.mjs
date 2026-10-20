@@ -56,7 +56,7 @@ for(const hz of [30,60,120])for(const aspect of [1280/720,3440/1440])for(const t
  assert.ok(gasBoost>1.5,'gás deve continuar perceptível durante o avanço');
  assert.ok(fragmentBoost>1.5,'recortes distantes não podem desaparecer antes de viajar');
  assert.equal(mist.material.opacity,0,'véu próximo desaparece antes de atravessar o olho');
- assert.equal(sky.state.zoom,1.22);
+ assert.equal(sky.state.zoom,1.32);
  assert.equal(arrivals,1);assert.ok(Math.abs(camera.position.z-(-470+53))<1e-10);
  assert.ok(star.position.clone().sub(camera.position).normalize().distanceTo(direction)<1e-10,'aproximação mantém direção e distância segura');
 }

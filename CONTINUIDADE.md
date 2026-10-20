@@ -1,3 +1,12 @@
+## 20/10/2026 — mais aproximação do fundo: 22% para 32%
+
+- Usuário pediu “um pouco mais de zoom”. Base real `055f3dc23271916a521b5e0d733e3ec0b7c00a7c` confirmada no GitHub/PR #29 antes de alterar; mesma branch `codex/maos-rig-mmv`.
+- Única alteração da aplicação: `SKY_APPROACH_ZOOM` de `1.22` para `1.32` em `distant-sky.js`. Mantidos ritmo, início após alinhamento, proporção do panorama, repouso/reduced-motion, nuvens, mãos, destinos e transição. Testes existentes atualizados para o novo limite, sem teste adicional para a troca de constante.
+- `npm run check`, `NODE_USE_ENV_PROXY=1 npm run build`, duas suítes unitárias (`distant-sky`, `journey-motion`) e quatro casos de navegador aprovados sem falhas ou retries: renderização/pixels e três destinos reais. Crescimento monotônico até 32%, sem zoom no alinhamento; limites de curva/profundidade e reduced-motion preservados.
+- Capturas comparativas em `docs/mechanics/sky-zoom32/`: céu isolado na mesma pose/pan, reproduzindo o ganho anterior de 22% e o atual de 32%. Relógio pausado apenas para essa comparação técnica; viagens dos três destinos usam navegação/relógio reais. Evidência local Chromium/SwiftShader, sem pressupor desempenho ou aceite visual no dispositivo do usuário. Resultados e hashes em `validation.json`; vídeo real anterior reutilizado por link.
+- Contexto e PR atualizados. Publicação conferida por check Cloudflare após o push; consultar CI completo da nova revisão sem equipará-lo aos resultados locais. Acesso direto pages.dev já bloqueado pela rede deste ambiente; não repetir/contornar.
+- Main/referência preservadas, sem merge/outro repositório, novo asset de produto, criação de personagem ou adaptação mobile. Próxima ação do usuário: escolher uma estrela na nova prévia e avaliar a intensidade. Nenhuma instalação necessária; encerrar este ajuste.
+
 ## 20/10/2026 — aproximação gradual da galáxia na viagem
 
 - Usuário pediu aproximar um pouco o fundo porque a sensação de movimento ainda estava fraca. Base `c2c6b951945b978b036ac3bf6fdfecdf2976050a` confirmada no GitHub/PR #29 antes de alterar; mesma branch `codex/maos-rig-mmv`.

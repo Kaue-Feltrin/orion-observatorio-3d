@@ -1,7 +1,7 @@
 // Céu da viagem: translação angular da fotografia, sem perspectiva de parede.
 // Reutiliza a malha, o material e a textura existentes; repouso não é alterado.
 import * as THREE from 'three';
-export const SKY_APPROACH_ZOOM=1.22;
+export const SKY_APPROACH_ZOOM=1.32;
 
 export function createDistantSky(photo,camera){
   const uniforms={
