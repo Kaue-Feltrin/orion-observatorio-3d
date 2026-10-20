@@ -33,6 +33,8 @@ test('observatório 3D inicializa com Canvas e estrela', async ({ page }) => {
 test('clique na estrela realiza transição para a ficha', async ({ page }) => {
   await page.goto('http://127.0.0.1:4173/');
   await expect.poll(async () => page.evaluate(() => document.documentElement.dataset.sceneReady)).toBe('1');
+  // sceneReady indica inicialização; o usuário só pode clicar após a pintura.
+  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
   await page.locator('#heraldTarget').click({force:true});
   await expect(page).toHaveURL(/ficha\.html/, {timeout:9000});
 });

@@ -3,6 +3,7 @@
 import * as THREE from "three";
 import { createCosmicAtmosphere } from './cosmic-atmosphere.js';
 import { createSelectiveBloom } from './selective-bloom.js';
+import { createDistantSky } from './distant-sky.js';
 import { createStarJourney } from './star-journey.js';
 import { createStarSelection } from './star-selection.js';
 import { createCinematicStarSpikes } from './cinematic-star.js';
@@ -205,6 +206,7 @@ const mainCloud = nebulaPlane('/assets/nebula-eso-photographic.jpg',-540,1,0,-3,
 // Apenas iluminação/cor do material; fotografia ESO original segue intacta e nítida.
 // Escurecer o fundo gera espaço negativo ao redor do único arauto interativo.
 mainCloud.material.color.setRGB(.43,.46,.53);
+const distantSky=createDistantSky(mainCloud,camera);
 const midCloud = nebulaPlane('/assets/03-mid-clouds.webp',-155,.031,-2,-4,1.42,3,3072/1152,{name:'03 · Detalhe da nebulosa',additive:true});
 const nearCloud = nebulaPlane('/assets/04-front-fog.png',-92,.027,9,-10,1.56,4,2560/960,{name:'04 · Névoa frontal',additive:true});
 const dustCloud = nebulaPlane('/assets/05-star-dust.png',-58,.062,0,0,1.62,5,3072/1152,{name:'05 · Poeira estelar',additive:true});
@@ -643,7 +645,7 @@ window.addEventListener('pointerdown',e=>{
 const starJourney=createStarJourney({
  scene,camera,star:heraldGroup,
  glows:{halo:nebulaStarHalo,soft:softHalo,main:mainGlow,core:coreGlow},
- layers,gasLayers:atmosphere.layers,selectiveBloom,flash,background:mainCloud,
+ layers,gasLayers:atmosphere.layers,selectiveBloom,flash,sky:distantSky,
  reducedMotion:reduceMotion,
  onArrive:()=>{
    // Relato do trajeto persistido apenas nesta aba para depuração pós-navegação.
@@ -661,7 +663,7 @@ for(const entry of heralds)entry.selection=createStarSelection(entry.group,{
 let starSelection=activeHerald.selection;
 if(debugEnabled)window.__orionStarDebug={journey:starJourney,get selection(){return starSelection},
  get heraldGroup(){return heraldGroup},get heraldPickSprite(){return heraldPickSprite},raycaster:starRaycaster,heralds,
- get selectedHeraldId(){return selectedHerald?.data.id},transition:pageTransition.state};
+ get selectedHeraldId(){return selectedHerald?.data.id},transition:pageTransition.state,sky:distantSky};
 function selectStar(entry=activeHerald){
  if(travelling||!activateHerald(entry)||!starSelection.begin())return;
  selectedHerald=entry;
@@ -707,12 +709,12 @@ function resize(){
  renderer.setSize(innerWidth,innerHeight);
  selectiveBloom.resize(innerWidth,innerHeight,gpuBudget().bloomScale);
  for(const mesh of layers){
-  if(mesh.userData.volumeFragment)continue;
+  if(mesh.userData.volumeFragment||(mesh===mainCloud&&distantSky.state.active))continue;
   const dist=26-mesh.position.z; // escala baseada no ponto de observacao inicial
   const h=2*Math.tan(THREE.MathUtils.degToRad(52/2))*dist*mesh.userData.factor;
   mesh.scale.set(h*mesh.userData.aspect,h,1);
  }
- nebulaVolume.resize();
+ if(!distantSky.state.active)nebulaVolume.resize();
  for(const mat of starMaterials)mat.uniforms.uDpr.value=renderer.getPixelRatio();
 }
 window.addEventListener('resize',resize);resize();

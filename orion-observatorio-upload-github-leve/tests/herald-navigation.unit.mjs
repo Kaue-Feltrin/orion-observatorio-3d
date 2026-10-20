@@ -36,29 +36,4 @@ assert.equal(url.searchParams.get('via'),'observatory');assert.equal(url.searchP
 const back=observatoryURL(url);assert.equal(back.pathname,'/index.html');assert.equal(back.searchParams.get('stars'),'3');
 assert.equal(back.searchParams.get('handsMotion'),'perspective');assert.equal(back.searchParams.has('herald'),false);assert.equal(back.searchParams.has('via'),false);
 console.log('OK: catálogo 1–3, posições, identidade no destino/retorno e viagem única com destino travado.');
-// A viagem fora do eixo não pode expor as bordas da fotografia de fundo.
-for(const aspect of [390/844,1280/720,1920/1080,3440/1440])for(const point of getHeraldLayout(3,aspect)){
- const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(52,aspect,.2,900),star=new THREE.Group();
- scene.add(camera,star);camera.position.z=26;star.position.set(point.x,point.y,point.z);
- const background=new THREE.Mesh(new THREE.PlaneGeometry(1,1),new THREE.MeshBasicMaterial());background.position.set(0,-3,-540);
- const height=2*Math.tan(52*Math.PI/360)*566*1.31;background.scale.set(height*5000/1850,height,1);
- const originalScale=background.scale.clone();
- const glows=Object.fromEntries(['halo','soft','main','core'].map(key=>[key,new THREE.Sprite(new THREE.SpriteMaterial())]));
- const journey=createStarJourney({scene,camera,star,glows,layers:[background],background,gasLayers:[],reducedMotion:false,
-  selectiveBloom:{state:{intensity:.1},setIntensity(){}},flash:{style:{setProperty(){}}},onArrive(){}});
- journey.begin(0);journey.update(0,0);assert.ok(background.scale.distanceTo(originalScale)<1e-10,'sem salto na foto na partida');
- for(let time=0;time<=JOURNEY_DURATION+1000/60;time+=1000/60){
-  journey.update(time,1/60);const tangent=Math.tan(THREE.MathUtils.degToRad(camera.fov/2));
-  for(const x of [-1,1])for(const y of [-1,1]){
-   const ray=new THREE.Vector3(x*tangent*aspect,y*tangent,-1).applyQuaternion(camera.quaternion);
-   assert.ok(ray.z<0,'frustum continua olhando para o plano de fundo');
-   const distance=(background.position.z-camera.position.z)/ray.z;
-   assert.ok(distance<camera.far,'fotografia dentro da distância de recorte da câmera');
-   const corner=camera.position.clone().addScaledVector(ray,distance);
-   assert.ok(Math.abs(corner.x-background.position.x)<=background.scale.x/2+1e-6,'cobertura horizontal');
-   assert.ok(Math.abs(corner.y-background.position.y)<=background.scale.y/2+1e-6,'cobertura vertical');
-  }
-  assert.ok(Math.abs(background.scale.x/background.scale.y-5000/1850)<1e-10,'proporção da fotografia preservada');
- }
-}
-console.log('OK: bordas do fundo cobertas em todo trajeto lateral, quatro proporções de tela e sem salto na partida.');
+// A cobertura sem plano oblíquo é exercitada por distant-sky.unit.mjs.
