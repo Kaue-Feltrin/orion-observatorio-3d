@@ -4,7 +4,7 @@ export function createTouchNavigation({root,mouse,reducedMotion,isLocked,onDismi
   let gesture=null,suppressClick=false;
   const interactive=node=>{
     const control=node.closest('button,a,input,summary,#heraldCard,.debug');
-    return control&&control.id!=='heraldTarget';
+    return control&&!control.matches('.herald-target');
   };
   const clamp=value=>Math.max(-.65,Math.min(.65,value));
   function down(event){
@@ -15,7 +15,7 @@ export function createTouchNavigation({root,mouse,reducedMotion,isLocked,onDismi
     suppressClick=false;
     if(!event.isPrimary||interactive(event.target))return;
     gesture={id:event.pointerId,x:event.clientX,y:event.clientY,viewX:mouse.x,viewY:mouse.y,
-      star:!!event.target.closest('#heraldTarget')};
+      star:!!event.target.closest('.herald-target')};
   }
   function move(event){
     if(!gesture||event.pointerId!==gesture.id||isLocked())return;

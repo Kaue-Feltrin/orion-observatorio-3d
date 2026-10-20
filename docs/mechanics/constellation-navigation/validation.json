@@ -1,0 +1,278 @@
+{
+  "date": "2026-10-20",
+  "branch": "codex/maos-rig-mmv",
+  "base": "bf90906405cdba10f27fc787f2d9f2fa125d503a",
+  "pullRequest": "https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/29",
+  "checks": {
+    "npm run check": "passed",
+    "NODE_USE_ENV_PROXY=1 npm run build": "passed",
+    "unitSuites": {
+      "passed": 9,
+      "files": [
+        "tests/hands-image-rig.unit.mjs",
+        "tests/hands-perspective.unit.mjs",
+        "tests/star-selection.unit.mjs",
+        "tests/selection-handoff.unit.mjs",
+        "tests/herald-navigation.unit.mjs",
+        "tests/hands-balance.unit.mjs",
+        "tests/hands-hover.unit.mjs",
+        "tests/hands-mesh.unit.mjs",
+        "tests/nebula-volume.unit.mjs"
+      ],
+      "note": "Unidades de navegação e continuidade repetidas após a correção final; demais fontes das mãos/atmosfera não mudaram."
+    }
+  },
+  "browser": {
+    "distinctPassed": 36,
+    "rounds": [
+      {
+        "suite": "hands-atmosphere-touch",
+        "passed": 19,
+        "retries": 0,
+        "stage": "Antes da correção final de cobertura/recorte; mãos/atmosfera/toque não mudaram depois.",
+        "cases": [
+          {
+            "file": "tests/hands-atmosphere.spec.js",
+            "name": "esquerda fecha os dedos no hover e reabre em três enquadramentos"
+          },
+          {
+            "file": "tests/hands-atmosphere.spec.js",
+            "name": "cinco planos ESO no Eco+ dão paralaxe distinta sem esconder a Nox"
+          },
+          {
+            "file": "tests/hands-atmosphere.spec.js",
+            "name": "reduced-motion mantém esquerda imóvel e orçamento leve não carrega planos novos"
+          },
+          {
+            "file": "tests/hands-perspective.spec.js",
+            "name": "perspectiva deforma mão inteira sem fades, com intermediários e hover real"
+          },
+          {
+            "file": "tests/hands-perspective.spec.js",
+            "name": "perspectiva reduced-motion usa somente extremos estáticos"
+          },
+          {
+            "file": "tests/hands-perspective.spec.js",
+            "name": "perspectiva não aloca nada em off e mantém alternativa rig"
+          },
+          {
+            "file": "tests/hands-perspective.spec.js",
+            "name": "registra nove poses da mesma mão, incluindo meios das transições"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "clique real confirma com pressão e onda de luz antes da viagem, sem duplicar"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "teclado seleciona sem exigir hover e mantém navegação"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "movimento reduzido confirma sem avanço, pressão ou expansão luminosa"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "mãos desligadas mantêm confirmação luminosa e viagem"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "toque › toque abre resumo e botão explícito confirma com gesto e viaja"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "registra etapas do clique e preservação do centro em desktop e celular"
+          },
+          {
+            "file": "tests/touch-navigation.spec.js",
+            "name": "arrasto explora, não seleciona e toque seguinte abre resumo sem confirmar"
+          },
+          {
+            "file": "tests/touch-navigation.spec.js",
+            "name": "fechar, Escape, toque fora e cancelar arrasto não iniciam viagem"
+          },
+          {
+            "file": "tests/touch-navigation.spec.js",
+            "name": "painel e controles cabem em retrato pequeno, celular, paisagem e rotação"
+          },
+          {
+            "file": "tests/touch-navigation.spec.js",
+            "name": "movimento reduzido mantém vista estática ao arrastar e confirma pelo botão"
+          },
+          {
+            "file": "tests/touch-navigation.spec.js",
+            "name": "toque usa orçamento automático leve e duas mãos compactas por padrão"
+          },
+          {
+            "file": "tests/touch-navigation.spec.js",
+            "name": "hands=off no toque não baixa imagens e mantém confirmação explícita"
+          }
+        ]
+      },
+      {
+        "suite": "final-navigation-selection",
+        "passed": 18,
+        "retries": 0,
+        "stage": "Build final, incluindo cobertura e recorte do fundo.",
+        "cases": [
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "1 estrela(s): destino 1 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "2 estrela(s): destino 1 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "2 estrela(s): destino 2 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "3 estrela(s): destino 1 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "3 estrela(s): destino 2 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "3 estrela(s): destino 3 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "raio do mouse escolhe cada estrela e compartilha texturas sem misturar resumos"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "véu cobre saída e primeiro quadro da chegada até módulo atrasado ficar pronto"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "movimento reduzido, acesso direto e destino inválido mantêm chegada utilizável"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "regressão do toque compartilhado › segunda estrela abre resumo sem viagem e confirmação chega ao destino correto"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "limite de três, fallback de contagem inválida e reposicionamento mantêm alvos separados"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "voltar pelo navegador restaura o Observatório sem clarão ou seleção travados"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "clique real confirma com pressão e onda de luz antes da viagem, sem duplicar"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "teclado seleciona sem exigir hover e mantém navegação"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "movimento reduzido confirma sem avanço, pressão ou expansão luminosa"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "mãos desligadas mantêm confirmação luminosa e viagem"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "toque › toque abre resumo e botão explícito confirma com gesto e viaja"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "registra etapas do clique e preservação do centro em desktop e celular"
+          }
+        ]
+      },
+      {
+        "suite": "final-scene",
+        "passed": 5,
+        "retries": 0,
+        "stage": "Build final.",
+        "cases": [
+          {
+            "file": "tests/observatorio.spec.js",
+            "name": "clique na estrela realiza transição para a ficha"
+          },
+          {
+            "file": "tests/observatorio.spec.js",
+            "name": "estrela distante aponta no mundo, mostra hover e seleciona via raycaster"
+          },
+          {
+            "file": "tests/observatorio.spec.js",
+            "name": "respiração cósmica anima apenas véus e mantém a fotografia ESO intacta"
+          },
+          {
+            "file": "tests/observatorio.spec.js",
+            "name": "desempenho limita pixels e draw calls sem apagar a nebulosa ESO"
+          },
+          {
+            "file": "tests/observatorio.spec.js",
+            "name": "mouse distante dispensa Raycaster e vinheta não repinta parada"
+          }
+        ]
+      }
+    ],
+    "note": "36 casos distintos aprovados em rodadas, não uma execução única de 36. A primeira rodada dos casos novos teve um ponto de teste fora do sprite; corrigido sem aumentar a área de clique. Todos os 12 casos novos foram repetidos no build final."
+  },
+  "environment": {
+    "browser": "Chromium /usr/bin/chromium",
+    "renderer": "SwiftShader",
+    "viewportRecordings": "1280x720",
+    "hardwareOfUserTested": false
+  },
+  "sourceSHA256": {
+    "main.js": "5f373b270d4744a319f4e2ef1f21c5315cba19a82fd5758d06b4f85fb5f7c105",
+    "star-journey.js": "ece22f84e81d730e9e818012fb39d552b5595aa46604e8fb06900cfec15f9cad",
+    "herald-catalog.js": "6f87c3aa30a5d25a20eddc7aa0f227714f4deeef02981ac82cd71ca705d2b408",
+    "arrival.js": "dd9cbc315d7bc0d87c5d05617b47fda7941ef6dc764e111f7dddff8e82e90c86",
+    "page-transition.js": "e438593942c22813c67b7e2e648a001315679fc30fd0bcfab42991243ac99170",
+    "ficha.html": "7638eda217ac19bdbe6dd2e7b597450d70fbae53d82c4e1631655f22a8a484bb"
+  },
+  "modifiedFiles": [
+    ".github/workflows/validar-observatorio.yml",
+    "CONTEXTO_COMPLETO_CUMULATIVO.md",
+    "CONTINUIDADE.md",
+    "docs/mechanics/constellation-navigation/README.md",
+    "docs/mechanics/constellation-navigation/after-1-stars.webp",
+    "docs/mechanics/constellation-navigation/after-2-stars.webp",
+    "docs/mechanics/constellation-navigation/after-3-stars.webp",
+    "docs/mechanics/constellation-navigation/after-arrival.webp",
+    "docs/mechanics/constellation-navigation/after-hover.webp",
+    "docs/mechanics/constellation-navigation/after.mp4",
+    "docs/mechanics/constellation-navigation/before-1-stars.webp",
+    "docs/mechanics/constellation-navigation/before-arrival.webp",
+    "docs/mechanics/constellation-navigation/before-hover.webp",
+    "docs/mechanics/constellation-navigation/before.mp4",
+    "docs/mechanics/constellation-navigation/recordings.json",
+    "docs/mechanics/constellation-navigation/validation.json",
+    "orion-observatorio-upload-github-leve/arrival.js",
+    "orion-observatorio-upload-github-leve/cinematic-star.js",
+    "orion-observatorio-upload-github-leve/ficha.html",
+    "orion-observatorio-upload-github-leve/herald-catalog.js",
+    "orion-observatorio-upload-github-leve/index.html",
+    "orion-observatorio-upload-github-leve/main.js",
+    "orion-observatorio-upload-github-leve/page-transition.js",
+    "orion-observatorio-upload-github-leve/star-journey.js",
+    "orion-observatorio-upload-github-leve/tests/herald-navigation.spec.js",
+    "orion-observatorio-upload-github-leve/tests/herald-navigation.unit.mjs",
+    "orion-observatorio-upload-github-leve/tests/structure.mjs",
+    "orion-observatorio-upload-github-leve/touch-navigation.js"
+  ],
+  "preservedRefs": {
+    "main": "61067167aa6752ff505013a91ba450fe87739812",
+    "preview/star-hover-hands-v0921": "2a2c6a06157cc6141d81842f1f8d37dd8c54aaa1"
+  },
+  "scope": {
+    "default": "Nox",
+    "preview": "?stars=2/3 com Estrela II e III, provisórias e sem persistência",
+    "mobile": "nova adaptação adiada; regressão das interações existentes verificada",
+    "characterCreation": "próxima etapa, não iniciada"
+  },
+  "ci": "CI completo da base 39421980005 aprovado. Consultar o PR para o CI remoto da revisão publicada."
+}

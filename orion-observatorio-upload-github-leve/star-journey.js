@@ -5,15 +5,15 @@ import * as THREE from 'three';
 const clamp01 = x => Math.min(1, Math.max(0, x));
 const smooth = (x,a,b) => { const t=clamp01((x-a)/(b-a)); return t*t*(3-2*t); };
 
-export function createStarJourney({scene,camera,star,glows,layers,gasLayers,selectiveBloom,flash,reducedMotion,onArrive}) {
+export function createStarJourney({scene,camera,star,glows,layers,gasLayers,selectiveBloom,flash,reducedMotion,onArrive,background=null}) {
   const specs = [
     {object:glows.halo,scale:156,opacity:.22},
     {object:glows.soft,scale:118,opacity:.30},
     {object:glows.main,scale:66,opacity:.80},
     {object:glows.core,scale:18,opacity:1},
   ];
-  let startFov=52;
-  const starZ = star.position.z; // Nao permitir colidir com o astro.
+  let startFov=52,startFar=camera.far;
+  let starZ = star.position.z; // Nao permitir colidir com o astro.
   const endpoint = new THREE.Vector3(star.position.x,star.position.y,starZ+53);
   const travelDuration = reducedMotion ? 850 : 2150;
   const lockDuration = reducedMotion ? 80 : 290;
@@ -24,6 +24,26 @@ export function createStarJourney({scene,camera,star,glows,layers,gasLayers,sele
   const aimM = new THREE.Matrix4();
   const up = new THREE.Vector3(0,1,0);
   const focusPoint = new THREE.Vector3();
+  const backgroundScale=new THREE.Vector3();
+  const cornerRay=new THREE.Vector3(),cornerPoint=new THREE.Vector3();
+  const aimAngles=new THREE.Euler(0,0,0,'YXZ');
+  function coverBackground(){
+    if(!background)return;
+    // A fotografia continua no mesmo plano. Só ampliar quando uma esquina
+    // do frustum sair dela durante a viagem; mesma imagem/aspecto, sem salto inicial.
+    const tangent=Math.tan(THREE.MathUtils.degToRad(camera.fov/2));
+    let factor=1,far=startFar;
+    for(const x of [-1,1])for(const y of [-1,1]){
+      cornerRay.set(x*tangent*camera.aspect,y*tangent,-1).applyQuaternion(camera.quaternion);
+      const distance=(background.position.z-camera.position.z)/cornerRay.z;
+      far=Math.max(far,distance*1.02);
+      cornerPoint.copy(camera.position).addScaledVector(cornerRay,distance);
+      factor=Math.max(factor,Math.abs(cornerPoint.x-background.position.x)*2/backgroundScale.x,
+        Math.abs(cornerPoint.y-background.position.y)*2/backgroundScale.y);
+    }
+    background.scale.copy(backgroundScale).multiplyScalar(1+Math.max(0,factor-1)*1.02);
+    camera.far=far;
+  }
   const bloomOriginal = selectiveBloom.state.intensity;
   let active=false, completed=false, started=0, progress=0;
   const shaderLayerStrength = gasLayers.map(o => [o, o.material.uniforms.uStrength.value]);
@@ -57,6 +77,13 @@ export function createStarJourney({scene,camera,star,glows,layers,gasLayers,sele
   streaks.frustumCulled=false;streaks.renderOrder=18;streaks.visible=false;
   camera.add(streaks);
 
+  function setDestination(destination,destinationGlows){
+    if(active||completed)return false;
+    star=destination;glows=destinationGlows;starZ=star.position.z;
+    endpoint.set(star.position.x,star.position.y,starZ+53);
+    for(const [i,key] of ['halo','soft','main','core'].entries())specs[i].object=glows[key];
+    return true;
+  }
   function begin(now=performance.now()) {
     if(active||completed)return false;
     camera.updateWorldMatrix(true,false);
@@ -64,7 +91,8 @@ export function createStarJourney({scene,camera,star,glows,layers,gasLayers,sele
     camera.updateWorldMatrix(true,false);
     startPos.copy(camera.position);
     initialQ.copy(camera.quaternion);
-    startFov=camera.fov;
+    startFov=camera.fov;startFar=camera.far;
+    if(background)backgroundScale.copy(background.scale);
     for(const spec of specs){
       spec.startScale=spec.object.scale.x;
       spec.startOpacity=spec.object.material.opacity;
@@ -92,9 +120,19 @@ export function createStarJourney({scene,camera,star,glows,layers,gasLayers,sele
     focusPoint.copy(star.position);
     aimM.lookAt(camera.position,focusPoint,up);
     aimedQ.setFromRotationMatrix(aimM);
+    if(background){
+      // Em telas largas, não virar o frustum além do plano fotográfico.
+      const halfVertical=THREE.MathUtils.degToRad(63/2);
+      const halfHorizontal=Math.atan(Math.tan(halfVertical)*camera.aspect);
+      aimAngles.setFromQuaternion(aimedQ,'YXZ');
+      aimAngles.y=THREE.MathUtils.clamp(aimAngles.y,-Math.max(0,1.25-halfHorizontal),Math.max(0,1.25-halfHorizontal));
+      aimAngles.x=THREE.MathUtils.clamp(aimAngles.x,-.40,.40);
+      aimedQ.setFromEuler(aimAngles);
+    }
     camera.quaternion.slerpQuaternions(initialQ,aimedQ,smooth(t,0,.25));
     const handoff=smooth(elapsed,0,lockDuration);
     camera.fov=THREE.MathUtils.lerp(startFov,52,handoff) + (reducedMotion?0:11*Math.sin(Math.PI*flight));
+    coverBackground();
     camera.updateProjectionMatrix();
 
     // Nuvens atravessam o plano da camera e desaparecem suavemente depois.
@@ -140,5 +178,5 @@ export function createStarJourney({scene,camera,star,glows,layers,gasLayers,sele
     }
     return t;
   }
-  return {begin,update,get active(){return active},get progress(){return progress},get streakCount(){return count},get passedLayers(){return gasLayers.filter(x=>camera.position.z<x.position.z).length}};
+  return {begin,update,setDestination,get active(){return active},get progress(){return progress},get streakCount(){return count},get passedLayers(){return gasLayers.filter(x=>camera.position.z<x.position.z).length}};
 }

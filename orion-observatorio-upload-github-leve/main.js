@@ -15,11 +15,13 @@ import { createVrFirstPersonHands } from './first-person-hands-vr.js';
 import { createFpsFirstPersonHands } from './first-person-hands-fps.js';
 import { createEtherealHandsOverlay } from './first-person-hands-overlay.js';
 import { createEtherealHandsMesh } from './first-person-hands-mesh.js';
+import { getHeralds, getHeraldLayout, arrivalURL } from './herald-catalog.js';
+import { createPageTransition } from './page-transition.js';
 import { createTouchNavigation } from './touch-navigation.js';
 
 const root = document.getElementById('observatory');
 const container = document.getElementById('world');
-const target = document.getElementById('heraldTarget');
+let target = document.getElementById('heraldTarget');
 const card = document.getElementById('heraldCard');
 const hint = document.getElementById('hint');
 const notice = document.getElementById('notice');
@@ -372,7 +374,7 @@ if (debugEnabled) {
 // Native Three.js sprites anchored at the same point in space.
 const heraldPos = new THREE.Vector3(0, 43, -470);
 const heraldBasePos = heraldPos.clone();
-const heraldGroup = new THREE.Group();
+let heraldGroup = new THREE.Group();
 heraldGroup.position.copy(heraldPos);
 scene.add(heraldGroup);
 function glowTexture() {
@@ -407,27 +409,27 @@ function addGlow(scale,alpha) {
   const material=new THREE.SpriteMaterial({map:heraldTex,transparent:true,opacity:alpha,blending:THREE.AdditiveBlending,depthWrite:false,depthTest:false,toneMapped:false});
   const sprite=new THREE.Sprite(material);sprite.scale.set(scale,scale,1);sprite.renderOrder=12;heraldGroup.add(sprite);return sprite;
 }
-const nebulaStarHalo=new THREE.Sprite(new THREE.SpriteMaterial({
+let nebulaStarHalo=new THREE.Sprite(new THREE.SpriteMaterial({
   map:tex('/assets/06-star-glow.png'),transparent:true,opacity:.16,
   blending:THREE.AdditiveBlending,depthTest:false,depthWrite:false,toneMapped:false
 }));
 nebulaStarHalo.scale.set(60,60,1);
 nebulaStarHalo.renderOrder=10;
 heraldGroup.add(nebulaStarHalo);
-const softHalo=addGlow(47,.25);
-const mainGlow=addGlow(22,.8);
-const coreGlow=addGlow(7,1);
-const orbitRing=new THREE.Mesh(new THREE.RingGeometry(7.25,7.28,144),new THREE.MeshBasicMaterial({color:0xe8cf92,transparent:true,opacity:.015,side:THREE.DoubleSide,depthWrite:false,depthTest:false}));
+let softHalo=addGlow(47,.25);
+let mainGlow=addGlow(22,.8);
+let coreGlow=addGlow(7,1);
+let orbitRing=new THREE.Mesh(new THREE.RingGeometry(7.25,7.28,144),new THREE.MeshBasicMaterial({color:0xe8cf92,transparent:true,opacity:.015,side:THREE.DoubleSide,depthWrite:false,depthTest:false}));
 orbitRing.renderOrder=14; heraldGroup.add(orbitRing);
 // Halo fotônico raro e suave: não é um círculo de interface ou marcador.
-const beaconGlow=addGlow(178,0);
+let beaconGlow=addGlow(178,0);
 beaconGlow.renderOrder=11;
 beaconGlow.layers.enable(1);
 // Pontas de difração procedurais, com duas velocidades e sem bloom extra.
-const cinematicSpikes=createCinematicStarSpikes(heraldGroup,{reducedMotion:reduceMotion});
+let cinematicSpikes=createCinematicStarSpikes(heraldGroup,{reducedMotion:reduceMotion});
 // Sprite 3D invisivel na camada 2: area acessivel de mira e click real (Raycaster).
 // O HTML continua apenas como alternativa de teclado e touch.
-const heraldPickSprite=new THREE.Sprite(new THREE.SpriteMaterial({
+let heraldPickSprite=new THREE.Sprite(new THREE.SpriteMaterial({
  color:0xffffff,transparent:true,opacity:0,depthTest:false,depthWrite:false
 }));
 heraldPickSprite.scale.setScalar(56);
@@ -441,12 +443,56 @@ nebulaStarHalo.layers.enable(1);
 softHalo.layers.enable(1);
 mainGlow.layers.enable(1);
 coreGlow.layers.enable(1);
+// Uma coleção de destinos; mapas e geometrias são compartilhados, materiais não.
+const heraldData=getHeralds(params);
+const firstVisuals={group:heraldGroup,glows:{halo:nebulaStarHalo,soft:softHalo,main:mainGlow,core:coreGlow},
+  orbit:orbitRing,beacon:beaconGlow,spikes:cinematicSpikes,pick:heraldPickSprite,target};
+const heralds=heraldData.map((data,index)=>{
+  let visuals=firstVisuals;
+  if(index){
+    const group=new THREE.Group();scene.add(group);
+    const clone=object=>{const copy=object.clone();copy.material=object.material.clone();group.add(copy);return copy;};
+    const glows=Object.fromEntries(Object.entries(firstVisuals.glows).map(([key,object])=>[key,clone(object)]));
+    const button=target.cloneNode(false);button.id=`heraldTarget-${data.id}`;
+    target.parentNode.insertBefore(button,card);
+    visuals={group,glows,orbit:clone(orbitRing),beacon:clone(beaconGlow),pick:clone(heraldPickSprite),target:button,
+      spikes:createCinematicStarSpikes(group,{reducedMotion:reduceMotion,sharedTexture:cinematicSpikes.primary.material.map})};
+  }
+  visuals.pick.userData.heraldIndex=index;
+  visuals.target.setAttribute('aria-label',`Selecionar ${data.name}${data.demo?', estrela de demonstração':', arauto ativo, nível 9'}`);
+  return {data,...visuals,basePosition:new THREE.Vector3(),screen:{x:NaN,y:NaN},focus:0};
+});
+let activeHerald=heralds[0],selectedHerald=null;
+document.getElementById('heraldCount').textContent=heralds.length===1?'1 arauto ativo':`${heralds.length} estrelas · prévia`;
+const pageTransition=createPageTransition(flash);
+function renderHerald(){
+  const data=activeHerald.data;
+  document.getElementById('heraldName').textContent=data.name;
+  document.getElementById('heraldSubtitle').textContent=data.subtitle;
+  document.getElementById('heraldStatus').textContent=data.demo?'Demonstração':'Arauto ativo';
+  card.setAttribute('aria-label',`Resumo de ${data.name}`);
+  document.getElementById('dismissHerald').setAttribute('aria-label',`Fechar resumo de ${data.name}`);
+  for(const field of card.querySelectorAll('[data-herald-stat]'))field.textContent=data.stats[field.dataset.heraldStat];
+  cachedCardHeight=card.offsetHeight;
+}
+function activateHerald(entry){
+  if(entry===activeHerald)return true;
+  if(travelling||starSelection.state.active||selectedHerald)return false;
+  activeHerald=entry;target=entry.target;heraldGroup=entry.group;
+  ({halo:nebulaStarHalo,soft:softHalo,main:mainGlow,core:coreGlow}=entry.glows);
+  orbitRing=entry.orbit;beaconGlow=entry.beacon;cinematicSpikes=entry.spikes;heraldPickSprite=entry.pick;
+  heraldPos.copy(entry.group.position);heraldBasePos.copy(entry.basePosition);starSelection=entry.selection;
+  renderHerald();
+  for(const other of heralds)other.target.setAttribute('aria-expanded',String(cardVisible&&other===entry));
+  if(cardVisible)hint.textContent=`${entry.data.name} · ${mobile?'Escolha':'Clique para'} atravessar o véu`;
+  return true;
+}
 const selectiveBloom=createSelectiveBloom(renderer,scene,camera,{initial:mobile?.10:.18,reducedMotion:reduceMotion});
 if(debugEnabled) {
   window.__orionBloomSliderFactory('Bloom seletivo',selectiveBloom.state.intensity,0,1.5,.05,selectiveBloom.setIntensity);
   window.__orionAtmosphereDebug={atmosphere,selectiveBloom};
-  window.__orionRespirationDebug={state:respirationState,veils:breathingVeils,nebula:mainCloud,beaconGlow,heraldGroup};
-  window.__orionCinematicDebug={spikes:cinematicSpikes,starsGroup,foregroundParticles};
+  window.__orionRespirationDebug={state:respirationState,veils:breathingVeils,nebula:mainCloud,get beaconGlow(){return beaconGlow},get heraldGroup(){return heraldGroup}};
+  window.__orionCinematicDebug={get spikes(){return cinematicSpikes},starsGroup,foregroundParticles};
   delete window.__orionBloomSliderFactory;
 }
 
@@ -476,18 +522,18 @@ let blink=0;
 const projected=new THREE.Vector3();
 const targetXY={x:innerWidth*.5,y:innerHeight*.30};
 function updateTargetScreen() {
-  projected.copy(heraldPos).project(camera);
-  const x=(projected.x*.5+.5)*innerWidth;
-  const y=(-projected.y*.5+.5)*innerHeight;
-  if(!Number.isFinite(x)||!Number.isFinite(y))return;
+  for(const entry of heralds){
+    projected.copy(entry.group.position).project(camera);
+    const x=(projected.x*.5+.5)*innerWidth,y=(-projected.y*.5+.5)*innerHeight;
+    if(!Number.isFinite(x)||!Number.isFinite(y))continue;
+    if(!Number.isFinite(entry.screen.x)||Math.abs(x-entry.screen.x)>.45||Math.abs(y-entry.screen.y)>.45){
+      entry.target.style.left=x.toFixed(1)+'px';entry.target.style.top=y.toFixed(1)+'px';
+      entry.screen.x=x;entry.screen.y=y;
+    }
+  }
+  const {x,y}=activeHerald.screen;
   targetXY.x=x;targetXY.y=y;
   firstPersonHands.setStarDirection?.((x/innerWidth-.5)*2,(.5-y/innerHeight)*2);
-  if(!Number.isFinite(domPosition.x)||Math.abs(x-domPosition.x)>.45||
-      Math.abs(y-domPosition.y)>.45){
-    target.style.left=x.toFixed(1)+'px';
-    target.style.top=y.toFixed(1)+'px';
-    domPosition.x=x;domPosition.y=y;
-  }
   if(travelling){
     flash.style.setProperty('--arrival-x',(x/innerWidth*100).toFixed(2)+'%');
     flash.style.setProperty('--arrival-y',(y/innerHeight*100).toFixed(2)+'%');
@@ -522,9 +568,9 @@ function setHover(state) {
   card.classList.toggle('visible',state);
   card.setAttribute('aria-hidden',String(!state));
   card.inert=!state;
-  target.setAttribute('aria-expanded',String(state));
+  for(const entry of heralds)entry.target.setAttribute('aria-expanded',String(state&&entry===activeHerald));
   firstPersonHands.setStarHovered?.(state);
-  hint.textContent=state?(mobile?'Nox · Escolha atravessar o véu':'Nox · Clique para atravessar o véu'):idleHint;
+  hint.textContent=state?`${activeHerald.data.name} · ${mobile?'Escolha':'Clique para'} atravessar o véu`:idleHint;
 }
 function dismissPreview(restoreFocus=false){
   if(travelling||starSelection.state.active)return;
@@ -539,34 +585,34 @@ window.addEventListener('keydown',e=>{
 const touchNavigation=mobile?createTouchNavigation({root,mouse,reducedMotion:reduceMotion,
   isLocked:()=>travelling||starSelection.state.active,onDismiss:()=>dismissPreview()}):null;
 if(debugEnabled)window.__orionTouchDebug=touchNavigation;
-target.addEventListener('mouseenter',()=>{if(!mobile)setHover(true);});
-target.addEventListener('mouseleave',()=>{if(!mobile)setHover(false);});
-target.addEventListener('focus',()=>{
-  // Toque abre o card no click; foco de teclado continua oferecendo a descrição.
-  if(!restoringFocus&&(!mobile||target.matches(':focus-visible')))setHover(true);
-});
-target.addEventListener('blur',()=>{if(!mobile)setHover(false)});
-const armClick=(e)=>{
-  if(travelling||starSelection.state.active)return;
-  if(mobile){setHover(true);return;}
-  if(e.detail===0&&!cardVisible){setHover(true);return;}
-  selectStar();
-};
-target.addEventListener('click',armClick);
+for(const entry of heralds){
+  const button=entry.target;
+  button.addEventListener('mouseenter',()=>{if(!mobile&&activateHerald(entry))setHover(true);});
+  button.addEventListener('mouseleave',()=>{if(!mobile)setHover(false);});
+  button.addEventListener('focus',()=>{
+    if(!restoringFocus&&(!mobile||button.matches(':focus-visible'))&&activateHerald(entry))setHover(true);
+  });
+  button.addEventListener('blur',()=>{if(!mobile)setHover(false);});
+  button.addEventListener('click',e=>{
+    if(travelling||starSelection.state.active||!activateHerald(entry))return;
+    if(mobile){setHover(true);return;}
+    if(e.detail===0&&!cardVisible){setHover(true);return;}
+    selectStar(entry);
+  });
+}
 function isAimedAtStar(clientX,clientY){
-  if(travelling)return false;
-  // Rejeição geométrica conservadora antes do Raycaster: longe do astro,
-  // não recalcular matrizes 3D para cada evento do mouse (125 Hz ou mais).
-  // O limite é maior que a projeção do sprite clicável em repouso.
+  if(travelling)return null;
+  // Rejeitar alvos distantes antes de atualizar matrizes e lançar o raio.
   const radius=Math.max(120,innerHeight*.15);
-  if(Math.abs(clientX-targetXY.x)>radius ||
-     Math.abs(clientY-targetXY.y)>radius)return false;
+  const candidates=heralds.filter(entry=>Math.abs(clientX-entry.screen.x)<=radius&&Math.abs(clientY-entry.screen.y)<=radius);
+  if(!candidates.length)return null;
   interactionMetrics.raycasts++;
   pointerNdc.set(clientX/innerWidth*2-1,1-clientY/innerHeight*2);
   camera.updateWorldMatrix(true,false);
-  heraldGroup.updateWorldMatrix(true,true);
+  for(const entry of candidates)entry.group.updateWorldMatrix(true,true);
   starRaycaster.setFromCamera(pointerNdc,camera);
-  return starRaycaster.intersectObject(heraldPickSprite,false).length>0;
+  const hit=starRaycaster.intersectObjects(candidates.map(entry=>entry.pick),false)[0];
+  return hit?heralds[hit.object.userData.heraldIndex]:null;
 }
 window.addEventListener('pointermove',e=>{
   if(e.pointerType==='touch'||travelling||starSelection.state.active)return;
@@ -574,9 +620,10 @@ window.addEventListener('pointermove',e=>{
   mouse.x=(e.clientX/innerWidth-.5)*2;
   mouse.y=(.5-e.clientY/innerHeight)*2;
   const aimed=isAimedAtStar(e.clientX,e.clientY);
-  const keyboardFocus=document.activeElement===target&&target.matches(':focus-visible');
-  const focused=aimed||keyboardFocus;
-  document.body.classList.toggle('star-aimed',aimed);
+  const keyboardFocus=heralds.find(entry=>document.activeElement===entry.target&&entry.target.matches(':focus-visible'));
+  if(aimed||keyboardFocus)activateHerald(aimed||keyboardFocus);
+  const focused=!!(aimed||keyboardFocus);
+  document.body.classList.toggle('star-aimed',!!aimed);
   firstPersonHands.setStarHovered?.(focused);
   if(cardVisible!==focused)setHover(focused);
 },{passive:true});
@@ -588,40 +635,53 @@ window.addEventListener('blur',resetHandHover);
 window.addEventListener('pointerdown',e=>{
   if(e.pointerType==='touch'||travelling||starSelection.state.active||e.button!==0)return;
   if(e.target.closest('a,button,input,.debug'))return;
-  if(isAimedAtStar(e.clientX,e.clientY)){e.preventDefault();selectStar();}
+  const aimed=isAimedAtStar(e.clientX,e.clientY);
+  if(aimed){e.preventDefault();selectStar(aimed);}
 });
 
 // A viagem fica isolada do rig de repouso e so termina no clarão.
 const starJourney=createStarJourney({
  scene,camera,star:heraldGroup,
  glows:{halo:nebulaStarHalo,soft:softHalo,main:mainGlow,core:coreGlow},
- layers,gasLayers:atmosphere.layers,selectiveBloom,flash,
+ layers,gasLayers:atmosphere.layers,selectiveBloom,flash,background:mainCloud,
  reducedMotion:reduceMotion,
  onArrive:()=>{
    // Relato do trajeto persistido apenas nesta aba para depuração pós-navegação.
-   sessionStorage.setItem('orion-last-trip-v09',JSON.stringify({
+   try{sessionStorage.setItem('orion-last-trip-v09',JSON.stringify({
+     heraldId:selectedHerald.data.id,
      passedGasLayers:atmosphere.layers.filter(layer=>camera.position.z<layer.position.z).length,
      endZ:camera.position.z,starZ:heraldGroup.position.z
-   }));
-   window.location.href='ficha.html';
+   }));}catch{}
+   pageTransition.navigate(arrivalURL(location.href,selectedHerald.data));
  }
 });
-const starSelection=createStarSelection(heraldGroup,{
+for(const entry of heralds)entry.selection=createStarSelection(entry.group,{
  camera,hands:firstPersonHands,reducedMotion:reduceMotion,onDepart:beginTravel,onConfirm:beginTravel
 });
-if(debugEnabled)window.__orionStarDebug={journey:starJourney,selection:starSelection,heraldGroup,heraldPickSprite,raycaster:starRaycaster};
-function selectStar(){
- if(travelling||!starSelection.begin())return;
+let starSelection=activeHerald.selection;
+if(debugEnabled)window.__orionStarDebug={journey:starJourney,get selection(){return starSelection},
+ get heraldGroup(){return heraldGroup},get heraldPickSprite(){return heraldPickSprite},raycaster:starRaycaster,heralds,
+ get selectedHeraldId(){return selectedHerald?.data.id},transition:pageTransition.state};
+function selectStar(entry=activeHerald){
+ if(travelling||!activateHerald(entry)||!starSelection.begin())return;
+ selectedHerald=entry;
+ pageTransition.prepare(arrivalURL(location.href,entry.data));
  selectionStartedAt=performance.now();
  touchNavigation?.cancel();
  cardVisible=false;card.classList.remove('visible');card.setAttribute('aria-hidden','true');
  card.inert=true;target.setAttribute('aria-expanded','false');
  document.body.classList.remove('star-aimed');
- hint.textContent='Nox selecionada · Atravessando o véu…';
+ hint.textContent=`${entry.data.name} selecionada · Atravessando o véu…`;
 }
 function beginTravel(){
  if(travelling)return;
+ starJourney.setDestination(selectedHerald.group,selectedHerald.glows);
  if(!starJourney.begin())return;
+ for(const entry of heralds){
+   entry.beacon.visible=false;
+   if(entry===selectedHerald)continue;
+   entry.group.traverse(object=>{if(object.material)object.userData.departureOpacity=object.material.opacity;});
+ }
  travelling=true;
  firstPersonHands.setStarHovered?.(false);
   firstPersonHands.beginTravel();
@@ -634,6 +694,14 @@ function beginTravel(){
 function resize(){
  cachedCardHeight=card.offsetHeight;
  camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
+ if(!travelling&&!selectedHerald){
+   const layout=getHeraldLayout(heralds.length,camera.aspect);
+   heralds.forEach((entry,index)=>{
+     const point=layout[index];entry.group.position.set(point.x,point.y,point.z);
+     entry.group.scale.setScalar(point.scale);entry.basePosition.copy(entry.group.position);
+   });
+   heraldPos.copy(activeHerald.group.position);heraldBasePos.copy(activeHerald.basePosition);
+ }
  firstPersonHands.resize();
  renderer.setPixelRatio(pixelRatioForViewport());
  renderer.setSize(innerWidth,innerHeight);
@@ -648,6 +716,7 @@ function resize(){
  for(const mat of starMaterials)mat.uniforms.uDpr.value=renderer.getPixelRatio();
 }
 window.addEventListener('resize',resize);resize();
+window.addEventListener('pageshow',event=>{if(event.persisted&&travelling)location.reload();});
 
 // Diagnóstico local opcional: nenhum HUD ou coleta adicional no site normal.
 const performancePanel=debugEnabled?createPerformancePanel(debug,()=>({
@@ -763,20 +832,24 @@ function tick(now){
   const beacon=reduceMotion?0:Math.pow(Math.max(0,Math.cos(time*.7392-1.35)),10);
   respirationState.beacon=beacon;
   respirationState.star=1+.028*pulse+.013*shimmer;
-  const emphasized=1+.22*focusBlend;
+  for(const entry of heralds){
+    const {halo:nebulaStarHalo,soft:softHalo,main:mainGlow,core:coreGlow}=entry.glows;
+    const {beacon:beaconGlow,orbit:orbitRing}=entry;
+    entry.focus=reduceMotion?0:THREE.MathUtils.lerp(entry.focus,entry===activeHerald&&starFocused?1:0,1-Math.exp(-delta*12));
+  const emphasized=1+.22*entry.focus;
   nebulaStarHalo.scale.setScalar(156*(respirationState.star+.055*beacon)*emphasized);
   softHalo.scale.setScalar(118*(1+.034*pulse+.045*beacon)*emphasized);
   mainGlow.scale.setScalar(66*(1+.048*pulse+.022*shimmer+.075*beacon)*emphasized);
-  coreGlow.scale.setScalar(18*(1+.026*shimmer)*(1+.18*focusBlend));
+  coreGlow.scale.setScalar(18*(1+.026*shimmer)*(1+.18*entry.focus));
   // O astro deve comandar o olhar sem espalhar luz por toda a composição.
-  nebulaStarHalo.material.opacity=.075+.045*focusBlend+.012*pulse+.028*beacon;
-  softHalo.material.opacity=.13+.085*focusBlend+.012*pulse+.024*beacon;
-  mainGlow.material.opacity=.48+.19*focusBlend+.015*shimmer+.040*beacon;
+  nebulaStarHalo.material.opacity=.075+.045*entry.focus+.012*pulse+.028*beacon;
+  softHalo.material.opacity=.13+.085*entry.focus+.012*pulse+.024*beacon;
+  mainGlow.material.opacity=.48+.19*entry.focus+.015*shimmer+.040*beacon;
   coreGlow.material.opacity=.94;
   beaconGlow.scale.setScalar(154+42*beacon);
-  beaconGlow.material.opacity=.046*beacon*(1+.55*focusBlend);
+  beaconGlow.material.opacity=.046*beacon*(1+.55*entry.focus);
   orbitRing.material.opacity=0;
-  if(starSelection.state.active){
+  if(entry===activeHerald&&starSelection.state.active){
     const light=starSelection.state.light;
     const charge=starSelection.state.charge,burst=starSelection.state.burst;
     mainGlow.material.opacity+=.30*light;
@@ -785,6 +858,7 @@ function tick(now){
     mainGlow.scale.multiplyScalar(1+.12*charge+.22*burst);
     coreGlow.scale.multiplyScalar(1+.12*charge+.45*burst);
     nebulaStarHalo.scale.multiplyScalar(1+.10*charge+.12*burst);
+  }
   }
   // Nebulosa recebe o alvo direto do mouse; câmera mantém smoothing próprio.
   nebulaVolume.update(time,mouse.x,mouse.y,delta);
@@ -801,6 +875,14 @@ function tick(now){
    mat.uniforms.uOpacity.value=mat.userData.baseOpacity*(travelling?1.24:1);
  }
  cinematicSpikes.update(time,cardVisible||starSelection.state.active,travelling);
+ for(const entry of heralds){
+   if(entry===activeHerald)continue;
+   entry.spikes.update(time,false,travelling);
+   if(travelling){
+     const fade=1-THREE.MathUtils.smoothstep(starJourney.progress,0,.32);
+     entry.group.traverse(object=>{if(object.material)object.material.opacity=object.userData.departureOpacity*fade;});
+   }
+ }
  camera.updateWorldMatrix(true,false);
  updateTargetScreen();
  atmosphere.update(time);

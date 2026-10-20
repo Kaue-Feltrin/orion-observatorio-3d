@@ -7,7 +7,6 @@
   <meta name="description" content="Observatório da Constelação — camadas espaciais independentes e profundidade tridimensional.">
   <title>Observatório da Constelação · Órion</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="prefetch" href="ficha.html" as="document">
 </head>
 <body>
   <main id="observatory" class="observatory" aria-label="Observatório da Constelação">
@@ -18,7 +17,7 @@
     <header class="constellation glass-float">
       <span class="identity-overline">Constelação</span>
       <h1>Kauê</h1>
-      <p><span class="tiny-star" aria-hidden="true">✦</span> 1 arauto ativo</p>
+      <p><span class="tiny-star" aria-hidden="true">✦</span> <span id="heraldCount">1 arauto ativo</span></p>
     </header>
     <button id="leave" class="leave glass-float" type="button" aria-label="Sair da conta de demonstração">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M13 3h5a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3h-5"/></svg>
@@ -29,16 +28,16 @@
 
     <section id="heraldCard" class="herald-card glass-float" aria-label="Resumo de Nox" aria-hidden="true" inert>
       <button id="dismissHerald" class="dismiss-herald" type="button" aria-label="Fechar resumo de Nox">×</button>
-      <span class="card-overline"><i></i>Arauto ativo</span>
-      <h2>Nox</h2>
-      <p class="subtitle">Vampiro puro</p>
+      <span class="card-overline"><i></i><span id="heraldStatus">Arauto ativo</span></span>
+      <h2 id="heraldName">Nox</h2>
+      <p id="heraldSubtitle" class="subtitle">Vampiro puro</p>
       <dl>
-        <div><dt>Nível</dt><dd>9</dd></div>
-        <div><dt>Origem</dt><dd>Garçom</dd></div>
-        <div class="empty-stat"><dt>Trilha</dt><dd>—</dd></div>
-        <div class="rank-stat"><dt>Patente</dt><dd>Oficial de operações</dd></div>
-        <div class="empty-stat"><dt>EM</dt><dd>—</dd></div>
-        <div class="empty-stat"><dt>EC</dt><dd>—</dd></div>
+        <div><dt>Nível</dt><dd data-herald-stat="level">9</dd></div>
+        <div><dt>Origem</dt><dd data-herald-stat="origin">Garçom</dd></div>
+        <div class="empty-stat"><dt>Trilha</dt><dd data-herald-stat="trail">—</dd></div>
+        <div class="rank-stat"><dt>Patente</dt><dd data-herald-stat="rank">Oficial de operações</dd></div>
+        <div class="empty-stat"><dt>EM</dt><dd data-herald-stat="em">—</dd></div>
+        <div class="empty-stat"><dt>EC</dt><dd data-herald-stat="ec">—</dd></div>
       </dl>
       <div class="card-action">Observar arauto <span aria-hidden="true">↗</span></div>
       <div class="mobile-card-actions">

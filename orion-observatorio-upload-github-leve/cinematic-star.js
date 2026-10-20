@@ -51,8 +51,8 @@ function diffractionTexture() {
   return texture;
 }
 
-export function createCinematicStarSpikes(group,{reducedMotion=false}={}){
-  const texture=diffractionTexture();
+export function createCinematicStarSpikes(group,{reducedMotion=false,sharedTexture=null}={}){
+  const texture=sharedTexture??diffractionTexture();
   function sprite(size,opacity,order){
     const material=new THREE.SpriteMaterial({
       map:texture,transparent:true,opacity,depthTest:false,depthWrite:false,
@@ -80,7 +80,7 @@ export function createCinematicStarSpikes(group,{reducedMotion=false}={}){
     secondary.scale.setScalar(123*(1+.025*irregular));
   }
   function dispose(){
-    primary.material.dispose();secondary.material.dispose();texture.dispose();
+    primary.material.dispose();secondary.material.dispose();if(!sharedTexture)texture.dispose();
   }
   return {primary,secondary,update,dispose};
 }
