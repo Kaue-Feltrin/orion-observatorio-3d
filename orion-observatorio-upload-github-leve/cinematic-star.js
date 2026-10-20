@@ -65,14 +65,18 @@ export function createCinematicStarSpikes(group,{reducedMotion=false}={}){
   }
   const primary=sprite(174,.31,11);
   const secondary=sprite(123,.085,11);
+  let focus=0,flight=0,lastTime=null;
   function update(time,hover,travelling){
+    const dt=lastTime===null?0:Math.max(0,Math.min(.1,time-lastTime));lastTime=time;
+    const gain=reducedMotion?1:1-Math.exp(-dt*12);
+    focus+=((hover?1:0)-focus)*gain;flight+=((travelling?1:0)-flight)*gain;
     const pulse=reducedMotion?0:Math.sin(time*.79+.9);
     const irregular=reducedMotion?0:Math.sin(time*2.11+.7)*.55+Math.sin(time*3.16+2.3)*.45;
     primary.material.rotation=reducedMotion?.11:.11+time*.019;
     secondary.material.rotation=reducedMotion?-.30:-.30-time*.012;
-    primary.material.opacity=(travelling?.12:.28)+.040*pulse+.032*irregular+(hover?.09:0);
-    secondary.material.opacity=(travelling?.045:.075)+.012*pulse+(hover?.035:0);
-    primary.scale.setScalar(174*(1+.018*pulse+(hover?.045:0)));
+    primary.material.opacity=.28-.16*flight+.040*pulse+.032*irregular+.09*focus;
+    secondary.material.opacity=.075-.030*flight+.012*pulse+.035*focus;
+    primary.scale.setScalar(174*(1+.018*pulse+.045*focus));
     secondary.scale.setScalar(123*(1+.025*irregular));
   }
   function dispose(){

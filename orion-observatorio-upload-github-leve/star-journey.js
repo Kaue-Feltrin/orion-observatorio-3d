@@ -12,6 +12,7 @@ export function createStarJourney({scene,camera,star,glows,layers,gasLayers,sele
     {object:glows.main,scale:66,opacity:.80},
     {object:glows.core,scale:18,opacity:1},
   ];
+  let startFov=52;
   const starZ = star.position.z; // Nao permitir colidir com o astro.
   const endpoint = new THREE.Vector3(star.position.x,star.position.y,starZ+53);
   const travelDuration = reducedMotion ? 850 : 2150;
@@ -63,6 +64,11 @@ export function createStarJourney({scene,camera,star,glows,layers,gasLayers,sele
     camera.updateWorldMatrix(true,false);
     startPos.copy(camera.position);
     initialQ.copy(camera.quaternion);
+    startFov=camera.fov;
+    for(const spec of specs){
+      spec.startScale=spec.object.scale.x;
+      spec.startOpacity=spec.object.material.opacity;
+    }
     aimM.lookAt(startPos,star.position,up);
     aimedQ.setFromRotationMatrix(aimM);
     started=now;active=true;progress=0;
@@ -87,7 +93,8 @@ export function createStarJourney({scene,camera,star,glows,layers,gasLayers,sele
     aimM.lookAt(camera.position,focusPoint,up);
     aimedQ.setFromRotationMatrix(aimM);
     camera.quaternion.slerpQuaternions(initialQ,aimedQ,smooth(t,0,.25));
-    camera.fov=52 + (reducedMotion?0:11*Math.sin(Math.PI*flight));
+    const handoff=smooth(elapsed,0,lockDuration);
+    camera.fov=THREE.MathUtils.lerp(startFov,52,handoff) + (reducedMotion?0:11*Math.sin(Math.PI*flight));
     camera.updateProjectionMatrix();
 
     // Nuvens atravessam o plano da camera e desaparecem suavemente depois.
@@ -109,12 +116,10 @@ export function createStarJourney({scene,camera,star,glows,layers,gasLayers,sele
     const constAngle=remaining/startDistance;
     const expand=1+light*light*22;
     for(const spec of specs) {
-      spec.object.scale.setScalar(spec.scale*constAngle*expand);
+      spec.object.scale.setScalar(THREE.MathUtils.lerp(spec.startScale,spec.scale*constAngle*expand,handoff));
     }
-    glows.halo.material.opacity=.2+.47*light;
-    glows.soft.material.opacity=.30+.47*light;
-    glows.main.material.opacity=.85+.22*light;
-    glows.core.material.opacity=1;
+    for(const [i,opacity] of [.2+.47*light,.30+.47*light,.85+.22*light,1].entries())
+      specs[i].object.material.opacity=THREE.MathUtils.lerp(specs[i].startOpacity,opacity,handoff);
     selectiveBloom.setIntensity(Math.min(1.5,bloomOriginal + .75*light));
 
     const speed=(140+1700*Math.pow(flight,1.7));

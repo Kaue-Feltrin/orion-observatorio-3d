@@ -134,7 +134,10 @@ for(const event of ['pointerleave','blur','visibilitychange']){
     await expect.poll(()=>blend(page)).toBeLessThan(.003);
     await page.mouse.move(15,20);
     await page.locator('#heraldTarget').focus();
-    expect(await page.evaluate(()=>window.__orionHandsDebug.state.rightHover)).toBe(false);
+    expect(await page.evaluate(()=>window.__orionHandsDebug.state.rightHover)).toBe(true);
+    await expect.poll(()=>blend(page)).toBeGreaterThan(.9);
+    await page.locator('#heraldTarget').blur();
+    await expect.poll(()=>blend(page)).toBeLessThan(.003);
   });
 }
 

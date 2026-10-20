@@ -1,0 +1,300 @@
+[
+  {
+    "name": "desktop",
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "errors": [],
+    "frames": [
+      {
+        "p": 0.030625000005321514,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51
+      },
+      {
+        "p": 0.1199107142910358,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51
+      },
+      {
+        "p": 0.13482142857674992,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51
+      },
+      {
+        "p": 0.22410714286246416,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51
+      },
+      {
+        "p": 0.31339285714817844,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51
+      },
+      {
+        "p": 0.40258928571960667,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51
+      },
+      {
+        "p": 0.491875000005321,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51
+      },
+      {
+        "p": 0.5365178571481781,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51
+      },
+      {
+        "p": 0.5811607142910353,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51
+      },
+      {
+        "p": 0.6703571428624635,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51
+      },
+      {
+        "p": 0.7300000000053208,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51
+      },
+      {
+        "p": 0.804375000005321,
+        "journey": true,
+        "handOpacity": 0.3729620897629699,
+        "selecting": true,
+        "fov": 51
+      },
+      {
+        "p": 0.8936607142910352,
+        "journey": true,
+        "handOpacity": 0.33520675869583566,
+        "selecting": true,
+        "fov": 51.81244515781705
+      },
+      {
+        "p": 0.9083928571481781,
+        "journey": true,
+        "handOpacity": 0.3146809382113475,
+        "selecting": true,
+        "fov": 51.876096000000004
+      },
+      {
+        "p": 0.9976785714338924,
+        "journey": true,
+        "handOpacity": 0.23361518991753116,
+        "selecting": true,
+        "fov": 52.67215208905983
+      }
+    ],
+    "arrived": true,
+    "capture": {
+      "frames": 65,
+      "duration": 6.719322919845581
+    },
+    "source": "real clock and inputs; full page CDP screencast with real frame timestamps; actual ficha navigation, no request interception"
+  },
+  {
+    "name": "mobile",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "errors": [],
+    "frames": [
+      {
+        "p": 0.026607142862464375,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51.00091334214453
+      },
+      {
+        "p": 0.11589285714817864,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51.00091334214453
+      },
+      {
+        "p": 0.13080357143389276,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51.00091334214453
+      },
+      {
+        "p": 0.20517857143389293,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51.00091334214453
+      },
+      {
+        "p": 0.2349107142910351,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51.00091334214453
+      },
+      {
+        "p": 0.26473214286246416,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51.00091334214453
+      },
+      {
+        "p": 0.3540178571481784,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51.00091334214453
+      },
+      {
+        "p": 0.39866071429103556,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51.00091334214453
+      },
+      {
+        "p": 0.4284821428624638,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51.00091334214453
+      },
+      {
+        "p": 0.4581250000053208,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51.00091334214453
+      },
+      {
+        "p": 0.502767857148178,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51.00091334214453
+      },
+      {
+        "p": 0.5325892857196071,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51.00091334214453
+      },
+      {
+        "p": 0.5772321428624642,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51.00091334214453
+      },
+      {
+        "p": 0.6070535714338925,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51.00091334214453
+      },
+      {
+        "p": 0.6516071428624636,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51.00091334214453
+      },
+      {
+        "p": 0.6814285714338926,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51.00091334214453
+      },
+      {
+        "p": 0.7558035714338928,
+        "journey": false,
+        "handOpacity": 0.38,
+        "selecting": true,
+        "fov": 51.00091334214453
+      },
+      {
+        "p": 0.7855357142910349,
+        "journey": true,
+        "handOpacity": 0.37776715054442295,
+        "selecting": true,
+        "fov": 51.00091334214453
+      },
+      {
+        "p": 0.859910714291035,
+        "journey": true,
+        "handOpacity": 0.3519795001025266,
+        "selecting": true,
+        "fov": 51.16326714263257
+      },
+      {
+        "p": 0.8748214285767492,
+        "journey": true,
+        "handOpacity": 0.3352067586958367,
+        "selecting": true,
+        "fov": 51.2334126821206
+      },
+      {
+        "p": 0.9045535714338921,
+        "journey": true,
+        "handOpacity": 0.2901693469989334,
+        "selecting": true,
+        "fov": 51.39319991765329
+      },
+      {
+        "p": 0.9641071428624634,
+        "journey": true,
+        "handOpacity": 0.20255208965369806,
+        "selecting": true,
+        "fov": 51.729265752224435
+      },
+      {
+        "p": 0.9938392857196063,
+        "journey": true,
+        "handOpacity": 0.14077286800400102,
+        "selecting": true,
+        "fov": 51.86867299633909
+      }
+    ],
+    "arrived": true,
+    "capture": {
+      "frames": 162,
+      "duration": 7.5430378913879395
+    },
+    "source": "real clock and inputs; full page CDP screencast with real frame timestamps; actual ficha navigation, no request interception"
+  }
+]

@@ -1,6 +1,6 @@
 # Protótipo MMV das mãos
 
-Revisão atual: [seleção astral da Nox e gesto mais natural](astral-selection/README.md). O novo pedido se restringe ao clique: coroa/fitas/fragmentos luminosos e preparação, contato e retorno da direita. A revisão de [fechamento da esquerda, entradas laterais e atmosfera](closure-atmosphere/README.md) permanece como base, com seus assets/controles preservados. [Estudo de mesh/rig](study/README.md), [seleção anterior](selection/README.md) e [reparo aprovado da ponta](fingertip/README.md) seguem no histórico.
+Revisão atual: [continuidade da seleção e experiência própria de toque](touch-continuity/README.md). Foco, gesto e luz se conectam ao início da viagem; no celular, arrasto explora a cena e um painel adaptado confirma a entrada. A [seleção astral](astral-selection/README.md), o [fechamento da esquerda, alinhamento e atmosfera](closure-atmosphere/README.md), o [estudo de mesh/rig](study/README.md) e o [reparo da ponta](fingertip/README.md) permanecem no histórico.
 
 Nova avaliação autorizada: [três poses intermediárias e apontamento com perspectiva](perspective/README.md), ativada por `handsMotion=perspective`. O rig descrito abaixo continua disponível para comparação.
 

@@ -18,7 +18,7 @@ const HANDS=Object.freeze({
    pointer:true,columns:36,rows:28}
 });
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false,animation='mesh'}={}){
+export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false,animation='mesh',touchLayout=false}={}){
  const usePerspective=animation==='perspective',useRig=animation==='rig'||usePerspective;
  const state={mode:'mesh',enabled:!!enabled,visible:false,loaded:false,loadError:null,
    motionEnabled:!reducedMotion,drawSurfaces:0,triangles:0,textureCount:0,
@@ -26,7 +26,8 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    pose:'feminine-star-hover',handProfiles:Object.keys(HAND_PROFILES),
    rightHover:false,rightBlend:0,hoverBlend:0,leftFollow:0,animation:usePerspective?'perspective':useRig?'rig':'mesh',
    rightFrameWeights:[],rightDepth:0,selecting:false,selectionReach:0,selectionPress:0,
-   selectionAnticipation:0,selectionFollowThrough:0,selectionLift:0};
+   selectionAnticipation:0,selectionFollowThrough:0,selectionLift:0,touchLayout,
+   targetDirectionX:0,targetDirectionY:.18};
  const root=new THREE.Group();
  root.name='OrionFeminineHands2p5D';
  root.visible=false;
@@ -36,8 +37,8 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    get:()=>Math.max(0,...rigs.map(r=>r.measure().maxVertexDelta))});
  let neutralMesh=null,starHovered=false,pointBlend=0,pointVelocity=0;
  if(!enabled)return {state,root,meshes,rigs,rightFrames,ready:Promise.resolve(false),
-   update(){},resize(){},setStarHovered(){},setStarSelection(){},beginTravel(){},dispose(){camera.remove(root)}};
- let disposed=false,travel=false,alpha=1,smX=0,smY=0;
+   update(){},resize(){},setStarHovered(){},setStarDirection(){},setStarSelection(){},beginTravel(){},dispose(){camera.remove(root)}};
+ let disposed=false,travel=false,selectionHandoff=false,travelElapsed=0,alpha=1,smX=0,smY=0;
  const textures=[];
  const loader=new THREE.TextureLoader();
  const load=(file)=>new Promise((resolve,reject)=>loader.load(file,resolve,undefined,reject));
@@ -49,11 +50,15 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
  function place(hand,fx=0,fy=0){
    const v=viewport(),c=hand.config;
    // Cap horizontal protege o centro também em janelas estreitas/portrait.
-   const h=Math.min(v.height*c.height,v.width*.30/hand.aspect),w=h*hand.aspect;
+   const portrait=touchLayout&&camera.aspect<1;
+   const h=Math.min(v.height*c.height,v.width*(portrait?.27:.30)/hand.aspect),w=h*hand.aspect;
    hand.mesh.scale.set(w,h,1);
    const x=(hand.side==='left'?-v.width/2+c.edgeInset*v.width+w/2:
      v.width/2-c.edgeInset*v.width-w/2)+fx*v.width;
-   const y=-v.height/2+(c.bottom+fy)*v.height+h/2;
+   // No retrato, as mãos sobem juntas ao escolher a Nox, acompanhando o
+   // painel inferior sem levar os dedos para o centro nem escalar a imagem.
+   const bottom=portrait?.19+(reducedMotion?0:.19*pointBlend):touchLayout?.015:c.bottom;
+   const y=-v.height/2+(bottom+fy)*v.height+h/2;
    hand.mesh.position.set(x,y,-v.depth);
  }
  function resize(){
@@ -164,8 +169,11 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    smY+=(clamp(mouseY,-1,1)-smY)*gain;
    state.swayX=reducedMotion?0:smX;
    state.swayY=reducedMotion?0:smY;
-   if(travel)alpha=Math.max(0,alpha-step*3.8);
-   const desired=(starHovered||state.selecting)&&!travel?1:0;
+   if(travel){
+     travelElapsed+=step;const t=clamp(travelElapsed/.38,0,1);
+     alpha=1-t*t*t*(t*(t*6-15)+10);
+   }
+   const desired=(starHovered||state.selecting)&&(!travel||selectionHandoff)?1:0;
    if(reducedMotion){pointBlend=desired;pointVelocity=0;}
    else if(useRig){
      // Mola criticamente amortecida: gesto legível, sem salto ao reverter hover.
@@ -200,6 +208,11 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      place(hand,fx,fy);
      // Mãos distintas: direita aponta, esquerda emoldura; sem giro brusco.
      mesh.rotation.set(0,0,c.rotation+(reducedMotion?0:Math.sin(seconds*.72+c.phase)*(c.pointer?.010:.006)));
+     if(hand.side==='right'&&usePerspective&&!reducedMotion){
+       mesh.rotation.z+=(-state.targetDirectionX*.018+(state.targetDirectionY-.18)*.012)*pointBlend;
+       mesh.rotation.y+=state.targetDirectionX*.012*pointBlend;
+     }
+     if(travel&&!reducedMotion)mesh.position.y-=viewport().height*.018*(1-alpha);
      if(hand.side==='left'&&state.leftFollow>0){
        const v=viewport();
        mesh.position.x+=v.width*.0025*state.leftFollow;
@@ -237,15 +250,23 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    if(!useRig)state.maxVertexDelta=max;
  }
  function setStarHovered(v){starHovered=!!v&&!travel;state.rightHover=starHovered;}
+ function setStarDirection(x,y){
+   state.targetDirectionX=clamp(x,-1,1);state.targetDirectionY=clamp(y,-1,1);
+ }
  function setStarSelection(pose){
-   state.selecting=!!pose&&!travel&&!disposed;
+   state.selecting=!!pose&&(!travel||selectionHandoff)&&!disposed;
    state.selectionReach=state.selecting&&!reducedMotion?clamp(pose.reach,0,1):0;
    state.selectionPress=state.selecting&&!reducedMotion?clamp(pose.press,0,1):0;
    state.selectionAnticipation=state.selecting&&!reducedMotion?clamp(pose.anticipation??0,0,1):0;
    state.selectionLift=state.selecting&&!reducedMotion?clamp(pose.lift??0,0,1):0;
    state.selectionFollowThrough=state.selecting&&!reducedMotion?clamp(pose.followThrough??0,0,1):0;
  }
- function beginTravel(){travel=true;setStarSelection(null);setStarHovered(false);}
+ function beginTravel(){
+   if(travel)return;
+   selectionHandoff=state.selecting&&!reducedMotion;travel=true;
+   if(!selectionHandoff)setStarSelection(null);
+   setStarHovered(false);
+ }
  function dispose(){
    if(disposed)return;disposed=true;root.visible=false;
    for(const m of meshes){m.geometry.dispose();m.material.dispose();root.remove(m);}
@@ -259,5 +280,5 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    meshes.length=0;hands.length=0;rigs.length=0;rightFrames.length=0;
    state.visible=false;state.loaded=false;
  }
- return {state,root,meshes,rigs,rightFrames,ready,update,resize,setStarHovered,setStarSelection,beginTravel,dispose};
+ return {state,root,meshes,rigs,rightFrames,ready,update,resize,setStarHovered,setStarDirection,setStarSelection,beginTravel,dispose};
 }

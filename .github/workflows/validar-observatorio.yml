@@ -28,6 +28,7 @@ jobs:
           node tests/hands-image-rig.unit.mjs
           node tests/hands-perspective.unit.mjs
           node tests/star-selection.unit.mjs
+          node tests/selection-handoff.unit.mjs
           node tests/hands-balance.unit.mjs
           node tests/nebula-volume.unit.mjs
       - name: Compilar site

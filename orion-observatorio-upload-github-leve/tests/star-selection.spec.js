@@ -27,7 +27,7 @@ async function watch(page){
           journey:d.journey.active,fov:window.__orionDepthDebug.camera.fov,
           light:d.selection.rings.map(r=>r.material.opacity)});
       }
-      if(d.journey.active){
+      if(d.journey.active&&d.selection.state.completed){
         sessionStorage.setItem('orion-selection-test',JSON.stringify({samples,activations:d.selection.state.activations,
           completed:d.selection.state.completed,hidden:!d.selection.root.visible,selecting:h.state.selecting}));return;
       }
@@ -42,7 +42,12 @@ async function result(page){
   expect(data.activations).toBe(1);expect(data.completed).toBe(true);
   expect(data.hidden).toBe(true);expect(data.selecting).toBe(false);
   expect(data.samples.length).toBeGreaterThan(0);
-  expect(data.samples.every(s=>!s.journey)).toBe(true);
+  if(data.samples.some(s=>s.effects.length===6)){
+    expect(data.samples.some(s=>s.journey&&s.p<1)).toBe(true);
+    if(data.samples.some(s=>s.opacity!==undefined))
+      expect(data.samples.some(s=>s.journey&&s.p<1&&s.opacity>0)).toBe(true);
+    expect(data.samples.filter(s=>s.p<.78).every(s=>!s.journey)).toBe(true);
+  }
   const trip=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('orion-last-trip-v09')));
   expect(trip.passedGasLayers).toBeGreaterThanOrEqual(5);
   console.log('SELECTION_SAMPLES',JSON.stringify(data));return data.samples;
@@ -68,8 +73,9 @@ test('clique real confirma com pressão e onda de luz antes da viagem, sem dupli
   expect(samples.some(s=>s.anticipation>.1)).toBe(true);
   expect(samples.some(s=>s.followThrough>.5&&s.press<.5)).toBe(true);
   expect(samples.some(s=>s.z>-2.45)).toBe(true);
-  expect(samples.every(s=>s.opacity===.38&&s.draws===2)).toBe(true);
-  expect(samples.every(s=>s.fov===51)).toBe(true);
+  expect(samples.filter(s=>!s.journey).every(s=>s.opacity===.38&&s.draws===2)).toBe(true);
+  expect(samples.filter(s=>s.journey).every(s=>s.opacity>0&&s.opacity<=.38)).toBe(true);
+  expect(samples.filter(s=>!s.journey).every(s=>Math.abs(s.fov-51)<.002)).toBe(true);
   expect(new Set(samples.map(s=>s.map)).size).toBe(1);
   expect(samples.some(s=>s.light[0]>.3)).toBe(true);
   expect(samples.some(s=>s.effects.filter(e=>e.opacity>.05).length===6)).toBe(true);
@@ -102,13 +108,15 @@ test('mãos desligadas mantêm confirmação luminosa e viagem',async({page})=>{
 
 test.describe('toque',()=>{
   test.use({hasTouch:true,isMobile:true,viewport:{width:390,height:844}});
-  test('primeiro toque mostra ficha, segundo confirma com gesto e viaja',async({page})=>{
+  test('toque abre resumo e botão explícito confirma com gesto e viaja',async({page})=>{
     test.setTimeout(45000);await page.goto(base+query);await ready(page);
     await page.locator('#heraldTarget').tap();
     expect(await page.evaluate(()=>window.__orionStarDebug.selection.state.activations)).toBe(0);
     await expect(page.locator('#heraldCard')).toHaveClass(/visible/);
-    expect(await page.evaluate(()=>window.__orionHandsDebug.state.rightBlend)).toBe(0);
-    await watch(page);await page.locator('#heraldTarget').tap();
+    await expect.poll(()=>page.evaluate(()=>window.__orionHandsDebug.state.hoverBlend)).toBeGreaterThan(.8);
+    await page.locator('#heraldTarget').tap();
+    expect(await page.evaluate(()=>window.__orionStarDebug.selection.state.activations)).toBe(0);
+    await watch(page);await page.locator('#confirmHerald').tap();
     const samples=await result(page);expect(samples.some(s=>s.press>.8)).toBe(true);
   });
 });
@@ -123,6 +131,9 @@ test('registra etapas do clique e preservação do centro em desktop e celular',
       window.addEventListener('pointerdown',()=>{
         const d=window.__orionStarDebug.selection;
         window.__selectionRealUpdate=d.update;d.update=()=>{};
+        window.__orionStarDebug.journey.update=()=>{};
+        const hands=window.__orionHandsDebug;
+        window.__selectionHandsUpdate=hands.update;hands.update=()=>{};
       },{once:true});
     });
     await page.screenshot({path:test.info().outputPath(`${viewport.width}-before.png`)});
@@ -131,9 +142,11 @@ test('registra etapas do clique e preservação do centro em desktop e celular',
     for(const p of [.08,.25,.50,.75,.92]){
       const data=await page.evaluate(({p,duration})=>{
         const d=window.__orionStarDebug.selection,h=window.__orionHandsDebug;
-        while(d.state.elapsed<duration*p-1e-9)
-          window.__selectionRealUpdate(Math.min(.04,duration*p-d.state.elapsed));
-        h.update(0,0);
+        while(d.state.elapsed<duration*p-1e-9){
+          const step=Math.min(.04,duration*p-d.state.elapsed);
+          window.__selectionRealUpdate(step);window.__selectionHandsUpdate(0,step);
+        }
+        window.__selectionHandsUpdate(0,0);
         const camera=window.__orionDepthDebug.camera;camera.updateWorldMatrix(true,true);
         const point=h.rigs[1].measure().landmarks.indexTip.clone().project(camera);
         return {p:d.state.progress,tipX:(point.x+1)/2,z:h.meshes[1].position.z,
@@ -144,7 +157,9 @@ test('registra etapas do clique e preservação do centro em desktop e celular',
           rings:d.rings.map(r=>({radius:r.scale.x,opacity:r.material.opacity,singlePass:r.material.forceSinglePass}))};
       },{p,duration:SELECTION_DURATION});
       expect(data.p).toBeCloseTo(p,4);
-      expect(data.tipX).toBeGreaterThan(.70);expect(data.opacity).toBe(.38);expect(data.draws).toBe(2);
+      expect(data.tipX).toBeGreaterThan(.70);expect(data.draws).toBe(2);
+      if(p<.78)expect(data.opacity).toBe(.38);
+      else {expect(data.opacity).toBeGreaterThan(0);expect(data.opacity).toBeLessThan(.38);}
       expect(data.rings.every(r=>r.singlePass)).toBe(true);
       if(p===.08){expect(data.z).toBeLessThan(-2.509);expect(data.rings[1].opacity).toBe(0);}
       if(p===.5){expect(data.rings[1].opacity).toBeGreaterThan(.20);

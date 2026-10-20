@@ -15,6 +15,7 @@ import { createVrFirstPersonHands } from './first-person-hands-vr.js';
 import { createFpsFirstPersonHands } from './first-person-hands-fps.js';
 import { createEtherealHandsOverlay } from './first-person-hands-overlay.js';
 import { createEtherealHandsMesh } from './first-person-hands-mesh.js';
+import { createTouchNavigation } from './touch-navigation.js';
 
 const root = document.getElementById('observatory');
 const container = document.getElementById('world');
@@ -29,6 +30,9 @@ const depthInput = document.getElementById('depth');
 const depthValue = document.getElementById('depthValue');
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const mobile = matchMedia('(pointer: coarse)').matches;
+root.dataset.input=mobile?'touch':'pointer';
+const idleHint=mobile?'Arraste para explorar · Toque na estrela':'Concentre seu olhar sobre uma estrela';
+hint.textContent=idleHint;
 let perspective = Number(new URLSearchParams(location.search).get('depth') || 1);
 if (!Number.isFinite(perspective)) perspective = 1;
 perspective = THREE.MathUtils.clamp(perspective, .5, 2.5);
@@ -38,11 +42,10 @@ const params = new URLSearchParams(location.search);
 const debugEnabled = params.has('debug');
 const depthMotionEnabled=params.get('depthMotion')!=='off';
 const foregroundEnabled=params.get('foreground')!=='off';
-// Prévia reversível: mãos ativadas em desktop, desativadas em dispositivos
-// de toque por padrão. ?hands=on permite testar; ?hands=off restaura v0.9.9.
+// Mãos compactas no toque; ?hands=off preserva a alternativa sem viewmodel.
 // Rig artístico CC0 padrão; ?hands=3d conserva modelo anterior e ?hands=2d o plano.
 const handsSetting=params.get('hands');
-const handsEnabled=['on','fps','vr','rig','3d','2d'].includes(handsSetting)||['overlay','mesh'].includes(handsSetting)||(handsSetting!=='off'&&!mobile);
+const handsEnabled=['on','fps','vr','rig','3d','2d'].includes(handsSetting)||['overlay','mesh'].includes(handsSetting)||handsSetting!=='off';
 // Nova prévia de arte anatômica: WRAD retrô continua disponível apenas via ?hands=rig.
 const handsMode=handsSetting==='2d'?'2d':handsSetting==='3d'?'3d':handsSetting==='rig'?'rig':handsSetting==='vr'?'vr':handsSetting==='fps'?'fps':handsSetting==='overlay'?'overlay':'mesh';
 const fpsHandsCredit=document.getElementById('fpsHandsCredit');
@@ -140,7 +143,8 @@ camera.position.set(0, 0, 0);
 // o mundo 3D, a paralaxe ESO ou o pós-processamento do Nox.
 const firstPersonHands=handsMode==='mesh'
   ?createEtherealHandsMesh(camera,{enabled:handsEnabled,reducedMotion:reduceMotion,
-    animation:['rig','perspective'].includes(params.get('handsMotion'))?params.get('handsMotion'):'mesh'})
+    animation:['rig','perspective'].includes(params.get('handsMotion'))?params.get('handsMotion'):mobile?'perspective':'mesh',
+    touchLayout:mobile})
   :handsMode==='overlay'
   ?createEtherealHandsOverlay(root,{enabled:handsEnabled,reducedMotion:reduceMotion})
   :handsMode==='2d'
@@ -452,6 +456,7 @@ let mouse={x:0,y:0}; let smooth={x:0,y:0}; let selected=false;let jumpStart=0;
 let cardVisible=false;
 let travelling=false;
 let selectionStartedAt=0;
+let focusBlend=0,restoringFocus=false;
 // Evitar forced reflow: altura do card é estável durante animação.
 let cachedCardHeight=card.offsetHeight;
 const domPosition={x:NaN,y:NaN,cx:NaN,cy:NaN,focusAt:0,focusX:NaN,focusY:NaN};
@@ -476,6 +481,7 @@ function updateTargetScreen() {
   const y=(-projected.y*.5+.5)*innerHeight;
   if(!Number.isFinite(x)||!Number.isFinite(y))return;
   targetXY.x=x;targetXY.y=y;
+  firstPersonHands.setStarDirection?.((x/innerWidth-.5)*2,(.5-y/innerHeight)*2);
   if(!Number.isFinite(domPosition.x)||Math.abs(x-domPosition.x)>.45||
       Math.abs(y-domPosition.y)>.45){
     target.style.left=x.toFixed(1)+'px';
@@ -497,6 +503,8 @@ function updateTargetScreen() {
     domPosition.focusX=x;domPosition.focusY=y;
     interactionMetrics.focusWrites++;
   }
+  // O painel de toque é ancorado por CSS à área segura, sem perseguir o astro.
+  if(mobile)return;
   const width=265;
   const cardX=THREE.MathUtils.clamp((x+170+width<innerWidth-15)?x+119:x-150-width,12,innerWidth-width-12);
   const cardY=THREE.MathUtils.clamp(y-93,110,
@@ -513,18 +521,35 @@ function setHover(state) {
   cardVisible=state;
   card.classList.toggle('visible',state);
   card.setAttribute('aria-hidden',String(!state));
-  hint.textContent=state?'Nox · Clique para atravessar o véu':'Concentre seu olhar sobre uma estrela';
+  card.inert=!state;
+  target.setAttribute('aria-expanded',String(state));
+  firstPersonHands.setStarHovered?.(state);
+  hint.textContent=state?(mobile?'Nox · Escolha atravessar o véu':'Nox · Clique para atravessar o véu'):idleHint;
 }
+function dismissPreview(restoreFocus=false){
+  if(travelling||starSelection.state.active)return;
+  if(restoreFocus){restoringFocus=true;target.focus({preventScroll:true});restoringFocus=false;}
+  setHover(false);
+}
+document.getElementById('dismissHerald').addEventListener('click',()=>dismissPreview(true));
+document.getElementById('confirmHerald').addEventListener('click',()=>{if(cardVisible)selectStar();});
+window.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&cardVisible){e.preventDefault();dismissPreview(true);}
+});
+const touchNavigation=mobile?createTouchNavigation({root,mouse,reducedMotion:reduceMotion,
+  isLocked:()=>travelling||starSelection.state.active,onDismiss:()=>dismissPreview()}):null;
+if(debugEnabled)window.__orionTouchDebug=touchNavigation;
 target.addEventListener('mouseenter',()=>{if(!mobile)setHover(true);});
 target.addEventListener('mouseleave',()=>{if(!mobile)setHover(false);});
 target.addEventListener('focus',()=>{
   // Toque abre o card no click; foco de teclado continua oferecendo a descrição.
-  if(!mobile||target.matches(':focus-visible'))setHover(true);
+  if(!restoringFocus&&(!mobile||target.matches(':focus-visible')))setHover(true);
 });
 target.addEventListener('blur',()=>{if(!mobile)setHover(false)});
 const armClick=(e)=>{
   if(travelling||starSelection.state.active)return;
-  if((mobile||e.detail===0)&&!cardVisible){setHover(true);return;}
+  if(mobile){setHover(true);return;}
+  if(e.detail===0&&!cardVisible){setHover(true);return;}
   selectStar();
 };
 target.addEventListener('click',armClick);
@@ -549,14 +574,16 @@ window.addEventListener('pointermove',e=>{
   mouse.x=(e.clientX/innerWidth-.5)*2;
   mouse.y=(.5-e.clientY/innerHeight)*2;
   const aimed=isAimedAtStar(e.clientX,e.clientY);
+  const keyboardFocus=document.activeElement===target&&target.matches(':focus-visible');
+  const focused=aimed||keyboardFocus;
   document.body.classList.toggle('star-aimed',aimed);
-  firstPersonHands.setStarHovered?.(aimed);
-  if(cardVisible!==aimed && document.activeElement!==target)setHover(aimed);
+  firstPersonHands.setStarHovered?.(focused);
+  if(cardVisible!==focused)setHover(focused);
 },{passive:true});
 // Sair da janela ou trocar de aba não produz necessariamente pointermove.
-// Foco por teclado e toque continuam sem ativar o apontamento das mãos.
-const resetHandHover=()=>firstPersonHands.setStarHovered?.(false);
-document.documentElement.addEventListener('pointerleave',resetHandHover);
+// No toque, a pose acompanha a seleção explícita até confirmar ou dispensar.
+const resetHandHover=()=>{dismissPreview();document.body.classList.remove('star-aimed');firstPersonHands.setStarHovered?.(false);};
+document.documentElement.addEventListener('pointerleave',e=>{if(e.pointerType!=='touch')resetHandHover();});
 window.addEventListener('blur',resetHandHover);
 window.addEventListener('pointerdown',e=>{
   if(e.pointerType==='touch'||travelling||starSelection.state.active||e.button!==0)return;
@@ -580,13 +607,15 @@ const starJourney=createStarJourney({
  }
 });
 const starSelection=createStarSelection(heraldGroup,{
- camera,hands:firstPersonHands,reducedMotion:reduceMotion,onConfirm:beginTravel
+ camera,hands:firstPersonHands,reducedMotion:reduceMotion,onDepart:beginTravel,onConfirm:beginTravel
 });
 if(debugEnabled)window.__orionStarDebug={journey:starJourney,selection:starSelection,heraldGroup,heraldPickSprite,raycaster:starRaycaster};
 function selectStar(){
  if(travelling||!starSelection.begin())return;
  selectionStartedAt=performance.now();
+ touchNavigation?.cancel();
  cardVisible=false;card.classList.remove('visible');card.setAttribute('aria-hidden','true');
+ card.inert=true;target.setAttribute('aria-expanded','false');
  document.body.classList.remove('star-aimed');
  hint.textContent='Nox selecionada · Atravessando o véu…';
 }
@@ -597,6 +626,7 @@ function beginTravel(){
  firstPersonHands.setStarHovered?.(false);
   firstPersonHands.beginTravel();
  cardVisible=false;card.classList.remove('visible');card.setAttribute('aria-hidden','true');
+ card.inert=true;target.setAttribute('aria-expanded','false');
  root.classList.add('jumping');
  document.body.classList.remove('star-aimed');
  hint.textContent='Atravessando o véu…';
@@ -672,7 +702,7 @@ function adaptPerformance(now,frameMs){
   }
 }
 document.addEventListener('visibilitychange',()=>{
-  if(document.hidden)resetHandHover();
+  if(document.hidden){touchNavigation?.cancel();resetHandHover();}
   if(!document.hidden){lastFrame=performance.now();monitorSince=lastFrame;monitorSum=0;monitorFrames=0;performancePanel?.reset();}
 });
 let bloomTick=0;
@@ -708,8 +738,11 @@ function tick(now){
   rigPitch.rotation.x=smooth.y*.052*perspective;
   rigRoll.rotation.z=reduceMotion?0:-smooth.x*.011*perspective+Math.sin(time*.27)*.0015;
   const starFocused=cardVisible||starSelection.state.active;
-  camera.position.z=starFocused&&!reduceMotion?-.9:0;
-  const newFov=starFocused&&!reduceMotion?51:52;
+  const focusTarget=starFocused?1:0;
+  focusBlend=reduceMotion?0:THREE.MathUtils.lerp(focusBlend,focusTarget,1-Math.exp(-delta*12));
+  if(Math.abs(focusBlend-focusTarget)<.0005)focusBlend=focusTarget;
+  camera.position.z=-.9*focusBlend;
+  const newFov=52-focusBlend;
   if(Math.abs(camera.fov-newFov)>.001){
     camera.fov=newFov;
     camera.updateProjectionMatrix();
@@ -730,18 +763,18 @@ function tick(now){
   const beacon=reduceMotion?0:Math.pow(Math.max(0,Math.cos(time*.7392-1.35)),10);
   respirationState.beacon=beacon;
   respirationState.star=1+.028*pulse+.013*shimmer;
-  const emphasized=starFocused?1.22:1;
+  const emphasized=1+.22*focusBlend;
   nebulaStarHalo.scale.setScalar(156*(respirationState.star+.055*beacon)*emphasized);
   softHalo.scale.setScalar(118*(1+.034*pulse+.045*beacon)*emphasized);
   mainGlow.scale.setScalar(66*(1+.048*pulse+.022*shimmer+.075*beacon)*emphasized);
-  coreGlow.scale.setScalar(18*(1+.026*shimmer)*(starFocused?1.18:1));
+  coreGlow.scale.setScalar(18*(1+.026*shimmer)*(1+.18*focusBlend));
   // O astro deve comandar o olhar sem espalhar luz por toda a composição.
-  nebulaStarHalo.material.opacity=.075+(starFocused?.045:0)+.012*pulse+.028*beacon;
-  softHalo.material.opacity=.13+(starFocused?.085:0)+.012*pulse+.024*beacon;
-  mainGlow.material.opacity=.48+(starFocused?.19:0)+.015*shimmer+.040*beacon;
+  nebulaStarHalo.material.opacity=.075+.045*focusBlend+.012*pulse+.028*beacon;
+  softHalo.material.opacity=.13+.085*focusBlend+.012*pulse+.024*beacon;
+  mainGlow.material.opacity=.48+.19*focusBlend+.015*shimmer+.040*beacon;
   coreGlow.material.opacity=.94;
   beaconGlow.scale.setScalar(154+42*beacon);
-  beaconGlow.material.opacity=.046*beacon*(starFocused?1.55:1);
+  beaconGlow.material.opacity=.046*beacon*(1+.55*focusBlend);
   orbitRing.material.opacity=0;
   if(starSelection.state.active){
     const light=starSelection.state.light;

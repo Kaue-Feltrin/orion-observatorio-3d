@@ -5,6 +5,7 @@ const clamp=x=>Math.max(0,Math.min(1,x));
 const smooth=(x,a,b)=>{const t=clamp((x-a)/(b-a));return clamp(t*t*t*(t*(t*6-15)+10));};
 export const SELECTION_DURATION=1.12;
 export const REDUCED_SELECTION_DURATION=.16;
+export const SELECTION_DEPARTURE=.78;
 
 export function sampleStarSelection(elapsed,reducedMotion=false){
   const progress=clamp(elapsed/(reducedMotion?REDUCED_SELECTION_DURATION:SELECTION_DURATION));
@@ -35,8 +36,8 @@ function featheredRing(inner,segments,arc=Math.PI*2){
   return geometry;
 }
 
-export function createStarSelection(star,{camera,hands,reducedMotion=false,onConfirm}){
-  const state={active:false,completed:false,elapsed:0,progress:0,reach:0,press:0,
+export function createStarSelection(star,{camera,hands,reducedMotion=false,onConfirm,onDepart}){
+  const state={active:false,completed:false,departed:false,elapsed:0,progress:0,reach:0,press:0,
     anticipation:0,followThrough:0,lift:0,charge:0,burst:0,light:0,activations:0,surfaces:0,triangles:0};
   const root=new THREE.Group();root.name='NoxSelectionLight';root.visible=false;star.add(root);
   const rings=[],effects=[],arcs=[],geometries=new Set();
@@ -128,9 +129,14 @@ export function createStarSelection(star,{camera,hands,reducedMotion=false,onCon
       positions.needsUpdate=true;
       motes.material.opacity=.72*(1-(1-.75*state.charge)*(1-state.burst));
     }
+    // A aceleração começa durante o assentamento: luz e gesto terminam
+    // no início da viagem, em vez de apagar para depois reiniciar a cena.
+    if(!reducedMotion&&onDepart&&!state.departed&&state.progress>=SELECTION_DEPARTURE){
+      state.departed=true;onDepart();
+    }
     if(state.progress>=1){
       state.active=false;state.completed=true;root.visible=false;
-      hands.setStarSelection?.(null);onConfirm();
+      hands.setStarSelection?.(null);onConfirm?.();
     }
   }
   function dispose(){

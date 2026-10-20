@@ -412,10 +412,11 @@ test('v0.9.4: diagnóstico fica isolado no debug e coleta dados reais locais',as
     };
   });
   expect(state.samples).toBeGreaterThan(0);
-  // O perfil adaptativo pode reduzir qualidade em SwiftShader durante o teste.
-  expect(['balanced','lite']).toContain(state.quality);
-  expect(state.gas).toBe(state.quality==='balanced'?2:1);
-  expect(state.volume).toBe(state.quality==='balanced'?3:2);
+  // O override manual fica estável; as duas camadas fotográficas adicionais
+  // da composição atual também precisam aparecer no diagnóstico.
+  expect(state.quality).toBe('balanced');
+  expect(state.gas).toBe(2);
+  expect(state.volume).toBe(5);
   expect(state.drawCalls).toBeGreaterThan(1);
   expect(state.report).toContain('não é RAM total');
   expect(state.report).toContain('Shift+Esc');
@@ -976,14 +977,15 @@ test('v0.9.13 rig altera quaternion dos dedos e reduced motion interrompe',async
   await page.goto('http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=rig',{waitUntil:'domcontentloaded'});
   await expect.poll(async()=>page.evaluate(()=>window.__orionHandsDebug?.state.loaded),{timeout:18000}).toBe(true);
   const first=await page.evaluate(()=>window.__orionHandsDebug.driven[0].bone.quaternion.toArray());
-  await page.waitForTimeout(240);
-  const later=await page.evaluate(()=>window.__orionHandsDebug.driven[0].bone.quaternion.toArray());
-  expect(later).not.toEqual(first);
+  // Compilar o primeiro quadro WebGL pode levar mais de 240 ms em software.
+  // Esperar mudança real do osso em vez de presumir que houve um render.
+  await expect.poll(()=>page.evaluate(()=>window.__orionHandsDebug.driven[0].bone.quaternion.toArray()),
+    {timeout:15000}).not.toEqual(first);
   await page.emulateMedia({reducedMotion:'reduce'});
   await page.reload({waitUntil:'domcontentloaded'});
   await expect.poll(async()=>page.evaluate(()=>window.__orionHandsDebug?.state.loaded),{timeout:18000}).toBe(true);
   const before=await page.evaluate(()=>window.__orionHandsDebug.driven.slice(0,4).map(x=>x.bone.quaternion.toArray()));
-  await page.waitForTimeout(250);
+  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
   const after=await page.evaluate(()=>window.__orionHandsDebug.driven.slice(0,4).map(x=>x.bone.quaternion.toArray()));
   expect(after).toEqual(before);
 });

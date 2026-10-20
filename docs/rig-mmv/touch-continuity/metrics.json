@@ -1,0 +1,4029 @@
+{
+  "source": "production Chromium/SwiftShader; actual touch viewport screenshots; frozen selection clock/hand steps for isolated phase captures",
+  "baseline": {
+    "commit": "9db7fc42c12f18a4267f4293b5d925aa4f906ab5",
+    "metrics": [
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "hands": false,
+        "panel": {
+          "x": 12,
+          "y": 252.59375,
+          "width": 264,
+          "height": 322,
+          "top": 252.59375,
+          "right": 276,
+          "bottom": 574.59375,
+          "left": 12
+        },
+        "hint": "Nox · Clique para atravessar o véu"
+      },
+      {
+        "viewport": {
+          "width": 844,
+          "height": 390
+        },
+        "hands": false,
+        "panel": {
+          "x": 12,
+          "y": 110,
+          "width": 265,
+          "height": 322,
+          "top": 110,
+          "right": 277,
+          "bottom": 432,
+          "left": 12
+        },
+        "hint": "Nox · Clique para atravessar o véu"
+      }
+    ]
+  },
+  "arrivals": [
+    {
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "arrival": {
+        "x": 24,
+        "y": 110.5,
+        "width": 272,
+        "height": 346.984375
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "arrival": {
+        "x": 24,
+        "y": 260.90625,
+        "width": 342,
+        "height": 322.1875
+      }
+    },
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "arrival": {
+        "x": 137,
+        "y": 24.296875,
+        "width": 570,
+        "height": 341.390625
+      }
+    }
+  ],
+  "poses": [
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "p": 0.08,
+      "tipX": 0.7933724009473537,
+      "z": -2.51,
+      "anticipation": 1,
+      "followThrough": 0,
+      "lift": 0.018075947785877775,
+      "opacity": 0.38,
+      "draws": 2,
+      "effects": [
+        {
+          "type": "wave",
+          "opacity": 0.3666281906348545
+        },
+        {
+          "type": "wave",
+          "opacity": 0
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.029952672698729494
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.024192543333589205
+        },
+        {
+          "type": "corona",
+          "opacity": 0
+        },
+        {
+          "type": "motes",
+          "opacity": 0.04785338241808862
+        }
+      ],
+      "rotation": [
+        0,
+        -3.149993644084447e-8,
+        0.018881157567855817,
+        "XYZ"
+      ],
+      "charge": 0.08861737484831218,
+      "burst": 0,
+      "rings": [
+        {
+          "radius": 20.444799999999997,
+          "opacity": 0.3666281906348545,
+          "singlePass": true
+        },
+        {
+          "radius": 10,
+          "opacity": 0,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "p": 0.25,
+      "tipX": 0.7925573955070696,
+      "z": -2.470961050271988,
+      "anticipation": 0,
+      "followThrough": 0,
+      "lift": 0.9819240522141215,
+      "opacity": 0.38,
+      "draws": 2,
+      "effects": [
+        {
+          "type": "wave",
+          "opacity": 0.58
+        },
+        {
+          "type": "wave",
+          "opacity": 0
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.2975651773382811
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.240341104773227
+        },
+        {
+          "type": "corona",
+          "opacity": 0
+        },
+        {
+          "type": "motes",
+          "opacity": 0.47539998746352596
+        }
+      ],
+      "rotation": [
+        0.01954544693231582,
+        -0.025130939467227078,
+        0.020087292127707865,
+        "XYZ"
+      ],
+      "charge": 0.8803703471546777,
+      "burst": 0,
+      "rings": [
+        {
+          "radius": 39.75,
+          "opacity": 0.58,
+          "singlePass": true
+        },
+        {
+          "radius": 10,
+          "opacity": 0,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "p": 0.4999999999999999,
+      "tipX": 0.7958452972458511,
+      "z": -2.448,
+      "anticipation": 0,
+      "followThrough": 0,
+      "lift": 1,
+      "opacity": 0.38,
+      "draws": 2,
+      "effects": [
+        {
+          "type": "wave",
+          "opacity": 0.567755248621128
+        },
+        {
+          "type": "wave",
+          "opacity": 0.4
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.5081439480000001
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.410423958
+        },
+        {
+          "type": "corona",
+          "opacity": 0.62
+        },
+        {
+          "type": "motes",
+          "opacity": 0.72
+        }
+      ],
+      "rotation": [
+        0.017000000000000005,
+        -0.04500157822012003,
+        0.0009219355990422833,
+        "XYZ"
+      ],
+      "charge": 0.8369200000000008,
+      "burst": 1,
+      "rings": [
+        {
+          "radius": 60.99999999999999,
+          "opacity": 0.567755248621128,
+          "singlePass": true
+        },
+        {
+          "radius": 51.41975308641973,
+          "opacity": 0.4,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "p": 0.75,
+      "tipX": 0.7936649172895849,
+      "z": -2.451813369989395,
+      "anticipation": 0,
+      "followThrough": 0.9645061728395066,
+      "lift": 0.5253255016871907,
+      "opacity": 0.38,
+      "draws": 2,
+      "effects": [
+        {
+          "type": "wave",
+          "opacity": 0.21594581927126563
+        },
+        {
+          "type": "wave",
+          "opacity": 0.2720960718924034
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.3416574189884976
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.2759540691830173
+        },
+        {
+          "type": "corona",
+          "opacity": 0.42880080925681885
+        },
+        {
+          "type": "motes",
+          "opacity": 0.49796223010469287
+        }
+      ],
+      "rotation": [
+        0.024634572224900866,
+        -0.030127641474696126,
+        0.022074954709946307,
+        "XYZ"
+      ],
+      "charge": 0,
+      "burst": 0.6916142084787401,
+      "rings": [
+        {
+          "radius": 73.75,
+          "opacity": 0.21594581927126563,
+          "singlePass": true
+        },
+        {
+          "radius": 80.35493827160494,
+          "opacity": 0.2720960718924034,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "p": 0.92,
+      "tipX": 0.7937864461054985,
+      "z": -2.4946171875,
+      "anticipation": 0,
+      "followThrough": 0.6321175700600934,
+      "lift": 0.0014540848887529823,
+      "opacity": 0.18925000221606358,
+      "draws": 2,
+      "effects": [
+        {
+          "type": "wave",
+          "opacity": 0.01224475137887204
+        },
+        {
+          "type": "wave",
+          "opacity": 0.020660310264937067
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.015131237482830523
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.012221384120747728
+        },
+        {
+          "type": "corona",
+          "opacity": 0.01899062194201399
+        },
+        {
+          "type": "motes",
+          "opacity": 0.022053625481048503
+        }
+      ],
+      "rotation": [
+        0.0036230468749999965,
+        0.0029257847902634674,
+        0.015411929047133338,
+        "XYZ"
+      ],
+      "charge": 0,
+      "burst": 0.030630035390345145,
+      "rings": [
+        {
+          "radius": 77.5648,
+          "opacity": 0.01224475137887204,
+          "singlePass": true
+        },
+        {
+          "radius": 89.01234567901236,
+          "opacity": 0.020660310264937067,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "p": 0.08,
+      "tipX": 0.7521902099952162,
+      "z": -2.51,
+      "anticipation": 1,
+      "followThrough": 0,
+      "lift": 0.018075947785877775,
+      "opacity": 0.38,
+      "draws": 2,
+      "effects": [
+        {
+          "type": "wave",
+          "opacity": 0.3666281906348545
+        },
+        {
+          "type": "wave",
+          "opacity": 0
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.029952672698729494
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.024192543333589205
+        },
+        {
+          "type": "corona",
+          "opacity": 0
+        },
+        {
+          "type": "motes",
+          "opacity": 0.04785338241808862
+        }
+      ],
+      "rotation": [
+        0,
+        0.000005961791806846678,
+        0.018857904536791453,
+        "XYZ"
+      ],
+      "charge": 0.08861737484831218,
+      "burst": 0,
+      "rings": [
+        {
+          "radius": 20.444799999999997,
+          "opacity": 0.3666281906348545,
+          "singlePass": true
+        },
+        {
+          "radius": 10,
+          "opacity": 0,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "p": 0.25,
+      "tipX": 0.7517416999354775,
+      "z": -2.470961050271988,
+      "anticipation": 0,
+      "followThrough": 0,
+      "lift": 0.9819240522141215,
+      "opacity": 0.38,
+      "draws": 2,
+      "effects": [
+        {
+          "type": "wave",
+          "opacity": 0.58
+        },
+        {
+          "type": "wave",
+          "opacity": 0
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.2975651773382811
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.240341104773227
+        },
+        {
+          "type": "corona",
+          "opacity": 0
+        },
+        {
+          "type": "motes",
+          "opacity": 0.47539998746352596
+        }
+      ],
+      "rotation": [
+        0.01954544693231582,
+        -0.025125783475055008,
+        0.02005884218302765,
+        "XYZ"
+      ],
+      "charge": 0.8803703471546777,
+      "burst": 0,
+      "rings": [
+        {
+          "radius": 39.75,
+          "opacity": 0.58,
+          "singlePass": true
+        },
+        {
+          "radius": 10,
+          "opacity": 0,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "p": 0.4999999999999999,
+      "tipX": 0.7561833942990333,
+      "z": -2.448,
+      "anticipation": 0,
+      "followThrough": 0,
+      "lift": 1,
+      "opacity": 0.38,
+      "draws": 2,
+      "effects": [
+        {
+          "type": "wave",
+          "opacity": 0.567755248621128
+        },
+        {
+          "type": "wave",
+          "opacity": 0.4
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.5081439480000001
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.410423958
+        },
+        {
+          "type": "corona",
+          "opacity": 0.62
+        },
+        {
+          "type": "motes",
+          "opacity": 0.72
+        }
+      ],
+      "rotation": [
+        0.017000000000000005,
+        -0.04499590281170489,
+        0.0008900476126730318,
+        "XYZ"
+      ],
+      "charge": 0.8369200000000008,
+      "burst": 1,
+      "rings": [
+        {
+          "radius": 60.99999999999999,
+          "opacity": 0.567755248621128,
+          "singlePass": true
+        },
+        {
+          "radius": 51.41975308641973,
+          "opacity": 0.4,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "p": 0.75,
+      "tipX": 0.7527774687742931,
+      "z": -2.451813369989395,
+      "anticipation": 0,
+      "followThrough": 0.9645061728395066,
+      "lift": 0.5253255016871907,
+      "opacity": 0.38,
+      "draws": 2,
+      "effects": [
+        {
+          "type": "wave",
+          "opacity": 0.21594581927126563
+        },
+        {
+          "type": "wave",
+          "opacity": 0.2720960718924034
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.3416574189884976
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.2759540691830173
+        },
+        {
+          "type": "corona",
+          "opacity": 0.42880080925681885
+        },
+        {
+          "type": "motes",
+          "opacity": 0.49796223010469287
+        }
+      ],
+      "rotation": [
+        0.024634572224900866,
+        -0.030121841672214968,
+        0.022043846606281746,
+        "XYZ"
+      ],
+      "charge": 0,
+      "burst": 0.6916142084787401,
+      "rings": [
+        {
+          "radius": 73.75,
+          "opacity": 0.21594581927126563,
+          "singlePass": true
+        },
+        {
+          "radius": 80.35493827160494,
+          "opacity": 0.2720960718924034,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "p": 0.92,
+      "tipX": 0.752130199385562,
+      "z": -2.4946171875,
+      "anticipation": 0,
+      "followThrough": 0.6321175700600934,
+      "lift": 0.0014540848887529823,
+      "opacity": 0.18925000221606358,
+      "draws": 2,
+      "effects": [
+        {
+          "type": "wave",
+          "opacity": 0.01224475137887204
+        },
+        {
+          "type": "wave",
+          "opacity": 0.020660310264937067
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.015131237482830523
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.012221384120747728
+        },
+        {
+          "type": "corona",
+          "opacity": 0.01899062194201399
+        },
+        {
+          "type": "motes",
+          "opacity": 0.022053625481048503
+        }
+      ],
+      "rotation": [
+        0.0036230468749999965,
+        0.002931162449302861,
+        0.015385963033433118,
+        "XYZ"
+      ],
+      "charge": 0,
+      "burst": 0.030630035390345145,
+      "rings": [
+        {
+          "radius": 77.5648,
+          "opacity": 0.01224475137887204,
+          "singlePass": true
+        },
+        {
+          "radius": 89.01234567901236,
+          "opacity": 0.020660310264937067,
+          "singlePass": true
+        }
+      ]
+    }
+  ],
+  "sequences": [
+    {
+      "samples": [
+        {
+          "p": 0,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 0,
+          "rotation": [
+            0,
+            0.0000016014221370703151,
+            -0.007583193333301114,
+            "XYZ"
+          ],
+          "charge": 0,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0
+            },
+            {
+              "type": "wave",
+              "opacity": 0
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0
+            }
+          ],
+          "blend": 0.5998291720121536,
+          "z": -2.5,
+          "opacity": 0.38,
+          "map": "6c733e0c-2378-4484-9678-9ecaa376a357",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00061174195899,
+          "light": [
+            0,
+            0
+          ]
+        },
+        {
+          "p": 0.08928571428571429,
+          "reach": 0.00023382888923896702,
+          "press": 0,
+          "anticipation": 1,
+          "followThrough": 0,
+          "lift": 0.03793785928371114,
+          "rotation": [
+            0.000008184011123363847,
+            -0.000009009674754031754,
+            0.004167716359634609,
+            "XYZ"
+          ],
+          "charge": 0.11725418427457732,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.4324003986569468
+            },
+            {
+              "type": "wave",
+              "opacity": 0
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.03963191428480712
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.032010392306959595
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0.06331725950827176
+            }
+          ],
+          "blend": 0.5848731188939265,
+          "z": -2.5099878408977596,
+          "opacity": 0.38,
+          "map": "6c733e0c-2378-4484-9678-9ecaa376a357",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00061174195899,
+          "light": [
+            0.4324003986569468,
+            0
+          ]
+        },
+        {
+          "p": 0.10419642857142841,
+          "reach": 0.0038476770753168997,
+          "press": 0,
+          "anticipation": 0.9997426517349793,
+          "followThrough": 0,
+          "lift": 0.08895039166531003,
+          "rotation": [
+            0.0001346686976360915,
+            -0.00017168046828357065,
+            0.004344685309112385,
+            "XYZ"
+          ],
+          "charge": 0.1717311462109839,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.5163961965613578
+            },
+            {
+              "type": "wave",
+              "opacity": 0
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.05804512741931257
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.04688260291559861
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0.0927348189539313
+            }
+          ],
+          "blend": 0.584888996135036,
+          "z": -2.5097973473094335,
+          "opacity": 0.38,
+          "map": "6c733e0c-2378-4484-9678-9ecaa376a357",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00061174195899,
+          "light": [
+            0.5163961965613578,
+            0
+          ]
+        },
+        {
+          "p": 0.19348214285714269,
+          "reach": 0.2424045116416873,
+          "press": 0,
+          "anticipation": 0.2083043539395475,
+          "followThrough": 0,
+          "lift": 0.7228709072799069,
+          "rotation": [
+            0.008484157907459057,
+            -0.010906745243341018,
+            0.0019234974669801765,
+            "XYZ"
+          ],
+          "charge": 0.6278593395347885,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.58
+            },
+            {
+              "type": "wave",
+              "opacity": 0
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.21221645676275852
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.17140559969299726
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0.3390440433487857
+            }
+          ],
+          "blend": 0.5967902038592182,
+          "z": -2.489478008934028,
+          "opacity": 0.38,
+          "map": "6c733e0c-2378-4484-9678-9ecaa376a357",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00061174195899,
+          "light": [
+            0.58,
+            0
+          ]
+        },
+        {
+          "p": 0.2826785714285717,
+          "reach": 0.7384611716459747,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 1,
+          "rotation": [
+            0.025846141007609118,
+            -0.03322931326124686,
+            0.010407770700938838,
+            "XYZ"
+          ],
+          "charge": 0.9633814090214884,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.58
+            },
+            {
+              "type": "wave",
+              "opacity": 0.00007209653460783558
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.3256229162492631
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.2630031246628663
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0.5202259608716038
+            }
+          ],
+          "blend": 0.5999368010979951,
+          "z": -2.4616000190744094,
+          "opacity": 0.38,
+          "map": "6c733e0c-2378-4484-9678-9ecaa376a357",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00061174195899,
+          "light": [
+            0.58,
+            0.00007209653460783558
+          ]
+        },
+        {
+          "p": 0.3273214285714289,
+          "reach": 0.9191299228183555,
+          "press": 0.0007480904077067793,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 1,
+          "rotation": [
+            0.032156081671303724,
+            -0.04135941920190156,
+            0.014331692949969967,
+            "XYZ"
+          ],
+          "charge": 0.9995100409209666,
+          "burst": 0.0007480904077067793,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.58
+            },
+            {
+              "type": "wave",
+              "opacity": 0.177150875353391
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.3379638563567462
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.27297080705737187
+            },
+            {
+              "type": "corona",
+              "opacity": 0.0004638160527782032
+            },
+            {
+              "type": "motes",
+              "opacity": 0.5398702762989003
+            }
+          ],
+          "blend": 0.5998783594841246,
+          "z": -2.4522052440134456,
+          "opacity": 0.38,
+          "map": "6c733e0c-2378-4484-9678-9ecaa376a357",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00061174195899,
+          "light": [
+            0.58,
+            0.177150875353391
+          ]
+        },
+        {
+          "p": 0.38678571428571407,
+          "reach": 0.9993387216837019,
+          "press": 0.30517220782263127,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 1,
+          "rotation": [
+            0.029483755518122205,
+            -0.044968821243156744,
+            0.007860235647935232,
+            "XYZ"
+          ],
+          "charge": 1,
+          "burst": 0.30517220782263127,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.58
+            },
+            {
+              "type": "wave",
+              "opacity": 0.4
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.39076427473253295
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.31561729882243045
+            },
+            {
+              "type": "corona",
+              "opacity": 0.18920676885003138
+            },
+            {
+              "type": "motes",
+              "opacity": 0.5949309974080736
+            }
+          ],
+          "blend": 0.5694480978940755,
+          "z": -2.4480343864724476,
+          "opacity": 0.38,
+          "map": "6c733e0c-2378-4484-9678-9ecaa376a357",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00061174195899,
+          "light": [
+            0.58,
+            0.4
+          ]
+        },
+        {
+          "p": 0.4612500000000003,
+          "reach": 1,
+          "press": 0.9630710702715559,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 1,
+          "rotation": [
+            0.017664720735111997,
+            -0.04499858570730194,
+            -0.009975948325910741,
+            "XYZ"
+          ],
+          "charge": 0.989835770206451,
+          "burst": 0.9630710702715559,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.5781297685187158
+            },
+            {
+              "type": "wave",
+              "opacity": 0.4
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.5042226863560078
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.40725678513369856
+            },
+            {
+              "type": "corona",
+              "opacity": 0.5971040635683647
+            },
+            {
+              "type": "motes",
+              "opacity": 0.7131501014198736
+            }
+          ],
+          "blend": 0.5036672247366305,
+          "z": -2.448,
+          "opacity": 0.38,
+          "map": "6c733e0c-2378-4484-9678-9ecaa376a357",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00061174195899,
+          "light": [
+            0.5781297685187158,
+            0.4
+          ]
+        },
+        {
+          "p": 0.5357142857142857,
+          "reach": 1,
+          "press": 1,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 1,
+          "rotation": [
+            0.017000000000000005,
+            -0.04499859451779738,
+            -0.010428249005462357,
+            "XYZ"
+          ],
+          "charge": 0.5401294002870829,
+          "burst": 1,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.546625423251123
+            },
+            {
+              "type": "wave",
+              "opacity": 0.4
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.5031281868648517
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.40637276631391867
+            },
+            {
+              "type": "corona",
+              "opacity": 0.62
+            },
+            {
+              "type": "motes",
+              "opacity": 0.72
+            }
+          ],
+          "blend": 0.4999810132329814,
+          "z": -2.448,
+          "opacity": 0.38,
+          "map": "6c733e0c-2378-4484-9678-9ecaa376a357",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00061174195899,
+          "light": [
+            0.546625423251123,
+            0.4
+          ]
+        },
+        {
+          "p": 0.6099999999999999,
+          "reach": 1,
+          "press": 0.99956851590855,
+          "anticipation": 0,
+          "followThrough": 0.0015749631661839682,
+          "lift": 0.9893253279445822,
+          "rotation": [
+            0.017007766713646105,
+            -0.044979704395557214,
+            -0.0098169713476172,
+            "XYZ"
+          ],
+          "charge": 0.02661187500000084,
+          "burst": 0.9998248757420443,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.46316694142780607
+            },
+            {
+              "type": "wave",
+              "opacity": 0.39895666030229227
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.4943647257536491
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.3992945861856396
+            },
+            {
+              "type": "corona",
+              "opacity": 0.6198914229600674
+            },
+            {
+              "type": "motes",
+              "opacity": 0.7198764271420974
+            }
+          ],
+          "blend": 0.500029111486401,
+          "z": -2.448,
+          "opacity": 0.38,
+          "map": "6c733e0c-2378-4484-9678-9ecaa376a357",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00061174195899,
+          "light": [
+            0.46316694142780607,
+            0.39895666030229227
+          ]
+        },
+        {
+          "p": 0.6844642857142861,
+          "reach": 0.9999734127650445,
+          "press": 0.8347193331453724,
+          "anticipation": 0,
+          "followThrough": 0.4424815809831501,
+          "lift": 0.824314102949093,
+          "rotation": [
+            0.019974121450159858,
+            -0.039687638689536016,
+            -0.0015200201530610347,
+            "XYZ"
+          ],
+          "charge": 0,
+          "burst": 0.923542081633334,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.33763254973939594
+            },
+            {
+              "type": "wave",
+              "opacity": 0.3609180964250816
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.45622978832686695
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.3684932905717002
+            },
+            {
+              "type": "corona",
+              "opacity": 0.572596090612667
+            },
+            {
+              "type": "motes",
+              "opacity": 0.6649502987760004
+            }
+          ],
+          "blend": 0.5165176945257121,
+          "z": -2.448001382536218,
+          "opacity": 0.38,
+          "map": "6c733e0c-2378-4484-9678-9ecaa376a357",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00061174195899,
+          "light": [
+            0.33763254973939594,
+            0.3609180964250816
+          ]
+        },
+        {
+          "p": 0.7439285714285713,
+          "reach": 0.9422512850810021,
+          "press": 0.4737064089753751,
+          "anticipation": 0,
+          "followThrough": 0.9417747845557259,
+          "lift": 0.5559713960784218,
+          "rotation": [
+            0.024452079616278325,
+            -0.031098635416646023,
+            0.011407133072319425,
+            "XYZ"
+          ],
+          "charge": 0,
+          "burst": 0.718572555947143,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.2269620561677409
+            },
+            {
+              "type": "wave",
+              "opacity": 0.2820420261384878
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.35497484263788864
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.28671044982291005
+            },
+            {
+              "type": "corona",
+              "opacity": 0.44551498468722867
+            },
+            {
+              "type": "motes",
+              "opacity": 0.517372240281943
+            }
+          ],
+          "blend": 0.5526216986804273,
+          "z": -2.451002933175788,
+          "opacity": 0.38,
+          "map": "6c733e0c-2378-4484-9678-9ecaa376a357",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00061174195899,
+          "light": [
+            0.2269620561677409,
+            0.2820420261384878
+          ]
+        },
+        {
+          "p": 0.8332142857142856,
+          "reach": 0.539712393604428,
+          "press": 0.035740376919075834,
+          "anticipation": 0,
+          "followThrough": 1,
+          "lift": 0.14834174347268336,
+          "rotation": [
+            0.018246606991611618,
+            -0.012285691985105632,
+            0.016747551738547962,
+            "XYZ"
+          ],
+          "charge": 0,
+          "burst": 0.2940111151921707,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.08527084820638191
+            },
+            {
+              "type": "wave",
+              "opacity": 0.12655532727024707
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.14524149090493235
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.11731043496167613
+            },
+            {
+              "type": "corona",
+              "opacity": 0.18228689141914584
+            },
+            {
+              "type": "motes",
+              "opacity": 0.2116880029383629
+            }
+          ],
+          "blend": 0.5964203073213645,
+          "z": -2.4719349555325696,
+          "opacity": 0.3729620897629699,
+          "map": "6c733e0c-2378-4484-9678-9ecaa376a357",
+          "draws": 2,
+          "journey": true,
+          "fov": 51.00061174195899,
+          "light": [
+            0.08527084820638191,
+            0.12655532727024707
+          ]
+        },
+        {
+          "p": 0.9224999999999998,
+          "reach": 0.09544810821535121,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0.5996803532905313,
+          "lift": 0.0009844120850623916,
+          "rotation": [
+            0.003340683787537293,
+            0.0029023651002632873,
+            0.007492880517390754,
+            "XYZ"
+          ],
+          "charge": 0,
+          "burst": 0.027258209961808277,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.011212052660296427
+            },
+            {
+              "type": "wave",
+              "opacity": 0.01897825815104355
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.01346555572113327
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.010876025774761485
+            },
+            {
+              "type": "corona",
+              "opacity": 0.01690009017632113
+            },
+            {
+              "type": "motes",
+              "opacity": 0.01962591117250196
+            }
+          ],
+          "blend": 0.5999958273257808,
+          "z": -2.4950366983728016,
+          "opacity": 0.33520675869583566,
+          "map": "6c733e0c-2378-4484-9678-9ecaa376a357",
+          "draws": 2,
+          "journey": true,
+          "fov": 51.763864391266864,
+          "light": [
+            0.011212052660296427,
+            0.01897825815104355
+          ]
+        },
+        {
+          "p": 0.9374107142857149,
+          "reach": 0.054590220012518786,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0.4014884625606764,
+          "lift": 0.0000033912883600217825,
+          "rotation": [
+            0.0019106577004381576,
+            0.002362068716614202,
+            0.004789688117017142,
+            "XYZ"
+          ],
+          "charge": 0,
+          "burst": 0.011817624650693692,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.0061597270598706165
+            },
+            {
+              "type": "wave",
+              "opacity": 0.01062107544575377
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.005837906577442676
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.004715232235626776
+            },
+            {
+              "type": "corona",
+              "opacity": 0.007326927283430089
+            },
+            {
+              "type": "motes",
+              "opacity": 0.008508689748499458
+            }
+          ],
+          "blend": 0.5999962305454503,
+          "z": -2.497161308559349,
+          "opacity": 0.3144095159622928,
+          "map": "6c733e0c-2378-4484-9678-9ecaa376a357",
+          "draws": 2,
+          "journey": true,
+          "fov": 51.83443939632215,
+          "light": [
+            0.0061597270598706165,
+            0.01062107544575377
+          ]
+        }
+      ],
+      "activations": 1,
+      "completed": true,
+      "hidden": true,
+      "selecting": false
+    },
+    {
+      "samples": [
+        {
+          "p": 0.08928571428571429,
+          "reach": 0.00023382888923896702,
+          "press": 0,
+          "anticipation": 1,
+          "followThrough": 0,
+          "lift": 0.03793785928371114,
+          "rotation": [
+            0.000008184011123363847,
+            -0.000010509191200596905,
+            0.019314466151788792,
+            "XYZ"
+          ],
+          "charge": 0.11725418427457732,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.4324003986569468
+            },
+            {
+              "type": "wave",
+              "opacity": 0
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.03963191428480712
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.032010392306959595
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0.06331725950827176
+            }
+          ],
+          "blend": 0.010590753854552628,
+          "z": -2.5099878408977596,
+          "opacity": 0.38,
+          "map": "5c42967b-05f1-4c2b-bf94-1b802349e6cf",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.54881163609403,
+          "light": [
+            0.4324003986569468,
+            0
+          ]
+        },
+        {
+          "p": 0.17857142857142858,
+          "reach": 0.17387259928923526,
+          "press": 0,
+          "anticipation": 0.3863464011850468,
+          "followThrough": 0,
+          "lift": 0.6096137184159819,
+          "rotation": [
+            0.006085540975123235,
+            -0.007824193097993143,
+            0.013639181967768414,
+            "XYZ"
+          ],
+          "charge": 0.5471888575255099,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.58
+            },
+            {
+              "type": "wave",
+              "opacity": 0
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.18494983384362235
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.14938255810446419
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0.2954819830637754
+            }
+          ],
+          "blend": 0.0773794849888184,
+          "z": -2.49482208884881,
+          "opacity": 0.38,
+          "map": "5c42967b-05f1-4c2b-bf94-1b802349e6cf",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.301194211912204,
+          "light": [
+            0.58,
+            0
+          ]
+        },
+        {
+          "p": 0.2083035714285716,
+          "reach": 0.31908057789364097,
+          "press": 0,
+          "anticipation": 0.08020832698827429,
+          "followThrough": 0,
+          "lift": 0.8210676193783822,
+          "rotation": [
+            0.011167820226277434,
+            -0.014358440670876,
+            0.013295479597748674,
+            "XYZ"
+          ],
+          "charge": 0.70419271700669,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.58
+            },
+            {
+              "type": "wave",
+              "opacity": 0
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.23801713834826121
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.19224461174282637
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0.38026406718361255
+            }
+          ],
+          "blend": 0.12795708575860695,
+          "z": -2.4842098932194134,
+          "opacity": 0.38,
+          "map": "5c42967b-05f1-4c2b-bf94-1b802349e6cf",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.20197729275573,
+          "light": [
+            0.58,
+            0
+          ]
+        },
+        {
+          "p": 0.2975892857142859,
+          "reach": 0.8094261770226924,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 1,
+          "rotation": [
+            0.028329916195794235,
+            -0.036423884653320124,
+            0.015088529949418561,
+            "XYZ"
+          ],
+          "charge": 0.9840418297206972,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.58
+            },
+            {
+              "type": "wave",
+              "opacity": 0.01607851057091223
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.33260613844559567
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.2686434195137503
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0.5313825880491765
+            }
+          ],
+          "blend": 0.2005681827573394,
+          "z": -2.45790983879482,
+          "opacity": 0.38,
+          "map": "5c42967b-05f1-4c2b-bf94-1b802349e6cf",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.11084748849111,
+          "light": [
+            0.58,
+            0.01607851057091223
+          ]
+        },
+        {
+          "p": 0.3868750000000002,
+          "reach": 0.9993517563335106,
+          "press": 0.3060690374928677,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 1,
+          "rotation": [
+            0.029468068796801253,
+            -0.044970247846977354,
+            0.009606256203600498,
+            "XYZ"
+          ],
+          "charge": 1,
+          "burst": 0.3060690374928677,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.58
+            },
+            {
+              "type": "wave",
+              "opacity": 0.4
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.3909193365825168
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.31574254108587896
+            },
+            {
+              "type": "corona",
+              "opacity": 0.18976280324557795
+            },
+            {
+              "type": "motes",
+              "opacity": 0.5950924267487161
+            }
+          ],
+          "blend": 0.2379921920593488,
+          "z": -2.4480337086706574,
+          "opacity": 0.38,
+          "map": "5c42967b-05f1-4c2b-bf94-1b802349e6cf",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.06083439151572,
+          "light": [
+            0.58,
+            0.4
+          ]
+        },
+        {
+          "p": 0.47616071428571444,
+          "reach": 1,
+          "press": 0.995242307665399,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 1,
+          "rotation": [
+            0.017085638462022823,
+            -0.044999267063530246,
+            -0.01072498477379822,
+            "XYZ"
+          ],
+          "charge": 0.9557656362430458,
+          "burst": 0.995242307665399,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.5754696335637446
+            },
+            {
+              "type": "wave",
+              "opacity": 0.4
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.5092622576311331
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.4113272080866844
+            },
+            {
+              "type": "corona",
+              "opacity": 0.6170502307525474
+            },
+            {
+              "type": "motes",
+              "opacity": 0.7190299704933507
+            }
+          ],
+          "blend": 0.23010502592901608,
+          "z": -2.448,
+          "opacity": 0.38,
+          "map": "5c42967b-05f1-4c2b-bf94-1b802349e6cf",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.033386621938526,
+          "light": [
+            0.5754696335637446,
+            0.4
+          ]
+        },
+        {
+          "p": 0.5505357142857146,
+          "reach": 1,
+          "press": 1,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 1,
+          "rotation": [
+            0.017000000000000005,
+            -0.04499911776414931,
+            -0.011425795503213806,
+            "XYZ"
+          ],
+          "charge": 0.40195616814552204,
+          "burst": 1,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.5341921952072778
+            },
+            {
+              "type": "wave",
+              "opacity": 0.4
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.5007930592416593
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.40448670169518636
+            },
+            {
+              "type": "corona",
+              "opacity": 0.62
+            },
+            {
+              "type": "motes",
+              "opacity": 0.72
+            }
+          ],
+          "blend": 0.282305927123884,
+          "z": -2.448,
+          "opacity": 0.38,
+          "map": "5c42967b-05f1-4c2b-bf94-1b802349e6cf",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.01832296660974,
+          "light": [
+            0.5341921952072778,
+            0.4
+          ]
+        },
+        {
+          "p": 0.6100892857142859,
+          "reach": 1,
+          "press": 0.9995570721571878,
+          "anticipation": 0,
+          "followThrough": 0.0016162756794765862,
+          "lift": 0.9892578916150422,
+          "rotation": [
+            0.017007972701170625,
+            -0.04497960106252142,
+            -0.011847768429333334,
+            "XYZ"
+          ],
+          "charge": 0.026394690778219987,
+          "burst": 0.9998202074776968,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.4630369447367861
+            },
+            {
+              "type": "wave",
+              "opacity": 0.39894685608800257
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.4943587765700287
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.3992897810757924
+            },
+            {
+              "type": "corona",
+              "opacity": 0.619888528636172
+            },
+            {
+              "type": "motes",
+              "opacity": 0.7198731119906782
+            }
+          ],
+          "blend": 0.3266103527286141,
+          "z": -2.448,
+          "opacity": 0.38,
+          "map": "5c42967b-05f1-4c2b-bf94-1b802349e6cf",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.010055857283184,
+          "light": [
+            0.4630369447367861,
+            0.39894685608800257
+          ]
+        },
+        {
+          "p": 0.684464285714286,
+          "reach": 0.9999734127650445,
+          "press": 0.8347193331453729,
+          "anticipation": 0,
+          "followThrough": 0.4424815809831488,
+          "lift": 0.8243141029490935,
+          "rotation": [
+            0.01997412145015985,
+            -0.03968791894482277,
+            -0.004691336916548558,
+            "XYZ"
+          ],
+          "charge": 0,
+          "burst": 0.9235420816333342,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.3376325497393962
+            },
+            {
+              "type": "wave",
+              "opacity": 0.3609180964250817
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.45622978832686706
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.3684932905717003
+            },
+            {
+              "type": "corona",
+              "opacity": 0.5725960906126671
+            },
+            {
+              "type": "motes",
+              "opacity": 0.6649502987760005
+            }
+          ],
+          "blend": 0.379552806576066,
+          "z": -2.448001382536218,
+          "opacity": 0.38,
+          "map": "5c42967b-05f1-4c2b-bf94-1b802349e6cf",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.005518771487914,
+          "light": [
+            0.3376325497393962,
+            0.3609180964250817
+          ]
+        },
+        {
+          "p": 0.7737500000000003,
+          "reach": 0.8460968697600029,
+          "press": 0.282599105690691,
+          "anticipation": 0,
+          "followThrough": 0.9996028779598718,
+          "lift": 0.4056317847317096,
+          "rotation": [
+            0.024526606539167665,
+            -0.026077927421252853,
+            0.010957328046320271,
+            "XYZ"
+          ],
+          "charge": 0,
+          "burst": 0.579790776779399,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.17426375563325613
+            },
+            {
+              "type": "wave",
+              "opacity": 0.23119417789474772
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.28641664372902315
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.23133651993498022
+            },
+            {
+              "type": "corona",
+              "opacity": 0.3594702816032274
+            },
+            {
+              "type": "motes",
+              "opacity": 0.4174493592811673
+            }
+          ],
+          "blend": 0.4643438009814613,
+          "z": -2.4560029627724798,
+          "opacity": 0.38,
+          "map": "5c42967b-05f1-4c2b-bf94-1b802349e6cf",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.003028766009514,
+          "light": [
+            0.17426375563325613,
+            0.23119417789474772
+          ]
+        },
+        {
+          "p": 0.8482142857142856,
+          "reach": 0.45195392533120415,
+          "press": 0.012251281131996472,
+          "anticipation": 0,
+          "followThrough": 1,
+          "lift": 0.10149003936521894,
+          "rotation": [
+            0.01559786432621621,
+            -0.00833664647043119,
+            0.010138828461252386,
+            "XYZ"
+          ],
+          "charge": 0,
+          "burst": 0.23022880555801306,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.06741791178472045
+            },
+            {
+              "type": "wave",
+              "opacity": 0.10257959182755037
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.11373302994565847
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.09186129341764722
+            },
+            {
+              "type": "corona",
+              "opacity": 0.1427418594459681
+            },
+            {
+              "type": "motes",
+              "opacity": 0.16576474000176938
+            }
+          ],
+          "blend": 0.5150887157789008,
+          "z": -2.4764983958827775,
+          "opacity": 0.3729620897629699,
+          "map": "5c42967b-05f1-4c2b-bf94-1b802349e6cf",
+          "draws": 2,
+          "journey": true,
+          "fov": 51.003028766009514,
+          "light": [
+            0.06741791178472045,
+            0.10257959182755037
+          ]
+        },
+        {
+          "p": 0.9375,
+          "reach": 0.054383235692512244,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0.40031964670947195,
+          "lift": 0.0000030535341476456423,
+          "rotation": [
+            0.0019034132492379288,
+            0.00235791698902955,
+            -0.0028008243282639034,
+            "XYZ"
+          ],
+          "charge": 0,
+          "burst": 0.011747944713726421,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.006134934732046537
+            },
+            {
+              "type": "wave",
+              "opacity": 0.010579471629378202
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.0058034846885808376
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.0046874299407768305
+            },
+            {
+              "type": "corona",
+              "opacity": 0.007283725722510381
+            },
+            {
+              "type": "motes",
+              "opacity": 0.008458520193883023
+            }
+          ],
+          "blend": 0.5351347050066174,
+          "z": -2.4971720717439894,
+          "opacity": 0.33520675869583566,
+          "map": "5c42967b-05f1-4c2b-bf94-1b802349e6cf",
+          "draws": 2,
+          "journey": true,
+          "fov": 51.756370292351356,
+          "light": [
+            0.006134934732046537,
+            0.010579471629378202
+          ]
+        },
+        {
+          "p": 0.9673214285714286,
+          "reach": 0.009085046609717318,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0.08680560711541108,
+          "lift": 0,
+          "rotation": [
+            0.00031797663134010615,
+            0.0006336247458708251,
+            -0.006701403155077147,
+            "XYZ"
+          ],
+          "charge": 0,
+          "burst": 0.0003530754703566785,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.0009516729778979615
+            },
+            {
+              "type": "wave",
+              "opacity": 0.0016988131984211564
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.00017441928235621074
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.00014087711267232405
+            },
+            {
+              "type": "corona",
+              "opacity": 0.00021890679162114068
+            },
+            {
+              "type": "motes",
+              "opacity": 0.00025421433865680854
+            }
+          ],
+          "blend": 0.5454277175038063,
+          "z": -2.499527577576295,
+          "opacity": 0.2900137020145617,
+          "map": "5c42967b-05f1-4c2b-bf94-1b802349e6cf",
+          "draws": 2,
+          "journey": true,
+          "fov": 51.88962965550968,
+          "light": [
+            0.0009516729778979615,
+            0.0016988131984211564
+          ]
+        }
+      ],
+      "activations": 1,
+      "completed": true,
+      "hidden": true,
+      "selecting": false
+    },
+    {
+      "samples": [
+        {
+          "p": 0,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 0,
+          "rotation": [
+            0,
+            0,
+            0,
+            "XYZ"
+          ],
+          "charge": 0,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.3
+            },
+            {
+              "type": "wave",
+              "opacity": 0
+            }
+          ],
+          "blend": 0.6,
+          "z": -2.5,
+          "opacity": 0.38,
+          "map": "be0a7ec9-cbaf-40e0-bc4b-577801f84e82",
+          "draws": 2,
+          "journey": false,
+          "fov": 52,
+          "light": [
+            0.3,
+            0
+          ]
+        }
+      ],
+      "activations": 1,
+      "completed": true,
+      "hidden": true,
+      "selecting": false
+    },
+    {
+      "samples": [
+        {
+          "p": 0.08928571428571429,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 0,
+          "charge": 0.11725418427457732,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.4324003986569468
+            },
+            {
+              "type": "wave",
+              "opacity": 0
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.03963191428480712
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.032010392306959595
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0.06331725950827176
+            }
+          ],
+          "blend": 0,
+          "draws": 0,
+          "journey": false,
+          "fov": 51.54881163609403,
+          "light": [
+            0.4324003986569468,
+            0
+          ]
+        },
+        {
+          "p": 0.17857142857142858,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 0,
+          "charge": 0.5471888575255099,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.58
+            },
+            {
+              "type": "wave",
+              "opacity": 0
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.18494983384362235
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.14938255810446419
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0.2954819830637754
+            }
+          ],
+          "blend": 0,
+          "draws": 0,
+          "journey": false,
+          "fov": 51.301194211912204,
+          "light": [
+            0.58,
+            0
+          ]
+        },
+        {
+          "p": 0.19348214285714288,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 0,
+          "charge": 0.6278593395347896,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.58
+            },
+            {
+              "type": "wave",
+              "opacity": 0
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.21221645676275894
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.17140559969299757
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0.33904404334878635
+            }
+          ],
+          "blend": 0,
+          "draws": 0,
+          "journey": false,
+          "fov": 51.246498344881154,
+          "light": [
+            0.58,
+            0
+          ]
+        },
+        {
+          "p": 0.2827678571428572,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 0,
+          "charge": 0.9635360016859936,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.58
+            },
+            {
+              "type": "wave",
+              "opacity": 0.0000794415254236843
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.32567516856986584
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.26304532846027623
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0.5203094409104365
+            }
+          ],
+          "blend": 0,
+          "draws": 0,
+          "journey": false,
+          "fov": 51.1352811599487,
+          "light": [
+            0.58,
+            0.0000794415254236843
+          ]
+        },
+        {
+          "p": 0.35714285714285693,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 0,
+          "charge": 1,
+          "burst": 0.07310414568111742,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.58
+            },
+            {
+              "type": "wave",
+              "opacity": 0.36478583208541493
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.3506397067882652
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.28320899394436805
+            },
+            {
+              "type": "corona",
+              "opacity": 0.0453245703222928
+            },
+            {
+              "type": "motes",
+              "opacity": 0.5531587462226012
+            }
+          ],
+          "blend": 0,
+          "draws": 0,
+          "journey": false,
+          "fov": 51.07424387472414,
+          "light": [
+            0.58,
+            0.36478583208541493
+          ]
+        },
+        {
+          "p": 0.4464285714285712,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 0,
+          "charge": 0.9996837173417792,
+          "burst": 0.8897257921009364,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.5794880844487934
+            },
+            {
+              "type": "wave",
+              "opacity": 0.4
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.491817045009452
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.3972368440460958
+            },
+            {
+              "type": "corona",
+              "opacity": 0.5516299911025806
+            },
+            {
+              "type": "motes",
+              "opacity": 0.7001318085555804
+            }
+          ],
+          "blend": 0,
+          "draws": 0,
+          "journey": false,
+          "fov": 51.040745902357315,
+          "light": [
+            0.5794880844487934,
+            0.4
+          ]
+        },
+        {
+          "p": 0.4761607142857142,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 0,
+          "charge": 0.9557656362430464,
+          "burst": 0.9952423076653989,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.5754696335637447
+            },
+            {
+              "type": "wave",
+              "opacity": 0.4
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.5092622576311331
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.4113272080866844
+            },
+            {
+              "type": "corona",
+              "opacity": 0.6170502307525473
+            },
+            {
+              "type": "motes",
+              "opacity": 0.7190299704933506
+            }
+          ],
+          "blend": 0,
+          "draws": 0,
+          "journey": false,
+          "fov": 51.02732372244729,
+          "light": [
+            0.5754696335637447,
+            0.4
+          ]
+        },
+        {
+          "p": 0.5654464285714285,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 0,
+          "charge": 0.2715378647751395,
+          "burst": 1,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.5194891287724352
+            },
+            {
+              "type": "wave",
+              "opacity": 0.4
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.4985889899146999
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.40270649185418067
+            },
+            {
+              "type": "corona",
+              "opacity": 0.62
+            },
+            {
+              "type": "motes",
+              "opacity": 0.72
+            }
+          ],
+          "blend": 0,
+          "draws": 0,
+          "journey": false,
+          "fov": 51.014995576820475,
+          "light": [
+            0.5194891287724352,
+            0.4
+          ]
+        },
+        {
+          "p": 0.6398214285714287,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 0,
+          "charge": 7.108272748190814e-9,
+          "burst": 0.9902251179251861,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.41653786130907555
+            },
+            {
+              "type": "wave",
+              "opacity": 0.39162770558740506
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.48917120839748257
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.3950998221671974
+            },
+            {
+              "type": "corona",
+              "opacity": 0.6139395731136154
+            },
+            {
+              "type": "motes",
+              "opacity": 0.7129620849436545
+            }
+          ],
+          "blend": 0,
+          "draws": 0,
+          "journey": false,
+          "fov": 51.00822974704902,
+          "light": [
+            0.41653786130907555,
+            0.39162770558740506
+          ]
+        },
+        {
+          "p": 0.7141964285714284,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 0,
+          "charge": 0,
+          "burst": 0.8362354454278089,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.2821327947418663
+            },
+            {
+              "type": "wave",
+              "opacity": 0.3262687561975205
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.4131003100413376
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.33365794272569577
+            },
+            {
+              "type": "corona",
+              "opacity": 0.5184659761652415
+            },
+            {
+              "type": "motes",
+              "opacity": 0.6020895207080224
+            }
+          ],
+          "blend": 0,
+          "draws": 0,
+          "journey": false,
+          "fov": 51.004516580942614,
+          "light": [
+            0.2821327947418663,
+            0.3262687561975205
+          ]
+        },
+        {
+          "p": 0.8034821428571426,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 0,
+          "charge": 0,
+          "burst": 0.43369923522362575,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.12648474063145995
+            },
+            {
+              "type": "wave",
+              "opacity": 0.17799238375397541
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.21424742220047113
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.17304599485422667
+            },
+            {
+              "type": "corona",
+              "opacity": 0.26889352583864795
+            },
+            {
+              "type": "motes",
+              "opacity": 0.3122634493610105
+            }
+          ],
+          "blend": 0,
+          "draws": 0,
+          "journey": true,
+          "fov": 51.004516580942614,
+          "light": [
+            0.12648474063145995,
+            0.17799238375397541
+          ]
+        },
+        {
+          "p": 0.8927678571428569,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 0,
+          "charge": 0,
+          "burst": 0.08314057828242982,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.027240534619500486
+            },
+            {
+              "type": "wave",
+              "opacity": 0.044318967640437815
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.041071445671520324
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.03317309073468949
+            },
+            {
+              "type": "corona",
+              "opacity": 0.05154715853510649
+            },
+            {
+              "type": "motes",
+              "opacity": 0.05986121636334947
+            }
+          ],
+          "blend": 0,
+          "draws": 0,
+          "journey": true,
+          "fov": 51.75312823360378,
+          "light": [
+            0.027240534619500486,
+            0.044318967640437815
+          ]
+        },
+        {
+          "p": 0.9224999999999998,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 0,
+          "charge": 0,
+          "burst": 0.027258209961808277,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.011212052660296427
+            },
+            {
+              "type": "wave",
+              "opacity": 0.01897825815104355
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.01346555572113327
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.010876025774761485
+            },
+            {
+              "type": "corona",
+              "opacity": 0.01690009017632113
+            },
+            {
+              "type": "motes",
+              "opacity": 0.01962591117250196
+            }
+          ],
+          "blend": 0,
+          "draws": 0,
+          "journey": true,
+          "fov": 51.88673588750576,
+          "light": [
+            0.011212052660296427,
+            0.01897825815104355
+          ]
+        },
+        {
+          "p": 0.9968749999999995,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 0,
+          "charge": 0,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 8.998653318514903e-7
+            },
+            {
+              "type": "wave",
+              "opacity": 0.0000016574517110345967
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0
+            }
+          ],
+          "blend": 0,
+          "draws": 0,
+          "journey": true,
+          "fov": 52.41607729418127,
+          "light": [
+            8.998653318514903e-7,
+            0.0000016574517110345967
+          ]
+        }
+      ],
+      "activations": 1,
+      "completed": true,
+      "hidden": true,
+      "selecting": false
+    },
+    {
+      "samples": [
+        {
+          "p": 0.0229464285873941,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0.20175653015319905,
+          "followThrough": 0,
+          "lift": 0,
+          "rotation": [
+            0,
+            0.000007022420475686062,
+            -0.00437127513451592,
+            "XYZ"
+          ],
+          "charge": 0.0027712367847203497,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.019671104884420736
+            },
+            {
+              "type": "wave",
+              "opacity": 0
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.0009366780332355029
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.0007565476422286754
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0.0014964678637489914
+            }
+          ],
+          "blend": 0.5965974297365142,
+          "z": -2.502017565301532,
+          "opacity": 0.38,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00050125279665,
+          "light": [
+            0.019671104884420736,
+            0
+          ]
+        },
+        {
+          "p": 0.11223214287310838,
+          "reach": 0.008737421995945415,
+          "press": 0,
+          "anticipation": 0.9941736412397157,
+          "followThrough": 0,
+          "lift": 0.12639368393085235,
+          "rotation": [
+            0.00030580976985808954,
+            -0.00038616606398966314,
+            0.004693982353782885,
+            "XYZ"
+          ],
+          "charge": 0.20510175105028697,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.5471404206184435
+            },
+            {
+              "type": "wave",
+              "opacity": 0
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.06932439185499699
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.05599277803672833
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0.11075494556715497
+            }
+          ],
+          "blend": 0.5848073458297621,
+          "z": -2.509487390468608,
+          "opacity": 0.38,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00050125279665,
+          "light": [
+            0.5471404206184435,
+            0
+          ]
+        },
+        {
+          "p": 0.12705357144453647,
+          "reach": 0.02519285508490059,
+          "press": 0,
+          "anticipation": 0.9471403620758987,
+          "followThrough": 0,
+          "lift": 0.2123749559762846,
+          "rotation": [
+            0.0008817499279715207,
+            -0.0011266967464975083,
+            0.004653730492774254,
+            "XYZ"
+          ],
+          "charge": 0.27304676045500387,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.5760260547130601
+            },
+            {
+              "type": "wave",
+              "opacity": 0
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.09228980503379135
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.07454176560421608
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0.1474452506457021
+            }
+          ],
+          "blend": 0.5855390397221791,
+          "z": -2.508161375156344,
+          "opacity": 0.38,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00050125279665,
+          "light": [
+            0.5760260547130601,
+            0
+          ]
+        },
+        {
+          "p": 0.15687500001596552,
+          "reach": 0.09348525874237398,
+          "press": 0,
+          "anticipation": 0.6717048285401126,
+          "followThrough": 0,
+          "lift": 0.43398367984386443,
+          "rotation": [
+            0.0032719840559830896,
+            -0.0041998587883761455,
+            0.003470332390187501,
+            "XYZ"
+          ],
+          "charge": 0.4279065990561904,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.58
+            },
+            {
+              "type": "wave",
+              "opacity": 0
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.14463243048099236
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.11681850154233998
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0.2310695634903428
+            }
+          ],
+          "blend": 0.5897161459177039,
+          "z": -2.501855814830798,
+          "opacity": 0.38,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00050125279665,
+          "light": [
+            0.58,
+            0
+          ]
+        },
+        {
+          "p": 0.2163392857302507,
+          "reach": 0.36337091603933575,
+          "press": 0,
+          "anticipation": 0.03686229898500337,
+          "followThrough": 0,
+          "lift": 0.8662437206700307,
+          "rotation": [
+            0.012717982061376752,
+            -0.01634472203605318,
+            0.0029373288140197955,
+            "XYZ"
+          ],
+          "charge": 0.7431712254911231,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.58
+            },
+            {
+              "type": "wave",
+              "opacity": 0
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.25119187421599964
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.2028857445590766
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0.4013124617652065
+            }
+          ],
+          "blend": 0.599292285816109,
+          "z": -2.4814733353558047,
+          "opacity": 0.38,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00050125279665,
+          "light": [
+            0.58,
+            0
+          ]
+        },
+        {
+          "p": 0.24607142858739373,
+          "reach": 0.5355406414714162,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 0.9745832802949278,
+          "rotation": [
+            0.01874392245149957,
+            -0.0240923795672802,
+            0.006225138341982944,
+            "XYZ"
+          ],
+          "charge": 0.8668743387703229,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.58
+            },
+            {
+              "type": "wave",
+              "opacity": 0
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.29300352650436917
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.23665669448429816
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0.46811214293597436
+            }
+          ],
+          "blend": 0.5998730433053129,
+          "z": -2.4721518866434864,
+          "opacity": 0.38,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00050125279665,
+          "light": [
+            0.58,
+            0
+          ]
+        },
+        {
+          "p": 0.2908035714445369,
+          "reach": 0.7782743801653188,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 1,
+          "rotation": [
+            0.02723960330578616,
+            -0.035015408373225025,
+            0.011405062017749393,
+            "XYZ"
+          ],
+          "charge": 0.9759001396984155,
+          "burst": 0,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.58
+            },
+            {
+              "type": "wave",
+              "opacity": 0.004166917527475659
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.32985424721806444
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.2664207381376674
+            },
+            {
+              "type": "corona",
+              "opacity": 0
+            },
+            {
+              "type": "motes",
+              "opacity": 0.5269860754371443
+            }
+          ],
+          "blend": 0.5999057736528666,
+          "z": -2.4595297322314034,
+          "opacity": 0.38,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00050125279665,
+          "light": [
+            0.58,
+            0.004166917527475659
+          ]
+        },
+        {
+          "p": 0.36517857144453625,
+          "reach": 0.9891264810215727,
+          "press": 0.12082648865871229,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 1,
+          "rotation": [
+            0.032444550039898226,
+            -0.04450377014662559,
+            0.01279152007546894,
+            "XYZ"
+          ],
+          "charge": 1,
+          "burst": 0.12082648865871229,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.58
+            },
+            {
+              "type": "wave",
+              "opacity": 0.3883582358068021
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.3588908998890914
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.2898734191411892
+            },
+            {
+              "type": "corona",
+              "opacity": 0.07491242296840162
+            },
+            {
+              "type": "motes",
+              "opacity": 0.5617487679585682
+            }
+          ],
+          "blend": 0.5878474661139464,
+          "z": -2.4485654229868783,
+          "opacity": 0.38,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00050125279665,
+          "light": [
+            0.58,
+            0.3883582358068021
+          ]
+        },
+        {
+          "p": 0.39491071430167923,
+          "reach": 0.9999607262878721,
+          "press": 0.38976190806696753,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 1,
+          "rotation": [
+            0.027982911074870113,
+            -0.044991342949072186,
+            0.005702755533059841,
+            "XYZ"
+          ],
+          "charge": 1,
+          "burst": 0.38976190806696753,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.58
+            },
+            {
+              "type": "wave",
+              "opacity": 0.4
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.4053898339047787
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.327430250461552
+            },
+            {
+              "type": "corona",
+              "opacity": 0.24165238300151987
+            },
+            {
+              "type": "motes",
+              "opacity": 0.6101571434520541
+            }
+          ],
+          "blend": 0.5609665581222263,
+          "z": -2.4480020422330306,
+          "opacity": 0.38,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00050125279665,
+          "light": [
+            0.58,
+            0.4
+          ]
+        },
+        {
+          "p": 0.4396428571588224,
+          "reach": 1,
+          "press": 0.8418867663447206,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 1,
+          "rotation": [
+            0.019846038205795034,
+            -0.04499312382370665,
+            -0.006614352083542279,
+            "XYZ"
+          ],
+          "charge": 1,
+          "burst": 0.8418867663447206,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.5797859918816552
+            },
+            {
+              "type": "wave",
+              "opacity": 0.4
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.4835622219010022
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.3905694869200402
+            },
+            {
+              "type": "corona",
+              "opacity": 0.5219697951337268
+            },
+            {
+              "type": "motes",
+              "opacity": 0.6915396179420497
+            }
+          ],
+          "blend": 0.5157689082001998,
+          "z": -2.448,
+          "opacity": 0.38,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00050125279665,
+          "light": [
+            0.5797859918816552,
+            0.4
+          ]
+        },
+        {
+          "p": 0.48419642858739353,
+          "reach": 1,
+          "press": 0.9996222276068631,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 1,
+          "rotation": [
+            0.017006799903076467,
+            -0.04499314539333722,
+            -0.01068673501191984,
+            "XYZ"
+          ],
+          "charge": 0.9246958183208372,
+          "burst": 0.9996222276068631,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.5733833137390456
+            },
+            {
+              "type": "wave",
+              "opacity": 0.4
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.5095529078811274
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.41156196405783363
+            },
+            {
+              "type": "corona",
+              "opacity": 0.6197657811162551
+            },
+            {
+              "type": "motes",
+              "opacity": 0.7199166391351352
+            }
+          ],
+          "blend": 0.5000063537831316,
+          "z": -2.448,
+          "opacity": 0.38,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00050125279665,
+          "light": [
+            0.5733833137390456,
+            0.4
+          ]
+        },
+        {
+          "p": 0.5140178571588225,
+          "reach": 1,
+          "press": 1,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 1,
+          "rotation": [
+            0.017000000000000005,
+            -0.04499316817754836,
+            -0.010464911041707551,
+            "XYZ"
+          ],
+          "charge": 0.7328422193657684,
+          "burst": 1,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.5609129482739215
+            },
+            {
+              "type": "wave",
+              "opacity": 0.4
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.5063850335072815
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.40900329629434273
+            },
+            {
+              "type": "corona",
+              "opacity": 0.62
+            },
+            {
+              "type": "motes",
+              "opacity": 0.72
+            }
+          ],
+          "blend": 0.49997430081667904,
+          "z": -2.448,
+          "opacity": 0.38,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00050125279665,
+          "light": [
+            0.5609129482739215,
+            0.4
+          ]
+        },
+        {
+          "p": 0.5586607143016797,
+          "reach": 1,
+          "press": 1,
+          "anticipation": 0,
+          "followThrough": 0,
+          "lift": 1,
+          "rotation": [
+            0.017000000000000005,
+            -0.04499318408531903,
+            -0.010114455412216278,
+            "XYZ"
+          ],
+          "charge": 0.3290746739423269,
+          "burst": 1,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.5264511487965656
+            },
+            {
+              "type": "wave",
+              "opacity": 0.4
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.49956136198962536
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.40349186929931274
+            },
+            {
+              "type": "corona",
+              "opacity": 0.62
+            },
+            {
+              "type": "motes",
+              "opacity": 0.72
+            }
+          ],
+          "blend": 0.49998099029948384,
+          "z": -2.448,
+          "opacity": 0.38,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00050125279665,
+          "light": [
+            0.5264511487965656,
+            0.4
+          ]
+        },
+        {
+          "p": 0.603303571444537,
+          "reach": 1,
+          "press": 0.9999838653666496,
+          "anticipation": 0,
+          "followThrough": 0.00006013124027554113,
+          "lift": 0.9936567780454874,
+          "rotation": [
+            0.017000290423400313,
+            -0.044992487412953454,
+            -0.009760346928343188,
+            "XYZ"
+          ],
+          "charge": 0.04601758368078612,
+          "burst": 0.9999935148556962,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.4727353528143286
+            },
+            {
+              "type": "wave",
+              "opacity": 0.3995352201158587
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.4947745893290076
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.3996256298426599
+            },
+            {
+              "type": "corona",
+              "opacity": 0.6199959792105316
+            },
+            {
+              "type": "motes",
+              "opacity": 0.7199954918486634
+            }
+          ],
+          "blend": 0.499987559556239,
+          "z": -2.448,
+          "opacity": 0.38,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00050125279665,
+          "light": [
+            0.4727353528143286,
+            0.3995352201158587
+          ]
+        },
+        {
+          "p": 0.6479464285873942,
+          "reach": 1,
+          "press": 0.9618029791801685,
+          "anticipation": 0,
+          "followThrough": 0.12152743841885923,
+          "lift": 0.9335604839962662,
+          "rotation": [
+            0.01768754637475697,
+            -0.04353490587605806,
+            -0.007485484733348212,
+            "XYZ"
+          ],
+          "charge": 0,
+          "burst": 0.9835227273591135,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.40284770912349993
+            },
+            {
+              "type": "wave",
+              "opacity": 0.3879453738569894
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.48586022731540207
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.39242556821628627
+            },
+            {
+              "type": "corona",
+              "opacity": 0.6097840909626504
+            },
+            {
+              "type": "motes",
+              "opacity": 0.7081363636985617
+            }
+          ],
+          "blend": 0.5038093173512503,
+          "z": -2.448,
+          "opacity": 0.38,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00050125279665,
+          "light": [
+            0.40284770912349993,
+            0.3879453738569894
+          ]
+        },
+        {
+          "p": 0.6776785714445362,
+          "reach": 1,
+          "press": 0.8654759817004227,
+          "anticipation": 0,
+          "followThrough": 0.3732465145577811,
+          "lift": 0.8485914392653195,
+          "rotation": [
+            0.019421432329392398,
+            -0.040514304359102644,
+            -0.00278843363013898,
+            "XYZ"
+          ],
+          "charge": 0,
+          "burst": 0.9386312917622799,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.3501026852018136
+            },
+            {
+              "type": "wave",
+              "opacity": 0.3672673078444434
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.4636838581305663
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.37451388541314967
+            },
+            {
+              "type": "corona",
+              "opacity": 0.5819514008926135
+            },
+            {
+              "type": "motes",
+              "opacity": 0.6758145300688415
+            }
+          ],
+          "blend": 0.5134439146695483,
+          "z": -2.448,
+          "opacity": 0.38,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00050125279665,
+          "light": [
+            0.3501026852018136,
+            0.3672673078444434
+          ]
+        },
+        {
+          "p": 0.7371428571588223,
+          "reach": 0.9572205544614595,
+          "press": 0.5191273412058335,
+          "anticipation": 0,
+          "followThrough": 0.9086396248177067,
+          "lift": 0.5899317656188613,
+          "rotation": [
+            0.024158427264446083,
+            -0.03216453090083972,
+            0.010278951426857324,
+            "XYZ"
+          ],
+          "charge": 0,
+          "burst": 0.7476642571539316,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.2394035835363573
+            },
+            {
+              "type": "wave",
+              "opacity": 0.29283443532462544
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.3693461430340422
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.2983180386044187
+            },
+            {
+              "type": "corona",
+              "opacity": 0.4635518394354376
+            },
+            {
+              "type": "motes",
+              "opacity": 0.5383182651508307
+            }
+          ],
+          "blend": 0.5480809996041255,
+          "z": -2.450224531168004,
+          "opacity": 0.38,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00050125279665,
+          "light": [
+            0.2394035835363573,
+            0.29283443532462544
+          ]
+        },
+        {
+          "p": 0.7669642857302506,
+          "reach": 0.8722132076337679,
+          "press": 0.3238513161172727,
+          "anticipation": 0,
+          "followThrough": 0.9966023781149064,
+          "lift": 0.4395390154338239,
+          "rotation": [
+            0.024698138577070972,
+            -0.02728368674008223,
+            0.014902508326411514,
+            "XYZ"
+          ],
+          "charge": 0,
+          "burst": 0.6125541319150138,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.18590756297401667
+            },
+            {
+              "type": "wave",
+              "opacity": 0.2431374204974157
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.3026017411660168
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.2444090986340905
+            },
+            {
+              "type": "corona",
+              "opacity": 0.3797835617873086
+            },
+            {
+              "type": "motes",
+              "opacity": 0.44103897497880995
+            }
+          ],
+          "blend": 0.567609752898679,
+          "z": -2.454644913203044,
+          "opacity": 0.38,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": false,
+          "fov": 51.00050125279665,
+          "light": [
+            0.18590756297401667,
+            0.2431374204974157
+          ]
+        },
+        {
+          "p": 0.8116071428731078,
+          "reach": 0.6629048041051778,
+          "press": 0.09755482066590204,
+          "anticipation": 0,
+          "followThrough": 1,
+          "lift": 0.23054173248438037,
+          "rotation": [
+            0.02144568137169499,
+            -0.01782405772314485,
+            0.017436353007309297,
+            "XYZ"
+          ],
+          "charge": 0,
+          "burst": 0.3943014444772659,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.11450386893287381
+            },
+            {
+              "type": "wave",
+              "opacity": 0.1635819686242003
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.19478491357176939
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.1573262763464291
+            },
+            {
+              "type": "corona",
+              "opacity": 0.24446689557590484
+            },
+            {
+              "type": "motes",
+              "opacity": 0.2838970400236314
+            }
+          ],
+          "blend": 0.5902407438872427,
+          "z": -2.4655289501865307,
+          "opacity": 0.3729620897629699,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": true,
+          "fov": 51.00050125279665,
+          "light": [
+            0.11450386893287381,
+            0.1635819686242003
+          ]
+        },
+        {
+          "p": 0.900892857158822,
+          "reach": 0.1761612478944341,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0.8472236392302346,
+          "lift": 0.010014772208982725,
+          "rotation": [
+            0.006165643676305194,
+            0.002246085988097533,
+            0.010202409929182256,
+            "XYZ"
+          ],
+          "charge": 0,
+          "burst": 0.06439242974313397,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.02202732709453639
+            },
+            {
+              "type": "wave",
+              "opacity": 0.036240871681389966
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.03180986029310818
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.02569257946751045
+            },
+            {
+              "type": "corona",
+              "opacity": 0.039923306440743066
+            },
+            {
+              "type": "motes",
+              "opacity": 0.04636254941505646
+            }
+          ],
+          "blend": 0.599997216816559,
+          "z": -2.4908396151094894,
+          "opacity": 0.33520675869583566,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": true,
+          "fov": 51.314085924323265,
+          "light": [
+            0.02202732709453639,
+            0.036240871681389966
+          ]
+        },
+        {
+          "p": 0.9307142857302503,
+          "reach": 0.0713926323987446,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0.49043433728642116,
+          "lift": 0.0001521761825564738,
+          "rotation": [
+            0.0024987421339560615,
+            0.0026781450862426825,
+            0.005607324572913573,
+            "XYZ"
+          ],
+          "charge": 0,
+          "burst": 0.017793439781782605,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.008200229831895818
+            },
+            {
+              "type": "wave",
+              "opacity": 0.014023946972981573
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.008789959252200582
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.0070995824729312386
+            },
+            {
+              "type": "corona",
+              "opacity": 0.011031932664705216
+            },
+            {
+              "type": "motes",
+              "opacity": 0.012811276642883476
+            }
+          ],
+          "blend": 0.5999977296700282,
+          "z": -2.496287583115265,
+          "opacity": 0.29001370201456245,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": true,
+          "fov": 51.48267645620635,
+          "light": [
+            0.008200229831895818,
+            0.014023946972981573
+          ]
+        },
+        {
+          "p": 0.9604464285873932,
+          "reach": 0.015556347342792542,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0.140744055789087,
+          "lift": 0,
+          "rotation": [
+            0.0005444721569977391,
+            0.000993876876687241,
+            0.002131552031505087,
+            "XYZ"
+          ],
+          "charge": 0,
+          "burst": 0.0012594736340613144,
+          "effects": [
+            {
+              "type": "wave",
+              "opacity": 0.0016564687228572805
+            },
+            {
+              "type": "wave",
+              "opacity": 0.002934279311132171
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.000622179975226298
+            },
+            {
+              "type": "ribbon",
+              "opacity": 0.0005025299799904714
+            },
+            {
+              "type": "corona",
+              "opacity": 0.0007808736531180149
+            },
+            {
+              "type": "motes",
+              "opacity": 0.0009068210165241463
+            }
+          ],
+          "blend": 0.5999981472193145,
+          "z": -2.499191069938175,
+          "opacity": 0.23325147960983797,
+          "map": "cd9354e9-e178-49bc-8d32-2374e67f3a27",
+          "draws": 2,
+          "journey": true,
+          "fov": 51.65263733081956,
+          "light": [
+            0.0016564687228572805,
+            0.002934279311132171
+          ]
+        }
+      ],
+      "activations": 1,
+      "completed": true,
+      "hidden": true,
+      "selecting": false
+    }
+  ]
+}
