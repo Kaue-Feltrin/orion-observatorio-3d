@@ -1,0 +1,217 @@
+{
+  "date": "2026-10-20",
+  "branch": "codex/maos-rig-mmv",
+  "base": "64b196b28277557316f93eb11a662915cbc091f5",
+  "pullRequest": "https://github.com/Kaue-Feltrin/orion-observatorio-3d/pull/29",
+  "checks": {
+    "npm run check": "passed",
+    "NODE_USE_ENV_PROXY=1 npm run build": "passed",
+    "unitSuites": [
+      "distant-sky.unit.mjs",
+      "journey-motion.unit.mjs",
+      "herald-navigation.unit.mjs",
+      "selection-handoff.unit.mjs"
+    ]
+  },
+  "browser": {
+    "distinctPassed": 25,
+    "rounds": [
+      {
+        "passed": 4,
+        "failed": 0,
+        "retries": 0,
+        "cases": [
+          {
+            "file": "tests/distant-sky.spec.js",
+            "name": "shader mantém formato da galáxia sob giro, translação e FOV; só o pan desloca o céu"
+          },
+          {
+            "file": "tests/journey-depth.spec.js",
+            "name": "destino 1: céu panorâmico e nuvens atravessadas em profundidade"
+          },
+          {
+            "file": "tests/journey-depth.spec.js",
+            "name": "destino 2: céu panorâmico e nuvens atravessadas em profundidade"
+          },
+          {
+            "file": "tests/journey-depth.spec.js",
+            "name": "destino 3: céu panorâmico e nuvens atravessadas em profundidade"
+          }
+        ]
+      },
+      {
+        "passed": 20,
+        "failed": 0,
+        "retries": 0,
+        "cases": [
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "1 estrela(s): destino 1 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "2 estrela(s): destino 1 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "2 estrela(s): destino 2 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "3 estrela(s): destino 1 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "3 estrela(s): destino 2 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "3 estrela(s): destino 3 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "raio do mouse escolhe cada estrela e compartilha texturas sem misturar resumos"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "véu cobre saída e primeiro quadro da chegada até módulo atrasado ficar pronto"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "movimento reduzido, acesso direto e destino inválido mantêm chegada utilizável"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "regressão do toque compartilhado › segunda estrela abre resumo sem viagem e confirmação chega ao destino correto"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "limite de três, fallback de contagem inválida e reposicionamento mantêm alvos separados"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "voltar pelo navegador restaura o Observatório sem clarão ou seleção travados"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "viagem lateral 1: câmera mantém direção e outras estrelas não deslizam na curva"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "viagem lateral 2: câmera mantém direção e outras estrelas não deslizam na curva"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "clique real confirma com pressão e onda de luz antes da viagem, sem duplicar"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "teclado seleciona sem exigir hover e mantém navegação"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "movimento reduzido confirma sem avanço, pressão ou expansão luminosa"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "mãos desligadas mantêm confirmação luminosa e viagem"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "toque › toque abre resumo e botão explícito confirma com gesto e viaja"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "registra etapas do clique e preservação do centro em desktop e celular"
+          }
+        ]
+      },
+      {
+        "passed": 1,
+        "failed": 0,
+        "retries": 0,
+        "cases": [
+          {
+            "file": "tests/observatorio.spec.js",
+            "name": "clique na estrela realiza transição para a ficha"
+          }
+        ]
+      }
+    ]
+  },
+  "shaderPixelDifference": {
+    "lockedPan": {
+      "mean": 0.00022822627314814814,
+      "changed": 0
+    },
+    "angularPan": {
+      "mean": 31.93828884548611,
+      "changed": 0.9254521122685185
+    }
+  },
+  "realJourneyCloudMetrics": [
+    {
+      "index": 0,
+      "visiblePasses": 5,
+      "maxGrowth": 2.734255244983112,
+      "finalPan": [
+        5.983723460748068e-07,
+        0.13153678861485488
+      ]
+    },
+    {
+      "index": 1,
+      "visiblePasses": 7,
+      "maxGrowth": 9.647390790849839,
+      "finalPan": [
+        -0.10687219830156441,
+        0.01192194360583721
+      ]
+    },
+    {
+      "index": 2,
+      "visiblePasses": 5,
+      "maxGrowth": 2.6245137344996174,
+      "finalPan": [
+        0.10686734333955344,
+        0.011920990513399987
+      ]
+    }
+  ],
+  "beforeVideo": "../restored-motion/after.mp4",
+  "priorDistantSkyVideo": "../distant-sky/after.mp4",
+  "newRecordings": "recordings.json",
+  "sourceSHA256": {
+    "main.js": "ebaa3725a667cda3db17ad2bcbe7de34704f2cbcb299c027b74b8a0e050aab4a",
+    "star-journey.js": "5c6e2572627289fc87cc6ded61e457d12fdaa4e58922b21624dec68ea33c5642",
+    "distant-sky.js": "efcc62f8f5de188ad018a4c1b2659dd15c27c12bb8366e37a64f2265af47f0ea"
+  },
+  "modifiedFiles": [
+    ".github/workflows/validar-observatorio.yml",
+    "CONTEXTO_COMPLETO_CUMULATIVO.md",
+    "CONTINUIDADE.md",
+    "docs/mechanics/panoramic-flight/README.md",
+    "docs/mechanics/panoramic-flight/left-3-stars.webp",
+    "docs/mechanics/panoramic-flight/left-arrival.webp",
+    "docs/mechanics/panoramic-flight/left-hover.webp",
+    "docs/mechanics/panoramic-flight/left.mp4",
+    "docs/mechanics/panoramic-flight/recordings.json",
+    "docs/mechanics/panoramic-flight/right-3-stars.webp",
+    "docs/mechanics/panoramic-flight/right-arrival.webp",
+    "docs/mechanics/panoramic-flight/right-hover.webp",
+    "docs/mechanics/panoramic-flight/right.mp4",
+    "docs/mechanics/panoramic-flight/validation.json",
+    "orion-observatorio-upload-github-leve/distant-sky.js",
+    "orion-observatorio-upload-github-leve/main.js",
+    "orion-observatorio-upload-github-leve/star-journey.js",
+    "orion-observatorio-upload-github-leve/tests/distant-sky.spec.js",
+    "orion-observatorio-upload-github-leve/tests/distant-sky.unit.mjs",
+    "orion-observatorio-upload-github-leve/tests/herald-navigation.spec.js",
+    "orion-observatorio-upload-github-leve/tests/herald-navigation.unit.mjs",
+    "orion-observatorio-upload-github-leve/tests/journey-depth.spec.js",
+    "orion-observatorio-upload-github-leve/tests/journey-motion.unit.mjs"
+  ],
+  "environment": "Chromium /usr/bin/chromium; SwiftShader; build local, sem medição em dispositivo real",
+  "scope": "Projeção panorâmica somente na viagem; nuvens mascaradas continuam em profundidade, com presença gradual e orientação ao olhar. Repouso, assets/mãos, seleção/destinos/chegada preservados; sem main/merge, criação de personagem ou nova adaptação mobile.",
+  "ci": "CI completo da base 64b196b em execução durante a implementação. Consultar nova revisão após publicar; resultados locais não substituem o CI completo."
+}

@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import * as THREE from 'three';
 import {createStarJourney,JOURNEY_DURATION} from '../star-journey.js';
+import {createDistantSky} from '../distant-sky.js';
 import {getHeraldLayout} from '../herald-catalog.js';
 for(const hz of [30,60,120])for(const aspect of [1280/720,3440/1440])for(const target of getHeraldLayout(3,aspect)){
  const scene=new THREE.Scene(),rig=new THREE.Group(),camera=new THREE.PerspectiveCamera(51,aspect,.2,900),star=new THREE.Group();
@@ -10,12 +11,13 @@ for(const hz of [30,60,120])for(const aspect of [1280/720,3440/1440])for(const t
  const fragment=new THREE.Mesh(new THREE.PlaneGeometry(),new THREE.MeshBasicMaterial({opacity:.1}));
  fragment.position.set(40,12,-130);fragment.scale.set(110,60,1);fragment.userData.volumeFragment=true;
  const fragmentStart=fragment.position.clone(),fragmentScale=fragment.scale.clone();
+ const sky=createDistantSky(photo,camera);
  const mist=new THREE.Mesh(new THREE.PlaneGeometry(),new THREE.MeshBasicMaterial({opacity:.06}));mist.position.z=-42;
- const gas=new THREE.Mesh(new THREE.PlaneGeometry(),new THREE.ShaderMaterial({uniforms:{uStrength:{value:.4}}}));gas.position.z=-35;
+ const gas=new THREE.Mesh(new THREE.PlaneGeometry(),new THREE.ShaderMaterial({uniforms:{uStrength:{value:.4}}}));gas.position.z=-195;
  scene.add(photo,mist,gas,fragment);
  const glows=Object.fromEntries(['halo','soft','main','core'].map(key=>[key,new THREE.Sprite(new THREE.SpriteMaterial({opacity:.4}))]));
  let arrivals=0;
- const journey=createStarJourney({scene,camera,star,glows,layers:[photo,mist,fragment],gasLayers:[gas],background:photo,reducedMotion:false,
+ const journey=createStarJourney({scene,camera,star,glows,layers:[photo,mist,fragment],gasLayers:[gas],sky,reducedMotion:false,
   selectiveBloom:{state:{intensity:.1},setIntensity(){}},flash:{style:{setProperty(){}}},onArrive:()=>arrivals++});
  // Respiração/controles podem mudar entre inicialização do módulo e clique.
  mist.material.opacity=.073;gas.material.uniforms.uStrength.value=.53;
@@ -23,10 +25,8 @@ for(const hz of [30,60,120])for(const aspect of [1280/720,3440/1440])for(const t
  const direction=star.position.clone().sub(start).normalize();journey.begin(1000);journey.update(1000,0);
  assert.equal(mist.material.opacity,.073);assert.equal(gas.material.uniforms.uStrength.value,.53,'primeiro quadro conserva o estado real do gás');
  assert.ok(fragment.position.distanceTo(fragmentStart)<1e-10,'recorte não salta na partida');
- const ratio=(start.z-fragmentStart.z)/(start.z-photo.position.z);
- const anchor=new THREE.Vector3(start.x+(photo.position.x-start.x)*ratio,start.y+(photo.position.y-start.y)*ratio,fragmentStart.z);
- const photoScale=photo.scale.x;
- let angle=0,opacity=1,scale=photo.scale.x,lastZ=camera.position.z,heading=null;
+ const basis=sky.uniforms.uSkyBasis.value.toArray(),tan=sky.uniforms.uSkyTanHalf.value;
+ let angle=0,opacity=1,lastZ=camera.position.z,heading=null,gasBoost=1,fragmentBoost=1;
  for(let elapsed=0;elapsed<JOURNEY_DURATION;elapsed+=1000/hz){
   journey.update(1000+elapsed,1/hz);
   const nowAngle=orientation.angleTo(camera.quaternion);
@@ -41,15 +41,21 @@ for(const hz of [30,60,120])for(const aspect of [1280/720,3440/1440])for(const t
    assert.ok(camera.position.clone().sub(start).cross(direction).length()<1e-8,'sem deriva lateral, órbita ou serpentina');
   }
   assert.ok(camera.position.z<=lastZ+1e-9);lastZ=camera.position.z;
-  assert.ok(photo.scale.x+1e-9>=scale,'o panorama não encolhe durante o avanço');scale=photo.scale.x;
+  assert.deepEqual(sky.uniforms.uSkyBasis.value.toArray(),basis,'céu não herda a perspectiva do giro');
+  assert.equal(sky.uniforms.uSkyTanHalf.value,tan,'avanço e FOV não aproximam o céu');
   assert.ok(camera.fov<=56+1e-8,'expansão do campo de visão contida');
-  const factor=photo.scale.x/photoScale;
-  assert.ok(fragment.position.distanceTo(fragmentStart.clone().sub(anchor).multiplyScalar(factor).add(anchor))<1e-8,'recorte acompanha a cobertura sem se descolar da foto');
-  assert.ok(Math.abs(fragment.scale.x/fragmentScale.x-factor)<1e-10);
-  assert.equal(fragment.position.z,fragmentStart.z,'profundidade real preservada');
+  assert.ok(fragment.position.distanceTo(fragmentStart)<1e-10,'centro da nuvem permanece no mundo');
+  assert.ok(fragment.scale.distanceTo(fragmentScale)<1e-10,'crescimento aparente vem da aproximação real');
+  if(elapsed>=700)assert.ok(fragment.quaternion.angleTo(camera.quaternion)<1e-7,'nuvem acompanha o olhar, sem parede inclinada');
+  gasBoost=Math.max(gasBoost,gas.material.uniforms.uStrength.value/.53);
+  fragmentBoost=Math.max(fragmentBoost,fragment.material.opacity/.1);
+  assert.ok(mist.material.opacity>=0&&mist.material.opacity<=1);
  }
  journey.update(1000+JOURNEY_DURATION,1/hz);journey.update(6000,1/hz);
+ assert.ok(gasBoost>1.5,'gás deve continuar perceptível durante o avanço');
+ assert.ok(fragmentBoost>1.5,'recortes distantes não podem desaparecer antes de viajar');
+ assert.equal(mist.material.opacity,0,'véu próximo desaparece antes de atravessar o olho');
  assert.equal(arrivals,1);assert.ok(Math.abs(camera.position.z-(-470+53))<1e-10);
  assert.ok(star.position.clone().sub(camera.position).normalize().distanceTo(direction)<1e-10,'aproximação mantém direção e distância segura');
 }
-console.log('OK: curva sem reversão, avanço alinhado, saída das outras estrelas antes do giro, gás sem salto e panorama sem contra-zoom a 30/60/120 Hz.');
+console.log('OK: curva sem reversão, avanço alinhado, saída das outras estrelas antes do giro, gás sem salto, céu sem perspectiva de parede e nuvens em profundidade sem dissipação precoce a 30/60/120 Hz.');

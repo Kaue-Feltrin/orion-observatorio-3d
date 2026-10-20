@@ -133,7 +133,7 @@ for(const index of [1,2])test(`viagem lateral ${index}: câmera mantém direçã
    const d=window.__orionStarDebug,c=window.__orionDepthDebug.camera;
    if(d.journey.active){
     seen=true;frames.push({p:d.journey.progress,fade:d.journey.companionOpacity,camera:c.position.toArray(),q:c.quaternion.toArray(),
-     scale:window.__orionRespirationDebug.nebula.scale.x,others:d.heralds.filter(h=>h.data.id!==d.selectedHeraldId).map(h=>({
+     sky:{active:d.sky.state.active,basis:d.sky.uniforms.uSkyBasis.value.toArray(),tan:d.sky.uniforms.uSkyTanHalf.value},others:d.heralds.filter(h=>h.data.id!==d.selectedHeraldId).map(h=>({
       position:h.group.position.toArray(),alpha:Math.max(...Object.values(h.glows).map(g=>g.material.opacity),h.spikes.primary.material.opacity)}))});
    }else if(seen){sessionStorage.setItem('orion-flight-motion-test',JSON.stringify(frames));return;}
    requestAnimationFrame(sample);
@@ -154,7 +154,8 @@ for(const index of [1,2])test(`viagem lateral ${index}: câmera mantém direçã
   expect(frame.fade).toBe(0);expect(frame.others.every(h=>h.alpha===0)).toBe(true);
  }
  for(let i=1;i<frames.length;i++){
-  expect(frames[i].scale).toBeGreaterThanOrEqual(frames[i-1].scale-1e-8);
+  expect(frames[i].sky.active).toBe(true);expect(frames[i].sky.basis).toEqual(frames[0].sky.basis);
+  expect(frames[i].sky.tan).toBe(frames[0].sky.tan);
   expect(frames[i].others.map(h=>h.position)).toEqual(frames[0].others.map(h=>h.position));
  }
 });
