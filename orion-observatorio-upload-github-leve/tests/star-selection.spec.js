@@ -1,3 +1,4 @@
+import {SELECTION_DURATION} from '../star-selection.js';
 import {test,expect} from '@playwright/test';
 const base='http://127.0.0.1:4173/';
 const query='?debug=1&quality=eco-plus&hands=mesh&handsMotion=perspective';
@@ -18,7 +19,9 @@ async function watch(page){
       const d=window.__orionStarDebug,h=window.__orionHandsDebug;
       if(d.selection.state.active){
         samples.push({p:d.selection.state.progress,reach:h.state.selectionReach,press:h.state.selectionPress,
-          anticipation:h.state.selectionAnticipation,followThrough:h.state.selectionFollowThrough,
+          anticipation:h.state.selectionAnticipation,followThrough:h.state.selectionFollowThrough,lift:h.state.selectionLift,
+          rotation:h.meshes?.[1]?.rotation.toArray(),charge:d.selection.state.charge,burst:d.selection.state.burst,
+          effects:d.selection.effects.map(m=>({type:m.userData.selectionType,opacity:m.material.opacity})),
           blend:h.state.rightBlend,z:h.meshes?.[1]?.position.z,opacity:h.meshes?.[1]?.material.opacity,
           map:h.meshes?.[1]?.material.map.uuid,draws:h.state.drawSurfaces,
           journey:d.journey.active,fov:window.__orionDepthDebug.camera.fov,
@@ -64,11 +67,13 @@ test('clique real confirma com pressão e onda de luz antes da viagem, sem dupli
   expect(samples.every(s=>s.blend<=.60)).toBe(true);
   expect(samples.some(s=>s.anticipation>.1)).toBe(true);
   expect(samples.some(s=>s.followThrough>.5&&s.press<.5)).toBe(true);
-  expect(samples.some(s=>s.z>-2.46)).toBe(true);
+  expect(samples.some(s=>s.z>-2.45)).toBe(true);
   expect(samples.every(s=>s.opacity===.38&&s.draws===2)).toBe(true);
   expect(samples.every(s=>s.fov===51)).toBe(true);
   expect(new Set(samples.map(s=>s.map)).size).toBe(1);
-  expect(samples.some(s=>s.light[0]>.2)).toBe(true);expect(errors).toEqual([]);
+  expect(samples.some(s=>s.light[0]>.3)).toBe(true);
+  expect(samples.some(s=>s.effects.filter(e=>e.opacity>.05).length===6)).toBe(true);
+  expect(samples.some(s=>s.rotation[0]>.01&&s.rotation[1]<-.02)).toBe(true);expect(errors).toEqual([]);
 });
 
 test('teclado seleciona sem exigir hover e mantém navegação',async({page})=>{
@@ -82,6 +87,7 @@ test('movimento reduzido confirma sem avanço, pressão ou expansão luminosa',a
   await page.goto(base+query);await ready(page);await watch(page);
   await page.locator('#heraldTarget').click({force:true});
   const samples=await result(page);
+  expect(samples.every(s=>s.effects.length===2&&s.charge===0&&s.burst===0)).toBe(true);
   expect(samples.every(s=>s.press===0&&s.reach===0&&s.z===-2.5)).toBe(true);
 });
 
@@ -123,23 +129,26 @@ test('registra etapas do clique e preservação do centro em desktop e celular',
     const box=await page.locator('#heraldTarget').boundingBox();
     await page.mouse.click(box.x+box.width/2,box.y+box.height/2);
     for(const p of [.08,.25,.50,.75,.92]){
-      const data=await page.evaluate(p=>{
+      const data=await page.evaluate(({p,duration})=>{
         const d=window.__orionStarDebug.selection,h=window.__orionHandsDebug;
-        while(d.state.elapsed<.84*p-1e-9)
-          window.__selectionRealUpdate(Math.min(.04,.84*p-d.state.elapsed));
+        while(d.state.elapsed<duration*p-1e-9)
+          window.__selectionRealUpdate(Math.min(.04,duration*p-d.state.elapsed));
         h.update(0,0);
         const camera=window.__orionDepthDebug.camera;camera.updateWorldMatrix(true,true);
         const point=h.rigs[1].measure().landmarks.indexTip.clone().project(camera);
         return {p:d.state.progress,tipX:(point.x+1)/2,z:h.meshes[1].position.z,
-          anticipation:h.state.selectionAnticipation,followThrough:h.state.selectionFollowThrough,
+          anticipation:h.state.selectionAnticipation,followThrough:h.state.selectionFollowThrough,lift:h.state.selectionLift,
           opacity:h.meshes[1].material.opacity,draws:h.state.drawSurfaces,
+          effects:d.effects.map(m=>({type:m.userData.selectionType,opacity:m.material.opacity})),
+          rotation:h.meshes[1].rotation.toArray(),charge:d.state.charge,burst:d.state.burst,
           rings:d.rings.map(r=>({radius:r.scale.x,opacity:r.material.opacity,singlePass:r.material.forceSinglePass}))};
-      },p);
+      },{p,duration:SELECTION_DURATION});
       expect(data.p).toBeCloseTo(p,4);
       expect(data.tipX).toBeGreaterThan(.70);expect(data.opacity).toBe(.38);expect(data.draws).toBe(2);
       expect(data.rings.every(r=>r.singlePass)).toBe(true);
-      if(p===.08){expect(data.z).toBeLessThan(-2.51);expect(data.rings[1].opacity).toBe(0);}
-      if(p===.5)expect(data.rings[1].opacity).toBeGreaterThan(.15);
+      if(p===.08){expect(data.z).toBeLessThan(-2.509);expect(data.rings[1].opacity).toBe(0);}
+      if(p===.5){expect(data.rings[1].opacity).toBeGreaterThan(.20);
+        expect(data.effects.filter(e=>e.opacity>.05)).toHaveLength(6);expect(data.burst).toBe(1);}
       console.log('SELECTION_POSE',JSON.stringify({viewport,...data}));
       await page.screenshot({path:test.info().outputPath(`${viewport.width}-click-${Math.round(p*100)}.png`)});
     }

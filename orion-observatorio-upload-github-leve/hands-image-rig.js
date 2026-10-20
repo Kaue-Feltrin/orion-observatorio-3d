@@ -144,7 +144,7 @@ export function createHandImageRig(geometry,material,pose,{perspective=false}={}
   mesh.frustumCulled=false;
   let disposed=false;
 
-  function update(seconds,reducedMotion=false,pointing=pose==='pointing'?1:0,accompany=0){
+  function update(seconds,reducedMotion=false,pointing=pose==='pointing'?1:0,accompany=0,selection=null){
     if(disposed)return;
     const focus=perspective?THREE.MathUtils.smoothstep(pointing,0,1):0;
     for(let i=0;i<CONTROLS.length;i++){
@@ -155,7 +155,7 @@ export function createHandImageRig(geometry,material,pose,{perspective=false}={}
       const wave=focus>0?THREE.MathUtils.lerp(primary,
         Math.sin(seconds*frequency*.57+profile.phase+i*.61),.16*focus):primary;
       // A mão se acomoda ao apontar; dedos estáveis, punho ainda respira.
-      const settle=i>=2?1-.18*focus:1;
+      const settle=(i>=2?1-.18*focus:1)*(selection?(1-(i>=2?.55:.25)*selection.selectionPress):1);
       bones[i].rotation.z=wave*amplitude*settle;
     }
     if(pose==='left'&&!reducedMotion){
@@ -171,6 +171,16 @@ export function createHandImageRig(geometry,material,pose,{perspective=false}={}
       byName.little.rotation.z-=.09*follow;
       byName.thumb.rotation.z+=.09*follow;
       byName.thumbDistal.rotation.z+=.06*follow;
+    }
+    if(pose!=='left'&&selection&&!reducedMotion){
+      const pressure=selection.selectionPress,reach=selection.selectionReach;
+      byName.wrist.rotation.z+=.008*reach-.010*pressure;
+      byName.palm.rotation.z-=.012*pressure;
+      byName.thumb.rotation.z-=.025*pressure;
+      byName.thumbDistal.rotation.z-=.018*pressure;
+      byName.middle.rotation.z+=.020*pressure;
+      byName.ring.rotation.z+=.015*pressure;
+      byName.little.rotation.z+=.010*pressure;
     }
     if(pose!=='left'){
       const progress=THREE.MathUtils.clamp(pointing,0,1);

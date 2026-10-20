@@ -745,9 +745,13 @@ function tick(now){
   orbitRing.material.opacity=0;
   if(starSelection.state.active){
     const light=starSelection.state.light;
-    mainGlow.material.opacity+=.16*light;
-    softHalo.material.opacity+=.10*light;
-    coreGlow.scale.multiplyScalar(1+.10*light);
+    const charge=starSelection.state.charge,burst=starSelection.state.burst;
+    mainGlow.material.opacity+=.30*light;
+    softHalo.material.opacity+=.22*charge+.18*burst;
+    nebulaStarHalo.material.opacity+=.12*burst;
+    mainGlow.scale.multiplyScalar(1+.12*charge+.22*burst);
+    coreGlow.scale.multiplyScalar(1+.12*charge+.45*burst);
+    nebulaStarHalo.scale.multiplyScalar(1+.10*charge+.12*burst);
   }
   // Nebulosa recebe o alvo direto do mouse; câmera mantém smoothing próprio.
   nebulaVolume.update(time,mouse.x,mouse.y,delta);

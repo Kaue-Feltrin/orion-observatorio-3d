@@ -1,0 +1,607 @@
+{
+  "source": "production build Chromium/SwiftShader; real inputs; frozen selection clock only for stage screenshots",
+  "poses": [
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "p": 0.08,
+      "tipX": 0.7933606653672512,
+      "z": -2.51,
+      "anticipation": 1,
+      "followThrough": 0,
+      "lift": 0.018075947785877775,
+      "opacity": 0.38,
+      "draws": 2,
+      "effects": [
+        {
+          "type": "wave",
+          "opacity": 0.3666281906348545
+        },
+        {
+          "type": "wave",
+          "opacity": 0
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.029952672698729494
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.024192543333589205
+        },
+        {
+          "type": "corona",
+          "opacity": 0
+        },
+        {
+          "type": "motes",
+          "opacity": 0.04785338241808862
+        }
+      ],
+      "rotation": [
+        0,
+        0,
+        0.019127639402605208,
+        "XYZ"
+      ],
+      "charge": 0.08861737484831218,
+      "burst": 0,
+      "rings": [
+        {
+          "radius": 20.444799999999997,
+          "opacity": 0.3666281906348545,
+          "singlePass": true
+        },
+        {
+          "radius": 10,
+          "opacity": 0,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "p": 0.25,
+      "tipX": 0.7925454038130835,
+      "z": -2.470961050271988,
+      "anticipation": 0,
+      "followThrough": 0,
+      "lift": 0.9819240522141215,
+      "opacity": 0.38,
+      "draws": 2,
+      "effects": [
+        {
+          "type": "wave",
+          "opacity": 0.58
+        },
+        {
+          "type": "wave",
+          "opacity": 0
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.2975651773382811
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.240341104773227
+        },
+        {
+          "type": "corona",
+          "opacity": 0
+        },
+        {
+          "type": "motes",
+          "opacity": 0.47539998746352596
+        }
+      ],
+      "rotation": [
+        0.01954544693231582,
+        -0.025129860341548908,
+        0.02029646622107139,
+        "XYZ"
+      ],
+      "charge": 0.8803703471546777,
+      "burst": 0,
+      "rings": [
+        {
+          "radius": 39.75,
+          "opacity": 0.58,
+          "singlePass": true
+        },
+        {
+          "radius": 10,
+          "opacity": 0,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "p": 0.4999999999999999,
+      "tipX": 0.7958323504945177,
+      "z": -2.448,
+      "anticipation": 0,
+      "followThrough": 0,
+      "lift": 1,
+      "opacity": 0.38,
+      "draws": 2,
+      "effects": [
+        {
+          "type": "wave",
+          "opacity": 0.567755248621128
+        },
+        {
+          "type": "wave",
+          "opacity": 0.4
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.5081439480000001
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.410423958
+        },
+        {
+          "type": "corona",
+          "opacity": 0.62
+        },
+        {
+          "type": "motes",
+          "opacity": 0.72
+        }
+      ],
+      "rotation": [
+        0.017000000000000005,
+        -0.045,
+        0.0011276394026052093,
+        "XYZ"
+      ],
+      "charge": 0.8369200000000008,
+      "burst": 1,
+      "rings": [
+        {
+          "radius": 60.99999999999999,
+          "opacity": 0.567755248621128,
+          "singlePass": true
+        },
+        {
+          "radius": 51.41975308641973,
+          "opacity": 0.4,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "p": 0.75,
+      "tipX": 0.7936529660668729,
+      "z": -2.451813369989395,
+      "anticipation": 0,
+      "followThrough": 0.9645061728395066,
+      "lift": 0.5253255016871907,
+      "opacity": 0.38,
+      "draws": 2,
+      "effects": [
+        {
+          "type": "wave",
+          "opacity": 0.21594581927126563
+        },
+        {
+          "type": "wave",
+          "opacity": 0.2720960718924034
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.3416574189884976
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.2759540691830173
+        },
+        {
+          "type": "corona",
+          "opacity": 0.42880080925681885
+        },
+        {
+          "type": "motes",
+          "opacity": 0.49796223010469287
+        }
+      ],
+      "rotation": [
+        0.024634572224900866,
+        -0.030125894204333974,
+        0.022281134057867056,
+        "XYZ"
+      ],
+      "charge": 0,
+      "burst": 0.6916142084787401,
+      "rings": [
+        {
+          "radius": 73.75,
+          "opacity": 0.21594581927126563,
+          "singlePass": true
+        },
+        {
+          "radius": 80.35493827160494,
+          "opacity": 0.2720960718924034,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "p": 0.92,
+      "tipX": 0.7937745376070843,
+      "z": -2.4946171875,
+      "anticipation": 0,
+      "followThrough": 0.6321175700600934,
+      "lift": 0.0014540848887529823,
+      "opacity": 0.38,
+      "draws": 2,
+      "effects": [
+        {
+          "type": "wave",
+          "opacity": 0.01224475137887204
+        },
+        {
+          "type": "wave",
+          "opacity": 0.020660310264937067
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.015131237482830523
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.012221384120747728
+        },
+        {
+          "type": "corona",
+          "opacity": 0.01899062194201399
+        },
+        {
+          "type": "motes",
+          "opacity": 0.022053625481048503
+        }
+      ],
+      "rotation": [
+        0.0036230468749999965,
+        0.002927207715721126,
+        0.01562277489302586,
+        "XYZ"
+      ],
+      "charge": 0,
+      "burst": 0.030630035390345145,
+      "rings": [
+        {
+          "radius": 77.5648,
+          "opacity": 0.01224475137887204,
+          "singlePass": true
+        },
+        {
+          "radius": 89.01234567901236,
+          "opacity": 0.020660310264937067,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "p": 0.08,
+      "tipX": 0.7521733267473505,
+      "z": -2.51,
+      "anticipation": 1,
+      "followThrough": 0,
+      "lift": 0.018075947785877775,
+      "opacity": 0.38,
+      "draws": 2,
+      "effects": [
+        {
+          "type": "wave",
+          "opacity": 0.3666281906348545
+        },
+        {
+          "type": "wave",
+          "opacity": 0
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.029952672698729494
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.024192543333589205
+        },
+        {
+          "type": "corona",
+          "opacity": 0
+        },
+        {
+          "type": "motes",
+          "opacity": 0.04785338241808862
+        }
+      ],
+      "rotation": [
+        0,
+        0,
+        0.019127639402605208,
+        "XYZ"
+      ],
+      "charge": 0.08861737484831218,
+      "burst": 0,
+      "rings": [
+        {
+          "radius": 20.444799999999997,
+          "opacity": 0.3666281906348545,
+          "singlePass": true
+        },
+        {
+          "radius": 10,
+          "opacity": 0,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "p": 0.25,
+      "tipX": 0.7517241994463391,
+      "z": -2.470961050271988,
+      "anticipation": 0,
+      "followThrough": 0,
+      "lift": 0.9819240522141215,
+      "opacity": 0.38,
+      "draws": 2,
+      "effects": [
+        {
+          "type": "wave",
+          "opacity": 0.58
+        },
+        {
+          "type": "wave",
+          "opacity": 0
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.2975651773382811
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.240341104773227
+        },
+        {
+          "type": "corona",
+          "opacity": 0
+        },
+        {
+          "type": "motes",
+          "opacity": 0.47539998746352596
+        }
+      ],
+      "rotation": [
+        0.01954544693231582,
+        -0.025129860341548908,
+        0.02029646622107139,
+        "XYZ"
+      ],
+      "charge": 0.8803703471546777,
+      "burst": 0,
+      "rings": [
+        {
+          "radius": 39.75,
+          "opacity": 0.58,
+          "singlePass": true
+        },
+        {
+          "radius": 10,
+          "opacity": 0,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "p": 0.4999999999999999,
+      "tipX": 0.7561640677293107,
+      "z": -2.448,
+      "anticipation": 0,
+      "followThrough": 0,
+      "lift": 1,
+      "opacity": 0.38,
+      "draws": 2,
+      "effects": [
+        {
+          "type": "wave",
+          "opacity": 0.567755248621128
+        },
+        {
+          "type": "wave",
+          "opacity": 0.4
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.5081439480000001
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.410423958
+        },
+        {
+          "type": "corona",
+          "opacity": 0.62
+        },
+        {
+          "type": "motes",
+          "opacity": 0.72
+        }
+      ],
+      "rotation": [
+        0.017000000000000005,
+        -0.045,
+        0.0011276394026052093,
+        "XYZ"
+      ],
+      "charge": 0.8369200000000008,
+      "burst": 1,
+      "rings": [
+        {
+          "radius": 60.99999999999999,
+          "opacity": 0.567755248621128,
+          "singlePass": true
+        },
+        {
+          "radius": 51.41975308641973,
+          "opacity": 0.4,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "p": 0.75,
+      "tipX": 0.7527595261538623,
+      "z": -2.451813369989395,
+      "anticipation": 0,
+      "followThrough": 0.9645061728395066,
+      "lift": 0.5253255016871907,
+      "opacity": 0.38,
+      "draws": 2,
+      "effects": [
+        {
+          "type": "wave",
+          "opacity": 0.21594581927126563
+        },
+        {
+          "type": "wave",
+          "opacity": 0.2720960718924034
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.3416574189884976
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.2759540691830173
+        },
+        {
+          "type": "corona",
+          "opacity": 0.42880080925681885
+        },
+        {
+          "type": "motes",
+          "opacity": 0.49796223010469287
+        }
+      ],
+      "rotation": [
+        0.024634572224900866,
+        -0.030125894204333974,
+        0.022281134057867056,
+        "XYZ"
+      ],
+      "charge": 0,
+      "burst": 0.6916142084787401,
+      "rings": [
+        {
+          "radius": 73.75,
+          "opacity": 0.21594581927126563,
+          "singlePass": true
+        },
+        {
+          "radius": 80.35493827160494,
+          "opacity": 0.2720960718924034,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "p": 0.92,
+      "tipX": 0.7521123398550652,
+      "z": -2.4946171875,
+      "anticipation": 0,
+      "followThrough": 0.6321175700600934,
+      "lift": 0.0014540848887529823,
+      "opacity": 0.38,
+      "draws": 2,
+      "effects": [
+        {
+          "type": "wave",
+          "opacity": 0.01224475137887204
+        },
+        {
+          "type": "wave",
+          "opacity": 0.020660310264937067
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.015131237482830523
+        },
+        {
+          "type": "ribbon",
+          "opacity": 0.012221384120747728
+        },
+        {
+          "type": "corona",
+          "opacity": 0.01899062194201399
+        },
+        {
+          "type": "motes",
+          "opacity": 0.022053625481048503
+        }
+      ],
+      "rotation": [
+        0.0036230468749999965,
+        0.002927207715721126,
+        0.01562277489302586,
+        "XYZ"
+      ],
+      "charge": 0,
+      "burst": 0.030630035390345145,
+      "rings": [
+        {
+          "radius": 77.5648,
+          "opacity": 0.01224475137887204,
+          "singlePass": true
+        },
+        {
+          "radius": 89.01234567901236,
+          "opacity": 0.020660310264937067,
+          "singlePass": true
+        }
+      ]
+    }
+  ],
+  "sequences": [],
+  "nominalDuration": 1.12
+}

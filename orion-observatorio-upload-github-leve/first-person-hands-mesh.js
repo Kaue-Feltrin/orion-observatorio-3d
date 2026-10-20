@@ -26,7 +26,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    pose:'feminine-star-hover',handProfiles:Object.keys(HAND_PROFILES),
    rightHover:false,rightBlend:0,hoverBlend:0,leftFollow:0,animation:usePerspective?'perspective':useRig?'rig':'mesh',
    rightFrameWeights:[],rightDepth:0,selecting:false,selectionReach:0,selectionPress:0,
-   selectionAnticipation:0,selectionFollowThrough:0};
+   selectionAnticipation:0,selectionFollowThrough:0,selectionLift:0};
  const root=new THREE.Group();
  root.name='OrionFeminineHands2p5D';
  root.visible=false;
@@ -177,11 +177,12 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    pointBlend=clamp(pointBlend,0,1);
    state.hoverBlend=pointBlend;state.leftFollow=reducedMotion?0:pointBlend;
    const limit=usePerspective?PERSPECTIVE_POINT_LIMIT:1,press=usePerspective?.10:.16;
-   const gestureBlend=clamp(pointBlend*limit-(reducedMotion?0:press*state.selectionPress),0,limit);
+   const gestureBlend=clamp(pointBlend*limit-(reducedMotion?0:press*state.selectionPress+.015*state.selectionAnticipation),0,limit);
    state.rightBlend=gestureBlend;
    if(alpha===0){root.visible=false;state.visible=false;state.drawSurfaces=0;state.triangles=0;return;}
    let max=0;
-   for(const rig of rigs)rig.update(seconds,reducedMotion,gestureBlend,rig.pose==='left'?state.leftFollow:0);
+   for(const rig of rigs)rig.update(seconds,reducedMotion,gestureBlend,rig.pose==='left'?state.leftFollow:0,
+     state.selecting&&rig.pose!=='left'?state:null);
    // O rig articula durante todo o gesto; a troca de textura fica concentrada
    // no trecho central, em vez de substituir a animação do indicador.
    const textureBlend=useRig&&!reducedMotion?THREE.MathUtils.smoothstep(gestureBlend,.25,.75):gestureBlend;
@@ -198,7 +199,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
        Math.sin(seconds*.94+c.phase)*c.breath;
      place(hand,fx,fy);
      // Mãos distintas: direita aponta, esquerda emoldura; sem giro brusco.
-     mesh.rotation.z=c.rotation+(reducedMotion?0:Math.sin(seconds*.72+c.phase)*(c.pointer?.010:.006));
+     mesh.rotation.set(0,0,c.rotation+(reducedMotion?0:Math.sin(seconds*.72+c.phase)*(c.pointer?.010:.006)));
      if(hand.side==='left'&&state.leftFollow>0){
        const v=viewport();
        mesh.position.x+=v.width*.0025*state.leftFollow;
@@ -208,17 +209,19 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      if(hand.side==='right'&&state.selecting&&!reducedMotion){
        const v=viewport(),reach=state.selectionReach;
        const anticipation=state.selectionAnticipation,follow=state.selectionFollowThrough;
-       mesh.position.x-=v.width*.004*reach;
-       mesh.position.y+=v.height*(.012*reach-.002*anticipation+.001*follow);
-       mesh.position.z+=.045*reach-.012*anticipation;
-       mesh.rotation.z+=.014*reach-.030*state.selectionPress+.010*anticipation+.007*follow;
+       mesh.position.x+=v.width*(-.0055*reach+.001*anticipation);
+       mesh.position.y+=v.height*(.007*reach+.005*state.selectionLift-.002*anticipation+.001*follow);
+       mesh.position.z+=.052*reach-.010*anticipation;
+       mesh.rotation.x+=.035*reach-.018*state.selectionPress;
+       mesh.rotation.y+=-.045*reach+.012*follow;
+       mesh.rotation.z+=.020*reach-.028*state.selectionPress+.010*anticipation+.007*follow;
      }
      mesh.material.opacity=c.baseOpacity*alpha*(hand.side==='right'&&!usePerspective?textureBlend:1);
    }
    if(neutralMesh&&meshes[1]){
      neutralMesh.position.copy(meshes[1].position);
      neutralMesh.scale.copy(meshes[1].scale);
-     neutralMesh.rotation.z=meshes[1].rotation.z;
+     neutralMesh.rotation.copy(meshes[1].rotation);
      neutralMesh.material.opacity=HANDS.right.baseOpacity*alpha*(1-textureBlend);
    }
    meshes[1].visible=usePerspective||textureBlend>.003;
@@ -239,6 +242,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    state.selectionReach=state.selecting&&!reducedMotion?clamp(pose.reach,0,1):0;
    state.selectionPress=state.selecting&&!reducedMotion?clamp(pose.press,0,1):0;
    state.selectionAnticipation=state.selecting&&!reducedMotion?clamp(pose.anticipation??0,0,1):0;
+   state.selectionLift=state.selecting&&!reducedMotion?clamp(pose.lift??0,0,1):0;
    state.selectionFollowThrough=state.selecting&&!reducedMotion?clamp(pose.followThrough??0,0,1):0;
  }
  function beginTravel(){travel=true;setStarSelection(null);setStarHovered(false);}

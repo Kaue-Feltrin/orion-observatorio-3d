@@ -1,6 +1,6 @@
 # Protótipo MMV das mãos
 
-Revisão atual: [fechamento da esquerda, entrada lateral alinhada e atmosfera com mais profundidade](closure-atmosphere/README.md). A revisão de [equilíbrio das mãos](balance/README.md) não tornou o acompanhamento esquerdo perceptível ao usuário e alinhava retângulos, não as silhuetas; o novo feedback pediu fechamento dos dedos, braços entrando pela mesma borda e mais camadas de paralaxe. O [estudo de mesh/rig](study/README.md), a [seleção](selection/README.md) e o [reparo aprovado da ponta](fingertip/README.md) permanecem documentados no histórico.
+Revisão atual: [seleção astral da Nox e gesto mais natural](astral-selection/README.md). O novo pedido se restringe ao clique: coroa/fitas/fragmentos luminosos e preparação, contato e retorno da direita. A revisão de [fechamento da esquerda, entradas laterais e atmosfera](closure-atmosphere/README.md) permanece como base, com seus assets/controles preservados. [Estudo de mesh/rig](study/README.md), [seleção anterior](selection/README.md) e [reparo aprovado da ponta](fingertip/README.md) seguem no histórico.
 
 Nova avaliação autorizada: [três poses intermediárias e apontamento com perspectiva](perspective/README.md), ativada por `handsMotion=perspective`. O rig descrito abaixo continua disponível para comparação.
 
