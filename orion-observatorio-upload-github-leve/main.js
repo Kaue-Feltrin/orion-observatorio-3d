@@ -19,6 +19,7 @@ import { createEtherealHandsMesh } from './first-person-hands-mesh.js';
 import { getHeralds, getHeraldLayout, arrivalURL } from './herald-catalog.js';
 import { createPageTransition } from './page-transition.js';
 import { createTouchNavigation } from './touch-navigation.js';
+import { createMobileConstellation, mobileHeraldLayout } from './mobile-constellation.js';
 
 const root = document.getElementById('observatory');
 const container = document.getElementById('world');
@@ -34,7 +35,7 @@ const depthValue = document.getElementById('depthValue');
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const mobile = matchMedia('(pointer: coarse)').matches;
 root.dataset.input=mobile?'touch':'pointer';
-const idleHint=mobile?'Arraste para explorar · Toque na estrela':'Concentre seu olhar sobre uma estrela';
+const idleHint=mobile?'Toque na estrela para conhecer':'Concentre seu olhar sobre uma estrela';
 hint.textContent=idleHint;
 let perspective = Number(new URLSearchParams(location.search).get('depth') || 1);
 if (!Number.isFinite(perspective)) perspective = 1;
@@ -568,6 +569,7 @@ function updateTargetScreen() {
 function setHover(state) {
   if(travelling||starSelection.state.active)return;
   cardVisible=state;
+  root.dataset.summary=String(state);
   card.classList.toggle('visible',state);
   card.setAttribute('aria-hidden',String(!state));
   card.inert=!state;
@@ -585,8 +587,11 @@ document.getElementById('confirmHerald').addEventListener('click',()=>{if(cardVi
 window.addEventListener('keydown',e=>{
   if(e.key==='Escape'&&cardVisible){e.preventDefault();dismissPreview(true);}
 });
-const touchNavigation=mobile?createTouchNavigation({root,mouse,reducedMotion:reduceMotion,
-  isLocked:()=>travelling||starSelection.state.active,onDismiss:()=>dismissPreview()}):null;
+const mobileConstellation=mobile?createMobileConstellation({root,heralds,reducedMotion:reduceMotion,
+ isLocked:()=>travelling||!!selectedHerald,onChange:entry=>{dismissPreview();activateHerald(entry);hint.textContent=`${entry.data.name} · Toque na estrela para conhecer`;}}):null;
+const touchNavigation=mobile?createTouchNavigation({root,
+ isLocked:()=>travelling||!!selectedHerald,onDismiss:()=>dismissPreview(),onSwipe:direction=>mobileConstellation.step(direction)}):null;
+if(debugEnabled)window.__orionMobileDebug=mobileConstellation;
 if(debugEnabled)window.__orionTouchDebug=touchNavigation;
 for(const entry of heralds){
   const button=entry.target;
@@ -598,7 +603,7 @@ for(const entry of heralds){
   button.addEventListener('blur',()=>{if(!mobile)setHover(false);});
   button.addEventListener('click',e=>{
     if(travelling||starSelection.state.active||!activateHerald(entry))return;
-    if(mobile){setHover(true);return;}
+    if(mobile){if(!mobileConstellation.state.settled)return;setHover(true);return;}
     if(e.detail===0&&!cardVisible){setHover(true);return;}
     selectStar(entry);
   });
@@ -618,7 +623,7 @@ function isAimedAtStar(clientX,clientY){
   return hit?heralds[hit.object.userData.heraldIndex]:null;
 }
 window.addEventListener('pointermove',e=>{
-  if(e.pointerType==='touch'||travelling||starSelection.state.active)return;
+  if(mobile||e.pointerType==='touch'||travelling||starSelection.state.active)return;
   interactionMetrics.pointerEvents++;
   mouse.x=(e.clientX/innerWidth-.5)*2;
   mouse.y=(.5-e.clientY/innerHeight)*2;
@@ -668,6 +673,7 @@ if(debugEnabled)window.__orionStarDebug={journey:starJourney,get selection(){ret
 function selectStar(entry=activeHerald){
  if(travelling||!activateHerald(entry)||!starSelection.begin())return;
  selectedHerald=entry;
+ if(mobile){root.dataset.confirming='true';document.getElementById('starBrowser').inert=true;}
  pageTransition.prepare(arrivalURL(location.href,entry.data));
  selectionStartedAt=performance.now();
  touchNavigation?.cancel();
@@ -698,7 +704,7 @@ function resize(){
  cachedCardHeight=card.offsetHeight;
  camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
  if(!travelling&&!selectedHerald){
-   const layout=getHeraldLayout(heralds.length,camera.aspect);
+   const layout=mobile?mobileHeraldLayout(heralds.length,camera.aspect,mobileConstellation.state.position,mobileConstellation.state.summary):getHeraldLayout(heralds.length,camera.aspect);
    heralds.forEach((entry,index)=>{
      const point=layout[index];entry.group.position.set(point.x,point.y,point.z);
      entry.group.scale.setScalar(point.scale);entry.basePosition.copy(entry.group.position);
@@ -796,7 +802,12 @@ function tick(now){
  // O primeiro delta não inclui o tempo do quadro anterior ao clique.
  starSelection.update(Math.min(elapsed,Math.max(0,(now-selectionStartedAt)/1000)));
  if(!travelling){
-  heraldGroup.position.copy(heraldBasePos);
+  if(mobile&&!selectedHerald){
+   mobileConstellation.update(elapsed,cardVisible);
+   const layout=mobileHeraldLayout(heralds.length,camera.aspect,mobileConstellation.state.position,mobileConstellation.state.summary);
+   heralds.forEach((entry,index)=>{const p=layout[index];entry.group.position.set(p.x,p.y,p.z);entry.group.scale.setScalar(p.scale);entry.basePosition.copy(entry.group.position);});
+   heraldBasePos.copy(activeHerald.basePosition);
+  }else if(!mobile)heraldGroup.position.copy(heraldBasePos);
   starsGroup.position.z=0;
   // Tempo de resposta de ~55 ms: segue a mira sem lerdo,
   // mas mantém interpolação independente da frequência da tela.
@@ -804,11 +815,11 @@ function tick(now){
   smooth.x=THREE.MathUtils.lerp(smooth.x,mouse.x,inertia);
   smooth.y=THREE.MathUtils.lerp(smooth.y,mouse.y,inertia);
   const idle=reduceMotion?0:Math.sin(time*.29)*.23;
-  rigRoot.position.set(smooth.x*6.8*perspective,
+  rigRoot.position.set(mobile?mobileConstellation.state.position*8:smooth.x*6.8*perspective,
     smooth.y*4.35*perspective+idle,26+(reduceMotion?0:Math.sin(time*.21)*.25));
   rigYaw.rotation.y=-smooth.x*.068*perspective;
   rigPitch.rotation.x=smooth.y*.052*perspective;
-  rigRoll.rotation.z=reduceMotion?0:-smooth.x*.011*perspective+Math.sin(time*.27)*.0015;
+  rigRoll.rotation.z=reduceMotion||mobile?0:-smooth.x*.011*perspective+Math.sin(time*.27)*.0015;
   const starFocused=cardVisible||starSelection.state.active;
   const focusTarget=starFocused?1:0;
   focusBlend=reduceMotion?0:THREE.MathUtils.lerp(focusBlend,focusTarget,1-Math.exp(-delta*12));

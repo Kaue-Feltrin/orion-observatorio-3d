@@ -1,12 +1,11 @@
-// Navegação por arrasto, sem hover sintético, giroscópio ou loop próprio.
-export function createTouchNavigation({root,mouse,reducedMotion,isLocked,onDismiss}){
+// Swipe horizontal muda a estrela; nunca confirma a viagem. Sem loop próprio.
+export function createTouchNavigation({root,isLocked,onDismiss,onSwipe}){
   const state={dragging:false,gestures:0};
   let gesture=null,suppressClick=false;
   const interactive=node=>{
     const control=node.closest('button,a,input,summary,#heraldCard,.debug');
     return control&&!control.matches('.herald-target');
   };
-  const clamp=value=>Math.max(-.65,Math.min(.65,value));
   function down(event){
     if(event.pointerType!=='touch'){suppressClick=false;return;}
     if(isLocked())return;
@@ -14,7 +13,7 @@ export function createTouchNavigation({root,mouse,reducedMotion,isLocked,onDismi
     if(gesture){cancel();return;}
     suppressClick=false;
     if(!event.isPrimary||interactive(event.target))return;
-    gesture={id:event.pointerId,x:event.clientX,y:event.clientY,viewX:mouse.x,viewY:mouse.y,
+    gesture={id:event.pointerId,x:event.clientX,y:event.clientY,
       star:!!event.target.closest('.herald-target')};
   }
   function move(event){
@@ -25,16 +24,16 @@ export function createTouchNavigation({root,mouse,reducedMotion,isLocked,onDismi
       state.dragging=true;state.gestures++;onDismiss();
       root.setPointerCapture(event.pointerId);
     }
-    if(!reducedMotion){
-      mouse.x=clamp(gesture.viewX-dx/root.clientWidth*1.3);
-      mouse.y=clamp(gesture.viewY+dy/root.clientHeight*1.3);
-    }
   }
   function end(event){
     if(!gesture||event.pointerId!==gesture.id)return;
     // O navegador pode agrupar movimentos entre quadros; preservar o ponto
     // final também em um arrasto rápido, sem depender de mais pointermove.
     move(event);
+    const dx=event.clientX-gesture.x,dy=event.clientY-gesture.y;
+    const threshold=Math.max(48,Math.min(80,root.clientWidth*.14));
+    if(state.dragging&&Math.abs(dx)>=threshold&&Math.abs(dx)>Math.abs(dy)*1.25)
+      onSwipe(dx<0?1:-1);
     suppressClick=state.dragging;
     if(!state.dragging&&!gesture.star)onDismiss();
     const id=gesture.id;gesture=null;state.dragging=false;

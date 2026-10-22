@@ -1,0 +1,52 @@
+[
+  {
+    "name": "portrait",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "source": "http://127.0.0.1:4173/?debug=1&quality=eco-plus&stars=3",
+    "metrics": {
+      "index": 1,
+      "input": "touch",
+      "handsVisible": false,
+      "quality": "eco-plus",
+      "textures": 21,
+      "drawCalls": 24
+    },
+    "arrival": {
+      "name": "Estrela II",
+      "url": "http://127.0.0.1:4173/ficha.html?stars=3&quality=eco-plus&herald=preview-2",
+      "ready": "1"
+    },
+    "errors": [],
+    "frames": 263,
+    "duration": 11.562590837478638,
+    "clock": "real; full-page CDP timestamps; actual touch input and document navigation; no interception"
+  },
+  {
+    "name": "landscape",
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "source": "http://127.0.0.1:4173/?debug=1&quality=eco-plus&stars=3",
+    "metrics": {
+      "index": 1,
+      "input": "touch",
+      "handsVisible": false,
+      "quality": "eco-plus",
+      "textures": 23,
+      "drawCalls": 28
+    },
+    "arrival": {
+      "name": "Estrela II",
+      "url": "http://127.0.0.1:4173/ficha.html?stars=3&quality=eco-plus&herald=preview-2",
+      "ready": "1"
+    },
+    "errors": [],
+    "frames": 264,
+    "duration": 11.839390993118286,
+    "clock": "real; full-page CDP timestamps; actual touch input and document navigation; no interception"
+  }
+]

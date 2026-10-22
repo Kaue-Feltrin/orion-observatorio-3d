@@ -30,6 +30,7 @@ jobs:
           node tests/star-selection.unit.mjs
           node tests/selection-handoff.unit.mjs
           node tests/herald-navigation.unit.mjs
+          node tests/mobile-constellation.unit.mjs
           node tests/distant-sky.unit.mjs
           node tests/journey-motion.unit.mjs
           node tests/hands-balance.unit.mjs

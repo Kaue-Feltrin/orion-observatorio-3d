@@ -41,9 +41,19 @@
       </dl>
       <div class="card-action">Observar arauto <span aria-hidden="true">↗</span></div>
       <div class="mobile-card-actions">
-        <button id="confirmHerald" type="button">Atravessar o véu <span aria-hidden="true">↗</span></button>
+        <button id="confirmHerald" type="button">Entrar no universo <span aria-hidden="true">↗</span></button>
       </div>
     </section>
+
+    <nav id="starBrowser" class="star-browser" aria-label="Explorar estrelas" hidden>
+      <div class="browse-heading"><span id="browseName">Nox</span><span id="browseCount"></span></div>
+      <div class="browse-controls">
+        <button id="previousStar" type="button" aria-label="Estrela anterior"><span aria-hidden="true">‹</span></button>
+        <div id="starPages" class="star-pages" aria-label="Escolher estrela"></div>
+        <button id="nextStar" type="button" aria-label="Próxima estrela"><span aria-hidden="true">›</span></button>
+      </div>
+      <p class="swipe-cue"><span aria-hidden="true">↔</span> <span id="swipeHint">Deslize para mudar de estrela</span></p>
+    </nav>
 
     <div class="bottom-ui">
       <p id="hint" role="status" aria-live="polite">Concentre seu olhar sobre uma estrela</p>

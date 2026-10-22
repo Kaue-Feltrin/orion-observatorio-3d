@@ -7,18 +7,19 @@ import {createEtherealHandsMesh} from '../first-person-hands-mesh.js';
 const original=THREE.TextureLoader.prototype.load;
 THREE.TextureLoader.prototype.load=function(file,onLoad){queueMicrotask(()=>onLoad(new THREE.Texture({width:1122,height:1402})));};
 try{
-  for(const reducedMotion of [false,true]){
+  for(const reducedMotion of [false,true])for(const touchLayout of [false,true]){
     const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(51,390/844,.2,900),star=new THREE.Group();
     scene.add(camera,star);camera.position.z=25.1;star.position.set(0,43,-470);
-    const hands=createEtherealHandsMesh(camera,{animation:'perspective',touchLayout:true,reducedMotion});
+    const hands=createEtherealHandsMesh(camera,{animation:'perspective',touchLayout,reducedMotion});
     await hands.ready;hands.setStarHovered(true);
     for(let i=0;i<180;i++)hands.update(0,1/60);
     const baselineRotation=hands.meshes[1].rotation.clone(),baselinePosition=hands.meshes[1].position.clone();
     hands.setStarDirection(.8,.6);hands.update(0,0);
-    if(!reducedMotion){
+    if(!reducedMotion&&!touchLayout){
       assert.ok(Math.abs(hands.meshes[1].rotation.z-baselineRotation.z)>.001,'punho acompanha a direção projetada da estrela');
       assert.ok(Math.abs(hands.meshes[1].rotation.z-baselineRotation.z)<.04,'direção não exagera a torção');
-    }else assert.equal(hands.meshes[1].rotation.z,baselineRotation.z);
+    }else if(reducedMotion)assert.equal(hands.meshes[1].rotation.z,baselineRotation.z);
+    if(touchLayout){assert.equal(hands.state.visible,false,'mãos reservadas para a confirmação no mobile');assert.equal(hands.state.drawSurfaces,0);}
     assert.ok(hands.meshes[1].position.distanceTo(baselinePosition)<1e-10,'mira não estica nem desloca o corpo da mão');
     hands.setStarDirection(0,.18);hands.update(0,0);
     const glows={};

@@ -16,10 +16,10 @@ async function drag(page,from,to,cancel=false){
 }
 test('arrasto explora, não seleciona e toque seguinte abre resumo sem confirmar',async({page})=>{
   test.setTimeout(55000);const errors=[];page.on('pageerror',e=>errors.push(e.message));await ready(page);
-  await expect(page.locator('#hint')).toContainText('Arraste');
+  await expect(page.locator('#hint')).toContainText('Toque');
   expect(await page.evaluate(()=>window.__orionHandsDebug.state.animation)).toBe('perspective');
   await drag(page,{x:60,y:260},{x:290,y:350});
-  await expect.poll(()=>page.evaluate(()=>window.__orionMotionDebug.targetX)).toBeLessThan(-.5);
+  expect(await page.evaluate(()=>window.__orionMotionDebug.targetX)).toBe(0);
   const after=await page.evaluate(()=>({dragging:window.__orionTouchDebug.state.dragging,gestures:window.__orionTouchDebug.state.gestures,
     activations:window.__orionStarDebug.selection.state.activations}));
   expect(after).toEqual({dragging:false,gestures:1,activations:0});
@@ -90,14 +90,14 @@ test('movimento reduzido mantém vista estática ao arrastar e confirma pelo bot
   await expect(page).toHaveURL(/ficha\.html/,{timeout:10000});
   expect(await page.locator('.arrival').evaluate(node=>getComputedStyle(node).animationName)).toBe('none');
 });
-test('toque usa orçamento automático leve e duas mãos compactas por padrão',async({page})=>{
+test('toque usa orçamento leve e reserva as mãos para a confirmação',async({page})=>{
   test.setTimeout(45000);await ready(page,'http://127.0.0.1:4173/?debug=1');
   const state=await page.evaluate(()=>({mode:window.__orionPerformance.mode,maxPixels:window.__orionPerformance.maxPixels,
     canvasPixels:document.querySelector('canvas').width*document.querySelector('canvas').height,
     hands:window.__orionHandsDebug.state.drawSurfaces,touch:window.__orionHandsDebug.state.touchLayout,
     effects:window.__orionStarDebug.selection.effects.length}));
   expect(['lite','eco-plus','eco']).toContain(state.mode);expect(state.canvasPixels).toBeLessThanOrEqual(950000);
-  expect(state.hands).toBe(2);expect(state.touch).toBe(true);expect(state.effects).toBe(0);
+  expect(state.hands).toBe(0);expect(state.touch).toBe(true);expect(state.effects).toBe(0);
 });
 test('hands=off no toque não baixa imagens e mantém confirmação explícita',async({page})=>{
   test.setTimeout(45000);const assets=[];

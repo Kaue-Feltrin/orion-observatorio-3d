@@ -97,6 +97,7 @@ test.describe('regressão do toque compartilhado',()=>{
  test.use({hasTouch:true,isMobile:true,viewport:{width:390,height:844}});
  test('segunda estrela abre resumo sem viagem e confirmação chega ao destino correto',async({page})=>{
   test.setTimeout(45000);await page.goto(`${base}?${query}&stars=3`);await ready(page,3);
+  await page.locator('#nextStar').tap();await expect(page.locator('#heraldTarget-preview-2')).toBeEnabled();
   await page.locator('#heraldTarget-preview-2').tap();await expect(page.locator('#heraldName')).toHaveText('Estrela II');
   expect(await page.evaluate(()=>window.__orionStarDebug.selectedHeraldId)).toBe(undefined);
   await page.locator('#confirmHerald').tap();await expect(page).toHaveURL(/herald=preview-2/,{timeout:15000});

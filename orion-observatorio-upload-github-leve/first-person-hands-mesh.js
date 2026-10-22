@@ -38,7 +38,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
  let neutralMesh=null,starHovered=false,pointBlend=0,pointVelocity=0;
  if(!enabled)return {state,root,meshes,rigs,rightFrames,ready:Promise.resolve(false),
    update(){},resize(){},setStarHovered(){},setStarDirection(){},setStarSelection(){},beginTravel(){},dispose(){camera.remove(root)}};
- let disposed=false,travel=false,selectionHandoff=false,travelElapsed=0,alpha=1,smX=0,smY=0;
+ let disposed=false,travel=false,selectionHandoff=false,travelElapsed=0,alpha=1,touchPresence=0,smX=0,smY=0;
  const textures=[];
  const loader=new THREE.TextureLoader();
  const load=(file)=>new Promise((resolve,reject)=>loader.load(file,resolve,undefined,reject));
@@ -187,7 +187,10 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    const limit=usePerspective?PERSPECTIVE_POINT_LIMIT:1,press=usePerspective?.10:.16;
    const gestureBlend=clamp(pointBlend*limit-(reducedMotion?0:press*state.selectionPress+.015*state.selectionAnticipation),0,limit);
    state.rightBlend=gestureBlend;
-   if(alpha===0){root.visible=false;state.visible=false;state.drawSurfaces=0;state.triangles=0;return;}
+   if(touchLayout)touchPresence+=(Number(state.selecting||travel)-touchPresence)*(reducedMotion?1:1-Math.exp(-step*12));
+   const handAlpha=alpha*(touchLayout?touchPresence:1);
+   if(handAlpha<.001){root.visible=false;state.visible=false;state.drawSurfaces=0;state.triangles=0;return;}
+   root.visible=true;state.visible=true;
    let max=0;
    for(const rig of rigs)rig.update(seconds,reducedMotion,gestureBlend,rig.pose==='left'?state.leftFollow:0,
      state.selecting&&rig.pose!=='left'?state:null);
@@ -229,13 +232,13 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
        mesh.rotation.y+=-.045*reach+.012*follow;
        mesh.rotation.z+=.020*reach-.028*state.selectionPress+.010*anticipation+.007*follow;
      }
-     mesh.material.opacity=c.baseOpacity*alpha*(hand.side==='right'&&!usePerspective?textureBlend:1);
+     mesh.material.opacity=c.baseOpacity*handAlpha*(hand.side==='right'&&!usePerspective?textureBlend:1);
    }
    if(neutralMesh&&meshes[1]){
      neutralMesh.position.copy(meshes[1].position);
      neutralMesh.scale.copy(meshes[1].scale);
      neutralMesh.rotation.copy(meshes[1].rotation);
-     neutralMesh.material.opacity=HANDS.right.baseOpacity*alpha*(1-textureBlend);
+     neutralMesh.material.opacity=HANDS.right.baseOpacity*handAlpha*(1-textureBlend);
    }
    meshes[1].visible=usePerspective||textureBlend>.003;
    if(neutralMesh)neutralMesh.visible=textureBlend<.997;
