@@ -1,0 +1,69 @@
+{
+  "check": "passed",
+  "build": "passed",
+  "unitSuites": [
+    "hands-mesh",
+    "hands-hover",
+    "hands-image-rig",
+    "hands-perspective",
+    "star-selection",
+    "hands-balance",
+    "nebula-volume"
+  ],
+  "browser": {
+    "distinctPassed": 40,
+    "scenePassed": 18,
+    "handsDistinctPassed": 22,
+    "framingRerunPassed": 3,
+    "automaticRetries": 0,
+    "sceneTests": [
+      "clique na estrela realiza transição para a ficha",
+      "cinco planos animados, bloom seletivo e controle de atmosfera",
+      "estrela distante aponta no mundo, mostra hover e seleciona via raycaster",
+      "Nebulosa em Volume tem seis recortes fotográficos com paralaxe real",
+      "mouse segue a direção rapidamente sem forçar layout a cada quadro",
+      "modo leve carrega menos fragmentos sem limitar câmera a 30fps",
+      "diagnóstico do frame time e uso de recursos da prévia",
+      "v0.9.5 Eco mantém a foto e duas massas, sem gás ou bloom em repouso",
+      "v0.9.5 comparação isola bloom e gás sem perder seleção do Nox",
+      "v0.9.5 comparações não aparecem fora do modo de depuração",
+      "v0.9.6 Eco+ conserva bloom, duas massas e um limite de resolução intermediário",
+      "v0.9.6 Eco+ sem bloom desliga apenas passes luminosos, mantendo profundidade",
+      "v0.9.7 Eco+ tem paralaxe orgânica diferencial sem novos meshes ou gás",
+      "v0.9.7 comparativo legado e movimento reduzido não deslocam fotos",
+      "v0.9.8 responde rapidamente ao cursor com amplitude 3x maior sem camadas extras",
+      "v0.9.8 intensidade ajustável no debug sem alterar qualidade nem viagem",
+      "v0.9.9 Eco+ cria terceiro recorte ESO mais próximo com ordem correta",
+      "v0.9.9 sem véu frontal restaura exatamente os dois planos e mantém o bloom"
+    ],
+    "handTests": [
+      "cinco planos ESO no Eco+ dão paralaxe distinta sem esconder a Nox",
+      "esquerda fecha os dedos no hover e reabre em três enquadramentos",
+      "reduced-motion mantém esquerda imóvel e orçamento leve não carrega planos novos",
+      "MMV reduced-motion congela ossos e imagem sem bloquear o gesto",
+      "MMV rig articula os dedos, protege enquadramento e mantém hover/viagem",
+      "MMV é opt-in e hands=off não aloca skeleton nem baixa os sprites",
+      "v0.9.21 bordas protegidas, neutra própria, hover real e retorno suave",
+      "v0.9.21 encerra hover em blur",
+      "v0.9.21 encerra hover em pointerleave",
+      "v0.9.21 encerra hover em visibilitychange",
+      "v0.9.21 hands=off não baixa nenhum asset das mãos",
+      "v0.9.21 movimento reduzido mantém dedos estáticos e troca de pose sem animação",
+      "perspectiva deforma mão inteira sem fades, com intermediários e hover real",
+      "perspectiva não aloca nada em off e mantém alternativa rig",
+      "perspectiva reduced-motion usa somente extremos estáticos",
+      "registra nove poses da mesma mão, incluindo meios das transições",
+      "clique real confirma com pressão e onda de luz antes da viagem, sem duplicar",
+      "movimento reduzido confirma sem avanço, pressão ou expansão luminosa",
+      "mãos desligadas mantêm confirmação luminosa e viagem",
+      "registra etapas do clique e preservação do centro em desktop e celular",
+      "teclado seleciona sem exigir hover e mantém navegação",
+      "toque › primeiro toque mostra ficha, segundo confirma com gesto e viaja"
+    ]
+  },
+  "notes": [
+    "Initial pose assertions were updated for static optical rotation.",
+    "Rotated transparent rectangle allowed separately; visible alpha and landmarks retain 30% center boundary.",
+    "The 22-case final run passed 21 cases; the transparent-envelope assertion in the legacy rig case was corrected and all three framing cases passed on the same production build."
+  ]
+}

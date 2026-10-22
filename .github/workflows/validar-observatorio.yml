@@ -23,6 +23,18 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Verificar estrutura e sintaxe
         run: npm run check
+      - name: Verificar rig 2,5D das imagens
+        run: |
+          node tests/hands-image-rig.unit.mjs
+          node tests/hands-perspective.unit.mjs
+          node tests/star-selection.unit.mjs
+          node tests/selection-handoff.unit.mjs
+          node tests/herald-navigation.unit.mjs
+          node tests/mobile-constellation.unit.mjs
+          node tests/distant-sky.unit.mjs
+          node tests/journey-motion.unit.mjs
+          node tests/hands-balance.unit.mjs
+          node tests/nebula-volume.unit.mjs
       - name: Compilar site
         run: npm run build
 

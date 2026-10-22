@@ -55,7 +55,7 @@ assert.match(main,/aTwinkleRate/,'cada estrela tem ritmo próprio');
 assert.match(main,/aTwinkleAmp/,'cada estrela tem amplitude própria');
 assert.match(main,/aTwinkleSecondary/,'cintilação de duas frequências');
 assert.match(main,/const breathingVeils/,'névoa independente da foto');
-assert.match(main,/const beaconGlow=addGlow/,'estrela principal tem farol de luz');
+assert.match(main,/(?:const|let) beaconGlow=addGlow/,'estrela principal tem farol de luz');
 assert.match(main,/starJourney\.update\(now,delta\)/,'viagem v0.9 preservada');
 assert.match(await read('cosmic-atmosphere.js'),/uniform float uBreath/,'respiração no shader');
 assert.match(await read('cosmic-atmosphere.js'),/uBreath\.value=reducedMotion\?1/,'acessibilidade de movimento reduzido');
@@ -79,7 +79,7 @@ assert.match(main,/starBackdrop\.visible=false/,'remover base com centenas de po
 assert.match(main,/dustCloud\.visible=false/,'remover poeira rasterizada');
 assert.match(main,/targetSlopeY=43\/\(26\+470\)/,'área limpa ao redor da estrela');
 assert.match(main,/createCinematicStarSpikes/,'pontas de estrela procedurais');
-assert.match(main,/cinematicSpikes\.update\(time,cardVisible,travelling\)/,'rotação das pontas no loop');
+assert.match(main,/cinematicSpikes\.update\(time,cardVisible\|\|starSelection\.state\.active,travelling\)/,'rotação das pontas no loop mantém foco durante seleção');
 assert.match(await read('cinematic-star.js'),/material\.rotation/,'pontas com rotação na GPU');
 assert.match(await read('cinematic-star.js'),/AdditiveBlending/,'difração sem blocos opacos');
 assert.match(await read('cinematic-star.js'),/reducedMotion/,'movimento reduzido');
@@ -88,7 +88,7 @@ assert.match(main,/gas:\[0,2\]/,'equilibrado usa 2 planos GLSL');
 // v0.9.2d: não processar/remover as estrelas impressas na foto.
 // A nova branch parte de v0.9.2b, ANTES da mediana destrutiva da v0.9.2c.
 const photoScript=await read('scripts/prepare-astro-assets.mjs');
-assert.doesNotMatch(photoScript.split('// Os quatro recortes abaixo')[0],/\.median\(/,'não aplicar mediana no panorama ESO principal');
+assert.doesNotMatch(photoScript.split('// Os recortes abaixo')[0],/\.median\(/,'não aplicar mediana no panorama ESO principal');
 assert.doesNotMatch(photoScript,/const preserve=1-eased/,'não apagar estrelas da foto');
 assert.match(main,/--nox-focus-x/,'filtro acompanha posição da estrela em tela');
 assert.match(css,/v0\.9\.2d/,'filtro simples implementado via CSS');
@@ -106,7 +106,7 @@ assert.match(main,/selectiveBloom\.render\(travelling\|\|bloomTick%2===1,/,'bloo
 assert.match(await read('selective-bloom.js'),/function render\(refreshBloom=true,enableBloom=true\)/,'renderização seletiva temporizada e desligável');
 assert.match(await read('nebula-volume.js'),/const selected=quality==='eco-plus'/,'Eco+ seleciona 3 recortes com véu opcional');
 assert.match(await read('nebula-depth-specs.js'),/export const nebulaDepthSpecs/,'recortes coordenados');
-assert.match(await read('scripts/prepare-astro-assets.mjs'),/eso-gas-/,'4 texturas RGBA preparadas no build');
+assert.match(await read('scripts/prepare-astro-assets.mjs'),/eso-gas-/,'6 texturas RGBA preparadas no build');
 assert.doesNotMatch(await read('scripts/prepare-astro-assets.mjs'),/const preserve=1-eased/,'ESO integral não deve ser apagada');
 
 // v0.9.5: perfil eco + experimentos não alteram a foto original ou a viagem.
@@ -122,7 +122,7 @@ assert.match(await read('selective-bloom.js'),/if\(!enableBloom\)/,'passagens de
 assert.match(main,/qualityOverride==='eco-plus'/,'perfil Eco+ selecionável');
 assert.match(main,/'eco-plus':\{dpr:\.60,maxPixels:670000,bloomScale:\.22,gas:\[\]/,'Eco+ contém gás desligado e orçamento de pixels intermediário');
 assert.match(main,/qualityOrder=\['eco','eco-plus','lite','balanced','high'\]/,'fallback gradual entre Eco+ e Eco');
-assert.match(await read('nebula-volume.js'),/state\.foregroundEnabled\?\[1,2,3\]:\[1,3\]/,'Eco+ adiciona recorte frontal desligável');
+assert.match(await read('nebula-volume.js'),/state\.foregroundEnabled\?\[1,2,3,4,5\]:\[1,3\]/,'Eco+ adiciona recorte frontal desligável');
 assert.match(await read('performance-panel.js'),/Eco\+ sem bloom/,'comparativo entre Eco+ com e sem bloom');
 
 // v0.9.7 — profundidade puramente por transformação, sem shader ou textura extra.

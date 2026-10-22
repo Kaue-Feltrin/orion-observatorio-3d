@@ -38,7 +38,7 @@ test('v0.9.15 carrega GLB original David Fischer e rig, sem pedidos externos',as
   expect(snap.frame.wristLeft).toBeTruthy();
   expect(snap.frame.wristRight).toBeTruthy();
   expect(snap.diagnostics.mode).toBe('fps');
-  expect(snap.diagnostics.volume).toBe(3);
+  expect(snap.diagnostics.volume).toBe(5);
   expect(snap.diagnostics.bloom).toBe(true);
   expect(external).toEqual([]);
   expect(errors).toEqual([]);

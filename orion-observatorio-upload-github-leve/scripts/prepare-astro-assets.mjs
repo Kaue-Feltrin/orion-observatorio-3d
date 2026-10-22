@@ -47,7 +47,7 @@ console.log('Nebulosa fotográfica ESO preparada:', width + 'x' + height,
   Math.round(output.length / 1024) + ' KiB', source.url);
 
 
-// Os quatro recortes abaixo são derivados do JPEG ESO ORIGINAL, antes de
+// Os recortes abaixo são derivados do JPEG ESO ORIGINAL, antes de
 // publicar. A fotografia integral permanece idêntica à v0.9.2d.
 // Somente as sobreposições são suavizadas, nunca a imagem de fundo.
 const assetRoot=new URL('../public/assets/depth/',import.meta.url);

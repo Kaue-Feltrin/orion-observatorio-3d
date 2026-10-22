@@ -6,6 +6,8 @@ export default defineConfig({
   expect: { timeout: 12000 },
   reporter: [['list'], ['html', { open: 'never' }]],
   retries: process.env.CI ? 1 : 0,
+  // SwiftShader disputa CPU entre cenas; executar WebGL em série no CI.
+  workers: process.env.CI ? 1 : undefined,
   use: { ...devices['Desktop Chrome'], headless: true,
     launchOptions: { args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-webgl', '--enable-unsafe-swiftshader'] },
     screenshot: 'only-on-failure', trace: 'retain-on-failure' },

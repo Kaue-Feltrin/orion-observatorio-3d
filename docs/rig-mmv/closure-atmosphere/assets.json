@@ -1,0 +1,54 @@
+{
+  "source": "https://www.eso.org/public/images/eso0932a/",
+  "credit": "ESO/S. Brunier",
+  "license": "CC BY 4.0; crédito visível existente",
+  "pipeline": "scripts/prepare-astro-assets.mjs; fotografia principal inalterada; recortes RGBA gerados no build",
+  "files": [
+    {
+      "file": "public/assets/depth/eso-gas-05.webp",
+      "bytes": 99202,
+      "sha256": "8d1929c65fb57d2990a5a0ccf2667791434f7d24b0b453ed2ccfefac8c14b294",
+      "width": 800,
+      "height": 395,
+      "alpha": true,
+      "spec": {
+        "id": "05",
+        "name": "Bruma intermediária esquerda",
+        "u": 0.28,
+        "v": 0.43,
+        "w": 0.18,
+        "h": 0.24,
+        "z": -130,
+        "opacity": 0.1,
+        "rate": 0.25,
+        "phase": 5.4,
+        "drift": 1.2,
+        "parallaxX": 12,
+        "parallaxY": 4
+      }
+    },
+    {
+      "file": "public/assets/depth/eso-gas-06.webp",
+      "bytes": 98542,
+      "sha256": "035d030a7e187d9affae627f1fa3c380fcf7e0ff59f0be9ecb13e2ed99c1ef2f",
+      "width": 800,
+      "height": 400,
+      "alpha": true,
+      "spec": {
+        "id": "06",
+        "name": "Filamento próximo direito",
+        "u": 0.66,
+        "v": 0.61,
+        "w": 0.2,
+        "h": 0.27,
+        "z": -42,
+        "opacity": 0.055,
+        "rate": 0.32,
+        "phase": 6.7,
+        "drift": 0.65,
+        "parallaxX": 8,
+        "parallaxY": 3
+      }
+    }
+  ]
+}

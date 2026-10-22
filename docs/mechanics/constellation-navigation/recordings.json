@@ -1,0 +1,81 @@
+[
+  {
+    "name": "before",
+    "port": 4174,
+    "count": 1,
+    "index": 0,
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "source": "http://127.0.0.1:4174/?debug=1&quality=eco-plus&hands=mesh&handsMotion=perspective&stars=1",
+    "errors": [],
+    "metrics": {
+      "textures": 28,
+      "drawCalls": 32,
+      "destinations": [
+        {
+          "id": "nox",
+          "name": "Nox"
+        }
+      ]
+    },
+    "arrived": {
+      "name": "Nox",
+      "url": "http://127.0.0.1:4174/ficha.html"
+    },
+    "frames": 92,
+    "duration": 9.76357388496399,
+    "clock": "real; full-page CDP timestamps; actual document navigation; no interception"
+  },
+  {
+    "name": "after",
+    "port": 4173,
+    "count": 3,
+    "index": 2,
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "source": "http://127.0.0.1:4173/?debug=1&quality=eco-plus&hands=mesh&handsMotion=perspective&stars=3",
+    "errors": [],
+    "metrics": {
+      "textures": 28,
+      "drawCalls": 78,
+      "destinations": [
+        {
+          "id": "nox",
+          "name": "Nox",
+          "screen": {
+            "x": 640.2576651245372,
+            "y": 179.1356562011807
+          }
+        },
+        {
+          "id": "preview-2",
+          "name": "Estrela II",
+          "screen": {
+            "x": 319.58429506532576,
+            "y": 309.6819719956573
+          }
+        },
+        {
+          "id": "preview-3",
+          "name": "Estrela III",
+          "screen": {
+            "x": 960.557773371828,
+            "y": 310.5951232981415
+          }
+        }
+      ]
+    },
+    "arrived": {
+      "name": "Estrela III",
+      "url": "http://127.0.0.1:4173/ficha.html?stars=3&quality=eco-plus&hands=mesh&handsMotion=perspective&herald=preview-3",
+      "ready": "1"
+    },
+    "frames": 118,
+    "duration": 11.411399841308594,
+    "clock": "real; full-page CDP timestamps; actual document navigation; no interception"
+  }
+]

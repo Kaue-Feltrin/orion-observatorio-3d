@@ -8,7 +8,7 @@ export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false,paralla
   const layers=nebulaDepthSpecs.map((spec,i)=>{
     const material=new THREE.MeshBasicMaterial({
       transparent:true,opacity:spec.opacity,depthTest:false,depthWrite:false,
-      side:THREE.DoubleSide,blending:THREE.NormalBlending,toneMapped:false
+      side:THREE.DoubleSide,forceSinglePass:i>=4,blending:THREE.NormalBlending,toneMapped:false
     });
     const mesh=new THREE.Mesh(new THREE.PlaneGeometry(1,1),material);
     mesh.position.z=spec.z;
@@ -48,14 +48,14 @@ export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false,paralla
   }
   function applyQuality(quality){
     // A versão leve recebe apenas duas massas para limitar RAM/VRAM.
-    // No Eco+ o terceiro fragmento já existe na preparação ESO, mas antes
-    // ficava oculto. Reprojetá-lo perto da câmera dá profundidade real sem
-    // partículas artificiais, sem alterar a foto e sem novo shader.
+    // Eco+/balanced/high acrescentam duas massas em Z=-130 e -42.
+    // Eco/lite preservam duas massas; foreground=off restaura o A/B de duas.
+    // Recortes pequenos, transparências baixas e uma passagem nas novas camadas.
     // A/B: ?foreground=off volta à composição v0.9.8 de dois fragmentos.
     const selected=quality==='eco-plus'
-      ? (state.foregroundEnabled?[1,2,3]:[1,3])
+      ? (state.foregroundEnabled?[1,2,3,4,5]:[1,3])
       : ['lite','eco'].includes(quality)?[1,3]
-      : quality==='high'?[0,1,2,3]:[0,1,2];
+      : quality==='high'?[0,1,2,3,4,5]:[0,1,2,4,5];
     layers.forEach((mesh,i)=>{
       const nearVeil=quality==='eco-plus'&&state.foregroundEnabled&&i===2;
       const spec=mesh.userData.spec;
@@ -72,7 +72,7 @@ export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false,paralla
   }
   function resize(){
     // Reconstruir enquadramento a partir da projeção do panorama original,
-    // sem deslocar a fotografia ESO nem forçar o mesmo movimento às 4 massas.
+    // sem deslocar a fotografia ESO nem forçar o mesmo movimento às massas.
     const photoDistance=26-mainPhoto.position.z;
     for(const mesh of layers){
       const s=mesh.userData.spec;
@@ -92,7 +92,7 @@ export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false,paralla
   // Alvo do cursor alimenta diretamente esta interpolação (~70 ms), evitando
   // uma segunda suavização lenta sobre a câmera que segue em ~55 ms.
   // Esta atualização mexe apenas em transformações 3D já existentes:
-  // mesmo número de meshes, draw calls, materiais e texturas da v0.9.6.
+  // sem ler pixels ou atualizar texturas a cada quadro.
   function update(time,viewX=0,viewY=0,delta=1/60){
     const moving=state.parallaxEnabled;
     const factor=moving?1-Math.exp(-Math.max(0,Math.min(.1,delta))*14):1;

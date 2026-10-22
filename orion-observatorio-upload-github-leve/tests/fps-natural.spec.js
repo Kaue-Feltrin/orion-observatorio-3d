@@ -30,7 +30,7 @@ test('mãos David: dedos reais avançam ao centro e respeitam o enquadramento de
     console.log('FPS_NATURAL_LANDMARKS',JSON.stringify(result));
     expect(result.frame.posedLandmarks).toBe(true);
     expect(result.bloom).toBe(true);
-    expect(result.layers).toBe(3);
+    expect(result.layers).toBe(5);
     for(const [wrist,tip,actual,side] of [
       [result.frame.wristLeft,result.frame.tipLeft,result.actualLeft,1],
       [result.frame.wristRight,result.frame.tipRight,result.actualRight,-1]

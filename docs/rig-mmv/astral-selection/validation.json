@@ -1,0 +1,95 @@
+{
+  "check": "passed",
+  "build": "passed",
+  "unitSuites": [
+    "star-selection",
+    "hands-balance",
+    "hands-perspective",
+    "hands-image-rig",
+    "hands-hover",
+    "hands-mesh",
+    "nebula-volume"
+  ],
+  "distinctBrowserCasesPassed": 15,
+  "browserTests": [
+    {
+      "file": "tests/hands-atmosphere.spec.js",
+      "name": "cinco planos ESO no Eco+ dão paralaxe distinta sem esconder a Nox"
+    },
+    {
+      "file": "tests/hands-atmosphere.spec.js",
+      "name": "esquerda fecha os dedos no hover e reabre em três enquadramentos"
+    },
+    {
+      "file": "tests/hands-atmosphere.spec.js",
+      "name": "reduced-motion mantém esquerda imóvel e orçamento leve não carrega planos novos"
+    },
+    {
+      "file": "tests/hands-perspective.spec.js",
+      "name": "perspectiva deforma mão inteira sem fades, com intermediários e hover real"
+    },
+    {
+      "file": "tests/hands-perspective.spec.js",
+      "name": "perspectiva não aloca nada em off e mantém alternativa rig"
+    },
+    {
+      "file": "tests/hands-perspective.spec.js",
+      "name": "perspectiva reduced-motion usa somente extremos estáticos"
+    },
+    {
+      "file": "tests/hands-perspective.spec.js",
+      "name": "registra nove poses da mesma mão, incluindo meios das transições"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "clique na estrela realiza transição para a ficha"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "estrela distante aponta no mundo, mostra hover e seleciona via raycaster"
+    },
+    {
+      "file": "tests/star-selection.spec.js",
+      "name": "clique real confirma com pressão e onda de luz antes da viagem, sem duplicar"
+    },
+    {
+      "file": "tests/star-selection.spec.js",
+      "name": "movimento reduzido confirma sem avanço, pressão ou expansão luminosa"
+    },
+    {
+      "file": "tests/star-selection.spec.js",
+      "name": "mãos desligadas mantêm confirmação luminosa e viagem"
+    },
+    {
+      "file": "tests/star-selection.spec.js",
+      "name": "registra etapas do clique e preservação do centro em desktop e celular"
+    },
+    {
+      "file": "tests/star-selection.spec.js",
+      "name": "teclado seleciona sem exigir hover e mantém navegação"
+    },
+    {
+      "file": "tests/star-selection.spec.js",
+      "name": "toque › primeiro toque mostra ficha, segundo confirma com gesto e viaja"
+    }
+  ],
+  "automaticRetries": 0,
+  "notes": [
+    "A reference in the screenshot metrics collector was corrected; capture then passed 1/1 with no app change.",
+    "Main run passed 12 cases, capture rerun passed 1, default navigation smoke passed 2."
+  ],
+  "selectionGeometry": {
+    "normalSurfaces": 6,
+    "normalTriangles": 2936,
+    "uniqueGeometries": 4,
+    "materials": 6,
+    "textures": 0,
+    "reducedSurfaces": 2
+  },
+  "contactMeshRelativeArea": {
+    "min": 0.39393470108897377,
+    "max": 1.3745912185026103,
+    "requiredMin": 0.1,
+    "requiredMax": 4
+  }
+}

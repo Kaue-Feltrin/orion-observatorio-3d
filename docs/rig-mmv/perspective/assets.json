@@ -1,0 +1,38 @@
+[
+  {
+    "stage": "025",
+    "generatedSource": "exec-a8b65d23-1bff-4e30-a71d-7776e3ece212.png",
+    "file": "public/overlay/right-hand-reach-025.webp",
+    "width": 896,
+    "height": 1120,
+    "bytes": 84640,
+    "alpha": true
+  },
+  {
+    "stage": "050",
+    "generatedSource": "exec-8e34db9d-54fd-4946-a7b5-7c520dd37ae5.png",
+    "file": "public/overlay/right-hand-reach-050.webp",
+    "width": 896,
+    "height": 1120,
+    "bytes": 77628,
+    "alpha": true
+  },
+  {
+    "stage": "075",
+    "generatedSource": "exec-eb4d127b-9249-4d73-a980-ef6ee0536943.png",
+    "file": "public/overlay/right-hand-reach-075.webp",
+    "width": 896,
+    "height": 1120,
+    "bytes": 75998,
+    "alpha": true
+  },
+  {
+    "stage": "100",
+    "generatedSource": "exec-0c26d84f-961b-4ce0-b915-8007780e01af.png",
+    "file": "public/overlay/right-hand-reach-100.webp",
+    "width": 896,
+    "height": 1120,
+    "bytes": 72908,
+    "alpha": true
+  }
+]

@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-20",
+  "base": "055f3dc23271916a521b5e0d733e3ec0b7c00a7c",
+  "branch": "codex/maos-rig-mmv",
+  "change": "SKY_APPROACH_ZOOM: 1.22 → 1.32",
+  "checks": {
+    "npm run check": "passed",
+    "NODE_USE_ENV_PROXY=1 npm run build": "passed",
+    "unitSuites": [
+      "distant-sky.unit.mjs",
+      "journey-motion.unit.mjs"
+    ]
+  },
+  "browser": {
+    "passed": 4,
+    "failed": 0,
+    "retries": 0,
+    "cases": [
+      {
+        "file": "tests/distant-sky.spec.js",
+        "name": "shader preserva formato no giro e aplica aproximação uniforme controlada"
+      },
+      {
+        "file": "tests/journey-depth.spec.js",
+        "name": "destino 1: céu panorâmico e nuvens atravessadas em profundidade"
+      },
+      {
+        "file": "tests/journey-depth.spec.js",
+        "name": "destino 2: céu panorâmico e nuvens atravessadas em profundidade"
+      },
+      {
+        "file": "tests/journey-depth.spec.js",
+        "name": "destino 3: céu panorâmico e nuvens atravessadas em profundidade"
+      }
+    ]
+  },
+  "pixels": {
+    "zoomDifference": {
+      "mean": 20.60630099826389,
+      "changed": 0.8600817418981481
+    },
+    "uniformDifference": {
+      "mean": 2.948318504050926,
+      "changed": 0.4275987413194444
+    }
+  },
+  "sourceSHA256": "c3922a109bfc0c3c2a39185ca0798e694da58e2b4706571a03b0036a7a38216a",
+  "modifiedFiles": [
+    "CONTEXTO_COMPLETO_CUMULATIVO.md",
+    "CONTINUIDADE.md",
+    "orion-observatorio-upload-github-leve/distant-sky.js",
+    "orion-observatorio-upload-github-leve/tests/distant-sky.spec.js",
+    "orion-observatorio-upload-github-leve/tests/distant-sky.unit.mjs",
+    "orion-observatorio-upload-github-leve/tests/journey-depth.spec.js",
+    "orion-observatorio-upload-github-leve/tests/journey-motion.unit.mjs",
+    "docs/mechanics/sky-zoom32/before-22.webp",
+    "docs/mechanics/sky-zoom32/after-32.webp",
+    "docs/mechanics/sky-zoom32/README.md",
+    "docs/mechanics/sky-zoom32/validation.json"
+  ],
+  "environment": "Chromium/SwiftShader local; capturas isoladas e viagens reais, sem medição em dispositivo real"
+}

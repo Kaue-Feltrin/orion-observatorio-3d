@@ -1,0 +1,411 @@
+{
+  "check": "passed",
+  "build": "passed",
+  "unitSuites": [
+    "hands-image-rig",
+    "hands-perspective",
+    "star-selection",
+    "selection-handoff",
+    "hands-balance",
+    "hands-hover",
+    "hands-mesh",
+    "nebula-volume"
+  ],
+  "distinctBrowserCasesPassed": 97,
+  "browserTests": [
+    {
+      "file": "tests/fps-art-variants.spec.js",
+      "name": "v0.9.15 comparar enquadramentos com antebraços atenuados e dedos 3D"
+    },
+    {
+      "file": "tests/fps-art-variants.spec.js",
+      "name": "v0.9.15 comparar material iluminado e básico, sem tocar no Nox"
+    },
+    {
+      "file": "tests/fps-david.spec.js",
+      "name": "v0.9.15 GLB original David Fischer e rig FPS com atribuição correta"
+    },
+    {
+      "file": "tests/fps-david.spec.js",
+      "name": "v0.9.15 captura real 1920×951 com Nox sem obstrução"
+    },
+    {
+      "file": "tests/fps-david.spec.js",
+      "name": "v0.9.15 anima dedos do GLB e para ao respeitar movimento reduzido"
+    },
+    {
+      "file": "tests/fps-david.spec.js",
+      "name": "v0.9.15 desligado não baixa GLB; modo VR permanece disponível"
+    },
+    {
+      "file": "tests/fps-david.spec.js",
+      "name": "v0.9.15 pose aberta e relaxada alteram falanges sem trocar GLB"
+    },
+    {
+      "file": "tests/fps-frame.spec.js",
+      "name": "v0.9.17 enquadramento arcano: C com polegar e indicador, sem bloquear Nox"
+    },
+    {
+      "file": "tests/fps-frame.spec.js",
+      "name": "v0.9.17 mantém natural como comparação e não carrega GLB com hands=off"
+    },
+    {
+      "file": "tests/fps-frame.spec.js",
+      "name": "v0.9.17 comparar contorno C e gesto das mãos no navegador"
+    },
+    {
+      "file": "tests/fps-hands-david.spec.js",
+      "name": "v0.9.15 carrega GLB original David Fischer e rig, sem pedidos externos"
+    },
+    {
+      "file": "tests/fps-hands-david.spec.js",
+      "name": "v0.9.15 captura mãos FPS e landmarks para enquadramento verificável"
+    },
+    {
+      "file": "tests/fps-hands-david.spec.js",
+      "name": "v0.9.15 mantém Nox, viagem e não carrega o GLB com hands=off"
+    },
+    {
+      "file": "tests/fps-hands-david.spec.js",
+      "name": "v0.9.15 respeita prefers-reduced-motion e preserva navegação"
+    },
+    {
+      "file": "tests/fps-hands-david.spec.js",
+      "name": "v0.9.15 compara orientação de punhos FPS sem alterar Nox nem universo"
+    },
+    {
+      "file": "tests/fps-hands.spec.js",
+      "name": "v0.9.15 David Fischer: GLB local, ossos completos e enquadramento FPS medido"
+    },
+    {
+      "file": "tests/fps-hands.spec.js",
+      "name": "v0.9.15 sem mãos não solicita arquivo David e oculta atribuição contextual"
+    },
+    {
+      "file": "tests/fps-hands.spec.js",
+      "name": "v0.9.15 rig FPS respeita movimento reduzido"
+    },
+    {
+      "file": "tests/fps-natural.spec.js",
+      "name": "mãos David: dedos reais avançam ao centro e respeitam o enquadramento depois da pose"
+    },
+    {
+      "file": "tests/fps-natural.spec.js",
+      "name": "mãos FPS desligadas não consomem a geometria GLB"
+    },
+    {
+      "file": "tests/framing-probe.spec.js",
+      "name": "mede landmarks de mãos FPS no enquadramento atual"
+    },
+    {
+      "file": "tests/hands-atmosphere.spec.js",
+      "name": "esquerda fecha os dedos no hover e reabre em três enquadramentos"
+    },
+    {
+      "file": "tests/hands-atmosphere.spec.js",
+      "name": "cinco planos ESO no Eco+ dão paralaxe distinta sem esconder a Nox"
+    },
+    {
+      "file": "tests/hands-atmosphere.spec.js",
+      "name": "reduced-motion mantém esquerda imóvel e orçamento leve não carrega planos novos"
+    },
+    {
+      "file": "tests/hands-benchmark.spec.js",
+      "name": "v0.9.16 painel A/B registra, compara e limpa medições locais"
+    },
+    {
+      "file": "tests/hands-image-rig.spec.js",
+      "name": "MMV rig articula os dedos, protege enquadramento e mantém hover/viagem"
+    },
+    {
+      "file": "tests/hands-image-rig.spec.js",
+      "name": "MMV reduced-motion congela ossos e imagem sem bloquear o gesto"
+    },
+    {
+      "file": "tests/hands-image-rig.spec.js",
+      "name": "MMV é opt-in e hands=off não aloca skeleton nem baixa os sprites"
+    },
+    {
+      "file": "tests/hands-mesh.spec.js",
+      "name": "v0.9.21 bordas protegidas, neutra própria, hover real e retorno suave"
+    },
+    {
+      "file": "tests/hands-mesh.spec.js",
+      "name": "v0.9.21 encerra hover em pointerleave"
+    },
+    {
+      "file": "tests/hands-mesh.spec.js",
+      "name": "v0.9.21 encerra hover em blur"
+    },
+    {
+      "file": "tests/hands-mesh.spec.js",
+      "name": "v0.9.21 encerra hover em visibilitychange"
+    },
+    {
+      "file": "tests/hands-mesh.spec.js",
+      "name": "v0.9.21 hands=off não baixa nenhum asset das mãos"
+    },
+    {
+      "file": "tests/hands-mesh.spec.js",
+      "name": "v0.9.21 movimento reduzido mantém dedos estáticos e troca de pose sem animação"
+    },
+    {
+      "file": "tests/hands-perspective.spec.js",
+      "name": "perspectiva deforma mão inteira sem fades, com intermediários e hover real"
+    },
+    {
+      "file": "tests/hands-perspective.spec.js",
+      "name": "perspectiva reduced-motion usa somente extremos estáticos"
+    },
+    {
+      "file": "tests/hands-perspective.spec.js",
+      "name": "perspectiva não aloca nada em off e mantém alternativa rig"
+    },
+    {
+      "file": "tests/hands-perspective.spec.js",
+      "name": "registra nove poses da mesma mão, incluindo meios das transições"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "diagnostico de inicializacao no Chromium"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "observatório 3D inicializa com Canvas e estrela"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "clique na estrela realiza transição para a ficha"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "mouse move cambia yaw e deslocamento, mantendo projecao da estrela"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "cinco planos animados, bloom seletivo e controle de atmosfera"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "estrela distante aponta no mundo, mostra hover e seleciona via raycaster"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "respiração cósmica anima apenas véus e mantém a fotografia ESO intacta"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "movimento reduzido suspende pulso e mantém seleção acessível"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "desempenho limita pixels e draw calls sem apagar a nebulosa ESO"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "qualidade leve mantém estrela e viagem acessíveis"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "composição limpa reduz estrelas e mantém as pontas luminosas em movimento"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "spikes não giram com preferência de movimento reduzido"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "sparse void: 146 estrelas reais, zero poeira, zonas vazias e viagem funcionando"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "filtro segue o Nox sem editar os pixels da fotografia astronômica"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "Nebulosa em Volume tem seis recortes fotográficos com paralaxe real"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "mouse segue a direção rapidamente sem forçar layout a cada quadro"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "modo leve carrega menos fragmentos sem limitar câmera a 30fps"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "mouse distante dispensa Raycaster e vinheta não repinta parada"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "diagnóstico do frame time e uso de recursos da prévia"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.4: sem debug não adiciona painel nem métricas expostas"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.5 Eco mantém a foto e duas massas, sem gás ou bloom em repouso"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.5 comparação isola bloom e gás sem perder seleção do Nox"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.5 comparações não aparecem fora do modo de depuração"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.6 Eco+ conserva bloom, duas massas e um limite de resolução intermediário"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.6 Eco+ sem bloom desliga apenas passes luminosos, mantendo profundidade"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.7 Eco+ tem paralaxe orgânica diferencial sem novos meshes ou gás"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.7 comparativo legado e movimento reduzido não deslocam fotos"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.8 responde rapidamente ao cursor com amplitude 3x maior sem camadas extras"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.8 intensidade ajustável no debug sem alterar qualidade nem viagem"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.9 Eco+ cria terceiro recorte ESO mais próximo com ordem correta"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.9 sem véu frontal restaura exatamente os dois planos e mantém o bloom"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.10 mãos etéreas são viewmodel da câmera e não cobrem o Nox"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.10 sem mãos restaura cena e não aloca viewmodel"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.10 movimento reduzido remove sway e viagem oculta mãos"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.11 nova pose deixa mãos mais altas e assimétricas, com mesma textura"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.12 mãos 3D compartilham geometria com cinco dedos reais e sem textura"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.12 modo legado 2D continua disponível e volta ao 3D pelo painel"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.12 mãos 3D em movimento reduzido ficam estáticas e desaparecem no voo"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.12 mãos 3D são apresentadas também sem o painel de debug"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.13 carrega modelo FPS CC0 local com skeleton e juntas animáveis"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.13 compara modelo rigado e modelo 3D legado sem perder o Nox"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.13 modelo rigado sem painel mantém composição da primeira pessoa"
+    },
+    {
+      "file": "tests/star-selection.spec.js",
+      "name": "clique real confirma com pressão e onda de luz antes da viagem, sem duplicar"
+    },
+    {
+      "file": "tests/star-selection.spec.js",
+      "name": "teclado seleciona sem exigir hover e mantém navegação"
+    },
+    {
+      "file": "tests/star-selection.spec.js",
+      "name": "movimento reduzido confirma sem avanço, pressão ou expansão luminosa"
+    },
+    {
+      "file": "tests/star-selection.spec.js",
+      "name": "mãos desligadas mantêm confirmação luminosa e viagem"
+    },
+    {
+      "file": "tests/star-selection.spec.js",
+      "name": "toque › toque abre resumo e botão explícito confirma com gesto e viaja"
+    },
+    {
+      "file": "tests/star-selection.spec.js",
+      "name": "registra etapas do clique e preservação do centro em desktop e celular"
+    },
+    {
+      "file": "tests/touch-navigation.spec.js",
+      "name": "arrasto explora, não seleciona e toque seguinte abre resumo sem confirmar"
+    },
+    {
+      "file": "tests/touch-navigation.spec.js",
+      "name": "fechar, Escape, toque fora e cancelar arrasto não iniciam viagem"
+    },
+    {
+      "file": "tests/touch-navigation.spec.js",
+      "name": "painel e controles cabem em retrato pequeno, celular, paisagem e rotação"
+    },
+    {
+      "file": "tests/touch-navigation.spec.js",
+      "name": "movimento reduzido mantém vista estática ao arrastar e confirma pelo botão"
+    },
+    {
+      "file": "tests/touch-navigation.spec.js",
+      "name": "toque usa orçamento automático leve e duas mãos compactas por padrão"
+    },
+    {
+      "file": "tests/touch-navigation.spec.js",
+      "name": "hands=off no toque não baixa imagens e mantém confirmação explícita"
+    },
+    {
+      "file": "tests/vr-hands.spec.js",
+      "name": "v0.9.14 carrega mãos anatômicas MIT com dedos posicionados em primeira pessoa"
+    },
+    {
+      "file": "tests/vr-hands.spec.js",
+      "name": "v0.9.14 modo desligado não solicita nem aloca as mãos"
+    },
+    {
+      "file": "tests/vr-hands.spec.js",
+      "name": "v0.9.14 compara mãos relaxadas em 3/4 com pose aberta de referência"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.4: diagnóstico fica isolado no debug e coleta dados reais locais"
+    },
+    {
+      "file": "tests/observatorio.spec.js",
+      "name": "v0.9.13 rig altera quaternion dos dedos e reduced motion interrompe"
+    }
+  ],
+  "automaticRetries": 0,
+  "notes": [
+    "Full run: 95 passed, 2 failed. Obsolete layer count corrected; legacy quaternion test now waits for real animation frames.",
+    "After arrival-only responsive CSS change, 6/6 mobile cases passed, including arrival bounds/reduced motion; corrected legacy tests passed 2/2.",
+    "Current source of scene/hand/selection/journey modules matches full-run build; final additional application change is responsive arrival HTML/CSS."
+  ]
+}

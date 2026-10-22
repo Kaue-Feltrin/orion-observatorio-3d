@@ -36,25 +36,27 @@ async function bounds(page){
   });
 }
 function expectEdges(boxes){
-  expect(boxes[0].right).toBeLessThan(.30);
+  expect(boxes[0].right).toBeLessThan(.32); // retângulo rotacionado; alpha real protegido em .30
   expect(boxes[0].left).toBeLessThan(.04);
   for(const b of boxes.slice(1)){
     expect(b.left).toBeGreaterThan(.70);
     expect(b.right).toBeGreaterThan(.96);
   }
-  for(const b of boxes){
-    expect(b.left).toBeGreaterThan(-.05);
+  // A rotação óptica da esquerda leva cantos transparentes para fora da tela.
+  // hands-balance.unit mede o alpha real nas entradas laterais.
+  for(const [i,b] of boxes.entries()){
+    expect(b.left).toBeGreaterThan(i===0?-.10:-.05);
     expect(b.right).toBeLessThan(1.05);
     // O plano inclui a margem transparente acima da silhueta dos dedos.
     expect(b.top).toBeGreaterThan(.32);
-    expect(b.bottom).toBeLessThan(1.06);
+    expect(b.bottom).toBeLessThan(i===0?1.10:1.06);
   }
 }
 
 test('v0.9.21 bordas protegidas, neutra própria, hover real e retorno suave',async({page})=>{
   test.setTimeout(110000);
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto(url+'?debug=1&quality=eco-plus&hands=mesh');
+  await page.goto(url+'?debug=1&quality=eco-plus&hands=mesh&handsMotion=mesh');
   await ready(page);
   const assets=await page.evaluate(()=>{
     const h=window.__orionHandsDebug,n=h.root.getObjectByName('OrionFeminineRightNeutral');
@@ -80,7 +82,7 @@ test('v0.9.21 bordas protegidas, neutra própria, hover real e retorno suave',as
     });
     expect(neutral.pointVisible).toBe(false);
     expect(neutral.neutralVisible).toBe(true);
-    expect(neutral.neutralOpacity).toBeCloseTo(.46,2);
+    expect(neutral.neutralOpacity).toBeCloseTo(.38,2);
     expect(neutral.leftOpacity).toBeCloseTo(.38,2);
     expect(neutral.draw).toBe(2);
     expect(neutral.triangles).toBe(3552);
@@ -116,7 +118,7 @@ test('v0.9.21 bordas protegidas, neutra própria, hover real e retorno suave',as
 for(const event of ['pointerleave','blur','visibilitychange']){
   test('v0.9.21 encerra hover em '+event,async({page})=>{
     test.setTimeout(45000);
-    await page.goto(url+'?debug=1&quality=eco-plus&hands=mesh');
+    await page.goto(url+'?debug=1&quality=eco-plus&hands=mesh&handsMotion=mesh');
     await ready(page);
     await aim(page);
     await expect.poll(()=>blend(page)).toBeGreaterThan(.9);
@@ -132,7 +134,10 @@ for(const event of ['pointerleave','blur','visibilitychange']){
     await expect.poll(()=>blend(page)).toBeLessThan(.003);
     await page.mouse.move(15,20);
     await page.locator('#heraldTarget').focus();
-    expect(await page.evaluate(()=>window.__orionHandsDebug.state.rightHover)).toBe(false);
+    expect(await page.evaluate(()=>window.__orionHandsDebug.state.rightHover)).toBe(true);
+    await expect.poll(()=>blend(page)).toBeGreaterThan(.9);
+    await page.locator('#heraldTarget').blur();
+    await expect.poll(()=>blend(page)).toBeLessThan(.003);
   });
 }
 
@@ -147,13 +152,13 @@ test('v0.9.21 hands=off não baixa nenhum asset das mãos',async({page})=>{
 
 test('v0.9.21 movimento reduzido mantém dedos estáticos e troca de pose sem animação',async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});
-  await page.goto(url+'?debug=1&quality=eco-plus&hands=mesh');
+  await page.goto(url+'?debug=1&quality=eco-plus&hands=mesh&handsMotion=mesh');
   await ready(page);
   const vertices=await page.evaluate(()=>window.__orionHandsDebug.meshes.map(m=>Array.from(m.geometry.attributes.position.array)));
   await aim(page);
   await expect.poll(()=>blend(page)).toBe(1);
   expect(await page.evaluate(()=>window.__orionHandsDebug.state.maxVertexDelta)).toBe(0);
-  expect(await page.evaluate(()=>window.__orionHandsDebug.meshes.map(m=>m.rotation.z))).toEqual([0,0]);
+  expect(await page.evaluate(()=>window.__orionHandsDebug.meshes.map(m=>m.rotation.z))).toEqual([-.20,0]);
   expect(await page.evaluate(()=>window.__orionHandsDebug.meshes.map(m=>Array.from(m.geometry.attributes.position.array)))).toEqual(vertices);
   await page.mouse.move(15,20);
   await expect.poll(()=>blend(page)).toBe(0);

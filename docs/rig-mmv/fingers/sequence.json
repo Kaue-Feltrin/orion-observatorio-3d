@@ -1,0 +1,14 @@
+{
+  "samples": 172,
+  "bodyOpacityMin": 0.46,
+  "bodyOpacityMax": 0.46,
+  "bodyTextureIdentities": 1,
+  "maxSurfaces": 4,
+  "peakWeights": [
+    1,
+    0.9996029658855843,
+    0.9869189156906032,
+    0.9987334646854609,
+    0.9999999993135918
+  ]
+}

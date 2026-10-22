@@ -1,0 +1,28 @@
+{
+  "tool": "OpenAI ImageGen",
+  "purpose": "Arredondar articulações dos três dedos dobrados e criar indicador já estendido, sem vinco de uma pose curvada na imagem final.",
+  "source": {
+    "file": "orion-observatorio-upload-github-leve/public/overlay/right-hand-neutral.webp",
+    "sha256": "3382c902541b9ad85b8e61292ab6df1ce341128a5d562d10235c461d7def7788"
+  },
+  "intermediateReference": {
+    "localFile": "/workspace/generated_images/exec-ca8c9571-073b-44b6-bdf4-83927c7af725.png",
+    "sha256": "4d6e67ff7a3b10fe4ab65c82af3842528e98b6be4ce6de1ef84a152781a7b5c8",
+    "purpose": "Refinamento da anatomia sem alterar registro; referência da edição do indicador."
+  },
+  "generatedSource": {
+    "localFile": "/workspace/generated_images/exec-58d4c659-c68d-443f-9f94-944a8c195705.png",
+    "sha256": "380e69baf8170612c0384aa635049043f30a4ebffebfb7e3c4471cff88250417"
+  },
+  "shipped": {
+    "file": "orion-observatorio-upload-github-leve/public/overlay/right-hand-pointing-smooth.webp",
+    "sha256": "2962b655d53d1209d52f21e1d9b79b2b722ea2839a233d38ea79baadfb593350",
+    "width": 1122,
+    "height": 1402,
+    "alpha": true,
+    "bytes": 131050,
+    "conversion": "PNG → WebP quality 94, alphaQuality 100, sem resize/crop/rotação"
+  },
+  "rights": "Edição por ImageGen de asset próprio existente do projeto; nenhuma nova imagem de terceiros.",
+  "scope": "Somente handsMotion=perspective; originais e modos anteriores preservados."
+}

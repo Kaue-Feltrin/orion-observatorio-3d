@@ -42,7 +42,7 @@ test('v0.9.14 carrega mãos anatômicas MIT com dedos posicionados em primeira p
   expect(a.state.textureCount).toBe(0);
   expect(a.meshes).toHaveLength(2);
   expect(a.meshes.every(x=>x.skinned&&x.colors===4)).toBe(true);
-  expect(a.nLayers).toBe(3);
+  expect(a.nLayers).toBe(5);
   await page.evaluate(()=>{document.querySelector('#debug').style.display='none';});
   await page.screenshot({path:'test-results/v0914-vr-maos-anatomicas.png'});
   expect(errors).toEqual([]);

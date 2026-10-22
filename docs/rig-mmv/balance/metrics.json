@@ -1,0 +1,1185 @@
+{
+  "source": "production build Chromium/SwiftShader; real inputs; frozen selection clock only for stage screenshots",
+  "poses": [
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "p": 0.08,
+      "tipX": 0.7920065569709032,
+      "z": -2.512,
+      "anticipation": 1,
+      "followThrough": 0,
+      "opacity": 0.38,
+      "draws": 2,
+      "rings": [
+        {
+          "radius": 18.4512,
+          "opacity": 0.21,
+          "singlePass": true
+        },
+        {
+          "radius": 12,
+          "opacity": 0,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "p": 0.25,
+      "tipX": 0.7942965131063644,
+      "z": -2.4687327493520184,
+      "anticipation": 0,
+      "followThrough": 0,
+      "opacity": 0.38,
+      "draws": 2,
+      "rings": [
+        {
+          "radius": 30.375,
+          "opacity": 0.42,
+          "singlePass": true
+        },
+        {
+          "radius": 12,
+          "opacity": 0,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "p": 0.5,
+      "tipX": 0.796869598297993,
+      "z": -2.455,
+      "anticipation": 0,
+      "followThrough": 0,
+      "opacity": 0.38,
+      "draws": 2,
+      "rings": [
+        {
+          "radius": 43.5,
+          "opacity": 0.4050925925925926,
+          "singlePass": true
+        },
+        {
+          "radius": 32.57142857142858,
+          "opacity": 0.24,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "p": 0.75,
+      "tipX": 0.794704917336881,
+      "z": -2.4554683403632045,
+      "anticipation": 0,
+      "followThrough": 1,
+      "opacity": 0.38,
+      "draws": 2,
+      "rings": [
+        {
+          "radius": 51.375,
+          "opacity": 0.14558015046296294,
+          "singlePass": true
+        },
+        {
+          "radius": 48.642857142857146,
+          "opacity": 0.1618318205157022,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "p": 0.92,
+      "tipX": 0.7939084473801563,
+      "z": -2.4934884274409472,
+      "anticipation": 0,
+      "followThrough": 0.256713711805577,
+      "opacity": 0.38,
+      "draws": 2,
+      "rings": [
+        {
+          "radius": 53.7312,
+          "opacity": 0.00807063703703717,
+          "singlePass": true
+        },
+        {
+          "radius": 53.45142857142857,
+          "opacity": 0.012207964494511704,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "p": 0.08,
+      "tipX": 0.7508568692329334,
+      "z": -2.512,
+      "anticipation": 1,
+      "followThrough": 0,
+      "opacity": 0.38,
+      "draws": 2,
+      "rings": [
+        {
+          "radius": 18.4512,
+          "opacity": 0.21,
+          "singlePass": true
+        },
+        {
+          "radius": 12,
+          "opacity": 0,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "p": 0.25,
+      "tipX": 0.7524338183545851,
+      "z": -2.4687327493520184,
+      "anticipation": 0,
+      "followThrough": 0,
+      "opacity": 0.38,
+      "draws": 2,
+      "rings": [
+        {
+          "radius": 30.375,
+          "opacity": 0.42,
+          "singlePass": true
+        },
+        {
+          "radius": 12,
+          "opacity": 0,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "p": 0.5,
+      "tipX": 0.7549735919634063,
+      "z": -2.455,
+      "anticipation": 0,
+      "followThrough": 0,
+      "opacity": 0.38,
+      "draws": 2,
+      "rings": [
+        {
+          "radius": 43.5,
+          "opacity": 0.4050925925925926,
+          "singlePass": true
+        },
+        {
+          "radius": 32.57142857142858,
+          "opacity": 0.24,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "p": 0.75,
+      "tipX": 0.7525760558943285,
+      "z": -2.4554683403632045,
+      "anticipation": 0,
+      "followThrough": 1,
+      "opacity": 0.38,
+      "draws": 2,
+      "rings": [
+        {
+          "radius": 51.375,
+          "opacity": 0.14558015046296294,
+          "singlePass": true
+        },
+        {
+          "radius": 48.642857142857146,
+          "opacity": 0.1618318205157022,
+          "singlePass": true
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "p": 0.92,
+      "tipX": 0.7525131388600792,
+      "z": -2.4934884274409472,
+      "anticipation": 0,
+      "followThrough": 0.256713711805577,
+      "opacity": 0.38,
+      "draws": 2,
+      "rings": [
+        {
+          "radius": 53.7312,
+          "opacity": 0.00807063703703717,
+          "singlePass": true
+        },
+        {
+          "radius": 53.45142857142857,
+          "opacity": 0.012207964494511704,
+          "singlePass": true
+        }
+      ]
+    }
+  ],
+  "sequences": [
+    {
+      "samples": [
+        {
+          "p": 0.03571428572847708,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0.5191273416924634,
+          "followThrough": 0,
+          "blend": 0.599905829890011,
+          "z": -2.5062295281003095,
+          "opacity": 0.38,
+          "map": "8daeb3e1-1ed3-4887-9571-3250eebb7699",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.03246727811335479,
+            0
+          ]
+        },
+        {
+          "p": 0.15476190477609614,
+          "reach": 0.12225918294354383,
+          "press": 0,
+          "anticipation": 0.33706545483811634,
+          "followThrough": 0,
+          "blend": 0.5999301567848512,
+          "z": -2.498543122225598,
+          "opacity": 0.38,
+          "map": "8daeb3e1-1ed3-4887-9571-3250eebb7699",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.41985977201267777,
+            0
+          ]
+        },
+        {
+          "p": 0.1746428571570483,
+          "reach": 0.21685350425295902,
+          "press": 0,
+          "anticipation": 0.08404522582364493,
+          "followThrough": 0,
+          "blend": 0.5999368010979951,
+          "z": -2.491250135018501,
+          "opacity": 0.38,
+          "map": "8daeb3e1-1ed3-4887-9571-3250eebb7699",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.42,
+            0
+          ]
+        },
+        {
+          "p": 0.2936904762046674,
+          "reach": 0.9098942236269741,
+          "press": 0.0028871695992938977,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0.599664451564966,
+          "z": -2.459054759936786,
+          "opacity": 0.38,
+          "map": "8daeb3e1-1ed3-4887-9571-3250eebb7699",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.42,
+            0
+          ]
+        },
+        {
+          "p": 0.41273809525228644,
+          "reach": 1,
+          "press": 0.7856946902858911,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0.5213958496477495,
+          "z": -2.455,
+          "opacity": 0.38,
+          "map": "8daeb3e1-1ed3-4887-9571-3250eebb7699",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.4199610797971888,
+            0.24
+          ]
+        },
+        {
+          "p": 0.4722619047760959,
+          "reach": 1,
+          "press": 0.9994539145994676,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0.5000289403038394,
+          "z": -2.455,
+          "opacity": 0.38,
+          "map": "8daeb3e1-1ed3-4887-9571-3250eebb7699",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.4139245370467428,
+            0.24
+          ]
+        },
+        {
+          "p": 0.591309523823715,
+          "reach": 1,
+          "press": 0.9808149499976071,
+          "anticipation": 0,
+          "followThrough": 0.09626819222172986,
+          "blend": 0.5018995182332207,
+          "z": -2.455,
+          "opacity": 0.38,
+          "map": "8daeb3e1-1ed3-4887-9571-3250eebb7699",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.3406642335355221,
+            0.23995501295985336
+          ]
+        },
+        {
+          "p": 0.710357142871334,
+          "reach": 1,
+          "press": 0.46762372079026404,
+          "anticipation": 0,
+          "followThrough": 0.9983267260974158,
+          "blend": 0.5532235909982295,
+          "z": -2.455,
+          "opacity": 0.38,
+          "map": "8daeb3e1-1ed3-4887-9571-3250eebb7699",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.19641704765329057,
+            0.19750242280998506
+          ]
+        },
+        {
+          "p": 0.809523809538001,
+          "reach": 0.8098600953120911,
+          "press": 0.033312331354953706,
+          "anticipation": 0,
+          "followThrough": 0.9804354564290114,
+          "blend": 0.596658394704754,
+          "z": -2.463556295710956,
+          "opacity": 0.38,
+          "map": "8daeb3e1-1ed3-4887-9571-3250eebb7699",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.07851222381491219,
+            0.09920185892892436
+          ]
+        },
+        {
+          "p": 0.8889285714427615,
+          "reach": 0.3117253849352677,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0.5091309158492987,
+          "blend": 0.5999923395779648,
+          "z": -2.485972357677913,
+          "opacity": 0.38,
+          "map": "8daeb3e1-1ed3-4887-9571-3250eebb7699",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.019793516330893844,
+            0.028642940457448744
+          ]
+        },
+        {
+          "p": 0.948452380966571,
+          "reach": 0.04643378267989273,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0.08766176634659717,
+          "blend": 0.5999943450132721,
+          "z": -2.4979104797794047,
+          "opacity": 0.38,
+          "map": "8daeb3e1-1ed3-4887-9571-3250eebb7699",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.002331884619172131,
+            0.0036602537980827063
+          ]
+        }
+      ],
+      "activations": 1,
+      "completed": true,
+      "hidden": true,
+      "selecting": false
+    },
+    {
+      "samples": [
+        {
+          "p": 0.11904761904761905,
+          "reach": 0.021764392190676735,
+          "press": 0,
+          "anticipation": 0.8810927517315773,
+          "followThrough": 0,
+          "blend": 0.025590753854552627,
+          "z": -2.5095937153721986,
+          "opacity": 0.38,
+          "map": "4fd71fc5-2ea2-4cc1-91fc-9e535438a299",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.37384498072830513,
+            0
+          ]
+        },
+        {
+          "p": 0.2380952380952381,
+          "reach": 0.619830683569067,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0.0831746810065941,
+          "z": -2.472107619239392,
+          "opacity": 0.38,
+          "map": "4fd71fc5-2ea2-4cc1-91fc-9e535438a299",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.42,
+            0
+          ]
+        },
+        {
+          "p": 0.2579761904761906,
+          "reach": 0.7421055181169439,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0.10583510300824824,
+          "z": -2.4666052516847374,
+          "opacity": 0.38,
+          "map": "4fd71fc5-2ea2-4cc1-91fc-9e535438a299",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.42,
+            0
+          ]
+        },
+        {
+          "p": 0.37702380952380965,
+          "reach": 1,
+          "press": 0.472114686302047,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0.12975441680286115,
+          "z": -2.455,
+          "opacity": 0.38,
+          "map": "4fd71fc5-2ea2-4cc1-91fc-9e535438a299",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.42,
+            0.196869176995393
+          ]
+        },
+        {
+          "p": 0.49607142857142866,
+          "reach": 1,
+          "press": 1,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0.14666925890135826,
+          "z": -2.455,
+          "opacity": 0.38,
+          "map": "4fd71fc5-2ea2-4cc1-91fc-9e535438a299",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.4066342154866289,
+            0.24
+          ]
+        },
+        {
+          "p": 0.6151190476190477,
+          "reach": 1,
+          "press": 0.9340609452114953,
+          "anticipation": 0,
+          "followThrough": 0.2885906837308456,
+          "blend": 0.2168548277615667,
+          "z": -2.455,
+          "opacity": 0.38,
+          "map": "4fd71fc5-2ea2-4cc1-91fc-9e535438a299",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.31560343121262263,
+            0.23876698963350104
+          ]
+        },
+        {
+          "p": 0.6349999999999999,
+          "reach": 1,
+          "press": 0.8693417288203906,
+          "anticipation": 0,
+          "followThrough": 0.4999999999999988,
+          "blend": 0.24280895883202863,
+          "z": -2.455,
+          "opacity": 0.38,
+          "map": "4fd71fc5-2ea2-4cc1-91fc-9e535438a299",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.2926801367332177,
+            0.2356136686736567
+          ]
+        },
+        {
+          "p": 0.7144047619047622,
+          "reach": 1,
+          "press": 0.44325581904491274,
+          "anticipation": 0,
+          "followThrough": 0.9996608300111731,
+          "blend": 0.3380771417959446,
+          "z": -2.455,
+          "opacity": 0.38,
+          "map": "4fd71fc5-2ea2-4cc1-91fc-9e535438a299",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.19112278911051248,
+            0.19426983243296703
+          ]
+        },
+        {
+          "p": 0.8135714285714285,
+          "reach": 0.788862088836981,
+          "press": 0.026499646730551274,
+          "anticipation": 0,
+          "followThrough": 0.9721032997636164,
+          "blend": 0.4239965236473804,
+          "z": -2.464501206002336,
+          "opacity": 0.38,
+          "map": "4fd71fc5-2ea2-4cc1-91fc-9e535438a299",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.07456722403474454,
+            0.09495622082195686
+          ]
+        },
+        {
+          "p": 0.9128571428571428,
+          "reach": 0.178243721713927,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0.3107296506538558,
+          "blend": 0.46309043105009573,
+          "z": -2.4919790325228734,
+          "opacity": 0.38,
+          "map": "4fd71fc5-2ea2-4cc1-91fc-9e535438a299",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.010227003650292468,
+            0.015318802665813206
+          ]
+        },
+        {
+          "p": 0.9722619047619048,
+          "reach": 0.008334590145453236,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0.016443538391371137,
+          "blend": 0.4926037115505301,
+          "z": -2.4996249434434548,
+          "opacity": 0.38,
+          "map": "4fd71fc5-2ea2-4cc1-91fc-9e535438a299",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.00038673372350251923,
+            0.0006246641946956544
+          ]
+        }
+      ],
+      "activations": 1,
+      "completed": true,
+      "hidden": true,
+      "selecting": false
+    },
+    {
+      "samples": [
+        {
+          "p": 0,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0.6,
+          "z": -2.5,
+          "opacity": 0.38,
+          "map": "13706441-ead9-4e69-8437-3432e5826bbb",
+          "draws": 2,
+          "journey": false,
+          "fov": 52,
+          "light": [
+            0.3,
+            0
+          ]
+        }
+      ],
+      "activations": 1,
+      "completed": true,
+      "hidden": true,
+      "selecting": false
+    },
+    {
+      "samples": [
+        {
+          "p": 0.11904761904761905,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0,
+          "draws": 0,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.37384498072830513,
+            0
+          ]
+        },
+        {
+          "p": 0.2380952380952381,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0,
+          "draws": 0,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.42,
+            0
+          ]
+        },
+        {
+          "p": 0.2579761904761906,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0,
+          "draws": 0,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.42,
+            0
+          ]
+        },
+        {
+          "p": 0.37702380952380965,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0,
+          "draws": 0,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.42,
+            0.196869176995393
+          ]
+        },
+        {
+          "p": 0.49607142857142866,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0,
+          "draws": 0,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.4066342154866289,
+            0.24
+          ]
+        },
+        {
+          "p": 0.595238095238095,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0,
+          "draws": 0,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.3367306430518049,
+            0.23989152854144435
+          ]
+        },
+        {
+          "p": 0.6944047619047619,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0,
+          "draws": 0,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.2173420471517955,
+            0.20915355942323574
+          ]
+        },
+        {
+          "p": 0.8134523809523809,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0,
+          "draws": 0,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.0746819371988294,
+            0.09508059408097931
+          ]
+        },
+        {
+          "p": 0.9126190476190478,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0,
+          "draws": 0,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.010304237137651686,
+            0.015429386384151726
+          ]
+        },
+        {
+          "p": 0.9920238095238095,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0,
+          "draws": 0,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.000009671225870151456,
+            0.000015973332450736066
+          ]
+        }
+      ],
+      "activations": 1,
+      "completed": true,
+      "hidden": true,
+      "selecting": false
+    },
+    {
+      "samples": [
+        {
+          "p": 0.07095238094528517,
+          "reach": 0,
+          "press": 0,
+          "anticipation": 1,
+          "followThrough": 0,
+          "blend": 0.025590753854552627,
+          "z": -2.512,
+          "opacity": 0.38,
+          "map": "4faecd3b-47fb-4951-b0e2-b24d9cd92cb8",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.1658470118685379,
+            0
+          ]
+        },
+        {
+          "p": 0.1899999999929042,
+          "reach": 0.3051722077793806,
+          "press": 0,
+          "anticipation": 0.006525883118570053,
+          "followThrough": 0,
+          "blend": 0.0831746810065941,
+          "z": -2.486345561247351,
+          "opacity": 0.38,
+          "map": "4faecd3b-47fb-4951-b0e2-b24d9cd92cb8",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.42,
+            0
+          ]
+        },
+        {
+          "p": 0.20976190475480888,
+          "reach": 0.43168536370917815,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0.10569656473803579,
+          "z": -2.480574158633087,
+          "opacity": 0.38,
+          "map": "4faecd3b-47fb-4951-b0e2-b24d9cd92cb8",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.42,
+            0
+          ]
+        },
+        {
+          "p": 0.2494047618976657,
+          "reach": 0.6911925886855864,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0.15288363484106535,
+          "z": -2.4688963335091487,
+          "opacity": 0.38,
+          "map": "4faecd3b-47fb-4951-b0e2-b24d9cd92cb8",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.42,
+            0
+          ]
+        },
+        {
+          "p": 0.30892857142147523,
+          "reach": 0.9547091071975786,
+          "press": 0.02407573492016338,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0.22136036814419718,
+          "z": -2.457038090176109,
+          "opacity": 0.38,
+          "map": "4faecd3b-47fb-4951-b0e2-b24d9cd92cb8",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.42,
+            0.0010751531409045837
+          ]
+        },
+        {
+          "p": 0.3685714285643328,
+          "reach": 1,
+          "press": 0.3937864317790779,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0.2503606600042577,
+          "z": -2.455,
+          "opacity": 0.38,
+          "map": "4faecd3b-47fb-4951-b0e2-b24d9cd92cb8",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.42,
+            0.16883886344583038
+          ]
+        },
+        {
+          "p": 0.42797619046909424,
+          "reach": 1,
+          "press": 0.8855253288121597,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0.25940589302303807,
+          "z": -2.455,
+          "opacity": 0.38,
+          "map": "4faecd3b-47fb-4951-b0e2-b24d9cd92cb8",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.4196034657540342,
+            0.24
+          ]
+        },
+        {
+          "p": 0.4874999999929037,
+          "reach": 1,
+          "press": 1,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0.29782159535394614,
+          "z": -2.455,
+          "opacity": 0.38,
+          "map": "4faecd3b-47fb-4951-b0e2-b24d9cd92cb8",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.40965701491975665,
+            0.24
+          ]
+        },
+        {
+          "p": 0.5272619047548086,
+          "reach": 1,
+          "press": 1,
+          "anticipation": 0,
+          "followThrough": 0,
+          "blend": 0.3264856002668357,
+          "z": -2.455,
+          "opacity": 0.38,
+          "map": "4faecd3b-47fb-4951-b0e2-b24d9cd92cb8",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.3915921921296502,
+            0.24
+          ]
+        },
+        {
+          "p": 0.5669047618976659,
+          "reach": 1,
+          "press": 0.9985081547643508,
+          "anticipation": 0,
+          "followThrough": 0.008424542644416168,
+          "blend": 0.35174047521279145,
+          "z": -2.455,
+          "opacity": 0.38,
+          "map": "4faecd3b-47fb-4951-b0e2-b24d9cd92cb8",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.3631189646664157,
+            0.24
+          ]
+        },
+        {
+          "p": 0.6463095238024276,
+          "reach": 1,
+          "press": 0.8225118315177048,
+          "anticipation": 0,
+          "followThrough": 0.6232730494535866,
+          "blend": 0.4011190900737045,
+          "z": -2.455,
+          "opacity": 0.38,
+          "map": "4faecd3b-47fb-4951-b0e2-b24d9cd92cb8",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.2789784831481575,
+            0.23265069033394226
+          ]
+        },
+        {
+          "p": 0.685952380945285,
+          "reach": 1,
+          "press": 0.6140527641438828,
+          "anticipation": 0,
+          "followThrough": 0.9418646479359782,
+          "blend": 0.4396221567555403,
+          "z": -2.455,
+          "opacity": 0.38,
+          "map": "4faecd3b-47fb-4951-b0e2-b24d9cd92cb8",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.22841056681022148,
+            0.21457880318181455
+          ]
+        },
+        {
+          "p": 0.7454761904690945,
+          "reach": 0.9934582649455321,
+          "press": 0.26608635258380287,
+          "anticipation": 0,
+          "followThrough": 1,
+          "blend": 0.4964108633920752,
+          "z": -2.455294378077451,
+          "opacity": 0.38,
+          "map": "4faecd3b-47fb-4951-b0e2-b24d9cd92cb8",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.15122055792569958,
+            0.16629377421287259
+          ]
+        },
+        {
+          "p": 0.7852380952309994,
+          "reach": 0.9136022614503762,
+          "press": 0.09442025915188834,
+          "anticipation": 0,
+          "followThrough": 0.9998697999883291,
+          "blend": 0.525659308181633,
+          "z": -2.458887898234733,
+          "opacity": 0.38,
+          "map": "4faecd3b-47fb-4951-b0e2-b24d9cd92cb8",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.1040001553993717,
+            0.12510029215137156
+          ]
+        },
+        {
+          "p": 0.8248809523738563,
+          "reach": 0.7254928211207661,
+          "press": 0.012180571538431773,
+          "anticipation": 0,
+          "followThrough": 0.938958472180566,
+          "blend": 0.5441528532470987,
+          "z": -2.4673528230495654,
+          "opacity": 0.38,
+          "map": "4faecd3b-47fb-4951-b0e2-b24d9cd92cb8",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.06404396841896196,
+            0.08330924409424231
+          ]
+        },
+        {
+          "p": 0.8842857142786182,
+          "reach": 0.3406054822077267,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0.5486137528079296,
+          "blend": 0.5579448843254827,
+          "z": -2.4846727533006523,
+          "opacity": 0.38,
+          "map": "4faecd3b-47fb-4951-b0e2-b24d9cd92cb8",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.02208404317832973,
+            0.031734563375388186
+          ]
+        },
+        {
+          "p": 0.9240476190405231,
+          "reach": 0.1271942242445362,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0.22782244541823482,
+          "blend": 0.5647736873681081,
+          "z": -2.494276259908996,
+          "opacity": 0.38,
+          "map": "4faecd3b-47fb-4951-b0e2-b24d9cd92cb8",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.006983811084308633,
+            0.010621844498356054
+          ]
+        },
+        {
+          "p": 0.9835714285643328,
+          "reach": 0.0018462809916669487,
+          "press": 0,
+          "anticipation": 0,
+          "followThrough": 0.003711686390221902,
+          "blend": 0.5730572454278307,
+          "z": -2.499916917355375,
+          "opacity": 0.38,
+          "map": "4faecd3b-47fb-4951-b0e2-b24d9cd92cb8",
+          "draws": 2,
+          "journey": false,
+          "fov": 51,
+          "light": [
+            0.00008271511496805272,
+            0.00013534007307421268
+          ]
+        }
+      ],
+      "activations": 1,
+      "completed": true,
+      "hidden": true,
+      "selecting": false
+    }
+  ]
+}

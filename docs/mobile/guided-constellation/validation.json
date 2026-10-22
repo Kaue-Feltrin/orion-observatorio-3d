@@ -1,0 +1,289 @@
+{
+  "date": "2026-10-22",
+  "base": "40b98b5cb820c2d31c92ab8a44487b657c13e484",
+  "branch": "codex/maos-rig-mmv",
+  "checks": {
+    "npm run check": "passed",
+    "NODE_USE_ENV_PROXY=1 npm run build": "passed",
+    "unitSuites": [
+      "mobile-constellation.unit.mjs",
+      "herald-navigation.unit.mjs",
+      "selection-handoff.unit.mjs",
+      "hands-balance.unit.mjs",
+      "journey-motion.unit.mjs"
+    ]
+  },
+  "browser": {
+    "distinctPassed": 32,
+    "rounds": [
+      {
+        "passed": 6,
+        "failed": 0,
+        "retries": 0,
+        "note": "Guia inicial: seis casos aprovados.",
+        "cases": [
+          {
+            "file": "tests/mobile-constellation.spec.js",
+            "name": "guiado 390×844: deslizar, setas, marcadores e confirmação"
+          },
+          {
+            "file": "tests/mobile-constellation.spec.js",
+            "name": "guiado 844×390: deslizar, setas, marcadores e confirmação"
+          },
+          {
+            "file": "tests/mobile-constellation.spec.js",
+            "name": "uma estrela dispensa indicações falsas; duas têm limites e teclado"
+          },
+          {
+            "file": "tests/mobile-constellation.spec.js",
+            "name": "arrasto vertical, gesto cancelado e toque no resumo não mudam destino"
+          },
+          {
+            "file": "tests/mobile-constellation.spec.js",
+            "name": "rotação mantém estrela e resumo em 320px, retrato e paisagem"
+          },
+          {
+            "file": "tests/mobile-constellation.spec.js",
+            "name": "movimento reduzido muda estrela sem deslize animado e mantém viagem"
+          }
+        ]
+      },
+      {
+        "passed": 26,
+        "failed": 0,
+        "retries": 0,
+        "note": "Navegação/seleção/toque aprovados.",
+        "cases": [
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "1 estrela(s): destino 1 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "2 estrela(s): destino 1 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "2 estrela(s): destino 2 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "3 estrela(s): destino 1 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "3 estrela(s): destino 2 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "3 estrela(s): destino 3 preserva identidade e permite retornar"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "raio do mouse escolhe cada estrela e compartilha texturas sem misturar resumos"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "véu cobre saída e primeiro quadro da chegada até módulo atrasado ficar pronto"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "movimento reduzido, acesso direto e destino inválido mantêm chegada utilizável"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "regressão do toque compartilhado › segunda estrela abre resumo sem viagem e confirmação chega ao destino correto"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "limite de três, fallback de contagem inválida e reposicionamento mantêm alvos separados"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "voltar pelo navegador restaura o Observatório sem clarão ou seleção travados"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "viagem lateral 1: câmera mantém direção e outras estrelas não deslizam na curva"
+          },
+          {
+            "file": "tests/herald-navigation.spec.js",
+            "name": "viagem lateral 2: câmera mantém direção e outras estrelas não deslizam na curva"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "clique real confirma com pressão e onda de luz antes da viagem, sem duplicar"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "teclado seleciona sem exigir hover e mantém navegação"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "movimento reduzido confirma sem avanço, pressão ou expansão luminosa"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "mãos desligadas mantêm confirmação luminosa e viagem"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "toque › toque abre resumo e botão explícito confirma com gesto e viaja"
+          },
+          {
+            "file": "tests/star-selection.spec.js",
+            "name": "registra etapas do clique e preservação do centro em desktop e celular"
+          },
+          {
+            "file": "tests/touch-navigation.spec.js",
+            "name": "arrasto explora, não seleciona e toque seguinte abre resumo sem confirmar"
+          },
+          {
+            "file": "tests/touch-navigation.spec.js",
+            "name": "fechar, Escape, toque fora e cancelar arrasto não iniciam viagem"
+          },
+          {
+            "file": "tests/touch-navigation.spec.js",
+            "name": "painel e controles cabem em retrato pequeno, celular, paisagem e rotação"
+          },
+          {
+            "file": "tests/touch-navigation.spec.js",
+            "name": "movimento reduzido mantém vista estática ao arrastar e confirma pelo botão"
+          },
+          {
+            "file": "tests/touch-navigation.spec.js",
+            "name": "toque usa orçamento leve e reserva as mãos para a confirmação"
+          },
+          {
+            "file": "tests/touch-navigation.spec.js",
+            "name": "hands=off no toque não baixa imagens e mantém confirmação explícita"
+          }
+        ]
+      },
+      {
+        "passed": 11,
+        "failed": 1,
+        "retries": 0,
+        "note": "Após reservar cabeçalho: guarda nova detectou confirmação 1 px fora do cartão em paisagem pequena; corrigido rodapé sticky, sem relaxar limite.",
+        "cases": [
+          {
+            "file": "tests/mobile-constellation.spec.js",
+            "name": "guiado 390×844: deslizar, setas, marcadores e confirmação"
+          },
+          {
+            "file": "tests/mobile-constellation.spec.js",
+            "name": "guiado 844×390: deslizar, setas, marcadores e confirmação"
+          },
+          {
+            "file": "tests/mobile-constellation.spec.js",
+            "name": "uma estrela dispensa indicações falsas; duas têm limites e teclado"
+          },
+          {
+            "file": "tests/mobile-constellation.spec.js",
+            "name": "arrasto vertical, gesto cancelado e toque no resumo não mudam destino"
+          },
+          {
+            "file": "tests/mobile-constellation.spec.js",
+            "name": "movimento reduzido muda estrela sem deslize animado e mantém viagem"
+          },
+          {
+            "file": "tests/touch-navigation.spec.js",
+            "name": "arrasto explora, não seleciona e toque seguinte abre resumo sem confirmar"
+          },
+          {
+            "file": "tests/touch-navigation.spec.js",
+            "name": "fechar, Escape, toque fora e cancelar arrasto não iniciam viagem"
+          },
+          {
+            "file": "tests/touch-navigation.spec.js",
+            "name": "painel e controles cabem em retrato pequeno, celular, paisagem e rotação"
+          },
+          {
+            "file": "tests/touch-navigation.spec.js",
+            "name": "movimento reduzido mantém vista estática ao arrastar e confirma pelo botão"
+          },
+          {
+            "file": "tests/touch-navigation.spec.js",
+            "name": "toque usa orçamento leve e reserva as mãos para a confirmação"
+          },
+          {
+            "file": "tests/touch-navigation.spec.js",
+            "name": "hands=off no toque não baixa imagens e mantém confirmação explícita"
+          }
+        ]
+      },
+      {
+        "passed": 4,
+        "failed": 0,
+        "retries": 0,
+        "note": "Build final: quatro cenários afetados aprovados após ajuste do rodapé.",
+        "cases": [
+          {
+            "file": "tests/mobile-constellation.spec.js",
+            "name": "guiado 390×844: deslizar, setas, marcadores e confirmação"
+          },
+          {
+            "file": "tests/mobile-constellation.spec.js",
+            "name": "guiado 844×390: deslizar, setas, marcadores e confirmação"
+          },
+          {
+            "file": "tests/mobile-constellation.spec.js",
+            "name": "rotação mantém estrela e resumo em 320px, retrato e paisagem"
+          },
+          {
+            "file": "tests/touch-navigation.spec.js",
+            "name": "painel e controles cabem em retrato pequeno, celular, paisagem e rotação"
+          }
+        ]
+      }
+    ],
+    "note": "Não representa uma execução única de 32. Falha nova de encaixe corrigida no CSS; quatro cenários afetados passaram no build final, sem alterar limites do teste."
+  },
+  "unitUpdate": "Expectativa antiga de mãos visíveis no hover móvel adaptada à nova presença só na confirmação; unidade agora exercita desktop e toque sem mudar limites de continuidade.",
+  "recordings": "recordings.json",
+  "sourceSHA256": {
+    "mobile-constellation.js": "f363f815f3e349973d27c0f3ea0e42a7eb5acc65f25fc7b455426a0f6a864ca5",
+    "main.js": "4e2c611c3acf47efc1fe78aed4cb5404178ec434b164ee2c5d2b46c8793cbc32",
+    "touch-navigation.js": "6421ad145abbbd1a6c3f2c27f7fe144bafebe79bcdc6e84e3b56502a3fc6491b",
+    "first-person-hands-mesh.js": "667a6f043f14a8ffe556c78357ab847e38afca4d8a9e4593b2e475e2ca0b4dc3",
+    "styles.css": "a7313d4b81e0570601f96086d1e96c02c06759adf95bd642d4adaa3f1ba9cf0d",
+    "index.html": "6ecd900df80620ac4b8ca1e7e690cedf55fdc507bb2b7a565288803406eabc80"
+  },
+  "modifiedFiles": [
+    ".github/workflows/validar-observatorio.yml",
+    "CONTEXTO_COMPLETO_CUMULATIVO.md",
+    "CONTINUIDADE.md",
+    "docs/mobile/guided-constellation/README.md",
+    "docs/mobile/guided-constellation/landscape-arrival.webp",
+    "docs/mobile/guided-constellation/landscape-browse.webp",
+    "docs/mobile/guided-constellation/landscape-confirm.webp",
+    "docs/mobile/guided-constellation/landscape-rest.webp",
+    "docs/mobile/guided-constellation/landscape-small-summary.webp",
+    "docs/mobile/guided-constellation/landscape-summary.webp",
+    "docs/mobile/guided-constellation/landscape-third.webp",
+    "docs/mobile/guided-constellation/landscape.mp4",
+    "docs/mobile/guided-constellation/portrait-arrival.webp",
+    "docs/mobile/guided-constellation/portrait-browse.webp",
+    "docs/mobile/guided-constellation/portrait-confirm.webp",
+    "docs/mobile/guided-constellation/portrait-rest.webp",
+    "docs/mobile/guided-constellation/portrait-summary.webp",
+    "docs/mobile/guided-constellation/portrait-third.webp",
+    "docs/mobile/guided-constellation/portrait.mp4",
+    "docs/mobile/guided-constellation/recordings.json",
+    "docs/mobile/guided-constellation/small-landscape.json",
+    "docs/mobile/guided-constellation/validation.json",
+    "orion-observatorio-upload-github-leve/first-person-hands-mesh.js",
+    "orion-observatorio-upload-github-leve/index.html",
+    "orion-observatorio-upload-github-leve/main.js",
+    "orion-observatorio-upload-github-leve/mobile-constellation.js",
+    "orion-observatorio-upload-github-leve/styles.css",
+    "orion-observatorio-upload-github-leve/tests/herald-navigation.spec.js",
+    "orion-observatorio-upload-github-leve/tests/mobile-constellation.spec.js",
+    "orion-observatorio-upload-github-leve/tests/mobile-constellation.unit.mjs",
+    "orion-observatorio-upload-github-leve/tests/selection-handoff.unit.mjs",
+    "orion-observatorio-upload-github-leve/tests/touch-navigation.spec.js",
+    "orion-observatorio-upload-github-leve/touch-navigation.js"
+  ],
+  "environment": "Chromium /usr/bin/chromium; SwiftShader; emulação de toque. Sem validação física Android/Safari/iPhone.",
+  "scope": "Mobile guiado nas duas orientações; desktop/zoom de viagem preservados. Sem conta/criação de personagem/main/merge."
+}

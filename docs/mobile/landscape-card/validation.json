@@ -1,0 +1,144 @@
+{
+  "base": "bedd0f9c589404c3c2193355c45ff3916db0c1d1",
+  "date": "2026-10-22",
+  "commands": [
+    "npm run check",
+    "NODE_USE_ENV_PROXY=1 npm run build"
+  ],
+  "units": [
+    "selection-handoff",
+    "hands-balance"
+  ],
+  "browserRounds": [
+    {
+      "log": "/workspace/orion-mobile-card-tests.log",
+      "passed": [
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "guiado 390×844: deslizar, setas, marcadores e confirmação",
+          "canonicalName": "guiado 390×844: deslizar, setas, marcadores e confirmação"
+        },
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "guiado 844×390: deslizar, setas, marcadores e confirmação",
+          "canonicalName": "guiado 844×390: deslizar, setas, marcadores e confirmação"
+        },
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "guiado 780×260: deslizar, setas, marcadores e confirmação",
+          "canonicalName": "guiado 780×260: deslizar, setas, marcadores e confirmação"
+        },
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "uma estrela dispensa indicações falsas; duas têm limites e teclado",
+          "canonicalName": "uma estrela dispensa indicações falsas; duas têm limites e teclado"
+        },
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "arrasto vertical, gesto cancelado e toque no resumo não mudam destino",
+          "canonicalName": "arrasto vertical, gesto cancelado e toque no resumo não mudam destino"
+        },
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "rotação mantém estrela e resumo em 320px, retrato e paisagem",
+          "canonicalName": "rotação mantém estrela e resumo em 320px, retrato e paisagem"
+        },
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "movimento reduzido muda estrela sem deslize animado e mantém viagem",
+          "canonicalName": "movimento reduzido muda estrela sem deslize animado e mantém viagem"
+        },
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "paisagem curta mantém setas nas laterais e estrela livre dos indicadores",
+          "canonicalName": "paisagem curta mantém setas nas laterais e estrela livre dos indicadores"
+        },
+        {
+          "file": "tests/touch-navigation.spec.js",
+          "name": "arrasto explora, não seleciona e toque seguinte abre resumo sem confirmar",
+          "canonicalName": "arrasto explora, não seleciona e toque seguinte abre resumo sem confirmar"
+        },
+        {
+          "file": "tests/touch-navigation.spec.js",
+          "name": "fechar, Escape, toque fora e cancelar arrasto não iniciam viagem",
+          "canonicalName": "fechar, Escape, toque fora e cancelar arrasto não iniciam viagem"
+        },
+        {
+          "file": "tests/touch-navigation.spec.js",
+          "name": "painel e controles cabem em retrato pequeno, celular, paisagem e rotação",
+          "canonicalName": "painel e controles cabem em retrato pequeno, celular, paisagem e rotação"
+        },
+        {
+          "file": "tests/touch-navigation.spec.js",
+          "name": "movimento reduzido mantém vista estática ao arrastar e confirma pelo botão",
+          "canonicalName": "movimento reduzido mantém vista estática ao arrastar e confirma pelo botão"
+        },
+        {
+          "file": "tests/touch-navigation.spec.js",
+          "name": "toque usa orçamento leve e reserva as mãos para a confirmação",
+          "canonicalName": "toque usa orçamento leve e mantém mãos ocultas"
+        },
+        {
+          "file": "tests/touch-navigation.spec.js",
+          "name": "hands=off no toque não baixa imagens e mantém confirmação explícita",
+          "canonicalName": "hands=off no toque não baixa imagens e mantém confirmação explícita"
+        }
+      ],
+      "complete": true
+    },
+    {
+      "log": "/workspace/orion-mobile-card-desktop.log",
+      "passed": [
+        {
+          "file": "tests/hands-perspective.spec.js",
+          "name": "perspectiva deforma mão inteira sem fades, com intermediários e hover real",
+          "canonicalName": "perspectiva deforma mão inteira sem fades, com intermediários e hover real"
+        },
+        {
+          "file": "tests/touch-navigation.spec.js",
+          "name": "toque usa orçamento leve e mantém mãos ocultas",
+          "canonicalName": "toque usa orçamento leve e mantém mãos ocultas"
+        }
+      ],
+      "complete": true
+    },
+    {
+      "log": "/workspace/orion-mobile-card-final.log",
+      "passed": [
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "guiado 844×390: deslizar, setas, marcadores e confirmação",
+          "canonicalName": "guiado 844×390: deslizar, setas, marcadores e confirmação"
+        },
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "guiado 780×260: deslizar, setas, marcadores e confirmação",
+          "canonicalName": "guiado 780×260: deslizar, setas, marcadores e confirmação"
+        },
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "rotação mantém estrela e resumo em 320px, retrato e paisagem",
+          "canonicalName": "rotação mantém estrela e resumo em 320px, retrato e paisagem"
+        },
+        {
+          "file": "tests/touch-navigation.spec.js",
+          "name": "painel e controles cabem em retrato pequeno, celular, paisagem e rotação",
+          "canonicalName": "painel e controles cabem em retrato pequeno, celular, paisagem e rotação"
+        }
+      ],
+      "complete": true
+    }
+  ],
+  "retry": 0,
+  "distinctCases": 15,
+  "sourceSha256": {
+    "index.html": "c96e61ded09520a0991a018bec6c1fc7e0517639d2492b85d4b00b259ec92fc4",
+    "styles.css": "fc933f36a0d88b1e134badc0628def338b74351d1e528bc97dc18d6187312258",
+    "first-person-hands-mesh.js": "a76ba5f36c909774e9d5623214c24b1483613704880aef3c6a64f9d8957c6e9a",
+    "ficha.html": "aeb577bdec3bf022b153fbab757b44ccc1e4c1a6c57205b53e1630dc9f78bd11",
+    "tests/mobile-constellation.spec.js": "6c4114e3a66ee93a2a0450093ad7180af1fef276f32595cd48e709d8a9063415",
+    "tests/selection-handoff.unit.mjs": "1862849544cb93637495f20e826cead05b4acc3488c1d94b6d93652afd60d8bf",
+    "tests/touch-navigation.spec.js": "283b731b2371f58ab0ec3a7d45608551d1337f123e6289247741bed2ce6f047c"
+  },
+  "note": "O teste de orçamento móvel foi renomeado e repetido na segunda rodada; canonicalName evita contá-lo duas vezes. Sem aparelho físico."
+}
