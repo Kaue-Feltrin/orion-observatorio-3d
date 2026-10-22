@@ -38,7 +38,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
  let neutralMesh=null,starHovered=false,pointBlend=0,pointVelocity=0;
  if(!enabled)return {state,root,meshes,rigs,rightFrames,ready:Promise.resolve(false),
    update(){},resize(){},setStarHovered(){},setStarDirection(){},setStarSelection(){},beginTravel(){},dispose(){camera.remove(root)}};
- let disposed=false,travel=false,selectionHandoff=false,travelElapsed=0,alpha=1,touchPresence=0,smX=0,smY=0;
+ let disposed=false,travel=false,selectionHandoff=false,travelElapsed=0,alpha=1,smX=0,smY=0;
  const textures=[];
  const loader=new THREE.TextureLoader();
  const load=(file)=>new Promise((resolve,reject)=>loader.load(file,resolve,undefined,reject));
@@ -187,8 +187,8 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
    const limit=usePerspective?PERSPECTIVE_POINT_LIMIT:1,press=usePerspective?.10:.16;
    const gestureBlend=clamp(pointBlend*limit-(reducedMotion?0:press*state.selectionPress+.015*state.selectionAnticipation),0,limit);
    state.rightBlend=gestureBlend;
-   if(touchLayout)touchPresence+=(Number(state.selecting||travel)-touchPresence)*(reducedMotion?1:1-Math.exp(-step*12));
-   const handAlpha=alpha*(touchLayout?touchPresence:1);
+   // O toque confirma pela estrela; mãos do desktop não entram pelos cantos.
+   const handAlpha=touchLayout?0:alpha;
    if(handAlpha<.001){root.visible=false;state.visible=false;state.drawSurfaces=0;state.triangles=0;return;}
    root.visible=true;state.visible=true;
    let max=0;

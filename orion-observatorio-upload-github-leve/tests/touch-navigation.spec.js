@@ -53,7 +53,7 @@ test('fechar, Escape, toque fora e cancelar arrasto não iniciam viagem',async({
 test('painel e controles cabem em retrato pequeno, celular, paisagem e rotação',async({page})=>{
   test.setTimeout(110000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await ready(page);
-  for(const viewport of [{width:320,height:568},{width:390,height:844},{width:844,height:390}]){
+  for(const viewport of [{width:320,height:568},{width:390,height:844},{width:844,height:390},{width:780,height:260}]){
     await page.setViewportSize(viewport);await page.waitForTimeout(200);
     await page.locator('#heraldTarget').tap();await expect(page.locator('#heraldCard')).toHaveClass(/visible/);
     await expect.poll(()=>page.evaluate(()=>window.__orionHandsDebug.state.hoverBlend)).toBeGreaterThan(.98);
@@ -64,12 +64,16 @@ test('painel e controles cabem em retrato pequeno, celular, paisagem e rotação
     expect(card.y>target.y+target.height/2+20||card.x>target.x+target.width/2+20).toBe(true);
     expect(button.height).toBeGreaterThanOrEqual(48);expect(close.width).toBeGreaterThanOrEqual(44);
     expect(button.y+button.height).toBeLessThanOrEqual(card.y+card.height);
+    const details=await page.locator('.herald-card-details').boundingBox();
+    for(const stat of await page.locator('.herald-card dd:visible').all()){
+      const box=await stat.boundingBox();expect(box.y).toBeGreaterThanOrEqual(details.y);expect(box.y+box.height).toBeLessThanOrEqual(details.y+details.height);
+    }
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
     await page.screenshot({path:test.info().outputPath(`${viewport.width}-touch-summary.png`)});
     await page.locator('#dismissHerald').tap();await expect(page.locator('#heraldCard')).toHaveAttribute('aria-hidden','true');
     await page.waitForTimeout(350);await page.screenshot({path:test.info().outputPath(`${viewport.width}-touch-rest.png`)});
   }
-  for(const viewport of [{width:320,height:568},{width:390,height:844},{width:844,height:390}]){
+  for(const viewport of [{width:320,height:568},{width:390,height:844},{width:844,height:390},{width:780,height:260}]){
     await page.setViewportSize(viewport);await page.goto('http://127.0.0.1:4173/ficha.html');
     await page.waitForTimeout(800);
     const arrival=await page.locator('.arrival').boundingBox();
@@ -90,7 +94,7 @@ test('movimento reduzido mantém vista estática ao arrastar e confirma pelo bot
   await expect(page).toHaveURL(/ficha\.html/,{timeout:10000});
   expect(await page.locator('.arrival').evaluate(node=>getComputedStyle(node).animationName)).toBe('none');
 });
-test('toque usa orçamento leve e reserva as mãos para a confirmação',async({page})=>{
+test('toque usa orçamento leve e mantém mãos ocultas',async({page})=>{
   test.setTimeout(45000);await ready(page,'http://127.0.0.1:4173/?debug=1');
   const state=await page.evaluate(()=>({mode:window.__orionPerformance.mode,maxPixels:window.__orionPerformance.maxPixels,
     canvasPixels:document.querySelector('canvas').width*document.querySelector('canvas').height,

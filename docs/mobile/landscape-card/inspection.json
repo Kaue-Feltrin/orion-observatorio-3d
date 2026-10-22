@@ -1,0 +1,137 @@
+[
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "openedInPortrait": true,
+    "bounds": {
+      "heraldCard": {
+        "x": 12,
+        "y": 573.8125,
+        "width": 366,
+        "height": 230.1875
+      },
+      "heraldName": {
+        "x": 33,
+        "y": 612.8125,
+        "width": 46.5,
+        "height": 27
+      },
+      "dismissHerald": {
+        "x": 327,
+        "y": 580.8125,
+        "width": 44,
+        "height": 44
+      },
+      "confirmHerald": {
+        "x": 33,
+        "y": 741,
+        "width": 324,
+        "height": 48
+      }
+    },
+    "back": {
+      "x": 83.6875,
+      "y": 514.09375,
+      "width": 222.609375,
+      "height": 46
+    },
+    "arrival": "http://127.0.0.1:4173/ficha.html?stars=3&quality=eco-plus&herald=nox",
+    "sampledFrames": 127,
+    "handsAlwaysHidden": true,
+    "recording": null,
+    "errors": []
+  },
+  {
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "openedInPortrait": true,
+    "bounds": {
+      "heraldCard": {
+        "x": 528,
+        "y": 154.8125,
+        "width": 300,
+        "height": 200.1875
+      },
+      "heraldName": {
+        "x": 547,
+        "y": 188.8125,
+        "width": 39.625,
+        "height": 24
+      },
+      "dismissHerald": {
+        "x": 779,
+        "y": 157.8125,
+        "width": 44,
+        "height": 44
+      },
+      "confirmHerald": {
+        "x": 547,
+        "y": 294,
+        "width": 262,
+        "height": 48
+      }
+    },
+    "back": {
+      "x": 325.09375,
+      "y": 236.1875,
+      "width": 193.796875,
+      "height": 44
+    },
+    "arrival": "http://127.0.0.1:4173/ficha.html?stars=3&quality=eco-plus&herald=nox",
+    "sampledFrames": 135,
+    "handsAlwaysHidden": true,
+    "recording": null,
+    "errors": []
+  },
+  {
+    "viewport": {
+      "width": 780,
+      "height": 260
+    },
+    "openedInPortrait": true,
+    "bounds": {
+      "heraldCard": {
+        "x": 464,
+        "y": 24.8125,
+        "width": 300,
+        "height": 200.1875
+      },
+      "heraldName": {
+        "x": 483,
+        "y": 58.8125,
+        "width": 39.625,
+        "height": 24
+      },
+      "dismissHerald": {
+        "x": 715,
+        "y": 27.8125,
+        "width": 44,
+        "height": 44
+      },
+      "confirmHerald": {
+        "x": 483,
+        "y": 164,
+        "width": 262,
+        "height": 48
+      }
+    },
+    "back": {
+      "x": 293.09375,
+      "y": 171.1875,
+      "width": 193.796875,
+      "height": 44
+    },
+    "arrival": "http://127.0.0.1:4173/ficha.html?stars=3&quality=eco-plus&herald=nox",
+    "sampledFrames": 118,
+    "handsAlwaysHidden": true,
+    "recording": {
+      "frames": 175,
+      "duration": 6.012387990951538
+    },
+    "errors": []
+  }
+]

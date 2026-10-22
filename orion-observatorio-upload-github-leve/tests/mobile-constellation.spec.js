@@ -16,7 +16,7 @@ async function drag(page,from,to,cancel=false){
  for(let i=1;i<=5;i++)await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:from.x+(to.x-from.x)*i/5,y:from.y+(to.y-from.y)*i/5,id:0}]});
  await client.send('Input.dispatchTouchEvent',{type:cancel?'touchCancel':'touchEnd',touchPoints:[]});await client.detach();
 }
-for(const viewport of [{width:390,height:844},{width:844,height:390}])test(`guiado ${viewport.width}×${viewport.height}: deslizar, setas, marcadores e confirmação`,async({page})=>{
+for(const viewport of [{width:390,height:844},{width:844,height:390},{width:780,height:260}])test(`guiado ${viewport.width}×${viewport.height}: deslizar, setas, marcadores e confirmação`,async({page})=>{
  test.setTimeout(65000);const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.setViewportSize(viewport);await ready(page);
  await expect(page.locator('#swipeHint')).toBeVisible();await expect(page.locator('#previousStar')).toBeDisabled();
  await expect(page.locator('.star-page')).toHaveCount(3);await expect(page.locator('.herald-target:visible')).toHaveCount(1);
@@ -32,9 +32,16 @@ for(const viewport of [{width:390,height:844},{width:844,height:390}])test(`guia
  const card=await page.locator('#heraldCard').boundingBox(),target=await page.locator('#heraldTarget-preview-2').boundingBox();
  expect(viewport.width>viewport.height?card.x>target.x+target.width:card.y>target.y+target.height).toBe(true);
  expect(await page.evaluate(()=>window.__orionHandsDebug.state.visible)).toBe(false);
- await page.locator('#confirmHerald').tap();await expect.poll(()=>page.evaluate(()=>window.__orionHandsDebug.state.visible)).toBe(true);
+ await page.evaluate(()=>{
+  window.__handFrames=[];
+  function sample(){const s=window.__orionHandsDebug.state;window.__handFrames.push({visible:s.visible,draws:s.drawSurfaces});requestAnimationFrame(sample);}sample();
+  window.addEventListener('pagehide',()=>sessionStorage.setItem('mobile-hand-frames',JSON.stringify(window.__handFrames)),{once:true});
+ });
+ await page.locator('#confirmHerald').tap();
  await page.locator('#nextStar').dispatchEvent('click');
- await expect(page).toHaveURL(/herald=preview-2/,{timeout:15000});await expect(page.locator('.arrival h1')).toHaveText('Estrela II');expect(errors).toEqual([]);
+ await expect(page).toHaveURL(/herald=preview-2/,{timeout:15000});await expect(page.locator('.arrival h1')).toHaveText('Estrela II');
+ const back=await page.locator('.arrival a').boundingBox();expect(back.y).toBeGreaterThanOrEqual(0);expect(back.y+back.height).toBeLessThanOrEqual(viewport.height);const frames=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('mobile-hand-frames')));
+ expect(frames.length).toBeGreaterThan(2);expect(frames.every(f=>!f.visible&&f.draws===0)).toBe(true);expect(errors).toEqual([]);
 });
 test('uma estrela dispensa indicações falsas; duas têm limites e teclado',async({page})=>{
  test.setTimeout(45000);await ready(page,1);await expect(page.locator('#swipeHint')).not.toBeVisible();await expect(page.locator('#nextStar')).not.toBeVisible();
@@ -61,8 +68,15 @@ test('rotação mantém estrela e resumo em 320px, retrato e paisagem',async({pa
   const card=await page.locator('#heraldCard').boundingBox();expect(card.x).toBeGreaterThanOrEqual(10);expect(card.y).toBeGreaterThanOrEqual(10);
   expect(card.x+card.width).toBeLessThanOrEqual(viewport.width-10);expect(card.y+card.height).toBeLessThanOrEqual(viewport.height-25);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
-  const leave=await page.locator('#leave').boundingBox(),close=await page.locator('#dismissHerald').boundingBox(),confirm=await page.locator('#confirmHerald').boundingBox();
-  expect(close.y).toBeGreaterThan(leave.y+leave.height+8);
+  const leave=viewport.width<viewport.height?await page.locator('#leave').boundingBox():null,close=await page.locator('#dismissHerald').boundingBox(),confirm=await page.locator('#confirmHerald').boundingBox();
+  if(viewport.width<viewport.height)expect(close.y).toBeGreaterThan(leave.y+leave.height+8);
+  else await expect(page.locator('#leave')).not.toBeVisible();
+  const heading=await page.locator('.herald-card-heading').boundingBox(),name=await page.locator('#heraldName').boundingBox();
+  expect(heading.y).toBeGreaterThanOrEqual(card.y);expect(name.y).toBeGreaterThanOrEqual(card.y);
+  expect(name.y+name.height).toBeLessThan(confirm.y);
+  await page.locator('.herald-card-details').evaluate(n=>{n.scrollTop=n.scrollHeight;});
+  expect((await page.locator('.herald-card-heading').boundingBox()).y).toBe(heading.y);
+  expect(await page.locator('#heraldCard').evaluate(n=>n.scrollTop)).toBe(0);
   expect(confirm.y+confirm.height).toBeLessThanOrEqual(card.y+card.height);
   expect(confirm.y).toBeGreaterThanOrEqual(card.y);
  }

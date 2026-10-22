@@ -19,7 +19,7 @@ try{
       assert.ok(Math.abs(hands.meshes[1].rotation.z-baselineRotation.z)>.001,'punho acompanha a direção projetada da estrela');
       assert.ok(Math.abs(hands.meshes[1].rotation.z-baselineRotation.z)<.04,'direção não exagera a torção');
     }else if(reducedMotion)assert.equal(hands.meshes[1].rotation.z,baselineRotation.z);
-    if(touchLayout){assert.equal(hands.state.visible,false,'mãos reservadas para a confirmação no mobile');assert.equal(hands.state.drawSurfaces,0);}
+    if(touchLayout){assert.equal(hands.state.visible,false,'mãos ocultas em todo o fluxo mobile');assert.equal(hands.state.drawSurfaces,0);}
     assert.ok(hands.meshes[1].position.distanceTo(baselinePosition)<1e-10,'mira não estica nem desloca o corpo da mão');
     hands.setStarDirection(0,.18);hands.update(0,0);
     const glows={};
@@ -41,7 +41,8 @@ try{
       while(!journey.active){selection.update(1/120);hands.update(0,1/120);}
       assert.ok(selection.state.active&&hands.state.selecting,'seleção e gesto continuam no início da viagem');
       assert.ok(hands.state.rightBlend>.5,'não derruba o apontamento durante a retirada');
-      assert.ok(hands.meshes[1].material.opacity>.379,'fade começa com velocidade nula');
+      if(touchLayout){assert.equal(hands.state.visible,false);assert.equal(hands.state.drawSurfaces,0);}
+      else assert.ok(hands.meshes[1].material.opacity>.379,'fade começa com velocidade nula');
       assert.ok(selection.effects.some(m=>m.material.opacity>.1),'cauda luminosa não desaparece na partida');
     }else{
       selection.update(.1);assert.equal(journey.active,false);

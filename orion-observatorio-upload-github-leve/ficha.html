@@ -9,5 +9,13 @@ html[data-page-veil="reveal"]::before{opacity:0}
 html[data-page-veil] .arrival{animation:none}
 @media(prefers-reduced-motion:reduce){html[data-page-veil]::before{transition-duration:.16s}}
 *{box-sizing:border-box}body{min-height:100svh;margin:0;background:radial-gradient(circle at 50% 22%,#3b2e5d 0,#141127 33%,#070610 69%,#030309 100%);color:#f3eddf;font-family:Georgia,serif}main{min-height:100svh;display:grid;place-items:center;padding:max(24px,env(safe-area-inset-top)) max(24px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) max(24px,env(safe-area-inset-left))}.arrival{width:min(570px,100%);padding:clamp(22px,5vw,36px) clamp(22px,5vw,38px);border:1px solid #e5d9b238;border-radius:22px;background:#16132860;backdrop-filter:blur(14px);text-align:center;animation:appear .7s both}.overline{font:10px Arial,sans-serif;letter-spacing:.35em;text-transform:uppercase;color:#c9bae6}.arrival h1{font-size:clamp(44px,10vw,58px);font-weight:400;margin:15px}.arrival p{color:#c6c0d3;line-height:1.55}.arrival a{display:inline-block;color:#f3e4c7;text-decoration:none;border:1px solid #e5d9b255;border-radius:60px;padding:13px 19px;margin-top:15px}@keyframes appear{from{opacity:0;transform:scale(.95);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+@media(orientation:landscape) and (max-height:440px){
+ main{min-height:100dvh;padding:12px max(16px,env(safe-area-inset-right)) 12px max(16px,env(safe-area-inset-left))}
+ .arrival{width:min(660px,100%);padding:16px 22px}
+ .arrival h1{font-size:36px;margin:6px}
+ .arrival p{font-size:13px;line-height:1.4;margin:8px 0}
+ .arrival a{min-height:44px;padding:11px 16px;margin-top:8px;font-size:14px}
+ .overline{font-size:9px}
+}
 @media(prefers-reduced-motion:reduce){.arrival{animation:none}}
 </style></head><body><main><section class="arrival"><span class="overline">Travessia concluída</span><h1>Nox</h1><p>O Observatório ficou para trás. Esta é uma tela temporária de chegada para testar o salto entre universos. A ficha definitiva será construída em uma etapa separada.</p><a href="index.html">← Retornar ao Observatório</a></section></main><script type="module" src="/arrival.js"></script></body></html>

@@ -27,10 +27,13 @@
     <button id="heraldTarget" class="herald-target" type="button" aria-label="Selecionar Nox, arauto ativo, nível 9" aria-describedby="heraldCard" aria-controls="heraldCard" aria-expanded="false"></button>
 
     <section id="heraldCard" class="herald-card glass-float" aria-label="Resumo de Nox" aria-hidden="true" inert>
+      <div class="herald-card-heading">
       <button id="dismissHerald" class="dismiss-herald" type="button" aria-label="Fechar resumo de Nox">×</button>
       <span class="card-overline"><i></i><span id="heraldStatus">Arauto ativo</span></span>
       <h2 id="heraldName">Nox</h2>
       <p id="heraldSubtitle" class="subtitle">Vampiro puro</p>
+      </div>
+      <div class="herald-card-details">
       <dl>
         <div><dt>Nível</dt><dd data-herald-stat="level">9</dd></div>
         <div><dt>Origem</dt><dd data-herald-stat="origin">Garçom</dd></div>
@@ -39,6 +42,7 @@
         <div class="empty-stat"><dt>EM</dt><dd data-herald-stat="em">—</dd></div>
         <div class="empty-stat"><dt>EC</dt><dd data-herald-stat="ec">—</dd></div>
       </dl>
+      </div>
       <div class="card-action">Observar arauto <span aria-hidden="true">↗</span></div>
       <div class="mobile-card-actions">
         <button id="confirmHerald" type="button">Entrar no universo <span aria-hidden="true">↗</span></button>
