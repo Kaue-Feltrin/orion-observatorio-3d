@@ -1,0 +1,47 @@
+{
+  "reviewedCommit": "427c42070b6df5e5a6f64412456747676b145419",
+  "date": "2026-10-22",
+  "desktop": [
+    {
+      "mode": "default",
+      "state": {
+        "animation": "mesh",
+        "rigs": 0,
+        "textures": 3,
+        "surfaces": 2,
+        "triangles": 3552,
+        "loadError": null,
+        "stars": 3
+      },
+      "exitNotice": "Protótipo visual: não há conta conectada para sair.",
+      "errors": []
+    },
+    {
+      "mode": "approved",
+      "state": {
+        "animation": "perspective",
+        "rigs": 2,
+        "textures": 2,
+        "surfaces": 2,
+        "triangles": 11904,
+        "loadError": null,
+        "stars": 3
+      },
+      "exitNotice": "Protótipo visual: não há conta conectada para sair.",
+      "errors": []
+    }
+  ],
+  "fallback": {
+    "bannerVisible": true,
+    "retryVisible": true,
+    "message": "Error creating WebGL context."
+  },
+  "mobile": {
+    "input": "touch",
+    "animation": "perspective",
+    "quality": "lite",
+    "name": "Estrela II",
+    "confirmVisible": true,
+    "horizontalOverflow": false
+  }
+}

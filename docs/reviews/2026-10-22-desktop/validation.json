@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-22",
+  "reviewedCommit": "427c42070b6df5e5a6f64412456747676b145419",
+  "remoteCI": {
+    "run": 39465583412,
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/Kaue-Feltrin/orion-observatorio-3d/actions/runs/39465583412"
+  },
+  "cloudflare": "success",
+  "localChecks": {
+    "npm run check": "passed",
+    "NODE_USE_ENV_PROXY=1 npm run build": "passed"
+  },
+  "browser": {
+    "passed": 5,
+    "failed": 0,
+    "retries": 0,
+    "cases": [
+      {
+        "file": "tests/herald-navigation.spec.js",
+        "name": "1 estrela(s): destino 1 preserva identidade e permite retornar"
+      },
+      {
+        "file": "tests/herald-navigation.spec.js",
+        "name": "3 estrela(s): destino 3 preserva identidade e permite retornar"
+      },
+      {
+        "file": "tests/herald-navigation.spec.js",
+        "name": "véu cobre saída e primeiro quadro da chegada até módulo atrasado ficar pronto"
+      },
+      {
+        "file": "tests/herald-navigation.spec.js",
+        "name": "movimento reduzido, acesso direto e destino inválido mantêm chegada utilizável"
+      },
+      {
+        "file": "tests/herald-navigation.spec.js",
+        "name": "voltar pelo navegador restaura o Observatório sem clarão ou seleção travados"
+      }
+    ]
+  },
+  "inspections": "inspection.json",
+  "productCodeChanges": false,
+  "limitation": "Revisão local Chromium/SwiftShader e emulação de toque; não representa teste de desempenho em celular físico ou Safari/iOS."
+}

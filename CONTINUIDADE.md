@@ -1,3 +1,13 @@
+## 22/10/2026 — revisão do fechamento desktop antes do mobile
+
+- Usuário aprovou o design e pediu verificar se ainda existe pendência antes de planejar mobile. Base `427c42070b6df5e5a6f64412456747676b145419` confirmada no GitHub/PR #29, mesma branch `codex/maos-rig-mmv`. Auditoria sem alteração de implementação ou arte.
+- CI completo da versão auditada `39465583412` terminou SUCCESS, incluindo estrutura/unidades/build/WebGL. Cloudflare SUCCESS. Novos check/build locais e cinco testes de navegação aprovados sem falhas/retries: uma estrela, destino III, véu/módulo atrasado, reduced-motion/destino inválido e voltar pelo navegador. Não repetir o estado antigo “CI em execução” como conclusão desta revisão.
+- Pendência de consolidação confirmada: `main.js:149` mantém `animation=mesh` como padrão desktop; `handsMotion=perspective` ativa o gesto aprovado. Comparação controlada 1280×720/Eco+/três estrelas: modo padrão com zero rigs/três texturas de mãos; modo aprovado com dois rigs/duas texturas. Sem erros JS/carga. Recomendado tornar o aprovado padrão antes de consolidar desktop, preservando comparação legada explícita; não promovido automaticamente nesta auditoria.
+- Sem outro defeito impeditivo reproduzido nos cenários revisados. Falha simulada de contexto WebGL exibe aviso/tentar novamente. Emulação 390×844 já usa toque/perspectiva/lite, resumo da Estrela II e confirmação explícita, sem overflow horizontal. Sem medição em aparelho real ou Safari/iOS; não presumir desempenho.
+- Ficha/chegada temporária (`ficha.html`), catálogo por parâmetros com estrelas de demonstração (`herald-catalog.js`) e Sair sem conta (`main.js:105`) continuam limitações funcionais previstas. Criação de personagem, ficha definitiva, autenticação e persistência não foram iniciadas e não bloqueiam planejar mobile.
+- Relatório, capturas comparativas, inspeções e validação por caso em `docs/reviews/2026-10-22-desktop/`. Nenhum novo efeito ou redesenho recomendado. Próximo: consolidar padrão desktop, adaptar composição/controles/uma a três estrelas e validar Android/iPhone reais; depois retomar criação de personagem na etapa funcional.
+- Main/referência preservadas, sem merge/outro repositório. Usuário não precisa preparar nada agora; testes físicos posteriores dependem do aparelho disponível. Encerrar a auditoria sem iniciar implementação mobile ou alterar automaticamente o padrão.
+
 ## 20/10/2026 — mais aproximação do fundo: 22% para 32%
 
 - Usuário pediu “um pouco mais de zoom”. Base real `055f3dc23271916a521b5e0d733e3ec0b7c00a7c` confirmada no GitHub/PR #29 antes de alterar; mesma branch `codex/maos-rig-mmv`.
