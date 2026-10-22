@@ -115,9 +115,9 @@ test('MMV reduced-motion congela ossos e imagem sem bloquear o gesto',async({pag
   await expect.poll(()=>page.evaluate(()=>window.__orionHandsDebug.state.rightBlend)).toBe(0);
 });
 
-test('MMV é opt-in e hands=off não aloca skeleton nem baixa os sprites',async({page})=>{
+test('modos antigos continuam explícitos e hands=off não aloca skeleton nem baixa os sprites',async({page})=>{
   test.setTimeout(45000);
-  await page.goto(base+'?debug=1&quality=eco-plus&hands=mesh');await ready(page);
+  await page.goto(base+'?debug=1&quality=eco-plus&hands=mesh&handsMotion=mesh');await ready(page);
   expect(await page.evaluate(()=>window.__orionHandsDebug.rigs.length)).toBe(0);
   expect(await page.evaluate(()=>window.__orionHandsDebug.state.animation)).toBe('mesh');
   await aim(page);

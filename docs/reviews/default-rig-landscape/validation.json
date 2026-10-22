@@ -1,0 +1,132 @@
+{
+  "base": "6f4c6f5016380b8ccb279631823ee016a31c8f62",
+  "date": "2026-10-22",
+  "commands": [
+    "npm run check",
+    "NODE_USE_ENV_PROXY=1 npm run build"
+  ],
+  "units": [
+    "mobile-constellation",
+    "hands-perspective",
+    "hands-balance",
+    "selection-handoff",
+    "journey-motion"
+  ],
+  "browserRounds": [
+    {
+      "log": "/workspace/orion-rig-default-landscape-tests.log",
+      "passed": [
+        {
+          "file": "tests/hands-mesh.spec.js",
+          "name": "v0.9.21 bordas protegidas, neutra própria, hover real e retorno suave"
+        },
+        {
+          "file": "tests/hands-mesh.spec.js",
+          "name": "v0.9.21 encerra hover em pointerleave"
+        },
+        {
+          "file": "tests/hands-mesh.spec.js",
+          "name": "v0.9.21 encerra hover em blur"
+        },
+        {
+          "file": "tests/hands-mesh.spec.js",
+          "name": "v0.9.21 encerra hover em visibilitychange"
+        },
+        {
+          "file": "tests/hands-mesh.spec.js",
+          "name": "v0.9.21 hands=off não baixa nenhum asset das mãos"
+        },
+        {
+          "file": "tests/hands-mesh.spec.js",
+          "name": "v0.9.21 movimento reduzido mantém dedos estáticos e troca de pose sem animação"
+        },
+        {
+          "file": "tests/hands-perspective.spec.js",
+          "name": "perspectiva deforma mão inteira sem fades, com intermediários e hover real"
+        },
+        {
+          "file": "tests/hands-perspective.spec.js",
+          "name": "perspectiva reduced-motion usa somente extremos estáticos"
+        },
+        {
+          "file": "tests/hands-perspective.spec.js",
+          "name": "perspectiva não aloca nada em off e mantém alternativa rig"
+        },
+        {
+          "file": "tests/hands-perspective.spec.js",
+          "name": "registra nove poses da mesma mão, incluindo meios das transições"
+        },
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "guiado 390×844: deslizar, setas, marcadores e confirmação"
+        },
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "guiado 844×390: deslizar, setas, marcadores e confirmação"
+        },
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "uma estrela dispensa indicações falsas; duas têm limites e teclado"
+        },
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "arrasto vertical, gesto cancelado e toque no resumo não mudam destino"
+        },
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "rotação mantém estrela e resumo em 320px, retrato e paisagem"
+        },
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "movimento reduzido muda estrela sem deslize animado e mantém viagem"
+        },
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "paisagem curta mantém setas nas laterais e estrela livre dos indicadores"
+        }
+      ],
+      "complete": true
+    },
+    {
+      "log": "/workspace/orion-rig-default-regression.log",
+      "passed": [
+        {
+          "file": "tests/hands-image-rig.spec.js",
+          "name": "modos antigos continuam explícitos e hands=off não aloca skeleton nem baixa os sprites"
+        },
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "rotação mantém estrela e resumo em 320px, retrato e paisagem"
+        }
+      ],
+      "complete": true
+    },
+    {
+      "log": "/workspace/orion-rig-default-fit-final.log",
+      "passed": [
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "guiado 844×390: deslizar, setas, marcadores e confirmação"
+        },
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "rotação mantém estrela e resumo em 320px, retrato e paisagem"
+        },
+        {
+          "file": "tests/mobile-constellation.spec.js",
+          "name": "paisagem curta mantém setas nas laterais e estrela livre dos indicadores"
+        }
+      ],
+      "complete": true
+    }
+  ],
+  "retry": 0,
+  "environment": "Chromium system / SwiftShader, emulação de toque; sem aparelho físico",
+  "sourceSha256": {
+    "orion-observatorio-upload-github-leve/main.js": "c55bd01143c294599373796e8957652e125fcb8e94debd62b0ea9df7ef7675a3",
+    "orion-observatorio-upload-github-leve/styles.css": "434f7fc6bfb919d7f82c75628dd0dbdb216afc952ed1c2e258a568fb0dfcd3ed",
+    "orion-observatorio-upload-github-leve/tests/mobile-constellation.spec.js": "22ab4aa27cf89734d9b2922097fce8e739d0cae82760d6022407a75f0ab537d2",
+    "orion-observatorio-upload-github-leve/tests/mobile-constellation.unit.mjs": "d90ae61cdd1b19b4528dda0b31f9b731e8d27cd1531168ca988c1ae9a67504af"
+  },
+  "distinctBrowserCases": 18
+}

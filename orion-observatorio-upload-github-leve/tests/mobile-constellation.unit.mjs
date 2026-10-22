@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import * as THREE from 'three';
 import {mobileHeraldLayout} from '../mobile-constellation.js';
-for(const [width,height] of [[320,568],[390,844],[568,320],[844,390]])for(const count of [1,2,3])for(let index=0;index<count;index++)for(const summary of [0,1]){
+for(const [width,height] of [[320,568],[390,844],[568,320],[844,280],[780,260],[844,390]])for(const count of [1,2,3])for(let index=0;index<count;index++)for(const summary of [0,1]){
  const aspect=width/height,camera=new THREE.PerspectiveCamera(52,aspect,.2,900);camera.position.set(index*8,0,26);camera.updateMatrixWorld();
  const layout=mobileHeraldLayout(count,aspect,index,summary),p=layout[index];
  const point=new THREE.Vector3(p.x,p.y,p.z).project(camera),x=(point.x+1)*width/2,y=(1-point.y)*height/2;

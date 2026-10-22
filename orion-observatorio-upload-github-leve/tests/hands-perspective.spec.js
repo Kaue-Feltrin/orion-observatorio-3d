@@ -1,7 +1,8 @@
 import {test,expect} from '@playwright/test';
 import {perspectiveFrameWeights} from '../hands-perspective-motion.js';
 const base='http://127.0.0.1:4173/';
-const query='?debug=1&quality=eco-plus&hands=mesh&handsMotion=perspective';
+// O link comum deve abrir o rig aprovado, sem parâmetros de mãos.
+const query='?debug=1&quality=eco-plus';
 async function ready(page){
   await expect.poll(()=>page.evaluate(()=>window.__orionHandsDebug?.state.loaded),{timeout:24000}).toBe(true);
   await expect.poll(()=>page.evaluate(()=>window.__orionDepthDebug.layers

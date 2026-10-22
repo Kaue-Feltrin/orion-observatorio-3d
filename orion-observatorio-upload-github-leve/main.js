@@ -147,7 +147,7 @@ camera.position.set(0, 0, 0);
 // o mundo 3D, a paralaxe ESO ou o pós-processamento do Nox.
 const firstPersonHands=handsMode==='mesh'
   ?createEtherealHandsMesh(camera,{enabled:handsEnabled,reducedMotion:reduceMotion,
-    animation:['rig','perspective'].includes(params.get('handsMotion'))?params.get('handsMotion'):mobile?'perspective':'mesh',
+    animation:['mesh','rig','perspective'].includes(params.get('handsMotion'))?params.get('handsMotion'):'perspective',
     touchLayout:mobile})
   :handsMode==='overlay'
   ?createEtherealHandsOverlay(root,{enabled:handsEnabled,reducedMotion:reduceMotion})

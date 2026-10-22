@@ -55,7 +55,7 @@ test('arrasto vertical, gesto cancelado e toque no resumo não mudam destino',as
 });
 test('rotação mantém estrela e resumo em 320px, retrato e paisagem',async({page})=>{
  test.setTimeout(60000);await ready(page);await page.locator('#nextStar').tap();await settled(page,1);await page.locator('#heraldTarget-preview-2').tap();
- for(const viewport of [{width:320,height:568},{width:568,height:320},{width:390,height:844},{width:844,height:390}]){
+ for(const viewport of [{width:320,height:568},{width:568,height:320},{width:844,height:280},{width:780,height:260},{width:390,height:844},{width:844,height:390}]){
   await page.setViewportSize(viewport);await expect.poll(()=>page.evaluate(()=>window.__orionMobileDebug.state.summary)).toBeGreaterThan(.999);
   await expect(page.locator('#heraldName')).toHaveText('Estrela II');
   const card=await page.locator('#heraldCard').boundingBox();expect(card.x).toBeGreaterThanOrEqual(10);expect(card.y).toBeGreaterThanOrEqual(10);
@@ -73,4 +73,25 @@ test('movimento reduzido muda estrela sem deslize animado e mantém viagem',asyn
  expect(await page.evaluate(()=>window.__orionMobileDebug.state.position)).toBe(1);
  expect(await page.locator('.swipe-cue>span').first().evaluate(n=>getComputedStyle(n).animationName)).toBe('none');
  await page.locator('#heraldTarget-preview-2').tap();await page.locator('#confirmHerald').tap();await expect(page).toHaveURL(/herald=preview-2/,{timeout:15000});
+});
+test('paisagem curta mantém setas nas laterais e estrela livre dos indicadores',async({page})=>{
+ test.setTimeout(60000);await page.setViewportSize({width:844,height:280});await ready(page);
+ for(const viewport of [{width:844,height:280},{width:780,height:260},{width:844,height:390}]){
+  await page.setViewportSize(viewport);await settled(page,0);
+  const prev=await page.locator('#previousStar').boundingBox(),next=await page.locator('#nextStar').boundingBox();
+  const star=await page.locator('#heraldTarget').boundingBox(),name=await page.locator('.browse-heading').boundingBox();
+  const dots=await page.locator('#starPages').boundingBox();
+  expect(prev.x+prev.width).toBeLessThan(viewport.width*.15);
+  expect(next.x).toBeGreaterThan(viewport.width*.85);
+  expect(Math.abs(prev.y+prev.height/2-viewport.height/2)).toBeLessThan(1);
+  expect(name.y).toBeGreaterThan(star.y+star.height+8);
+  expect(dots.y).toBeGreaterThan(name.y+name.height);
+  const cue=await page.locator('.swipe-cue').boundingBox(),credit=await page.locator('.astro-credit:visible').boundingBox();
+  expect(cue.y+cue.height+4).toBeLessThanOrEqual(credit.y);
+  await page.locator('#nextStar').tap();await settled(page,1);
+  await page.locator('#previousStar').tap();await settled(page,0);
+ }
+ await page.setViewportSize({width:390,height:844});await settled(page,0);
+ const prev=await page.locator('#previousStar').boundingBox(),next=await page.locator('#nextStar').boundingBox();
+ expect(Math.abs(prev.y-next.y)).toBeLessThan(1);expect(prev.y).toBeGreaterThan(600);
 });

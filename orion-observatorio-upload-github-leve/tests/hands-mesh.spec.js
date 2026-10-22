@@ -56,7 +56,7 @@ function expectEdges(boxes){
 test('v0.9.21 bordas protegidas, neutra própria, hover real e retorno suave',async({page})=>{
   test.setTimeout(110000);
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto(url+'?debug=1&quality=eco-plus&hands=mesh');
+  await page.goto(url+'?debug=1&quality=eco-plus&hands=mesh&handsMotion=mesh');
   await ready(page);
   const assets=await page.evaluate(()=>{
     const h=window.__orionHandsDebug,n=h.root.getObjectByName('OrionFeminineRightNeutral');
@@ -118,7 +118,7 @@ test('v0.9.21 bordas protegidas, neutra própria, hover real e retorno suave',as
 for(const event of ['pointerleave','blur','visibilitychange']){
   test('v0.9.21 encerra hover em '+event,async({page})=>{
     test.setTimeout(45000);
-    await page.goto(url+'?debug=1&quality=eco-plus&hands=mesh');
+    await page.goto(url+'?debug=1&quality=eco-plus&hands=mesh&handsMotion=mesh');
     await ready(page);
     await aim(page);
     await expect.poll(()=>blend(page)).toBeGreaterThan(.9);
@@ -152,7 +152,7 @@ test('v0.9.21 hands=off não baixa nenhum asset das mãos',async({page})=>{
 
 test('v0.9.21 movimento reduzido mantém dedos estáticos e troca de pose sem animação',async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});
-  await page.goto(url+'?debug=1&quality=eco-plus&hands=mesh');
+  await page.goto(url+'?debug=1&quality=eco-plus&hands=mesh&handsMotion=mesh');
   await ready(page);
   const vertices=await page.evaluate(()=>window.__orionHandsDebug.meshes.map(m=>Array.from(m.geometry.attributes.position.array)));
   await aim(page);

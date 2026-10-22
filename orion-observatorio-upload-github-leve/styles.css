@@ -243,7 +243,18 @@ rgba(187,150,225,.28) 51%,rgba(10,6,27,0) 80%);opacity:0}
 [data-input=touch] .bottom-mark{display:none}
 @media(orientation:landscape){
  [data-input=touch] .herald-card{max-height:calc(100dvh - 115px - env(safe-area-inset-top) - env(safe-area-inset-bottom))}
- [data-input=touch] .star-browser{bottom:calc(50px + env(safe-area-inset-bottom))}
- [data-input=touch] .bottom-ui{bottom:calc(28px + env(safe-area-inset-bottom))}
+ [data-input=touch] .star-browser{inset:0;transform:none;width:auto;pointer-events:none}
+ [data-input=touch] .browse-heading{position:absolute;bottom:calc(78px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);white-space:nowrap}
+ [data-input=touch] .browse-controls{margin:0}
+ [data-input=touch] #previousStar,[data-input=touch] #nextStar{position:absolute;top:50%;transform:translateY(-50%);pointer-events:auto}
+ [data-input=touch] #previousStar{left:calc(clamp(16px,4vw,40px) + env(safe-area-inset-left))}
+ [data-input=touch] #nextStar{right:calc(clamp(16px,4vw,40px) + env(safe-area-inset-right))}
+ [data-input=touch] .star-pages{position:absolute;bottom:calc(32px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);pointer-events:auto}
+ [data-input=touch] .swipe-cue{position:absolute;bottom:calc(28px + env(safe-area-inset-bottom));left:0;right:0;margin:0}
+ [data-input=touch] .swipe-cue>span:first-child{font-size:14px;vertical-align:-1px}
+ [data-input=touch] .swipe-cue::after{content:' · Toque na estrela para conhecer'}
+ [data-input=touch] .star-browser[data-single=true] .browse-heading{bottom:calc(48px + env(safe-area-inset-bottom))}
+ [data-input=touch] .bottom-ui{bottom:calc(28px + env(safe-area-inset-bottom));opacity:0}
+ [data-input=touch]:has(.star-browser[data-single=true]) .bottom-ui{opacity:1}
 }
 @media(prefers-reduced-motion:reduce){.swipe-cue>span:first-child{animation:none}.star-page::before{transition:none}}
