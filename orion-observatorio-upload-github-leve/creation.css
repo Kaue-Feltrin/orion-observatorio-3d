@@ -1,70 +1,47 @@
-/* New chapter over the existing sky/renderer. The journey and hands stay original. */
+/* Images and VFX use the shared WebGL renderer; HTML supplies stable controls. */
 html[data-page-veil]::before{content:"";position:fixed;inset:0;z-index:2147483647;background:#fffaec;opacity:1;pointer-events:none;transition:opacity .7s ease}
 html[data-page-veil="reveal"]::before{opacity:0}
 .creation-scene .constellation,.creation-scene .leave,.creation-scene .bottom-ui,.creation-scene .herald-card,.creation-scene .star-browser,.creation-scene .herald-target{display:none!important}
+.creation-scene .sky-fallback{background-image:url('/assets/creation/nebula-interior.png');filter:brightness(.34) saturate(.88)}
+.creation-scene .astro-credit:not(.fps-credit){display:none}
+.creation-scene .scene-vignette{background:radial-gradient(ellipse at 50% 46%,transparent 25%,#02010915 60%,#01010788 100%),linear-gradient(0deg,#01010799,transparent 28%)}
 .herald-creation{position:absolute;inset:0;z-index:8;overflow:hidden;color:#f7efff;isolation:isolate}
-.creation-label{position:absolute;left:50%;top:max(25px,env(safe-area-inset-top));transform:translateX(-50%);white-space:nowrap;font:10px/1.5 'Segoe UI',sans-serif;letter-spacing:.23em;text-transform:uppercase;color:#c9c0df;opacity:.75;pointer-events:none}
-.creation-back{position:absolute;left:max(24px,env(safe-area-inset-left));top:max(20px,env(safe-area-inset-top));width:44px;height:44px;display:grid;place-items:center;text-decoration:none;border:1px solid #c2acfa50;border-radius:50%;background:#15102c66;color:#e5d7fc;font-size:22px}
-.creation-stage{position:absolute;inset:8% 0 11%}
-.sealed-being{position:absolute;width:min(46vw,470px);height:min(46vw,470px);left:50%;top:46%;transform:translate(-50%,-50%)}
-.baby-target{position:absolute;width:60%;height:78%;left:20%;top:11%;padding:0;border:0;background:transparent;cursor:pointer;filter:drop-shadow(0 0 24px #a28bff60);border-radius:50%;}
-.ethereal-figure{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 8px #b6a2f53b)}
-.baby-target .ethereal-figure{animation:being-float 7s ease-in-out infinite}
-.baby-target:hover,.baby-target:focus-visible{filter:drop-shadow(0 0 28px #b1a3ff99)}
-.light-shell{position:absolute;inset:0;pointer-events:none;filter:drop-shadow(0 0 16px #f5cc5e88)}
-.shell-arc{position:absolute;inset:0;border-radius:50%;border:1px solid #ffe5a360;background:radial-gradient(ellipse at center,transparent 56%,#ffdc5e18 65%,#fff0b140 70%,#f8ca4e4d 72%,#ffde6a08 80%,transparent 83%);box-shadow:inset 9px 0 25px #ffdc782b,inset -10px 0 30px #ffe1a64a,0 0 60px #f8d06d18;animation:shell-breathe 6s ease-in-out infinite}
-.arc-one{transform:rotate(-24deg) scaleX(.88)}
-.arc-two{inset:8%;transform:rotate(33deg) scaleX(.91);opacity:.7;animation-delay:-3s}
-.seal-chains{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 0 5px #f4d9b88c)}
-.chain,.seal-lock{transform-box:fill-box;transform-origin:center}
-.seal-lock{filter:drop-shadow(0 0 10px #e3c68e55)}
-.seal-crack{opacity:0;stroke-dasharray:460;stroke-dashoffset:460;filter:drop-shadow(0 0 8px #fff8dd)}
-.herald-creation[data-phase="breaking"] .seal-crack{opacity:1;animation:crack .45s ease-out forwards}
-.herald-creation[data-phase="breaking"] .baby-target{pointer-events:none;animation:being-split 1.25s ease-in forwards}
-.mark-being{position:absolute;bottom:7%;left:50%;transform:translateX(-50%);min-width:240px;min-height:54px;border:1px solid #9472da99;border-radius:5px;background:linear-gradient(125deg,#20112bd9,#1b0f38b0);box-shadow:0 0 34px #9d7dff19,inset 0 0 24px #8964c31c;color:#fff4ff;font:600 22px Georgia,serif;cursor:pointer;animation:mark-arrive .5s both}
-.mark-being:hover{border-color:#e3d0ff;box-shadow:0 0 32px #aa8be74f}
-.mark-being[hidden],.sealed-being[hidden],.identity-form[hidden],.creation-next[hidden]{display:none!important}
-.creation-status{position:absolute;left:50%;bottom:max(25px,env(safe-area-inset-bottom));transform:translateX(-50%);width:min(620px,calc(100% - 110px));margin:0;text-align:center;font:14px/1.5 Georgia,serif;color:#d2c8e5;text-shadow:0 0 15px #000}
-.identity-form{position:absolute;inset:0;animation:identity-arrive 1.4s both}
-.child-choices{border:0;padding:0;margin:0;position:absolute;top:0;left:50%;transform:translateX(-50%);width:min(1000px,88vw);height:70%;display:grid;grid-template-columns:1fr 1fr;gap:clamp(45px,16vw,280px);align-items:center}
-.child-choice{align-self:stretch;min-height:44px;padding:20px 0 0;position:relative;border:0;background:transparent;color:#d4c1f5;cursor:pointer;}
-.child-choice:nth-of-type(2) .ethereal-figure{animation-delay:-3s}
-.child-choice .ethereal-figure{animation:child-float 7.5s ease-in-out infinite;height:100%;max-height:420px;margin:auto;opacity:.78;transition:filter .3s,opacity .3s}
-.child-choice>span{position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);font:14px Georgia,serif;letter-spacing:.1em;opacity:.85}
-.child-choice:hover .ethereal-figure,.child-choice[aria-pressed=true] .ethereal-figure{filter:drop-shadow(0 0 22px #c0a7ffb3);opacity:1}
-.choice-selected{position:absolute;right:16%;top:15%;font-style:normal;color:#f7df9e;font-size:24px;opacity:0;transform:scale(.5);transition:opacity .3s,transform .3s}
-.child-choice[aria-pressed=true] .choice-selected{opacity:1;transform:scale(1)}
-.identity-fields{position:absolute;top:80%;left:50%;transform:translateX(-50%);width:min(360px,70vw)}
-#herald-name{display:block;width:100%;height:58px;padding:12px 18px;background:linear-gradient(120deg,#211531d9,#1d1430a6);border:1px solid #a78bdf8c;border-radius:5px;box-shadow:inset 0 0 30px #9773ce17,0 0 25px #8e65c212;color:#fff6ff;text-align:center;font:22px Georgia,serif}
-#herald-name::placeholder{color:#e1d4ed;opacity:1}
-.undefined-choice{display:flex;align-items:center;gap:9px;font:13px 'Segoe UI',sans-serif;min-height:44px;cursor:pointer;color:#e3dbef}
-.undefined-choice input{width:18px;height:18px;accent-color:#b99aed;margin:0;cursor:pointer}
-.creation-next{position:fixed;right:max(38px,env(safe-area-inset-right));bottom:max(45px,env(safe-area-inset-bottom));width:58px;height:58px;display:grid;place-items:center;border:1px solid #f4deb19c;border-radius:50%;background:#241531aa;color:#fff2cd;cursor:pointer;box-shadow:0 0 25px #e8d3ac25;animation:mark-arrive .45s both}
-.creation-next svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.creation-next:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
-.creation-next:hover:not(:disabled){background:#5b3e68;border-color:#fff1cc}
-.herald-creation :is(button,input,a):focus-visible{outline:2px solid #ffe5a9;outline-offset:6px}
-.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-.creation-shards{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .5s}
-.herald-creation:is([data-phase="breaking"],[data-phase="identity"]) .creation-shards{opacity:1}
-.creation-shards i{position:absolute;left:var(--edge-x);top:var(--edge-y);width:clamp(20px,4vw,70px);height:4px;border-radius:50%;background:linear-gradient(90deg,transparent,#fff5c4,transparent);box-shadow:0 0 18px #f4d07899;transform:rotate(var(--rotation));opacity:.6;animation:fragment-glimmer 6s ease-in-out var(--delay) infinite}
-.herald-creation[data-phase="breaking"] .creation-shards i{animation:fragment-release 1.25s cubic-bezier(.2,.6,.3,1) both}
-@keyframes being-float{0%,100%{transform:translateY(0) rotate(-9deg)}50%{transform:translateY(-12px) rotate(-5deg)}}
-@keyframes shell-breathe{0%,100%{opacity:.7;filter:brightness(.9)}50%{opacity:1;filter:brightness(1.2)}}
-@keyframes crack{to{stroke-dashoffset:0}}
-@keyframes being-split{0%,25%{opacity:1;filter:drop-shadow(0 0 12px #bba9ff)}70%{opacity:.8;filter:drop-shadow(-30px 0 15px #c4adff) drop-shadow(30px 0 15px #c4adff)}100%{opacity:0;transform:scale(1.25);filter:blur(8px)}}
-@keyframes identity-arrive{from{opacity:0}to{opacity:1}}
-@keyframes child-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-@keyframes mark-arrive{from{opacity:0;filter:blur(5px)}to{opacity:1;filter:blur(0)}}
-@keyframes fragment-release{from{left:50%;top:45%;opacity:0;transform:rotate(0) scale(.2)}25%{opacity:1}to{left:var(--edge-x);top:var(--edge-y);transform:rotate(var(--rotation)) scale(1);opacity:.6}}
-@keyframes fragment-glimmer{0%,100%{opacity:.3;filter:brightness(.8);transform:rotate(var(--rotation)) translateX(0)}50%{opacity:.85;filter:brightness(1.3);transform:rotate(var(--rotation)) translateX(12px)}}
-@media(max-width:670px){.creation-label{font-size:8px;letter-spacing:.12em;top:max(30px,env(safe-area-inset-top))}.creation-back{left:16px;top:16px}.sealed-being{width:min(92vw,430px);height:min(92vw,430px);top:43%}.mark-being{bottom:12%;font-size:20px;min-width:220px}.creation-stage{inset:12% 0 16%}.child-choices{width:96vw;gap:6vw;height:70%}.child-choice>span{font-size:13px;bottom:-20px}.identity-fields{top:81%;width:72vw}#herald-name{height:54px;font-size:20px}.creation-next{width:48px;height:48px;bottom:max(31px,env(safe-area-inset-bottom));right:19px}.creation-status{font-size:12px;bottom:max(23px,env(safe-area-inset-bottom));width:calc(100% - 130px)}.choice-selected{right:13%;top:18%}}
-@media(max-height:500px) and (orientation:landscape){.creation-label{top:18px}.creation-back{top:9px;left:12px}.creation-stage{inset:10% 0 18%}.sealed-being{width:58svh;height:58svh;top:44%}.mark-being{bottom:-8%;min-height:44px;font-size:18px}.child-choices{width:min(650px,88vw);height:85%;top:-12%;gap:30vw}.child-choice{padding-top:0}.child-choice>span{bottom:-5px}.identity-fields{top:67%;width:240px}#herald-name{height:44px;font-size:18px}.undefined-choice{font-size:12px;min-height:36px}.creation-status{font-size:11px;bottom:12px}.creation-next{bottom:12px;width:46px;height:46px}.creation-shards i{width:35px}}
-@media(prefers-reduced-motion:reduce){html[data-page-veil]::before{transition-duration:.16s}.herald-creation *, .herald-creation *::before{animation:none!important;transition:none!important}}
-
-/* The fetal silhouette separates into the two forms during the same rupture. */
+.creation-label{position:absolute;left:50%;top:max(30px,env(safe-area-inset-top));transform:translateX(-50%);font:10px/1.5 'Segoe UI',sans-serif;letter-spacing:.5em;text-transform:uppercase;color:#c9c0df;opacity:.72;pointer-events:none}
+.creation-back{position:absolute;left:max(26px,env(safe-area-inset-left));top:max(22px,env(safe-area-inset-top));width:44px;height:44px;display:grid;place-items:center;text-decoration:none;border:1px solid #c2acfa40;border-radius:50%;background:#0b081a44;color:#e5d7fc;font-size:21px}
+.creation-stage{position:absolute;inset:8% 0 15%}
+.sealed-being{position:absolute;width:min(42vw,490px);height:min(42vw,490px);left:50%;top:44%;transform:translate(-50%,-50%);pointer-events:none}
+.sealed-being[hidden]{display:none!important}
+.baby-target{position:absolute;width:68%;height:74%;left:16%;top:13%;padding:0;border:0;background:transparent;cursor:pointer;border-radius:48%;pointer-events:auto}
+.baby-target:disabled{cursor:wait}
+.baby-target:hover{background:radial-gradient(ellipse,#bda3ff06,transparent 70%)}
+.mark-being{position:absolute;bottom:3%;left:50%;transform:translateX(-50%);display:grid;justify-items:center;gap:8px;min-width:264px;min-height:100px;padding:8px 26px 18px;border:0;background:transparent;color:#f5e9d5;cursor:pointer;text-shadow:0 0 24px #e2c99530;opacity:1}
+.mark-being::before,.mark-being::after{content:"";position:absolute;top:54%;width:46px;height:1px;background:linear-gradient(90deg,transparent,#c5ab7880);pointer-events:none}
+.mark-being::before{right:100%}.mark-being::after{left:100%;transform:rotate(180deg)}
+.mark-sigil{font:28px Georgia,serif;color:#e9d1a5;line-height:1;filter:drop-shadow(0 0 12px #dac09b55)}
+.mark-title{font:400 26px/1.15 Georgia,serif;letter-spacing:.035em}
+.mark-hint{font:9px/1.6 'Segoe UI',sans-serif;text-transform:uppercase;letter-spacing:.3em;color:#c6b6a4}
+.mark-being:hover .mark-title{color:#fff8e8;text-shadow:0 0 18px #edd9bc88}.mark-being:hover .mark-sigil{filter:drop-shadow(0 0 16px #f2d8a9bb)}
+.mark-being:disabled{cursor:default;opacity:.4;transition:opacity .35s}
+.mark-being[hidden],.identity-form[hidden],.creation-next[hidden]{display:none!important}
+.herald-creation[data-phase="breaking"] .mark-being{opacity:0;pointer-events:none}
+.creation-status{position:absolute;left:50%;bottom:max(25px,env(safe-area-inset-bottom));transform:translateX(-50%);width:min(620px,calc(100% - 140px));margin:0;text-align:center;font:13px/1.6 Georgia,serif;color:#c6bbd8;text-shadow:0 1px 16px #000}
+.identity-form{position:absolute;inset:0}
+.child-choices{border:0;padding:0;margin:0;position:absolute;top:0;left:50%;transform:translateX(-50%);width:min(1080px,90vw);height:72%;display:grid;grid-template-columns:1fr 1fr;gap:clamp(60px,17vw,290px)}
+.child-choice{min-height:44px;padding:0;position:relative;border:0;background:transparent;color:#d9cbee;cursor:pointer}
+.child-choice>span{position:absolute;bottom:-32px;left:50%;transform:translateX(-50%);font:14px Georgia,serif;letter-spacing:.18em;white-space:nowrap;padding-bottom:10px;border-bottom:1px solid transparent}
+.child-choice[aria-pressed=true]>span{color:#f7e5c3;border-bottom-color:#d1b483a6;text-shadow:0 0 12px #ead0aa55}
+.herald-creation[data-phase="breaking"] .child-choice>span{opacity:0}
+.identity-fields{position:absolute;top:84%;left:50%;transform:translateX(-50%);width:min(360px,70vw)}
+#herald-name{display:block;width:100%;height:58px;padding:12px 18px;background:linear-gradient(0deg,#100b2066,transparent);border:0;border-bottom:1px solid #c1aade77;border-radius:0;color:#fff6ff;text-align:center;font:22px Georgia,serif;box-shadow:none}
+#herald-name::placeholder{color:#ded0e7;opacity:1}
+.undefined-choice{display:flex;align-items:center;justify-content:center;gap:9px;font:12px 'Segoe UI',sans-serif;min-height:44px;cursor:pointer;color:#d7cce6}
+.undefined-choice input{width:17px;height:17px;accent-color:#b99aed;margin:0;cursor:pointer}
 .herald-creation[data-phase="breaking"] .identity-fields{visibility:hidden}
-.herald-creation[data-phase="breaking"] .child-choice:first-of-type{animation:birth-left 1.25s cubic-bezier(.2,.6,.3,1) both}
-.herald-creation[data-phase="breaking"] .child-choice:last-of-type{animation:birth-right 1.25s cubic-bezier(.2,.6,.3,1) both}
-@keyframes birth-left{from{transform:translate(22vw,16%) scale(.36);opacity:0;filter:blur(8px)}25%{opacity:.4}to{transform:translate(0,0) scale(1);opacity:1;filter:blur(0)}}
-@keyframes birth-right{from{transform:translate(-22vw,16%) scale(.36);opacity:0;filter:blur(8px)}25%{opacity:.4}to{transform:translate(0,0) scale(1);opacity:1;filter:blur(0)}}
+.creation-next{position:fixed;right:max(38px,env(safe-area-inset-right));bottom:max(45px,env(safe-area-inset-bottom));width:58px;height:58px;display:grid;place-items:center;border:1px solid #f4deb17d;border-radius:50%;background:#1a102866;color:#fff2cd;cursor:pointer;box-shadow:0 0 28px #e8d3ac17}
+.creation-next svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.creation-next:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}.creation-next:hover:not(:disabled){background:#49315388;border-color:#fff1cc}
+.herald-creation :is(button,input,a):focus-visible{outline:2px solid #e8ce9d;outline-offset:6px}.child-choice:focus-visible{outline:1px solid #d0b9f073!important;border-radius:48%}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(max-width:670px){.creation-label{font-size:9px;letter-spacing:.3em;top:max(30px,env(safe-area-inset-top))}.creation-back{left:16px;top:16px}.sealed-being{width:min(92vw,430px);height:min(92vw,430px);top:42%}.creation-stage{inset:12% 0 20%}.mark-being{bottom:-3%;min-width:220px;min-height:110px}.mark-title{font-size:24px}.mark-being::before,.mark-being::after{width:25px}.child-choices{width:100vw;gap:2vw;height:75%;top:1%}.child-choice>span{font-size:12px;bottom:-21px;letter-spacing:.1em}.identity-fields{top:88%;width:76vw}#herald-name{height:54px;font-size:20px}.creation-next{width:48px;height:48px;bottom:max(31px,env(safe-area-inset-bottom));right:19px}.creation-status{font-size:11px;bottom:max(23px,env(safe-area-inset-bottom));width:calc(100% - 145px)}}
+@media(max-height:500px) and (orientation:landscape){.creation-label{top:18px}.creation-back{top:9px;left:12px}.creation-stage{inset:10% 0 20%}.sealed-being{width:60svh;height:60svh;top:43%}.mark-being{bottom:-12%;min-height:75px;padding:3px 18px 5px;gap:5px}.mark-title{font-size:20px}.mark-sigil{font-size:20px}.mark-hint{font-size:8px}.child-choices{width:min(700px,88vw);height:91%;top:-12%;gap:34vw}.child-choice>span{bottom:-4px;font-size:11px}.identity-fields{top:77%;width:240px}#herald-name{height:40px;font-size:18px}.undefined-choice{font-size:11px;min-height:36px}.creation-status{font-size:10px;bottom:10px}.creation-next{bottom:12px;width:46px;height:46px}}
+@media(prefers-reduced-motion:reduce){html[data-page-veil]::before{transition-duration:.16s}.herald-creation *{transition:none!important}}

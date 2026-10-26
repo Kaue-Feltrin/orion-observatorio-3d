@@ -1,0 +1,44 @@
+[
+  {
+    "device": "desktop",
+    "quality": "eco",
+    "passed": true,
+    "images": [
+      "nebula-interior.png",
+      "unborn-soul.png",
+      "child-spirits-atlas.png",
+      "forcefield.png",
+      "seal-chains.png"
+    ],
+    "errors": [],
+    "failed": []
+  },
+  {
+    "device": "mobile",
+    "quality": "eco",
+    "passed": true,
+    "images": [
+      "child-spirits-atlas.png",
+      "nebula-interior.png",
+      "seal-chains.png",
+      "unborn-soul.png",
+      "forcefield.png"
+    ],
+    "errors": [],
+    "failed": []
+  },
+  {
+    "device": "balanced",
+    "quality": "balanced",
+    "passed": true,
+    "images": [
+      "nebula-interior.png",
+      "unborn-soul.png",
+      "seal-chains.png",
+      "child-spirits-atlas.png",
+      "forcefield.png"
+    ],
+    "errors": [],
+    "failed": []
+  }
+]

@@ -13,7 +13,9 @@ const metrics=page=>page.evaluate(()=>({
  hands:{loaded:window.__orionHandsDebug?.state.loaded,visible:window.__orionHandsDebug?.state.visible,
  blend:window.__orionHandsDebug?.state.rightBlend,surfaces:window.__orionHandsDebug?.state.drawSurfaces},
  // These are renderer resource counts, not VRAM or RAM measurements.
- astronomyPhotoLoaded:!!window.__orionRespirationDebug?.nebula.material.map?.image?.width,
+ skyTextureLoaded:!!window.__orionRespirationDebug?.nebula.material.map?.image?.width,
+ skyTextureSource:window.__orionRespirationDebug?.nebula.material.map?.image?.src??null,
+ vfx:window.__orionCreationDebug?.state??null,
  textures:window.__orionPerformance?.textures,drawCalls:window.__orionPerformance?.drawCalls,
  frameHeap:performance.memory?.usedJSHeapSize??null,
  phase:document.getElementById('observatory').dataset.creationPhase??'sky'
@@ -28,6 +30,7 @@ try{
   const open=async()=>{
    await page.waitForFunction(()=>document.documentElement.dataset.sceneReady==='1');
    await page.waitForFunction(()=>window.__orionHandsDebug?.state.loaded);
+   if(page.url().includes('criacao.html'))await page.waitForFunction(()=>document.getElementById('observatory').dataset.creationArt==='ready');
    await page.evaluate(()=>document.getElementById('debug').hidden=true);
   };
   await page.goto('http://127.0.0.1:4173/?stars=0&quality=eco&debug=1');await open();
@@ -45,6 +48,8 @@ try{
   await page.getByRole('button',{name:'Contemplar a silhueta etérea'}).click();
   await page.screenshot({path:join(output,`${id}-03-mark.png`)});
   await page.getByRole('button',{name:'Tornar Marcado',exact:true}).click();
+  await page.waitForTimeout(550);
+  await page.screenshot({path:join(output,`${id}-rupture.png`)});
   await page.waitForFunction(()=>document.getElementById('observatory').dataset.creationPhase==='identity');
   await page.getByRole('button',{name:'Escolher menina',exact:true}).click();await page.locator('#herald-name').fill('Astra');
   await page.waitForTimeout(1500);await page.screenshot({path:join(output,`${id}-04-identity.png`)});

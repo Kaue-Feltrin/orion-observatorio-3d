@@ -31,6 +31,7 @@ jobs:
           node tests/selection-handoff.unit.mjs
           node tests/herald-navigation.unit.mjs
           node tests/creation-state.unit.mjs
+          node tests/creation-fracture.unit.mjs
           node tests/mobile-constellation.unit.mjs
           node tests/distant-sky.unit.mjs
           node tests/journey-motion.unit.mjs

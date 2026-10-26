@@ -21,14 +21,16 @@ test('conta vazia tem estrela central e atravessa o mesmo véu até o bebê sela
  await star.click();
  await expect(page).toHaveURL(/criacao\.html/,{timeout:14000});
  await expect(page.locator('html')).toHaveAttribute('data-arrival-ready','1');
- await expect(page.locator('.light-shell')).toBeVisible();await expect(page.locator('.seal-lock')).toBeVisible();
+ await expect(page.locator('#observatory')).toHaveAttribute('data-creation-art','ready');
+ await expect(page.getByRole('button',{name:'Contemplar a silhueta etérea'})).toBeEnabled();
  await expect(page.locator('#identityForm')).toBeHidden();expect(errors).toEqual([]);
 });
 test('ruptura completa, gênero exclusivo, nome e continuação sem gravação remota',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  const writes=[];page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url())});
  await identity(page);
- await expect(page.locator('.sealed-being')).toBeHidden();await expect(page.locator('.creation-shards')).toBeVisible();
+ await expect(page.locator('.sealed-being')).toBeHidden();
+ await expect(page.locator('#observatory')).toHaveAttribute('data-creation-art','ready');
  await expect(page.getByRole('button',{name:'Continuar com esta identidade'})).toBeHidden();
  await page.getByRole('button',{name:'Escolher menina',exact:true}).click();
  const next=page.getByRole('button',{name:'Continuar com esta identidade'});await expect(next).toBeVisible();await expect(next).toBeDisabled();
@@ -48,7 +50,10 @@ test('ruptura completa, gênero exclusivo, nome e continuação sem gravação r
 });
 test('teclado e movimento reduzido completam ruptura e não definir gênero',async({page})=>{
  await page.emulateMedia({reducedMotion:'reduce'});
- await page.goto(`${origin}/criacao.html?${params}&hands=off`);
+ await page.goto(`${origin}/criacao.html?${params}&hands=off&debug=1`);
+ await expect(page.locator('#observatory')).toHaveAttribute('data-creation-art','ready');
+ await page.evaluate(()=>document.getElementById('debug').hidden=true);
+ expect(await page.evaluate(()=>window.__orionCreationDebug.meshes.field.material.uniforms.uMotion.value)).toBe(0);
  const baby=page.getByRole('button',{name:'Contemplar a silhueta etérea'});await baby.focus();await page.keyboard.press('Enter');
  await expect(page.getByRole('button',{name:'Tornar Marcado',exact:true})).toBeFocused();await page.keyboard.press('Enter');
  await expect(page.locator('#observatory')).toHaveAttribute('data-creation-phase','identity');

@@ -1,0 +1,41 @@
+OK: geometria contínua, UVs, fragmentos coerentes, sequência de VFX e movimento reduzido.
+✔ tests/creation-fracture.unit.mjs (135.16759ms)
+OK: conta vazia, viagem correta, sequência, três escolhas exclusivas, nome e entrega local única.
+✔ tests/creation-state.unit.mjs (80.386176ms)
+OK: projeção inicial idêntica, céu sem perspectiva de parede, aproximação explícita uniforme de 32%, pan reversível, cobertura em quatro aspectos e mesmos recursos.
+✔ tests/distant-sky.unit.mjs (153.921994ms)
+Fechamento esquerdo: {"apertureRatio":0.7929952218953933,"minArea":0.25748750021501887,"maxArea":1.5755901415941727}
+OK: transparência/escala e entradas visíveis equilibradas, esquerda fecha/retorna, apontar/profundidade contidos e reduced-motion.
+✔ tests/hands-balance.unit.mjs (1067.543192ms)
+OK: neutralidade inicial, blend suave 30/60 Hz, viagem, reduced-motion, descarte e hands=off.
+✔ tests/hands-hover.unit.mjs (260.378398ms)
+OK: rig MMV, pesos, dedos, limites, triângulos, reduced-motion, hover/viagem e descarte.
+✔ tests/hands-image-rig.unit.mjs (731.874349ms)
+OK: continuous GPU-ready finger mesh weights; displacement bound 0.00309 0.00693
+✔ tests/hands-mesh.unit.mjs (81.271971ms)
+OK: independent 2.5D sway, travel, reduced motion, off never downloads asset
+✔ tests/hands-overlay.unit.mjs (74.518009ms)
+Área relativa dos triângulos na sequência: 0.11416648747613918 1.7116198761678127
+OK: mão íntegra, cinco contornos, sem fades/recortes, triângulos, profundidade, reversão, off/reduced e descarte.
+✔ tests/hands-perspective.unit.mjs (3503.233266ms)
+OK: catálogo 1–3, posições, identidade no destino/retorno e viagem única com destino travado.
+✔ tests/herald-navigation.unit.mjs (178.251879ms)
+OK: curva sem reversão, avanço alinhado, saída das outras estrelas antes do giro, gás sem salto, céu sem perspectiva de parede e nuvens em profundidade sem dissipação precoce a 30/60/120 Hz.
+✔ tests/journey-motion.unit.mjs (350.921623ms)
+OK: uma estrela em destaque, centro/resumo seguros e enquadramento em retrato/paisagem para 1–3 destinos.
+✔ tests/mobile-constellation.unit.mjs (104.246946ms)
+OK: seis profundidades, orçamento por qualidade, paralaxe diferencial, reduced/off, carga única e descarte.
+✔ tests/nebula-volume.unit.mjs (105.925346ms)
+OK: continuidade câmera/luz, partida sobreposta ao assentamento, retirada suave, toque e reduced-motion.
+✔ tests/selection-handoff.unit.mjs (371.113451ms)
+SELECTION_ANATOMY {"minArea":0.39393470108897377,"maxArea":1.3745912185026103}
+OK: seleção única, pressão/depth sem fades, mão esquerda preservada, reduced/off, 30/60/120 Hz e descarte.
+✔ tests/star-selection.unit.mjs (863.139351ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3845.728243

@@ -1,0 +1,17 @@
+
+Running 3 tests using 1 worker
+
+(node:32710) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:32710) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/herald-navigation.spec.js:13:3 › 1 estrela(s): destino 1 preserva identidade e permite retornar (13.0s)
+  ✓  2 tests/herald-navigation.spec.js:13:3 › 2 estrela(s): destino 2 preserva identidade e permite retornar (11.5s)
+  ✓  3 tests/herald-navigation.spec.js:13:3 › 3 estrela(s): destino 3 preserva identidade e permite retornar (13.0s)
+
+  3 passed (38.8s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m

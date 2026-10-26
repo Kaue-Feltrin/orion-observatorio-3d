@@ -1,3 +1,5 @@
+> **Revisão atual:** a versão cinematográfica V2 substitui os vetores e a ruptura CSS descritos abaixo. Veja [pesquisa](CINEMATIC-RESEARCH.md) e [resultado/testes/limitações](CINEMATIC-RESULTS.md). O histórico abaixo documenta a primeira implementação. O build completo da V2 já passou com a fotografia ESO incluída.
+
 # Criação inicial do arauto — prévia local
 
 Implementação baseada no ZIP/commit `a45c8d6d89c5be4892fa049ed755218fad3fb006` da branch `codex/maos-rig-mmv`. Branch local `feat/nascimento-marcado`. Não houve push, publicação, merge, PR, migração ou conexão com dados reais.

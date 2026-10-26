@@ -19,6 +19,7 @@ import { createEtherealHandsMesh } from './first-person-hands-mesh.js';
 import { getHeralds, getHeraldLayout, arrivalURL } from './herald-catalog.js';
 import { createPageTransition, revealPage } from './page-transition.js';
 import { createHeraldCreation } from './herald-creation.js';
+import { createCreationNebula, CREATION_ART } from './creation-cinematic.js';
 import { createTouchNavigation } from './touch-navigation.js';
 import { createMobileConstellation, mobileHeraldLayout } from './mobile-constellation.js';
 
@@ -206,10 +207,11 @@ starBackdrop.visible=false;
 const farCloud = nebulaPlane('/assets/01-nebula-far.webp',-360,.11,0,-5,1.53,1,3072/1152,{name:'01 · Nebulosa distante'});
 // A camada distante está atrás da fotografia opaca ESO. Oculte seu draw call.
 farCloud.visible=false;
-const mainCloud = nebulaPlane('/assets/nebula-eso-photographic.jpg',-540,1,0,-3,1.31,2,5000/1850,{name:'02 · Via Láctea fotográfica · ESO'});
+const mainCloud = nebulaPlane(creationPage?CREATION_ART.nebula:'/assets/nebula-eso-photographic.jpg',-540,1,0,-3,1.31,2,creationPage?1672/941:5000/1850,{name:creationPage?'Interior da nebulosa':'02 · Via Láctea fotográfica · ESO'});
 // Apenas iluminação/cor do material; fotografia ESO original segue intacta e nítida.
 // Escurecer o fundo gera espaço negativo ao redor do único arauto interativo.
 mainCloud.material.color.setRGB(.43,.46,.53);
+if(creationPage)mainCloud.material.color.setRGB(.55,.56,.68);
 const distantSky=createDistantSky(mainCloud,camera);
 const midCloud = nebulaPlane('/assets/03-mid-clouds.webp',-155,.031,-2,-4,1.42,3,3072/1152,{name:'03 · Detalhe da nebulosa',additive:true});
 const nearCloud = nebulaPlane('/assets/04-front-fog.png',-92,.027,9,-10,1.56,4,2560/960,{name:'04 · Névoa frontal',additive:true});
@@ -232,10 +234,12 @@ const atmosphere = createCosmicAtmosphere(scene,{reducedMotion:reduceMotion || m
 layers.push(...atmosphere.layers);
 // 6 regiões recortadas da própria fotografia ESO, sobrepostas em Z.
 // Sem mais estrelas ou efeitos de tela inteira.
-const nebulaVolume=createNebulaVolume(scene,mainCloud,{reducedMotion:reduceMotion||mobile,parallaxEnabled:depthMotionEnabled,foregroundEnabled});
+if(creationPage){for(const v of breathingVeils)v.mesh.visible=false;}
+const volumeOptions={reducedMotion:reduceMotion||mobile,parallaxEnabled:depthMotionEnabled,foregroundEnabled};
+const nebulaVolume=creationPage?createCreationNebula(scene,mainCloud,volumeOptions):createNebulaVolume(scene,mainCloud,volumeOptions);
 layers.push(...nebulaVolume.layers);
 function applyGasBudget(){
-  const enabled=new Set(effectsMode==='no-gas'?[]:gpuBudget().gas);
+  const enabled=new Set(creationPage||effectsMode==='no-gas'?[]:gpuBudget().gas);
   atmosphere.layers.forEach((mesh,index)=>{
     mesh.visible=enabled.has(index);
   });
@@ -640,7 +644,10 @@ function isAimedAtStar(clientX,clientY){
   return hit?heralds[hit.object.userData.heraldIndex]:null;
 }
 window.addEventListener('pointermove',e=>{
-  if(creation){creation.point(e);return;}
+  if(creation){
+    if(!mobile&&e.pointerType!=='touch'){mouse.x=(e.clientX/innerWidth-.5)*2;mouse.y=(.5-e.clientY/innerHeight)*2;}
+    creation.point(e);return;
+  }
   if(mobile||e.pointerType==='touch'||travelling||starSelection.state.active)return;
   interactionMetrics.pointerEvents++;
   mouse.x=(e.clientX/innerWidth-.5)*2;
@@ -692,6 +699,12 @@ function selectStar(entry=activeHerald){
  if(travelling||!activateHerald(entry)||!starSelection.begin())return;
  selectedHerald=entry;
  if(mobile){root.dataset.confirming='true';document.getElementById('starBrowser').inert=true;}
+ if(entry.data.creation){
+   for(const url of Object.values(CREATION_ART)){
+     if(document.querySelector(`link[data-creation-preload="${url}"]`))continue;
+     const link=document.createElement('link');link.rel='prefetch';link.as='image';link.href=url;link.dataset.creationPreload=url;document.head.append(link);
+   }
+ }
  pageTransition.prepare(arrivalURL(location.href,entry.data));
  selectionStartedAt=performance.now();
  touchNavigation?.cancel();
@@ -931,8 +944,9 @@ function tick(now){
 if(creationPage){
  root.classList.add('creation-scene');
  for(const entry of heralds){entry.group.visible=false;entry.target.hidden=true;entry.target.inert=true;}
- creation=createHeraldCreation(root,{hands:firstPersonHands,reducedMotion:reduceMotion});
- revealPage();
+ creation=createHeraldCreation(root,{hands:firstPersonHands,reducedMotion:reduceMotion,scene,camera});
+ if(debugEnabled)window.__orionCreationEnvironment={state:nebulaVolume.state,layers:nebulaVolume.layers,photo:mainCloud};
+ creation.ready.then(()=>revealPage()).catch(()=>revealPage());
 }
 requestAnimationFrame(tick);
 document.documentElement.dataset.sceneReady='1';

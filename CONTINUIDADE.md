@@ -1,3 +1,12 @@
+## 26/10/2026 — criação cinematográfica V2: imagens, paralaxe e VFX
+
+- Usuário reprovou a arte vetorial/ruptura CSS e pediu camadas de imagem, céu distinto dentro da nebulosa, pesquisa de animações de jogo, novo botão e ausência de gesto ao tornar Marcado.
+- Pesquisa anterior ao código em `docs/creation/CINEMATIC-RESEARCH.md`: quatro exemplos oficiais Three.js r180 consultados. Criadas imagens locais com alpha e novo ambiente, sem modelos/ativos extraídos de jogos. Imagens finais e hashes em `public/assets/creation/manifest.json`.
+- Renderer/câmera/RAF/mãos existentes reaproveitados. Novo fundo por planos/UV; fratura Voronoi em GPU, fissuras, partículas e dissolução/revelação em 2,5D. Não é morph anatômico real nem física rígida. Estado/nome/gênero/rascunho preservados. Página inicial, viagem e contagem de 1–3 destinos preservados.
+- Resultado/limites detalhados em `docs/creation/CINEMATIC-RESULTS.md`: 15 arquivos unitários, oito cenários de criação/WebGL e três regressões aprovados. Build completo com ESO aprovado; pacote estático exercitado em desktop/mobile/Balanced. Capturas/vídeos em `/workspace/observatorio-cinematic-final/`; métricas locais de SwiftShader não comprovam 60 FPS em GPU real.
+- Correção visual da inspeção final: limite UV do atlas ajustado para não duplicar os dedos da menina no sprite do menino. Botão sem gesto; movimento reduzido também bloqueia o deslocamento dos vértices no shader.
+- Entrega por ZIP de upload direto, conforme preferência do usuário; sem merge/produção/contas reais. Arte e movimento aguardam revisão visual. Nenhuma nova etapa de criação foi inventada.
+
 ## 26/10/2026 — envio autorizado da prévia de criação
 
 - Usuário autorizou o envio da branch e a publicação de prévia isolada, dispensando novas confirmações nesse escopo. Código `9a82846` enviado com sucesso para `origin/feat/nascimento-marcado`; sem merge ou alteração da produção.
