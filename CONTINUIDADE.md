@@ -1,3 +1,9 @@
+## 26/10/2026 — envio autorizado da prévia de criação
+
+- Usuário autorizou o envio da branch e a publicação de prévia isolada, dispensando novas confirmações nesse escopo. Código `9a82846` enviado com sucesso para `origin/feat/nascimento-marcado`; sem merge ou alteração da produção.
+- Consulta dos checks no GitHub e abertura do possível domínio de prévia recusadas pelo proxy de rede (403/Forbidden). Não há confirmação de build, deployment ou URL pública válida. Não apresentar endereço deduzido como publicação realizada.
+- Preservadas as regras existentes e adicionados `api.github.com` e o hostname específico da branch ao rascunho de rede do ambiente. Rascunho salvo não equivale a aplicação/publicação; o usuário precisa salvar/aplicar a configuração na interface do ambiente antes de revalidar.
+
 ## 26/10/2026 — início da criação: nascimento do Marcado (local)
 
 - Pedido narrado com três referências do usuário: estrela única em conta vazia, viagem/clarão existentes, bebê etéreo selado por luz/correntes/cadeado, ruptura e duas silhuetas, nome, não definir gênero e seta circular. Trabalhado na branch local `feat/nascimento-marcado`, a partir de `a45c8d6d89c5be4892fa049ed755218fad3fb006`, correspondente ao ZIP. Main, branch de origem e outros repositórios preservados.

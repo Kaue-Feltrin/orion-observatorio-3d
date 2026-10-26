@@ -69,3 +69,7 @@ CREATION_EVIDENCE_DIR=test-results/creation node scripts/capture-creation.mjs
 ## Evidências finais preservadas
 
 Os quatro recortes em `captures/` mostram bebê selado e identidade após os ajustes finais. `validation/observations-final.json` contém as três gravações finais; vídeos e todas as doze capturas permanecem em `/workspace/observatorio-creation-evidence-final/`. A rodada inicial foi preservada separadamente. Em todas as três execuções finais houve zero erros JS e a foto ESO continuou não carregada; nenhum HTTP 200 de fallback foi tratado como aprovação da textura. Esses arquivos são evidências locais, não anexos ou links publicados no chat.
+
+## Atualização de entrega autorizada
+
+Após a implementação local, o usuário autorizou enviar esta branch e gerar uma prévia isolada. O commit de código `9a82846` foi enviado para `origin/feat/nascimento-marcado`. Os avisos anteriores de ausência de push descrevem a fase local da implementação. A verificação de build/publicação continua bloqueada pela rede; não foi confirmada uma URL de deployment e não houve merge nem alteração de produção. As capturas versionadas podem ser consultadas diretamente na branch do GitHub.
