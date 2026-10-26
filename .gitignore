@@ -1,0 +1,12 @@
+**/node_modules/
+**/dist/
+**/test-results/
+**/playwright-report/
+**/public/assets/nebula-eso-photographic.jpg
+**/public/assets/depth/
+.env
+.env.*
+.dev.vars*
+*.log
+
+**/playwright.local.config.js

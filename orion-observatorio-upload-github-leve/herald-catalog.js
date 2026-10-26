@@ -8,6 +8,7 @@ const previewHeralds=[nox,...[2,3].map(number=>Object.freeze({
   stats:{level:'—',origin:'—',trail:'—',rank:'—',em:'—',ec:'—'}
 }))];
 export function heraldCount(value){
+  if(value===0||value==='0')return 0;
   const number=Number(value);
   return Number.isFinite(number)?Math.max(1,Math.min(MAX_HERALDS,Math.trunc(number))):1;
 }
@@ -15,6 +16,7 @@ export function getHeralds(params=new URLSearchParams()){
   return previewHeralds.slice(0,heraldCount(params.get('stars')??1));
 }
 export function getHeraldLayout(count,aspect){
+  if(count===0)return [];
   if(count===1)return [{x:0,y:43,z:-470,scale:1}];
   const points=count===2?[[.32,.39],[.68,.46]]:[[.5,.30],[.25,.48],[.75,.48]];
   const height=2*Math.tan(52*Math.PI/360)*496,width=height*aspect;
@@ -28,7 +30,7 @@ export function observatoryURL(current){
   return url;
 }
 export function arrivalURL(current,herald){
-  const url=new URL('ficha.html',current),source=observatoryURL(current);
+  const url=new URL(herald.creation?'criacao.html':'ficha.html',current),source=observatoryURL(current);
   for(const [key,value] of source.searchParams)url.searchParams.set(key,value);
   url.searchParams.set('herald',herald.id);url.searchParams.set('via','observatory');return url;
 }

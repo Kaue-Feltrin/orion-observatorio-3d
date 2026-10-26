@@ -1,0 +1,19 @@
+
+Running 5 tests using 1 worker
+
+(node:19009) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:19009) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/herald-creation.spec.js:20:1 › conta vazia tem estrela central e atravessa o mesmo véu até o bebê selado (11.1s)
+  ✓  2 tests/herald-creation.spec.js:45:1 › ruptura completa, gênero exclusivo, nome e continuação sem gravação remota (7.7s)
+  ✓  3 tests/herald-creation.spec.js:100:1 › teclado e movimento reduzido completam ruptura e não definir gênero (3.7s)
+  ✓  4 tests/herald-creation.spec.js:137:3 › toque 390x844: alvo, escolhas e seta dentro da tela (10.0s)
+  ✓  5 tests/herald-creation.spec.js:137:3 › toque 844x390: alvo, escolhas e seta dentro da tela (10.1s)
+
+  5 passed (44.0s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m

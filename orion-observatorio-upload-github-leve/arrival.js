@@ -1,7 +1,7 @@
 import {getHeralds,observatoryURL} from './herald-catalog.js';
 import {revealPage} from './page-transition.js';
 const params=new URLSearchParams(location.search),heralds=getHeralds(params);
-const herald=heralds.find(item=>item.id===params.get('herald'))??heralds[0];
+const herald=heralds.find(item=>item.id===params.get('herald'))??heralds[0]??getHeralds()[0];
 document.querySelector('.arrival h1').textContent=herald.name;
 document.querySelector('.arrival').dataset.heraldId=herald.id;
 document.title=`${herald.name} · Chegada ao universo`;

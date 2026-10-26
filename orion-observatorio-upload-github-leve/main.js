@@ -17,11 +17,14 @@ import { createFpsFirstPersonHands } from './first-person-hands-fps.js';
 import { createEtherealHandsOverlay } from './first-person-hands-overlay.js';
 import { createEtherealHandsMesh } from './first-person-hands-mesh.js';
 import { getHeralds, getHeraldLayout, arrivalURL } from './herald-catalog.js';
-import { createPageTransition } from './page-transition.js';
+import { createPageTransition, revealPage } from './page-transition.js';
+import { createHeraldCreation } from './herald-creation.js';
 import { createTouchNavigation } from './touch-navigation.js';
 import { createMobileConstellation, mobileHeraldLayout } from './mobile-constellation.js';
 
 const root = document.getElementById('observatory');
+const creationPage=document.body.dataset.page==='creation';
+let creation=null;
 const container = document.getElementById('world');
 let target = document.getElementById('heraldTarget');
 const card = document.getElementById('heraldCard');
@@ -448,7 +451,13 @@ softHalo.layers.enable(1);
 mainGlow.layers.enable(1);
 coreGlow.layers.enable(1);
 // Uma coleção de destinos; mapas e geometrias são compartilhados, materiais não.
-const heraldData=getHeralds(params);
+const accountHeralds=getHeralds(params);
+const emptyAccount=accountHeralds.length===0;
+const creationStar={id:'new-herald',name:'Sua primeira estrela',subtitle:'Um novo começo',creation:true,
+ stats:{level:'—',origin:'—',trail:'—',rank:'—',em:'—',ec:'—'}};
+const heraldData=(emptyAccount||creationPage)?[creationStar]:accountHeralds;
+root.dataset.empty=String(emptyAccount);
+if(emptyAccount)hint.textContent='Uma nova história espera por você';
 const firstVisuals={group:heraldGroup,glows:{halo:nebulaStarHalo,soft:softHalo,main:mainGlow,core:coreGlow},
   orbit:orbitRing,beacon:beaconGlow,spikes:cinematicSpikes,pick:heraldPickSprite,target};
 const heralds=heraldData.map((data,index)=>{
@@ -463,11 +472,11 @@ const heralds=heraldData.map((data,index)=>{
       spikes:createCinematicStarSpikes(group,{reducedMotion:reduceMotion,sharedTexture:cinematicSpikes.primary.material.map})};
   }
   visuals.pick.userData.heraldIndex=index;
-  visuals.target.setAttribute('aria-label',`Selecionar ${data.name}${data.demo?', estrela de demonstração':', arauto ativo, nível 9'}`);
+  visuals.target.setAttribute('aria-label',data.creation?'Criar meu primeiro arauto':`Selecionar ${data.name}${data.demo?', estrela de demonstração':', arauto ativo, nível 9'}`);
   return {data,...visuals,basePosition:new THREE.Vector3(),screen:{x:NaN,y:NaN},focus:0};
 });
 let activeHerald=heralds[0],selectedHerald=null;
-document.getElementById('heraldCount').textContent=heralds.length===1?'1 arauto ativo':`${heralds.length} estrelas · prévia`;
+document.getElementById('heraldCount').textContent=emptyAccount?'Sua primeira história':heralds.length===1?'1 arauto ativo':`${heralds.length} estrelas · prévia`;
 const pageTransition=createPageTransition(flash);
 function renderHerald(){
   const data=activeHerald.data;
@@ -567,6 +576,13 @@ function updateTargetScreen() {
   }
 }
 function setHover(state) {
+  if(creationPage)return;
+  if(emptyAccount){
+    if(travelling||starSelection.state.active)return;
+    firstPersonHands.setStarHovered?.(state);
+    hint.textContent='Clique na estrela para começar sua história';
+    return;
+  }
   if(travelling||starSelection.state.active)return;
   cardVisible=state;
   root.dataset.summary=String(state);
@@ -603,13 +619,14 @@ for(const entry of heralds){
   button.addEventListener('blur',()=>{if(!mobile)setHover(false);});
   button.addEventListener('click',e=>{
     if(travelling||starSelection.state.active||!activateHerald(entry))return;
+    if(emptyAccount){selectStar(entry);return;}
     if(mobile){if(!mobileConstellation.state.settled)return;setHover(true);return;}
     if(e.detail===0&&!cardVisible){setHover(true);return;}
     selectStar(entry);
   });
 }
 function isAimedAtStar(clientX,clientY){
-  if(travelling)return null;
+  if(travelling||creationPage)return null;
   // Rejeitar alvos distantes antes de atualizar matrizes e lançar o raio.
   const radius=Math.max(120,innerHeight*.15);
   const candidates=heralds.filter(entry=>Math.abs(clientX-entry.screen.x)<=radius&&Math.abs(clientY-entry.screen.y)<=radius);
@@ -623,6 +640,7 @@ function isAimedAtStar(clientX,clientY){
   return hit?heralds[hit.object.userData.heraldIndex]:null;
 }
 window.addEventListener('pointermove',e=>{
+  if(creation){creation.point(e);return;}
   if(mobile||e.pointerType==='touch'||travelling||starSelection.state.active)return;
   interactionMetrics.pointerEvents++;
   mouse.x=(e.clientX/innerWidth-.5)*2;
@@ -706,7 +724,7 @@ function resize(){
  if(!travelling&&!selectedHerald){
    const layout=mobile?mobileHeraldLayout(heralds.length,camera.aspect,mobileConstellation.state.position,mobileConstellation.state.summary):getHeraldLayout(heralds.length,camera.aspect);
    heralds.forEach((entry,index)=>{
-     const point=layout[index];entry.group.position.set(point.x,point.y,point.z);
+     const point=emptyAccount?{x:0,y:0,z:-470,scale:1}:layout[index];entry.group.position.set(point.x,point.y,point.z);
      entry.group.scale.setScalar(point.scale);entry.basePosition.copy(entry.group.position);
    });
    heraldPos.copy(activeHerald.group.position);heraldBasePos.copy(activeHerald.basePosition);
@@ -805,7 +823,7 @@ function tick(now){
   if(mobile&&!selectedHerald){
    mobileConstellation.update(elapsed,cardVisible);
    const layout=mobileHeraldLayout(heralds.length,camera.aspect,mobileConstellation.state.position,mobileConstellation.state.summary);
-   heralds.forEach((entry,index)=>{const p=layout[index];entry.group.position.set(p.x,p.y,p.z);entry.group.scale.setScalar(p.scale);entry.basePosition.copy(entry.group.position);});
+   heralds.forEach((entry,index)=>{const p=emptyAccount?{x:0,y:0,z:-470,scale:1}:layout[index];entry.group.position.set(p.x,p.y,p.z);entry.group.scale.setScalar(p.scale);entry.basePosition.copy(entry.group.position);});
    heraldBasePos.copy(activeHerald.basePosition);
   }else if(!mobile)heraldGroup.position.copy(heraldBasePos);
   starsGroup.position.z=0;
@@ -883,6 +901,7 @@ function tick(now){
   starJourney.update(now,delta);
  }
  // A retirada das mãos precisa continuar durante a viagem, no mesmo loop.
+ creation?.update(now);
  firstPersonHands.update(time,delta,mouse.x,mouse.y);
  for(const mat of starMaterials){
    mat.uniforms.uTime.value=reduceMotion?0:time;
@@ -908,6 +927,12 @@ function tick(now){
  selectiveBloom.render(travelling||bloomTick%2===1,
    travelling||(qualityMode!=='eco'&&effectsMode!=='no-bloom'));
  performancePanel?.refresh(now);
+}
+if(creationPage){
+ root.classList.add('creation-scene');
+ for(const entry of heralds){entry.group.visible=false;entry.target.hidden=true;entry.target.inert=true;}
+ creation=createHeraldCreation(root,{hands:firstPersonHands,reducedMotion:reduceMotion});
+ revealPage();
 }
 requestAnimationFrame(tick);
 document.documentElement.dataset.sceneReady='1';

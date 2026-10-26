@@ -9,7 +9,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         observatorio: resolve('index.html'),
-        ficha: resolve('ficha.html')
+        ficha: resolve('ficha.html'),
+        criacao: resolve('criacao.html')
       }
     }
   }

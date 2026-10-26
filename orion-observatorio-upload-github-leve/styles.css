@@ -267,3 +267,10 @@ rgba(187,150,225,.28) 51%,rgba(10,6,27,0) 80%);opacity:0}
  [data-input=touch]:has(.star-browser[data-single=true]) .bottom-ui{opacity:1}
 }
 @media(prefers-reduced-motion:reduce){.swipe-cue>span:first-child{animation:none}.star-page::before{transition:none}}
+
+/* Empty-account preview keeps the historical constellation untouched. */
+.creation-preview-link{pointer-events:auto;color:#d8c7ee;font:11px/1.5 'Segoe UI',sans-serif;text-underline-offset:4px;min-height:24px;display:inline-flex;align-items:center}
+.creation-preview-link:focus-visible{outline:2px solid #f1d6a4;outline-offset:5px}
+.observatory[data-empty="true"] .creation-preview-link{display:none}
+.observatory[data-empty="true"] .herald-target{pointer-events:auto}
+.observatory[data-empty="true"].jumping .herald-target{pointer-events:none}

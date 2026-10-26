@@ -1,3 +1,12 @@
+## 26/10/2026 — início da criação: nascimento do Marcado (local)
+
+- Pedido narrado com três referências do usuário: estrela única em conta vazia, viagem/clarão existentes, bebê etéreo selado por luz/correntes/cadeado, ruptura e duas silhuetas, nome, não definir gênero e seta circular. Trabalhado na branch local `feat/nascimento-marcado`, a partir de `a45c8d6d89c5be4892fa049ed755218fad3fb006`, correspondente ao ZIP. Main, branch de origem e outros repositórios preservados.
+- Pesquisa/plano antes de codificar em `docs/creation/PLAN.md`; duas demonstrações oficiais Three.js r180 consultadas, sem importar seus modelos/ativos. Figuras novas são vetores originais de prévia.
+- Modo `?stars=0` mostra convite central e navega para `criacao.html` usando seleção/viagem/véu originais. Criado capítulo visual e controlador com sequência explícita, ruptura sincronizada, escolha exclusiva de três alternativas, nome e entrega local única. Não há backend, conta real, ficha ou regra concedida. Próxima tela não foi inventada.
+- `npm run check`, 14 arquivos unitários, 14 cenários distintos de navegador e compilação Vite passaram; cenários afetados foram reexecutados após refinamentos. Workflow inclui a unidade nova, sem alegar execução no GitHub. Detalhes e limitações em `docs/creation/README.md`.
+- Capturas/vídeos reais em 1920×951, 390×844 e 844×390, evidências locais em `/workspace/observatorio-creation-evidence/`. Bloqueio externo: `npm run build` não consegue baixar ESO (403); fotografia original não carregada nas capturas, que mostram fallbacks/camadas existentes. Domínio salvo no rascunho de rede; nenhuma configuração publicada. Empacotar com Vite isoladamente não comprova build completo.
+- SwiftShader com gravação: desempenho limitado, sem alegar 60 FPS ou RAM/VRAM totais. Vetores ainda aguardam revisão visual e dispositivo real. Não houve push, deploy, merge, PR ou atualização da issue #10: o escopo desta execução foi implementação local.
+
 ## 22/10/2026 — card mobile sem cabeçalho cortado e confirmação sem mãos
 
 - Usuário mostrou nome/fechar cortados no resumo horizontal após girar o celular, mão surgindo no canto durante Entrar no universo e chegada alta demais. Base remota `bedd0f9c589404c3c2193355c45ff3916db0c1d1` conferida antes de editar. Mesma branch/PR #29, main/referência preservadas.
