@@ -1,52 +1,53 @@
 {
-  "version": 2,
+  "version": 3,
+  "direction": "Tudo começa pelo sangue.",
   "layers": [
     {
-      "file": "nebula-interior.png",
+      "file": "blood-chamber.png",
+      "bytes": 1912806,
+      "sha256": "3cbaf1a464623056f5ad0d709717bdc05aee10ffe226d9a47a67e9f8a4469194",
+      "origin": "image_gen; PNG original preservado",
       "width": 1672,
       "height": 941,
-      "alpha": false,
-      "bytes": 2379801,
-      "sha256": "ae040d51c84ce11e1631c1a7f003ee920d0a22c470119c13373b45e6873e335b",
-      "origin": "Arte original gerada para este estudo com image_gen; arquivo PNG preservado sem edição de pixels."
+      "alpha": false
     },
     {
-      "file": "unborn-soul.png",
-      "width": 1374,
-      "height": 1145,
-      "alpha": true,
-      "bytes": 908719,
-      "sha256": "3bf7870d767c3e1a1a07fec5bb78b42dd68a0960c0b04f7975f8659eba5de2ea",
-      "origin": "Arte original gerada para este estudo com image_gen; arquivo PNG preservado sem edição de pixels."
+      "file": "ashen-void.png",
+      "bytes": 2227788,
+      "sha256": "4a96a4637b00eda2a9dde39625ec0fbf3107a54768bf0c0c3dcb1594fa421405",
+      "origin": "image_gen; PNG original preservado",
+      "width": 1672,
+      "height": 941,
+      "alpha": false
     },
     {
-      "file": "child-spirits-atlas.png",
-      "width": 1536,
-      "height": 1024,
-      "alpha": true,
-      "bytes": 2249786,
-      "sha256": "b8339c109a41a0ae470962bd2b1b9c7f2e063e3291c7bb085981e2fab979f9a6",
-      "origin": "Arte original gerada para este estudo com image_gen; arquivo PNG preservado sem edição de pixels."
-    },
-    {
-      "file": "seal-chains.png",
-      "width": 1312,
-      "height": 1199,
-      "alpha": true,
-      "bytes": 1454631,
-      "sha256": "b242661c79c816e340b401f38f7adc9c2b27fa8300a8d825d19d0cdba8b89255",
-      "origin": "Arte original gerada para este estudo com image_gen; arquivo PNG preservado sem edição de pixels."
-    },
-    {
-      "file": "forcefield.png",
+      "file": "amber-bindings.png",
+      "bytes": 2045401,
+      "sha256": "eaa7a38f12c466dbc9cac83bb9828190221fc4696ca6395b4ecfea438cdbe9a5",
+      "origin": "image_gen; PNG original preservado",
       "width": 1254,
       "height": 1254,
-      "alpha": true,
-      "bytes": 1975342,
-      "sha256": "cf9c484ba954b0e3ed376db0b8f16cc22aeae9f8bbb42fa67e8bdaac82ae4e7a",
-      "origin": "Arte original gerada para este estudo com image_gen; arquivo PNG preservado sem edição de pixels."
+      "alpha": true
+    },
+    {
+      "file": "unborn-shadow.svg",
+      "bytes": 854,
+      "sha256": "f2ab6f1bc89d78d61557a2469a27a485eb2fcc3c55bd9f442670816bbcfdc174",
+      "origin": "Contornos vetoriais autorais sem rosto, cabelo, roupa ou detalhes físicos.",
+      "width": 1200,
+      "height": 1600,
+      "alpha": true
+    },
+    {
+      "file": "soul-shadows.svg",
+      "bytes": 1216,
+      "sha256": "fe1c2c82b7ba0a5697541792e1b73411fbb25031341f4c7bd6b78d7792fcc14d",
+      "origin": "Contornos vetoriais autorais sem rosto, cabelo, roupa ou detalhes físicos.",
+      "width": 2000,
+      "height": 1600,
+      "alpha": true
     }
   ],
-  "compositing": "Recortes por UV no WebGL; imagens com alpha, cenário compartilhado entre planos em Z.",
-  "notes": "Atlas: recorte UV da menina entre x=0 e x=0.52; menino entre x=0.52 e x=1. O limite preserva as mãos da menina sem duplicar fragmentos no sprite do menino. Formas não definem classe, benefícios ou regras."
+  "field": "Névoa cinza procedural GLSL; não usa imagem do escudo antigo.",
+  "legacy": "PNGs V2 preservados no repositório, excluídos deste pacote por não serem usados."
 }

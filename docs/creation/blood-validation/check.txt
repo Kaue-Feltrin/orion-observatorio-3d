@@ -1,0 +1,17 @@
+
+> orion-observatorio-3d@0.8.0-cloudflare check
+> node --check main.js && node --check vite.config.js && node tests/structure.mjs
+
+OK: arquivos, PNGs, Vite multipágina e Three.js local verificados.
+OK: benchmark A/B, delta, configuração incompatível e isolamento da cena.
+
+> orion-observatorio-3d@0.8.0-cloudflare check
+> node --check main.js && node --check vite.config.js && node tests/structure.mjs
+
+OK: arquivos, PNGs, Vite multipágina e Three.js local verificados.
+OK: benchmark A/B, delta, configuração incompatível e isolamento da cena.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

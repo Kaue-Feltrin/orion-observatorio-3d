@@ -45,3 +45,30 @@ html[data-page-veil="reveal"]::before{opacity:0}
 @media(max-width:670px){.creation-label{font-size:9px;letter-spacing:.3em;top:max(30px,env(safe-area-inset-top))}.creation-back{left:16px;top:16px}.sealed-being{width:min(92vw,430px);height:min(92vw,430px);top:42%}.creation-stage{inset:12% 0 20%}.mark-being{bottom:-3%;min-width:220px;min-height:110px}.mark-title{font-size:24px}.mark-being::before,.mark-being::after{width:25px}.child-choices{width:100vw;gap:2vw;height:75%;top:1%}.child-choice>span{font-size:12px;bottom:-21px;letter-spacing:.1em}.identity-fields{top:88%;width:76vw}#herald-name{height:54px;font-size:20px}.creation-next{width:48px;height:48px;bottom:max(31px,env(safe-area-inset-bottom));right:19px}.creation-status{font-size:11px;bottom:max(23px,env(safe-area-inset-bottom));width:calc(100% - 145px)}}
 @media(max-height:500px) and (orientation:landscape){.creation-label{top:18px}.creation-back{top:9px;left:12px}.creation-stage{inset:10% 0 20%}.sealed-being{width:60svh;height:60svh;top:43%}.mark-being{bottom:-12%;min-height:75px;padding:3px 18px 5px;gap:5px}.mark-title{font-size:20px}.mark-sigil{font-size:20px}.mark-hint{font-size:8px}.child-choices{width:min(700px,88vw);height:91%;top:-12%;gap:34vw}.child-choice>span{bottom:-4px;font-size:11px}.identity-fields{top:77%;width:240px}#herald-name{height:40px;font-size:18px}.undefined-choice{font-size:11px;min-height:36px}.creation-status{font-size:10px;bottom:10px}.creation-next{bottom:12px;width:46px;height:46px}}
 @media(prefers-reduced-motion:reduce){html[data-page-veil]::before{transition-duration:.16s}.herald-creation *{transition:none!important}}
+/* V3 · sangue, ruptura e alma: controls remain legible over both worlds. */
+.creation-scene .sky-fallback{background-image:url('/assets/creation/blood-chamber.png');filter:brightness(.64)}
+.herald-creation::before{content:"";position:fixed;inset:0;background:#eeebf2;opacity:var(--birth-flash,0);pointer-events:none;z-index:4}
+.blood-prologue{position:absolute;top:13%;left:50%;transform:translateX(-50%);margin:0;width:85%;text-align:center;font:400 clamp(18px,2.1vw,30px)/1.5 Georgia,serif;letter-spacing:.08em;color:#e5c6c3;text-shadow:0 2px 24px #000;opacity:calc(1 - var(--birth-transition,0));pointer-events:none;animation:blood-words 1.4s ease both}
+@keyframes blood-words{from{opacity:0;filter:blur(5px)}to{opacity:1;filter:blur(0)}}
+.herald-creation[data-phase="breaking"] .blood-prologue,.herald-creation[data-phase="identity"] .blood-prologue{animation:none}
+.sealed-being{top:49%;width:min(44vw,480px);height:min(44vw,480px)}
+.mark-being{bottom:0%;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;column-gap:12px;row-gap:4px;width:290px;min-height:74px;padding:16px 24px;border:1px solid #cba76688;border-radius:5px;background:linear-gradient(145deg,#35221ddd,#130b10ee);box-shadow:inset 0 1px #f7d3a329,0 8px 40px #0008;transition:border-color .2s,background .2s,box-shadow .2s}
+.mark-being::before,.mark-being::after{display:none}
+.mark-title{font-size:23px}.mark-sigil{font-size:22px}.mark-hint{flex-basis:100%;font-size:8px;letter-spacing:.23em}
+.mark-being:hover{border-color:#f6d799;background:linear-gradient(145deg,#493128ee,#241117ee);box-shadow:inset 0 1px #f7d3a355,0 0 26px #d3a66b24,0 8px 40px #0009}
+.mark-being:active{box-shadow:inset 0 2px 10px #0009}
+.child-choice::before{content:"";position:absolute;inset:8% -3% 0;border-radius:50%;background:radial-gradient(ellipse,#d0bdd933,transparent 63%);opacity:0;transition:opacity .35s;pointer-events:none;z-index:-1}
+.child-choice:hover::before{opacity:.38}.child-choice[aria-pressed=true]::before{opacity:1}
+.child-choice>span{border:0;color:#bcb3c5;transition:color .3s,text-shadow .3s}
+.child-choice[aria-pressed=true]>span{color:#fff5f4;text-shadow:0 0 12px #e8dfed99}
+.child-choice[aria-pressed=true]>span::after{content:"";position:absolute;bottom:0;left:50%;width:4px;height:4px;border-radius:50%;background:#e4d2e9;box-shadow:0 0 10px #dfc6f5;transform:translateX(-50%)}
+#herald-name{background:linear-gradient(0deg,#bab0c00a,transparent);border-bottom-color:#c4b9ca55;transition:border-color .25s,background .25s;outline:none!important;outline-offset:0}
+#herald-name:focus{outline:none!important;border-bottom-color:#e1d4ec;background:linear-gradient(0deg,#d2c2dd14,transparent);box-shadow:0 10px 16px -16px #d9bfee99}
+.child-choice:focus-visible{outline:none!important}.child-choice:focus-visible>span{color:#fff;text-decoration:underline;text-underline-offset:7px}.child-choice:focus-visible::before{opacity:.8}
+.undefined-choice{color:#cfc6d3}.undefined-choice input{accent-color:#a59aa9}
+@media(max-width:670px){.blood-prologue{top:14%;font-size:19px;letter-spacing:.04em}.sealed-being{width:min(92vw,420px);height:min(92vw,420px);top:47%}.mark-being{bottom:-3%;min-height:70px;width:258px;padding:14px 20px}.mark-title{font-size:22px}.mark-sigil{font-size:20px}}
+@media(max-height:500px) and (orientation:landscape){.blood-prologue{top:12%;font-size:16px}.sealed-being{width:60svh;height:60svh;top:43%}.mark-being{bottom:-12%;min-height:60px;width:250px;padding:10px 18px;gap:4px 12px}.mark-title{font-size:19px}.mark-hint{font-size:7px}}
+@media(prefers-reduced-motion:reduce){.blood-prologue{animation:none}}
+/* Focus must not scroll the full-screen scene when a landscape choice extends. */
+.herald-creation{overflow:clip}
+.child-choices{min-inline-size:0}

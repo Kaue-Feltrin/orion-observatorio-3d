@@ -558,3 +558,8 @@ Avaliar a v0.9.3: profundidade perceptível da nebulosa versus aparência de ima
 **Privacidade:** nunca gravar tokens, senhas, dados privados ou segredos em issues/PRs públicos.
 
 **Limite importante:** o GitHub não captura automaticamente todo o histórico do chat. O protocolo precisa ser seguido a cada rodada de desenvolvimento; não há garantia de atualizações por conversas futuras sem executar essa etapa.
+
+
+## 26/10/2026 — Criação V3: Tudo começa pelo sangue
+
+Pedido de revisão visual implementado no Observatório: ambiente orgânico vermelho pulsante, frase introdutória, correntes de luz âmbar, névoa cinza procedural e silhuetas pretas vetoriais genéricas. Tornar Marcado tem aparência de botão, sem gesto das mãos; clarão e passagem para vazio cinza/preto/branco com sombras violetas. Seleção e foco do nome revisados. Registro e evidências em docs/creation/BLOOD-RESULTS-V3.md. Entrega em ZIP estático para Pages; homologação visual pendente. Fichas PR179, dados e produção preservados.

@@ -3,20 +3,20 @@ import {createCreationArt} from './creation-cinematic.js';
 import {observatoryURL} from './herald-catalog.js';
 import {sampleStarSelection} from './star-selection.js';
 
-export function createHeraldCreation(root,{hands,reducedMotion=false,scene,camera}){
+export function createHeraldCreation(root,{hands,reducedMotion=false,scene,camera,environment}){
  let state=newCreation(),gestureStart=null,aim={x:0,y:0},storageWarning=false;
  const panel=document.createElement('section');
  panel.className='herald-creation';panel.setAttribute('aria-label','O nascimento do Marcado');
- panel.innerHTML=`<a class="creation-back" href="index.html?stars=0" aria-label="Voltar ao observatório">←</a><span class="creation-label">O despertar</span><div class="creation-stage"><div class="sealed-being"><button class="baby-target" type="button" data-creation-point aria-label="Contemplar a silhueta etérea" aria-controls="markBeing" aria-expanded="false"><span class="sr-only">Um ser etéreo, envolto em luz e correntes</span></button></div><button class="mark-being" id="markBeing" aria-label="Tornar Marcado" type="button" hidden disabled><span class="mark-sigil" aria-hidden="true">✧</span><span class="mark-title">Tornar Marcado</span><span class="mark-hint">Romper o selo</span></button><form id="identityForm" class="identity-form" hidden><fieldset class="child-choices"><legend class="sr-only">Escolha a silhueta ou não defina gênero</legend>${['menina','menino'].map(g=>`<button type="button" class="child-choice" data-gender="${g}" data-creation-point aria-label="Escolher ${g}" aria-pressed="false"><span>${g==='menina'?'Menina':'Menino'}</span></button>`).join('')}</fieldset><div class="identity-fields"><label for="herald-name" class="sr-only">Nomeie seu arauto</label><input id="herald-name" name="name" type="text" placeholder="Nomeie seu arauto" maxlength="60" required autocomplete="off" aria-describedby="creationStatus"><label class="undefined-choice"><input type="checkbox" id="undefinedGender">Não definir gênero</label></div><button class="creation-next" type="submit" aria-label="Continuar com esta identidade" hidden disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button></form></div><p id="creationStatus" class="creation-status" role="status" aria-live="polite">Reunindo a luz…</p>`;
+ panel.innerHTML=`<a class="creation-back" href="index.html?stars=0" aria-label="Voltar ao observatório">←</a><span class="creation-label">O despertar</span><p class="blood-prologue">Tudo começa pelo sangue.</p><div class="creation-stage"><div class="sealed-being"><button class="baby-target" type="button" data-creation-point aria-label="Contemplar a silhueta etérea" aria-controls="markBeing" aria-expanded="false"><span class="sr-only">Um ser etéreo, envolto em luz e correntes</span></button></div><button class="mark-being" id="markBeing" aria-label="Tornar Marcado" type="button" hidden disabled><span class="mark-sigil" aria-hidden="true">✧</span><span class="mark-title">Tornar Marcado</span><span class="mark-hint">Romper o selo</span></button><form id="identityForm" class="identity-form" hidden><fieldset class="child-choices"><legend class="sr-only">Escolha a silhueta ou não defina gênero</legend>${['menina','menino'].map(g=>`<button type="button" class="child-choice" data-gender="${g}" data-creation-point aria-label="Escolher ${g}" aria-pressed="false"><span>${g==='menina'?'Menina':'Menino'}</span></button>`).join('')}</fieldset><div class="identity-fields"><label for="herald-name" class="sr-only">Nomeie seu arauto</label><input id="herald-name" name="name" type="text" placeholder="Nomeie seu arauto" maxlength="60" required autocomplete="off" aria-describedby="creationStatus"><label class="undefined-choice"><input type="checkbox" id="undefinedGender">Não definir gênero</label></div><button class="creation-next" type="submit" aria-label="Continuar com esta identidade" hidden disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button></form></div><p id="creationStatus" class="creation-status" role="status" aria-live="polite">Tudo começa pelo sangue.</p>`;
  root.append(panel);
  const back=observatoryURL(location.href);back.searchParams.set('stars','0');panel.querySelector('.creation-back').href=back.href;
  const baby=panel.querySelector('.baby-target'),mark=panel.querySelector('#markBeing');
  const being=panel.querySelector('.sealed-being'),form=panel.querySelector('form');
  const name=panel.querySelector('#herald-name'),undefinedGender=panel.querySelector('#undefinedGender');
  const next=panel.querySelector('.creation-next'),status=panel.querySelector('#creationStatus');
- const art=createCreationArt({scene,camera,panel,reducedMotion});
+ const art=createCreationArt({scene,camera,panel,reducedMotion,environment});
  baby.disabled=true;
- art.ready.then(()=>{root.dataset.creationArt='ready';baby.disabled=false;mark.disabled=false;status.textContent='Uma vida aguarda seu chamado.';}).catch(()=>{root.dataset.creationArt='error';status.textContent='Não foi possível carregar a cena. Recarregue a página.';});
+ art.ready.then(()=>{root.dataset.creationArt='ready';baby.disabled=false;mark.disabled=false;status.textContent='Contemple o que ainda não tem forma.';}).catch(()=>{root.dataset.creationArt='error';status.textContent='Não foi possível carregar a cena. Recarregue a página.';});
  if(new URLSearchParams(location.search).has('debug'))window.__orionCreationDebug=art;
  function sync(){
    panel.dataset.phase=state.phase;root.dataset.creationPhase=state.phase;
@@ -43,7 +43,7 @@ export function createHeraldCreation(root,{hands,reducedMotion=false,scene,camer
    if(state.phase!=='revealed')return;
    state=transitionCreation(state,{type:'mark'});sync();
    gestureStart=null;hands.setStarSelection?.(null);hands.setStarHovered?.(false);mark.disabled=true;
-   baby.inert=true;form.hidden=false;form.inert=true;status.textContent='A luz se rompe. Um novo destino desperta.';
+   baby.inert=true;form.hidden=false;form.inert=true;status.textContent='O vínculo se rompe. A alma desperta.';
    // The shared WebGL clock resolves this promise after the VFX timeline.
    // No DOM pieces flying apart and no button-click hand animation.
    await art.release();

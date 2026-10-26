@@ -118,7 +118,7 @@ window.addEventListener('keydown', e => {
 
 let renderer;
 try {
-  renderer = new THREE.WebGLRenderer({ antialias:qualityMode==='high', alpha:true, powerPreference:'high-performance' });
+  renderer = new THREE.WebGLRenderer({ antialias:creationPage||qualityMode==='high', alpha:true, powerPreference:'high-performance' });
 } catch (e) {
   loading.textContent = 'WebGL indisponível neste navegador. Tente no Chrome com aceleração de hardware ativada.';
   throw e;
@@ -207,7 +207,7 @@ starBackdrop.visible=false;
 const farCloud = nebulaPlane('/assets/01-nebula-far.webp',-360,.11,0,-5,1.53,1,3072/1152,{name:'01 · Nebulosa distante'});
 // A camada distante está atrás da fotografia opaca ESO. Oculte seu draw call.
 farCloud.visible=false;
-const mainCloud = nebulaPlane(creationPage?CREATION_ART.nebula:'/assets/nebula-eso-photographic.jpg',-540,1,0,-3,1.31,2,creationPage?1672/941:5000/1850,{name:creationPage?'Interior da nebulosa':'02 · Via Láctea fotográfica · ESO'});
+const mainCloud = nebulaPlane(creationPage?CREATION_ART.nebula:'/assets/nebula-eso-photographic.jpg',-540,1,0,-3,1.31,2,creationPage?16/9:5000/1850,{name:creationPage?'Interior da nebulosa':'02 · Via Láctea fotográfica · ESO'});
 // Apenas iluminação/cor do material; fotografia ESO original segue intacta e nítida.
 // Escurecer o fundo gera espaço negativo ao redor do único arauto interativo.
 mainCloud.material.color.setRGB(.43,.46,.53);
@@ -944,7 +944,7 @@ function tick(now){
 if(creationPage){
  root.classList.add('creation-scene');
  for(const entry of heralds){entry.group.visible=false;entry.target.hidden=true;entry.target.inert=true;}
- creation=createHeraldCreation(root,{hands:firstPersonHands,reducedMotion:reduceMotion,scene,camera});
+ creation=createHeraldCreation(root,{hands:firstPersonHands,reducedMotion:reduceMotion,scene,camera,environment:nebulaVolume});
  if(debugEnabled)window.__orionCreationEnvironment={state:nebulaVolume.state,layers:nebulaVolume.layers,photo:mainCloud};
  creation.ready.then(()=>revealPage()).catch(()=>revealPage());
 }

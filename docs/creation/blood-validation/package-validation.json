@@ -1,0 +1,86 @@
+[
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "errors": [],
+    "missing": [],
+    "draft": {
+      "version": 1,
+      "name": "Astra",
+      "gender": "menina",
+      "step": "identity"
+    },
+    "state": {
+      "ready": true,
+      "phase": "identity",
+      "releaseProgress": 1,
+      "selected": "menina",
+      "surfaces": 5,
+      "fragments": 36,
+      "particleCount": 64,
+      "gestureFromMark": false,
+      "introProgress": 1,
+      "environmentTransition": 1
+    },
+    "outline": "none",
+    "flash": "0"
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "errors": [],
+    "missing": [],
+    "draft": {
+      "version": 1,
+      "name": "Astra",
+      "gender": "menina",
+      "step": "identity"
+    },
+    "state": {
+      "ready": true,
+      "phase": "identity",
+      "releaseProgress": 1,
+      "selected": "menina",
+      "surfaces": 5,
+      "fragments": 36,
+      "particleCount": 64,
+      "gestureFromMark": false,
+      "introProgress": 1,
+      "environmentTransition": 1
+    },
+    "outline": "none",
+    "flash": "0"
+  },
+  {
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "errors": [],
+    "missing": [],
+    "draft": {
+      "version": 1,
+      "name": "Astra",
+      "gender": "menina",
+      "step": "identity"
+    },
+    "state": {
+      "ready": true,
+      "phase": "identity",
+      "releaseProgress": 1,
+      "selected": "menina",
+      "surfaces": 5,
+      "fragments": 36,
+      "particleCount": 64,
+      "gestureFromMark": false,
+      "introProgress": 1,
+      "environmentTransition": 1
+    },
+    "outline": "none",
+    "flash": "0"
+  }
+]
