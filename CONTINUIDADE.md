@@ -573,3 +573,8 @@ Revisão autorizada após estudo e diretrizes do usuário: silhuetas fetal e de 
 ## 27/10/2026 — V5: reconstrução visual da origem
 
 Após rejeição visual da V4, composição e CSS da criação reconstruídos, três novas artes, formas humanas verticais com novos recortes/rigs, campo texturizado sem bordas retangulares, elos/fecho com material e iluminação físicos, hierarquia tipográfica e formulário revistos. Mãos com menor presença apenas nessa cena; primeira página e transição aprovada preservadas. Capturas reais, resultados e limites em docs/creation/ORIGEM-RESULTS-V5.md. Entrega em ZIP para upload manual; homologação visual pendente. Sem alteração de dados/regras/Fichas/produção/merge/PR.
+
+
+## 27/10/2026 — V6: Acorrentado pela realidade
+
+Fonte SigilosDeConhecimento.ttf enviada pelo usuário preservada e integrada. A frase exata forma duas faixas de glifos que orbitam o feto com composição frontal/traseira. Campo, cadeado e elos físicos removidos da cena; transição e silhuetas da V5 preservadas. Novo cenário de tinta cósmica com detalhe, paralaxe e perda de cor; recorte móvel ao focar o nome reproduzido e corrigido só na criação. Resultado/evidências em docs/creation/SIGILOS-RESULTS-V6.md. Entrega ZIP para upload manual, com capturas/gravação reais para revisão. Homologação visual pendente; Fichas/regras/dados/produção/merge/PR preservados.

@@ -1,19 +1,16 @@
 {
-  "version": 5,
-  "environment": "Atmosfera procedural com domínio deformado, pigmentos vinho e luz difusa cinza/violeta.",
-  "field": "Duas camadas de névoa texturizada com transparência e máscara radial sem borda retangular.",
-  "bindings": "144 elos com material PBR, luzes e fecho em relevo.",
-  "rig": "Três rigs 2,5D de imagem, 16 ossos cada; não são modelos corporais 3D completos.",
+  "version": 6,
+  "phrase": "Acorrentado pela realidade",
+  "font": {
+    "file": "/fonts/SigilosDeConhecimento.ttf",
+    "origin": "Arquivo fornecido pelo usuário, preservado sem alteração.",
+    "bytes": 32444,
+    "sha256": "e4528e2f631947733f0e985eec783f9b8aa73338b94732538841da157ab0cb28"
+  },
+  "forceField": false,
+  "binding": "Frase em sigilos orbitais, 96 glifos lógicos em duas faixas; atlas rasterizado da fonte real após FontFace.load. Sem elos ou cadeado.",
+  "background": "Pintura de tinta cósmica em camadas, paralaxe e perda de cor na transição.",
   "layers": [
-    {
-      "file": "atmosphere-base.svg",
-      "bytes": 109,
-      "sha256": "b32745ed5a0b18fd8306081dc1ad99df70c517fc39b4c2fa8ff8474193a849fb",
-      "origin": "Placeholder 64×32; atmosfera calculada pelo shader.",
-      "width": 64,
-      "height": 32,
-      "alpha": true
-    },
     {
       "file": "unborn-v5.png",
       "bytes": 975286,
@@ -33,13 +30,13 @@
       "alpha": true
     },
     {
-      "file": "mist-v5.png",
-      "bytes": 2032078,
-      "sha256": "064010febc88fe8c8d487d7709e59ceb2b05b8f4f910907e883ee9b86f9c04db",
+      "file": "ink-cosmos-v6.png",
+      "bytes": 2155371,
+      "sha256": "4cabe2e0b42a2317e4e22b3c4f56277ecab174406e609f9fdd9809f1e052a2c1",
       "origin": "image_gen; saída original preservada sem edição de pixels; composição/recorte UV no renderer.",
-      "width": 1254,
-      "height": 1254,
-      "alpha": true
+      "width": 1672,
+      "height": 941,
+      "alpha": false
     }
   ]
 }

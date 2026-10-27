@@ -53,8 +53,8 @@ test('teclado e movimento reduzido completam ruptura e não definir gênero',asy
  await page.goto(`${origin}/criacao.html?${params}&hands=off&debug=1`);
  await expect(page.locator('#observatory')).toHaveAttribute('data-creation-art','ready');
  await page.evaluate(()=>document.getElementById('debug').hidden=true);
- expect(await page.evaluate(()=>window.__orionCreationDebug.meshes.field.material.uniforms.uMotion.value)).toBe(0);
- expect(await page.evaluate(()=>window.__orionCreationDebug.meshes.field.material.uniforms.uTime.value)).toBe(0);
+ expect(await page.evaluate(()=>window.__orionCreationDebug.bindings.state.time)).toBe(0);
+ expect(await page.evaluate(()=>window.__orionCreationDebug.bindings.state.reducedMotion)).toBe(true);
  expect(await page.evaluate(()=>Object.values(window.__orionCreationDebug.rigs).every(r=>r.bones.every(b=>b.rotation.z===0)))).toBe(true);
  const baby=page.getByRole('button',{name:'Contemplar a silhueta etérea'});await baby.focus();await page.keyboard.press('Enter');
  await expect(page.getByRole('button',{name:'Tornar Marcado',exact:true})).toBeFocused();await page.keyboard.press('Enter');
@@ -78,6 +78,7 @@ for(const viewport of [{width:390,height:844},{width:844,height:390}]){
     if(sel==='.creation-next')expect(viewport.height-r.y-r.height).toBeLessThan(65);
    }
    expect(await page.locator('.herald-creation').evaluate(el=>[el.scrollLeft,el.scrollTop])).toEqual([0,0]);
+   expect(await page.locator('#observatory').evaluate(el=>[el.scrollLeft,el.scrollTop])).toEqual([0,0]);
    await page.getByRole('button',{name:'Continuar com esta identidade'}).tap();
    expect(await page.evaluate(()=>JSON.parse(sessionStorage.getItem('orion-herald-creation-v1')).name)).toBe('Luna');
   }finally{await context.close()}

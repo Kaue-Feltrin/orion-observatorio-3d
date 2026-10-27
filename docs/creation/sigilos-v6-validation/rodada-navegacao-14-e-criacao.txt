@@ -1,0 +1,88 @@
+
+Running 23 tests using 1 worker
+
+(node:94440) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:94440) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/creation-cinematic.spec.js:9:1 › camadas carregam com alpha, céu exclusivo e paralaxe reversível (4.9s)
+  ✓   2 tests/creation-cinematic.spec.js:69:1 › Tornar Marcado inicia VFX sem gesto e transforma o sangue em vazio cinza (8.6s)
+  ✓   3 tests/creation-cinematic.spec.js:111:1 › céu original do Observatório continua separado da nova criação (3.2s)
+  ✘   4 tests/creation-cinematic.spec.js:121:1 › a chegada aguarda a fonte real sem exibir alfabeto de fallback (14.6s)
+(node:94729) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:94729) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 tests/herald-creation.spec.js:20:1 › conta vazia tem estrela central e atravessa o mesmo véu até o bebê selado (12.7s)
+  ✓   6 tests/herald-creation.spec.js:47:1 › ruptura completa, gênero exclusivo, nome e continuação sem gravação remota (9.2s)
+  ✓   7 tests/herald-creation.spec.js:102:1 › teclado e movimento reduzido completam ruptura e não definir gênero (3.9s)
+  ✓   8 tests/herald-creation.spec.js:144:3 › toque 390x844: alvo, escolhas e seta dentro da tela (13.6s)
+  ✓   9 tests/herald-creation.spec.js:144:3 › toque 844x390: alvo, escolhas e seta dentro da tela (13.7s)
+  ✓  10 tests/herald-navigation.spec.js:13:3 › 1 estrela(s): destino 1 preserva identidade e permite retornar (10.1s)
+  ✓  11 tests/herald-navigation.spec.js:13:3 › 2 estrela(s): destino 1 preserva identidade e permite retornar (10.6s)
+  ✓  12 tests/herald-navigation.spec.js:13:3 › 2 estrela(s): destino 2 preserva identidade e permite retornar (11.0s)
+  ✓  13 tests/herald-navigation.spec.js:13:3 › 3 estrela(s): destino 1 preserva identidade e permite retornar (12.4s)
+  ✓  14 tests/herald-navigation.spec.js:13:3 › 3 estrela(s): destino 2 preserva identidade e permite retornar (11.6s)
+  ✓  15 tests/herald-navigation.spec.js:13:3 › 3 estrela(s): destino 3 preserva identidade e permite retornar (11.2s)
+  ✓  16 tests/herald-navigation.spec.js:61:1 › raio do mouse escolhe cada estrela e compartilha texturas sem misturar resumos (8.5s)
+  ✓  17 tests/herald-navigation.spec.js:83:1 › véu cobre saída e primeiro quadro da chegada até módulo atrasado ficar pronto (8.8s)
+  ✓  18 tests/herald-navigation.spec.js:146:1 › movimento reduzido, acesso direto e destino inválido mantêm chegada utilizável (4.7s)
+  ✓  19 tests/herald-navigation.spec.js:176:3 › regressão do toque compartilhado › segunda estrela abre resumo sem viagem e confirmação chega ao destino correto (8.4s)
+  ✓  20 tests/herald-navigation.spec.js:194:1 › limite de três, fallback de contagem inválida e reposicionamento mantêm alvos separados (5.4s)
+  ✓  21 tests/herald-navigation.spec.js:223:1 › voltar pelo navegador restaura o Observatório sem clarão ou seleção travados (14.7s)
+  ✓  22 tests/herald-navigation.spec.js:246:29 › viagem lateral 1: câmera mantém direção e outras estrelas não deslizam na curva (7.9s)
+  ✓  23 tests/herald-navigation.spec.js:246:29 › viagem lateral 2: câmera mantém direção e outras estrelas não deslizam na curva (7.8s)
+
+
+  1) tests/creation-cinematic.spec.js:121:1 › a chegada aguarda a fonte real sem exibir alfabeto de fallback 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).not.[22mtoHaveAttribute[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('html')
+    Expected: not [32m"1"[39m
+    Received: [31m"[7m1[27m"[39m
+    Timeout:  12000ms
+
+    Call log:
+    [2m  - Expect "not toHaveAttribute" with timeout 12000ms[22m
+    [2m  - waiting for locator('html')[22m
+    [2m    15 × locator resolved to <html lang="pt-BR" data-scene-ready="1">…</html>[22m
+    [2m       - unexpected value "1"[22m
+
+
+      56 |   await page.goto('http://127.0.0.1:4173/criacao.html?'+query);
+      57 |   await expect(page.locator('#observatory')).not.toHaveAttribute('data-creation-art','ready');
+    > 58 |   await expect(page.locator('html')).not.toHaveAttribute('data-scene-ready','1');
+         |                                          ^
+      59 |   releaseFont();
+      60 |   await expect(page.locator('#observatory')).toHaveAttribute('data-creation-art','ready');
+      61 |   expect(await page.evaluate(()=>document.fonts.check('16px OrionKnowledge'))).toBe(true);
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-cinematic.spec.js:58:42
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/creation-cinematic-a-chega-52f48-exibir-alfabeto-de-fallback/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/creation-cinematic-a-chega-52f48-exibir-alfabeto-de-fallback/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/creation-cinematic-a-chega-52f48-exibir-alfabeto-de-fallback/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/creation-cinematic-a-chega-52f48-exibir-alfabeto-de-fallback/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/creation-cinematic.spec.js:121:1 › a chegada aguarda a fonte real sem exibir alfabeto de fallback 
+  22 passed (3.7m)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

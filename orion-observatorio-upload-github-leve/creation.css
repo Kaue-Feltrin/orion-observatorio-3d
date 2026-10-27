@@ -87,3 +87,7 @@ html[data-page-veil="reveal"]::before{opacity:0}
 @media(max-width:360px){.blood-prologue{font-size:26px}.identity-title strong{font-size:24px}.identity-title small{font-size:10px}}
 @media(max-height:360px) and (orientation:landscape){.identity-fields{top:71%}#herald-name{height:26px;font-size:17px}.undefined-choice{min-height:28px}.name-label{line-height:1.2}}
 @media(prefers-reduced-motion:reduce){.blood-prologue{animation:none}html[data-page-veil]::before{transition-duration:.16s}.herald-creation *{transition:none!important}}
+/* The old oversized sky fallback must not create a scrollable scene on focus. */
+.creation-scene{overflow:clip}
+.creation-scene .sky-fallback{inset:0;transform:none}
+body[data-page="creation"]{overflow:clip}

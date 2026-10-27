@@ -1,4 +1,6 @@
-> Revisão visual atual: [V5 — Nova composição](ORIGEM-RESULTS-V5.md). Capturas reais e resultados nesse documento.
+> Revisão visual atual: [V6 — Acorrentado pela realidade](SIGILOS-RESULTS-V6.md). Fonte enviada pelo usuário, órbitas de sigilos e novo fundo; sem campo de força.
+
+> Histórico V5: [V5 — Nova composição](ORIGEM-RESULTS-V5.md). Capturas reais e resultados nesse documento.
 
 > Histórico V4: [V4 — Almas e camadas](ALMAS-RESULTS-V4.md). [Estudo e decisões](ESTUDO-V4-DIRECAO-E-CAMADAS.md). Os registros V1–V3 abaixo são históricos.
 
