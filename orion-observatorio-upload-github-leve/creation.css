@@ -72,3 +72,10 @@ html[data-page-veil="reveal"]::before{opacity:0}
 /* Focus must not scroll the full-screen scene when a landscape choice extends. */
 .herald-creation{overflow:clip}
 .child-choices{min-inline-size:0}
+
+/* V4: no photographic flesh or bright cloud frame. */
+.creation-scene .sky-fallback{background-image:radial-gradient(ellipse at 35% 45%,#240b15,transparent 65%),linear-gradient(125deg,#0b070b,#1b090f 60%,#080609);filter:none}
+.creation-scene .scene-vignette{background:linear-gradient(0deg,#02010666,transparent 24%)}
+.child-choice::before{background:radial-gradient(ellipse,#d0bdd912,transparent 66%)}
+.child-choice[aria-pressed=true]::before{opacity:.75}
+.blood-prologue{color:#d6bdbe}

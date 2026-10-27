@@ -563,3 +563,8 @@ Avaliar a v0.9.3: profundidade perceptível da nebulosa versus aparência de ima
 ## 26/10/2026 — Criação V3: Tudo começa pelo sangue
 
 Pedido de revisão visual implementado no Observatório: ambiente orgânico vermelho pulsante, frase introdutória, correntes de luz âmbar, névoa cinza procedural e silhuetas pretas vetoriais genéricas. Tornar Marcado tem aparência de botão, sem gesto das mãos; clarão e passagem para vazio cinza/preto/branco com sombras violetas. Seleção e foco do nome revisados. Registro e evidências em docs/creation/BLOOD-RESULTS-V3.md. Entrega em ZIP estático para Pages; homologação visual pendente. Fichas PR179, dados e produção preservados.
+
+
+## 27/10/2026 — V4: Almas e camadas
+
+Revisão autorizada após estudo e diretrizes do usuário: silhuetas fetal e de escolha de gênero refeitas; três rigs 2,5D próprios com 16 ossos; névoa frontal/traseira; 144 elos geométricos em lotes de frente/verso com fecho; cenários procedurais discretos sem carne literal ou moldura de nuvens. Tempos da transição aprovados, mãos e navegação original preservados. 16 arquivos unitários, 22 cenários de navegador e repetição final de 8 cenários de criação aprovados; pacote estático conferido em três dimensões. Entrega ZIP para upload manual no Pages. Resultado/evidências em docs/creation/ALMAS-RESULTS-V4.md; homologação visual do usuário pendente. Sem alteração de Fichas/produção/migração/merge/PR.

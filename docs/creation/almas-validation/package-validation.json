@@ -1,0 +1,197 @@
+[
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "errors": [],
+    "missing": [],
+    "draft": {
+      "version": 1,
+      "name": "Astra",
+      "gender": "menina",
+      "step": "identity"
+    },
+    "state": {
+      "rigMode": "image-skinned-2.5D",
+      "joints": 48,
+      "fieldLayers": 2,
+      "bindingLayers": 2,
+      "ready": true,
+      "phase": "identity",
+      "releaseProgress": 1,
+      "selected": "menina",
+      "surfaces": 8,
+      "fragments": 0,
+      "particleCount": 64,
+      "gestureFromMark": false,
+      "links": 144,
+      "introProgress": 1,
+      "environmentTransition": 1,
+      "bindingFracture": 1
+    },
+    "outline": "none",
+    "flash": "0",
+    "renderer": {
+      "drawCalls": 29,
+      "textures": 23,
+      "dpr": 1
+    },
+    "rigs": {
+      "baby": {
+        "bones": 16,
+        "vertices": 3185,
+        "boneTexture": {
+          "width": 8,
+          "height": 8
+        }
+      },
+      "menina": {
+        "bones": 16,
+        "vertices": 3185,
+        "boneTexture": {
+          "width": 8,
+          "height": 8
+        }
+      },
+      "menino": {
+        "bones": 16,
+        "vertices": 3185,
+        "boneTexture": {
+          "width": 8,
+          "height": 8
+        }
+      }
+    }
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "errors": [],
+    "missing": [],
+    "draft": {
+      "version": 1,
+      "name": "Astra",
+      "gender": "menina",
+      "step": "identity"
+    },
+    "state": {
+      "rigMode": "image-skinned-2.5D",
+      "joints": 48,
+      "fieldLayers": 2,
+      "bindingLayers": 2,
+      "ready": true,
+      "phase": "identity",
+      "releaseProgress": 1,
+      "selected": "menina",
+      "surfaces": 8,
+      "fragments": 0,
+      "particleCount": 64,
+      "gestureFromMark": false,
+      "links": 144,
+      "introProgress": 1,
+      "environmentTransition": 1,
+      "bindingFracture": 1
+    },
+    "outline": "none",
+    "flash": "0",
+    "renderer": {
+      "drawCalls": 11,
+      "textures": 18,
+      "dpr": 1
+    },
+    "rigs": {
+      "baby": {
+        "bones": 16,
+        "vertices": 3185,
+        "boneTexture": {
+          "width": 8,
+          "height": 8
+        }
+      },
+      "menina": {
+        "bones": 16,
+        "vertices": 3185,
+        "boneTexture": {
+          "width": 8,
+          "height": 8
+        }
+      },
+      "menino": {
+        "bones": 16,
+        "vertices": 3185,
+        "boneTexture": {
+          "width": 8,
+          "height": 8
+        }
+      }
+    }
+  },
+  {
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "errors": [],
+    "missing": [],
+    "draft": {
+      "version": 1,
+      "name": "Astra",
+      "gender": "menina",
+      "step": "identity"
+    },
+    "state": {
+      "rigMode": "image-skinned-2.5D",
+      "joints": 48,
+      "fieldLayers": 2,
+      "bindingLayers": 2,
+      "ready": true,
+      "phase": "identity",
+      "releaseProgress": 1,
+      "selected": "menina",
+      "surfaces": 8,
+      "fragments": 0,
+      "particleCount": 64,
+      "gestureFromMark": false,
+      "links": 144,
+      "introProgress": 1,
+      "environmentTransition": 1,
+      "bindingFracture": 1
+    },
+    "outline": "none",
+    "flash": "0",
+    "renderer": {
+      "drawCalls": 11,
+      "textures": 18,
+      "dpr": 1
+    },
+    "rigs": {
+      "baby": {
+        "bones": 16,
+        "vertices": 3185,
+        "boneTexture": {
+          "width": 8,
+          "height": 8
+        }
+      },
+      "menina": {
+        "bones": 16,
+        "vertices": 3185,
+        "boneTexture": {
+          "width": 8,
+          "height": 8
+        }
+      },
+      "menino": {
+        "bones": 16,
+        "vertices": 3185,
+        "boneTexture": {
+          "width": 8,
+          "height": 8
+        }
+      }
+    }
+  }
+]

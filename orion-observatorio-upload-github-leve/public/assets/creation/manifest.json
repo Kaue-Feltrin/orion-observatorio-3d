@@ -1,53 +1,36 @@
 {
-  "version": 3,
-  "direction": "Tudo começa pelo sangue.",
+  "version": 4,
+  "environment": "Atmosfera de pigmentos procedural GLSL, sem fotografia de carne ou nuvens.",
+  "field": "Névoa procedural traseira e dianteira.",
+  "bindings": "144 elos geométricos instanciados, divididos entre frente e verso da mesma trajetória; fecho geométrico.",
+  "rig": "3 esqueletos 2,5D com 16 ossos cada; silhuetas de imagem, não corpos 3D completos.",
   "layers": [
     {
-      "file": "blood-chamber.png",
-      "bytes": 1912806,
-      "sha256": "3cbaf1a464623056f5ad0d709717bdc05aee10ffe226d9a47a67e9f8a4469194",
-      "origin": "image_gen; PNG original preservado",
-      "width": 1672,
-      "height": 941,
-      "alpha": false
-    },
-    {
-      "file": "ashen-void.png",
-      "bytes": 2227788,
-      "sha256": "4a96a4637b00eda2a9dde39625ec0fbf3107a54768bf0c0c3dcb1594fa421405",
-      "origin": "image_gen; PNG original preservado",
-      "width": 1672,
-      "height": 941,
-      "alpha": false
-    },
-    {
-      "file": "amber-bindings.png",
-      "bytes": 2045401,
-      "sha256": "eaa7a38f12c466dbc9cac83bb9828190221fc4696ca6395b4ecfea438cdbe9a5",
-      "origin": "image_gen; PNG original preservado",
-      "width": 1254,
-      "height": 1254,
+      "file": "atmosphere-base.svg",
+      "bytes": 109,
+      "sha256": "b32745ed5a0b18fd8306081dc1ad99df70c517fc39b4c2fa8ff8474193a849fb",
+      "origin": "Placeholder 64×32; a atmosfera real é calculada pelo shader.",
+      "width": 64,
+      "height": 32,
       "alpha": true
     },
     {
-      "file": "unborn-shadow.svg",
-      "bytes": 854,
-      "sha256": "f2ab6f1bc89d78d61557a2469a27a485eb2fcc3c55bd9f442670816bbcfdc174",
-      "origin": "Contornos vetoriais autorais sem rosto, cabelo, roupa ou detalhes físicos.",
-      "width": 1200,
-      "height": 1600,
+      "file": "fetal-silhouette-v4.png",
+      "bytes": 463689,
+      "sha256": "eea7a79e5cb55a429c94216e1c5dd717625348267f6c12d0f9e834b5daf943ab",
+      "origin": "image_gen; saída original preservada sem edição de pixels",
+      "width": 1024,
+      "height": 1536,
       "alpha": true
     },
     {
-      "file": "soul-shadows.svg",
-      "bytes": 1216,
-      "sha256": "fe1c2c82b7ba0a5697541792e1b73411fbb25031341f4c7bd6b78d7792fcc14d",
-      "origin": "Contornos vetoriais autorais sem rosto, cabelo, roupa ou detalhes físicos.",
-      "width": 2000,
-      "height": 1600,
+      "file": "soul-silhouettes-v4.png",
+      "bytes": 465020,
+      "sha256": "fac01152547b4ee35fec39421ce99414770772f405461b9a5b2b358e57668b4f",
+      "origin": "image_gen; saída original preservada sem edição de pixels",
+      "width": 1536,
+      "height": 1024,
       "alpha": true
     }
-  ],
-  "field": "Névoa cinza procedural GLSL; não usa imagem do escudo antigo.",
-  "legacy": "PNGs V2 preservados no repositório, excluídos deste pacote por não serem usados."
+  ]
 }

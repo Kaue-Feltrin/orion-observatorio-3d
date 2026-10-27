@@ -1,33 +1,17 @@
 import * as THREE from 'three';
-import {createFractureGeometry,sampleCreationRelease} from './creation-fracture.js';
+import {createBodyRig,bodyVertex} from './creation-body-rig.js';
+import {createCreationBindings} from './creation-bindings.js';
+import {sampleCreationRelease} from './creation-fracture.js';
 
-export const CREATION_ART={nebula:'/assets/creation/blood-chamber.png',void:'/assets/creation/ashen-void.png',baby:'/assets/creation/unborn-shadow.svg',children:'/assets/creation/soul-shadows.svg',chains:'/assets/creation/amber-bindings.png'};
+export const CREATION_ART={nebula:'/assets/creation/atmosphere-base.svg',baby:'/assets/creation/fetal-silhouette-v4.png',children:'/assets/creation/soul-silhouettes-v4.png'};
 const smooth=(a,b,t)=>THREE.MathUtils.smoothstep(t,a,b);
 const vertex=`
- attribute vec2 aCenter;attribute float aSeed,aEdge;
- uniform float uBreak,uTime,uCharge,uMotion;
- varying vec2 vUv;varying float vEdge,vSeed,vLife;
- void main(){
-  vUv=uv;vEdge=aEdge;vSeed=aSeed;
-  float delay=length(aCenter)*.18+aSeed*.08;
-  float release=smoothstep(.12+delay,.74+delay,uBreak)*uMotion;
-  float angle=release*(aSeed-.5)*4.2;
-  vec2 local=position.xy-aCenter;
-  mat2 rotation=mat2(cos(angle),-sin(angle),sin(angle),cos(angle));
-  vec3 p=position;
-  vec2 spun=rotation*local;float tilt=release*(aSeed-.5)*3.8;
-  p.xy=aCenter+vec2(spun.x*cos(tilt),spun.y);
-  vec2 dir=normalize(aCenter+vec2(.017,.009));
-  float distance=release*release*(.48+aSeed*.75);
-  p.xy+=dir*distance;
-  p.y-=release*release*.16*(.5+aSeed);
-  p.z+=spun.x*sin(tilt)+release*(aSeed-.5)*.35;
-  p.xy*=1.+uCharge*.012;
-  vLife=1.-smoothstep(.6,1.,uBreak);
-  gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.);
- }`;
+ uniform float uTime,uMotion;varying vec2 vUv;varying float vEdge,vSeed,vLife;
+ void main(){vUv=uv;vEdge=1.;vSeed=0.;vLife=1.;vec3 p=position;
+ p.xy*=1.+sin(uTime*.45)*.003*uMotion;
+ gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.);}`;
 const fragment=`
- uniform sampler2D uMap;uniform vec4 uUV;uniform float uOpacity,uBreak,uReveal,uTime,uCharge,uSelected,uFog,uSilhouette;
+ uniform sampler2D uMap;uniform vec4 uUV;uniform float uOpacity,uBreak,uReveal,uTime,uCharge,uSelected,uFog,uSilhouette,uFogFront;
  uniform vec3 uTint;uniform float uIsSeal;
  varying vec2 vUv;varying float vEdge,vSeed,vLife;
  float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(fract(sin(dot(i,vec2(127.1,311.7)))*43758.5453),fract(sin(dot(i+vec2(1.,0.),vec2(127.1,311.7)))*43758.5453),f.x),mix(fract(sin(dot(i+vec2(0.,1.),vec2(127.1,311.7)))*43758.5453),fract(sin(dot(i+1.,vec2(127.1,311.7)))*43758.5453),f.x),f.y);}
@@ -41,17 +25,16 @@ const fragment=`
   float frontier=(1.-smoothstep(.02,.1,abs(n-(uReveal*1.35-.12))))*step(.01,uReveal)*(1.-step(.99,uReveal));
   float fogNoise=noise(vUv*7.+vec2(uTime*.035,-uTime*.025))*.55+noise(vUv*17.-uTime*.04)*.3+noise(vUv*39.)*.15;
   float radius=length((vUv-.5)*vec2(2.12,2.));
-  float band=exp(-pow((radius-.76+(.5-fogNoise)*.18)*8.,2.));
-  float fogAlpha=band*(.19+fogNoise*.65)+exp(-radius*radius*3.)*.38;
-  if(uFog>.5)texel=vec4(vec3(.76,.75,.79),fogAlpha);
+  float band=exp(-pow((radius-.72+(.5-fogNoise)*.24)*5.,2.));
+  float fogAlpha=mix(band*(.12+fogNoise*.24)+exp(-radius*radius*3.)*.26,band*.22*smoothstep(.48,.72,fogNoise),uFogFront);
+  if(uFog>.5)texel=vec4(vec3(.51,.51,.54),fogAlpha);
   float alpha=texel.a*uOpacity*mask*vLife;
   if(alpha<.006)discard;
   vec3 color=texel.rgb*uTint;
   color+=vec3(1.,.71,.28)*cracks*1.15;
   color+=vec3(.32,.24,.6)*frontier*.7*(1.-uSilhouette);
-  if(uSilhouette>.5){color=vec3(.00035,.00025,.0005)+vec3(.9,.87,.96)*uCharge*.9;
-    vec2 pixel=vec2(.004,.0025);float edgeAlpha=texture2D(uMap,at+pixel).a+texture2D(uMap,at-pixel).a+texture2D(uMap,at+vec2(pixel.x,-pixel.y)).a+texture2D(uMap,at+vec2(-pixel.x,pixel.y)).a;
-    float rim=max(0.,texel.a-edgeAlpha*.25);color+=vec3(.23,.21,.27)*rim*(.2+uSelected*.22);
+  if(uSilhouette>.5){color=vec3(.0001,.00008,.00015)+vec3(.9,.87,.96)*uCharge*.9;
+
   }
   color*=1.+uCharge*.24;
   gl_FragColor=vec4(color,alpha);
@@ -60,46 +43,50 @@ const fragment=`
 
 function material(texture,{opacity=1,uv=[0,0,1,1],seal=false,motion=1,fog=false,silhouette=false}={}){
  return new THREE.ShaderMaterial({transparent:true,depthTest:false,depthWrite:false,side:THREE.DoubleSide,forceSinglePass:true,toneMapped:false,
-  uniforms:{uMap:{value:texture},uUV:{value:new THREE.Vector4(...uv)},uOpacity:{value:opacity},uBreak:{value:0},uMotion:{value:motion},uTime:{value:0},uCharge:{value:0},uReveal:{value:1},uTint:{value:new THREE.Color('white')},uSelected:{value:0},uIsSeal:{value:seal?1:0},uFog:{value:fog?1:0},uSilhouette:{value:silhouette?1:0}},vertexShader:vertex,fragmentShader:fragment});
+  uniforms:{uMap:{value:texture},uUV:{value:new THREE.Vector4(...uv)},uOpacity:{value:opacity},uBreak:{value:0},uMotion:{value:motion},uTime:{value:0},uCharge:{value:0},uReveal:{value:1},uTint:{value:new THREE.Color('white')},uSelected:{value:0},uIsSeal:{value:seal?1:0},uFog:{value:fog?1:0},uSilhouette:{value:silhouette?1:0},uFogFront:{value:0}},vertexShader:vertex,fragmentShader:fragment});
 }
 
-// Same camera and per-frame API as the original nebula volume. One sky image
-// is sampled at different UV regions; no duplicated image downloads/textures.
-export function createCreationNebula(scene,photo,{reducedMotion=false,parallaxEnabled=true,foregroundEnabled=true}={}){
- let resolveEnvironment,rejectEnvironment;const ready=new Promise((resolve,reject)=>{resolveEnvironment=resolve;rejectEnvironment=reject});
- const voidMap=new THREE.TextureLoader().load(CREATION_ART.void,()=>resolveEnvironment(true),undefined,rejectEnvironment);voidMap.colorSpace=THREE.SRGBColorSpace;
- const env={value:0},clock={value:0},motion={value:reducedMotion?0:1},pan={value:new THREE.Vector2()},viewAspect={value:innerWidth/innerHeight};
- const original=photo.material;
- const baseMap=original.map;
- const bg=new THREE.ShaderMaterial({depthTest:false,depthWrite:false,toneMapped:false,
- uniforms:{map:{value:baseMap},after:{value:voidMap},transition:env,time:clock,motion,pan,viewAspect},
- vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy*2.,.999,1.);}',
- fragmentShader:`uniform sampler2D map,after;uniform float transition,time,motion,viewAspect;uniform vec2 pan;varying vec2 vUv;void main(){vec2 cover=vec2(min(1.,viewAspect/(1672./941.)),min(1.,(1672./941.)/viewAspect));vec2 sampleUV=.5+(vUv-.5)*cover*.96+pan;float pulse=sin(time*1.45)*.5+.5;vec2 uv=.5+(sampleUV-.5)*(1.-.009*pulse*motion*(1.-transition));vec3 flesh=texture2D(map,uv).rgb*(.63+.12*pulse*motion);vec3 ash=texture2D(after,sampleUV).rgb*.82;vec3 color=mix(flesh,ash,transition);gl_FragColor=vec4(color,1.);
-#include <colorspace_fragment>}`});
- bg.map=baseMap;photo.material=bg;original.dispose();
- const specs=[{uv:[0,.08,.28,.68],x:.14,y:.46,z:-340,alpha:.22,pan:2},
-  {uv:[.72,.07,.28,.7],x:.86,y:.43,z:-235,alpha:.2,pan:4},
-  {uv:[.02,0,.37,.27],x:.18,y:.87,z:-125,alpha:.14,pan:5.5},
-  {uv:[.65,.65,.34,.33],x:.86,y:.15,z:-65,alpha:.12,pan:7}];
- const state={active:0,loaded:4,parallaxEnabled:parallaxEnabled&&!reducedMotion,parallaxStrength:1,foregroundEnabled};
- const layers=specs.map((s,i)=>{
-  const m=new THREE.ShaderMaterial({transparent:true,depthWrite:false,depthTest:false,toneMapped:false,
-   uniforms:{map:{value:photo.material.map},rect:{value:new THREE.Vector4(...s.uv)},opacity:{value:s.alpha},after:{value:voidMap},transition:env},
-   vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
-   fragmentShader:`uniform sampler2D map,after;uniform float transition;uniform vec4 rect;uniform float opacity;varying vec2 vUv;void main(){vec2 at=rect.xy+vUv*rect.zw;vec4 c=mix(texture2D(map,at),texture2D(after,at),transition);float r=length((vUv-.5)*vec2(2.,2.));float feather=1.-smoothstep(.45,1.,r);float light=dot(c.rgb,vec3(.21,.72,.07));gl_FragColor=vec4(c.rgb,feather*opacity*smoothstep(.015,.2,light));#include <colorspace_fragment>}`.replace(';#include',';\n#include')});
-  const mesh=new THREE.Mesh(new THREE.PlaneGeometry(1,1),m);mesh.renderOrder=2.2+i*.1;mesh.position.z=s.z;
-  mesh.userData={spec:s,volumeFragment:true,layerName:'Interior da nebulosa '+(i+1),baseX:0,baseY:0,parallaxOffsetX:0,parallaxOffsetY:0};scene.add(mesh);return mesh;
+// Low-frequency pigment atmosphere, no photographs or anatomical imagery.
+export function createCreationNebula(scene,photo,{reducedMotion=false,parallaxEnabled=true}={}){
+ const clock={value:0},transition={value:0},pan={value:new THREE.Vector2()},aspect={value:innerWidth/innerHeight};
+ const noiseCode=`float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+1.),f.x),f.y);}float fbm(vec2 p){return noise(p)*.65+noise(p*2.03+7.)*.25+noise(p*4.01+17.)*.1;}`;
+ const fragmentShader=`uniform float time,transition,aspect,opacity;uniform vec2 pan;varying vec2 vUv;${noiseCode}
+ void main(){vec2 p=(vUv-.5)*vec2(aspect,1.)+pan;float drift=time*.009;
+ float n=fbm(p*1.9+vec2(drift,-drift*.6));float m=fbm(p*2.2+vec2(8.,drift));
+ float pulse=${reducedMotion?'0.':'sin(time*1.0)*.018'};
+ vec3 wine=mix(vec3(.006,.0014,.0028),vec3(.032,.004,.007),smoothstep(.18,.88,n))*(1.+pulse);
+ float rest=exp(-dot(p*vec2(.9,1.3),p*vec2(.9,1.3))*2.);
+ vec3 ash=mix(vec3(.006,.0058,.008),vec3(.020,.0185,.025),n*.6+m*.15)+vec3(.005,.005,.007)*rest;
+ float star=pow(max(0.,hash(floor((p+4.)*65.))-.997)/.003,3.)*(1.-smoothstep(.03,.12,length(fract((p+4.)*65.)-.5)))*.035;
+ vec3 c=mix(wine,ash+star,transition);
+ gl_FragColor=vec4(c,opacity);
+ #include <colorspace_fragment>
+ }`;
+ const uniforms={time:clock,transition,pan,aspect,opacity:{value:1}};
+ const original=photo.material,map=original.map;
+ photo.material=new THREE.ShaderMaterial({uniforms,depthTest:false,depthWrite:false,toneMapped:false,
+ vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy*2.,.999,1.);}',fragmentShader});
+ photo.material.map=map;original.dispose();
+ const state={active:0,loaded:2,transition:0,parallaxEnabled:parallaxEnabled&&!reducedMotion,parallaxStrength:1,foregroundEnabled:true};
+ const layers=[-230,-90].map((z,i)=>{
+  const m=new THREE.ShaderMaterial({transparent:true,depthTest:false,depthWrite:false,toneMapped:false,
+   uniforms:{...uniforms,map:{value:map},opacity:{value:i===0?.035:.025}},
+   vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader});
+  const mesh=new THREE.Mesh(new THREE.PlaneGeometry(1,1),m);mesh.position.z=z;mesh.renderOrder=3+i*.1;mesh.userData={volumeFragment:true,baseX:0,baseY:0,parallaxOffsetX:0,parallaxOffsetY:0};scene.add(mesh);return mesh;
  });
- function applyQuality(q){const count=['eco','lite'].includes(q)?2:4;layers.forEach((m,i)=>m.visible=i<count);state.active=count;}
- function resize(){for(const m of layers){const s=m.userData.spec,ratio=(26-m.position.z)/(26-photo.position.z);m.scale.set(photo.scale.x*s.uv[2]*ratio*1.2,photo.scale.y*s.uv[3]*ratio*1.2,1);m.userData.baseX=(s.x-.5)*photo.scale.x*ratio;m.userData.baseY=(.5-s.y)*photo.scale.y*ratio;}}
- function update(time,x,y,delta){clock.value=time;viewAspect.value=innerWidth/innerHeight;pan.value.x+=((state.parallaxEnabled?-x*.009:0)-pan.value.x)*.08;pan.value.y+=((state.parallaxEnabled?-y*.006:0)-pan.value.y)*.08;const gain=1-Math.exp(-Math.max(0,Math.min(.1,delta))*5);for(const m of layers){const d=m.userData,s=d.spec;const px=state.parallaxEnabled?-x*s.pan*state.parallaxStrength:0,py=state.parallaxEnabled?-y*s.pan*.35:0;d.parallaxOffsetX+=(px-d.parallaxOffsetX)*gain;d.parallaxOffsetY+=(py-d.parallaxOffsetY)*gain;m.position.x=d.baseX+d.parallaxOffsetX+(reducedMotion?0:Math.sin(time*.1+s.z)*.3);m.position.y=d.baseY+d.parallaxOffsetY;}}
- return {ready,layers,state,resize,update,applyQuality,setTransition(value){env.value=value;state.transition=value;},setParallaxStrength(v){state.parallaxStrength=THREE.MathUtils.clamp(v,.45,1.6)}};
+ function resize(){for(const mesh of layers){const d=26-mesh.position.z,h=2*Math.tan(26*Math.PI/180)*d*1.5;mesh.scale.set(h*innerWidth/innerHeight,h,1);}}
+ function update(time,x,y,delta){clock.value=reducedMotion?0:time;aspect.value=innerWidth/innerHeight;
+  const gain=1-Math.exp(-Math.min(.1,Math.max(0,delta))*5);
+  pan.value.x+=((state.parallaxEnabled?-x*.014:0)-pan.value.x)*gain;pan.value.y+=((state.parallaxEnabled?-y*.01:0)-pan.value.y)*gain;
+  layers.forEach((mesh,i)=>{const d=mesh.userData;d.parallaxOffsetX+=((state.parallaxEnabled?-x*(2+i*2)*state.parallaxStrength:0)-d.parallaxOffsetX)*gain;d.parallaxOffsetY+=((state.parallaxEnabled?-y*(1+i):0)-d.parallaxOffsetY)*gain;mesh.position.x=d.parallaxOffsetX;mesh.position.y=d.parallaxOffsetY;});
+ }
+ return {ready:Promise.resolve(true),layers,state,resize,update,applyQuality(q){state.active=['eco','lite'].includes(q)?1:2;layers.forEach((l,i)=>l.visible=i<state.active)},setTransition(v){transition.value=v;state.transition=v;},setParallaxStrength(v){state.parallaxStrength=THREE.MathUtils.clamp(v,.45,1.6)}};
 }
 
 export function createCreationArt({scene,camera,panel,reducedMotion=false,environment}){
- const loader=new THREE.TextureLoader(),textures={},meshes={},geometry=createFractureGeometry(6,6);
+ const loader=new THREE.TextureLoader(),textures={},meshes={},rigs={},geometry=new THREE.PlaneGeometry(1,1,12,12);
  const root=new THREE.Group();root.name='CreationCinematicLayers';scene.add(root);
- const state={ready:false,phase:'sealed',releaseProgress:0,selected:null,surfaces:0,fragments:36,particleCount:64,gestureFromMark:false};
+ const state={rigMode:'image-skinned-2.5D',joints:48,fieldLayers:2,bindingLayers:2,ready:false,phase:'sealed',releaseProgress:0,selected:null,surfaces:0,fragments:0,particleCount:64,gestureFromMark:false};
  let introStart=null,start=null,resolveRelease=null,aim={x:0,y:0},lastLayout=0;
  const rects={};const origin=new THREE.Vector3(),ray=new THREE.Vector3(),q=new THREE.Quaternion();
  function rayPoint(x,y,z){ray.set(x/innerWidth*2-1,1-y/innerHeight*2,.5).unproject(camera).sub(origin).normalize();return origin.clone().addScaledVector(ray,(z-origin.z)/ray.z);}
@@ -110,19 +97,23 @@ export function createCreationArt({scene,camera,panel,reducedMotion=false,enviro
   const left=rayPoint(rect.x+rect.width/2-w/2,rect.y+rect.height/2,z),right=rayPoint(rect.x+rect.width/2+w/2,rect.y+rect.height/2,z);
   if(!reducedMotion){pos.x+=aim.x*(mesh.userData.parallax??.12);pos.y+=aim.y*.07;}
   mesh.position.copy(pos);mesh.scale.set(left.distanceTo(right),left.distanceTo(right)/aspect,left.distanceTo(right));mesh.quaternion.copy(q);
-  mesh.material.uniforms.uTime.value=time;
+  mesh.material.uniforms.uTime.value=reducedMotion?0:time;
  }
- const atlasUV={baby:[0,0,1,1],field:[0,0,1,1],chains:[0,0,1,1],menina:[0,0,.5,1],menino:[.5,0,.5,1]};
+ const atlasUV={baby:[0,0,1,1],field:[0,0,1,1],fieldFront:[0,0,1,1],menina:[0,0,.5,1],menino:[.5,0,.5,1]};
+ const bindings=createCreationBindings();root.add(bindings.root);state.links=bindings.count;
  textures.field=new THREE.DataTexture(new Uint8Array([255,255,255,255]),1,1);textures.field.needsUpdate=true;
- const ready=Promise.all(['baby','chains','children'].map(async name=>{const t=await loader.loadAsync(CREATION_ART[name]);t.colorSpace=THREE.SRGBColorSpace;t.minFilter=THREE.LinearMipmapLinearFilter;t.magFilter=THREE.LinearFilter;textures[name]=t;})).then(()=>{
-  for(const [name,order,opacity]of [['baby',11,1],['field',10,.8],['chains',13,.95],['menina',11,1],['menino',11,1]]){
-   const mesh=new THREE.Mesh(geometry,material(textures[name==='menina'||name==='menino'?'children':name],{uv:atlasUV[name],opacity,motion:reducedMotion?0:1,seal:name==='chains',fog:name==='field',silhouette:['baby','menina','menino'].includes(name)}));
-   if(name==='field')mesh.layers.enable(1);
-   mesh.userData.parallax=name==='chains'?.25:name==='field'?.17:.1;mesh.frustumCulled=false;mesh.renderOrder=order;mesh.visible=name!=='menina'&&name!=='menino';root.add(mesh);meshes[name]=mesh;
+ const ready=Promise.all(['baby','children'].map(async name=>{const t=await loader.loadAsync(CREATION_ART[name]);t.colorSpace=THREE.NoColorSpace;t.minFilter=THREE.LinearMipmapLinearFilter;t.magFilter=THREE.LinearFilter;textures[name]=t;})).then(()=>{
+  for(const [name,order,opacity] of [['field',9,.75],['baby',11,1],['fieldFront',12,.32],['menina',11,1],['menino',11,1]]){
+   const silhouette=['baby','menina','menino'].includes(name);
+   const m=material(textures[silhouette?(name==='baby'?'baby':'children'):'field'],{uv:atlasUV[name],opacity,motion:reducedMotion?0:1,fog:!silhouette,silhouette});
+   let mesh;
+   if(silhouette){m.vertexShader=bodyVertex;const rig=createBodyRig(m,name==='baby'?'fetal':name);rigs[name]=rig;mesh=rig.mesh;}
+   else mesh=new THREE.Mesh(geometry,m);
+   if(name==='fieldFront')m.uniforms.uFogFront.value=1;
+   mesh.userData.parallax=.1;mesh.frustumCulled=false;mesh.renderOrder=order;mesh.visible=name!=='menina'&&name!=='menino';root.add(mesh);meshes[name]=mesh;
   }
   return environment?.ready;
- }).then(()=>{introStart=performance.now();state.ready=true;state.surfaces=5;return true;
- });
+ }).then(()=>{introStart=performance.now();state.ready=true;state.surfaces=8;return true;});
  // One particle batch, generated once, animated analytically in the shader.
  const count=64,positions=new Float32Array(count*3),velocities=new Float32Array(count*3),seeds=new Float32Array(count);
  for(let i=0;i<count;i++){const angle=i*2.3999632,r=.28+(i%7)/35;positions[i*3]=Math.cos(angle)*r;positions[i*3+1]=Math.sin(angle)*r;velocities[i*3]=Math.cos(angle)*(1.1+(i%5)*.2);velocities[i*3+1]=Math.sin(angle)*.9;velocities[i*3+2]=(i%3-1)*.3;seeds[i]=(i*.6180339)%1;}
@@ -134,7 +125,7 @@ export function createCreationArt({scene,camera,panel,reducedMotion=false,enviro
  const particles=new THREE.Points(pg,pm);particles.layers.enable(1);particles.renderOrder=15;particles.frustumCulled=false;particles.visible=!reducedMotion;root.add(particles);
  function layout(){
   // Hit areas stay stationary and accessible. Only painted planes move subtly.
-  for(const [name,selector]of [['baby','.baby-target'],['field','.sealed-being'],['chains','.sealed-being'],['menina','[data-gender="menina"]'],['menino','[data-gender="menino"]']])rects[name]=panel.querySelector(selector).getBoundingClientRect();
+  for(const [name,selector]of [['baby','.baby-target'],['field','.sealed-being'],['fieldFront','.sealed-being'],['menina','[data-gender="menina"]'],['menino','[data-gender="menino"]']])rects[name]=panel.querySelector(selector).getBoundingClientRect();
  }
  function update(now){
   if(!state.ready)return;
@@ -149,26 +140,29 @@ export function createCreationArt({scene,camera,panel,reducedMotion=false,enviro
   const flash=active&&!reducedMotion?smooth(.12,.52,elapsed)*(1-smooth(.62,1.3,elapsed)):0;
   panel.style.setProperty('--birth-flash',String(flash));panel.style.setProperty('--birth-transition',String(transition));
   if(active)state.releaseProgress=Math.min(1,elapsed/(reducedMotion?.18:2.8));
-  for(const name of ['baby','field','chains']){
+  for(const name of ['baby','field','fieldFront']){
    const mesh=meshes[name],rect=rects[name];
    const float=reducedMotion?0:Math.sin(time*.6)*4;
-   place(mesh,rect,-42,atlasUV[name],time,float);
+   place(mesh,rect,name==='field'?-44:name==='fieldFront'?-40:-42,atlasUV[name],time+(name==='fieldFront'?4.7:0),float);
+   if(rigs[name])rigs[name].update(time,reducedMotion,0);
    const u=mesh.material.uniforms;
-   u.uCharge.value=active?release.charge:0;u.uBreak.value=active&&name==='chains'?release.fracture:0;u.uOpacity.value=name==='field'?.8*(active?1-smooth(.35,1.5,elapsed):1):name==='chains'?.95:1;
+   u.uCharge.value=active?release.charge:0;u.uBreak.value=0;u.uOpacity.value=name==='field'?.75*(active?1-smooth(.35,1.5,elapsed):1):name==='fieldFront'?.32*(active?1-smooth(.3,1.3,elapsed):1):1;
    u.uReveal.value=name==='baby'&&active?release.baby:1;u.uOpacity.value*=intro;
    mesh.visible=!(active&&release.complete);
   }
+  bindings.root.position.copy(meshes.field.position);bindings.root.quaternion.copy(q);bindings.root.scale.copy(meshes.field.scale);bindings.update(reducedMotion?0:active?release.fracture:0,active?release.charge:0,intro*(reducedMotion&&active?1-release.fracture:1));
+  state.bindingFracture=active?release.fracture:0;
   for(const name of ['menina','menino']){
    const mesh=meshes[name];mesh.visible=active;
    if(!active)continue;
    const end=rects[name],begin=rects.baby,t=release.separation,arc=reducedMotion?0:Math.sin(t*Math.PI)*28;
    const rect={width:end.width,height:end.height,x:THREE.MathUtils.lerp(begin.x+begin.width/2-end.width/2,end.x,t),y:THREE.MathUtils.lerp(begin.y+begin.height/2-end.height/2,end.y,t)-arc};
    place(mesh,rect,-39,atlasUV[name],time,reducedMotion?0:Math.sin(time*.55+(name==='menina'?0:2))*4);
-   const u=mesh.material.uniforms;u.uReveal.value=release.children;u.uSelected.value=THREE.MathUtils.lerp(u.uSelected.value,state.selected===name?1:0,reducedMotion?1:.12);
+   const u=mesh.material.uniforms;rigs[name].update(time,reducedMotion,u.uSelected.value);u.uReveal.value=release.children;u.uSelected.value=THREE.MathUtils.lerp(u.uSelected.value,state.selected===name?1:0,reducedMotion?1:.12);
   }
   if(active&&!reducedMotion){particles.visible=true;const center=meshes.field.position;particles.position.copy(center);particles.quaternion.copy(q);pm.uniforms.uTime.value=time;pm.uniforms.uElapsed.value=elapsed;pm.uniforms.uActive.value=release.particles;pm.uniforms.uExtent.value.set(meshes.field.scale.x,meshes.field.scale.y);}
   if(active&&release.complete&&resolveRelease){state.phase='identity';const done=resolveRelease;resolveRelease=null;done();}
  }
  function release(){if(start!==null)return Promise.resolve(false);state.phase='breaking';start=performance.now();return new Promise(resolve=>{resolveRelease=resolve});}
- return {ready,state,update,release,get meshes(){return meshes},select(value){state.selected=value},point(value){aim=value},dispose(){scene.remove(root);geometry.dispose();pg.dispose();pm.dispose();for(const m of Object.values(meshes))m.material.dispose();for(const t of Object.values(textures))t.dispose();}};
+ return {ready,state,update,release,get meshes(){return meshes},rigs,bindings,select(value){state.selected=value},point(value){aim=value},dispose(){scene.remove(root);geometry.dispose();bindings.dispose();for(const r of Object.values(rigs))r.dispose();pg.dispose();pm.dispose();for(const m of Object.values(meshes))m.material.dispose();for(const t of Object.values(textures))t.dispose();}};
 }

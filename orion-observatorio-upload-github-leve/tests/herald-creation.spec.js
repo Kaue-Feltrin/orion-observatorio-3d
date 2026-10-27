@@ -54,6 +54,8 @@ test('teclado e movimento reduzido completam ruptura e não definir gênero',asy
  await expect(page.locator('#observatory')).toHaveAttribute('data-creation-art','ready');
  await page.evaluate(()=>document.getElementById('debug').hidden=true);
  expect(await page.evaluate(()=>window.__orionCreationDebug.meshes.field.material.uniforms.uMotion.value)).toBe(0);
+ expect(await page.evaluate(()=>window.__orionCreationDebug.meshes.field.material.uniforms.uTime.value)).toBe(0);
+ expect(await page.evaluate(()=>Object.values(window.__orionCreationDebug.rigs).every(r=>r.bones.every(b=>b.rotation.z===0)))).toBe(true);
  const baby=page.getByRole('button',{name:'Contemplar a silhueta etérea'});await baby.focus();await page.keyboard.press('Enter');
  await expect(page.getByRole('button',{name:'Tornar Marcado',exact:true})).toBeFocused();await page.keyboard.press('Enter');
  await expect(page.locator('#observatory')).toHaveAttribute('data-creation-phase','identity');

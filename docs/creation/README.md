@@ -1,6 +1,6 @@
-> Revisão visual atual: [V3 — Tudo começa pelo sangue](BLOOD-RESULTS-V3.md). Os registros V1/V2 abaixo são históricos.
+> Revisão visual atual: [V4 — Almas e camadas](ALMAS-RESULTS-V4.md). [Estudo e decisões](ESTUDO-V4-DIRECAO-E-CAMADAS.md). Os registros V1–V3 abaixo são históricos.
 
-> **Revisão atual:** a versão cinematográfica V2 substitui os vetores e a ruptura CSS descritos abaixo. Veja [pesquisa](CINEMATIC-RESEARCH.md) e [resultado/testes/limitações](CINEMATIC-RESULTS.md). O histórico abaixo documenta a primeira implementação. O build completo da V2 já passou com a fotografia ESO incluída.
+> **Histórico V2:** a versão cinematográfica V2 substitui os vetores e a ruptura CSS descritos abaixo. Veja [pesquisa](CINEMATIC-RESEARCH.md) e [resultado/testes/limitações](CINEMATIC-RESULTS.md). O histórico abaixo documenta a primeira implementação. O build completo da V2 já passou com a fotografia ESO incluída.
 
 # Criação inicial do arauto — prévia local
 

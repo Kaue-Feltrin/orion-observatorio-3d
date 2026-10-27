@@ -1,0 +1,41 @@
+
+Running 22 tests using 1 worker
+
+(node:81418) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:81418) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/creation-cinematic.spec.js:9:1 › camadas carregam com alpha, céu exclusivo e paralaxe reversível (4.2s)
+  ✓   2 tests/creation-cinematic.spec.js:70:1 › Tornar Marcado inicia VFX sem gesto e transforma o sangue em vazio cinza (7.9s)
+  ✓   3 tests/creation-cinematic.spec.js:112:1 › céu original do Observatório continua separado da nova criação (3.7s)
+  ✓   4 tests/herald-creation.spec.js:20:1 › conta vazia tem estrela central e atravessa o mesmo véu até o bebê selado (9.8s)
+  ✓   5 tests/herald-creation.spec.js:47:1 › ruptura completa, gênero exclusivo, nome e continuação sem gravação remota (7.8s)
+  ✓   6 tests/herald-creation.spec.js:102:1 › teclado e movimento reduzido completam ruptura e não definir gênero (2.0s)
+  ✓   7 tests/herald-creation.spec.js:142:3 › toque 390x844: alvo, escolhas e seta dentro da tela (13.0s)
+  ✓   8 tests/herald-creation.spec.js:142:3 › toque 844x390: alvo, escolhas e seta dentro da tela (13.1s)
+  ✓   9 tests/herald-navigation.spec.js:13:3 › 1 estrela(s): destino 1 preserva identidade e permite retornar (11.0s)
+  ✓  10 tests/herald-navigation.spec.js:13:3 › 2 estrela(s): destino 1 preserva identidade e permite retornar (11.2s)
+  ✓  11 tests/herald-navigation.spec.js:13:3 › 2 estrela(s): destino 2 preserva identidade e permite retornar (11.1s)
+  ✓  12 tests/herald-navigation.spec.js:13:3 › 3 estrela(s): destino 1 preserva identidade e permite retornar (11.1s)
+  ✓  13 tests/herald-navigation.spec.js:13:3 › 3 estrela(s): destino 2 preserva identidade e permite retornar (10.6s)
+  ✓  14 tests/herald-navigation.spec.js:13:3 › 3 estrela(s): destino 3 preserva identidade e permite retornar (10.8s)
+  ✓  15 tests/herald-navigation.spec.js:61:1 › raio do mouse escolhe cada estrela e compartilha texturas sem misturar resumos (7.8s)
+  ✓  16 tests/herald-navigation.spec.js:83:1 › véu cobre saída e primeiro quadro da chegada até módulo atrasado ficar pronto (8.8s)
+  ✓  17 tests/herald-navigation.spec.js:146:1 › movimento reduzido, acesso direto e destino inválido mantêm chegada utilizável (4.4s)
+  ✓  18 tests/herald-navigation.spec.js:176:3 › regressão do toque compartilhado › segunda estrela abre resumo sem viagem e confirmação chega ao destino correto (8.4s)
+  ✓  19 tests/herald-navigation.spec.js:194:1 › limite de três, fallback de contagem inválida e reposicionamento mantêm alvos separados (6.4s)
+  ✓  20 tests/herald-navigation.spec.js:223:1 › voltar pelo navegador restaura o Observatório sem clarão ou seleção travados (15.1s)
+  ✓  21 tests/herald-navigation.spec.js:246:29 › viagem lateral 1: câmera mantém direção e outras estrelas não deslizam na curva (8.6s)
+  ✓  22 tests/herald-navigation.spec.js:246:29 › viagem lateral 2: câmera mantém direção e outras estrelas não deslizam na curva (7.8s)
+
+  22 passed (3.3m)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
