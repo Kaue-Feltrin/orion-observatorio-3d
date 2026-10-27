@@ -916,6 +916,7 @@ function tick(now){
  // A retirada das mãos precisa continuar durante a viagem, no mesmo loop.
  creation?.update(now);
  firstPersonHands.update(time,delta,mouse.x,mouse.y);
+ creation?.finishFrame();
  for(const mat of starMaterials){
    mat.uniforms.uTime.value=reduceMotion?0:time;
    mat.uniforms.uOpacity.value=mat.userData.baseOpacity*(travelling?1.24:1);

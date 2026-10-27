@@ -1,4 +1,6 @@
-> Revisão visual atual: [V4 — Almas e camadas](ALMAS-RESULTS-V4.md). [Estudo e decisões](ESTUDO-V4-DIRECAO-E-CAMADAS.md). Os registros V1–V3 abaixo são históricos.
+> Revisão visual atual: [V5 — Nova composição](ORIGEM-RESULTS-V5.md). Capturas reais e resultados nesse documento.
+
+> Histórico V4: [V4 — Almas e camadas](ALMAS-RESULTS-V4.md). [Estudo e decisões](ESTUDO-V4-DIRECAO-E-CAMADAS.md). Os registros V1–V3 abaixo são históricos.
 
 > **Histórico V2:** a versão cinematográfica V2 substitui os vetores e a ruptura CSS descritos abaixo. Veja [pesquisa](CINEMATIC-RESEARCH.md) e [resultado/testes/limitações](CINEMATIC-RESULTS.md). O histórico abaixo documenta a primeira implementação. O build completo da V2 já passou com a fotografia ESO incluída.
 

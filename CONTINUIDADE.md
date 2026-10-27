@@ -568,3 +568,8 @@ Pedido de revisão visual implementado no Observatório: ambiente orgânico verm
 ## 27/10/2026 — V4: Almas e camadas
 
 Revisão autorizada após estudo e diretrizes do usuário: silhuetas fetal e de escolha de gênero refeitas; três rigs 2,5D próprios com 16 ossos; névoa frontal/traseira; 144 elos geométricos em lotes de frente/verso com fecho; cenários procedurais discretos sem carne literal ou moldura de nuvens. Tempos da transição aprovados, mãos e navegação original preservados. 16 arquivos unitários, 22 cenários de navegador e repetição final de 8 cenários de criação aprovados; pacote estático conferido em três dimensões. Entrega ZIP para upload manual no Pages. Resultado/evidências em docs/creation/ALMAS-RESULTS-V4.md; homologação visual do usuário pendente. Sem alteração de Fichas/produção/migração/merge/PR.
+
+
+## 27/10/2026 — V5: reconstrução visual da origem
+
+Após rejeição visual da V4, composição e CSS da criação reconstruídos, três novas artes, formas humanas verticais com novos recortes/rigs, campo texturizado sem bordas retangulares, elos/fecho com material e iluminação físicos, hierarquia tipográfica e formulário revistos. Mãos com menor presença apenas nessa cena; primeira página e transição aprovada preservadas. Capturas reais, resultados e limites em docs/creation/ORIGEM-RESULTS-V5.md. Entrega em ZIP para upload manual; homologação visual pendente. Sem alteração de dados/regras/Fichas/produção/merge/PR.

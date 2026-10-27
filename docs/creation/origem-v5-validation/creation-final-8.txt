@@ -1,0 +1,27 @@
+
+Running 8 tests using 1 worker
+
+(node:88198) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:88198) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/creation-cinematic.spec.js:9:1 › camadas carregam com alpha, céu exclusivo e paralaxe reversível (5.0s)
+  ✓  2 tests/creation-cinematic.spec.js:70:1 › Tornar Marcado inicia VFX sem gesto e transforma o sangue em vazio cinza (7.5s)
+  ✓  3 tests/creation-cinematic.spec.js:112:1 › céu original do Observatório continua separado da nova criação (3.0s)
+  ✓  4 tests/herald-creation.spec.js:20:1 › conta vazia tem estrela central e atravessa o mesmo véu até o bebê selado (11.0s)
+  ✓  5 tests/herald-creation.spec.js:47:1 › ruptura completa, gênero exclusivo, nome e continuação sem gravação remota (7.9s)
+  ✓  6 tests/herald-creation.spec.js:102:1 › teclado e movimento reduzido completam ruptura e não definir gênero (2.5s)
+  ✓  7 tests/herald-creation.spec.js:144:3 › toque 390x844: alvo, escolhas e seta dentro da tela (13.5s)
+  ✓  8 tests/herald-creation.spec.js:144:3 › toque 844x390: alvo, escolhas e seta dentro da tela (13.3s)
+
+  8 passed (1.1m)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

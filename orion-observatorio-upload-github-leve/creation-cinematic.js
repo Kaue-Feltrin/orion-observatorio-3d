@@ -3,7 +3,7 @@ import {createBodyRig,bodyVertex} from './creation-body-rig.js';
 import {createCreationBindings} from './creation-bindings.js';
 import {sampleCreationRelease} from './creation-fracture.js';
 
-export const CREATION_ART={nebula:'/assets/creation/atmosphere-base.svg',baby:'/assets/creation/fetal-silhouette-v4.png',children:'/assets/creation/soul-silhouettes-v4.png'};
+export const CREATION_ART={nebula:'/assets/creation/atmosphere-base.svg',baby:'/assets/creation/unborn-v5.png',children:'/assets/creation/souls-v5.png',mist:'/assets/creation/mist-v5.png'};
 const smooth=(a,b,t)=>THREE.MathUtils.smoothstep(t,a,b);
 const vertex=`
  uniform float uTime,uMotion;varying vec2 vUv;varying float vEdge,vSeed,vLife;
@@ -11,29 +11,36 @@ const vertex=`
  p.xy*=1.+sin(uTime*.45)*.003*uMotion;
  gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.);}`;
 const fragment=`
- uniform sampler2D uMap;uniform vec4 uUV;uniform float uOpacity,uBreak,uReveal,uTime,uCharge,uSelected,uFog,uSilhouette,uFogFront;
+ uniform sampler2D uMap;uniform vec4 uUV;uniform float uOpacity,uBreak,uReveal,uTime,uCharge,uSelected,uFog,uSilhouette,uFogFront,uFlip;
  uniform vec3 uTint;uniform float uIsSeal;
  varying vec2 vUv;varying float vEdge,vSeed,vLife;
  float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(fract(sin(dot(i,vec2(127.1,311.7)))*43758.5453),fract(sin(dot(i+vec2(1.,0.),vec2(127.1,311.7)))*43758.5453),f.x),mix(fract(sin(dot(i+vec2(0.,1.),vec2(127.1,311.7)))*43758.5453),fract(sin(dot(i+1.,vec2(127.1,311.7)))*43758.5453),f.x),f.y);}
  void main(){
-  vec2 at=uUV.xy+vUv*uUV.zw;
+  vec2 at=uUV.xy+vec2(mix(vUv.x,1.-vUv.x,uFlip),vUv.y)*uUV.zw;
   vec4 texel=texture2D(uMap,at);
   float n=noise(vUv*10.)*.65+noise(vUv*23.)*.35;
   float mask=smoothstep(n-.13,n+.13,uReveal*1.35-.12);
   float edge=1.-smoothstep(.001,.0045,vEdge);
   float cracks=edge*smoothstep(.015,.16,uBreak)*(1.-smoothstep(.45,.85,uBreak))*uIsSeal;
   float frontier=(1.-smoothstep(.02,.1,abs(n-(uReveal*1.35-.12))))*step(.01,uReveal)*(1.-step(.99,uReveal));
-  float fogNoise=noise(vUv*7.+vec2(uTime*.035,-uTime*.025))*.55+noise(vUv*17.-uTime*.04)*.3+noise(vUv*39.)*.15;
-  float radius=length((vUv-.5)*vec2(2.12,2.));
-  float band=exp(-pow((radius-.72+(.5-fogNoise)*.24)*5.,2.));
-  float fogAlpha=mix(band*(.12+fogNoise*.24)+exp(-radius*radius*3.)*.26,band*.22*smoothstep(.48,.72,fogNoise),uFogFront);
-  if(uFog>.5)texel=vec4(vec3(.51,.51,.54),fogAlpha);
+  float radius=length((vUv-.5)*2.);
+  if(uFog>.5){
+   float a=uTime*.017*(uFogFront>.5?-1.:1.);
+   mat2 turn=mat2(cos(a),-sin(a),sin(a),cos(a));
+   vec2 flow=turn*(vUv-.5)+.5;
+   flow+=vec2(noise(vUv*4.+uTime*.014)-.5,noise(vUv*4.+5.-uTime*.011)-.5)*.017;
+   vec4 mist=texture2D(uMap,clamp(flow,vec2(.001),vec2(.999)));
+   float feather=1.-smoothstep(.75,1.,radius);
+   float wispMask=mix(1.,smoothstep(.38,.72,noise(vUv*4.-uTime*.018)),uFogFront);
+   texel=vec4(mist.rgb*.16+.025,(mist.a*.55+exp(-radius*radius*3.5)*.13)*feather*wispMask);
+  }
   float alpha=texel.a*uOpacity*mask*vLife;
+  alpha*=smoothstep(0.,.025,vUv.x)*(1.-smoothstep(.975,1.,vUv.x))*smoothstep(0.,.025,vUv.y)*(1.-smoothstep(.975,1.,vUv.y));
   if(alpha<.006)discard;
   vec3 color=texel.rgb*uTint;
   color+=vec3(1.,.71,.28)*cracks*1.15;
   color+=vec3(.32,.24,.6)*frontier*.7*(1.-uSilhouette);
-  if(uSilhouette>.5){color=vec3(.0001,.00008,.00015)+vec3(.9,.87,.96)*uCharge*.9;
+  if(uSilhouette>.5){color=max(vec3(.0001,.00008,.00015),texel.rgb*.20)+vec3(.9,.87,.96)*uCharge*.9;
 
   }
   color*=1.+uCharge*.24;
@@ -41,9 +48,9 @@ const fragment=`
   #include <colorspace_fragment>
  }`;
 
-function material(texture,{opacity=1,uv=[0,0,1,1],seal=false,motion=1,fog=false,silhouette=false}={}){
+function material(texture,{opacity=1,uv=[0,0,1,1],seal=false,motion=1,fog=false,silhouette=false,flip=false}={}){
  return new THREE.ShaderMaterial({transparent:true,depthTest:false,depthWrite:false,side:THREE.DoubleSide,forceSinglePass:true,toneMapped:false,
-  uniforms:{uMap:{value:texture},uUV:{value:new THREE.Vector4(...uv)},uOpacity:{value:opacity},uBreak:{value:0},uMotion:{value:motion},uTime:{value:0},uCharge:{value:0},uReveal:{value:1},uTint:{value:new THREE.Color('white')},uSelected:{value:0},uIsSeal:{value:seal?1:0},uFog:{value:fog?1:0},uSilhouette:{value:silhouette?1:0},uFogFront:{value:0}},vertexShader:vertex,fragmentShader:fragment});
+  uniforms:{uMap:{value:texture},uUV:{value:new THREE.Vector4(...uv)},uOpacity:{value:opacity},uBreak:{value:0},uMotion:{value:motion},uTime:{value:0},uCharge:{value:0},uReveal:{value:1},uTint:{value:new THREE.Color('white')},uSelected:{value:0},uIsSeal:{value:seal?1:0},uFog:{value:fog?1:0},uSilhouette:{value:silhouette?1:0},uFogFront:{value:0},uFlip:{value:flip?1:0}},vertexShader:vertex,fragmentShader:fragment});
 }
 
 // Low-frequency pigment atmosphere, no photographs or anatomical imagery.
@@ -52,12 +59,14 @@ export function createCreationNebula(scene,photo,{reducedMotion=false,parallaxEn
  const noiseCode=`float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+1.),f.x),f.y);}float fbm(vec2 p){return noise(p)*.65+noise(p*2.03+7.)*.25+noise(p*4.01+17.)*.1;}`;
  const fragmentShader=`uniform float time,transition,aspect,opacity;uniform vec2 pan;varying vec2 vUv;${noiseCode}
  void main(){vec2 p=(vUv-.5)*vec2(aspect,1.)+pan;float drift=time*.009;
- float n=fbm(p*1.9+vec2(drift,-drift*.6));float m=fbm(p*2.2+vec2(8.,drift));
- float pulse=${reducedMotion?'0.':'sin(time*1.0)*.018'};
- vec3 wine=mix(vec3(.006,.0014,.0028),vec3(.032,.004,.007),smoothstep(.18,.88,n))*(1.+pulse);
- float rest=exp(-dot(p*vec2(.9,1.3),p*vec2(.9,1.3))*2.);
- vec3 ash=mix(vec3(.006,.0058,.008),vec3(.020,.0185,.025),n*.6+m*.15)+vec3(.005,.005,.007)*rest;
- float star=pow(max(0.,hash(floor((p+4.)*65.))-.997)/.003,3.)*(1.-smoothstep(.03,.12,length(fract((p+4.)*65.)-.5)))*.035;
+ vec2 warp=vec2(fbm(p*1.7+drift),fbm(p*1.5+8.-drift))-.5;
+ float n=fbm(p*2.2+warp*.8+vec2(drift,-drift*.7));float m=fbm(p*1.4+warp+vec2(4.,drift));
+ float pulse=${reducedMotion?'0.':'sin(time*.8)*.015'};
+ float center=exp(-dot(p*vec2(1.1,1.25),p*vec2(1.1,1.25))*3.);
+ vec3 wine=mix(vec3(.003,.0015,.003),vec3(.037,.007,.014),smoothstep(.15,.9,n))*(1.+pulse)+vec3(.006,.003,.004)*center;
+ float pools=exp(-dot((p-vec2(aspect*.19,.02))*vec2(2.6,1.5),(p-vec2(aspect*.19,.02))*vec2(2.6,1.5))*3.)+exp(-dot((p+vec2(aspect*.19,-.02))*vec2(2.6,1.5),(p+vec2(aspect*.19,-.02))*vec2(2.6,1.5))*3.);
+ vec3 ash=vec3(.004,.0038,.006)+vec3(.011,.010,.015)*(n*.65+m*.35)+vec3(.009,.008,.011)*pools;
+ float star=pow(max(0.,hash(floor((p+4.)*65.))-.998)/.002,3.)*(1.-smoothstep(.03,.12,length(fract((p+4.)*65.)-.5)))*.025;
  vec3 c=mix(wine,ash+star,transition);
  gl_FragColor=vec4(c,opacity);
  #include <colorspace_fragment>
@@ -99,13 +108,12 @@ export function createCreationArt({scene,camera,panel,reducedMotion=false,enviro
   mesh.position.copy(pos);mesh.scale.set(left.distanceTo(right),left.distanceTo(right)/aspect,left.distanceTo(right));mesh.quaternion.copy(q);
   mesh.material.uniforms.uTime.value=reducedMotion?0:time;
  }
- const atlasUV={baby:[0,0,1,1],field:[0,0,1,1],fieldFront:[0,0,1,1],menina:[0,0,.5,1],menino:[.5,0,.5,1]};
+ const atlasUV={baby:[.1494140625,.17578125,.69140625,.6966145833],field:[0,0,1,1],fieldFront:[0,0,1,1],menina:[.678692221,.0259301015,.1674182638,.9560315671],menino:[.1657271702,.0304396843,.1809470124,.9695603157]};
  const bindings=createCreationBindings();root.add(bindings.root);state.links=bindings.count;
- textures.field=new THREE.DataTexture(new Uint8Array([255,255,255,255]),1,1);textures.field.needsUpdate=true;
- const ready=Promise.all(['baby','children'].map(async name=>{const t=await loader.loadAsync(CREATION_ART[name]);t.colorSpace=THREE.NoColorSpace;t.minFilter=THREE.LinearMipmapLinearFilter;t.magFilter=THREE.LinearFilter;textures[name]=t;})).then(()=>{
+ const ready=Promise.all(['baby','children','mist'].map(async name=>{const t=await loader.loadAsync(CREATION_ART[name]);t.colorSpace=THREE.SRGBColorSpace;t.minFilter=THREE.LinearMipmapLinearFilter;t.magFilter=THREE.LinearFilter;textures[name]=t;})).then(()=>{
   for(const [name,order,opacity] of [['field',9,.75],['baby',11,1],['fieldFront',12,.32],['menina',11,1],['menino',11,1]]){
    const silhouette=['baby','menina','menino'].includes(name);
-   const m=material(textures[silhouette?(name==='baby'?'baby':'children'):'field'],{uv:atlasUV[name],opacity,motion:reducedMotion?0:1,fog:!silhouette,silhouette});
+   const m=material(textures[silhouette?(name==='baby'?'baby':'children'):'mist'],{uv:atlasUV[name],opacity,motion:reducedMotion?0:1,fog:!silhouette,silhouette,flip:name==='menina'||name==='menino'});
    let mesh;
    if(silhouette){m.vertexShader=bodyVertex;const rig=createBodyRig(m,name==='baby'?'fetal':name);rigs[name]=rig;mesh=rig.mesh;}
    else mesh=new THREE.Mesh(geometry,m);

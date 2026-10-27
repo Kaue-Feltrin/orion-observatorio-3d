@@ -1,81 +1,89 @@
-/* Images and VFX use the shared WebGL renderer; HTML supplies stable controls. */
+/* Creation V5: a dedicated cinematic composition; original observatory is scoped out. */
 html[data-page-veil]::before{content:"";position:fixed;inset:0;z-index:2147483647;background:#fffaec;opacity:1;pointer-events:none;transition:opacity .7s ease}
 html[data-page-veil="reveal"]::before{opacity:0}
 .creation-scene .constellation,.creation-scene .leave,.creation-scene .bottom-ui,.creation-scene .herald-card,.creation-scene .star-browser,.creation-scene .herald-target{display:none!important}
-.creation-scene .sky-fallback{background-image:url('/assets/creation/nebula-interior.png');filter:brightness(.34) saturate(.88)}
+.creation-scene .sky-fallback{background:radial-gradient(ellipse at 50% 42%,#30141b,#100b11 65%);filter:none}
 .creation-scene .astro-credit:not(.fps-credit){display:none}
-.creation-scene .scene-vignette{background:radial-gradient(ellipse at 50% 46%,transparent 25%,#02010915 60%,#01010788 100%),linear-gradient(0deg,#01010799,transparent 28%)}
-.herald-creation{position:absolute;inset:0;z-index:8;overflow:hidden;color:#f7efff;isolation:isolate}
-.creation-label{position:absolute;left:50%;top:max(30px,env(safe-area-inset-top));transform:translateX(-50%);font:10px/1.5 'Segoe UI',sans-serif;letter-spacing:.5em;text-transform:uppercase;color:#c9c0df;opacity:.72;pointer-events:none}
-.creation-back{position:absolute;left:max(26px,env(safe-area-inset-left));top:max(22px,env(safe-area-inset-top));width:44px;height:44px;display:grid;place-items:center;text-decoration:none;border:1px solid #c2acfa40;border-radius:50%;background:#0b081a44;color:#e5d7fc;font-size:21px}
-.creation-stage{position:absolute;inset:8% 0 15%}
-.sealed-being{position:absolute;width:min(42vw,490px);height:min(42vw,490px);left:50%;top:44%;transform:translate(-50%,-50%);pointer-events:none}
-.sealed-being[hidden]{display:none!important}
-.baby-target{position:absolute;width:68%;height:74%;left:16%;top:13%;padding:0;border:0;background:transparent;cursor:pointer;border-radius:48%;pointer-events:auto}
-.baby-target:disabled{cursor:wait}
-.baby-target:hover{background:radial-gradient(ellipse,#bda3ff06,transparent 70%)}
-.mark-being{position:absolute;bottom:3%;left:50%;transform:translateX(-50%);display:grid;justify-items:center;gap:8px;min-width:264px;min-height:100px;padding:8px 26px 18px;border:0;background:transparent;color:#f5e9d5;cursor:pointer;text-shadow:0 0 24px #e2c99530;opacity:1}
-.mark-being::before,.mark-being::after{content:"";position:absolute;top:54%;width:46px;height:1px;background:linear-gradient(90deg,transparent,#c5ab7880);pointer-events:none}
-.mark-being::before{right:100%}.mark-being::after{left:100%;transform:rotate(180deg)}
-.mark-sigil{font:28px Georgia,serif;color:#e9d1a5;line-height:1;filter:drop-shadow(0 0 12px #dac09b55)}
-.mark-title{font:400 26px/1.15 Georgia,serif;letter-spacing:.035em}
-.mark-hint{font:9px/1.6 'Segoe UI',sans-serif;text-transform:uppercase;letter-spacing:.3em;color:#c6b6a4}
-.mark-being:hover .mark-title{color:#fff8e8;text-shadow:0 0 18px #edd9bc88}.mark-being:hover .mark-sigil{filter:drop-shadow(0 0 16px #f2d8a9bb)}
-.mark-being:disabled{cursor:default;opacity:.4;transition:opacity .35s}
-.mark-being[hidden],.identity-form[hidden],.creation-next[hidden]{display:none!important}
-.herald-creation[data-phase="breaking"] .mark-being{opacity:0;pointer-events:none}
-.creation-status{position:absolute;left:50%;bottom:max(25px,env(safe-area-inset-bottom));transform:translateX(-50%);width:min(620px,calc(100% - 140px));margin:0;text-align:center;font:13px/1.6 Georgia,serif;color:#c6bbd8;text-shadow:0 1px 16px #000}
-.identity-form{position:absolute;inset:0}
-.child-choices{border:0;padding:0;margin:0;position:absolute;top:0;left:50%;transform:translateX(-50%);width:min(1080px,90vw);height:72%;display:grid;grid-template-columns:1fr 1fr;gap:clamp(60px,17vw,290px)}
-.child-choice{min-height:44px;padding:0;position:relative;border:0;background:transparent;color:#d9cbee;cursor:pointer}
-.child-choice>span{position:absolute;bottom:-32px;left:50%;transform:translateX(-50%);font:14px Georgia,serif;letter-spacing:.18em;white-space:nowrap;padding-bottom:10px;border-bottom:1px solid transparent}
-.child-choice[aria-pressed=true]>span{color:#f7e5c3;border-bottom-color:#d1b483a6;text-shadow:0 0 12px #ead0aa55}
-.herald-creation[data-phase="breaking"] .child-choice>span{opacity:0}
-.identity-fields{position:absolute;top:84%;left:50%;transform:translateX(-50%);width:min(360px,70vw)}
-#herald-name{display:block;width:100%;height:58px;padding:12px 18px;background:linear-gradient(0deg,#100b2066,transparent);border:0;border-bottom:1px solid #c1aade77;border-radius:0;color:#fff6ff;text-align:center;font:22px Georgia,serif;box-shadow:none}
-#herald-name::placeholder{color:#ded0e7;opacity:1}
-.undefined-choice{display:flex;align-items:center;justify-content:center;gap:9px;font:12px 'Segoe UI',sans-serif;min-height:44px;cursor:pointer;color:#d7cce6}
-.undefined-choice input{width:17px;height:17px;accent-color:#b99aed;margin:0;cursor:pointer}
-.herald-creation[data-phase="breaking"] .identity-fields{visibility:hidden}
-.creation-next{position:fixed;right:max(38px,env(safe-area-inset-right));bottom:max(45px,env(safe-area-inset-bottom));width:58px;height:58px;display:grid;place-items:center;border:1px solid #f4deb17d;border-radius:50%;background:#1a102866;color:#fff2cd;cursor:pointer;box-shadow:0 0 28px #e8d3ac17}
-.creation-next svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.creation-next:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}.creation-next:hover:not(:disabled){background:#49315388;border-color:#fff1cc}
-.herald-creation :is(button,input,a):focus-visible{outline:2px solid #e8ce9d;outline-offset:6px}.child-choice:focus-visible{outline:1px solid #d0b9f073!important;border-radius:48%}
-.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-@media(max-width:670px){.creation-label{font-size:9px;letter-spacing:.3em;top:max(30px,env(safe-area-inset-top))}.creation-back{left:16px;top:16px}.sealed-being{width:min(92vw,430px);height:min(92vw,430px);top:42%}.creation-stage{inset:12% 0 20%}.mark-being{bottom:-3%;min-width:220px;min-height:110px}.mark-title{font-size:24px}.mark-being::before,.mark-being::after{width:25px}.child-choices{width:100vw;gap:2vw;height:75%;top:1%}.child-choice>span{font-size:12px;bottom:-21px;letter-spacing:.1em}.identity-fields{top:88%;width:76vw}#herald-name{height:54px;font-size:20px}.creation-next{width:48px;height:48px;bottom:max(31px,env(safe-area-inset-bottom));right:19px}.creation-status{font-size:11px;bottom:max(23px,env(safe-area-inset-bottom));width:calc(100% - 145px)}}
-@media(max-height:500px) and (orientation:landscape){.creation-label{top:18px}.creation-back{top:9px;left:12px}.creation-stage{inset:10% 0 20%}.sealed-being{width:60svh;height:60svh;top:43%}.mark-being{bottom:-12%;min-height:75px;padding:3px 18px 5px;gap:5px}.mark-title{font-size:20px}.mark-sigil{font-size:20px}.mark-hint{font-size:8px}.child-choices{width:min(700px,88vw);height:91%;top:-12%;gap:34vw}.child-choice>span{bottom:-4px;font-size:11px}.identity-fields{top:77%;width:240px}#herald-name{height:40px;font-size:18px}.undefined-choice{font-size:11px;min-height:36px}.creation-status{font-size:10px;bottom:10px}.creation-next{bottom:12px;width:46px;height:46px}}
-@media(prefers-reduced-motion:reduce){html[data-page-veil]::before{transition-duration:.16s}.herald-creation *{transition:none!important}}
-/* V3 · sangue, ruptura e alma: controls remain legible over both worlds. */
-.creation-scene .sky-fallback{background-image:url('/assets/creation/blood-chamber.png');filter:brightness(.64)}
-.herald-creation::before{content:"";position:fixed;inset:0;background:#eeebf2;opacity:var(--birth-flash,0);pointer-events:none;z-index:4}
-.blood-prologue{position:absolute;top:13%;left:50%;transform:translateX(-50%);margin:0;width:85%;text-align:center;font:400 clamp(18px,2.1vw,30px)/1.5 Georgia,serif;letter-spacing:.08em;color:#e5c6c3;text-shadow:0 2px 24px #000;opacity:calc(1 - var(--birth-transition,0));pointer-events:none;animation:blood-words 1.4s ease both}
-@keyframes blood-words{from{opacity:0;filter:blur(5px)}to{opacity:1;filter:blur(0)}}
+.creation-scene .scene-vignette{background:linear-gradient(0deg,#05050b99,transparent 24%),radial-gradient(ellipse,transparent 30%,#03030877 100%)}
+.herald-creation{position:absolute;inset:0;z-index:8;overflow:clip;color:#eee7e2;isolation:isolate;--muted:#b5a9ae;--gold:#c5aa7e}
+.herald-creation::before{content:"";position:fixed;inset:0;z-index:6;background:#eeebf2;opacity:var(--birth-flash,0);pointer-events:none}
+.creation-label{position:absolute;top:max(34px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);font:9px/1.5 'Segoe UI',sans-serif;letter-spacing:.44em;text-transform:uppercase;color:#b9a5aa;white-space:nowrap}
+.creation-back{position:absolute;left:max(32px,env(safe-area-inset-left));top:max(27px,env(safe-area-inset-top));display:grid;place-items:center;width:44px;height:44px;border:1px solid #c7b4ac30;border-radius:50%;color:#d9c9be;background:#09070d44;text-decoration:none;font:20px Georgia,serif;transition:border-color .2s,background .2s}
+.creation-back:hover{border-color:#d5c3ac88;background:#20151b88}
+.creation-stage{position:absolute;inset:0}
+.blood-prologue,.identity-title{position:absolute;top:10.5%;left:50%;transform:translateX(-50%);width:calc(100% - 100px);margin:0;text-align:center;pointer-events:none}
+.blood-prologue{font:400 clamp(28px,3vw,44px)/1.22 Georgia,serif;letter-spacing:-.02em;color:#ead9d2;opacity:calc(1 - var(--birth-transition,0));animation:birth-title 1.2s ease both;text-shadow:0 3px 30px #0008}
+@keyframes birth-title{from{opacity:0;transform:translate(-50%,6px)}to{opacity:1;transform:translate(-50%,0)}}
 .herald-creation[data-phase="breaking"] .blood-prologue,.herald-creation[data-phase="identity"] .blood-prologue{animation:none}
-.sealed-being{top:49%;width:min(44vw,480px);height:min(44vw,480px)}
-.mark-being{bottom:0%;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;column-gap:12px;row-gap:4px;width:290px;min-height:74px;padding:16px 24px;border:1px solid #cba76688;border-radius:5px;background:linear-gradient(145deg,#35221ddd,#130b10ee);box-shadow:inset 0 1px #f7d3a329,0 8px 40px #0008;transition:border-color .2s,background .2s,box-shadow .2s}
-.mark-being::before,.mark-being::after{display:none}
-.mark-title{font-size:23px}.mark-sigil{font-size:22px}.mark-hint{flex-basis:100%;font-size:8px;letter-spacing:.23em}
-.mark-being:hover{border-color:#f6d799;background:linear-gradient(145deg,#493128ee,#241117ee);box-shadow:inset 0 1px #f7d3a355,0 0 26px #d3a66b24,0 8px 40px #0009}
-.mark-being:active{box-shadow:inset 0 2px 10px #0009}
-.child-choice::before{content:"";position:absolute;inset:8% -3% 0;border-radius:50%;background:radial-gradient(ellipse,#d0bdd933,transparent 63%);opacity:0;transition:opacity .35s;pointer-events:none;z-index:-1}
-.child-choice:hover::before{opacity:.38}.child-choice[aria-pressed=true]::before{opacity:1}
-.child-choice>span{border:0;color:#bcb3c5;transition:color .3s,text-shadow .3s}
-.child-choice[aria-pressed=true]>span{color:#fff5f4;text-shadow:0 0 12px #e8dfed99}
-.child-choice[aria-pressed=true]>span::after{content:"";position:absolute;bottom:0;left:50%;width:4px;height:4px;border-radius:50%;background:#e4d2e9;box-shadow:0 0 10px #dfc6f5;transform:translateX(-50%)}
-#herald-name{background:linear-gradient(0deg,#bab0c00a,transparent);border-bottom-color:#c4b9ca55;transition:border-color .25s,background .25s;outline:none!important;outline-offset:0}
-#herald-name:focus{outline:none!important;border-bottom-color:#e1d4ec;background:linear-gradient(0deg,#d2c2dd14,transparent);box-shadow:0 10px 16px -16px #d9bfee99}
-.child-choice:focus-visible{outline:none!important}.child-choice:focus-visible>span{color:#fff;text-decoration:underline;text-underline-offset:7px}.child-choice:focus-visible::before{opacity:.8}
-.undefined-choice{color:#cfc6d3}.undefined-choice input{accent-color:#a59aa9}
-@media(max-width:670px){.blood-prologue{top:14%;font-size:19px;letter-spacing:.04em}.sealed-being{width:min(92vw,420px);height:min(92vw,420px);top:47%}.mark-being{bottom:-3%;min-height:70px;width:258px;padding:14px 20px}.mark-title{font-size:22px}.mark-sigil{font-size:20px}}
-@media(max-height:500px) and (orientation:landscape){.blood-prologue{top:12%;font-size:16px}.sealed-being{width:60svh;height:60svh;top:43%}.mark-being{bottom:-12%;min-height:60px;width:250px;padding:10px 18px;gap:4px 12px}.mark-title{font-size:19px}.mark-hint{font-size:7px}}
-@media(prefers-reduced-motion:reduce){.blood-prologue{animation:none}}
-/* Focus must not scroll the full-screen scene when a landscape choice extends. */
-.herald-creation{overflow:clip}
-.child-choices{min-inline-size:0}
-
-/* V4: no photographic flesh or bright cloud frame. */
-.creation-scene .sky-fallback{background-image:radial-gradient(ellipse at 35% 45%,#240b15,transparent 65%),linear-gradient(125deg,#0b070b,#1b090f 60%,#080609);filter:none}
-.creation-scene .scene-vignette{background:linear-gradient(0deg,#02010666,transparent 24%)}
-.child-choice::before{background:radial-gradient(ellipse,#d0bdd912,transparent 66%)}
-.child-choice[aria-pressed=true]::before{opacity:.75}
-.blood-prologue{color:#d6bdbe}
+.identity-title strong{display:block;font:400 clamp(26px,2.6vw,38px)/1.3 Georgia,serif;letter-spacing:-.015em;color:#e5dde7}
+.identity-title small{display:block;margin-top:12px;color:#aca4b3;font:12px/1.5 'Segoe UI',sans-serif;letter-spacing:.025em}
+.sealed-being{position:absolute;width:min(63svh,600px,86vw);aspect-ratio:1;left:50%;top:49%;transform:translate(-50%,-50%);pointer-events:none}
+.baby-target{position:absolute;inset:10% 15%;border:0;padding:0;background:none;border-radius:50%;cursor:pointer;pointer-events:auto}
+.baby-target:disabled{cursor:wait}
+.mark-being{position:absolute;top:82%;left:50%;transform:translateX(-50%);display:grid;grid-template-columns:22px auto 22px;gap:3px 12px;align-items:center;min-height:66px;width:286px;padding:13px 20px;border:1px solid #b49a706b;border-radius:2px;background:linear-gradient(135deg,#21171cdd,#100e16ee);box-shadow:inset 0 1px #e7d2ae12,0 8px 32px #0005;color:#eadfce;cursor:pointer;transition:border-color .25s,background .25s,box-shadow .25s}
+.mark-being::after{content:"→";grid-column:3;grid-row:1/3;font:22px Georgia,serif;color:#c7af87}
+.mark-sigil{grid-column:1;grid-row:1/3;font:25px Georgia,serif;color:#bba17c}
+.mark-title{grid-column:2;grid-row:1;font:400 21px/1.3 Georgia,serif;white-space:nowrap}
+.mark-hint{grid-column:2;grid-row:2;font:8px/1.5 'Segoe UI',sans-serif;letter-spacing:.23em;text-transform:uppercase;color:#b2a18f}
+.mark-being:hover{border-color:#e5c894;background:linear-gradient(135deg,#36252add,#18111aee);box-shadow:inset 0 1px #e7d2ae22,0 0 32px #cfa16513,0 8px 32px #0006}
+.mark-being:active{box-shadow:inset 0 2px 12px #0008}
+.mark-being:disabled{opacity:.3;cursor:default}
+.herald-creation[data-phase="breaking"] .mark-being{opacity:0;pointer-events:none;transition:opacity .25s}
+.identity-form{position:absolute;inset:0}
+.child-choices{position:absolute;left:50%;top:21%;transform:translateX(-50%);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,12vw,180px);width:min(900px,86vw);height:49%;min-inline-size:0;border:0;padding:0;margin:0}
+.child-choice{position:relative;min-height:44px;background:none;border:0;padding:0;color:#b7adbe;cursor:pointer;isolation:isolate}
+.child-choice::before{content:"";position:absolute;inset:2% -10% -5%;z-index:-1;border-radius:50%;background:radial-gradient(ellipse,#d4c5ec13,transparent 65%);opacity:.15;transition:opacity .45s;pointer-events:none}
+.child-choice:hover::before,.child-choice:focus-visible::before{opacity:.65}
+.child-choice[aria-pressed="true"]::before{opacity:1}
+.child-choice>span{position:absolute;left:50%;top:100%;transform:translateX(-50%);display:block;min-width:90px;padding:12px 15px 14px;text-align:center;font:400 17px/1.3 Georgia,serif;letter-spacing:.08em;white-space:nowrap;transition:color .3s}
+.child-choice>span::after{content:"";position:absolute;bottom:2px;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,#a6a0b080,transparent);opacity:0;transition:opacity .3s}
+.child-choice[aria-pressed="true"]>span{color:#f3e8d7}
+.child-choice[aria-pressed="true"]>span::after{opacity:1;background:linear-gradient(90deg,transparent,#d4ba8d,transparent)}
+.herald-creation[data-phase="breaking"] .child-choice>span{opacity:0}
+.identity-fields{position:absolute;left:50%;top:79%;transform:translateX(-50%);width:min(380px,72vw)}
+.name-label{display:block;margin-bottom:6px;text-align:center;font:8px/1.5 'Segoe UI',sans-serif;letter-spacing:.26em;text-transform:uppercase;color:#a8a0b1}
+#herald-name{display:block;width:100%;height:48px;padding:4px 10px 12px;border:0;border-bottom:1px solid #c9bcd14d;border-radius:0;background:transparent;color:#f1e8f5;text-align:center;font:400 24px/1.3 Georgia,serif;outline:none;box-shadow:none;transition:border-color .3s}
+#herald-name::placeholder{color:#bfb4c8;opacity:1}
+#herald-name:focus{outline:none;border-bottom-color:#e1c8a0;box-shadow:0 12px 16px -17px #ddc4a166}
+.undefined-choice{display:flex;align-items:center;justify-content:center;gap:10px;min-height:44px;margin-top:5px;font:11px/1.5 'Segoe UI',sans-serif;color:#b4aabd;cursor:pointer}
+.undefined-choice input{appearance:none;position:relative;width:15px;height:15px;margin:0;border:1px solid #a99aaf77;border-radius:2px;background:#16121d55;cursor:pointer}
+.undefined-choice input:checked{background:#cbb595;border-color:#ddc6a6}
+.undefined-choice input:checked::after{content:"";position:absolute;left:4px;top:1px;width:4px;height:8px;border:solid #251d28;border-width:0 1.5px 1.5px 0;transform:rotate(45deg)}
+.herald-creation[data-phase="breaking"] .identity-fields{visibility:hidden}
+.creation-next{position:fixed;right:max(36px,env(safe-area-inset-right));bottom:max(35px,env(safe-area-inset-bottom));display:grid;place-items:center;width:56px;height:56px;border:1px solid #c5ae8677;border-radius:50%;background:#100d1a55;color:#e7d6b9;cursor:pointer;transition:border-color .25s,background .25s}
+.creation-next svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.creation-next:disabled{opacity:.28;cursor:not-allowed}
+.creation-next:hover:not(:disabled){border-color:#f4d5a1;background:#32243288}
+.creation-status{position:absolute;left:50%;bottom:max(20px,env(safe-area-inset-bottom));transform:translateX(-50%);width:min(660px,calc(100% - 170px));margin:0;text-align:center;color:#968b9f;font:11px/1.5 'Segoe UI',sans-serif;pointer-events:none}
+.herald-creation :is(button,a,input):focus-visible{outline:1px solid #d7bf95;outline-offset:5px}
+.herald-creation #herald-name:focus-visible{outline:none}
+.child-choice:focus-visible{outline:none!important}
+.child-choice:focus-visible>span{color:#fff1de;text-decoration:underline;text-underline-offset:7px}
+.mark-being[hidden],.sealed-being[hidden],.identity-form[hidden],.creation-next[hidden],.identity-title[hidden]{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(max-width:670px){
+ .creation-label{top:max(29px,env(safe-area-inset-top));font-size:8px;letter-spacing:.32em}
+ .creation-back{top:17px;left:17px;width:42px;height:42px}
+ .blood-prologue,.identity-title{top:13%;width:calc(100% - 44px)}
+ .blood-prologue{font-size:29px;line-height:1.25}
+ .identity-title strong{font-size:27px}.identity-title small{font-size:11px;margin-top:9px}
+ .sealed-being{width:94vw;top:49%}
+ .mark-being{top:78%;width:268px;min-height:64px}.mark-title{font-size:20px}
+ .child-choices{top:27%;height:39%;width:90vw;gap:24px}
+ .child-choice>span{padding-top:11px;font-size:16px}
+ .identity-fields{top:78%;width:74vw}#herald-name{font-size:22px;height:46px}
+ .creation-next{right:18px;bottom:25px;width:48px;height:48px}
+ .creation-status{bottom:22px;width:calc(100% - 145px);font-size:9px}
+}
+@media(max-height:540px) and (orientation:landscape){
+ .creation-label{top:14px;font-size:8px}.creation-back{top:9px;left:14px;width:38px;height:38px}
+ .blood-prologue,.identity-title{top:14%}.blood-prologue{font-size:25px}.identity-title strong{font-size:24px}.identity-title small{display:none}
+ .sealed-being{width:58svh;top:51%}.mark-being{top:82%;min-height:49px;width:252px;padding:8px 16px}.mark-title{font-size:18px}.mark-sigil{font-size:21px}.mark-hint{font-size:7px}
+ .child-choices{top:24%;height:39%;width:min(650px,78vw);gap:25vw}.child-choice>span{font-size:13px;padding-top:4px}
+ .identity-fields{top:76%;width:270px}.name-label{font-size:7px;margin:0}#herald-name{height:30px;font-size:18px;padding-bottom:4px}.undefined-choice{min-height:32px;font-size:10px;margin:0}
+ .creation-status{bottom:8px;font-size:8px}.creation-next{bottom:13px;right:20px;width:44px;height:44px}
+}
+@media(max-height:700px) and (orientation:portrait){.identity-fields{top:75%}}
+@media(max-width:360px){.blood-prologue{font-size:26px}.identity-title strong{font-size:24px}.identity-title small{font-size:10px}}
+@media(max-height:360px) and (orientation:landscape){.identity-fields{top:71%}#herald-name{height:26px;font-size:17px}.undefined-choice{min-height:28px}.name-label{line-height:1.2}}
+@media(prefers-reduced-motion:reduce){.blood-prologue{animation:none}html[data-page-veil]::before{transition-duration:.16s}.herald-creation *{transition:none!important}}
