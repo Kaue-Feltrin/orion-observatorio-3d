@@ -1,9 +1,10 @@
 import * as THREE from 'three';
 import {createBodyRig,bodyVertex} from './creation-body-rig.js';
-import {createCreationSigils} from './creation-sigils.js';
+import {createCreationSigils,SIGIL_ORBITS} from './creation-sigils.js';
 import {sampleCreationRelease} from './creation-fracture.js';
 
-export const CREATION_ART={nebula:'/assets/creation/ink-cosmos-v6.png',baby:'/assets/creation/unborn-v5.png',children:'/assets/creation/souls-v5.png'};
+export const CREATION_ART={nebula:'/assets/creation/ink-cosmos-v7.png',nebulaPortrait:'/assets/creation/ink-cosmos-portrait-v7.png',baby:'/assets/creation/unborn-v5.png',children:'/assets/creation/souls-v7.png'};
+export function creationNebulaURL(aspect=innerWidth/innerHeight){return aspect<.85?CREATION_ART.nebulaPortrait:CREATION_ART.nebula;}
 const smooth=(a,b,t)=>THREE.MathUtils.smoothstep(t,a,b);
 const fragment=`
  uniform sampler2D uMap;uniform vec4 uUV;uniform float uOpacity,uReveal,uTime,uCharge,uSelected,uFlip;
@@ -14,10 +15,12 @@ const fragment=`
   vec4 texel=texture2D(uMap,at);
   float n=noise(vUv*10.)*.65+noise(vUv*23.)*.35;
   float mask=smoothstep(n-.13,n+.13,uReveal*1.35-.12);
-  float alpha=texel.a*uOpacity*mask*vLife;
+  // Solid alpha core: only the antialiased contour may blend.
+  float coverage=smoothstep(.12,.65,texel.a);
+  float alpha=coverage*uOpacity*mask*vLife;
   alpha*=smoothstep(0.,.025,vUv.x)*(1.-smoothstep(.975,1.,vUv.x))*smoothstep(0.,.025,vUv.y)*(1.-smoothstep(.975,1.,vUv.y));
   if(alpha<.006)discard;
-  vec3 color=max(vec3(.0001,.00008,.00015),texel.rgb*.20)+vec3(.9,.87,.96)*uCharge*.9;
+  vec3 color=vec3(0.)+vec3(.9,.87,.96)*uCharge*.9;
   color*=1.+uCharge*.24;
   gl_FragColor=vec4(color,alpha);
   #include <colorspace_fragment>
@@ -30,9 +33,9 @@ function material(texture,{opacity=1,uv=[0,0,1,1],motion=1,flip=false}={}){
 
 // Layered ink painting plus slow procedural drift; separate from the original sky.
 export function createCreationNebula(scene,photo,{reducedMotion=false,parallaxEnabled=true}={}){
- const clock={value:0},transition={value:0},pan={value:new THREE.Vector2()},aspect={value:innerWidth/innerHeight};
+ const clock={value:0},transition={value:0},pan={value:new THREE.Vector2()},aspect={value:innerWidth/innerHeight},plateAspect={value:innerWidth/innerHeight<.85?2/3:1672/941};
  const noiseCode=`float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+1.),f.x),f.y);}float fbm(vec2 p){return noise(p)*.65+noise(p*2.03+7.)*.25+noise(p*4.01+17.)*.1;}`;
- const fragmentShader=`uniform sampler2D plate;uniform float time,transition,aspect,opacity;uniform vec2 pan;varying vec2 vUv;${noiseCode}
+ const fragmentShader=`uniform sampler2D plate;uniform float time,transition,aspect,plateAspect,opacity;uniform vec2 pan;varying vec2 vUv;${noiseCode}
  void main(){vec2 p=(vUv-.5)*vec2(aspect,1.)+pan;float drift=time*.009;
  vec2 warp=vec2(fbm(p*1.7+drift),fbm(p*1.5+8.-drift))-.5;
  float n=fbm(p*2.2+warp*.8+vec2(drift,-drift*.7));float m=fbm(p*1.4+warp+vec2(4.,drift));
@@ -42,11 +45,13 @@ export function createCreationNebula(scene,photo,{reducedMotion=false,parallaxEn
  float pools=exp(-dot((p-vec2(aspect*.19,.02))*vec2(2.6,1.5),(p-vec2(aspect*.19,.02))*vec2(2.6,1.5))*3.)+exp(-dot((p+vec2(aspect*.19,-.02))*vec2(2.6,1.5),(p+vec2(aspect*.19,-.02))*vec2(2.6,1.5))*3.);
  vec3 ash=vec3(.004,.0038,.006)+vec3(.011,.010,.015)*(n*.65+m*.35)+vec3(.009,.008,.011)*pools;
  float star=pow(max(0.,hash(floor((p+4.)*65.))-.998)/.002,3.)*(1.-smoothstep(.03,.12,length(fract((p+4.)*65.)-.5)))*.025;
- vec2 cover=vec2(min(1.,aspect/(1672./941.)),min(1.,(1672./941.)/aspect));
- cover.x=max(cover.x,.74*(1.-smoothstep(.65,1.,aspect)));
+ vec2 cover=vec2(min(1.,aspect/plateAspect),min(1.,plateAspect/aspect));
  vec2 at=.5+(vUv-.5)*cover*.96+pan*.42;
  at+=warp*.004;
  vec3 painting=texture2D(plate,clamp(at,vec2(.002),vec2(.998))).rgb;
+ // Fine luminance variation stays subordinate to the painted masses.
+ float grain=noise(p*110.+warp*10.);
+ painting*=.98+grain*.04;
  float grey=dot(painting,vec3(.2126,.7152,.0722));
  wine=wine*.32+painting*.88+vec3(.009,.003,.004)*center;
  ash=ash*.55+vec3(.88,.85,1.)*grey*.62;
@@ -54,8 +59,17 @@ export function createCreationNebula(scene,photo,{reducedMotion=false,parallaxEn
  gl_FragColor=vec4(c,opacity);
  #include <colorspace_fragment>
  }`;
- const uniforms={time:clock,transition,pan,aspect,opacity:{value:1},plate:{value:photo.material.map}};
+ const uniforms={time:clock,transition,pan,aspect,plateAspect,opacity:{value:1},plate:{value:photo.material.map}};
  const original=photo.material,map=original.map;
+ const initialSource=creationNebulaURL();let requestedSource=initialSource,plateRequest=0;
+ function syncPlate(){
+  if(!map.image?.width)return;
+  const wanted=creationNebulaURL();if(wanted===requestedSource)return;
+  requestedSource=wanted;const id=++plateRequest,image=new Image();
+  image.onload=()=>{if(id!==plateRequest)return;map.image=image;map.needsUpdate=true;};
+  image.onerror=()=>console.warn('Não foi possível trocar a atmosfera:',wanted);
+  image.src=wanted;
+ }
  photo.material=new THREE.ShaderMaterial({uniforms,depthTest:false,depthWrite:false,toneMapped:false,
  vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy*2.,.999,1.);}',fragmentShader});
  photo.material.map=map;original.dispose();
@@ -67,19 +81,19 @@ export function createCreationNebula(scene,photo,{reducedMotion=false,parallaxEn
   const mesh=new THREE.Mesh(new THREE.PlaneGeometry(1,1),m);mesh.position.z=z;mesh.renderOrder=3+i*.1;mesh.userData={volumeFragment:true,baseX:0,baseY:0,parallaxOffsetX:0,parallaxOffsetY:0};scene.add(mesh);return mesh;
  });
  function resize(){for(const mesh of layers){const d=26-mesh.position.z,h=2*Math.tan(26*Math.PI/180)*d*1.5;mesh.scale.set(h*innerWidth/innerHeight,h,1);}}
- function update(time,x,y,delta){clock.value=reducedMotion?0:time;aspect.value=innerWidth/innerHeight;
+ function update(time,x,y,delta){clock.value=reducedMotion?0:time;aspect.value=innerWidth/innerHeight;syncPlate();if(map.image?.width)plateAspect.value=map.image.width/map.image.height;
   const gain=1-Math.exp(-Math.min(.1,Math.max(0,delta))*5);
   pan.value.x+=((state.parallaxEnabled?-x*.014:0)-pan.value.x)*gain;pan.value.y+=((state.parallaxEnabled?-y*.01:0)-pan.value.y)*gain;
   layers.forEach((mesh,i)=>{const d=mesh.userData;d.parallaxOffsetX+=((state.parallaxEnabled?-x*(2+i*2)*state.parallaxStrength:0)-d.parallaxOffsetX)*gain;d.parallaxOffsetY+=((state.parallaxEnabled?-y*(1+i):0)-d.parallaxOffsetY)*gain;mesh.position.x=d.parallaxOffsetX;mesh.position.y=d.parallaxOffsetY;});
  }
- const ready=new Promise((resolve,reject)=>{if(map.image?.complete&&map.image.naturalWidth){resolve(true);return;}const image=new Image();image.onload=()=>resolve(true);image.onerror=()=>reject(new Error('Falha ao carregar a atmosfera de tinta.'));image.src=CREATION_ART.nebula;});
+ const ready=new Promise((resolve,reject)=>{if(map.image?.complete&&map.image.naturalWidth){resolve(true);return;}const image=new Image();image.onload=()=>resolve(true);image.onerror=()=>reject(new Error('Falha ao carregar a atmosfera de tinta.'));image.src=initialSource;});
  return {ready,layers,state,resize,update,applyQuality(q){state.active=['eco','lite'].includes(q)?1:2;layers.forEach((l,i)=>l.visible=i<state.active)},setTransition(v){transition.value=v;state.transition=v;},setParallaxStrength(v){state.parallaxStrength=THREE.MathUtils.clamp(v,.45,1.6)}};
 }
 
 export function createCreationArt({scene,camera,panel,reducedMotion=false,environment}){
  const loader=new THREE.TextureLoader(),textures={},meshes={},rigs={};
  const root=new THREE.Group();root.name='CreationCinematicLayers';scene.add(root);
- const state={rigMode:'image-skinned-2.5D',joints:48,fieldLayers:0,bindingType:'knowledge-sigils',bindingLayers:2,ready:false,phase:'sealed',releaseProgress:0,selected:null,surfaces:0,fragments:0,particleCount:64,gestureFromMark:false};
+ const state={rigMode:'image-skinned-2.5D',joints:48,fieldLayers:0,bindingType:'knowledge-sigils',bindingLayers:SIGIL_ORBITS.length,ready:false,phase:'sealed',releaseProgress:0,selected:null,surfaces:0,fragments:0,particleCount:64,gestureFromMark:false};
  let introStart=null,start=null,resolveRelease=null,aim={x:0,y:0},lastLayout=0;
  const rects={};const origin=new THREE.Vector3(),ray=new THREE.Vector3(),q=new THREE.Quaternion();
  function rayPoint(x,y,z){ray.set(x/innerWidth*2-1,1-y/innerHeight*2,.5).unproject(camera).sub(origin).normalize();return origin.clone().addScaledVector(ray,(z-origin.z)/ray.z);}
@@ -92,13 +106,15 @@ export function createCreationArt({scene,camera,panel,reducedMotion=false,enviro
   mesh.position.copy(pos);mesh.scale.set(left.distanceTo(right),left.distanceTo(right)/aspect,left.distanceTo(right));mesh.quaternion.copy(q);
   mesh.material.uniforms.uTime.value=reducedMotion?0:time;
  }
- const atlasUV={baby:[.1494140625,.17578125,.69140625,.6966145833],menina:[.678692221,.0259301015,.1674182638,.9560315671],menino:[.1657271702,.0304396843,.1809470124,.9695603157]};
+ const atlasUV={baby:[.1494140625,.17578125,.69140625,.6966145833],menina:[.130208333,.0390625,.33203125,.9375],menino:[.572916667,.0390625,.302734375,.9375]};
  const bindings=createCreationSigils({reducedMotion});root.add(bindings.root);state.links=0;state.glyphs=bindings.count;
  const ready=Promise.all([bindings.ready,...['baby','children'].map(async name=>{const t=await loader.loadAsync(CREATION_ART[name]);t.colorSpace=THREE.SRGBColorSpace;t.minFilter=THREE.LinearMipmapLinearFilter;t.magFilter=THREE.LinearFilter;textures[name]=t;})]).then(()=>{
   for(const name of ['baby','menina','menino']){
-   const m=material(textures[name==='baby'?'baby':'children'],{uv:atlasUV[name],motion:reducedMotion?0:1,flip:name==='menina'||name==='menino'});
+   const m=material(textures[name==='baby'?'baby':'children'],{uv:atlasUV[name],motion:reducedMotion?0:1,flip:false});
    const rig=createBodyRig(m,name==='baby'?'fetal':name);rigs[name]=rig;const mesh=rig.mesh;
-   mesh.userData.parallax=.1;mesh.frustumCulled=false;mesh.renderOrder=11;mesh.visible=name==='baby';root.add(mesh);meshes[name]=mesh;
+   mesh.userData.parallax=.1;mesh.frustumCulled=false;
+   // Include the opaque soul in the bloom pass: rear sigils must be occluded there too.
+   mesh.layers.enable(1);mesh.renderOrder=11;mesh.visible=name==='baby';root.add(mesh);meshes[name]=mesh;
   }
   return environment?.ready;
  }).then(()=>{introStart=performance.now();state.ready=true;state.surfaces=5;return true;});

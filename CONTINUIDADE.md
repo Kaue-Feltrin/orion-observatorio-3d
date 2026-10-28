@@ -1,3 +1,8 @@
+## 28/10/2026 — V7: corpo opaco e cinco faixas
+
+- Corpo fetal preto opaco também oclui os sigilos no passe de bloom. Cinco faixas com a fonte original; 240 glifos e atlas 2048×1024. Novas silhuetas, UV e articulações ajustados. Pinturas distintas para paisagem/retrato e enquadramento proporcional; nitidez automática revisada apenas na criação.
+- Resultados e limites em `docs/creation/SIGILOS-RESULTS-V7.md`. Entrega por ZIP manual, sem produção/merge/PR/migração. Aprovação visual pendente.
+
 ## 26/10/2026 — criação cinematográfica V2: imagens, paralaxe e VFX
 
 - Usuário reprovou a arte vetorial/ruptura CSS e pediu camadas de imagem, céu distinto dentro da nebulosa, pesquisa de animações de jogo, novo botão e ausência de gesto ao tornar Marcado.

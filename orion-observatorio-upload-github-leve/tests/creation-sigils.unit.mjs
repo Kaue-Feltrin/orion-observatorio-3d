@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
-import {SIGIL_PHRASE,sigilSlots,createSigilGeometry} from '../creation-sigils.js';
+import {SIGIL_PHRASE,SIGIL_ORBITS,sigilSlots,createSigilGeometry} from '../creation-sigils.js';
 assert.equal(SIGIL_PHRASE,'Acorrentado pela realidade');
-const slots=sigilSlots();assert.equal(slots.length,96);
-for(const ring of [0,1]){
+const slots=sigilSlots();assert.equal(slots.length,240);
+for(const ring of SIGIL_ORBITS.keys()){
  const list=slots.filter(s=>s.ring===ring),letters=Array(list[0].slots).fill(' ');
  for(const s of list)letters[s.slot]=s.char;
  assert.deepEqual(letters.join('').trim().split(/ {3}/),[SIGIL_PHRASE,SIGIL_PHRASE]);

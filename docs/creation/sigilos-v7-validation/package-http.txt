@@ -1,0 +1,4 @@
+OK {"viewport":{"width":1440,"height":900},"dpr":1,"errors":[],"missing":[]}
+OK {"viewport":{"width":390,"height":844},"dpr":1.25,"errors":[],"missing":[]}
+OK {"viewport":{"width":844,"height":390},"dpr":1.25,"errors":[],"missing":[]}
+OK {"viewport":{"width":320,"height":568},"dpr":1.25,"errors":[],"missing":[]}

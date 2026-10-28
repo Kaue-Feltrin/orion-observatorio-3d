@@ -1,4 +1,6 @@
-> Revisão visual atual: [V6 — Acorrentado pela realidade](SIGILOS-RESULTS-V6.md). Fonte enviada pelo usuário, órbitas de sigilos e novo fundo; sem campo de força.
+> Revisão visual atual: [V7 — Corpo opaco, cinco faixas e novas silhuetas](SIGILOS-RESULTS-V7.md). Fundo com composição própria para retrato e resolução automática revisada na criação.
+
+> Histórico V6: [V6 — Acorrentado pela realidade](SIGILOS-RESULTS-V6.md). Fonte enviada pelo usuário, órbitas de sigilos e novo fundo; sem campo de força.
 
 > Histórico V5: [V5 — Nova composição](ORIGEM-RESULTS-V5.md). Capturas reais e resultados nesse documento.
 

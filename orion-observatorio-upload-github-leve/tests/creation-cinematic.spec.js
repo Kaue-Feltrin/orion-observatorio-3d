@@ -1,4 +1,5 @@
 import {test,expect} from '@playwright/test';
+import sharp from 'sharp';
 const query='stars=0&quality=eco&debug=1';
 async function ready(page){
  await page.goto('http://127.0.0.1:4173/criacao.html?'+query);
@@ -11,11 +12,11 @@ test('camadas carregam com alpha, céu exclusivo e paralaxe reversível',async({
  await ready(page);
  await page.waitForFunction(()=>window.__orionCreationEnvironment.photo.material.map.image?.width>0);
  const info=await page.evaluate(()=>({photo:window.__orionCreationEnvironment.photo.material.map.image.src,glyphs:window.__orionCreationDebug.state.glyphs,surfaces:window.__orionCreationDebug.state.surfaces,shared:window.__orionCreationEnvironment.layers.every(l=>l.material.uniforms.map.value===window.__orionCreationEnvironment.photo.material.map)}));
- expect(info.photo).toContain('/creation/ink-cosmos-v6.png');expect(info.glyphs).toBe(96);expect(info.surfaces).toBe(5);expect(info.shared).toBe(true);
+ expect(info.photo).toContain('/creation/ink-cosmos-v7.png');expect(info.glyphs).toBe(240);expect(info.surfaces).toBe(5);expect(info.shared).toBe(true);
  await page.mouse.move(20,300);await expect.poll(()=>page.evaluate(()=>window.__orionCreationEnvironment.layers[0].userData.parallaxOffsetX)).toBeGreaterThan(.5);
  await page.mouse.move(1240,300);await expect.poll(()=>page.evaluate(()=>window.__orionCreationEnvironment.layers[0].userData.parallaxOffsetX)).toBeLessThan(-.5);
  const assets=await page.evaluate(()=>({baby:window.__orionCreationDebug.meshes.baby.material.uniforms.uMap.value.image.src,children:window.__orionCreationDebug.meshes.menina.material.uniforms.uMap.value.image.src,rigs:Object.values(window.__orionCreationDebug.rigs).map(r=>({skinned:r.mesh.isSkinnedMesh,joints:r.bones.length})),font:window.__orionCreationDebug.bindings.state,alpha:window.__orionCreationDebug.bindings.front.material.uniforms.uMap.value.image.getContext("2d").getImageData(0,0,1024,512).data.some((v,i)=>i%4===3&&v>0)}));
- expect(assets.baby).toContain('unborn-v5.png');expect(assets.children).toContain('souls-v5.png');expect(assets.rigs).toEqual(Array(3).fill({skinned:true,joints:16}));expect(assets.font.loaded).toBe(true);expect(assets.font.phrase).toBe('Acorrentado pela realidade');expect(assets.font.fontURL).toBe('/fonts/SigilosDeConhecimento.ttf');expect(assets.alpha).toBe(true);
+ expect(assets.baby).toContain('unborn-v5.png');expect(assets.children).toContain('souls-v7.png');expect(assets.rigs).toEqual(Array(3).fill({skinned:true,joints:16}));expect(assets.font.loaded).toBe(true);expect(assets.font.phrase).toBe('Acorrentado pela realidade');expect(assets.font.fontURL).toBe('/fonts/SigilosDeConhecimento.ttf');expect(assets.alpha).toBe(true);
  const layerState=await page.evaluate(()=>({field:window.__orionCreationDebug.state.fieldLayers,hasField:!!window.__orionCreationDebug.meshes.field,orbitTime:window.__orionCreationDebug.bindings.state.time}));
  expect(layerState.field).toBe(0);expect(layerState.hasField).toBe(false);
  await expect.poll(()=>page.evaluate(()=>window.__orionCreationDebug.bindings.state.time)).toBeGreaterThan(layerState.orbitTime);
@@ -63,3 +64,31 @@ test('céu original do Observatório continua separado da nova criação',async(
   await expect(page.locator('html')).toHaveAttribute('data-arrival-ready','1');
   expect(await page.evaluate(()=>document.fonts.check('16px OrionKnowledge'))).toBe(true);
  });
+
+test('corpo opaco oculta os sigilos traseiros também com bloom ativo',async({page})=>{
+ await page.goto('http://127.0.0.1:4173/criacao.html?stars=0&quality=balanced&hands=off&debug=1');
+ await expect(page.locator('#observatory')).toHaveAttribute('data-creation-art','ready');
+ await page.getByRole('button',{name:'Contemplar a silhueta etérea'}).click();
+ const meta=await page.evaluate(()=>{const a=window.__orionCreationDebug;document.getElementById('debug').hidden=true;a.bindings.front.visible=false;return {rings:a.bindings.state.rings,glyphs:a.bindings.state.glyphs,bloom:a.meshes.baby.layers.isEnabled(1),atlas:a.bindings.front.material.uniforms.uMap.value.image.width};});
+ expect(meta).toEqual({rings:5,glyphs:240,bloom:true,atlas:2048});
+ await page.mouse.move(5,150);await page.waitForTimeout(500);
+ const box=await page.locator('.baby-target').boundingBox();
+ const pixels=await sharp(await page.screenshot()).extract({left:Math.round(box.x+box.width*.50)-2,top:Math.round(box.y+box.height*.50)-2,width:5,height:5}).removeAlpha().raw().toBuffer();
+ expect(Math.max(...pixels)).toBeLessThanOrEqual(2);
+});
+
+test('atmosfera usa pintura vertical e troca ao girar sem esticar nem perder a identidade',async({page})=>{
+ await page.setViewportSize({width:390,height:844});await ready(page);
+ await expect.poll(()=>page.evaluate(()=>window.__orionCreationEnvironment.photo.material.map.image.src)).toContain('ink-cosmos-portrait-v7.png');
+ await expect.poll(()=>page.evaluate(()=>window.__orionCreationEnvironment.photo.material.uniforms.plateAspect.value)).toBeCloseTo(2/3,3);
+ await page.getByRole('button',{name:'Contemplar a silhueta etérea'}).click();await page.getByRole('button',{name:'Tornar Marcado',exact:true}).click();
+ await expect(page.locator('#observatory')).toHaveAttribute('data-creation-phase','identity');
+ await page.getByRole('button',{name:'Escolher menino',exact:true}).click();await page.locator('#herald-name').fill('Astra');
+ await page.setViewportSize({width:844,height:390});
+ await expect.poll(()=>page.evaluate(()=>window.__orionCreationEnvironment.photo.material.map.image.src)).toContain('ink-cosmos-v7.png');
+ await expect.poll(()=>page.evaluate(()=>window.__orionCreationEnvironment.photo.material.uniforms.plateAspect.value)).toBeCloseTo(1672/941,3);
+ await expect(page.locator('#herald-name')).toHaveValue('Astra');await expect(page.locator('[data-gender="menino"]')).toHaveAttribute('aria-pressed','true');
+ await page.setViewportSize({width:390,height:844});
+ await expect.poll(()=>page.evaluate(()=>window.__orionCreationEnvironment.photo.material.map.image.src)).toContain('ink-cosmos-portrait-v7.png');
+ await expect.poll(()=>page.evaluate(()=>window.__orionCreationEnvironment.photo.material.uniforms.plateAspect.value)).toBeCloseTo(2/3,3);
+});

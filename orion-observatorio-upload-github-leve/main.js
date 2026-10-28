@@ -19,7 +19,7 @@ import { createEtherealHandsMesh } from './first-person-hands-mesh.js';
 import { getHeralds, getHeraldLayout, arrivalURL } from './herald-catalog.js';
 import { createPageTransition, revealPage } from './page-transition.js';
 import { createHeraldCreation } from './herald-creation.js';
-import { createCreationNebula, CREATION_ART } from './creation-cinematic.js';
+import { createCreationNebula, creationNebulaURL, CREATION_ART } from './creation-cinematic.js';
 import { createTouchNavigation } from './touch-navigation.js';
 import { createMobileConstellation, mobileHeraldLayout } from './mobile-constellation.js';
 
@@ -89,6 +89,9 @@ const qualityPresets={
 function gpuBudget(){return qualityPresets[qualityMode];}
 function pixelRatioForViewport(){
   const q=gpuBudget(),native=Math.max(.5,window.devicePixelRatio||1);
+  // Keep the creation's fine inscriptions/contours at CSS-pixel resolution.
+  // Explicit quality profiles retain their original budget; the observatory is unchanged.
+  if(creationPage&&!manualQuality)return Math.min(native,1.25,Math.sqrt(2200000/Math.max(1,innerWidth*innerHeight)));
   return Math.min(native,q.dpr,Math.sqrt(q.maxPixels/Math.max(1,innerWidth*innerHeight)));
 }
 const performanceReadout={get mode(){return qualityMode;},
@@ -207,7 +210,7 @@ starBackdrop.visible=false;
 const farCloud = nebulaPlane('/assets/01-nebula-far.webp',-360,.11,0,-5,1.53,1,3072/1152,{name:'01 · Nebulosa distante'});
 // A camada distante está atrás da fotografia opaca ESO. Oculte seu draw call.
 farCloud.visible=false;
-const mainCloud = nebulaPlane(creationPage?CREATION_ART.nebula:'/assets/nebula-eso-photographic.jpg',-540,1,0,-3,1.31,2,creationPage?16/9:5000/1850,{name:creationPage?'Interior da nebulosa':'02 · Via Láctea fotográfica · ESO'});
+const mainCloud = nebulaPlane(creationPage?creationNebulaURL():'/assets/nebula-eso-photographic.jpg',-540,1,0,-3,1.31,2,creationPage?16/9:5000/1850,{name:creationPage?'Interior da nebulosa':'02 · Via Láctea fotográfica · ESO'});
 // Apenas iluminação/cor do material; fotografia ESO original segue intacta e nítida.
 // Escurecer o fundo gera espaço negativo ao redor do único arauto interativo.
 mainCloud.material.color.setRGB(.43,.46,.53);
