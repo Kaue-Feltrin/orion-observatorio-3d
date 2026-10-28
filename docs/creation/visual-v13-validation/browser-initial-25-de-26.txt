@@ -37,7 +37,7 @@ Running 26 tests using 1 worker
   ✓  26 tests/herald-creation.spec.js:144:3 › toque 844x390: alvo, escolhas e seta dentro da tela (14.9s)
 
 
-  1) tests/creation-loading.spec.js:30:1 › só as camadas vermelhas pulsam e o movimento para na identidade 
+  1) tests/creation-loading.spec.js:30:1 › só as camadas vermelhas pulsam e o movimento para na identidade
 
     Error: page.goto: net::ERR_HTTP_RESPONSE_CODE_FAILURE at http://127.0.0.1:4173/criacao.html?stars=0&debug=1&quality=eco
     Call log:
@@ -68,7 +68,7 @@ Running 26 tests using 1 worker
     ────────────────────────────────────────────────────────────────────────────────────────────────
 
   1 failed
-    tests/creation-loading.spec.js:30:1 › só as camadas vermelhas pulsam e o movimento para na identidade 
+    tests/creation-loading.spec.js:30:1 › só as camadas vermelhas pulsam e o movimento para na identidade
   25 passed (3.3m)
 npm notice
 npm notice New major version of npm available! 11.9.0 -> 12.2.1
