@@ -1,0 +1,27 @@
+
+Running 13 tests using 1 worker
+
+(node:96584) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:96584) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/origin-materials-v16.spec.js:36:3 › madeira cobre o fundo depois de rolar a ficha 1855x711 (10.5s)
+  ✓   2 tests/origin-materials-v16.spec.js:36:3 › madeira cobre o fundo depois de rolar a ficha 390x844 (5.3s)
+  ✓   3 tests/origin-materials-v16.spec.js:36:3 › madeira cobre o fundo depois de rolar a ficha 568x320 (3.5s)
+  ✓   4 tests/origin-materials-v16.spec.js:68:1 › ícones acompanham lista, detalhes e comparação sem substituir o nome (6.7s)
+  ✓   5 tests/origin-paper.spec.js:32:1 › ficha física: consulta não confirma, origem salva só após escolha e identidade é preservada (6.3s)
+  ✓   6 tests/origin-paper.spec.js:73:1 › busca, filtros combinados, guia e comparação preservam confirmação explícita (9.6s)
+  ✓   7 tests/origin-paper.spec.js:125:1 › nome é texto, movimento reduzido não executa a queda, armazenamento recusado não confirma (4.8s)
+  ✓   8 tests/origin-paper.spec.js:154:3 › papel 390x844: busca, detalhes e confirmação alcançáveis (6.3s)
+  ✓   9 tests/origin-paper.spec.js:154:3 › papel 320x568: busca, detalhes e confirmação alcançáveis (4.8s)
+  ✓  10 tests/origin-paper.spec.js:154:3 › papel 568x320: busca, detalhes e confirmação alcançáveis (4.3s)
+  ✓  11 tests/origin-reading-v17.spec.js:25:1 › guia aplica interesse com confirmação visível, limpa restrições anteriores e permite trocar (7.2s)
+  ✓  12 tests/origin-reading-v17.spec.js:79:3 › leitura 1440: exemplo curto e detalhes opcionais sem ocultar escolhas obrigatórias (7.8s)
+  ✓  13 tests/origin-reading-v17.spec.js:79:3 › leitura 390: exemplo curto e detalhes opcionais sem ocultar escolhas obrigatórias (4.6s)
+
+  13 passed (1.4m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

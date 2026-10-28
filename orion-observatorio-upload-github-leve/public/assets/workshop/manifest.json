@@ -1,5 +1,5 @@
 {
-  "version": 16,
+  "version": 17,
   "material": {
     "file": "walnut-v15.png",
     "width": 1536,
@@ -32,5 +32,13 @@
     "source": "origin-icons.js (fonte de desenvolvimento)",
     "sha256": "a5924b261f931d0045857c4a39d7e2f200db9155852ae19ac42959506990fe31",
     "origin": "Pictogramas editoriais criados em SVG para esta interface. Não são sigilos oficiais dos livros."
+  },
+  "reading": "Lista com ícones e nomes; exemplo curto, perícias e habilidade em destaque; contexto e fonte opcionais.",
+  "guide": "Escolha visual de interesse; filtro aplicado com nome e contagem, foco nos resultados e ações de trocar/limpar. Não confirma origem.",
+  "examples": {
+    "count": 66,
+    "source": "origin-backgrounds.js (fonte de desenvolvimento)",
+    "sha256": "6dae987287b62f0390f80fca54f27575c08cb0efbadc258ef5c9d85814637a93",
+    "origin": "Exemplos fictícios de passado escritos para esta interface, não transcrições dos livros nem requisitos mecânicos."
   }
 }

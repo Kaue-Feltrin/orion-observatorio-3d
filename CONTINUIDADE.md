@@ -1,3 +1,7 @@
+## 28/10/2026 — V17: leitura e orientação
+
+- Lista com ícones/nomes, 66 exemplos fictícios de passado e contexto/fonte expansíveis. Guia visual separado da exploração; escolha de interesse mostra aviso de filtro aplicado, contagem e ações para trocar/limpar, sem alterar a origem confirmada. Treze cenários Chrome, 21 arquivos unitários e três regressões de leitura após ajuste final do aviso aprovados. Resultados em `docs/creation/LEITURA-RESULTS-V17.md`. Base, imagens e regras preservadas; sem deploy. Avaliação visual/aparelho real pendentes.
+
 ## 28/10/2026 — V16: madeira e pictogramas
 
 - Falha de cobertura da madeira reproduzida e corrigida ao separar a rolagem da folha das tábuas fixas. 66 pictogramas SVG na lista/detalhe/comparação, seleção por tinta e botão em formato de carimbo. Dez cenários Chrome, 20 arquivos unitários, contraste local e pacote HTTP aprovados. Evidências em `docs/creation/ACABAMENTO-RESULTS-V16.md`. Sem mudanças mecânicas, dados reais ou deploy. Homologação artística/aparelho físico pendentes.

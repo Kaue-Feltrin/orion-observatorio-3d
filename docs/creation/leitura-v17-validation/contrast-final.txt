@@ -1,0 +1,212 @@
+[
+  {
+    "width": 1440,
+    "s": "#paperTitle",
+    "font": "40px",
+    "min": 10.681224826460959,
+    "samples": 3764
+  },
+  {
+    "width": 1440,
+    "s": ".paper-intro",
+    "font": "17px",
+    "min": 5.317719296349696,
+    "samples": 961
+  },
+  {
+    "width": 1440,
+    "s": "[data-interest=\"cuidar\"]",
+    "font": "13px",
+    "min": 5.429313019189504,
+    "samples": 161
+  },
+  {
+    "width": 1440,
+    "s": "#originResults strong",
+    "font": "20px",
+    "min": 9.212866959775855,
+    "samples": 775
+  },
+  {
+    "width": 1440,
+    "s": "#originDetailTitle",
+    "font": "31px",
+    "min": 10.25134177805242,
+    "samples": 1589
+  },
+  {
+    "width": 1440,
+    "s": ".origin-example>span",
+    "font": "12px",
+    "min": 5.1283508931223425,
+    "samples": 285
+  },
+  {
+    "width": 1440,
+    "s": ".origin-example p",
+    "font": "20px",
+    "min": 8.628549088827938,
+    "samples": 2473
+  },
+  {
+    "width": 1440,
+    "s": ".origin-facts dt",
+    "font": "12px",
+    "min": 5.15236637717769,
+    "samples": 182
+  },
+  {
+    "width": 1440,
+    "s": ".origin-skill-chips li",
+    "font": "14px",
+    "min": 9.920472034549395,
+    "samples": 250
+  },
+  {
+    "width": 1440,
+    "s": ".origin-more summary",
+    "font": "13px",
+    "min": 5.303399462206773,
+    "samples": 474
+  },
+  {
+    "width": 1440,
+    "s": ".choose-origin",
+    "font": "15px",
+    "min": 9.775628604259218,
+    "samples": 554
+  },
+  {
+    "width": 1440,
+    "s": ".origin-filter-feedback small",
+    "font": "12px",
+    "min": 5.365430408361789,
+    "samples": 312
+  },
+  {
+    "width": 1440,
+    "s": ".filter-applied-label",
+    "font": "21px",
+    "min": 10.59030573973719,
+    "samples": 318
+  },
+  {
+    "width": 1440,
+    "s": ".filter-result-count",
+    "font": "13px",
+    "min": 5.792748507870973,
+    "samples": 550
+  },
+  {
+    "width": 1440,
+    "s": ".filter-feedback-actions button",
+    "font": "13px",
+    "min": 10.76819665487916,
+    "samples": 361
+  },
+  {
+    "width": 390,
+    "s": "#paperTitle",
+    "font": "34px",
+    "min": 10.687556432530899,
+    "samples": 2729
+  },
+  {
+    "width": 390,
+    "s": ".paper-intro",
+    "font": "16px",
+    "min": 5.275672432357614,
+    "samples": 924
+  },
+  {
+    "width": 390,
+    "s": "[data-interest=\"cuidar\"]",
+    "font": "12px",
+    "min": 5.37671923269691,
+    "samples": 159
+  },
+  {
+    "width": 390,
+    "s": "#originResults strong",
+    "font": "20px",
+    "min": 9.055475949535023,
+    "samples": 775
+  },
+  {
+    "width": 390,
+    "s": "#originDetailTitle",
+    "font": "30px",
+    "min": 10.257465824197384,
+    "samples": 1453
+  },
+  {
+    "width": 390,
+    "s": ".origin-example>span",
+    "font": "12px",
+    "min": 5.134467557022391,
+    "samples": 281
+  },
+  {
+    "width": 390,
+    "s": ".origin-example p",
+    "font": "19px",
+    "min": 8.71261735217593,
+    "samples": 2196
+  },
+  {
+    "width": 390,
+    "s": ".origin-facts dt",
+    "font": "12px",
+    "min": 5.126403611042395,
+    "samples": 170
+  },
+  {
+    "width": 390,
+    "s": ".origin-skill-chips li",
+    "font": "14px",
+    "min": 10.064822405768078,
+    "samples": 252
+  },
+  {
+    "width": 390,
+    "s": ".origin-more summary",
+    "font": "13px",
+    "min": 5.326660118620498,
+    "samples": 480
+  },
+  {
+    "width": 390,
+    "s": ".choose-origin",
+    "font": "15px",
+    "min": 9.775628604259218,
+    "samples": 570
+  },
+  {
+    "width": 390,
+    "s": ".origin-filter-feedback small",
+    "font": "12px",
+    "min": 5.387569717918652,
+    "samples": 312
+  },
+  {
+    "width": 390,
+    "s": ".filter-applied-label",
+    "font": "20px",
+    "min": 10.634004388164067,
+    "samples": 296
+  },
+  {
+    "width": 390,
+    "s": ".filter-result-count",
+    "font": "13px",
+    "min": 5.816651054850419,
+    "samples": 552
+  },
+  {
+    "width": 390,
+    "s": ".filter-feedback-actions button",
+    "font": "13px",
+    "min": 10.634004388164067,
+    "samples": 364
+  }
+]

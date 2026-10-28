@@ -1,4 +1,5 @@
 import {ORIGINS,SKILLS} from './origin-catalog.js';
+import {backgroundFor} from './origin-backgrounds.js';
 
 // Discovery tags describe catalog skills, never class locks or extra benefits.
 export const INTERESTS=Object.freeze([
@@ -87,7 +88,7 @@ export function interestsFor(origin){return INTERESTS.filter(i=>origin.fixedSkil
 export function findOrigins({query='',interest='',source='',skill=''}={}){
  const tokens=normalize(query).split(' ').filter(Boolean);
  return ORIGINS.filter(o=>{
-  const haystack=normalize([o.label,o.powerName,o.source,storyFor(o),aliases[o.code]??'',...o.fixedSkills.map(skillLabel)].join(' '));
+  const haystack=normalize([o.label,o.powerName,o.source,storyFor(o),backgroundFor(o),aliases[o.code]??'',...o.fixedSkills.map(skillLabel)].join(' '));
   return (!source||o.source===source)&&(!skill||o.fixedSkills.includes(skill))&&(!interest||interestsFor(o).some(i=>i.id===interest))&&tokens.every(t=>haystack.includes(t));
  }).sort((a,b)=>a.label.localeCompare(b.label,'pt-BR'));
 }

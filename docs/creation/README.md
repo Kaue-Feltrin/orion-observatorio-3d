@@ -1,4 +1,6 @@
-> Revisão visual atual: [V16 — Madeira, pictogramas e tinta](ACABAMENTO-RESULTS-V16.md). Fundo fixo corrigido após rolar, 66 ícones editoriais SVG e controles suavizados. Evidências de antes/depois e resultados reais registrados.
+> Revisão visual atual: [V17 — Leitura e exemplos](LEITURA-RESULTS-V17.md). Menos texto à vista, 66 exemplos curtos de passado e guia com filtro aplicado explícito. Capturas, comparação de leitura e testes registrados.
+
+> Histórico V16: [V16 — Madeira, pictogramas e tinta](ACABAMENTO-RESULTS-V16.md). Fundo fixo corrigido após rolar, 66 ícones editoriais SVG e controles suavizados. Evidências de antes/depois e resultados reais registrados.
 
 > Histórico V15: [V15 — A história no papel](PAPEL-RESULTS-V15.md). Transição de tábuas e folha, descoberta de origens, guia, filtros e comparação; rascunho local e retorno preservado.
 

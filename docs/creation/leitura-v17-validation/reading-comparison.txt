@@ -1,0 +1,24 @@
+[
+  {
+    "version": "V16",
+    "detail": {
+      "words": 49,
+      "text": "Uma possibilidade de passado Agente de Saúde Cuidar de pessoas fazia parte da sua rotina, muito antes do inexplicável. Uma ideia para sua história; os detalhes são seus. Cuidar Perícias associadas Intuição · Medicina Habilidade de origem Técnica Medicinal Livro de origem Livro Base Escolher esta origem → + Comparar esta origem"
+    },
+    "row": {
+      "words": 5,
+      "text": "Agente de Saúde Intuição · Medicina ✓"
+    }
+  },
+  {
+    "version": "V17",
+    "detail": {
+      "words": 31,
+      "text": "Agente de Saúde Por exemplo… Você cuidava de pacientes no plantão noturno de um hospital. Perícias Intuição Medicina Habilidade Técnica Medicinal Ver contexto e fonte Escolher esta origem → + Comparar esta origem"
+    },
+    "row": {
+      "words": 3,
+      "text": "Agente de Saúde ✓"
+    }
+  }
+]

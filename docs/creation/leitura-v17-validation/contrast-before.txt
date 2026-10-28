@@ -1,0 +1,230 @@
+[
+  {
+    "width": 1440,
+    "s": "#paperTitle",
+    "font": "40px",
+    "min": 10.681224826460959,
+    "samples": 3764
+  },
+  {
+    "width": 1440,
+    "s": ".paper-intro",
+    "font": "17px",
+    "min": 5.317719296349696,
+    "samples": 961
+  },
+  {
+    "width": 1440,
+    "s": "[data-interest=\"cuidar\"]",
+    "font": "13px",
+    "min": 5.429313019189504,
+    "samples": 161
+  },
+  {
+    "width": 1440,
+    "s": "#originResults strong",
+    "font": "20px",
+    "min": 9.212866959775855,
+    "samples": 775
+  },
+  {
+    "width": 1440,
+    "s": "#originDetailTitle",
+    "font": "31px",
+    "min": 10.25134177805242,
+    "samples": 1589
+  },
+  {
+    "width": 1440,
+    "s": ".origin-example>span",
+    "font": "12px",
+    "min": 5.1283508931223425,
+    "samples": 285
+  },
+  {
+    "width": 1440,
+    "s": ".origin-example p",
+    "font": "20px",
+    "min": 8.628549088827938,
+    "samples": 2473
+  },
+  {
+    "width": 1440,
+    "s": ".origin-facts dt",
+    "font": "12px",
+    "min": 5.15236637717769,
+    "samples": 182
+  },
+  {
+    "width": 1440,
+    "s": ".origin-skill-chips li",
+    "font": "14px",
+    "min": 9.920472034549395,
+    "samples": 250
+  },
+  {
+    "width": 1440,
+    "s": ".origin-more summary",
+    "font": "13px",
+    "min": 5.303399462206773,
+    "samples": 474
+  },
+  {
+    "width": 1440,
+    "s": ".choose-origin",
+    "font": "15px",
+    "min": 9.775628604259218,
+    "samples": 554
+  },
+  {
+    "width": 1440,
+    "s": ".origin-filter-feedback small",
+    "font": "12px",
+    "min": 5.024547967462809,
+    "samples": 354
+  },
+  {
+    "width": 1440,
+    "s": ".filter-applied-label",
+    "font": "21px",
+    "min": 7.8001147532136414,
+    "samples": 328
+  },
+  {
+    "width": 1440,
+    "s": ".filter-result-count",
+    "font": "13px",
+    "min": 3.430747800773873,
+    "samples": 547
+  },
+  {
+    "width": 1440,
+    "s": ".filter-feedback-actions button",
+    "font": "13px",
+    "min": 10.070781836017307,
+    "samples": 361
+  },
+  {
+    "width": 390,
+    "s": "#paperTitle",
+    "font": "34px",
+    "min": 10.687556432530899,
+    "samples": 2729
+  },
+  {
+    "width": 390,
+    "s": ".paper-intro",
+    "font": "16px",
+    "min": 5.275672432357614,
+    "samples": 924
+  },
+  {
+    "width": 390,
+    "s": "[data-interest=\"cuidar\"]",
+    "font": "12px",
+    "min": 5.37671923269691,
+    "samples": 159
+  },
+  {
+    "width": 390,
+    "s": "#originResults strong",
+    "font": "20px",
+    "min": 9.055475949535023,
+    "samples": 775
+  },
+  {
+    "width": 390,
+    "s": "#originDetailTitle",
+    "font": "30px",
+    "min": 10.257465824197384,
+    "samples": 1453
+  },
+  {
+    "width": 390,
+    "s": ".origin-example>span",
+    "font": "12px",
+    "min": 5.134467557022391,
+    "samples": 281
+  },
+  {
+    "width": 390,
+    "s": ".origin-example p",
+    "font": "19px",
+    "min": 8.71261735217593,
+    "samples": 2196
+  },
+  {
+    "width": 390,
+    "s": ".origin-facts dt",
+    "font": "12px",
+    "min": 5.126403611042395,
+    "samples": 170
+  },
+  {
+    "width": 390,
+    "s": ".origin-skill-chips li",
+    "font": "14px",
+    "min": 10.064822405768078,
+    "samples": 252
+  },
+  {
+    "width": 390,
+    "s": ".origin-more summary",
+    "font": "13px",
+    "min": 5.326660118620498,
+    "samples": 480
+  },
+  {
+    "width": 390,
+    "s": ".choose-origin",
+    "font": "15px",
+    "min": 9.775628604259218,
+    "samples": 570
+  },
+  {
+    "width": 390,
+    "s": ".origin-filter-feedback small",
+    "font": "12px",
+    "min": 5.016488673325028,
+    "samples": 327
+  },
+  {
+    "width": 390,
+    "s": ".filter-applied-label",
+    "font": "20px",
+    "min": 8.090314902098266,
+    "samples": 301
+  },
+  {
+    "width": 390,
+    "s": ".filter-result-count",
+    "font": "13px",
+    "min": 3.6140244301192426,
+    "samples": 549
+  },
+  {
+    "width": 390,
+    "s": ".filter-feedback-actions button",
+    "font": "13px",
+    "min": 5.86806116703065,
+    "samples": 364
+  }
+]
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert.ok(result.every(r=>r.samples>0&&r.min>=4.5))
+
+    at file:///workspace/scratch/contrast-paper-v17-complete.mjs:25:248 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

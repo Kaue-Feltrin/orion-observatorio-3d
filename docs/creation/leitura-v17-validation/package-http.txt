@@ -1,0 +1,1 @@
+OK: sequência tábuas → papel → escolhas; cena WebGL suspensa; desktop/mobile, escolha explícita, sem erros JS/HTTP/escritas remotas.
