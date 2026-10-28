@@ -1,5 +1,8 @@
 # Projeto Órion · Observatório da Constelação
 
+Revisão visual V21: texto diretamente sobre a cena, convites sem painéis, sigilos da roleta sem cortes e posições em cache. Imagens e qualidade preservadas. Evidências e limites em [LIMPEZA-RESULTS-V21.md](../docs/creation/LIMPEZA-RESULTS-V21.md). ZIP manual; sem deploy nesta revisão.
+
+
 Landing 3D do Observatório. Projeto independente do site principal Projeto Órion.
 
 ## Rodar no Windows

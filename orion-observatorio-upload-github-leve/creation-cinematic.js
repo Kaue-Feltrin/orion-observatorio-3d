@@ -41,7 +41,7 @@ export function createCreationArt({scene,camera,panel,reducedMotion=false,enviro
  const loader=new THREE.TextureLoader(),textures={},meshes={},rigs={};
  const root=new THREE.Group();root.name='CreationCinematicLayers';scene.add(root);
  const state={rigMode:'image-skinned-2.5D',joints:48,fieldLayers:0,bindingType:'knowledge-sigils',bindingLayers:SIGIL_ORBITS.length,ready:false,phase:'sealed',releaseProgress:0,selected:null,surfaces:0,fragments:0,particleCount:64,gestureFromMark:false};
- let introStart=null,start=null,resolveRelease=null,aim={x:0,y:0},lastLayout=0,hovered=null;
+ let introStart=null,start=null,resolveRelease=null,aim={x:0,y:0},needsLayout=true,hovered=null;
  const rects={};const origin=new THREE.Vector3(),ray=new THREE.Vector3(),q=new THREE.Quaternion();
  function rayPoint(x,y,z){ray.set(x/innerWidth*2-1,1-y/innerHeight*2,.5).unproject(camera).sub(origin).normalize();return origin.clone().addScaledVector(ray,(z-origin.z)/ray.z);}
  function place(mesh,rect,z,uv,time=0,breath=0){
@@ -77,12 +77,17 @@ export function createCreationArt({scene,camera,panel,reducedMotion=false,enviro
  function layout(){
   // Hit areas stay stationary and accessible. Only painted planes move subtly.
   for(const [name,selector]of [['baby','.baby-target'],['orbit','.sealed-being'],['menina','[data-gender="menina"] .soul-anchor'],['menino','[data-gender="menino"] .soul-anchor']])rects[name]=panel.querySelector(selector).getBoundingClientRect();
+  needsLayout=false;state.layoutPasses=(state.layoutPasses||0)+1;
  }
+ function invalidateLayout(){needsLayout=true;}
+ const layoutObserver=new ResizeObserver(invalidateLayout);
+ for(const element of panel.querySelectorAll('.baby-target,.sealed-being,.soul-anchor,.identity-form,.birth-stage'))layoutObserver.observe(element);
+ panel.addEventListener('scroll',invalidateLayout,true);window.addEventListener('resize',invalidateLayout);
  function update(now){
   if(!state.ready)return;
   for(const [name,mesh]of Object.entries(meshes)){const u=mesh.material.uniforms.uHover;u.value=THREE.MathUtils.lerp(u.value,hovered===name?1:0,reducedMotion?1:.15);}
   const time=now*.001;camera.updateWorldMatrix(true,false);camera.getWorldPosition(origin);camera.getWorldQuaternion(q);
-  if(now-lastLayout>80){layout();lastLayout=now;}
+  if(needsLayout)layout();
   const intro=reducedMotion?1:smooth(.5,2.1,(now-introStart)/1000);state.introProgress=intro;
   if(state.phase==='sealed')panel.querySelector('.baby-target').disabled=intro<1;
   const elapsed=start===null?0:(now-start)/1000;const release=sampleCreationRelease(elapsed,reducedMotion);
@@ -114,5 +119,5 @@ export function createCreationArt({scene,camera,panel,reducedMotion=false,enviro
   if(active&&release.complete&&resolveRelease){state.phase='identity';const done=resolveRelease;resolveRelease=null;done();}
  }
  function release(){if(start!==null)return Promise.resolve(false);state.phase='breaking';start=performance.now();return new Promise(resolve=>{resolveRelease=resolve});}
- return {ready,state,update,release,get meshes(){return meshes},rigs,bindings,hover(value){hovered=value},select(value){state.selected=value},point(value){aim=value},dispose(){scene.remove(root);bindings.dispose();for(const r of Object.values(rigs))r.dispose();pg.dispose();pm.dispose();for(const m of Object.values(meshes))m.material.dispose();for(const t of Object.values(textures))t.dispose();}};
+ return {ready,state,update,release,invalidateLayout,get meshes(){return meshes},rigs,bindings,hover(value){hovered=value},select(value){state.selected=value},point(value){aim=value},dispose(){layoutObserver.disconnect();panel.removeEventListener('scroll',invalidateLayout,true);window.removeEventListener('resize',invalidateLayout);scene.remove(root);bindings.dispose();for(const r of Object.values(rigs))r.dispose();pg.dispose();pm.dispose();for(const m of Object.values(meshes))m.material.dispose();for(const t of Object.values(textures))t.dispose();}};
 }

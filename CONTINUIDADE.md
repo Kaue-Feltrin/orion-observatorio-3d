@@ -1,3 +1,7 @@
+## 28/10/2026 — V21: texto sobre a cena e inscrição sem cortes
+
+- Removidos os fundos de blur atrás dos textos e os painéis de Despertar/Tornar Marcado; foco com linha única. Círculo da roleta dimensionado pela altura e largura disponíveis. Cache de âncoras por invalidação elimina polling; qualidade e imagens V20 preservadas. Experimento de shader único descartado após regressão em SwiftShader. Relatório: `docs/creation/LIMPEZA-RESULTS-V21.md`. Sem deploy ou alteração no Fichas; homologação Brave/1660 pendente.
+
 ## 28/10/2026 — V20: silhuetas simples das classes
 
 - Gravuras V19 substituídas por três sombras pretas, sem rosto/textura/figurino detalhado; arma, lanterna/bolsa e gesto de ritual identificam as classes. Alpha dos PNGs usado como máscara CSS uniforme. Seis cenários da roleta e captura real do pacote aprovados. Relatório: `docs/creation/SILHUETAS-RESULTS-V20.md`. Fluxo, regras e correções de fluidez preservados; sem produção/deploy. Aprovação artística e Brave/1660 pendentes.

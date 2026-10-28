@@ -1,0 +1,21 @@
+{
+  "base": "http://127.0.0.1:4302",
+  "viewports": [
+    {
+      "width": 829,
+      "height": 927
+    },
+    {
+      "width": 390,
+      "height": 844
+    },
+    {
+      "width": 320,
+      "height": 568
+    }
+  ],
+  "motion": "reduced for deterministic screenshots; default mesh hands enabled",
+  "errors": [],
+  "bad": [],
+  "writes": []
+}

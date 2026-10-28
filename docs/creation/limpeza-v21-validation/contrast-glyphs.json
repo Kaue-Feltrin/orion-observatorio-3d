@@ -1,0 +1,434 @@
+[
+  {
+    "viewport": {
+      "width": 829,
+      "height": 927
+    },
+    "phase": "birth",
+    "selector": ".blood-prologue",
+    "x": 257.5,
+    "y": 84,
+    "w": 313.984375,
+    "h": 53.75,
+    "color": "rgb(240, 224, 212)",
+    "font": "27px",
+    "samples": 1846,
+    "min": 13.619874744393837,
+    "p10": 14.436057877676967,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 829,
+      "height": 927
+    },
+    "phase": "birth",
+    "selector": ".interaction-cue",
+    "x": 367.546875,
+    "y": 681.1875,
+    "w": 93.90625,
+    "h": 44,
+    "color": "rgb(230, 201, 149)",
+    "font": "17px",
+    "samples": 315,
+    "min": 12.300352959710288,
+    "p10": 12.374707381473169,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 829,
+      "height": 927
+    },
+    "phase": "mark",
+    "selector": ".mark-title",
+    "x": 318.5,
+    "y": 795.859375,
+    "w": 192,
+    "h": 27.296875,
+    "color": "rgb(242, 228, 205)",
+    "font": "21px",
+    "samples": 740,
+    "min": 15.921102278404742,
+    "p10": 16.065162161074078,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 829,
+      "height": 927
+    },
+    "phase": "mark",
+    "selector": ".mark-hint",
+    "x": 318.5,
+    "y": 827.15625,
+    "w": 192,
+    "h": 15,
+    "color": "rgb(203, 187, 158)",
+    "font": "10px",
+    "samples": 433,
+    "min": 10.678368358398068,
+    "p10": 10.740862759720237,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 829,
+      "height": 927
+    },
+    "phase": "identity",
+    "selector": ".identity-title h1",
+    "x": 274.40625,
+    "y": 90,
+    "w": 280.171875,
+    "h": 31.1875,
+    "color": "rgb(243, 234, 223)",
+    "font": "26px",
+    "samples": 1510,
+    "min": 16.3146489906105,
+    "p10": 16.53128014070161,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 829,
+      "height": 927
+    },
+    "phase": "identity",
+    "selector": ".identity-title p",
+    "x": 274.40625,
+    "y": 131.1875,
+    "w": 280.171875,
+    "h": 21,
+    "color": "rgb(212, 203, 220)",
+    "font": "14px",
+    "samples": 1361,
+    "min": 12.282477109663624,
+    "p10": 12.530593377204584,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 829,
+      "height": 927
+    },
+    "phase": "identity",
+    "selector": ".child-choice>span",
+    "x": 137.765625,
+    "y": 620.359375,
+    "w": 132,
+    "h": 61.640625,
+    "color": "rgb(235, 222, 202)",
+    "font": "17px",
+    "samples": 270,
+    "min": 15.000907871147923,
+    "p10": 15.094145040853265,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 829,
+      "height": 927
+    },
+    "phase": "identity",
+    "selector": ".child-choice>span small",
+    "x": 151.765625,
+    "y": 656.609375,
+    "w": 104,
+    "h": 15.390625,
+    "color": "rgb(201, 188, 168)",
+    "font": "11px",
+    "samples": 303,
+    "min": 10.379287242824711,
+    "p10": 10.46213678471929,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 829,
+      "height": 927
+    },
+    "phase": "identity",
+    "selector": ".name-label",
+    "x": 182.5,
+    "y": 720,
+    "w": 372,
+    "h": 18,
+    "color": "rgb(219, 208, 223)",
+    "font": "12px",
+    "samples": 489,
+    "min": 12.24455719556788,
+    "p10": 12.501552060543167,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 829,
+      "height": 927
+    },
+    "phase": "identity",
+    "selector": "#herald-name",
+    "x": 182.5,
+    "y": 746,
+    "w": 372,
+    "h": 48,
+    "color": "rgb(212, 197, 216)",
+    "font": "24px",
+    "samples": 1029,
+    "min": 11.058752710497346,
+    "p10": 11.349719011237912,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 829,
+      "height": 927
+    },
+    "phase": "identity",
+    "selector": ".undefined-choice",
+    "x": 182.5,
+    "y": 799,
+    "w": 372,
+    "h": 44,
+    "color": "rgb(212, 203, 220)",
+    "font": "12px",
+    "samples": 463,
+    "min": 12.518485855529669,
+    "p10": 12.644488792904339,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 829,
+      "height": 927
+    },
+    "phase": "identity",
+    "selector": ".creation-status",
+    "x": 228.0625,
+    "y": 873,
+    "w": 372.875,
+    "h": 36,
+    "color": "rgb(208, 198, 216)",
+    "font": "12px",
+    "samples": 1442,
+    "min": 11.889616495418215,
+    "p10": 11.978074765019576,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "phase": "birth",
+    "selector": ".blood-prologue",
+    "x": 42.921875,
+    "y": 72,
+    "w": 304.140625,
+    "h": 51,
+    "color": "rgb(240, 224, 212)",
+    "font": "28px",
+    "samples": 1910,
+    "min": 13.712512810375534,
+    "p10": 14.533536691537723,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "phase": "birth",
+    "selector": ".interaction-cue",
+    "x": 148.046875,
+    "y": 536.734375,
+    "w": 93.90625,
+    "h": 44,
+    "color": "rgb(230, 201, 149)",
+    "font": "17px",
+    "samples": 329,
+    "min": 6.9363384691694,
+    "p10": 12.24791343873396,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "phase": "mark",
+    "selector": ".mark-title",
+    "x": 99,
+    "y": 716.859375,
+    "w": 192,
+    "h": 27.296875,
+    "color": "rgb(242, 228, 205)",
+    "font": "21px",
+    "samples": 772,
+    "min": 15.971689830119645,
+    "p10": 16.091838736754838,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "phase": "mark",
+    "selector": ".mark-hint",
+    "x": 99,
+    "y": 748.15625,
+    "w": 192,
+    "h": 15,
+    "color": "rgb(203, 187, 158)",
+    "font": "10px",
+    "samples": 436,
+    "min": 10.678368358398068,
+    "p10": 10.740862759720237,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "phase": "identity",
+    "selector": ".identity-title h1",
+    "x": 64.90625,
+    "y": 84,
+    "w": 260.171875,
+    "h": 31.1875,
+    "color": "rgb(243, 234, 223)",
+    "font": "26px",
+    "samples": 1522,
+    "min": 16.17959224391245,
+    "p10": 16.523496551983964,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "phase": "identity",
+    "selector": ".identity-title p",
+    "x": 64.90625,
+    "y": 125.1875,
+    "w": 260.171875,
+    "h": 19.5,
+    "color": "rgb(212, 203, 220)",
+    "font": "13px",
+    "samples": 1074,
+    "min": 12.348585541632536,
+    "p10": 12.530593377204584,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "phase": "identity",
+    "selector": ".child-choice>span",
+    "x": 42.5,
+    "y": 538.609375,
+    "w": 116,
+    "h": 58.390625,
+    "color": "rgb(235, 222, 202)",
+    "font": "16px",
+    "samples": 258,
+    "min": 14.921288188135561,
+    "p10": 15.087841057892517,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "phase": "identity",
+    "selector": ".child-choice>span small",
+    "x": 54.5,
+    "y": 572.609375,
+    "w": 92,
+    "h": 15.390625,
+    "color": "rgb(201, 188, 168)",
+    "font": "11px",
+    "samples": 292,
+    "min": 10.532269266513016,
+    "p10": 10.659822128397744,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "phase": "identity",
+    "selector": ".name-label",
+    "x": 28,
+    "y": 627,
+    "w": 258,
+    "h": 18,
+    "color": "rgb(219, 208, 223)",
+    "font": "12px",
+    "samples": 467,
+    "min": 12.642224886406986,
+    "p10": 12.848750880324976,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "phase": "identity",
+    "selector": "#herald-name",
+    "x": 28,
+    "y": 653,
+    "w": 258,
+    "h": 48,
+    "color": "rgb(212, 197, 216)",
+    "font": "22px",
+    "samples": 875,
+    "min": 11.096147085161489,
+    "p10": 11.283305519119649,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "phase": "identity",
+    "selector": ".undefined-choice",
+    "x": 28,
+    "y": 706,
+    "w": 258,
+    "h": 44,
+    "color": "rgb(212, 203, 220)",
+    "font": "12px",
+    "samples": 458,
+    "min": 12.098254404410708,
+    "p10": 12.334962296911177,
+    "below45": 0
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "phase": "identity",
+    "selector": ".creation-status",
+    "x": 16,
+    "y": 776,
+    "w": 358,
+    "h": 52,
+    "color": "rgb(208, 198, 216)",
+    "font": "12px",
+    "samples": 1449,
+    "min": 11.678393784280415,
+    "p10": 11.853812630233346,
+    "below45": 0
+  }
+]

@@ -80,5 +80,7 @@
     }
   ],
   "samplingRevision": 19,
-  "sigilAtlasSampling": "Índice interpolado quantizado por floor(vCell+.5) antes de mod/floor das coordenadas do atlas. Fonte, frase, 240 glifos, cinco órbitas, imagens e pulsação preservados."
+  "sigilAtlasSampling": "Índice interpolado quantizado por floor(vCell+.5) antes de mod/floor das coordenadas do atlas. Fonte, frase, 240 glifos, cinco órbitas, imagens e pulsação preservados.",
+  "renderRevision": 21,
+  "rendering": "Compositor de camadas V20 preservado. Experimento de shader único descartado após regressão medida em SwiftShader. Imagens e orçamento de pixels inalterados."
 }

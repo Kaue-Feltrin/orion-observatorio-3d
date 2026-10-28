@@ -1,0 +1,86 @@
+
+Running 2 tests using 1 worker
+
+(node:136731) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:136731) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/creation-clean-v21.spec.js:92:5 › todos os glifos cabem na roleta em quatro rotações 568 (9.7s)
+(node:136945) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:136945) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/creation-clean-v21.spec.js:92:5 › todos os glifos cabem na roleta em quatro rotações 640 (10.5s)
+
+
+  1) tests/creation-clean-v21.spec.js:92:5 › todos os glifos cabem na roleta em quatro rotações 568
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 0
+    Received:    -48.76879639625548
+
+      10 | for(const viewport of[{width:1440,height:1000},{width:829,height:927},{width:568,height:320},{width:640,height:900},{width:320,height:568}])test(`todos os glifos cabem na roleta em quatro rotações ${viewport.width}`,async({page})=>{
+      11 |  await page.setViewportSize(viewport);await birth(page);await identity(page);await page.getByLabel('Não definir gênero',{exact:true}).check();await page.locator('#herald-name').fill('Astra');await page.getByRole('button',{name:'Continuar com esta identidade'}).click();await expect(page.locator('html')).toHaveAttribute('data-paper-ready','1');await page.locator('[data-origin="ACADEMICO"]').click();await page.getByRole('button',{name:'Escolher esta origem'}).click();await page.locator('.origin-next').click();await expect(page.locator('.class-chapter')).toHaveAttribute('data-class-art','ready');
+    > 12 |  for(const angle of[0,45,90,180]){await page.locator('.roulette-inscription').evaluate((svg,angle)=>svg.style.transform=`translate(-50%,-50%) rotate(${angle}deg)`,angle);await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));const result=await page.locator('.roulette-inscription').evaluate(svg=>{const text=svg.querySelector('text'),m=svg.getScreenCTM(),box=svg.parentElement.getBoundingClientRect(),points=[];for(let i=0;i<text.getNumberOfChars();i++){const r=text.getExtentOfChar(i);if(!r.width||!r.height)continue;for(const [x,y]of[[r.x,r.y],[r.x+r.width,r.y],[r.x,r.y+r.height],[r.x+r.width,r.y+r.height]]){const p=new DOMPoint(x,y).matrixTransform(m);points.push(p);}}return{count:points.length,minX:Math.min(...points.map(p=>p.x-box.x)),maxX:Math.max(...points.map(p=>p.x-box.x)),minY:Math.min(...points.map(p=>p.y-box.y)),maxY:Math.max(...points.map(p=>p.y-box.y)),width:box.width,height:box.height};});expect(result.count).toBeGreaterThan(100);expect(result.minX).toBeGreaterThanOrEqual(0);expect(result.minY).toBeGreaterThanOrEqual(0);expect(result.maxX).toBeLessThanOrEqual(result.width);expect(result.maxY).toBeLessThanOrEqual(result.height);}
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ^
+      13 | });
+      14 |
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-clean-v21.spec.js:12:1058
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../orion-v21-midwidth-results/creation-clean-v21-todos-o-5ec1e-leta-em-quatro-rotações-568/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../orion-v21-midwidth-results/creation-clean-v21-todos-o-5ec1e-leta-em-quatro-rotações-568/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../orion-v21-midwidth-results/creation-clean-v21-todos-o-5ec1e-leta-em-quatro-rotações-568/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../orion-v21-midwidth-results/creation-clean-v21-todos-o-5ec1e-leta-em-quatro-rotações-568/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/creation-clean-v21.spec.js:92:5 › todos os glifos cabem na roleta em quatro rotações 640
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 0
+    Received:    -81.39936527252198
+
+      10 | for(const viewport of[{width:1440,height:1000},{width:829,height:927},{width:568,height:320},{width:640,height:900},{width:320,height:568}])test(`todos os glifos cabem na roleta em quatro rotações ${viewport.width}`,async({page})=>{
+      11 |  await page.setViewportSize(viewport);await birth(page);await identity(page);await page.getByLabel('Não definir gênero',{exact:true}).check();await page.locator('#herald-name').fill('Astra');await page.getByRole('button',{name:'Continuar com esta identidade'}).click();await expect(page.locator('html')).toHaveAttribute('data-paper-ready','1');await page.locator('[data-origin="ACADEMICO"]').click();await page.getByRole('button',{name:'Escolher esta origem'}).click();await page.locator('.origin-next').click();await expect(page.locator('.class-chapter')).toHaveAttribute('data-class-art','ready');
+    > 12 |  for(const angle of[0,45,90,180]){await page.locator('.roulette-inscription').evaluate((svg,angle)=>svg.style.transform=`translate(-50%,-50%) rotate(${angle}deg)`,angle);await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));const result=await page.locator('.roulette-inscription').evaluate(svg=>{const text=svg.querySelector('text'),m=svg.getScreenCTM(),box=svg.parentElement.getBoundingClientRect(),points=[];for(let i=0;i<text.getNumberOfChars();i++){const r=text.getExtentOfChar(i);if(!r.width||!r.height)continue;for(const [x,y]of[[r.x,r.y],[r.x+r.width,r.y],[r.x,r.y+r.height],[r.x+r.width,r.y+r.height]]){const p=new DOMPoint(x,y).matrixTransform(m);points.push(p);}}return{count:points.length,minX:Math.min(...points.map(p=>p.x-box.x)),maxX:Math.max(...points.map(p=>p.x-box.x)),minY:Math.min(...points.map(p=>p.y-box.y)),maxY:Math.max(...points.map(p=>p.y-box.y)),width:box.width,height:box.height};});expect(result.count).toBeGreaterThan(100);expect(result.minX).toBeGreaterThanOrEqual(0);expect(result.minY).toBeGreaterThanOrEqual(0);expect(result.maxX).toBeLessThanOrEqual(result.width);expect(result.maxY).toBeLessThanOrEqual(result.height);}
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ^
+      13 | });
+      14 |
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-clean-v21.spec.js:12:1058
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../orion-v21-midwidth-results/creation-clean-v21-todos-o-46429-leta-em-quatro-rotações-640/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../orion-v21-midwidth-results/creation-clean-v21-todos-o-46429-leta-em-quatro-rotações-640/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../orion-v21-midwidth-results/creation-clean-v21-todos-o-46429-leta-em-quatro-rotações-640/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../orion-v21-midwidth-results/creation-clean-v21-todos-o-46429-leta-em-quatro-rotações-640/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/creation-clean-v21.spec.js:92:5 › todos os glifos cabem na roleta em quatro rotações 568 ─
+    tests/creation-clean-v21.spec.js:92:5 › todos os glifos cabem na roleta em quatro rotações 640 ─
+
+To open last HTML report run:
+
+  npx playwright show-report
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

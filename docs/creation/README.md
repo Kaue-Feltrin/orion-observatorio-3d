@@ -1,4 +1,6 @@
-> Revisão atual: [V20 — Silhuetas simples](SILHUETAS-RESULTS-V20.md). Sombras pretas de pessoas contemporâneas, identificadas pela postura/objetos. Sem gravuras ou desenho interno; roleta, regras e correções de fluidez preservadas.
+> Revisão atual: [V21 — Texto, sigilos e layout](LIMPEZA-RESULTS-V21.md). Fundos de blur removidos, convite sem painel e inscrição inteira na roleta. Cache de âncoras sem redução de imagens/resolução; experimento de compositor descartado por regressão medida.
+
+> Histórico V20: [V20 — Silhuetas simples](SILHUETAS-RESULTS-V20.md). Sombras pretas de pessoas contemporâneas, identificadas pela postura/objetos. Sem gravuras ou desenho interno; roleta, regras e correções de fluidez preservadas.
 
 > Histórico V19: [V19 — Gravura, movimento e fluidez](IDENTIDADE-RESULTS-V19.md). Três artes independentes, reação visual, ajuste de pixels corrigido na criação, controle de qualidade e proteção numérica do atlas. Evidências locais; Brave/GTX 1660 e aprovação artística pendentes.
 

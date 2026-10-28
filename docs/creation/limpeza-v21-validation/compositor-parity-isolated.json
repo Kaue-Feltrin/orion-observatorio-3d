@@ -1,0 +1,19 @@
+{
+  "method": "Same 1440x900 canvas, manual balanced, reduced motion, no hands, hover neutral. Only non-deterministic point objects hidden in BOTH scenes for the pixel comparison. Original source textures unchanged.",
+  "results": [
+    {
+      "phase": "birth",
+      "max": 2,
+      "mean": 0.1005354938271605,
+      "fractionAbove2": 0,
+      "channels": 3888000
+    },
+    {
+      "phase": "identity",
+      "max": 1,
+      "mean": 0.0593207304526749,
+      "fractionAbove2": 0,
+      "channels": 3888000
+    }
+  ]
+}

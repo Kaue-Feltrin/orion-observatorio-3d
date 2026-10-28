@@ -1,5 +1,5 @@
 {
-  "version": 20,
+  "version": 21,
   "material": {
     "file": "walnut-v15.png",
     "width": 1536,
@@ -95,11 +95,14 @@
     },
     "values": "Bases da classe antes de atributos, origem e outras escolhas. Perícias livres: 1/7/3 + INT. Apenas referência, sem concessão mecânica.",
     "examples": "Três exemplos fictícios escritos para esta interface; não são requisitos nem transcrições dos livros.",
-    "motion": "Roleta 2.5D; silhuetas com movimentos discretos por função, resposta de 2,5px ao apontar e entrada escalonada do texto. Inscrição usa a fonte real de conhecimento fornecida. Sem rig de ossos; movimento reduzido respeitado."
+    "motion": "Roleta 2.5D; silhuetas com movimentos discretos por função, resposta de 2,5px ao apontar e entrada escalonada do texto. Inscrição usa a fonte real de conhecimento fornecida. Sem rig de ossos; movimento reduzido respeitado.",
+    "inscriptionLayout": "Diâmetro limitado pela altura e largura da órbita; glifos completos nas quatro rotações verificadas. Arte V20 preservada."
   },
   "performance": {
     "pixelBudget": "Mesmo teto por perfil para Observatório e criação; fallback agora reduz pixels também na criação.",
     "controls": "Automático / Mais fluidez / Mais detalhe; preferência local, URL tem prioridade; diagnóstico de renderizador e FPS da aba sob ação do usuário, sem envio de dados.",
-    "creationAntialias": "MSAA não é imposto à criação nos perfis normais; antialias do contexto só é definido na inicialização."
+    "creationAntialias": "MSAA não é imposto à criação nos perfis normais; antialias do contexto só é definido na inicialização.",
+    "layout": "Âncoras de arte medidas por invalidação (ResizeObserver, resize, scroll e alterações de estado), em vez de polling a cada 80 ms.",
+    "textOverlays": "Fundos de blur atrás dos textos removidos; seleção e foco usam linha única, sem painéis."
   }
 }

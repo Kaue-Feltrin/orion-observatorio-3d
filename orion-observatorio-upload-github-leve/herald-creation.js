@@ -14,7 +14,7 @@ export function createHeraldCreation(root,{hands,reducedMotion=false,scene,camer
  <div class="creation-stage">
   <section class="birth-stage" aria-label="O despertar">
    <h1 class="blood-prologue">Tudo começa pelo sangue.</h1>
-   <div class="sealed-being"><button class="baby-target" type="button" data-creation-point aria-label="Contemplar a silhueta etérea" aria-controls="markBeing" aria-expanded="false"><span class="sr-only">Acorrentado pela realidade: uma silhueta cercada por sigilos de conhecimento</span><span class="interaction-cue" aria-hidden="true">Clique para despertar</span></button></div>
+   <div class="sealed-being"><button class="baby-target" type="button" data-creation-point aria-label="Contemplar a silhueta etérea" aria-controls="markBeing" aria-expanded="false"><span class="sr-only">Acorrentado pela realidade: uma silhueta cercada por sigilos de conhecimento</span><span class="interaction-cue" aria-hidden="true">Despertar</span></button></div>
    <div class="mark-slot"><button class="mark-being" id="markBeing" aria-label="Tornar Marcado" type="button" hidden disabled><span class="mark-sigil" aria-hidden="true">✧</span><span class="mark-title">Tornar Marcado</span><span class="mark-hint">Romper o vínculo</span></button></div>
   </section>
   <form id="identityForm" class="identity-form" hidden>
@@ -26,9 +26,8 @@ export function createHeraldCreation(root,{hands,reducedMotion=false,scene,camer
    </div>
   </form>
  </div>
- <p id="creationStatus" class="creation-status" role="status" aria-live="polite">Tudo começa pelo sangue.</p>`;
+ <p id="creationStatus" class="creation-status" role="status" aria-live="polite"></p>`;
  root.append(panel);
- if(root.dataset.input==='touch')panel.querySelector('.interaction-cue').textContent='Toque para despertar';
  const back=observatoryURL(location.href);back.searchParams.set('stars','0');panel.querySelector('.creation-back').href=back.href;
  const baby=panel.querySelector('.baby-target'),mark=panel.querySelector('#markBeing');
  const being=panel.querySelector('.sealed-being'),form=panel.querySelector('form');
@@ -36,7 +35,7 @@ export function createHeraldCreation(root,{hands,reducedMotion=false,scene,camer
  const next=panel.querySelector('.creation-next'),status=panel.querySelector('#creationStatus');
  const art=createCreationArt({scene,camera,panel,reducedMotion,environment});
  baby.disabled=true;
- art.ready.then(()=>{root.dataset.creationArt='ready';baby.disabled=false;mark.disabled=false;status.textContent='Clique na silhueta para despertar.';}).catch(()=>{root.dataset.creationArt='error';status.textContent='Não foi possível carregar a cena. Recarregue a página.';});
+ art.ready.then(()=>{root.dataset.creationArt='ready';baby.disabled=false;mark.disabled=false;status.textContent='';}).catch(()=>{root.dataset.creationArt='error';status.textContent='Não foi possível carregar a cena. Recarregue a página.';});
  if(new URLSearchParams(location.search).has('debug'))window.__orionCreationDebug=art;
  function sync(){
    panel.dataset.phase=state.phase;root.dataset.creationPhase=state.phase;
@@ -47,7 +46,7 @@ export function createHeraldCreation(root,{hands,reducedMotion=false,scene,camer
    panel.querySelector('.blood-prologue').setAttribute('aria-hidden',String(state.phase==='identity'));
    for(const b of panel.querySelectorAll('[data-gender]')){b.setAttribute('aria-pressed',String(b.dataset.gender===state.gender));b.querySelector('small').textContent=b.dataset.gender===state.gender?'✓ Selecionado':'Selecionar';}
    undefinedGender.checked=state.gender==='nao-definir';
-   next.hidden=state.gender===null;next.disabled=!canContinue(state)||state.continued;
+   next.hidden=state.gender===null;next.disabled=!canContinue(state)||state.continued;art.invalidateLayout();
  }
  function gesture(){gestureStart=performance.now();hands.setStarHovered?.(true);}
  function update(now){

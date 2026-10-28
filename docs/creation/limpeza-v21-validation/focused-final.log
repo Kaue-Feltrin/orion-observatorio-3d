@@ -1,0 +1,33 @@
+
+Running 14 tests using 1 worker
+
+(node:137333) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:137333) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/class-carousel.spec.js:41:1 › roleta explora as três classes; só confirmar grava e retorno preserva identidade/origem/classe (18.5s)
+  ✓   2 tests/class-carousel.spec.js:116:1 › giro animado não confirma classe e sair durante o giro cancela sem erro (19.3s)
+  ✓   3 tests/class-carousel.spec.js:160:3 › roleta móvel 390x844: deslize, explicação e confirmação acessíveis (8.5s)
+  ✓   4 tests/class-carousel.spec.js:160:3 › roleta móvel 320x568: deslize, explicação e confirmação acessíveis (4.9s)
+  ✓   5 tests/class-carousel.spec.js:160:3 › roleta móvel 568x320: deslize, explicação e confirmação acessíveis (5.7s)
+  ✓   6 tests/class-carousel.spec.js:220:1 › armazenamento recusado mantém origem e não anuncia confirmação de classe (5.6s)
+  ✓   7 tests/creation-clean-v21.spec.js:24:5 › texto direto sobre a cena e convite sem caixa 829 (3.5s)
+  ✓   8 tests/creation-clean-v21.spec.js:24:5 › texto direto sobre a cena e convite sem caixa 390 (2.4s)
+  ✓   9 tests/creation-clean-v21.spec.js:50:1 › geometria é lida ao mudar o layout; repouso não repete medições e scroll mantém o corpo alinhado (3.9s)
+  ✓  10 tests/creation-clean-v21.spec.js:92:5 › todos os glifos cabem na roleta em quatro rotações 1440 (8.1s)
+  ✓  11 tests/creation-clean-v21.spec.js:92:5 › todos os glifos cabem na roleta em quatro rotações 829 (5.7s)
+  ✓  12 tests/creation-clean-v21.spec.js:92:5 › todos os glifos cabem na roleta em quatro rotações 568 (3.6s)
+  ✓  13 tests/creation-clean-v21.spec.js:92:5 › todos os glifos cabem na roleta em quatro rotações 640 (4.9s)
+  ✓  14 tests/creation-clean-v21.spec.js:92:5 › todos os glifos cabem na roleta em quatro rotações 320 (3.8s)
+
+  14 passed (1.7m)
+
+To open last HTML report run:
+
+  npx playwright show-report
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

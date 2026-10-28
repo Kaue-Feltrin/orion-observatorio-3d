@@ -1,0 +1,53 @@
+
+Running 34 tests using 1 worker
+
+(node:134550) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:134550) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/class-carousel.spec.js:41:1 › roleta explora as três classes; só confirmar grava e retorno preserva identidade/origem/classe (10.6s)
+  ✓   2 tests/class-carousel.spec.js:116:1 › giro animado não confirma classe e sair durante o giro cancela sem erro (14.7s)
+  ✓   3 tests/class-carousel.spec.js:160:3 › roleta móvel 390x844: deslize, explicação e confirmação acessíveis (7.1s)
+  ✓   4 tests/class-carousel.spec.js:160:3 › roleta móvel 320x568: deslize, explicação e confirmação acessíveis (8.6s)
+  ✓   5 tests/class-carousel.spec.js:160:3 › roleta móvel 568x320: deslize, explicação e confirmação acessíveis (8.0s)
+  ✓   6 tests/class-carousel.spec.js:220:1 › armazenamento recusado mantém origem e não anuncia confirmação de classe (7.8s)
+  ✓   7 tests/creation-atmosphere-v14.spec.js:2:1 › identidade retira os vermelhos e não desenha caixas no foco (8.2s)
+  ✓   8 tests/creation-cinematic.spec.js:10:1 › camadas carregam com alpha, céu exclusivo e paralaxe reversível (9.0s)
+  ✓   9 tests/creation-cinematic.spec.js:70:1 › Tornar Marcado inicia VFX sem gesto e transforma o sangue em vazio cinza (8.8s)
+  ✓  10 tests/creation-cinematic.spec.js:112:1 › céu original do Observatório continua separado da nova criação (5.2s)
+  ✓  11 tests/creation-cinematic.spec.js:122:1 › a chegada aguarda a fonte real sem exibir alfabeto de fallback (6.9s)
+  ✓  12 tests/creation-cinematic.spec.js:141:1 › corpo opaco oculta os sigilos traseiros também com bloom ativo (10.7s)
+  ✓  13 tests/creation-cinematic.spec.js:177:1 › as quatro camadas transparentes mantêm proporção e identidade ao girar (9.8s)
+  ✓  14 tests/creation-clean-v21.spec.js:24:5 › texto direto sobre a cena e convite sem caixa 829 (5.5s)
+  ✓  15 tests/creation-clean-v21.spec.js:24:5 › texto direto sobre a cena e convite sem caixa 390 (4.5s)
+  ✓  16 tests/creation-clean-v21.spec.js:50:1 › geometria é lida ao mudar o layout; repouso não repete medições e scroll mantém o corpo alinhado (6.3s)
+  ✓  17 tests/creation-clean-v21.spec.js:86:5 › todos os glifos cabem na roleta em quatro rotações 1440 (14.3s)
+  ✓  18 tests/creation-clean-v21.spec.js:86:5 › todos os glifos cabem na roleta em quatro rotações 829 (12.1s)
+  ✓  19 tests/creation-clean-v21.spec.js:86:5 › todos os glifos cabem na roleta em quatro rotações 320 (3.4s)
+  ✓  20 tests/creation-interactions.spec.js:3:3 › voltar por clique na etapa feto (5.7s)
+  ✓  21 tests/creation-interactions.spec.js:3:3 › voltar por clique na etapa identidade (10.3s)
+  ✓  22 tests/creation-interactions.spec.js:3:3 › voltar por toque na etapa feto (3.8s)
+  ✓  23 tests/creation-interactions.spec.js:3:3 › voltar por toque na etapa identidade (8.4s)
+  ✓  24 tests/creation-interactions.spec.js:50:1 › convites visíveis, destaque ao apontar e confirmação da escolha (12.5s)
+  ✓  25 tests/creation-interactions.spec.js:85:1 › retrato compacto separa os botões de seleção do campo de nome (6.8s)
+  ✓  26 tests/creation-loading.spec.js:2:1 › o carregamento cobre a cena parcial até fundo e mãos estarem prontos (9.7s)
+  ✓  27 tests/creation-loading.spec.js:30:1 › só as camadas vermelhas pulsam e o movimento para na identidade (7.8s)
+  ✓  28 tests/creation-loading.spec.js:51:1 › movimento reduzido mantém as duas massas vermelhas estáticas (3.3s)
+  ✓  29 tests/creation-loading.spec.js:61:1 › toque mantém saturação animada quando o usuário não pediu movimento reduzido (3.0s)
+  ✓  30 tests/creation-reflow.spec.js:18:3 › formulário 1440x900: controles separados e toque correto após reflow (7.0s)
+  ✓  31 tests/creation-reflow.spec.js:18:3 › formulário 390x430: controles separados e toque correto após reflow (4.1s)
+  ✓  32 tests/creation-reflow.spec.js:18:3 › formulário 568x320: controles separados e toque correto após reflow (4.3s)
+  ✓  33 tests/creation-reflow.spec.js:18:3 › formulário 320x568: controles separados e toque correto após reflow (4.1s)
+  ✓  34 tests/creation-reflow.spec.js:18:3 › formulário 320x256: controles separados e toque correto após reflow (2.8s)
+
+  34 passed (4.3m)
+
+To open last HTML report run:
+
+  npx playwright show-report
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
