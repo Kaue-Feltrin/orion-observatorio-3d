@@ -1,3 +1,7 @@
+## 28/10/2026 — V11: piso de saturação e brilho
+
+- Saturação mínima 30%, brilho de saída dos vermelhos 75%, mantendo ciclo sincronizado e expansão 0–2%. Inspetor e pacotes atualizados. Resultados: `docs/creation/COR-RESULTS-V11.md`. Sem deploy/produção.
+
 ## 28/10/2026 — V10: saturação sincronizada
 
 - Vermelhos compartilham ciclo 0–100–0% de saturação e expansão até 2%, sem variar alpha/brilho. Inspetor atualizado. Corrigido preset que congelava a pulsação no toque sem preferência de movimento reduzido. Resultados: `docs/creation/SATURACAO-RESULTS-V10.md`. Sem deploy/produção.

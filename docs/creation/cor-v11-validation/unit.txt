@@ -1,0 +1,11 @@
+OK: normalized motion cycle 0/1/0, smooth and periodic over 4.8s.
+OK: red saturation stays at 30–100%; output brightness 75%.
+✔ tests/creation-environment.unit.mjs (82.780972ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 92.394718

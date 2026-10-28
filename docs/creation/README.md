@@ -1,4 +1,6 @@
-> Revisão visual atual: [V10 — Saturação sincronizada](SATURACAO-RESULTS-V10.md). Saturação 0–100–0%, escala até 1,02 e correção da pulsação em toque.
+> Revisão visual atual: [V11 — Vermelho preservado e brilho menor](COR-RESULTS-V11.md). Saturação 30–100% e brilho 75%; sincronismo e expansão preservados.
+
+> Histórico V10: [V10 — Saturação sincronizada](SATURACAO-RESULTS-V10.md). Saturação 0–100–0%, escala até 1,02 e correção da pulsação em toque.
 
 > Histórico V9: [V9 — Cinco camadas e atmosfera pulsante](CAMADAS-RESULTS-V9.md). Base preta, quatro PNGs transparentes distintos, carregamento próprio e silhuetas jovens.
 
