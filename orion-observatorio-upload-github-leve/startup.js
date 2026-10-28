@@ -6,7 +6,7 @@ const retry = document.getElementById('retryScene');
 let failed = false;
 retry.addEventListener('click', () => location.reload());
 function fail(message) {
-  if (failed || document.documentElement.dataset.sceneReady === '1') return;
+  if (failed || document.documentElement.dataset.presentationReady === '1') return;
   failed = true;
   const value = String(message || 'Erro inesperado no módulo 3D.');
   detail.textContent = value.length > 420 ? value.slice(0, 420) + '…' : value;
@@ -16,11 +16,11 @@ function fail(message) {
   console.error('[Observatório 3D]', value);
 }
 window.addEventListener('error', event => {
-  if (!failed && document.documentElement.dataset.sceneReady !== '1')
+  if (!failed && document.documentElement.dataset.presentationReady !== '1')
     fail(event.error?.message || event.message || 'Erro inesperado ao iniciar');
 });
 window.addEventListener('unhandledrejection', event => {
-  if (!failed && document.documentElement.dataset.sceneReady !== '1')
+  if (!failed && document.documentElement.dataset.presentationReady !== '1')
     fail(event.reason?.message || String(event.reason) || 'Falha ao importar módulo 3D');
 });
 try {

@@ -1,4 +1,6 @@
-> Revisão visual atual: [V8 — Voltar, brilho e interação](INTERACOES-RESULTS-V8.md). Quatro componentes de fundo com máscaras distintas, paralaxe suave, dourado e convites visíveis.
+> Revisão visual atual: [V9 — Cinco camadas e atmosfera pulsante](CAMADAS-RESULTS-V9.md). Base preta, quatro PNGs transparentes distintos, carregamento próprio e silhuetas jovens.
+
+> Histórico V8: [V8 — Voltar, brilho e interação](INTERACOES-RESULTS-V8.md). Quatro componentes de fundo com máscaras distintas, paralaxe suave, dourado e convites visíveis.
 
 > Histórico V7: [V7 — Corpo opaco, cinco faixas e novas silhuetas](SIGILOS-RESULTS-V7.md). Fundo com composição própria para retrato e resolução automática revisada na criação.
 

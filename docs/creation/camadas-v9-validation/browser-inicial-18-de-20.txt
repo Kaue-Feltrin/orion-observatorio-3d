@@ -1,0 +1,103 @@
+
+Running 20 tests using 1 worker
+
+(node:50029) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50029) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/creation-cinematic.spec.js:10:1 › camadas carregam com alpha, céu exclusivo e paralaxe reversível (13.9s)
+  ✓   2 tests/creation-cinematic.spec.js:70:1 › Tornar Marcado inicia VFX sem gesto e transforma o sangue em vazio cinza (10.6s)
+  ✓   3 tests/creation-cinematic.spec.js:112:1 › céu original do Observatório continua separado da nova criação (3.6s)
+  ✓   4 tests/creation-cinematic.spec.js:122:1 › a chegada aguarda a fonte real sem exibir alfabeto de fallback (3.5s)
+  ✓   5 tests/creation-cinematic.spec.js:141:1 › corpo opaco oculta os sigilos traseiros também com bloom ativo (7.5s)
+  ✓   6 tests/creation-cinematic.spec.js:177:1 › as quatro camadas transparentes mantêm proporção e identidade ao girar (7.8s)
+  ✓   7 tests/creation-interactions.spec.js:3:3 › voltar por clique na etapa feto (6.7s)
+  ✓   8 tests/creation-interactions.spec.js:3:3 › voltar por clique na etapa identidade (12.9s)
+Internal error: step id not found: fixture@31
+  ✘   9 tests/creation-interactions.spec.js:3:3 › voltar por toque na etapa feto (2.3s)
+(node:50692) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50692) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 tests/creation-interactions.spec.js:3:3 › voltar por toque na etapa identidade (9.5s)
+  ✓  11 tests/creation-interactions.spec.js:49:1 › convites visíveis, destaque ao apontar e confirmação da escolha (15.8s)
+  ✓  12 tests/creation-interactions.spec.js:83:1 › retrato compacto separa os botões de seleção do campo de nome (8.4s)
+  ✓  13 tests/creation-loading.spec.js:2:1 › o carregamento cobre a cena parcial até fundo e mãos estarem prontos (9.3s)
+  ✓  14 tests/creation-loading.spec.js:30:1 › só as camadas vermelhas pulsam e o movimento para na identidade (10.0s)
+  ✓  15 tests/creation-loading.spec.js:50:1 › movimento reduzido mantém as duas massas vermelhas estáticas (6.6s)
+  ✓  16 tests/herald-creation.spec.js:20:1 › conta vazia tem estrela central e atravessa o mesmo véu até o bebê selado (15.1s)
+  ✓  17 tests/herald-creation.spec.js:47:1 › ruptura completa, gênero exclusivo, nome e continuação sem gravação remota (14.6s)
+  ✓  18 tests/herald-creation.spec.js:102:1 › teclado e movimento reduzido completam ruptura e não definir gênero (6.1s)
+  ✘  19 tests/herald-creation.spec.js:144:3 › toque 390x844: alvo, escolhas e seta dentro da tela (17.0s)
+(node:52257) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:52257) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  20 tests/herald-creation.spec.js:144:3 › toque 844x390: alvo, escolhas e seta dentro da tela (21.4s)
+
+
+  1) tests/creation-interactions.spec.js:3:3 › voltar por toque na etapa feto ──────────────────────
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mtrue[39m
+    Received: [31mfalse[39m
+
+       5 |  try{await page.goto('http://127.0.0.1:4173/criacao.html?stars=0&quality=eco&debug=1');await expect(page.locator('#observatory')).toHaveAttribute('data-creation-art','ready');await page.evaluate(()=>document.getElementById('debug').hidden=true);
+       6 |  if(identity){await page.getByRole('button',{name:'Contemplar a silhueta etérea'}).click();await page.getByRole('button',{name:'Tornar Marcado',exact:true}).click();await expect(page.locator('#observatory')).toHaveAttribute('data-creation-phase','identity');}
+    >  7 |  const back=page.getByRole('link',{name:'Voltar ao observatório'});expect(await back.evaluate(e=>{const r=e.getBoundingClientRect();return e.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2))})).toBe(true);
+         |                                                                                                                                                                                                                   ^
+       8 |  if(mobile)await back.tap();else await back.click();await expect(page).toHaveURL(/index\.html\?.*stars=0/);await expect(page.getByRole('button',{name:'Criar meu primeiro arauto'})).toBeVisible();
+       9 |  }finally{await context.close()}
+      10 |  });
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-interactions.spec.js:7:211
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/creation-interactions-voltar-por-toque-na-etapa-feto/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/creation-interactions-voltar-por-toque-na-etapa-feto/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/creation-interactions-voltar-por-toque-na-etapa-feto/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/herald-creation.spec.js:144:3 › toque 390x844: alvo, escolhas e seta dentro da tela ─────
+
+    Error: apiRequestContext._wrapApiCall: ENOENT: no such file or directory, open '/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/.playwright-artifacts-1/traces/69a53dacb89d94201ad5-002d091924e2ec96ddce-recording9.trace'
+
+      82 |    await page.getByRole('button',{name:'Continuar com esta identidade'}).tap();
+      83 |    expect(await page.evaluate(()=>JSON.parse(sessionStorage.getItem('orion-herald-creation-v1')).name)).toBe('Luna');
+    > 84 |   }finally{await context.close()}
+         |                          ^
+      85 |  });
+      86 | }
+      87 |
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/herald-creation.spec.js:84:26
+
+    Error: ENOENT: no such file or directory, open '/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/.playwright-artifacts-1/485199e471a8079864ad84d112e2f217.zip'
+
+    [31mTest timeout of 25000ms exceeded.[39m
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/herald-creation-toque-390x-9832d-olhas-e-seta-dentro-da-tela/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/herald-creation-toque-390x-9832d-olhas-e-seta-dentro-da-tela/error-context.md
+
+  2 failed
+    tests/creation-interactions.spec.js:3:3 › voltar por toque na etapa feto ───────────────────────
+    tests/herald-creation.spec.js:144:3 › toque 390x844: alvo, escolhas e seta dentro da tela ──────
+  18 passed (3.9m)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

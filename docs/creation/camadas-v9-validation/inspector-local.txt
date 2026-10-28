@@ -1,0 +1,1 @@
+OK: cinco arquivos locais carregam; ligar/desligar e pulsação funcionam sem erros.

@@ -951,11 +951,17 @@ if(creationPage){
  for(const entry of heralds){entry.group.visible=false;entry.target.hidden=true;entry.target.inert=true;}
  creation=createHeraldCreation(root,{hands:firstPersonHands,reducedMotion:reduceMotion,scene,camera,environment:nebulaVolume});
  if(debugEnabled)window.__orionCreationEnvironment={state:nebulaVolume.state,layers:nebulaVolume.layers,photo:mainCloud};
- creation.ready.then(()=>revealPage()).catch(()=>revealPage());
+
 }
 requestAnimationFrame(tick);
 document.documentElement.dataset.sceneReady='1';
-loading.classList.add('done');
+const imageReady=new Promise((resolve,reject)=>{const image=new Image();image.onload=resolve;image.onerror=()=>reject(new Error('Não foi possível carregar o fundo.'));image.src=creationPage?creationNebulaURL():'/assets/nebula-eso-photographic.jpg';});
+Promise.all([imageReady,firstPersonHands.ready,creation?.ready]).then(async()=>{
+ if(firstPersonHands.state.loadError)throw new Error(firstPersonHands.state.loadError);
+ await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+ document.documentElement.dataset.presentationReady='1';loading.classList.add('done');
+ if(creationPage)await revealPage();
+}).catch(error=>{document.documentElement.dataset.sceneError=error.message;document.getElementById('loadErrorText').textContent=error.message;document.getElementById('loadIssue').hidden=false;loading.hidden=true;});
 
 // Catch texture loading errors without hiding the fact that WebGL is active.
 // Press D or use ?debug=1 to compare stronger camera perspective values.

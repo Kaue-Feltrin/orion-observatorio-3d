@@ -1,3 +1,7 @@
+## 28/10/2026 — V9: cinco camadas, pulsação e carregamento
+
+- Base preta + duas névoas cinzas e duas vermelhas, arquivos diferentes com alpha. Pulsação lenta apenas nos vermelhos, estática na identidade/movimento reduzido. Silhuetas jovens distintas e novo marco de apresentação após recursos prontos. Inspetor `camadas.html`, ZIP só de camadas e site completo para upload manual. Resultados: `docs/creation/CAMADAS-RESULTS-V9.md`. Sem deploy/produção.
+
 ## 28/10/2026 — V8: interação e profundidade
 
 - Corrigida interceptação da seta por `.creation-stage`. Dourado emissivo, contorno nas formas e convites de clique/toque. Fundo em componentes mascarados e névoa própria, com menor amplitude/resposta de paralaxe apenas na criação. Layout compacto ajustado após captura. Resultados: `docs/creation/INTERACOES-RESULTS-V8.md`. ZIP manual, sem Cloudflare/produção. Avaliação visual pendente.

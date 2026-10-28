@@ -1,0 +1,204 @@
+
+> orion-observatorio-3d@0.8.0-cloudflare check
+> node --check main.js && node --check vite.config.js && node tests/structure.mjs
+
+OK: arquivos, PNGs, Vite multipágina e Three.js local verificados.
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: mouse responde rapidamente
+    at file:///workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/structure.mjs:101:8 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: '// Projeto Órion · Observatório em pipeline Vite / Cloudflare Pages.\n' +
+    '// Three.js é importado como dependência local e empacotado pelo Vite.\n' +
+    'import * as THREE from "three";\n' +
+    "import { createCosmicAtmosphere } from './cosmic-atmosphere.js';\n" +
+    "import { createSelectiveBloom } from './selective-bloom.js';\n" +
+    "import { createDistantSky } from './distant-sky.js';\n" +
+    "import { createStarJourney } from './star-journey.js';\n" +
+    "import { createStarSelection } from './star-selection.js';\n" +
+    "import { createCinematicStarSpikes } from './cinematic-star.js';\n" +
+    "import { createNebulaVolume } from './nebula-volume.js';\n" +
+    "import { createPerformancePanel } from './performance-panel.js';\n" +
+    "import { createFirstPersonHands } from './first-person-hands.js';\n" +
+    "import { createFirstPersonHands3D } from './first-person-hands-3d.js';\n" +
+    "import { createRiggedFirstPersonHands } from './first-person-hands-rig.js';\n" +
+    "import { createVrFirstPersonHands } from './first-person-hands-vr.js';\n" +
+    "import { createFpsFirstPersonHands } from './first-person-hands-fps.js';\n" +
+    "import { createEtherealHandsOverlay } from './first-person-hands-overlay.js';\n" +
+    "import { createEtherealHandsMesh } from './first-person-hands-mesh.js';\n" +
+    "import { getHeralds, getHeraldLayout, arrivalURL } from './herald-catalog.js';\n" +
+    "import { createPageTransition, revealPage } from './page-transition.js';\n" +
+    "import { createHeraldCreation } from './herald-creation.js';\n" +
+    "import { createCreationNebula, creationNebulaURL, CREATION_ART } from './creation-cinematic.js';\n" +
+    "import { createTouchNavigation } from './touch-navigation.js';\n" +
+    "import { createMobileConstellation, mobileHeraldLayout } from './mobile-constellation.js';\n" +
+    '\n' +
+    "const root = document.getElementById('observatory');\n" +
+    "const creationPage=document.body.dataset.page==='creation';\n" +
+    'let creation=null;\n' +
+    "const container = document.getElementById('world');\n" +
+    "let target = document.getElementById('heraldTarget');\n" +
+    "const card = document.getElementById('heraldCard');\n" +
+    "const hint = document.getElementById('hint');\n" +
+    "const notice = document.getElementById('notice');\n" +
+    "const loading = document.getElementById('loading');\n" +
+    "const flash = document.getElementById('arrivalFlash');\n" +
+    "const debug = document.getElementById('debug');\n" +
+    "const depthInput = document.getElementById('depth');\n" +
+    "const depthValue = document.getElementById('depthValue');\n" +
+    "const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;\n" +
+    "const mobile = matchMedia('(pointer: coarse)').matches;\n" +
+    "root.dataset.input=mobile?'touch':'pointer';\n" +
+    "const idleHint=mobile?'Toque na estrela para conhecer':'Concentre seu olhar sobre uma estrela';\n" +
+    'hint.textContent=idleHint;\n' +
+    "let perspective = Number(new URLSearchParams(location.search).get('depth') || 1);\n" +
+    'if (!Number.isFinite(perspective)) perspective = 1;\n' +
+    'perspective = THREE.MathUtils.clamp(perspective, .5, 2.5);\n' +
+    'depthInput.value = String(perspective);\n' +
+    "depthValue.textContent = perspective.toFixed(1).replace('.', ',') + '×';\n" +
+    'const params = new URLSearchParams(location.search);\n' +
+    "const debugEnabled = params.has('debug');\n" +
+    "const depthMotionEnabled=params.get('depthMotion')!=='off';\n" +
+    "const foregroundEnabled=params.get('foreground')!=='off';\n" +
+    '// Mãos compactas no toque; ?hands=off preserva a alternativa sem viewmodel.\n' +
+    '// Rig artístico CC0 padrão; ?hands=3d conserva modelo anterior e ?hands=2d o plano.\n' +
+    "const handsSetting=params.get('hands');\n" +
+    "const handsEnabled=['on','fps','vr','rig','3d','2d'].includes(handsSetting)||['overlay','mesh'].includes(handsSetting)||handsSetting!=='off';\n" +
+    '// Nova prévia de arte anatômica: WRAD retrô continua disponível apenas via ?hands=rig.\n' +
+    "const handsMode=handsSetting==='2d'?'2d':handsSetting==='3d'?'3d':handsSetting==='rig'?'rig':handsSetting==='vr'?'vr':handsSetting==='fps'?'fps':handsSetting==='overlay'?'overlay':'mesh';\n" +
+    "const fpsHandsCredit=document.getElementById('fpsHandsCredit');\n" +
+    "if(fpsHandsCredit)fpsHandsCredit.hidden=!handsEnabled||handsMode!=='fps';\n" +
+    'debug.hidden = !debugEnabled;\n' +
+    '\n' +
+    '// Orçamento de GPU: DPR alto quadruplica os pixels por quadro, e as camadas\n' +
+    '// GLSL cobrem a tela toda. A intensidade da arte permanece; varia o custo.\n' +
+    'const constrainedDevice = mobile || (navigator.deviceMemory !== undefined && navigator.deviceMemory <= 4)\n' +
+    '  || (navigator.hardwareConcurrency !== undefined && navigator.hardwareConcurrency <= 4);\n' +
+    "const qualityOverride=params.get('quality');\n" +
+    "const manualQuality=['eco','eco-plus','lite','low','balanced','high'].includes(qualityOverride);\n" +
+    "const effectsMode=['no-bloom','no-gas'].includes(params.get('effects'))?params.get('effects'):'normal';\n" +
+    "const initialProfile=qualityOverride==='eco'?'eco':\n" +
+    "  qualityOverride==='eco-plus'?'eco-plus':\n" +
+    "  qualityOverride==='lite'||qualityOverride==='low'?'lite':\n" +
+    "  qualityOverride==='high'?'high':\n" +
+    "  qualityOverride==='balanced'?'balanced':constrainedDevice?'lite':'balanced';\n" +
+    "const qualityOrder=['eco','eco-plus','lite','balanced','high'];\n" +
+    'let qualityMode=initialProfile;\n' +
+    'let performanceAdaptations=0;\n' +
+    'const qualityPresets={\n' +
+    '  // Eco mantém a ESO e dois recortes em profundidade, mas reduz pixels e\n' +
+    '  // elimina o fBm de tela cheia/bloom durante o repouso.\n' +
+    '  eco:{dpr:.53,maxPixels:500000,bloomScale:.20,gas:[],fpsCap:60},\n' +
+    '  // Intermediário: 32% mais pixels que o Eco, gás procedural desativado,\n' +
+    '  // bloom preservado. Isola custo de resolução no comparativo A/B.\n' +
+    "  'eco-plus':{dpr:.60,maxPixels:670000,bloomScale:.22,gas:[],fpsCap:60},\n" +
+    '  lite:{dpr:.75,maxPixels:950000,bloomScale:.24,gas:[2],fpsCap:60},\n' +
+    '  balanced:{dpr:1,maxPixels:2200000,bloomScale:.34,gas:[0,2],fpsCap:60},\n' +
+    '  high:{dpr:1.25,maxPixels:3200000,bloomScale:.42,gas:[0,1,2,3,4],fpsCap:60}\n' +
+    '};\n' +
+    'function gpuBudget(){return qualityPresets[qualityMode];}\n' +
+    'function pixelRatioForViewport(){\n' +
+    '  const q=gpuBudget(),native=Math.max(.5,window.devicePixelRatio||1);\n' +
+    "  // Keep the creation's fine inscriptions/contours at CSS-pixel resolution.\n" +
+    '  // Explicit quality profiles retain their original budget; the observatory is unchanged.\n' +
+    '  if(creationPage&&!manualQuality)return Math.min(native,1.25,Math.sqrt(2200000/Math.max(1,innerWidth*innerHeight)));\n' +
+    '  return Math.min(native,q.dpr,Math.sqrt(q.maxPixels/Math.max(1,innerWidth*innerHeight)));\n' +
+    '}\n' +
+    'const performanceReadout={get mode(){return qualityMode;},\n' +
+    '  get pixelRatio(){return renderer.getPixelRatio();},\n' +
+    '  get maxPixels(){return gpuBudget().maxPixels;},\n' +
+    '  get visibleGas(){return atmosphere.layers.filter(l=>l.visible).length;},\n' +
+    '  get adaptations(){return performanceAdaptations;},\n' +
+    '  get drawCalls(){return renderer.info.render.calls;},\n' +
+    '  get textures(){return renderer.info.memory.textures;}};\n' +
+    'if(debugEnabled)window.__orionPerformance=performanceReadout;\n' +
+    '\n' +
+    'let noticeTimer = 0;\n' +
+    'function announce(message) {\n' +
+    '  notice.textContent = message;\n' +
+    '  notice.hidden = false;\n' +
+    '  clearTimeout(noticeTimer);\n' +
+    '  noticeTimer = setTimeout(() => { notice.hidden = true; }, 5500);\n' +
+    '}\n' +
+    "document.getElementById('leave').addEventListener('click', () => announce('Protótipo visual: não há conta conectada para sair.'));\n" +
+    "depthInput.addEventListener('input', () => {\n" +
+    '  perspective = Number(depthInput.value);\n' +
+    "  depthValue.textContent = perspective.toFixed(1).replace('.', ',') + '×';\n" +
+    '});\n' +
+    "window.addEventListener('keydown', e => {\n" +
+    "  if (e.key.toLowerCase() === 'd' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) debug.hidden = !debug.hidden;\n" +
+    '});\n' +
+    '\n' +
+    'let renderer;\n' +
+    'try {\n' +
+    "  renderer = new THREE.WebGLRenderer({ antialias:creationPage||qualityMode==='high', alpha:true, powerPreference:'high-performance' });\n" +
+    '} catch (e) {\n' +
+    "  loading.textContent = 'WebGL indisponível neste navegador. Tente no Chrome com aceleração de hardware ativada.';\n" +
+    '  throw e;\n' +
+    '}\n' +
+    'renderer.setPixelRatio(pixelRatioForViewport());\n' +
+    'renderer.setSize(innerWidth, innerHeight);\n' +
+    'renderer.outputColorSpace = THREE.SRGBColorSpace;\n' +
+    'renderer.toneMapping = THREE.ACESFilmicToneMapping;\n' +
+    'renderer.toneMappingExposure = 1.24;\n' +
+    '// A cena usa bloom + render principal + overlay no mesmo quadro.\n' +
+    '// Impedir reset entre passes; reiniciar contadores uma vez por tick.\n' +
+    'renderer.info.autoReset=false;\n' +
+    'container.appendChild(renderer.domElement);\n' +
+    '\n' +
+    'const scene = new THREE.Scene();\n' +
+    'const camera = new THREE.PerspectiveCamera(52, innerWidth/innerHeight, 0.2, 900);\n' +
+    '// Camera em um rig 3D: translacao, yaw, pitch e roll independentes.\n' +
+    'const rigRoot = new THREE.Group();\n' +
+    'const rigYaw = new THREE.Group();\n' +
+    'const rigPitch = new THREE.Group();\n' +
+    'const rigRoll = new THREE.Group();\n' +
+    'scene.add(rigRoot);\n' +
+    'rigRoot.add(rigYaw);\n' +
+    'rigYaw.add(rigPitch);\n' +
+    'rigPitch.add(rigRoll);\n' +
+    'rigRoll.add(camera);\n' +
+    'rigRoot.position.set(0, 0, 26);\n' +
+    'camera.position.set(0, 0, 0);\n' +
+    '// Viewmodel em espaço de câmera: presença de primeira pessoa sem alterar\n' +
+    '// o mundo 3D, a paralaxe ESO ou o pós-processamento do Nox.\n' +
+    "const firstPersonHands=handsMode==='mesh'\n" +
+    '  ?createEtherealHandsMesh(camera,{enabled:handsEnabled,reducedMotion:reduceMotion,\n' +
+    "    animation:['mesh','rig','perspective'].includes(params.get('handsMotion'))?params.get('handsMotion'):'perspective',\n" +
+    '    touchLayout:mobile})\n' +
+    "  :handsMode==='overlay'\n" +
+    '  ?createEtherealHandsOverlay(root,{enabled:handsEnabled,reducedMotion:reduceMotion})\n' +
+    "  :handsMode==='2d'\n" +
+    '  ?createFirstPersonHands(camera,{enabled:handsEnabled,reducedMotion:reduceMotion})\n' +
+    "  :handsMode==='3d'\n" +
+    '    ?createFirstPersonHands3D(camera,{enabled:handsEnabled,reducedMotion:reduceMotion})\n' +
+    "    :handsMode==='rig'\n" +
+    '      ?createRiggedFirstPersonHands(camera,{enabled:handsEnabled,reducedMotion:reduceMotion})\n' +
+    "      :handsMode==='vr'\n" +
+    '        ?createVrFirstPersonHands(camera,{enabled:handsEnabled,reducedMotion:reduceMotion})\n' +
+    '        :createFpsFirstPersonHands(camera,{enabled:handsEnabled,reducedMotion:reduceMotion});\n' +
+    'firstPersonHands.state.mode=handsMode;\n' +
+    'if(debugEnabled)window.__orionHandsDebug=firstPersonHands;\n' +
+    '\n' +
+    '// Panorama and foreground cloud fragments occupy actual z positions, rather\n' +
+    '// than being DOM images shifted at different speeds. This makes camera motion\n' +
+    '// cause the parallax naturally, including perspective and vanishing point.\n' +
+    'const textures = [];\n' +
+    'const layers = [];\n' +
+    'const loader = new THREE.TextureLoader();\n' +
+    'function tex(url) {\n' +
+    '  const value = loader.load(url, undefined, undefined, er'... 42651 more characters,
+  expected: /Math\.exp\(-Math\.max\(\.001,delta\)\*18\)/,
+  operator: 'match',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

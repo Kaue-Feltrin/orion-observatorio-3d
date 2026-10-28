@@ -6,12 +6,12 @@ export const BODY_RIG_PROFILES={
  fetal:{root:[.48,.46],spine:[.38,.49],neck:[.47,.69],head:[.48,.78],
   armL:[.48,.59],elbowL:[.60,.52],handL:[.61,.61],armR:[.48,.57],elbowR:[.58,.51],handR:[.58,.60],
   hipL:[.43,.37],kneeL:[.66,.44],footL:[.60,.28],hipR:[.42,.36],kneeR:[.60,.41],footR:[.54,.27]},
- menina:{root:[.51,.49],spine:[.53,.66],neck:[.57,.81],head:[.62,.91],
-  armL:[.35,.78],elbowL:[.27,.67],handL:[.08,.62],armR:[.61,.77],elbowR:[.70,.66],handR:[.88,.57],
-  hipL:[.40,.49],kneeL:[.31,.33],footL:[.41,.17],hipR:[.56,.49],kneeR:[.57,.29],footR:[.57,.06]},
- menino:{root:[.52,.51],spine:[.52,.69],neck:[.46,.82],head:[.37,.91],
-  armL:[.40,.77],elbowL:[.28,.68],handL:[.10,.78],armR:[.65,.78],elbowR:[.75,.68],handR:[.89,.58],
-  hipL:[.43,.51],kneeL:[.35,.39],footL:[.48,.26],hipR:[.58,.51],kneeR:[.55,.30],footR:[.48,.07]}
+ menina:{root:[.5,.49],spine:[.5,.63],neck:[.52,.78],head:[.53,.88],
+  armL:[.33,.73],elbowL:[.23,.62],handL:[.12,.56],armR:[.65,.73],elbowR:[.76,.63],handR:[.84,.68],
+  hipL:[.40,.45],kneeL:[.38,.29],footL:[.36,.10],hipR:[.61,.45],kneeR:[.66,.30],footR:[.65,.10]},
+ menino:{root:[.5,.49],spine:[.5,.63],neck:[.49,.78],head:[.48,.88],
+  armL:[.31,.73],elbowL:[.22,.63],handL:[.12,.65],armR:[.68,.73],elbowR:[.79,.61],handR:[.88,.52],
+  hipL:[.40,.45],kneeL:[.37,.28],footL:[.35,.10],hipR:[.60,.45],kneeR:[.64,.30],footR:[.66,.10]}
 
 
 };

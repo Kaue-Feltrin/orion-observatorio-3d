@@ -3,7 +3,7 @@ import {createBodyRig,bodyVertex} from './creation-body-rig.js';
 import {createCreationSigils,SIGIL_ORBITS} from './creation-sigils.js';
 import {sampleCreationRelease} from './creation-fracture.js';
 
-export const CREATION_ART={nebula:'/assets/creation/ink-cosmos-v7.png',nebulaPortrait:'/assets/creation/ink-cosmos-portrait-v7.png',baby:'/assets/creation/unborn-v5.png',children:'/assets/creation/souls-v7.png'};
+export const CREATION_ART={nebula:'/assets/creation/gray-far-v9.png',nebulaPortrait:'/assets/creation/gray-far-v9.png',baby:'/assets/creation/unborn-v5.png',children:'/assets/creation/souls-v9.png'};
 export function creationNebulaURL(aspect=innerWidth/innerHeight){return aspect<.85?CREATION_ART.nebulaPortrait:CREATION_ART.nebula;}
 const smooth=(a,b,t)=>THREE.MathUtils.smoothstep(t,a,b);
 const fragment=`
@@ -35,67 +35,7 @@ function material(texture,{opacity=1,uv=[0,0,1,1],motion=1,flip=false}={}){
   uniforms:{uMap:{value:texture},uUV:{value:new THREE.Vector4(...uv)},uOpacity:{value:opacity},uMotion:{value:motion},uTime:{value:0},uCharge:{value:0},uReveal:{value:1},uSelected:{value:0},uHover:{value:0},uFlip:{value:flip?1:0}},vertexShader:bodyVertex,fragmentShader:fragment});
 }
 
-// Layered ink painting plus slow procedural drift; separate from the original sky.
-export function createCreationNebula(scene,photo,{reducedMotion=false,parallaxEnabled=true}={}){
- const clock={value:0},transition={value:0},pan={value:new THREE.Vector2()},aspect={value:innerWidth/innerHeight},plateAspect={value:innerWidth/innerHeight<.85?2/3:1672/941};
- const noiseCode=`float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+1.),f.x),f.y);}float fbm(vec2 p){return noise(p)*.65+noise(p*2.03+7.)*.25+noise(p*4.01+17.)*.1;}`;
- const fragmentShader=`uniform sampler2D plate;uniform float time,transition,aspect,plateAspect,opacity,layer;uniform vec2 pan;varying vec2 vUv;${noiseCode}
- void main(){vec2 p=(vUv-.5)*vec2(aspect,1.)+pan;float drift=time*.009;
- vec2 warp=vec2(fbm(p*1.7+drift),fbm(p*1.5+8.-drift))-.5;
- float n=fbm(p*2.2+warp*.8+vec2(drift,-drift*.7));float m=fbm(p*1.4+warp+vec2(4.,drift));
- float pulse=${reducedMotion?'0.':'sin(time*.8)*.015'};
- float center=exp(-dot(p*vec2(1.1,1.25),p*vec2(1.1,1.25))*3.);
- vec3 wine=mix(vec3(.003,.0015,.003),vec3(.037,.007,.014),smoothstep(.15,.9,n))*(1.+pulse)+vec3(.006,.003,.004)*center;
- float pools=exp(-dot((p-vec2(aspect*.19,.02))*vec2(2.6,1.5),(p-vec2(aspect*.19,.02))*vec2(2.6,1.5))*3.)+exp(-dot((p+vec2(aspect*.19,-.02))*vec2(2.6,1.5),(p+vec2(aspect*.19,-.02))*vec2(2.6,1.5))*3.);
- vec3 ash=vec3(.004,.0038,.006)+vec3(.011,.010,.015)*(n*.65+m*.35)+vec3(.009,.008,.011)*pools;
- float star=pow(max(0.,hash(floor((p+4.)*65.))-.998)/.002,3.)*(1.-smoothstep(.03,.12,length(fract((p+4.)*65.)-.5)))*.025;
- vec2 cover=vec2(min(1.,aspect/plateAspect),min(1.,plateAspect/aspect));
- vec2 at=.5+(vUv-.5)*cover*.96+pan*.42;
- at+=warp*.004;
- vec3 painting=texture2D(plate,clamp(at,vec2(.002),vec2(.998))).rgb;
- // Fine luminance variation stays subordinate to the painted masses.
- float grain=noise(p*110.+warp*10.);
- painting*=.98+grain*.04;
- float grey=dot(painting,vec3(.2126,.7152,.0722));
- wine=wine*.32+painting*.88+vec3(.009,.003,.004)*center;
- ash=ash*.55+vec3(.88,.85,1.)*grey*.62;
- vec3 c=mix(wine,ash+star,transition);
- float a=opacity;
- if(layer>.5&&layer<2.5){float side=layer<1.5?1.-smoothstep(.18,.52,vUv.x):smoothstep(.48,.82,vUv.x);float border=1.-smoothstep(.28,.63,abs(vUv.y-.5));a*=side*border*smoothstep(.006,.10,grey);}
- if(layer>2.5){float edge=smoothstep(.15,.65,length((vUv-.5)*vec2(1.,.8)));a*=edge*smoothstep(.43,.78,m)*.6;c=mix(vec3(.12,.025,.04),vec3(.07,.065,.09),transition);}
- gl_FragColor=vec4(c,a);
- #include <colorspace_fragment>
- }`;
- const uniforms={time:clock,transition,pan,aspect,plateAspect,opacity:{value:1},layer:{value:0},plate:{value:photo.material.map}};
- const original=photo.material,map=original.map;
- const initialSource=creationNebulaURL();let requestedSource=initialSource,plateRequest=0;
- function syncPlate(){
-  if(!map.image?.width)return;
-  const wanted=creationNebulaURL();if(wanted===requestedSource)return;
-  requestedSource=wanted;const id=++plateRequest,image=new Image();
-  image.onload=()=>{if(id!==plateRequest)return;map.image=image;map.needsUpdate=true;};
-  image.onerror=()=>console.warn('Não foi possível trocar a atmosfera:',wanted);
-  image.src=wanted;
- }
- photo.material=new THREE.ShaderMaterial({uniforms,depthTest:false,depthWrite:false,toneMapped:false,
- vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy*2.,.999,1.);}',fragmentShader});
- photo.material.map=map;original.dispose();
- const state={active:0,loaded:4,transition:0,parallaxEnabled:parallaxEnabled&&!reducedMotion,parallaxStrength:1,foregroundEnabled:true};
- const layers=[-280,-160,-65].map((z,i)=>{
-  const m=new THREE.ShaderMaterial({transparent:true,depthTest:false,depthWrite:false,toneMapped:false,
-   uniforms:{...uniforms,pan:{value:new THREE.Vector2()},map:{value:map},layer:{value:i+1},opacity:{value:i===2?.12:.24}},
-   vertexShader:'varying vec2 vUv;void main(){vec4 p=projectionMatrix*modelViewMatrix*vec4(position,1.);vUv=p.xy/p.w*.5+.5;gl_Position=p;}',fragmentShader});
-  const mesh=new THREE.Mesh(new THREE.PlaneGeometry(1,1),m);mesh.position.z=z;mesh.renderOrder=3+i*.1;mesh.userData={volumeFragment:true,baseX:0,baseY:0,parallaxOffsetX:0,parallaxOffsetY:0};scene.add(mesh);return mesh;
- });
- function resize(){for(const mesh of layers){const d=26-mesh.position.z,h=2*Math.tan(26*Math.PI/180)*d*1.5;mesh.scale.set(h*innerWidth/innerHeight,h,1);}}
- function update(time,x,y,delta){clock.value=reducedMotion?0:time;aspect.value=innerWidth/innerHeight;syncPlate();if(map.image?.width)plateAspect.value=map.image.width/map.image.height;
-  const gain=1-Math.exp(-Math.min(.1,Math.max(0,delta))*2.4);
-  pan.value.x+=((state.parallaxEnabled?-x*.004:0)-pan.value.x)*gain;pan.value.y+=((state.parallaxEnabled?-y*.003:0)-pan.value.y)*gain;
-  layers.forEach((mesh,i)=>{const d=mesh.userData;d.parallaxOffsetX+=((state.parallaxEnabled?-x*(.7+i*.45)*state.parallaxStrength:0)-d.parallaxOffsetX)*gain;d.parallaxOffsetY+=((state.parallaxEnabled?-y*(.45+i*.3):0)-d.parallaxOffsetY)*gain;mesh.position.x=d.parallaxOffsetX;mesh.position.y=d.parallaxOffsetY;mesh.material.uniforms.pan.value.set(pan.value.x+d.parallaxOffsetX*.004,pan.value.y+d.parallaxOffsetY*.004);});
- }
- const ready=new Promise((resolve,reject)=>{if(map.image?.complete&&map.image.naturalWidth){resolve(true);return;}const image=new Image();image.onload=()=>resolve(true);image.onerror=()=>reject(new Error('Falha ao carregar a atmosfera de tinta.'));image.src=initialSource;});
- return {ready,layers,state,resize,update,applyQuality(q){state.active=['eco','lite'].includes(q)?2:3;layers.forEach((l,i)=>l.visible=i<state.active)},setTransition(v){transition.value=v;state.transition=v;},setParallaxStrength(v){state.parallaxStrength=THREE.MathUtils.clamp(v,.45,1.6)}};
-}
+export {createCreationNebula} from './creation-environment.js';
 
 export function createCreationArt({scene,camera,panel,reducedMotion=false,environment}){
  const loader=new THREE.TextureLoader(),textures={},meshes={},rigs={};
@@ -113,7 +53,7 @@ export function createCreationArt({scene,camera,panel,reducedMotion=false,enviro
   mesh.position.copy(pos);mesh.scale.set(left.distanceTo(right),left.distanceTo(right)/aspect,left.distanceTo(right));mesh.quaternion.copy(q);
   mesh.material.uniforms.uTime.value=reducedMotion?0:time;
  }
- const atlasUV={baby:[.1494140625,.17578125,.69140625,.6966145833],menina:[.130208333,.0390625,.33203125,.9375],menino:[.572916667,.0390625,.302734375,.9375]};
+ const atlasUV={baby:[.1494140625,.17578125,.69140625,.6966145833],menina:[.145833333,.072265625,.266927083,.8515625],menino:[.588541667,.072265625,.279947917,.8515625]};
  const bindings=createCreationSigils({reducedMotion});root.add(bindings.root);state.links=0;state.glyphs=bindings.count;
  const ready=Promise.all([bindings.ready,...['baby','children'].map(async name=>{const t=await loader.loadAsync(CREATION_ART[name]);t.colorSpace=THREE.SRGBColorSpace;t.minFilter=THREE.LinearMipmapLinearFilter;t.magFilter=THREE.LinearFilter;textures[name]=t;})]).then(()=>{
   for(const name of ['baby','menina','menino']){
