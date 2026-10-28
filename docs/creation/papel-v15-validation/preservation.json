@@ -1,0 +1,19 @@
+{
+  "star-journey.js": true,
+  "star-selection.js": true,
+  "page-transition.js": true,
+  "first-person-hands-mesh.js": true,
+  "v14:creation.css": true,
+  "v14:creation-cinematic.js": true,
+  "v14:creation-body-rig.js": true,
+  "v14:creation-environment.js": true,
+  "v14:creation-sigils.js": true,
+  "unborn-v5.png": true,
+  "souls-v9.png": true,
+  "gray-far-v9.png": true,
+  "gray-near-v9.png": true,
+  "red-left-v14.png": true,
+  "red-right-v14.png": true,
+  "fichasHead": "f80bbaacc8acb4ad0158d43fb923e2f421e58528",
+  "fichasTrackedStatus": ""
+}

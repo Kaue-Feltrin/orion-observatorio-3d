@@ -1,0 +1,29 @@
+{
+  "version": 15,
+  "material": {
+    "file": "walnut-v15.png",
+    "width": 1536,
+    "height": 1024,
+    "alpha": false,
+    "bytes": 2894442,
+    "sha256": "a160864a71bb159120ef2956c4bcdeba0c8887dd1f3fc0bbf85fc6e3345f6b93",
+    "origin": "image_gen; textura nova gerada nesta conversa. PNG nativo preservado sem edição de pixels."
+  },
+  "paper": "HTML/CSS: cor marfim, grão procedural em SVG, linhas, bordas e sombra; seis planos independentes para as tábuas, sem simulação física.",
+  "catalog": {
+    "repository": "Kaue-Feltrin/orion-fichas",
+    "commit": "f80bbaacc8acb4ad0158d43fb923e2f421e58528",
+    "file": "public/catalog-choices.js",
+    "sha256": "d872087576059c5a8276fffcf14a7aaeb70be8e4fe1ae3c94516b335072c9fd4",
+    "snapshot": "2026-10-16",
+    "canonical": false,
+    "completeManualCoverageVerified": false,
+    "count": 66,
+    "sources": {
+      "Livro Base": 25,
+      "Sobrevivendo ao Horror": 19,
+      "Suplemento Órion": 20,
+      "Arquivos Secretos #7": 2
+    }
+  }
+}

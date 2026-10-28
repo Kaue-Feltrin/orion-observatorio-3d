@@ -1,0 +1,31 @@
+
+Running 17 tests using 1 worker
+
+(node:79649) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79649) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/creation-atmosphere-v14.spec.js:2:1 › identidade retira os vermelhos e não desenha caixas no foco (7.1s)
+  ✓   2 tests/creation-reflow.spec.js:18:3 › formulário 1440x900: controles separados e toque correto após reflow (6.8s)
+  ✓   3 tests/creation-reflow.spec.js:18:3 › formulário 390x430: controles separados e toque correto após reflow (3.9s)
+  ✓   4 tests/creation-reflow.spec.js:18:3 › formulário 568x320: controles separados e toque correto após reflow (3.5s)
+  ✓   5 tests/creation-reflow.spec.js:18:3 › formulário 320x568: controles separados e toque correto após reflow (3.6s)
+  ✓   6 tests/creation-reflow.spec.js:18:3 › formulário 320x256: controles separados e toque correto após reflow (3.5s)
+  ✓   7 tests/herald-creation.spec.js:20:1 › conta vazia tem estrela central e atravessa o mesmo véu até o bebê selado (11.1s)
+  ✓   8 tests/herald-creation.spec.js:47:1 › ruptura completa, gênero exclusivo, nome e continuação sem gravação remota (8.6s)
+  ✓   9 tests/herald-creation.spec.js:102:1 › teclado e movimento reduzido completam ruptura e não definir gênero (3.4s)
+  ✓  10 tests/herald-creation.spec.js:144:3 › toque 390x844: alvo, escolhas e seta dentro da tela (14.4s)
+  ✓  11 tests/herald-creation.spec.js:144:3 › toque 844x390: alvo, escolhas e seta dentro da tela (14.2s)
+  ✓  12 tests/origin-paper.spec.js:32:1 › ficha física: consulta não confirma, origem salva só após escolha e identidade é preservada (5.9s)
+  ✓  13 tests/origin-paper.spec.js:73:1 › busca, filtros combinados, guia e comparação preservam confirmação explícita (8.1s)
+  ✓  14 tests/origin-paper.spec.js:125:1 › nome é texto, movimento reduzido não executa a queda, armazenamento recusado não confirma (4.7s)
+  ✓  15 tests/origin-paper.spec.js:154:3 › papel 390x844: busca, detalhes e confirmação alcançáveis (6.1s)
+  ✓  16 tests/origin-paper.spec.js:154:3 › papel 320x568: busca, detalhes e confirmação alcançáveis (8.2s)
+  ✓  17 tests/origin-paper.spec.js:154:3 › papel 568x320: busca, detalhes e confirmação alcançáveis (9.6s)
+
+  17 passed (2.1m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

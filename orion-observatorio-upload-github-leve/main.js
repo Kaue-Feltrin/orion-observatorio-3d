@@ -820,6 +820,9 @@ document.addEventListener('visibilitychange',()=>{
 let bloomTick=0;
 function tick(now){
  requestAnimationFrame(tick);
+ // The physical paper covers the creation scene. Keep its frame clock fresh
+ // while suspending WebGL work, so returning does not simulate a time jump.
+ if(creationPage&&document.documentElement.dataset.paperActive==='1'){lastFrame=now;renderedAt=now;return;}
  if(document.hidden)return;
  const q=gpuBudget();
  // Não desenhar quadros extras em máquinas limitadas.

@@ -1,3 +1,7 @@
+## 28/10/2026 — V15: materialização da ficha e origens
+
+- Continuação da identidade abre seis tábuas e uma folha física. Catálogo de referência de 66 origens com busca, oito interesses, fonte/perícia, guia e comparação de duas opções; confirmação apenas no rascunho local. Renderer da criação suspenso sob a folha, retorno preservado e movimento reduzido. Resultados/evidências em `docs/creation/PAPEL-RESULTS-V15.md`. Base V14 e Órion Fichas preservados; sem concessões remotas, produção ou deploy. Visual e aparelho real ainda dependem de homologação.
+
 ## 28/10/2026 — V14: névoa e interface sem painéis
 
 - Dois vermelhos refeitos com tratamento fosco e ilustrado. Na identidade os planos vermelhos são ocultados; ficam preto e duas névoas cinzas. Painéis substituídos por sombras radiais suaves, seleção por texto/linha e foco sem moldura ao redor do corpo. Dez regressões de navegador, 18 arquivos unitários, contraste local e pacote estático verificados. Falha inicial de CSS corrigida e documentada em `docs/creation/NEVOA-RESULTS-V14.md`. ZIP manual; sem deploy/produção. Aprovação artística pendente.

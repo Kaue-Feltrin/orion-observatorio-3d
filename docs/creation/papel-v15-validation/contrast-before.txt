@@ -1,0 +1,174 @@
+[
+  {
+    "width": 1440,
+    "s": "#paperTitle",
+    "font": "40px",
+    "min": 10.658275433022913,
+    "samples": 3764
+  },
+  {
+    "width": 1440,
+    "s": ".paper-intro",
+    "font": "16px",
+    "min": 5.281947668680719,
+    "samples": 1515
+  },
+  {
+    "width": 1440,
+    "s": ".paper-search small",
+    "font": "11px",
+    "min": 5.023117801916795,
+    "samples": 795
+  },
+  {
+    "width": 1440,
+    "s": "[data-interest=\"cuidar\"]",
+    "font": "12px",
+    "min": 5.417651556938183,
+    "samples": 159
+  },
+  {
+    "width": 1440,
+    "s": "#originResults strong",
+    "font": "18px",
+    "min": 9.688628940942518,
+    "samples": 618
+  },
+  {
+    "width": 1440,
+    "s": "#originResults small",
+    "font": "11px",
+    "min": 4.5443161007607875,
+    "samples": 338
+  },
+  {
+    "width": 1440,
+    "s": "#originDetailTitle",
+    "font": "31px",
+    "min": 10.267688784215741,
+    "samples": 1568
+  },
+  {
+    "width": 1440,
+    "s": ".origin-story",
+    "font": "16px",
+    "min": 10.13658953574081,
+    "samples": 2003
+  },
+  {
+    "width": 1440,
+    "s": ".story-caption",
+    "font": "10px",
+    "min": 3.8557102385975055,
+    "samples": 846
+  },
+  {
+    "width": 1440,
+    "s": ".origin-facts dt",
+    "font": "9px",
+    "min": 4.878251477395189,
+    "samples": 350
+  },
+  {
+    "width": 1440,
+    "s": ".choose-origin",
+    "font": "15px",
+    "min": 10.88348625596678,
+    "samples": 569
+  },
+  {
+    "width": 390,
+    "s": "#paperTitle",
+    "font": "34px",
+    "min": 10.664607039092854,
+    "samples": 2729
+  },
+  {
+    "width": 390,
+    "s": ".paper-intro",
+    "font": "15px",
+    "min": 5.2499596885543625,
+    "samples": 1272
+  },
+  {
+    "width": 390,
+    "s": ".paper-search small",
+    "font": "11px",
+    "min": 4.940571127204843,
+    "samples": 795
+  },
+  {
+    "width": 390,
+    "s": "[data-interest=\"cuidar\"]",
+    "font": "11px",
+    "min": 5.318785618709122,
+    "samples": 132
+  },
+  {
+    "width": 390,
+    "s": "#originResults strong",
+    "font": "18px",
+    "min": 9.615221413002958,
+    "samples": 617
+  },
+  {
+    "width": 390,
+    "s": "#originResults small",
+    "font": "11px",
+    "min": 4.494373707401159,
+    "samples": 338
+  },
+  {
+    "width": 390,
+    "s": "#originDetailTitle",
+    "font": "31px",
+    "min": 10.331309526227153,
+    "samples": 1569
+  },
+  {
+    "width": 390,
+    "s": ".origin-story",
+    "font": "17px",
+    "min": 10.25134177805242,
+    "samples": 2087
+  },
+  {
+    "width": 390,
+    "s": ".story-caption",
+    "font": "10px",
+    "min": 3.8557102385975055,
+    "samples": 847
+  },
+  {
+    "width": 390,
+    "s": ".origin-facts dt",
+    "font": "9px",
+    "min": 4.878251477395189,
+    "samples": 350
+  },
+  {
+    "width": 390,
+    "s": ".choose-origin",
+    "font": "15px",
+    "min": 10.88348625596678,
+    "samples": 570
+  }
+]
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert.ok(result.every(r=>r.samples>0&&r.min>=4.5))
+
+    at file:///workspace/scratch/contrast-paper-stable.mjs:25:248 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

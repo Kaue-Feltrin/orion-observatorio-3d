@@ -2,9 +2,10 @@ import {newCreation,transitionCreation,canContinue,CREATION_DRAFT_KEY} from './c
 import {createCreationArt} from './creation-cinematic.js';
 import {observatoryURL} from './herald-catalog.js';
 import {sampleStarSelection} from './star-selection.js';
+import {openOriginWorkshop,prepareOriginWorkshop} from './origin-workshop.js';
 
 export function createHeraldCreation(root,{hands,reducedMotion=false,scene,camera,environment}){
- let state=newCreation(),gestureStart=null,aim={x:0,y:0},storageWarning=false;
+ let state=newCreation(),gestureStart=null,aim={x:0,y:0},storageWarning=false,originChoice=null;
  const panel=document.createElement('section');
  panel.className='herald-creation';panel.setAttribute('aria-label','O nascimento do Marcado');
  panel.innerHTML=`
@@ -66,6 +67,7 @@ export function createHeraldCreation(root,{hands,reducedMotion=false,scene,camer
  });
  mark.addEventListener('click',async()=>{
    if(state.phase!=='revealed')return;
+   prepareOriginWorkshop();
    state=transitionCreation(state,{type:'mark'});sync();
    gestureStart=null;hands.setStarSelection?.(null);hands.setStarHovered?.(false);mark.disabled=true;
    baby.inert=true;form.append(status);form.hidden=false;form.inert=true;status.textContent='Os sigilos se desfazem. A alma desperta.';
@@ -84,11 +86,13 @@ export function createHeraldCreation(root,{hands,reducedMotion=false,scene,camer
    e.preventDefault();
    if(!canContinue(state)||state.continued){if(!state.name.trim()){name.setCustomValidity('Dê um nome ao seu arauto.');name.reportValidity();name.setCustomValidity('');}return;}
    state=transitionCreation(state,{type:'continue'});sync();
-   const draft={version:1,name:state.name,gender:state.gender,step:'identity'};
+   const draft={version:1,name:state.name,gender:state.gender,step:'identity',...(originChoice?{origin:originChoice}:{})};
    try{sessionStorage.setItem(CREATION_DRAFT_KEY,JSON.stringify(draft));}catch{storageWarning=true;}
-   status.textContent=storageWarning?'Identidade preparada nesta tela. Seu navegador não permitiu guardar o rascunho.':`${state.name}: identidade preparada. A próxima etapa ainda será definida.`;
+   status.textContent=storageWarning?'Seu navegador não permitiu guardar o rascunho. Você ainda pode explorar as origens.':'Preparando sua ficha…';
    // Explicit local handoff only; no account, character, gameplay value or remote write is created.
    root.dispatchEvent(new CustomEvent('orion:creation-continue',{detail:draft,bubbles:true}));
+   root.inert=true;
+   openOriginWorkshop(draft,{reducedMotion,onChoose(value){originChoice=value.origin;},onReturn(){root.inert=false;state={...state,continued:false};sync();status.textContent='Revise sua identidade e continue quando quiser.';}}).catch(()=>{root.inert=false;delete document.documentElement.dataset.paperActive;state={...state,continued:false};sync();status.textContent='Não foi possível abrir a ficha. Tente continuar novamente.';});
  });
  sync();return {ready:art.ready,point,update,finishFrame(){const seen=new Set();hands.root?.traverse(obj=>{if(obj.isMesh&&obj.material&&!seen.has(obj.material)){seen.add(obj.material);obj.material.opacity*=.56;}});},get state(){return {...state};}};
 }

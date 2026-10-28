@@ -1,0 +1,156 @@
+[
+  {
+    "width": 1440,
+    "s": "#paperTitle",
+    "font": "40px",
+    "min": 10.664607039092854,
+    "samples": 3764
+  },
+  {
+    "width": 1440,
+    "s": ".paper-intro",
+    "font": "16px",
+    "min": 5.300108891610279,
+    "samples": 1515
+  },
+  {
+    "width": 1440,
+    "s": ".paper-search small",
+    "font": "11px",
+    "min": 5.033965247868952,
+    "samples": 795
+  },
+  {
+    "width": 1440,
+    "s": "[data-interest=\"cuidar\"]",
+    "font": "12px",
+    "min": 5.427948174001411,
+    "samples": 159
+  },
+  {
+    "width": 1440,
+    "s": "#originResults strong",
+    "font": "18px",
+    "min": 9.688628940942518,
+    "samples": 618
+  },
+  {
+    "width": 1440,
+    "s": "#originResults small",
+    "font": "11px",
+    "min": 5.281918534780087,
+    "samples": 338
+  },
+  {
+    "width": 1440,
+    "s": "#originDetailTitle",
+    "font": "31px",
+    "min": 10.312038592479048,
+    "samples": 1568
+  },
+  {
+    "width": 1440,
+    "s": ".origin-story",
+    "font": "16px",
+    "min": 10.13658953574081,
+    "samples": 2003
+  },
+  {
+    "width": 1440,
+    "s": ".story-caption",
+    "font": "11px",
+    "min": 5.0822408854211565,
+    "samples": 886
+  },
+  {
+    "width": 1440,
+    "s": ".origin-facts dt",
+    "font": "10px",
+    "min": 4.86475092948604,
+    "samples": 478
+  },
+  {
+    "width": 1440,
+    "s": ".choose-origin",
+    "font": "15px",
+    "min": 10.88348625596678,
+    "samples": 569
+  },
+  {
+    "width": 390,
+    "s": "#paperTitle",
+    "font": "34px",
+    "min": 10.664607039092854,
+    "samples": 2729
+  },
+  {
+    "width": 390,
+    "s": ".paper-intro",
+    "font": "15px",
+    "min": 5.2499596885543625,
+    "samples": 1272
+  },
+  {
+    "width": 390,
+    "s": ".paper-search small",
+    "font": "11px",
+    "min": 4.940571127204843,
+    "samples": 795
+  },
+  {
+    "width": 390,
+    "s": "[data-interest=\"cuidar\"]",
+    "font": "11px",
+    "min": 5.318785618709122,
+    "samples": 132
+  },
+  {
+    "width": 390,
+    "s": "#originResults strong",
+    "font": "18px",
+    "min": 9.615221413002958,
+    "samples": 617
+  },
+  {
+    "width": 390,
+    "s": "#originResults small",
+    "font": "11px",
+    "min": 5.223869832333237,
+    "samples": 338
+  },
+  {
+    "width": 390,
+    "s": "#originDetailTitle",
+    "font": "31px",
+    "min": 10.331309526227153,
+    "samples": 1569
+  },
+  {
+    "width": 390,
+    "s": ".origin-story",
+    "font": "17px",
+    "min": 10.25134177805242,
+    "samples": 2087
+  },
+  {
+    "width": 390,
+    "s": ".story-caption",
+    "font": "11px",
+    "min": 5.095083853492713,
+    "samples": 889
+  },
+  {
+    "width": 390,
+    "s": ".origin-facts dt",
+    "font": "10px",
+    "min": 4.86475092948604,
+    "samples": 477
+  },
+  {
+    "width": 390,
+    "s": ".choose-origin",
+    "font": "15px",
+    "min": 10.88348625596678,
+    "samples": 570
+  }
+]
