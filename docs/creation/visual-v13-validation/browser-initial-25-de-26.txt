@@ -1,0 +1,77 @@
+
+Running 26 tests using 1 worker
+
+(node:65986) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:65986) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/creation-cinematic.spec.js:10:1 › camadas carregam com alpha, céu exclusivo e paralaxe reversível (8.9s)
+  ✓   2 tests/creation-cinematic.spec.js:70:1 › Tornar Marcado inicia VFX sem gesto e transforma o sangue em vazio cinza (8.7s)
+  ✓   3 tests/creation-cinematic.spec.js:112:1 › céu original do Observatório continua separado da nova criação (3.6s)
+  ✓   4 tests/creation-cinematic.spec.js:122:1 › a chegada aguarda a fonte real sem exibir alfabeto de fallback (3.5s)
+  ✓   5 tests/creation-cinematic.spec.js:141:1 › corpo opaco oculta os sigilos traseiros também com bloom ativo (7.0s)
+  ✓   6 tests/creation-cinematic.spec.js:177:1 › as quatro camadas transparentes mantêm proporção e identidade ao girar (7.6s)
+  ✓   7 tests/creation-interactions.spec.js:3:3 › voltar por clique na etapa feto (6.2s)
+  ✓   8 tests/creation-interactions.spec.js:3:3 › voltar por clique na etapa identidade (11.4s)
+  ✓   9 tests/creation-interactions.spec.js:3:3 › voltar por toque na etapa feto (3.8s)
+  ✓  10 tests/creation-interactions.spec.js:3:3 › voltar por toque na etapa identidade (9.5s)
+  ✓  11 tests/creation-interactions.spec.js:50:1 › convites visíveis, destaque ao apontar e confirmação da escolha (24.4s)
+  ✓  12 tests/creation-interactions.spec.js:85:1 › retrato compacto separa os botões de seleção do campo de nome (9.6s)
+  ✓  13 tests/creation-loading.spec.js:2:1 › o carregamento cobre a cena parcial até fundo e mãos estarem prontos (10.5s)
+  ✘  14 tests/creation-loading.spec.js:30:1 › só as camadas vermelhas pulsam e o movimento para na identidade (815ms)
+(node:67055) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:67055) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  15 tests/creation-loading.spec.js:51:1 › movimento reduzido mantém as duas massas vermelhas estáticas (4.5s)
+  ✓  16 tests/creation-loading.spec.js:61:1 › toque mantém saturação animada quando o usuário não pediu movimento reduzido (3.2s)
+  ✓  17 tests/creation-reflow.spec.js:18:3 › formulário 1440x900: controles separados e toque correto após reflow (7.2s)
+  ✓  18 tests/creation-reflow.spec.js:18:3 › formulário 390x430: controles separados e toque correto após reflow (3.7s)
+  ✓  19 tests/creation-reflow.spec.js:18:3 › formulário 568x320: controles separados e toque correto após reflow (3.6s)
+  ✓  20 tests/creation-reflow.spec.js:18:3 › formulário 320x568: controles separados e toque correto após reflow (3.8s)
+  ✓  21 tests/creation-reflow.spec.js:18:3 › formulário 320x256: controles separados e toque correto após reflow (3.3s)
+  ✓  22 tests/herald-creation.spec.js:20:1 › conta vazia tem estrela central e atravessa o mesmo véu até o bebê selado (11.1s)
+  ✓  23 tests/herald-creation.spec.js:47:1 › ruptura completa, gênero exclusivo, nome e continuação sem gravação remota (8.3s)
+  ✓  24 tests/herald-creation.spec.js:102:1 › teclado e movimento reduzido completam ruptura e não definir gênero (2.7s)
+  ✓  25 tests/herald-creation.spec.js:144:3 › toque 390x844: alvo, escolhas e seta dentro da tela (14.7s)
+  ✓  26 tests/herald-creation.spec.js:144:3 › toque 844x390: alvo, escolhas e seta dentro da tela (14.9s)
+
+
+  1) tests/creation-loading.spec.js:30:1 › só as camadas vermelhas pulsam e o movimento para na identidade 
+
+    Error: page.goto: net::ERR_HTTP_RESPONSE_CODE_FAILURE at http://127.0.0.1:4173/criacao.html?stars=0&debug=1&quality=eco
+    Call log:
+    [2m  - navigating to "http://127.0.0.1:4173/criacao.html?stars=0&debug=1&quality=eco", waiting until "load"[22m
+
+
+      10 | });
+      11 | test('só as camadas vermelhas pulsam e o movimento para na identidade',async({page})=>{
+    > 12 |  await page.goto('http://127.0.0.1:4173/criacao.html?stars=0&debug=1&quality=eco');await expect(page.locator('html')).toHaveAttribute('data-presentation-ready','1');await page.evaluate(()=>document.getElementById('debug').hidden=true);
+         |             ^
+      13 |  const beat=()=>page.evaluate(()=>window.__orionCreationEnvironment.layers.map(l=>l.material.uniforms.beat.value));const first=await beat();expect(first.slice(0,2)).toEqual([1,1]);expect(first[2]).toBe(first[3]);await expect.poll(async()=>Math.abs((await beat())[2]-first[2])).toBeGreaterThan(.015);
+      14 |  await page.getByRole('button',{name:'Contemplar a silhueta etérea'}).click();await page.getByRole('button',{name:'Tornar Marcado',exact:true}).click();await expect(page.locator('#observatory')).toHaveAttribute('data-creation-phase','identity');await expect.poll(beat).toEqual([1,1,1,1]);
+      15 | });
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-loading.spec.js:12:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../orion-v13-test-results/creation-loading-só-as-cam-c4a78-ovimento-para-na-identidade/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../orion-v13-test-results/creation-loading-só-as-cam-c4a78-ovimento-para-na-identidade/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../orion-v13-test-results/creation-loading-só-as-cam-c4a78-ovimento-para-na-identidade/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../orion-v13-test-results/creation-loading-só-as-cam-c4a78-ovimento-para-na-identidade/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/creation-loading.spec.js:30:1 › só as camadas vermelhas pulsam e o movimento para na identidade 
+  25 passed (3.3m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

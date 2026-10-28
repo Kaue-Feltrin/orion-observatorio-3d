@@ -1,4 +1,6 @@
-> Revisão visual atual: [V12 — Membranas orgânicas](ORGANICO-RESULTS-V12.md). Duas artes vermelhas refeitas; efeitos preservados. Aprovação artística pendente e falha estrutural pré-existente registrada.
+> Revisão visual atual: [V13 — Reflow, contraste e hierarquia](VISUAL-RESULTS-V13.md). Formulário em fluxo, área própria para seta, tipografia e planos de leitura; testes e contraste reaplicados do review.
+
+> Histórico V12: [V12 — Membranas orgânicas](ORGANICO-RESULTS-V12.md). Duas artes vermelhas refeitas; efeitos preservados. Aprovação artística pendente e falha estrutural pré-existente registrada.
 
 > Histórico V11: [V11 — Vermelho preservado e brilho menor](COR-RESULTS-V11.md). Saturação 30–100% e brilho 75%; sincronismo e expansão preservados.
 

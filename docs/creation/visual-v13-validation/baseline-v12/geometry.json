@@ -1,0 +1,1305 @@
+[
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "ui": {
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "visualWidth": 1440,
+        "visualHeight": 900
+      },
+      "scroll": [
+        1440,
+        900
+      ],
+      "headings": [
+        {
+          "text": "Kauê",
+          "hidden": null
+        },
+        {
+          "text": "Nox",
+          "hidden": null
+        },
+        {
+          "text": "Tudo começa pelo sangue.",
+          "hidden": "true"
+        }
+      ],
+      "elements": [
+        {
+          "s": ".identity-title",
+          "x": 50,
+          "y": 94.5,
+          "w": 1340,
+          "h": 78.65625,
+          "font": "16px",
+          "color": "rgb(238, 231, 226)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(238, 231, 226) none 3px",
+          "hit": "identity-form",
+          "hitInside": false
+        },
+        {
+          "s": ".child-choice[data-gender=\"menina\"]>span",
+          "x": 388.796875,
+          "y": 638,
+          "w": 126,
+          "h": 56.390625,
+          "font": "16px",
+          "color": "rgb(243, 232, 215)",
+          "background": "rgba(51, 39, 55, 0.867)",
+          "outline": "rgb(243, 232, 215) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".child-choice[data-gender=\"menino\"]>span",
+          "x": 925.1875,
+          "y": 638,
+          "w": 126,
+          "h": 56.390625,
+          "font": "16px",
+          "color": "rgb(230, 217, 197)",
+          "background": "rgba(20, 16, 25, 0.72)",
+          "outline": "rgb(230, 217, 197) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".name-label",
+          "x": 530,
+          "y": 711,
+          "w": 380,
+          "h": 12,
+          "font": "8px",
+          "color": "rgb(168, 160, 177)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(168, 160, 177) none 3px",
+          "hit": "name-label",
+          "hitInside": true
+        },
+        {
+          "s": "#herald-name",
+          "x": 530,
+          "y": 729,
+          "w": 380,
+          "h": 48,
+          "font": "24px",
+          "color": "rgb(241, 232, 245)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(241, 232, 245) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".undefined-choice",
+          "x": 530,
+          "y": 782,
+          "w": 380,
+          "h": 44,
+          "font": "11px",
+          "color": "rgb(180, 170, 189)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(180, 170, 189) none 3px",
+          "hit": "undefined-choice",
+          "hitInside": true
+        },
+        {
+          "s": ".creation-next",
+          "x": 1348,
+          "y": 809,
+          "w": 56,
+          "h": 56,
+          "font": "16px",
+          "color": "rgb(231, 214, 185)",
+          "background": "rgba(16, 13, 26, 0.333)",
+          "outline": "rgb(231, 214, 185) none 3px",
+          "hit": {},
+          "hitInside": true
+        },
+        {
+          "s": ".creation-status",
+          "x": 390,
+          "y": 863.5,
+          "w": 660,
+          "h": 16.5,
+          "font": "11px",
+          "color": "rgb(150, 139, 159)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(150, 139, 159) none 3px",
+          "hit": "identity-form",
+          "hitInside": false
+        },
+        {
+          "s": ".creation-back",
+          "x": 32,
+          "y": 27,
+          "w": 44,
+          "h": 44,
+          "font": "20px",
+          "color": "rgb(217, 201, 190)",
+          "background": "rgba(9, 7, 13, 0.267)",
+          "outline": "rgb(217, 201, 190) none 3px",
+          "hit": "creation-back",
+          "hitInside": true
+        }
+      ],
+      "handoff": {
+        "after": {
+          "status": "Aurora: identidade preparada. A próxima etapa ainda será definida.",
+          "location": "/criacao.html",
+          "stored": "{\"version\":1,\"name\":\"Aurora\",\"gender\":\"menina\",\"step\":\"identity\"}"
+        },
+        "reloaded": {
+          "name": "",
+          "phase": "sealed",
+          "stored": "{\"version\":1,\"name\":\"Aurora\",\"gender\":\"menina\",\"step\":\"identity\"}"
+        }
+      }
+    },
+    "overlaps": [],
+    "contrast": [
+      {
+        "s": ".identity-title strong",
+        "x": 50,
+        "y": 94.5,
+        "w": 1340,
+        "h": 48.65625,
+        "color": "rgb(229, 221, 231)",
+        "font": "37.44px",
+        "min": 5.461740809105861,
+        "p10": 8.910682706506039,
+        "median": 14.722170103389166
+      },
+      {
+        "s": ".identity-title small",
+        "x": 50,
+        "y": 155.15625,
+        "w": 1340,
+        "h": 18,
+        "color": "rgb(172, 164, 179)",
+        "font": "12px",
+        "min": 2.4199839634064864,
+        "p10": 4.817181849069264,
+        "median": 8.11050966830578
+      },
+      {
+        "s": ".name-label",
+        "x": 530,
+        "y": 711,
+        "w": 380,
+        "h": 12,
+        "color": "rgb(168, 160, 177)",
+        "font": "8px",
+        "min": 2.9784259968366853,
+        "p10": 4.064281796519509,
+        "median": 5.585806689461029
+      },
+      {
+        "s": ".undefined-choice",
+        "x": 530,
+        "y": 782,
+        "w": 380,
+        "h": 44,
+        "color": "rgb(180, 170, 189)",
+        "font": "11px",
+        "min": 3.250622179618625,
+        "p10": 6.134239616370807,
+        "median": 7.860148456458509
+      },
+      {
+        "s": ".creation-status",
+        "x": 390,
+        "y": 863.5,
+        "w": 660,
+        "h": 16.5,
+        "color": "rgb(150, 139, 159)",
+        "font": "11px",
+        "min": 4.463463049219599,
+        "p10": 5.624012225138973,
+        "median": 6.071578188466101
+      }
+    ],
+    "errors": [],
+    "missing": [],
+    "writes": []
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "ui": {
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "visualWidth": 390,
+        "visualHeight": 844
+      },
+      "scroll": [
+        390,
+        844
+      ],
+      "headings": [
+        {
+          "text": "Kauê",
+          "hidden": null
+        },
+        {
+          "text": "Nox",
+          "hidden": null
+        },
+        {
+          "text": "Tudo começa pelo sangue.",
+          "hidden": "true"
+        }
+      ],
+      "elements": [
+        {
+          "s": ".identity-title",
+          "x": 22,
+          "y": 109.71875,
+          "w": 346,
+          "h": 60.59375,
+          "font": "16px",
+          "color": "rgb(238, 231, 226)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(238, 231, 226) none 3px",
+          "hit": "identity-form",
+          "hitInside": false
+        },
+        {
+          "s": ".child-choice[data-gender=\"menina\"]>span",
+          "x": 38.25,
+          "y": 565.03125,
+          "w": 126,
+          "h": 56.390625,
+          "font": "16px",
+          "color": "rgb(243, 232, 215)",
+          "background": "rgba(51, 39, 55, 0.867)",
+          "outline": "rgb(243, 232, 215) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".child-choice[data-gender=\"menino\"]>span",
+          "x": 225.75,
+          "y": 565.03125,
+          "w": 126,
+          "h": 56.390625,
+          "font": "16px",
+          "color": "rgb(230, 217, 197)",
+          "background": "rgba(20, 16, 25, 0.72)",
+          "outline": "rgb(230, 217, 197) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".name-label",
+          "x": 50.703125,
+          "y": 658.3125,
+          "w": 288.59375,
+          "h": 12,
+          "font": "8px",
+          "color": "rgb(168, 160, 177)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(168, 160, 177) none 3px",
+          "hit": "name-label",
+          "hitInside": true
+        },
+        {
+          "s": "#herald-name",
+          "x": 50.703125,
+          "y": 676.3125,
+          "w": 288.59375,
+          "h": 46,
+          "font": "22px",
+          "color": "rgb(241, 232, 245)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(241, 232, 245) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".undefined-choice",
+          "x": 50.703125,
+          "y": 727.3125,
+          "w": 288.59375,
+          "h": 44,
+          "font": "11px",
+          "color": "rgb(180, 170, 189)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(180, 170, 189) none 3px",
+          "hit": "undefined-choice",
+          "hitInside": true
+        },
+        {
+          "s": ".creation-next",
+          "x": 324,
+          "y": 771,
+          "w": 48,
+          "h": 48,
+          "font": "16px",
+          "color": "rgb(231, 214, 185)",
+          "background": "rgba(16, 13, 26, 0.333)",
+          "outline": "rgb(231, 214, 185) none 3px",
+          "hit": {},
+          "hitInside": true
+        },
+        {
+          "s": ".creation-status",
+          "x": 72.5,
+          "y": 808.5,
+          "w": 245,
+          "h": 13.5,
+          "font": "9px",
+          "color": "rgb(150, 139, 159)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(150, 139, 159) none 3px",
+          "hit": "identity-form",
+          "hitInside": false
+        },
+        {
+          "s": ".creation-back",
+          "x": 17,
+          "y": 17,
+          "w": 42,
+          "h": 42,
+          "font": "20px",
+          "color": "rgb(217, 201, 190)",
+          "background": "rgba(9, 7, 13, 0.267)",
+          "outline": "rgb(217, 201, 190) none 3px",
+          "hit": "creation-back",
+          "hitInside": true
+        }
+      ]
+    },
+    "overlaps": [
+      {
+        "a": ".undefined-choice",
+        "b": ".creation-next",
+        "w": 15.296875,
+        "h": 0.3125
+      }
+    ],
+    "contrast": [
+      {
+        "s": ".identity-title strong",
+        "x": 22,
+        "y": 109.71875,
+        "w": 346,
+        "h": 35.09375,
+        "color": "rgb(229, 221, 231)",
+        "font": "27px",
+        "min": 9.045812845308301,
+        "p10": 11.746737796042334,
+        "median": 13.961171385464374
+      },
+      {
+        "s": ".identity-title small",
+        "x": 22,
+        "y": 153.8125,
+        "w": 346,
+        "h": 16.5,
+        "color": "rgb(172, 164, 179)",
+        "font": "11px",
+        "min": 4.461640083281248,
+        "p10": 5.828329951303853,
+        "median": 7.6303697419979475
+      },
+      {
+        "s": ".name-label",
+        "x": 50.703125,
+        "y": 658.3125,
+        "w": 288.59375,
+        "h": 12,
+        "color": "rgb(168, 160, 177)",
+        "font": "8px",
+        "min": 6.110018049610841,
+        "p10": 7.011324549948875,
+        "median": 7.291459520952304
+      },
+      {
+        "s": ".undefined-choice",
+        "x": 50.703125,
+        "y": 727.3125,
+        "w": 288.59375,
+        "h": 44,
+        "color": "rgb(180, 170, 189)",
+        "font": "11px",
+        "min": 3.5702395510411975,
+        "p10": 8.246197765790225,
+        "median": 8.68181660600791
+      },
+      {
+        "s": ".creation-status",
+        "x": 72.5,
+        "y": 808.5,
+        "w": 245,
+        "h": 13.5,
+        "color": "rgb(150, 139, 159)",
+        "font": "9px",
+        "min": 6.06826198066018,
+        "p10": 6.104561499099849,
+        "median": 6.1433814486257985
+      }
+    ],
+    "errors": [],
+    "missing": [],
+    "writes": []
+  },
+  {
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "ui": {
+      "viewport": {
+        "width": 844,
+        "height": 390,
+        "visualWidth": 844,
+        "visualHeight": 390
+      },
+      "scroll": [
+        844,
+        390
+      ],
+      "headings": [
+        {
+          "text": "Kauê",
+          "hidden": null
+        },
+        {
+          "text": "Nox",
+          "hidden": null
+        },
+        {
+          "text": "Tudo começa pelo sangue.",
+          "hidden": "true"
+        }
+      ],
+      "elements": [
+        {
+          "s": ".identity-title",
+          "x": 50,
+          "y": 54.59375,
+          "w": 744,
+          "h": 31.1875,
+          "font": "16px",
+          "color": "rgb(238, 231, 226)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(238, 231, 226) none 3px",
+          "hit": "identity-form",
+          "hitInside": false
+        },
+        {
+          "s": ".child-choice[data-gender=\"menina\"]>span",
+          "x": 156.75,
+          "y": 248.6875,
+          "w": 100,
+          "h": 28.890625,
+          "font": "13px",
+          "color": "rgb(243, 232, 215)",
+          "background": "rgba(51, 39, 55, 0.867)",
+          "outline": "rgb(243, 232, 215) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".child-choice[data-gender=\"menino\"]>span",
+          "x": 587.25,
+          "y": 248.6875,
+          "w": 100,
+          "h": 28.890625,
+          "font": "13px",
+          "color": "rgb(230, 217, 197)",
+          "background": "rgba(20, 16, 25, 0.72)",
+          "outline": "rgb(230, 217, 197) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".name-label",
+          "x": 287,
+          "y": 296.390625,
+          "w": 270,
+          "h": 10.5,
+          "font": "7px",
+          "color": "rgb(168, 160, 177)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(168, 160, 177) none 3px",
+          "hit": "name-label",
+          "hitInside": true
+        },
+        {
+          "s": "#herald-name",
+          "x": 287,
+          "y": 306.890625,
+          "w": 270,
+          "h": 30,
+          "font": "18px",
+          "color": "rgb(241, 232, 245)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(241, 232, 245) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".undefined-choice",
+          "x": 287,
+          "y": 336.890625,
+          "w": 270,
+          "h": 32,
+          "font": "10px",
+          "color": "rgb(180, 170, 189)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(180, 170, 189) none 3px",
+          "hit": "undefined-choice",
+          "hitInside": true
+        },
+        {
+          "s": ".creation-next",
+          "x": 780,
+          "y": 333,
+          "w": 44,
+          "h": 44,
+          "font": "16px",
+          "color": "rgb(231, 214, 185)",
+          "background": "rgba(16, 13, 26, 0.333)",
+          "outline": "rgb(231, 214, 185) none 3px",
+          "hit": {},
+          "hitInside": true
+        },
+        {
+          "s": ".creation-status",
+          "x": 92,
+          "y": 370,
+          "w": 660,
+          "h": 12,
+          "font": "8px",
+          "color": "rgb(150, 139, 159)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(150, 139, 159) none 3px",
+          "hit": "identity-form",
+          "hitInside": false
+        },
+        {
+          "s": ".creation-back",
+          "x": 14,
+          "y": 9,
+          "w": 38,
+          "h": 38,
+          "font": "20px",
+          "color": "rgb(217, 201, 190)",
+          "background": "rgba(9, 7, 13, 0.267)",
+          "outline": "rgb(217, 201, 190) none 3px",
+          "hit": "creation-back",
+          "hitInside": true
+        }
+      ]
+    },
+    "overlaps": [],
+    "contrast": [],
+    "errors": [],
+    "missing": [],
+    "writes": []
+  },
+  {
+    "viewport": {
+      "width": 568,
+      "height": 320
+    },
+    "ui": {
+      "viewport": {
+        "width": 568,
+        "height": 320,
+        "visualWidth": 568,
+        "visualHeight": 320
+      },
+      "scroll": [
+        568,
+        320
+      ],
+      "headings": [
+        {
+          "text": "Kauê",
+          "hidden": null
+        },
+        {
+          "text": "Nox",
+          "hidden": null
+        },
+        {
+          "text": "Tudo começa pelo sangue.",
+          "hidden": "true"
+        }
+      ],
+      "elements": [
+        {
+          "s": ".identity-title",
+          "x": 22,
+          "y": 44.796875,
+          "w": 524,
+          "h": 31.1875,
+          "font": "16px",
+          "color": "rgb(238, 231, 226)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(238, 231, 226) none 3px",
+          "hit": "identity-form",
+          "hitInside": false
+        },
+        {
+          "s": ".child-choice[data-gender=\"menina\"]>span",
+          "x": 87.734375,
+          "y": 204.59375,
+          "w": 100,
+          "h": 28.890625,
+          "font": "13px",
+          "color": "rgb(243, 232, 215)",
+          "background": "rgba(51, 39, 55, 0.867)",
+          "outline": "rgb(243, 232, 215) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".child-choice[data-gender=\"menino\"]>span",
+          "x": 380.25,
+          "y": 204.59375,
+          "w": 100,
+          "h": 28.890625,
+          "font": "13px",
+          "color": "rgb(230, 217, 197)",
+          "background": "rgba(20, 16, 25, 0.72)",
+          "outline": "rgb(230, 217, 197) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".name-label",
+          "x": 149,
+          "y": 227.1875,
+          "w": 270,
+          "h": 8.390625,
+          "font": "7px",
+          "color": "rgb(168, 160, 177)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(168, 160, 177) none 3px",
+          "hit": "name-label",
+          "hitInside": true
+        },
+        {
+          "s": "#herald-name",
+          "x": 149,
+          "y": 235.578125,
+          "w": 270,
+          "h": 26,
+          "font": "17px",
+          "color": "rgb(241, 232, 245)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(241, 232, 245) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".undefined-choice",
+          "x": 149,
+          "y": 261.578125,
+          "w": 270,
+          "h": 28,
+          "font": "10px",
+          "color": "rgb(180, 170, 189)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(180, 170, 189) none 3px",
+          "hit": "undefined-choice",
+          "hitInside": true
+        },
+        {
+          "s": ".creation-next",
+          "x": 504,
+          "y": 263,
+          "w": 44,
+          "h": 44,
+          "font": "16px",
+          "color": "rgb(231, 214, 185)",
+          "background": "rgba(16, 13, 26, 0.333)",
+          "outline": "rgb(231, 214, 185) none 3px",
+          "hit": {},
+          "hitInside": true
+        },
+        {
+          "s": ".creation-status",
+          "x": 72.5,
+          "y": 300,
+          "w": 423,
+          "h": 12,
+          "font": "8px",
+          "color": "rgb(150, 139, 159)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(150, 139, 159) none 3px",
+          "hit": "identity-form",
+          "hitInside": false
+        },
+        {
+          "s": ".creation-back",
+          "x": 14,
+          "y": 9,
+          "w": 38,
+          "h": 38,
+          "font": "20px",
+          "color": "rgb(217, 201, 190)",
+          "background": "rgba(9, 7, 13, 0.267)",
+          "outline": "rgb(217, 201, 190) none 3px",
+          "hit": "creation-back",
+          "hitInside": true
+        }
+      ]
+    },
+    "overlaps": [
+      {
+        "a": ".child-choice[data-gender=\"menina\"]>span",
+        "b": ".name-label",
+        "w": 38.734375,
+        "h": 6.296875
+      },
+      {
+        "a": ".child-choice[data-gender=\"menino\"]>span",
+        "b": ".name-label",
+        "w": 38.75,
+        "h": 6.296875
+      }
+    ],
+    "contrast": [],
+    "errors": [],
+    "missing": [],
+    "writes": []
+  },
+  {
+    "viewport": {
+      "width": 320,
+      "height": 568
+    },
+    "ui": {
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "visualWidth": 320,
+        "visualHeight": 568
+      },
+      "scroll": [
+        320,
+        568
+      ],
+      "headings": [
+        {
+          "text": "Kauê",
+          "hidden": null
+        },
+        {
+          "text": "Nox",
+          "hidden": null
+        },
+        {
+          "text": "Tudo começa pelo sangue.",
+          "hidden": "true"
+        }
+      ],
+      "elements": [
+        {
+          "s": ".identity-title",
+          "x": 22,
+          "y": 73.828125,
+          "w": 276,
+          "h": 55.1875,
+          "font": "16px",
+          "color": "rgb(238, 231, 226)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(238, 231, 226) none 3px",
+          "hit": "identity-form",
+          "hitInside": false
+        },
+        {
+          "s": ".child-choice[data-gender=\"menina\"]>span",
+          "x": 30,
+          "y": 367.515625,
+          "w": 104,
+          "h": 42.375,
+          "font": "14px",
+          "color": "rgb(243, 232, 215)",
+          "background": "rgba(51, 39, 55, 0.867)",
+          "outline": "rgb(243, 232, 215) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".child-choice[data-gender=\"menino\"]>span",
+          "x": 186,
+          "y": 367.515625,
+          "w": 104,
+          "h": 42.375,
+          "font": "14px",
+          "color": "rgb(230, 217, 197)",
+          "background": "rgba(20, 16, 25, 0.72)",
+          "outline": "rgb(230, 217, 197) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".name-label",
+          "x": 41.6015625,
+          "y": 426,
+          "w": 236.796875,
+          "h": 12,
+          "font": "8px",
+          "color": "rgb(168, 160, 177)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(168, 160, 177) none 3px",
+          "hit": "name-label",
+          "hitInside": true
+        },
+        {
+          "s": "#herald-name",
+          "x": 41.6015625,
+          "y": 444,
+          "w": 236.796875,
+          "h": 46,
+          "font": "22px",
+          "color": "rgb(241, 232, 245)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(241, 232, 245) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".undefined-choice",
+          "x": 41.6015625,
+          "y": 495,
+          "w": 236.796875,
+          "h": 44,
+          "font": "11px",
+          "color": "rgb(180, 170, 189)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(180, 170, 189) none 3px",
+          "hit": "undefined-choice",
+          "hitInside": true
+        },
+        {
+          "s": ".creation-next",
+          "x": 254,
+          "y": 495,
+          "w": 48,
+          "h": 48,
+          "font": "16px",
+          "color": "rgb(231, 214, 185)",
+          "background": "rgba(16, 13, 26, 0.333)",
+          "outline": "rgb(231, 214, 185) none 3px",
+          "hit": {},
+          "hitInside": true
+        },
+        {
+          "s": ".creation-status",
+          "x": 72.5,
+          "y": 532.5,
+          "w": 175,
+          "h": 13.5,
+          "font": "9px",
+          "color": "rgb(150, 139, 159)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(150, 139, 159) none 3px",
+          "hit": "identity-form",
+          "hitInside": false
+        },
+        {
+          "s": ".creation-back",
+          "x": 17,
+          "y": 17,
+          "w": 42,
+          "h": 42,
+          "font": "20px",
+          "color": "rgb(217, 201, 190)",
+          "background": "rgba(9, 7, 13, 0.267)",
+          "outline": "rgb(217, 201, 190) none 3px",
+          "hit": "creation-back",
+          "hitInside": true
+        }
+      ]
+    },
+    "overlaps": [
+      {
+        "a": ".undefined-choice",
+        "b": ".creation-next",
+        "w": 24.3984375,
+        "h": 44
+      }
+    ],
+    "contrast": [],
+    "errors": [],
+    "missing": [],
+    "writes": []
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 430
+    },
+    "ui": {
+      "viewport": {
+        "width": 390,
+        "height": 430,
+        "visualWidth": 390,
+        "visualHeight": 430
+      },
+      "scroll": [
+        390,
+        430
+      ],
+      "headings": [
+        {
+          "text": "Kauê",
+          "hidden": null
+        },
+        {
+          "text": "Nox",
+          "hidden": null
+        },
+        {
+          "text": "Tudo começa pelo sangue.",
+          "hidden": "true"
+        }
+      ],
+      "elements": [
+        {
+          "s": ".identity-title",
+          "x": 22,
+          "y": 55.890625,
+          "w": 346,
+          "h": 60.59375,
+          "font": "16px",
+          "color": "rgb(238, 231, 226)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(238, 231, 226) none 3px",
+          "hit": "identity-form",
+          "hitInside": false
+        },
+        {
+          "s": ".child-choice[data-gender=\"menina\"]>span",
+          "x": 49.25,
+          "y": 279.1875,
+          "w": 104,
+          "h": 42.375,
+          "font": "14px",
+          "color": "rgb(243, 232, 215)",
+          "background": "rgba(51, 39, 55, 0.867)",
+          "outline": "rgb(243, 232, 215) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".child-choice[data-gender=\"menino\"]>span",
+          "x": 236.75,
+          "y": 279.1875,
+          "w": 104,
+          "h": 42.375,
+          "font": "14px",
+          "color": "rgb(230, 217, 197)",
+          "background": "rgba(20, 16, 25, 0.72)",
+          "outline": "rgb(230, 217, 197) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".name-label",
+          "x": 50.703125,
+          "y": 322.5,
+          "w": 288.59375,
+          "h": 12,
+          "font": "8px",
+          "color": "rgb(168, 160, 177)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(168, 160, 177) none 3px",
+          "hit": "name-label",
+          "hitInside": true
+        },
+        {
+          "s": "#herald-name",
+          "x": 50.703125,
+          "y": 340.5,
+          "w": 288.59375,
+          "h": 46,
+          "font": "22px",
+          "color": "rgb(241, 232, 245)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(241, 232, 245) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".undefined-choice",
+          "x": 50.703125,
+          "y": 391.5,
+          "w": 288.59375,
+          "h": 44,
+          "font": "11px",
+          "color": "rgb(180, 170, 189)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(180, 170, 189) none 3px",
+          "hit": "undefined-choice",
+          "hitInside": true
+        },
+        {
+          "s": ".creation-next",
+          "x": 324,
+          "y": 357,
+          "w": 48,
+          "h": 48,
+          "font": "16px",
+          "color": "rgb(231, 214, 185)",
+          "background": "rgba(16, 13, 26, 0.333)",
+          "outline": "rgb(231, 214, 185) none 3px",
+          "hit": {},
+          "hitInside": true
+        },
+        {
+          "s": ".creation-status",
+          "x": 72.5,
+          "y": 394.5,
+          "w": 245,
+          "h": 13.5,
+          "font": "9px",
+          "color": "rgb(150, 139, 159)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(150, 139, 159) none 3px",
+          "hit": "undefined-choice",
+          "hitInside": false
+        },
+        {
+          "s": ".creation-back",
+          "x": 17,
+          "y": 17,
+          "w": 42,
+          "h": 42,
+          "font": "20px",
+          "color": "rgb(217, 201, 190)",
+          "background": "rgba(9, 7, 13, 0.267)",
+          "outline": "rgb(217, 201, 190) none 3px",
+          "hit": "creation-back",
+          "hitInside": true
+        }
+      ]
+    },
+    "overlaps": [
+      {
+        "a": "#herald-name",
+        "b": ".creation-next",
+        "w": 15.296875,
+        "h": 29.5
+      },
+      {
+        "a": ".undefined-choice",
+        "b": ".creation-next",
+        "w": 15.296875,
+        "h": 13.5
+      }
+    ],
+    "contrast": [],
+    "errors": [],
+    "missing": [],
+    "writes": []
+  },
+  {
+    "viewport": {
+      "width": 320,
+      "height": 256
+    },
+    "ui": {
+      "viewport": {
+        "width": 320,
+        "height": 256,
+        "visualWidth": 320,
+        "visualHeight": 256
+      },
+      "scroll": [
+        320,
+        256
+      ],
+      "headings": [
+        {
+          "text": "Kauê",
+          "hidden": null
+        },
+        {
+          "text": "Nox",
+          "hidden": null
+        },
+        {
+          "text": "Tudo começa pelo sangue.",
+          "hidden": "true"
+        }
+      ],
+      "elements": [
+        {
+          "s": ".identity-title",
+          "x": 22,
+          "y": 35.828125,
+          "w": 276,
+          "h": 31.1875,
+          "font": "16px",
+          "color": "rgb(238, 231, 226)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(238, 231, 226) none 3px",
+          "hit": "identity-form",
+          "hitInside": false
+        },
+        {
+          "s": ".child-choice[data-gender=\"menina\"]>span",
+          "x": 27.59375,
+          "y": 164.265625,
+          "w": 100,
+          "h": 28.890625,
+          "font": "13px",
+          "color": "rgb(243, 232, 215)",
+          "background": "rgba(51, 39, 55, 0.867)",
+          "outline": "rgb(243, 232, 215) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".child-choice[data-gender=\"menino\"]>span",
+          "x": 192.390625,
+          "y": 164.265625,
+          "w": 100,
+          "h": 28.890625,
+          "font": "13px",
+          "color": "rgb(230, 217, 197)",
+          "background": "rgba(20, 16, 25, 0.72)",
+          "outline": "rgb(230, 217, 197) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".name-label",
+          "x": 25,
+          "y": 181.75,
+          "w": 270,
+          "h": 8.390625,
+          "font": "7px",
+          "color": "rgb(168, 160, 177)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(168, 160, 177) none 3px",
+          "hit": "name-label",
+          "hitInside": true
+        },
+        {
+          "s": "#herald-name",
+          "x": 25,
+          "y": 190.140625,
+          "w": 270,
+          "h": 26,
+          "font": "17px",
+          "color": "rgb(241, 232, 245)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(241, 232, 245) none 3px",
+          "hit": "",
+          "hitInside": true
+        },
+        {
+          "s": ".undefined-choice",
+          "x": 25,
+          "y": 216.140625,
+          "w": 270,
+          "h": 28,
+          "font": "10px",
+          "color": "rgb(180, 170, 189)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(180, 170, 189) none 3px",
+          "hit": "undefined-choice",
+          "hitInside": true
+        },
+        {
+          "s": ".creation-next",
+          "x": 256,
+          "y": 199,
+          "w": 44,
+          "h": 44,
+          "font": "16px",
+          "color": "rgb(231, 214, 185)",
+          "background": "rgba(16, 13, 26, 0.333)",
+          "outline": "rgb(231, 214, 185) none 3px",
+          "hit": {},
+          "hitInside": true
+        },
+        {
+          "s": ".creation-status",
+          "x": 72.5,
+          "y": 236,
+          "w": 175,
+          "h": 12,
+          "font": "8px",
+          "color": "rgb(150, 139, 159)",
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(150, 139, 159) none 3px",
+          "hit": "undefined-choice",
+          "hitInside": false
+        },
+        {
+          "s": ".creation-back",
+          "x": 14,
+          "y": 9,
+          "w": 38,
+          "h": 38,
+          "font": "20px",
+          "color": "rgb(217, 201, 190)",
+          "background": "rgba(9, 7, 13, 0.267)",
+          "outline": "rgb(217, 201, 190) none 3px",
+          "hit": "creation-back",
+          "hitInside": true
+        }
+      ]
+    },
+    "overlaps": [
+      {
+        "a": ".child-choice[data-gender=\"menina\"]>span",
+        "b": ".name-label",
+        "w": 100,
+        "h": 8.390625
+      },
+      {
+        "a": ".child-choice[data-gender=\"menina\"]>span",
+        "b": "#herald-name",
+        "w": 100,
+        "h": 3.015625
+      },
+      {
+        "a": ".child-choice[data-gender=\"menino\"]>span",
+        "b": ".name-label",
+        "w": 100,
+        "h": 8.390625
+      },
+      {
+        "a": ".child-choice[data-gender=\"menino\"]>span",
+        "b": "#herald-name",
+        "w": 100,
+        "h": 3.015625
+      },
+      {
+        "a": "#herald-name",
+        "b": ".creation-next",
+        "w": 39,
+        "h": 17.140625
+      },
+      {
+        "a": ".undefined-choice",
+        "b": ".creation-next",
+        "w": 39,
+        "h": 26.859375
+      }
+    ],
+    "contrast": [],
+    "errors": [],
+    "missing": [],
+    "writes": []
+  }
+]

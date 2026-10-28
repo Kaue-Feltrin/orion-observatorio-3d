@@ -20,7 +20,7 @@ const fragment=`
   vec2 stepUV=uUV.zw*.006;
   float nearAlpha=max(max(texture2D(uMap,at+vec2(stepUV.x,0.)).a,texture2D(uMap,at-vec2(stepUV.x,0.)).a),max(texture2D(uMap,at+vec2(0.,stepUV.y)).a,texture2D(uMap,at-vec2(0.,stepUV.y)).a));
   float rim=max(0.,smoothstep(.12,.65,nearAlpha)-coverage);
-  float emphasis=.24+uHover*.55+uSelected*.5;
+  float emphasis=.38+uHover*.45+uSelected*.35;
   float alpha=max(coverage,rim*emphasis)*uOpacity*mask*vLife;
   alpha*=smoothstep(0.,.025,vUv.x)*(1.-smoothstep(.975,1.,vUv.x))*smoothstep(0.,.025,vUv.y)*(1.-smoothstep(.975,1.,vUv.y));
   if(alpha<.006)discard;
@@ -76,7 +76,7 @@ export function createCreationArt({scene,camera,panel,reducedMotion=false,enviro
  const particles=new THREE.Points(pg,pm);particles.layers.enable(1);particles.renderOrder=15;particles.frustumCulled=false;particles.visible=!reducedMotion;root.add(particles);
  function layout(){
   // Hit areas stay stationary and accessible. Only painted planes move subtly.
-  for(const [name,selector]of [['baby','.baby-target'],['orbit','.sealed-being'],['menina','[data-gender="menina"]'],['menino','[data-gender="menino"]']])rects[name]=panel.querySelector(selector).getBoundingClientRect();
+  for(const [name,selector]of [['baby','.baby-target'],['orbit','.sealed-being'],['menina','[data-gender="menina"] .soul-anchor'],['menino','[data-gender="menino"] .soul-anchor']])rects[name]=panel.querySelector(selector).getBoundingClientRect();
  }
  function update(now){
   if(!state.ready)return;

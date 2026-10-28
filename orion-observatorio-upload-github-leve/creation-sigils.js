@@ -36,14 +36,14 @@ export function createCreationSigils({reducedMotion=false}={}){
  center+=normalize(center)*spread;center.y-=release*release*.12;
  rotation+=release*(aSeed-.5)*2.;mat2 turn=mat2(cos(rotation),sin(rotation),-sin(rotation),cos(rotation));
  float compression=max(.28,length(tangent.xy)/max(.00001,length(tangent)));
- vec2 local=turn*(position.xy*vec2(.043*compression,.043));vec3 p=center+vec3(local,0.);
+ vec2 local=turn*(position.xy*vec2(.039*compression,.039));vec3 p=center+vec3(local,0.);
  vDepth=center.z;vUv=uv;vSeed=aSeed;vCell=aCell;
  gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.);}`;
  const fragmentShader=`uniform sampler2D uMap;uniform float uFront,uOpacity,uRelease,uCharge,uTime;varying vec2 vUv;varying float vDepth,vSeed,vCell;
  void main(){vec2 cell=vec2(mod(vCell,8.),floor(vCell/8.));vec2 at=vec2((cell.x+vUv.x)/8.,1.-(cell.y+1.-vUv.y)/4.);float glyph=texture2D(uMap,at).a;
  float side=smoothstep(-.013,.013,vDepth);float mask=mix(1.-side,side,uFront);float fade=1.-smoothstep(.35+vSeed*.2,1.,uRelease);
  float alpha=glyph*mask*uOpacity*fade;if(alpha<.006)discard;
- float breathe=.94+.06*sin(uTime*.8+vSeed*6.);vec3 gold=mix(vec3(.85,.43,.07),vec3(2.4,1.45,.35),uFront*.65+.15)*breathe*(1.+uCharge*.9);
+ float breathe=.94+.06*sin(uTime*.8+vSeed*6.);vec3 gold=mix(vec3(.72,.39,.07),vec3(1.60,1.08,.30),uFront*.65+.15)*breathe*(1.+uCharge*.9);
  gl_FragColor=vec4(gold,alpha);
  #include <colorspace_fragment>
  }`;

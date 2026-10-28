@@ -27,7 +27,7 @@ export function createCreationNebula(scene,photo,{reducedMotion=false,parallaxEn
  color=mix(color,grey*vec3(.82,.80,.95),transition);
  float alpha=cloud.a*opacity;gl_FragColor=vec4(color,alpha);
  #include <colorspace_fragment>
- gl_FragColor.rgb*=mix(1.,brightness,red*(1.-transition));
+ gl_FragColor.rgb*=mix(1.,brightness,red);
  }`;
  const ready=Promise.all(ATMOSPHERE_LAYERS.map(async(spec,i)=>{
   const t=await loader.loadAsync(spec.file);t.colorSpace=THREE.SRGBColorSpace;t.minFilter=THREE.LinearMipmapLinearFilter;t.magFilter=THREE.LinearFilter;

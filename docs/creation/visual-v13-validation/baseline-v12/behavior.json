@@ -1,0 +1,129 @@
+{
+  "version": "156.0.8078.47",
+  "hits": [
+    {
+      "viewport": {
+        "width": 568,
+        "height": 320
+      },
+      "hit": {
+        "x": 149.5,
+        "y": 228.5,
+        "hit": "name-label",
+        "expected": ".child-choice[data-gender=\"menina\"]>span",
+        "actual": ".name-label",
+        "after": {
+          "selected": "menino",
+          "focus": "herald-name",
+          "status": "Sua identidade está pronta para continuar.",
+          "stored": null
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 430
+      },
+      "hit": {
+        "x": 339.5,
+        "y": 357.5,
+        "hit": "creation-next",
+        "expected": "#herald-name",
+        "actual": ".creation-next",
+        "after": {
+          "selected": "menino",
+          "focus": "",
+          "status": "Aurora: identidade preparada. A próxima etapa ainda será definida.",
+          "stored": "{\"version\":1,\"name\":\"Aurora\",\"gender\":\"menino\",\"step\":\"identity\"}"
+        }
+      }
+    }
+  ],
+  "resources": {
+    "count": 22,
+    "total": 15559604,
+    "largest": [
+      {
+        "url": "http://127.0.0.1:4290/assets/nebula-eso-photographic.jpg",
+        "bytes": 4080870,
+        "kind": "img"
+      },
+      {
+        "url": "http://127.0.0.1:4290/assets/nebula-eso-photographic.jpg",
+        "bytes": 4080870,
+        "kind": "img"
+      },
+      {
+        "url": "http://127.0.0.1:4290/assets/03-mid-clouds.webp",
+        "bytes": 3024390,
+        "kind": "img"
+      },
+      {
+        "url": "http://127.0.0.1:4290/assets/02-nebula-main.webp",
+        "bytes": 1373746,
+        "kind": "css"
+      },
+      {
+        "url": "http://127.0.0.1:4290/assets/main-4jbobLMB.js",
+        "bytes": 743736,
+        "kind": "script"
+      },
+      {
+        "url": "http://127.0.0.1:4290/assets/01-nebula-far.webp",
+        "bytes": 626052,
+        "kind": "img"
+      },
+      {
+        "url": "http://127.0.0.1:4290/assets/00-starfield-base.jpg",
+        "bytes": 585729,
+        "kind": "img"
+      },
+      {
+        "url": "http://127.0.0.1:4290/overlay/left-hand-ethereal.webp",
+        "bytes": 179762,
+        "kind": "img"
+      },
+      {
+        "url": "http://127.0.0.1:4290/overlay/right-hand-pointing-smooth.webp",
+        "bytes": 131050,
+        "kind": "img"
+      },
+      {
+        "url": "http://127.0.0.1:4290/assets/04-front-fog.png",
+        "bytes": 121490,
+        "kind": "img"
+      },
+      {
+        "url": "http://127.0.0.1:4290/assets/depth/eso-gas-05.webp",
+        "bytes": 99202,
+        "kind": "img"
+      },
+      {
+        "url": "http://127.0.0.1:4290/assets/depth/eso-gas-06.webp",
+        "bytes": 98542,
+        "kind": "img"
+      },
+      {
+        "url": "http://127.0.0.1:4290/assets/depth/eso-gas-01.webp",
+        "bytes": 86440,
+        "kind": "img"
+      },
+      {
+        "url": "http://127.0.0.1:4290/assets/depth/eso-gas-02.webp",
+        "bytes": 83384,
+        "kind": "img"
+      },
+      {
+        "url": "http://127.0.0.1:4290/assets/06-star-glow.png",
+        "bytes": 75681,
+        "kind": "img"
+      }
+    ]
+  },
+  "failedAsset": {
+    "alert": "Não foi possível iniciar o Observatório 3D\n\nTentar novamente",
+    "loader": "none"
+  },
+  "retryRecovered": true
+}

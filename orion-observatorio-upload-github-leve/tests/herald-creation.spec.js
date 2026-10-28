@@ -74,8 +74,9 @@ for(const viewport of [{width:390,height:844},{width:844,height:390}]){
    await expect(page.locator('#observatory')).toHaveAttribute('data-creation-phase','identity');
    await page.getByRole('button',{name:'Escolher menina',exact:true}).tap();await page.locator('#herald-name').fill('Luna');
    for(const sel of ['#herald-name','#undefinedGender','.creation-next','[data-gender="menina"]','[data-gender="menino"]']){
+    await page.locator(sel).scrollIntoViewIfNeeded();
     const r=await page.locator(sel).boundingBox();expect(r).not.toBeNull();expect(r.x).toBeGreaterThanOrEqual(0);expect(r.y).toBeGreaterThanOrEqual(0);expect(r.x+r.width).toBeLessThanOrEqual(viewport.width+1);expect(r.y+r.height).toBeLessThanOrEqual(viewport.height+1);
-    if(sel==='.creation-next')expect(viewport.height-r.y-r.height).toBeLessThan(65);
+    expect(await page.locator(sel).evaluate(el=>{const r=el.getBoundingClientRect();return el.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2))})).toBe(true);
    }
    expect(await page.locator('.herald-creation').evaluate(el=>[el.scrollLeft,el.scrollTop])).toEqual([0,0]);
    expect(await page.locator('#observatory').evaluate(el=>[el.scrollLeft,el.scrollTop])).toEqual([0,0]);

@@ -1,3 +1,7 @@
+## 28/10/2026 — V13: acabamento baseado no review
+
+- Formulário em Grid e rolagem interna: cinco regressões eliminam cliques conflitantes. Contraste dos rótulos reaplicado pelo método dos glifos; textos auxiliares maiores e planos estáveis. Sigilos menos dominantes, contornos harmonizados e fundo da identidade escurecido. Asserção estrutural antiga corrigida sem mudar câmera. Resultados: `docs/creation/VISUAL-RESULTS-V13.md`. Rascunho/etapa seguinte e custo de entrada mantidos fora da revisão visual. Sem deploy/produção.
+
 ## 28/10/2026 — V12: material orgânico
 
 - Apenas os vermelhos foram refeitos como membranas e dobras; cinzas/base e efeitos V11 preservados. Imagens nativas com alpha, inspetor e pacotes atualizados. Resultados reais em `docs/creation/ORGANICO-RESULTS-V12.md`, incluindo falha de `npm run check` por regex antigo do mouse. Não anunciar suite completa aprovada. Sem deploy/produção.

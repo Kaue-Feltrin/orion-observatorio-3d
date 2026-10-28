@@ -7,7 +7,25 @@ export function createHeraldCreation(root,{hands,reducedMotion=false,scene,camer
  let state=newCreation(),gestureStart=null,aim={x:0,y:0},storageWarning=false;
  const panel=document.createElement('section');
  panel.className='herald-creation';panel.setAttribute('aria-label','O nascimento do Marcado');
- panel.innerHTML=`<a class="creation-back" href="index.html?stars=0" aria-label="Voltar ao observatório">←</a><span class="creation-label">O despertar</span><h1 class="blood-prologue">Tudo começa pelo sangue.</h1><div class="identity-title" hidden><strong>O início de uma história.</strong><small>Escolha uma representação para seu arauto.</small></div><div class="creation-stage"><div class="sealed-being"><button class="baby-target" type="button" data-creation-point aria-label="Contemplar a silhueta etérea" aria-controls="markBeing" aria-expanded="false"><span class="sr-only">Acorrentado pela realidade: uma silhueta cercada por sigilos de conhecimento</span><span class="interaction-cue" aria-hidden="true">Clique para despertar</span></button></div><button class="mark-being" id="markBeing" aria-label="Tornar Marcado" type="button" hidden disabled><span class="mark-sigil" aria-hidden="true">✧</span><span class="mark-title">Tornar Marcado</span><span class="mark-hint">Romper o vínculo</span></button><form id="identityForm" class="identity-form" hidden><fieldset class="child-choices"><legend class="sr-only">Escolha a silhueta ou não defina gênero</legend>${['menina','menino'].map(g=>`<button type="button" class="child-choice" data-gender="${g}" data-creation-point aria-label="Escolher ${g}" aria-pressed="false"><span>${g==='menina'?'Menina':'Menino'}<small>Selecionar</small></span></button>`).join('')}</fieldset><div class="identity-fields"><label for="herald-name" class="name-label">Nome do arauto</label><input id="herald-name" name="name" type="text" placeholder="Nomeie seu arauto" maxlength="60" required autocomplete="off" aria-describedby="creationStatus"><label class="undefined-choice"><input type="checkbox" id="undefinedGender">Não definir gênero</label></div><button class="creation-next" type="submit" aria-label="Continuar com esta identidade" hidden disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button></form></div><p id="creationStatus" class="creation-status" role="status" aria-live="polite">Tudo começa pelo sangue.</p>`;
+ panel.innerHTML=`
+ <a class="creation-back" href="index.html?stars=0" aria-label="Voltar ao observatório">←</a>
+ <span class="creation-label">O despertar</span>
+ <div class="creation-stage">
+  <section class="birth-stage" aria-label="O despertar">
+   <h1 class="blood-prologue">Tudo começa pelo sangue.</h1>
+   <div class="sealed-being"><button class="baby-target" type="button" data-creation-point aria-label="Contemplar a silhueta etérea" aria-controls="markBeing" aria-expanded="false"><span class="sr-only">Acorrentado pela realidade: uma silhueta cercada por sigilos de conhecimento</span><span class="interaction-cue" aria-hidden="true">Clique para despertar</span></button></div>
+   <div class="mark-slot"><button class="mark-being" id="markBeing" aria-label="Tornar Marcado" type="button" hidden disabled><span class="mark-sigil" aria-hidden="true">✧</span><span class="mark-title">Tornar Marcado</span><span class="mark-hint">Romper o vínculo</span></button></div>
+  </section>
+  <form id="identityForm" class="identity-form" hidden>
+   <header class="identity-title" hidden><h1>O início de uma história.</h1><p>Escolha uma representação para seu arauto.</p></header>
+   <fieldset class="child-choices"><legend class="sr-only">Escolha a silhueta ou não defina gênero</legend>${['menina','menino'].map(g=>`<button type="button" class="child-choice" data-gender="${g}" data-creation-point aria-label="Escolher ${g}" aria-pressed="false"><i class="soul-anchor" aria-hidden="true"></i><span>${g==='menina'?'Menina':'Menino'}<small>Selecionar</small></span></button>`).join('')}</fieldset>
+   <div class="identity-controls">
+    <div class="identity-fields"><label for="herald-name" class="name-label">Nome do arauto</label><input id="herald-name" name="name" type="text" placeholder="Nomeie seu arauto" maxlength="60" required autocomplete="off" aria-describedby="creationStatus"><label class="undefined-choice"><input type="checkbox" id="undefinedGender">Não definir gênero</label></div>
+    <div class="identity-action" hidden><button class="creation-next" type="submit" aria-label="Continuar com esta identidade" hidden disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button><span aria-hidden="true">Continuar</span></div>
+   </div>
+  </form>
+ </div>
+ <p id="creationStatus" class="creation-status" role="status" aria-live="polite">Tudo começa pelo sangue.</p>`;
  root.append(panel);
  if(root.dataset.input==='touch')panel.querySelector('.interaction-cue').textContent='Toque para despertar';
  const back=observatoryURL(location.href);back.searchParams.set('stars','0');panel.querySelector('.creation-back').href=back.href;
@@ -21,7 +39,10 @@ export function createHeraldCreation(root,{hands,reducedMotion=false,scene,camer
  if(new URLSearchParams(location.search).has('debug'))window.__orionCreationDebug=art;
  function sync(){
    panel.dataset.phase=state.phase;root.dataset.creationPhase=state.phase;
+   panel.querySelector('.creation-label').textContent=state.phase==='identity'?'Identidade':'O despertar';
    panel.querySelector('.identity-title').hidden=state.phase!=='identity';
+   panel.querySelector('.birth-stage').hidden=state.phase==='identity';
+   panel.querySelector('.identity-action').hidden=state.gender===null;
    panel.querySelector('.blood-prologue').setAttribute('aria-hidden',String(state.phase==='identity'));
    for(const b of panel.querySelectorAll('[data-gender]')){b.setAttribute('aria-pressed',String(b.dataset.gender===state.gender));b.querySelector('small').textContent=b.dataset.gender===state.gender?'✓ Selecionado':'Selecionar';}
    undefinedGender.checked=state.gender==='nao-definir';
@@ -47,7 +68,7 @@ export function createHeraldCreation(root,{hands,reducedMotion=false,scene,camer
    if(state.phase!=='revealed')return;
    state=transitionCreation(state,{type:'mark'});sync();
    gestureStart=null;hands.setStarSelection?.(null);hands.setStarHovered?.(false);mark.disabled=true;
-   baby.inert=true;form.hidden=false;form.inert=true;status.textContent='Os sigilos se desfazem. A alma desperta.';
+   baby.inert=true;form.append(status);form.hidden=false;form.inert=true;status.textContent='Os sigilos se desfazem. A alma desperta.';
    // The shared WebGL clock resolves this promise after the VFX timeline.
    // No DOM pieces flying apart and no button-click hand animation.
    await art.release();

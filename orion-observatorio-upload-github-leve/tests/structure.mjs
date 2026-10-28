@@ -98,7 +98,14 @@ assert.match(css,/radial-gradient\(ellipse 22% 28% at var\(--nox-focus-x/,'spotl
 assert.match(main,/createNebulaVolume\(scene,mainCloud/,'recortes da foto ESO em planos 3D');
 assert.match(main,/nebulaVolume\.update\(time,mouse\.x,mouse\.y,delta\)/,'nuvens independentes e resposta imediata ao alvo do cursor');
 assert.match(main,/nebulaVolume\.resize\(\)/,'enquadramento na projeção');
-assert.match(main,/Math\.exp\(-Math\.max\(\.001,delta\)\*18\)/,'mouse responde rapidamente');
+const cameraResponseExpression=main.match(/const inertia=(.+);/)?.[1];
+assert.ok(cameraResponseExpression,'resposta de câmera definida');
+const sampleCameraResponse=new Function('reduceMotion','delta','creationPage','return '+cameraResponseExpression);
+for(const dt of [1/30,1/60,1/120]){
+ assert.equal(sampleCameraResponse(false,dt,false),1-Math.exp(-dt*18),'Observatório mantém resposta original');
+ assert.equal(sampleCameraResponse(false,dt,true),1-Math.exp(-dt*4),'criação mantém resposta suave');
+ assert.equal(sampleCameraResponse(true,dt,true),1,'movimento reduzido sem interpolação');
+}
 assert.match(main,/cachedCardHeight/,'evitar reflow por quadro');
 assert.doesNotMatch(main,/card\.offsetHeight-18/,'não ler layout a cada frame');
 assert.match(main,/fpsCap:60/,'sem limite rígido de 30 fps');
