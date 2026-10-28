@@ -2,6 +2,7 @@ import './origin-workshop.css';
 import {ORIGINS,SKILLS} from './origin-catalog.js';
 import {INTERESTS,findOrigins,interestsFor,skillLabel,storyFor} from './origin-discovery.js';
 import {CREATION_DRAFT_KEY} from './creation-state.js';
+import {originIcon} from './origin-icons.js';
 
 const woodURL='/assets/workshop/walnut-v15.png';
 const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -22,7 +23,7 @@ export function openOriginWorkshop(draft,{onReturn=()=>{},onChoose=()=>{},reduce
  stage.dataset.phase='preparing';
  stage.innerHTML=`<div class="workshop-mist" aria-hidden="true"></div><p class="paper-preparing" role="status">Materializando sua história…</p>
   <div class="workshop-planks" aria-hidden="true">${Array.from({length:6},(_,i)=>`<div class="workshop-plank" style="--plank:${i};--grain:${i*19}%"></div>`).join('')}</div>
-  <div class="paper-landing"><article class="physical-sheet" aria-labelledby="paperTitle" aria-busy="true">
+  <div class="paper-scroll"><div class="paper-landing"><article class="physical-sheet" aria-labelledby="paperTitle" aria-busy="true">
    <div class="paper-content" inert>
     <header class="paper-header"><div class="paper-imprint"><span>ÓRION</span><small>Ficha do arauto · prévia</small></div><button class="paper-return ink-link" type="button">← Voltar à identidade</button></header>
     <div class="paper-chapter"><span>02 / ORIGEM</span><span>Uma vida antes do inexplicável</span></div>
@@ -40,7 +41,7 @@ export function openOriginWorkshop(draft,{onReturn=()=>{},onChoose=()=>{},reduce
      <section class="origin-detail" id="originDetail" aria-labelledby="originDetailTitle"><div class="detail-placeholder"><span class="ink-star" aria-hidden="true">✧</span><h2 id="originDetailTitle">Um passado ainda não escrito.</h2><small>Abra uma origem para conhecer sua história, perícias e habilidade.</small></div></section></div>
     <footer class="paper-footer"><div><button class="open-comparison ink-link" type="button" disabled>Comparar origens (0/2)</button><p class="paper-status" role="status" aria-live="polite">Explore à vontade. A origem só será escolhida quando você confirmar.</p></div><span class="paper-page">ÓRION / 02</span></footer>
    </div>
-  </article></div>
+  </article></div></div>
   <dialog class="origin-comparison" aria-labelledby="compareTitle"><header><div><small>Duas possibilidades para sua história</small><h2 id="compareTitle">Lado a lado</h2></div><button type="button" class="close-comparison ink-link" aria-label="Fechar comparação">×</button></header><div class="comparison-content"></div></dialog>`;
  document.body.append(stage);document.documentElement.dataset.paperActive='1';
  stage.querySelector('.paper-name').textContent=draft.name;
@@ -52,14 +53,14 @@ export function openOriginWorkshop(draft,{onReturn=()=>{},onChoose=()=>{},reduce
  function rowSelection(){for(const b of results.querySelectorAll('[data-origin]')){b.setAttribute('aria-pressed',String(b.dataset.origin===state.selected));b.querySelector('.origin-row-arrow').textContent=b.dataset.origin===state.selected?'✓':'→';}}
  function renderResults(){
   const found=findOrigins(state);$('#originCount').textContent=`${found.length} ${found.length===1?'origem':'origens'}`;
-  results.innerHTML=found.map((o,i)=>`<li><button type="button" data-origin="${o.code}" aria-pressed="${o.code===state.selected}" aria-controls="originDetail"><span class="origin-row-number">${String(i+1).padStart(2,'0')}</span><span><strong>${escape(o.label)}</strong><small>${escape(skillText(o))}</small></span><span class="origin-row-arrow" aria-hidden="true">${o.code===state.selected?'✓':'→'}</span></button></li>`).join('');
+  results.innerHTML=found.map(o=>`<li><button type="button" data-origin="${o.code}" aria-pressed="${o.code===state.selected}" aria-controls="originDetail"><span class="origin-row-symbol">${originIcon(o.code)}</span><span><strong>${escape(o.label)}</strong><small>${escape(skillText(o))}</small></span><span class="origin-row-arrow" aria-hidden="true">${o.code===state.selected?'✓':'→'}</span></button></li>`).join('');
   $('.origin-empty').hidden=found.length>0;$('.reset-filters').hidden=!(state.query||state.interest||state.source||state.skill);$('.clear-search').hidden=!state.query;
   for(const b of stage.querySelectorAll('[data-interest]'))b.setAttribute('aria-pressed',String(b.dataset.interest===state.interest));
   announce(`${found.length} ${found.length===1?'origem encontrada':'origens encontradas'}.${state.selected?' A origem aberta continua disponível para revisão.':''}`);
  }
  function renderDetail(){
   const o=ORIGINS.find(o=>o.code===state.selected);if(!o)return;
-  detail.innerHTML=`<div class="detail-overline"><span>Uma possibilidade de passado</span><button class="back-to-index ink-link" type="button">↑ Lista</button></div><h2 id="originDetailTitle" tabindex="-1">${escape(o.label)}</h2><p class="origin-story">${escape(storyFor(o))}</p><p class="story-caption">Uma ideia para sua história; os detalhes são seus.</p><div class="detail-tags">${interestsFor(o).map(i=>`<span>${i.label}</span>`).join('')}</div><dl class="origin-facts"><div><dt>Perícias associadas</dt><dd>${escape(skillText(o))}${o.variableSkillCount?`<small>Mais ${o.variableSkillCount} perícia à sua escolha.</small>`:''}${o.professionRequired?'<small>Esta origem envolve uma especialidade de Profissão.</small>':''}</dd></div><div><dt>Habilidade de origem</dt><dd>${escape(o.powerName)}</dd></div><div><dt>Livro de origem</dt><dd class="origin-book">${escape(o.source)}</dd></div></dl><div class="origin-detail-actions"><button type="button" class="choose-origin ink-primary" ${state.confirmed===o.code?'disabled':''}>${state.confirmed===o.code?'✓ Origem escolhida':'Escolher esta origem'}<span aria-hidden="true">→</span></button><button type="button" class="compare-origin ink-link" aria-pressed="${state.compared.includes(o.code)}">${state.compared.includes(o.code)?'− Retirar da comparação':'+ Comparar esta origem'}</button></div>`;
+  detail.innerHTML=`<div class="detail-overline"><span>Uma possibilidade de passado</span><button class="back-to-index ink-link" type="button">↑ Lista</button></div><div class="origin-heading"><div class="origin-portrait">${originIcon(o.code)}</div><h2 id="originDetailTitle" tabindex="-1">${escape(o.label)}</h2></div><p class="origin-story">${escape(storyFor(o))}</p><p class="story-caption">Uma ideia para sua história; os detalhes são seus.</p><div class="detail-tags">${interestsFor(o).map(i=>`<span>${i.label}</span>`).join('')}</div><dl class="origin-facts"><div><dt>Perícias associadas</dt><dd>${escape(skillText(o))}${o.variableSkillCount?`<small>Mais ${o.variableSkillCount} perícia à sua escolha.</small>`:''}${o.professionRequired?'<small>Esta origem envolve uma especialidade de Profissão.</small>':''}</dd></div><div><dt>Habilidade de origem</dt><dd>${escape(o.powerName)}</dd></div><div><dt>Livro de origem</dt><dd class="origin-book">${escape(o.source)}</dd></div></dl><div class="origin-detail-actions"><button type="button" class="choose-origin ink-primary" ${state.confirmed===o.code?'disabled':''}>${state.confirmed===o.code?'✓ Origem escolhida':'Escolher esta origem'}<span aria-hidden="true">→</span></button><button type="button" class="compare-origin ink-link" aria-pressed="${state.compared.includes(o.code)}">${state.compared.includes(o.code)?'− Retirar da comparação':'+ Comparar esta origem'}</button></div>`;
   $('.choose-origin').addEventListener('click',()=>{
    const value={...draft,step:'origin',origin:{code:o.code,label:o.label,source:o.source}};
    try{sessionStorage.setItem(CREATION_DRAFT_KEY,JSON.stringify(value));state.confirmed=o.code;$('.paper-chosen-name').textContent=o.label;renderDetail();announce(`${o.label} é a origem de ${draft.name}. Você pode explorar e trocar antes da próxima etapa.`);onChoose(value);stage.dispatchEvent(new CustomEvent('orion:origin-chosen',{detail:value,bubbles:true}));}
@@ -84,7 +85,7 @@ export function openOriginWorkshop(draft,{onReturn=()=>{},onChoose=()=>{},reduce
  $('#originSkill').addEventListener('change',e=>{state.skill=e.target.value;renderResults();});
  $('.reset-filters').addEventListener('click',()=>{Object.assign(state,{query:'',interest:'',source:'',skill:''});$('#originSearch').value='';$('#originSource').value='';$('#originSkill').value='';renderResults();});
  $('.open-comparison').addEventListener('click',()=>{
-  $('.comparison-content').innerHTML=state.compared.map(code=>{const o=ORIGINS.find(o=>o.code===code);return `<section><h3>${escape(o.label)}</h3><p>${escape(storyFor(o))}</p><dl><dt>Perícias</dt><dd>${escape(skillText(o))}</dd><dt>Habilidade</dt><dd>${escape(o.powerName)}</dd><dt>Livro</dt><dd>${escape(o.source)}</dd></dl><button type="button" class="ink-link" data-remove-compare="${o.code}">Retirar da comparação</button></section>`}).join('');dialog.showModal();
+  $('.comparison-content').innerHTML=state.compared.map(code=>{const o=ORIGINS.find(o=>o.code===code);return `<section><div class="comparison-origin-heading">${originIcon(o.code)}<h3>${escape(o.label)}</h3></div><p>${escape(storyFor(o))}</p><dl><dt>Perícias</dt><dd>${escape(skillText(o))}</dd><dt>Habilidade</dt><dd>${escape(o.powerName)}</dd><dt>Livro</dt><dd>${escape(o.source)}</dd></dl><button type="button" class="ink-link" data-remove-compare="${o.code}">Retirar da comparação</button></section>`}).join('');dialog.showModal();
  });
  $('.comparison-content').addEventListener('click',e=>{const b=e.target.closest('[data-remove-compare]');if(!b)return;state.compared=state.compared.filter(c=>c!==b.dataset.removeCompare);compareLabel();renderDetail();dialog.close();announce('Origem retirada da comparação.');});
  $('.close-comparison').addEventListener('click',()=>dialog.close());

@@ -1,4 +1,6 @@
-> Revisão visual atual: [V15 — A história no papel](PAPEL-RESULTS-V15.md). Transição de tábuas e folha, descoberta de origens, guia, filtros e comparação; rascunho local e retorno preservado.
+> Revisão visual atual: [V16 — Madeira, pictogramas e tinta](ACABAMENTO-RESULTS-V16.md). Fundo fixo corrigido após rolar, 66 ícones editoriais SVG e controles suavizados. Evidências de antes/depois e resultados reais registrados.
+
+> Histórico V15: [V15 — A história no papel](PAPEL-RESULTS-V15.md). Transição de tábuas e folha, descoberta de origens, guia, filtros e comparação; rascunho local e retorno preservado.
 
 > Histórico V14: [V14 — Névoa e controles sem painéis](NEVOA-RESULTS-V14.md). Vermelhos ilustrados na criação; apenas névoas na identidade. Capturas, testes e limites registrados.
 

@@ -1,0 +1,46 @@
+
+Running 1 test using 1 worker
+
+(node:90033) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:90033) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Internal error: step id not found: fixture@47
+  ✘  1 tests/origin-materials-v16.spec.js:36:3 › madeira cobre o fundo depois de rolar a ficha 1855x711 (6.2s)
+
+
+  1) tests/origin-materials-v16.spec.js:36:3 › madeira cobre o fundo depois de rolar a ficha 1855x711
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= -1
+    Received:    -489
+
+      20 |    await page.locator('.paper-workshop').evaluate(stage=>{const scroll=stage.querySelector('.paper-scroll')??stage;scroll.scrollTop=scroll.scrollHeight;});
+      21 |    const rect=await page.locator('.workshop-planks').boundingBox();
+    > 22 |    expect(rect.y).toBeGreaterThanOrEqual(-1);expect(rect.y+rect.height).toBeGreaterThanOrEqual(viewport.height-1);
+         |                   ^
+      23 |    const pixel=await sharp(await page.screenshot({clip:{x:1,y:viewport.height-5,width:4,height:4}})).removeAlpha().stats();
+      24 |    expect(pixel.channels[0].mean).toBeGreaterThan(20);
+      25 |    expect(pixel.channels[0].mean).toBeGreaterThan(pixel.channels[2].mean);
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/origin-materials-v16.spec.js:22:19
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../orion-v16-before-results/origin-materials-v16-madei-31d8b-s-de-rolar-a-ficha-1855x711/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../orion-v16-before-results/origin-materials-v16-madei-31d8b-s-de-rolar-a-ficha-1855x711/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../orion-v16-before-results/origin-materials-v16-madei-31d8b-s-de-rolar-a-ficha-1855x711/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/origin-materials-v16.spec.js:36:3 › madeira cobre o fundo depois de rolar a ficha 1855x711
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

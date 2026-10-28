@@ -1,0 +1,17 @@
+{
+  "v15:main.js": true,
+  "v15:herald-creation.js": true,
+  "v15:origin-catalog.js": true,
+  "v15:origin-discovery.js": true,
+  "v15:creation.css": true,
+  "v15:creation-cinematic.js": true,
+  "v15:creation-body-rig.js": true,
+  "v15:creation-environment.js": true,
+  "v15:creation-sigils.js": true,
+  "star-journey.js": true,
+  "star-selection.js": true,
+  "page-transition.js": true,
+  "first-person-hands-mesh.js": true,
+  "fichasHead": "f80bbaacc8acb4ad0158d43fb923e2f421e58528",
+  "fichasTrackedStatus": ""
+}

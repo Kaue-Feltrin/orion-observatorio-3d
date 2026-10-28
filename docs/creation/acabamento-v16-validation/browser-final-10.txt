@@ -1,0 +1,24 @@
+
+Running 10 tests using 1 worker
+
+(node:90647) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:90647) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/origin-materials-v16.spec.js:36:3 › madeira cobre o fundo depois de rolar a ficha 1855x711 (8.7s)
+  ✓   2 tests/origin-materials-v16.spec.js:36:3 › madeira cobre o fundo depois de rolar a ficha 390x844 (5.2s)
+  ✓   3 tests/origin-materials-v16.spec.js:36:3 › madeira cobre o fundo depois de rolar a ficha 568x320 (3.8s)
+  ✓   4 tests/origin-materials-v16.spec.js:68:1 › ícones acompanham lista, detalhes e comparação sem substituir o nome (6.8s)
+  ✓   5 tests/origin-paper.spec.js:32:1 › ficha física: consulta não confirma, origem salva só após escolha e identidade é preservada (5.9s)
+  ✓   6 tests/origin-paper.spec.js:73:1 › busca, filtros combinados, guia e comparação preservam confirmação explícita (7.2s)
+  ✓   7 tests/origin-paper.spec.js:125:1 › nome é texto, movimento reduzido não executa a queda, armazenamento recusado não confirma (4.7s)
+  ✓   8 tests/origin-paper.spec.js:154:3 › papel 390x844: busca, detalhes e confirmação alcançáveis (6.1s)
+  ✓   9 tests/origin-paper.spec.js:154:3 › papel 320x568: busca, detalhes e confirmação alcançáveis (4.5s)
+  ✓  10 tests/origin-paper.spec.js:154:3 › papel 568x320: busca, detalhes e confirmação alcançáveis (4.8s)
+
+  10 passed (58.9s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

@@ -1,5 +1,5 @@
 {
-  "version": 15,
+  "version": 16,
   "material": {
     "file": "walnut-v15.png",
     "width": 1536,
@@ -9,7 +9,7 @@
     "sha256": "a160864a71bb159120ef2956c4bcdeba0c8887dd1f3fc0bbf85fc6e3345f6b93",
     "origin": "image_gen; textura nova gerada nesta conversa. PNG nativo preservado sem edição de pixels."
   },
-  "paper": "HTML/CSS: cor marfim, grão procedural em SVG, linhas, bordas e sombra; seis planos independentes para as tábuas, sem simulação física.",
+  "paper": "HTML/CSS: folha com bordas suaves e marcas de tinta; rolagem em contêiner próprio, separada das seis tábuas fixas no viewport.",
   "catalog": {
     "repository": "Kaue-Feltrin/orion-fichas",
     "commit": "f80bbaacc8acb4ad0158d43fb923e2f421e58528",
@@ -25,5 +25,12 @@
       "Suplemento Órion": 20,
       "Arquivos Secretos #7": 2
     }
+  },
+  "icons": {
+    "count": 66,
+    "format": "inline SVG",
+    "source": "origin-icons.js (fonte de desenvolvimento)",
+    "sha256": "a5924b261f931d0045857c4a39d7e2f200db9155852ae19ac42959506990fe31",
+    "origin": "Pictogramas editoriais criados em SVG para esta interface. Não são sigilos oficiais dos livros."
   }
 }

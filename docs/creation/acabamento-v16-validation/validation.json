@@ -1,0 +1,32 @@
+{
+  "base": "http://127.0.0.1:4295",
+  "timing": [
+    {
+      "phase": "landing",
+      "elapsed": 1586.9000000059605
+    },
+    {
+      "phase": "paper",
+      "elapsed": 3200.1000000089407
+    },
+    {
+      "phase": "ready",
+      "elapsed": 4194.70000000298
+    }
+  ],
+  "frozenWebGLTime": 18.7545,
+  "draft": {
+    "version": 1,
+    "name": "Astra",
+    "gender": "menina",
+    "step": "origin",
+    "origin": {
+      "code": "INVESTIGADOR",
+      "label": "Investigador",
+      "source": "Livro Base"
+    }
+  },
+  "errors": [],
+  "bad": [],
+  "writes": []
+}

@@ -1,3 +1,7 @@
+## 28/10/2026 — V16: madeira e pictogramas
+
+- Falha de cobertura da madeira reproduzida e corrigida ao separar a rolagem da folha das tábuas fixas. 66 pictogramas SVG na lista/detalhe/comparação, seleção por tinta e botão em formato de carimbo. Dez cenários Chrome, 20 arquivos unitários, contraste local e pacote HTTP aprovados. Evidências em `docs/creation/ACABAMENTO-RESULTS-V16.md`. Sem mudanças mecânicas, dados reais ou deploy. Homologação artística/aparelho físico pendentes.
+
 ## 28/10/2026 — V15: materialização da ficha e origens
 
 - Continuação da identidade abre seis tábuas e uma folha física. Catálogo de referência de 66 origens com busca, oito interesses, fonte/perícia, guia e comparação de duas opções; confirmação apenas no rascunho local. Renderer da criação suspenso sob a folha, retorno preservado e movimento reduzido. Resultados/evidências em `docs/creation/PAPEL-RESULTS-V15.md`. Base V14 e Órion Fichas preservados; sem concessões remotas, produção ou deploy. Visual e aparelho real ainda dependem de homologação.
