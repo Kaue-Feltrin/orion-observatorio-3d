@@ -43,7 +43,7 @@ export function createCreationSigils({reducedMotion=false}={}){
  void main(){vec2 cell=vec2(mod(vCell,8.),floor(vCell/8.));vec2 at=vec2((cell.x+vUv.x)/8.,1.-(cell.y+1.-vUv.y)/4.);float glyph=texture2D(uMap,at).a;
  float side=smoothstep(-.013,.013,vDepth);float mask=mix(1.-side,side,uFront);float fade=1.-smoothstep(.35+vSeed*.2,1.,uRelease);
  float alpha=glyph*mask*uOpacity*fade;if(alpha<.006)discard;
- float breathe=.94+.06*sin(uTime*.6+vSeed*6.);vec3 gold=mix(vec3(.42,.23,.065),vec3(.95,.70,.30),uFront*.65+.15)*breathe*(1.+uCharge*.9);
+ float breathe=.94+.06*sin(uTime*.8+vSeed*6.);vec3 gold=mix(vec3(.85,.43,.07),vec3(2.4,1.45,.35),uFront*.65+.15)*breathe*(1.+uCharge*.9);
  gl_FragColor=vec4(gold,alpha);
  #include <colorspace_fragment>
  }`;

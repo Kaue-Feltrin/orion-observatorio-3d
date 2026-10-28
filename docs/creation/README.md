@@ -1,4 +1,6 @@
-> Revisão visual atual: [V7 — Corpo opaco, cinco faixas e novas silhuetas](SIGILOS-RESULTS-V7.md). Fundo com composição própria para retrato e resolução automática revisada na criação.
+> Revisão visual atual: [V8 — Voltar, brilho e interação](INTERACOES-RESULTS-V8.md). Quatro componentes de fundo com máscaras distintas, paralaxe suave, dourado e convites visíveis.
+
+> Histórico V7: [V7 — Corpo opaco, cinco faixas e novas silhuetas](SIGILOS-RESULTS-V7.md). Fundo com composição própria para retrato e resolução automática revisada na criação.
 
 > Histórico V6: [V6 — Acorrentado pela realidade](SIGILOS-RESULTS-V6.md). Fonte enviada pelo usuário, órbitas de sigilos e novo fundo; sem campo de força.
 

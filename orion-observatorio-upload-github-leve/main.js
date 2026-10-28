@@ -845,15 +845,16 @@ function tick(now){
   starsGroup.position.z=0;
   // Tempo de resposta de ~55 ms: segue a mira sem lerdo,
   // mas mantém interpolação independente da frequência da tela.
-  const inertia=reduceMotion?1:1-Math.exp(-Math.max(.001,delta)*18);
+  const inertia=reduceMotion?1:1-Math.exp(-Math.max(.001,delta)*(creationPage?4:18));
+  const creationMotion=creationPage?.35:1;
   smooth.x=THREE.MathUtils.lerp(smooth.x,mouse.x,inertia);
   smooth.y=THREE.MathUtils.lerp(smooth.y,mouse.y,inertia);
   const idle=reduceMotion?0:Math.sin(time*.29)*.23;
-  rigRoot.position.set(mobile?mobileConstellation.state.position*8:smooth.x*6.8*perspective,
-    smooth.y*4.35*perspective+idle,26+(reduceMotion?0:Math.sin(time*.21)*.25));
-  rigYaw.rotation.y=-smooth.x*.068*perspective;
-  rigPitch.rotation.x=smooth.y*.052*perspective;
-  rigRoll.rotation.z=reduceMotion||mobile?0:-smooth.x*.011*perspective+Math.sin(time*.27)*.0015;
+  rigRoot.position.set(mobile?mobileConstellation.state.position*8:smooth.x*6.8*perspective*creationMotion,
+    smooth.y*4.35*perspective*creationMotion+idle,26+(reduceMotion?0:Math.sin(time*.21)*.25));
+  rigYaw.rotation.y=-smooth.x*.068*perspective*creationMotion;
+  rigPitch.rotation.x=smooth.y*.052*perspective*creationMotion;
+  rigRoll.rotation.z=reduceMotion||mobile?0:-smooth.x*.011*perspective*creationMotion+Math.sin(time*.27)*.0015;
   const starFocused=cardVisible||starSelection.state.active;
   const focusTarget=starFocused?1:0;
   focusBlend=reduceMotion?0:THREE.MathUtils.lerp(focusBlend,focusTarget,1-Math.exp(-delta*12));

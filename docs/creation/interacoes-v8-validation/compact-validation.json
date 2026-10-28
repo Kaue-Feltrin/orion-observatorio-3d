@@ -1,0 +1,88 @@
+[
+  {
+    "viewport": {
+      "width": 320,
+      "height": 568
+    },
+    "errors": [],
+    "missing": [],
+    "draft": {
+      "version": 1,
+      "name": "Astra",
+      "gender": "menina",
+      "step": "identity"
+    },
+    "state": {
+      "rigMode": "image-skinned-2.5D",
+      "joints": 48,
+      "fieldLayers": 0,
+      "bindingType": "knowledge-sigils",
+      "bindingLayers": 5,
+      "ready": true,
+      "phase": "identity",
+      "releaseProgress": 1,
+      "selected": "menina",
+      "surfaces": 5,
+      "fragments": 0,
+      "particleCount": 64,
+      "gestureFromMark": false,
+      "links": 0,
+      "glyphs": 240,
+      "introProgress": 1,
+      "environmentTransition": 1,
+      "bindingFracture": 1
+    },
+    "performance": {
+      "dpr": 1.25,
+      "mode": "eco-plus"
+    },
+    "scroll": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ]
+    ],
+    "outline": "none",
+    "controls": [
+      {
+        "s": "#herald-name",
+        "x": 41.6015625,
+        "y": 444,
+        "w": 236.796875,
+        "h": 46
+      },
+      {
+        "s": "#undefinedGender",
+        "x": 102.2421875,
+        "y": 509.5,
+        "w": 15,
+        "h": 15
+      },
+      {
+        "s": ".creation-next",
+        "x": 254,
+        "y": 495,
+        "w": 48,
+        "h": 48
+      },
+      {
+        "s": "[data-gender=\"menina\"]",
+        "x": 16,
+        "y": 153.359375,
+        "w": 132,
+        "h": 210.15625
+      },
+      {
+        "s": "[data-gender=\"menino\"]",
+        "x": 172,
+        "y": 153.359375,
+        "w": 132,
+        "h": 210.15625
+      }
+    ]
+  }
+]

@@ -1,3 +1,7 @@
+## 28/10/2026 — V8: interação e profundidade
+
+- Corrigida interceptação da seta por `.creation-stage`. Dourado emissivo, contorno nas formas e convites de clique/toque. Fundo em componentes mascarados e névoa própria, com menor amplitude/resposta de paralaxe apenas na criação. Layout compacto ajustado após captura. Resultados: `docs/creation/INTERACOES-RESULTS-V8.md`. ZIP manual, sem Cloudflare/produção. Avaliação visual pendente.
+
 ## 28/10/2026 — V7: corpo opaco e cinco faixas
 
 - Corpo fetal preto opaco também oclui os sigilos no passe de bloom. Cinco faixas com a fonte original; 240 glifos e atlas 2048×1024. Novas silhuetas, UV e articulações ajustados. Pinturas distintas para paisagem/retrato e enquadramento proporcional; nitidez automática revisada apenas na criação.

@@ -1,0 +1,35 @@
+
+Running 16 tests using 1 worker
+
+(node:42979) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:42979) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/creation-cinematic.spec.js:10:1 › camadas carregam com alpha, céu exclusivo e paralaxe reversível (10.1s)
+  ✓   2 tests/creation-cinematic.spec.js:70:1 › Tornar Marcado inicia VFX sem gesto e transforma o sangue em vazio cinza (7.9s)
+  ✓   3 tests/creation-cinematic.spec.js:112:1 › céu original do Observatório continua separado da nova criação (4.5s)
+  ✓   4 tests/creation-cinematic.spec.js:122:1 › a chegada aguarda a fonte real sem exibir alfabeto de fallback (2.7s)
+  ✓   5 tests/creation-cinematic.spec.js:141:1 › corpo opaco oculta os sigilos traseiros também com bloom ativo (9.9s)
+  ✓   6 tests/creation-cinematic.spec.js:177:1 › atmosfera usa pintura vertical e troca ao girar sem esticar nem perder a identidade (11.5s)
+  ✓   7 tests/creation-interactions.spec.js:3:3 › voltar por clique na etapa feto (10.8s)
+  ✓   8 tests/creation-interactions.spec.js:3:3 › voltar por clique na etapa identidade (16.1s)
+  ✓   9 tests/creation-interactions.spec.js:3:3 › voltar por toque na etapa feto (6.3s)
+  ✓  10 tests/creation-interactions.spec.js:3:3 › voltar por toque na etapa identidade (11.5s)
+  ✓  11 tests/creation-interactions.spec.js:49:1 › convites visíveis, destaque ao apontar e confirmação da escolha (26.1s)
+  ✓  12 tests/herald-creation.spec.js:20:1 › conta vazia tem estrela central e atravessa o mesmo véu até o bebê selado (11.5s)
+  ✓  13 tests/herald-creation.spec.js:47:1 › ruptura completa, gênero exclusivo, nome e continuação sem gravação remota (9.4s)
+  ✓  14 tests/herald-creation.spec.js:102:1 › teclado e movimento reduzido completam ruptura e não definir gênero (6.4s)
+  ✓  15 tests/herald-creation.spec.js:144:3 › toque 390x844: alvo, escolhas e seta dentro da tela (17.7s)
+  ✓  16 tests/herald-creation.spec.js:144:3 › toque 844x390: alvo, escolhas e seta dentro da tela (14.6s)
+
+  16 passed (3.0m)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

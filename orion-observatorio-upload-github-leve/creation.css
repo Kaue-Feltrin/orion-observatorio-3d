@@ -91,3 +91,20 @@ html[data-page-veil="reveal"]::before{opacity:0}
 .creation-scene{overflow:clip}
 .creation-scene .sky-fallback{inset:0;transform:none}
 body[data-page="creation"]{overflow:clip}
+
+/* V8: explicit hit hierarchy and visible invitations, scoped to creation. */
+.creation-back{z-index:10}
+.creation-label{pointer-events:none}
+.interaction-cue{position:absolute;bottom:-26px;left:50%;transform:translateX(-50%);white-space:nowrap;color:#dcc394;font:10px/1.5 'Segoe UI',sans-serif;letter-spacing:.12em;text-transform:uppercase;pointer-events:none;text-shadow:0 2px 12px #000}
+.interaction-cue::before{content:"✧";display:block;font:22px/1 Georgia,serif;margin-bottom:6px;color:#ffe3a5}
+.baby-target:hover .interaction-cue,.baby-target:focus-visible .interaction-cue{color:#fff0c9}
+.baby-target:disabled .interaction-cue{visibility:hidden}
+.herald-creation[data-phase="revealed"] .interaction-cue,.herald-creation[data-phase="breaking"] .interaction-cue{display:none}
+.child-choice>span{min-width:126px;border:1px solid #bca78366;border-radius:3px;background:#141019b8;padding:9px 14px;margin-top:8px;color:#e6d9c5;font-size:16px;letter-spacing:.04em;box-shadow:0 4px 20px #0003}
+.child-choice>span small{display:block;margin-top:3px;font:9px/1.4 'Segoe UI',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#b7a78e}
+.child-choice:hover>span,.child-choice:focus-visible>span{border-color:#ffe0a0;background:#302533dd}
+.child-choice[aria-pressed="true"]>span{border-color:#eaca8a;background:#332737dd}
+.child-choice[aria-pressed="true"]>span small{color:#ffe2a4}
+.child-choice>span::after{display:none}
+@media(max-height:540px) and (orientation:landscape){.interaction-cue{bottom:-18px;font-size:8px}.interaction-cue::before{display:none}.child-choice>span{padding:5px 12px;margin-top:3px;font-size:13px;min-width:100px}.child-choice>span small{display:none}}
+@media(max-height:700px) and (orientation:portrait){.child-choices{height:37%}.child-choice>span{padding:5px 8px;margin-top:4px;min-width:104px;font-size:14px}.child-choice>span small{font-size:8px;margin-top:1px}}
