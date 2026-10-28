@@ -1,0 +1,30 @@
+
+Running 8 tests using 1 worker
+
+(node:120971) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:120971) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+JOURNEY_DEPTH {"index":0,"visiblePasses":6,"maxGrowth":3.042507802812799,"finalPan":[6.008623785240122e-7,0.13152934689144388],"finalZoom":1.31999831495475}
+  ✓  1 tests/journey-depth.spec.js:2:32 › destino 1: céu panorâmico e nuvens atravessadas em profundidade (8.7s)
+JOURNEY_DEPTH {"index":1,"visiblePasses":7,"maxGrowth":6.535820981550325,"finalPan":[-0.10686803212543983,0.011942500634848374],"finalZoom":1.3199798226727337}
+  ✓  2 tests/journey-depth.spec.js:2:32 › destino 2: céu panorâmico e nuvens atravessadas em profundidade (8.0s)
+JOURNEY_DEPTH {"index":2,"visiblePasses":5,"maxGrowth":2.5126141461244895,"finalPan":[0.10686776300129014,0.0119496851849571],"finalZoom":1.319959852589711}
+  ✓  3 tests/journey-depth.spec.js:2:32 › destino 3: céu panorâmico e nuvens atravessadas em profundidade (7.8s)
+  ✓  4 tests/origin-materials-v16.spec.js:36:3 › madeira cobre o fundo depois de rolar a ficha 1855x711 (7.3s)
+  ✓  5 tests/origin-materials-v16.spec.js:36:3 › madeira cobre o fundo depois de rolar a ficha 390x844 (4.3s)
+  ✓  6 tests/origin-materials-v16.spec.js:36:3 › madeira cobre o fundo depois de rolar a ficha 568x320 (3.5s)
+  ✓  7 tests/origin-materials-v16.spec.js:68:1 › ícones acompanham lista, detalhes e comparação sem substituir o nome (6.0s)
+  ✓  8 tests/sigil-atlas.spec.js:3:1 › sigilos mantêm o glifo correto em limites numéricos do atlas (277ms)
+
+  8 passed (47.3s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

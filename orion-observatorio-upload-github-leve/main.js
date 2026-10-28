@@ -22,6 +22,8 @@ import { createHeraldCreation } from './herald-creation.js';
 import { createCreationNebula, creationNebulaURL, CREATION_ART } from './creation-cinematic.js';
 import { createTouchNavigation } from './touch-navigation.js';
 import { createMobileConstellation, mobileHeraldLayout } from './mobile-constellation.js';
+import {boundedPixelRatio,createFrameMonitor} from './render-quality.js';
+import {mountQualityControl,readQualityPreference} from './quality-control.js';
 
 const root = document.getElementById('observatory');
 const creationPage=document.body.dataset.page==='creation';
@@ -64,8 +66,8 @@ debug.hidden = !debugEnabled;
 // GLSL cobrem a tela toda. A intensidade da arte permanece; varia o custo.
 const constrainedDevice = mobile || (navigator.deviceMemory !== undefined && navigator.deviceMemory <= 4)
   || (navigator.hardwareConcurrency !== undefined && navigator.hardwareConcurrency <= 4);
-const qualityOverride=params.get('quality');
-const manualQuality=['eco','eco-plus','lite','low','balanced','high'].includes(qualityOverride);
+const qualityOverride=params.get('quality')||readQualityPreference();
+let manualQuality=['eco','eco-plus','lite','low','balanced','high'].includes(qualityOverride);
 const effectsMode=['no-bloom','no-gas'].includes(params.get('effects'))?params.get('effects'):'normal';
 const initialProfile=qualityOverride==='eco'?'eco':
   qualityOverride==='eco-plus'?'eco-plus':
@@ -88,11 +90,7 @@ const qualityPresets={
 };
 function gpuBudget(){return qualityPresets[qualityMode];}
 function pixelRatioForViewport(){
-  const q=gpuBudget(),native=Math.max(.5,window.devicePixelRatio||1);
-  // Keep the creation's fine inscriptions/contours at CSS-pixel resolution.
-  // Explicit quality profiles retain their original budget; the observatory is unchanged.
-  if(creationPage&&!manualQuality)return Math.min(native,1.25,Math.sqrt(2200000/Math.max(1,innerWidth*innerHeight)));
-  return Math.min(native,q.dpr,Math.sqrt(q.maxPixels/Math.max(1,innerWidth*innerHeight)));
+  return boundedPixelRatio(gpuBudget(),window.devicePixelRatio,innerWidth,innerHeight);
 }
 const performanceReadout={get mode(){return qualityMode;},
   get pixelRatio(){return renderer.getPixelRatio();},
@@ -121,7 +119,7 @@ window.addEventListener('keydown', e => {
 
 let renderer;
 try {
-  renderer = new THREE.WebGLRenderer({ antialias:creationPage||qualityMode==='high', alpha:true, powerPreference:'high-performance' });
+  renderer = new THREE.WebGLRenderer({ antialias:qualityMode==='high', alpha:true, powerPreference:'high-performance' });
 } catch (e) {
   loading.textContent = 'WebGL indisponível neste navegador. Tente no Chrome com aceleração de hardware ativada.';
   throw e;
@@ -795,28 +793,32 @@ if(debugEnabled)window.__orionDiagnostic=performancePanel;
 // Quando a GPU ou o renderizador via software não acompanha a tela,
 // reduzir a carga automaticamente em vez de insistir em resolução 4x maior.
 let renderedAt=0;
-let monitorSince=performance.now(),monitorSum=0,monitorFrames=0,slowIntervals=0;
+const frameMonitor=createFrameMonitor();
 function adaptPerformance(now,frameMs){
-  if(travelling||document.hidden||reduceMotion)return;
-  monitorSum+=frameMs;monitorFrames++;
-  if(now-monitorSince<3000)return;
-  const average=monitorSum/Math.max(1,monitorFrames);
-  monitorSince=now;monitorSum=0;monitorFrames=0;
-  slowIntervals=average>32?slowIntervals+1:Math.max(0,slowIntervals-1);
+  if(travelling||document.hidden||document.documentElement.dataset.presentationReady!=='1'){frameMonitor.reset(now);return;}
   // Qualidade explicitamente escolhida permanece estável para comparar modos.
   // No automático, degradar em etapas: lite -> eco-plus -> eco,
   // sem remover de uma vez o bloom da estrela. Perfis manuais ficam estáveis.
-  if(slowIntervals>=2 && !manualQuality && qualityMode!=='eco'){
+  if(frameMonitor.record(now,frameMs) && !manualQuality && qualityMode!=='eco'){
     qualityMode=qualityOrder[Math.max(0,qualityOrder.indexOf(qualityMode)-1)];
     performanceAdaptations++;
-    slowIntervals=0;
     applyGasBudget();resize();
   }
 }
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden){touchNavigation?.cancel();resetHandHover();}
-  if(!document.hidden){lastFrame=performance.now();monitorSince=lastFrame;monitorSum=0;monitorFrames=0;performancePanel?.reset();}
+  if(!document.hidden){lastFrame=performance.now();frameMonitor.reset(lastFrame);performancePanel?.reset();}
 });
+mountQualityControl(root,{value:manualQuality?qualityOverride:'auto',onChange(value){
+ manualQuality=value!=='auto';qualityMode=manualQuality?value:constrainedDevice?'lite':'balanced';
+ if(manualQuality)params.set('quality',value);else params.delete('quality');
+ history.replaceState(history.state,'',location.pathname+'?'+params.toString()+location.hash);
+ frameMonitor.reset(performance.now());applyGasBudget();resize();
+},diagnostic(){
+ const gl=renderer.getContext(),ext=gl.getExtension('WEBGL_debug_renderer_info');
+ const gpu=ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER);
+ return ['Órion · diagnóstico local',navigator.userAgent,'Renderizador: '+gpu,'Modo: '+(manualQuality?'manual':'automático')+' / '+qualityMode,'Canvas: '+renderer.domElement.width+' × '+renderer.domElement.height,'FPS da aba (~janela recente): '+(frameMonitor.state.averageMs?Math.round(1000/frameMonitor.state.averageMs):'coletando'),'MSAA na inicialização: '+(gl.getContextAttributes().antialias?'sim':'não'),'Nenhum dado é enviado.'].join('\n');
+}});
 let bloomTick=0;
 function tick(now){
  requestAnimationFrame(tick);
@@ -828,10 +830,9 @@ function tick(now){
  // Não desenhar quadros extras em máquinas limitadas.
  if(!travelling && q.fpsCap<60 && renderedAt && now-renderedAt<1000/q.fpsCap-1)return;
  const actualFrameMs=renderedAt?now-renderedAt:16.67;
- const rawMs=Math.min(100,actualFrameMs);
  renderedAt=now;
  performancePanel?.record(now,actualFrameMs);
- adaptPerformance(now,rawMs);
+ adaptPerformance(now,actualFrameMs);
  const elapsed=Math.max(0,(now-lastFrame)/1000);
  const delta=Math.min(elapsed,.05);lastFrame=now;
  const time=now*.001;

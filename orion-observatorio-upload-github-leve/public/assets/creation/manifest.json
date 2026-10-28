@@ -78,5 +78,7 @@
       "sha256": "7dde74323f9f6c1e2be6994628c0382c5a0a40e9c1baaa912ce50f33c4540554",
       "origin": "image_gen; imagem histórica preservada byte a byte, composição UV no renderer."
     }
-  ]
+  ],
+  "samplingRevision": 19,
+  "sigilAtlasSampling": "Índice interpolado quantizado por floor(vCell+.5) antes de mod/floor das coordenadas do atlas. Fonte, frase, 240 glifos, cinco órbitas, imagens e pulsação preservados."
 }

@@ -1,0 +1,8 @@
+[
+  { quality: 'balanced', pixels: 1296000, fps: 3, antialias: false },
+  { quality: 'balanced', pixels: 1296000, fps: 3, antialias: false },
+  { quality: 'lite', pixels: 729000, fps: 4, antialias: false },
+  { quality: 'eco-plus', pixels: 466560, fps: 6, antialias: false },
+  { quality: 'eco', pixels: 363951, fps: 8, antialias: false },
+  { quality: 'eco', pixels: 363951, fps: 10, antialias: false }
+]

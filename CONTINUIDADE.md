@@ -1,3 +1,7 @@
+## 28/10/2026 — V19: identidade e carga de renderização
+
+- Três gravuras anônimas substituem os arquétipos padrão; movimentos por função, inscrição de conhecimento e resposta ao apontar. Falha real de fallback reproduzida: a criação mantinha o canvas ao baixar qualidade; agora os pixels diminuem. Controle Fluidez com preferência local e diagnóstico opcional. Quantização do índice dos sigilos passou no ensaio 36/36. 23 arquivos unitários, 33 cenários Chrome e contraste local aprovados. Resultado: `docs/creation/IDENTIDADE-RESULTS-V19.md`. Sem deploy/produção; não homologado no Brave/GTX1660 nem aprovado artisticamente pelo usuário.
+
 ## 28/10/2026 — V18: classes em roleta
 
 - Após confirmar origem, a folha abre Combatente, Especialista e Ocultista em roleta 2.5D. Três silhuetas, pontos fortes/limitações, exemplos e comparação opcional de bases. Giro apenas explora; confirmação preserva identidade/origem e grava classCode local. Correção reproduzida de toque após deslize. 22 arquivos unitários, 19 cenários Chrome, contraste local e pacote HTTP verificados. Bundle Vite aprovado; comando completo bloqueado no download externo ESO, com assets V17 preservados. Resultados: `docs/creation/CLASSES-RESULTS-V18.md`. Sem produção/deploy; aprovação artística/aparelho real pendentes.

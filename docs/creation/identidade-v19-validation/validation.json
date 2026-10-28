@@ -1,0 +1,28 @@
+{
+  "base": "http://127.0.0.1:4299",
+  "classReadySeconds": 12.377,
+  "desktop": {
+    "width": 1440,
+    "height": 1000
+  },
+  "mobile": {
+    "width": 390,
+    "height": 844,
+    "emulated": true
+  },
+  "draft": {
+    "version": 1,
+    "name": "Astra",
+    "gender": "nao-definir",
+    "step": "class",
+    "origin": {
+      "code": "ACADEMICO",
+      "label": "Acadêmico",
+      "source": "Livro Base"
+    },
+    "classCode": "ESPECIALISTA"
+  },
+  "errors": [],
+  "bad": [],
+  "writes": []
+}

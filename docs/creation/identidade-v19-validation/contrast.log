@@ -1,0 +1,212 @@
+[
+  {
+    "width": 1440,
+    "s": "#classPaperTitle",
+    "font": "40px",
+    "min": 10.73069933773643,
+    "samples": 2565
+  },
+  {
+    "width": 1440,
+    "s": ".class-chapter .paper-chapter",
+    "font": "10px",
+    "min": 6.140508240099406,
+    "samples": 206
+  },
+  {
+    "width": 1440,
+    "s": "[data-class-page=\"0\"]",
+    "font": "13px",
+    "min": 8.385622051031277,
+    "samples": 304
+  },
+  {
+    "width": 1440,
+    "s": ".class-context",
+    "font": "16px",
+    "min": 5.555345461446166,
+    "samples": 504
+  },
+  {
+    "width": 1440,
+    "s": ".class-theme",
+    "font": "12px",
+    "min": 5.350926210366773,
+    "samples": 474
+  },
+  {
+    "width": 1440,
+    "s": "#className",
+    "font": "35px",
+    "min": 10.399309304383326,
+    "samples": 1429
+  },
+  {
+    "width": 1440,
+    "s": ".class-summary",
+    "font": "18px",
+    "min": 10.105124285071211,
+    "samples": 1815
+  },
+  {
+    "width": 1440,
+    "s": ".class-tradeoffs h3",
+    "font": "13px",
+    "min": 4.8495819334791435,
+    "samples": 300
+  },
+  {
+    "width": 1440,
+    "s": ".class-strengths li",
+    "font": "15px",
+    "min": 10.34447933195005,
+    "samples": 873
+  },
+  {
+    "width": 1440,
+    "s": ".class-limits li",
+    "font": "15px",
+    "min": 10.25134177805242,
+    "samples": 1260
+  },
+  {
+    "width": 1440,
+    "s": ".class-example>span",
+    "font": "12px",
+    "min": 5.10915696212017,
+    "samples": 289
+  },
+  {
+    "width": 1440,
+    "s": ".class-example p",
+    "font": "18px",
+    "min": 8.633754525188749,
+    "samples": 2994
+  },
+  {
+    "width": 1440,
+    "s": ".class-position",
+    "font": "11px",
+    "min": 5.385812481116186,
+    "samples": 306
+  },
+  {
+    "width": 1440,
+    "s": ".class-comparison summary",
+    "font": "13px",
+    "min": 5.311829986145025,
+    "samples": 631
+  },
+  {
+    "width": 1440,
+    "s": ".confirm-class",
+    "font": "15px",
+    "min": 9.775628604259218,
+    "samples": 526
+  },
+  {
+    "width": 390,
+    "s": "#classPaperTitle",
+    "font": "32px",
+    "min": 10.658275433022913,
+    "samples": 1696
+  },
+  {
+    "width": 390,
+    "s": ".class-chapter .paper-chapter",
+    "font": "8px",
+    "min": 6.157879049761728,
+    "samples": 118
+  },
+  {
+    "width": 390,
+    "s": "[data-class-page=\"0\"]",
+    "font": "13px",
+    "min": 8.310938120030716,
+    "samples": 297
+  },
+  {
+    "width": 390,
+    "s": ".class-context",
+    "font": "16px",
+    "min": 5.506243608320988,
+    "samples": 504
+  },
+  {
+    "width": 390,
+    "s": ".class-theme",
+    "font": "12px",
+    "min": 5.3991668044401155,
+    "samples": 474
+  },
+  {
+    "width": 390,
+    "s": "#className",
+    "font": "32px",
+    "min": 10.456670678358657,
+    "samples": 1142
+  },
+  {
+    "width": 390,
+    "s": ".class-summary",
+    "font": "18px",
+    "min": 10.334338999566954,
+    "samples": 1830
+  },
+  {
+    "width": 390,
+    "s": ".class-tradeoffs h3",
+    "font": "13px",
+    "min": 4.870625128169675,
+    "samples": 311
+  },
+  {
+    "width": 390,
+    "s": ".class-strengths li",
+    "font": "15px",
+    "min": 10.33839655980681,
+    "samples": 854
+  },
+  {
+    "width": 390,
+    "s": ".class-limits li",
+    "font": "15px",
+    "min": 10.088906650126548,
+    "samples": 1251
+  },
+  {
+    "width": 390,
+    "s": ".class-example>span",
+    "font": "12px",
+    "min": 5.1283508931223425,
+    "samples": 281
+  },
+  {
+    "width": 390,
+    "s": ".class-example p",
+    "font": "18px",
+    "min": 8.688327960805351,
+    "samples": 3012
+  },
+  {
+    "width": 390,
+    "s": ".class-position",
+    "font": "12px",
+    "min": 5.347723788778295,
+    "samples": 362
+  },
+  {
+    "width": 390,
+    "s": ".class-comparison summary",
+    "font": "13px",
+    "min": 5.2754929391069965,
+    "samples": 628
+  },
+  {
+    "width": 390,
+    "s": ".confirm-class",
+    "font": "15px",
+    "min": 9.775628604259218,
+    "samples": 525
+  }
+]

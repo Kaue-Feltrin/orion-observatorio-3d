@@ -1,0 +1,447 @@
+{
+  "method": "Actual fragment shader, controlled ±2e-6 perturbation of interpolated glyph index, 12 valid cells, alpha-isolated reference texture. This reproduces numerical wrong-cell selection; it is not a recording from the user Brave.",
+  "results": [
+    {
+      "version": "V18",
+      "samples": [
+        {
+          "cell": 0,
+          "epsilon": -0.000002,
+          "alpha": 0,
+          "correct": false
+        },
+        {
+          "cell": 0,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 0,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 1,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 1,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 1,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 2,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 2,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 2,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 3,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 3,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 3,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 4,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 4,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 4,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 5,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 5,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 5,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 6,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 6,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 6,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 7,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 7,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 7,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 8,
+          "epsilon": -0.000002,
+          "alpha": 0,
+          "correct": false
+        },
+        {
+          "cell": 8,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 8,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 9,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 9,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 9,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 10,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 10,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 10,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 11,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 11,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 11,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        }
+      ]
+    },
+    {
+      "version": "V19",
+      "samples": [
+        {
+          "cell": 0,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 0,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 0,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 1,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 1,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 1,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 2,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 2,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 2,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 3,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 3,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 3,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 4,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 4,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 4,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 5,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 5,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 5,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 6,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 6,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 6,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 7,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 7,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 7,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 8,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 8,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 8,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 9,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 9,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 9,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 10,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 10,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 10,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 11,
+          "epsilon": -0.000002,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 11,
+          "epsilon": 0,
+          "alpha": 255,
+          "correct": true
+        },
+        {
+          "cell": 11,
+          "epsilon": 0.000002,
+          "alpha": 255,
+          "correct": true
+        }
+      ]
+    }
+  ]
+}

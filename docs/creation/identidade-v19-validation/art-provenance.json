@@ -1,0 +1,35 @@
+{
+  "files": [
+    {
+      "file": "combatente-v19.png",
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "bytes": 2118207,
+      "sha256": "9279a833d1e08d082733ff671d0582a77d1d67218d5e319c00d776c207a4a97d",
+      "nativeMatches": true,
+      "origin": "image_gen, geração/edição nesta conversa; arquivo nativo sem alterações de pixels. Gravura editorial de função, sem aparência ou itens obrigatórios."
+    },
+    {
+      "file": "especialista-v19.png",
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "bytes": 1881461,
+      "sha256": "712f89f5d8108753bd60df2605b83525c404a8f5155f38b115f926fe2453e001",
+      "nativeMatches": true,
+      "origin": "image_gen, geração/edição nesta conversa; arquivo nativo sem alterações de pixels. Gravura editorial de função, sem aparência ou itens obrigatórios."
+    },
+    {
+      "file": "ocultista-v19.png",
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "bytes": 2039066,
+      "sha256": "53a9b0640ae8ec5a9d1a073da56c3a943a56d4e4ed1e27f1bba93e99582bbffe",
+      "nativeMatches": true,
+      "origin": "image_gen, geração/edição nesta conversa; arquivo nativo sem alterações de pixels. Gravura editorial de função, sem aparência ou itens obrigatórios."
+    }
+  ],
+  "rejected": "Dois atlas intermediários não respeitaram os gutters. Não são usados ou distribuídos no pacote final; foram substituídos por três imagens independentes."
+}

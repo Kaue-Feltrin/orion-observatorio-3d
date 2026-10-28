@@ -1,20 +1,20 @@
 import './class-carousel.css';
 import {CLASS_CHOICES,classByCode,wrapClassIndex,orbitalPose} from './class-catalog.js';
 import {bindPointerActivation} from './pointer-activation.js';
-const artURL='/assets/workshop/classes-v18.png';
+const artURLs=['combatente','especialista','ocultista'].map(name=>`/assets/workshop/${name}-v19.png`);
 let artReady=null;
 export function prepareClassCarousel(){
- if(!artReady){const image=new Image();image.src=artURL;artReady=image.decode().then(()=>true).catch(()=>false);}
+ if(!artReady)artReady=Promise.all(artURLs.map(url=>{const image=new Image();image.src=url;return image.decode();})).then(()=>true).catch(()=>false);
  return artReady;
 }
 const poseFrame=p=>({transform:`translate(-50%,-50%) translate(${p.x}px,${p.y}px) scale(${p.scale})`,zIndex:p.z});
 
 export function mountClassCarousel(root,{name,originLabel,classCode=null,reducedMotion=false,onConfirm=()=>false,onBack=()=>{}}){
  const state={index:Math.max(0,CLASS_CHOICES.findIndex(c=>c.code===classCode)),rotation:0,busy:false,confirmed:classByCode(classCode)?.code??null};
- state.rotation=state.index*120;let disposed=false,animations=[],pointerStart=null,suppressClickUntil=0;
+ state.rotation=state.index*120;let disposed=false,animations=[],readingAnimations=[],pointerStart=null,suppressClickUntil=0;
  root.innerHTML=`<div class="paper-chapter"><span>03 / CLASSE</span></div><h1 id="classPaperTitle" tabindex="-1">Escolha sua classe.</h1><p class="paper-intro">Gire ou use as setas. Confirme a classe que você quer.</p>
   <p class="class-context"><strong class="class-arauto"></strong><span aria-hidden="true"> · </span><span class="class-origin"></span></p>
-  <div class="class-layout"><section class="class-picker" aria-label="Roleta de classes" aria-roledescription="carrossel"><div class="class-orbit" tabindex="0" aria-label="Use as setas esquerda e direita para explorar as classes"><div class="roulette-ink-ring" aria-hidden="true"></div>${CLASS_CHOICES.map(c=>`<button type="button" class="roulette-option" data-class-index="${c.atlas}" aria-label="Ver classe ${c.label}" aria-pressed="false"><span class="class-silhouette class-silhouette-${c.atlas}" aria-hidden="true"></span><span class="roulette-label">${c.label}</span></button>`).join('')}<p class="class-art-loading" role="status">Preparando as silhuetas…</p></div>
+  <div class="class-layout"><section class="class-picker" aria-label="Roleta de classes" aria-roledescription="carrossel"><div class="class-orbit" tabindex="0" aria-label="Use as setas esquerda e direita para explorar as classes"><div class="roulette-ink-ring" aria-hidden="true"></div><svg class="roulette-inscription" viewBox="0 0 400 400" aria-hidden="true"><defs><path id="classInscriptionPath" d="M200 30a170 170 0 1 1-.1 0"/></defs><text><textPath href="#classInscriptionPath">Acorrentado pela realidade   Acorrentado pela realidade   Acorrentado pela realidade</textPath></text></svg>${CLASS_CHOICES.map(c=>`<button type="button" class="roulette-option" data-class-index="${c.atlas}" aria-label="Ver classe ${c.label}" aria-pressed="false"><span class="class-art-layer" aria-hidden="true"><span class="class-silhouette class-silhouette-${c.atlas}"></span></span><span class="roulette-label">${c.label}</span></button>`).join('')}<p class="class-art-loading" role="status">Preparando as silhuetas…</p></div>
    <div class="class-rotation-controls"><button type="button" class="class-previous ink-link" aria-label="Classe anterior">←</button><button type="button" class="class-spin ink-primary">Girar roleta <span aria-hidden="true">↻</span></button><button type="button" class="class-next ink-link" aria-label="Próxima classe">→</button></div>
    <nav class="class-pages" aria-label="Escolher classe em destaque">${CLASS_CHOICES.map(c=>`<button type="button" data-class-page="${c.atlas}" aria-pressed="false">${c.label}</button>`).join('')}</nav><p class="class-position" aria-live="off"></p>
   </section><section class="class-reading" aria-labelledby="className"><span class="class-theme"></span><h2 id="className"></h2><p class="class-summary"></p><div class="class-tradeoffs"><section><h3>Pontos fortes</h3><ul class="class-strengths"></ul></section><section><h3>Limitações</h3><ul class="class-limits"></ul></section></div><section class="origin-example class-example" aria-label="Exemplo de personagem"><span>Por exemplo…</span><p></p></section>
@@ -26,7 +26,7 @@ export function mountClassCarousel(root,{name,originLabel,classCode=null,reduced
  $('.class-arauto').textContent=name;$('.class-origin').textContent=originLabel;
  function radius(){return Math.min(210,orbit.clientWidth*.36);}
  function poseAll(rotation){options.forEach((button,index)=>Object.assign(button.style,poseFrame(orbitalPose(index,rotation,radius()))));}
- function render(){
+ function render(enter=false){
   const c=CLASS_CHOICES[state.index];$('.class-theme').textContent=c.theme;$('#className').textContent=c.label;$('.class-summary').textContent=c.summary;
   for(const [selector,values]of[['.class-strengths',c.strengths],['.class-limits',c.limits]]){const list=$(selector);list.replaceChildren(...values.map(text=>{const li=document.createElement('li');li.textContent=text;return li;}));}
   $('.class-example p').textContent=c.example;$('.class-position').textContent=`${state.index+1} / 3 · ${c.label}`;
@@ -34,6 +34,7 @@ export function mountClassCarousel(root,{name,originLabel,classCode=null,reduced
   for(const s of['.class-previous','.class-next','.class-spin'])$(s).disabled=state.busy;
   const confirm=$('.confirm-class');confirm.disabled=state.busy||state.confirmed===c.code;confirm.firstChild.textContent=state.confirmed===c.code?'✓ Classe escolhida ':'Escolher esta classe ';
   root.setAttribute('aria-busy',String(state.busy));
+  if(enter&&!reducedMotion){for(const a of readingAnimations)a.cancel();readingAnimations=['#className','.class-summary','.class-tradeoffs','.class-example'].map((s,i)=>$(s).animate([{opacity:0,transform:'translateY(9px)'},{opacity:1,transform:'translateY(0)'}],{duration:280,delay:i*35,easing:'cubic-bezier(.2,.7,.2,1)'}));}
  }
  async function turn(steps,spin=false){
   if(disposed||state.busy||!steps)return;
@@ -44,7 +45,7 @@ export function mountClassCarousel(root,{name,originLabel,classCode=null,reduced
    await Promise.all(animations.map(a=>a.finished.catch(()=>{})));
   }
   if(disposed)return;
-  state.rotation=to;state.index=wrapClassIndex(Math.round(to/120));poseAll(to);for(const a of animations)a.cancel();animations=[];state.busy=false;render();$('.class-status').textContent=`${CLASS_CHOICES[state.index].label} em destaque. Confirme se quiser escolher.`;
+  state.rotation=to;state.index=wrapClassIndex(Math.round(to/120));poseAll(to);for(const a of animations)a.cancel();animations=[];state.busy=false;render(true);$('.class-status').textContent=`${CLASS_CHOICES[state.index].label} em destaque. Confirme se quiser escolher.`;
  }
  activate($('.class-previous'),()=>turn(-1));activate($('.class-next'),()=>turn(1));activate($('.class-spin'),()=>turn(6+Math.floor(Math.random()*3),true));
  for(const b of[...options,...pages])activate(b,event=>{if(event.type==='click'&&event.detail>0&&event.pointerType!=='mouse'&&performance.now()<suppressClickUntil)return;const index=Number(b.dataset.classIndex??b.dataset.classPage),diff=wrapClassIndex(index-state.index);turn(diff===2?-1:diff);});
@@ -53,7 +54,9 @@ export function mountClassCarousel(root,{name,originLabel,classCode=null,reduced
  orbit.addEventListener('pointerup',e=>{if(!pointerStart)return;const x=e.clientX-pointerStart.x,y=e.clientY-pointerStart.y;pointerStart=null;if(Math.abs(x)>45&&Math.abs(x)>Math.abs(y)*1.3){suppressClickUntil=performance.now()+400;turn(x<0?1:-1);}});orbit.addEventListener('pointercancel',()=>{pointerStart=null;});
  activate($('.confirm-class'),()=>{if(state.busy||state.confirmed===CLASS_CHOICES[state.index].code)return;const c=CLASS_CHOICES[state.index];if(onConfirm(c.code)){state.confirmed=c.code;render();$('.class-status').textContent=`${c.label} é a classe de ${name}. Você pode revisar sua escolha.`;}else $('.class-status').textContent='Não foi possível guardar esta classe. Tente novamente.';});
  activate($('.back-to-origins'),onBack);
- const resize=new ResizeObserver(()=>{if(!state.busy)poseAll(state.rotation);});resize.observe(orbit);render();poseAll(state.rotation);
+ const look=e=>{if(reducedMotion||e.pointerType!=='mouse')return;const r=orbit.getBoundingClientRect();orbit.style.setProperty('--class-look-x',`${((e.clientX-r.x)/r.width-.5)*5}px`);orbit.style.setProperty('--class-look-y',`${((e.clientY-r.y)/r.height-.5)*3}px`);};
+ const rest=()=>{orbit.style.setProperty('--class-look-x','0px');orbit.style.setProperty('--class-look-y','0px');};orbit.addEventListener('pointermove',look);orbit.addEventListener('pointerleave',rest);
+ const resize=new ResizeObserver(()=>{if(!state.busy)poseAll(state.rotation);});resize.observe(orbit);root.dataset.classMotion=reducedMotion?'reduced':'full';render(true);poseAll(state.rotation);
  prepareClassCarousel().then(ok=>{if(disposed)return;root.dataset.classArt=ok?'ready':'error';$('.class-art-loading').textContent=ok?'':'As silhuetas não carregaram. As descrições continuam disponíveis.';$('.class-art-loading').hidden=ok;});
- return{get state(){return{...state};},dispose(){disposed=true;resize.disconnect();for(const remove of removers)remove();for(const a of animations)a.cancel();root.replaceChildren();}};
+ return{get state(){return{...state};},dispose(){disposed=true;resize.disconnect();for(const remove of removers)remove();for(const a of [...animations,...readingAnimations])a.cancel();root.replaceChildren();}};
 }

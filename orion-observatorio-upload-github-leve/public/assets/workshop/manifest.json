@@ -1,5 +1,5 @@
 {
-  "version": 18,
+  "version": 19,
   "material": {
     "file": "walnut-v15.png",
     "width": 1536,
@@ -44,14 +44,39 @@
   "classes": {
     "count": 3,
     "art": {
-      "file": "classes-v18.png",
-      "width": 1536,
-      "height": 1024,
-      "alpha": true,
-      "bytes": 940320,
-      "sha256": "cc8b0e1ef4bf7b90a3939a591ebaa785f8f2336c28b588bd37923c5d95c3f5e7",
-      "columns": 3,
-      "origin": "image_gen; atlas novo gerado nesta conversa. PNG nativo preservado sem edição de pixels. Três colunas iguais exibidas por background-position CSS; figuras ilustrativas, sem aparência ou inventário obrigatórios."
+      "format": "Três imagens PNG independentes",
+      "files": [
+        {
+          "file": "combatente-v19.png",
+          "width": 1024,
+          "height": 1536,
+          "alpha": true,
+          "bytes": 2118207,
+          "sha256": "9279a833d1e08d082733ff671d0582a77d1d67218d5e319c00d776c207a4a97d",
+          "nativeMatches": true,
+          "origin": "image_gen, geração/edição nesta conversa; arquivo nativo sem alterações de pixels. Gravura editorial de função, sem aparência ou itens obrigatórios."
+        },
+        {
+          "file": "especialista-v19.png",
+          "width": 1024,
+          "height": 1536,
+          "alpha": true,
+          "bytes": 1881461,
+          "sha256": "712f89f5d8108753bd60df2605b83525c404a8f5155f38b115f926fe2453e001",
+          "nativeMatches": true,
+          "origin": "image_gen, geração/edição nesta conversa; arquivo nativo sem alterações de pixels. Gravura editorial de função, sem aparência ou itens obrigatórios."
+        },
+        {
+          "file": "ocultista-v19.png",
+          "width": 1024,
+          "height": 1536,
+          "alpha": true,
+          "bytes": 2039066,
+          "sha256": "53a9b0640ae8ec5a9d1a073da56c3a943a56d4e4ed1e27f1bba93e99582bbffe",
+          "nativeMatches": true,
+          "origin": "image_gen, geração/edição nesta conversa; arquivo nativo sem alterações de pixels. Gravura editorial de função, sem aparência ou itens obrigatórios."
+        }
+      ]
     },
     "sources": {
       "repository": "Kaue-Feltrin/orion-fichas",
@@ -69,6 +94,11 @@
     },
     "values": "Bases da classe antes de atributos, origem e outras escolhas. Perícias livres: 1/7/3 + INT. Apenas referência, sem concessão mecânica.",
     "examples": "Três exemplos fictícios escritos para esta interface; não são requisitos nem transcrições dos livros.",
-    "motion": "Planos 2.5D com órbitas e escala por Web Animations API; sem rig de ossos nas novas silhuetas."
+    "motion": "Roleta 2.5D; gravuras com movimentos discretos por função, resposta de 2,5px ao apontar e entrada escalonada do texto. Inscrição usa a fonte real de conhecimento fornecida. Sem rig de ossos; movimento reduzido respeitado."
+  },
+  "performance": {
+    "pixelBudget": "Mesmo teto por perfil para Observatório e criação; fallback agora reduz pixels também na criação.",
+    "controls": "Automático / Mais fluidez / Mais detalhe; preferência local, URL tem prioridade; diagnóstico de renderizador e FPS da aba sob ação do usuário, sem envio de dados.",
+    "creationAntialias": "MSAA não é imposto à criação nos perfis normais; antialias do contexto só é definido na inicialização."
   }
 }
