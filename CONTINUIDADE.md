@@ -1,3 +1,7 @@
+## 28/10/2026 — V10: saturação sincronizada
+
+- Vermelhos compartilham ciclo 0–100–0% de saturação e expansão até 2%, sem variar alpha/brilho. Inspetor atualizado. Corrigido preset que congelava a pulsação no toque sem preferência de movimento reduzido. Resultados: `docs/creation/SATURACAO-RESULTS-V10.md`. Sem deploy/produção.
+
 ## 28/10/2026 — V9: cinco camadas, pulsação e carregamento
 
 - Base preta + duas névoas cinzas e duas vermelhas, arquivos diferentes com alpha. Pulsação lenta apenas nos vermelhos, estática na identidade/movimento reduzido. Silhuetas jovens distintas e novo marco de apresentação após recursos prontos. Inspetor `camadas.html`, ZIP só de camadas e site completo para upload manual. Resultados: `docs/creation/CAMADAS-RESULTS-V9.md`. Sem deploy/produção.

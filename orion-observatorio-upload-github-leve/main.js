@@ -238,7 +238,7 @@ layers.push(...atmosphere.layers);
 // 6 regiões recortadas da própria fotografia ESO, sobrepostas em Z.
 // Sem mais estrelas ou efeitos de tela inteira.
 if(creationPage){for(const v of breathingVeils)v.mesh.visible=false;}
-const volumeOptions={reducedMotion:reduceMotion||mobile,parallaxEnabled:depthMotionEnabled,foregroundEnabled};
+const volumeOptions={reducedMotion:reduceMotion||(mobile&&!creationPage),parallaxEnabled:depthMotionEnabled&&(!creationPage||!mobile),foregroundEnabled};
 const nebulaVolume=creationPage?createCreationNebula(scene,mainCloud,volumeOptions):createNebulaVolume(scene,mainCloud,volumeOptions);
 layers.push(...nebulaVolume.layers);
 function applyGasBudget(){

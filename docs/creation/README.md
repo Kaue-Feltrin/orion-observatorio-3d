@@ -1,4 +1,6 @@
-> Revisão visual atual: [V9 — Cinco camadas e atmosfera pulsante](CAMADAS-RESULTS-V9.md). Base preta, quatro PNGs transparentes distintos, carregamento próprio e silhuetas jovens.
+> Revisão visual atual: [V10 — Saturação sincronizada](SATURACAO-RESULTS-V10.md). Saturação 0–100–0%, escala até 1,02 e correção da pulsação em toque.
+
+> Histórico V9: [V9 — Cinco camadas e atmosfera pulsante](CAMADAS-RESULTS-V9.md). Base preta, quatro PNGs transparentes distintos, carregamento próprio e silhuetas jovens.
 
 > Histórico V8: [V8 — Voltar, brilho e interação](INTERACOES-RESULTS-V8.md). Quatro componentes de fundo com máscaras distintas, paralaxe suave, dourado e convites visíveis.
 

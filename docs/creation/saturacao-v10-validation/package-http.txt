@@ -1,0 +1,2 @@
+Pulse samples 52 0.001314154616390062 0.9991328050923579
+OK: CSS 0/100%, 1/1.02 scale, alpha constante; crominância renderizada confere; WebGL móvel sincronizado por 2 ciclos, fluxo e rascunho sem erros.

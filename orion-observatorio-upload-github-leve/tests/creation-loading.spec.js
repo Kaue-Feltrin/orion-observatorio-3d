@@ -10,9 +10,19 @@ test('o carregamento cobre a cena parcial até fundo e mãos estarem prontos',as
 });
 test('só as camadas vermelhas pulsam e o movimento para na identidade',async({page})=>{
  await page.goto('http://127.0.0.1:4173/criacao.html?stars=0&debug=1&quality=eco');await expect(page.locator('html')).toHaveAttribute('data-presentation-ready','1');await page.evaluate(()=>document.getElementById('debug').hidden=true);
- const beat=()=>page.evaluate(()=>window.__orionCreationEnvironment.layers.map(l=>l.material.uniforms.beat.value));const first=await beat();expect(first.slice(0,2)).toEqual([1,1]);await expect.poll(async()=>Math.abs((await beat())[2]-first[2])).toBeGreaterThan(.015);
- await page.getByRole('button',{name:'Contemplar a silhueta etérea'}).click();await page.getByRole('button',{name:'Tornar Marcado',exact:true}).click();await expect(page.locator('#observatory')).toHaveAttribute('data-creation-phase','identity');await expect.poll(beat).toEqual([1,1,.82,.82]);
+ const beat=()=>page.evaluate(()=>window.__orionCreationEnvironment.layers.map(l=>l.material.uniforms.beat.value));const first=await beat();expect(first.slice(0,2)).toEqual([1,1]);expect(first[2]).toBe(first[3]);await expect.poll(async()=>Math.abs((await beat())[2]-first[2])).toBeGreaterThan(.015);
+ await page.getByRole('button',{name:'Contemplar a silhueta etérea'}).click();await page.getByRole('button',{name:'Tornar Marcado',exact:true}).click();await expect(page.locator('#observatory')).toHaveAttribute('data-creation-phase','identity');await expect.poll(beat).toEqual([1,1,1,1]);
 });
 test('movimento reduzido mantém as duas massas vermelhas estáticas',async({page})=>{
- await page.emulateMedia({reducedMotion:'reduce'});await page.goto('http://127.0.0.1:4173/criacao.html?stars=0&debug=1&quality=eco');await expect(page.locator('html')).toHaveAttribute('data-presentation-ready','1');expect(await page.evaluate(()=>window.__orionCreationEnvironment.layers.map(l=>l.material.uniforms.beat.value))).toEqual([1,1,.82,.82]);
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto('http://127.0.0.1:4173/criacao.html?stars=0&debug=1&quality=eco');await expect(page.locator('html')).toHaveAttribute('data-presentation-ready','1');expect(await page.evaluate(()=>window.__orionCreationEnvironment.layers.map(l=>l.material.uniforms.beat.value))).toEqual([1,1,1,1]);
+});
+
+test('toque mantém saturação animada quando o usuário não pediu movimento reduzido',async({browser})=>{
+ const context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true,reducedMotion:'no-preference'});const page=await context.newPage();try{
+ await page.goto('http://127.0.0.1:4173/criacao.html?stars=0&debug=1&quality=eco');await expect(page.locator('html')).toHaveAttribute('data-presentation-ready','1');
+ const state=await page.evaluate(()=>window.__orionCreationEnvironment.state);expect(state.reducedMotion).toBe(false);expect(state.parallaxEnabled).toBe(false);
+ const initial=await page.evaluate(()=>window.__orionCreationEnvironment.layers[2].material.uniforms.beat.value);
+ await expect.poll(()=>page.evaluate(()=>{const l=window.__orionCreationEnvironment.layers;return l[2].material.uniforms.beat.value===l[3].material.uniforms.beat.value})).toBe(true);
+ await expect.poll(()=>page.evaluate(start=>Math.abs(window.__orionCreationEnvironment.layers[2].material.uniforms.beat.value-start),initial)).toBeGreaterThan(.05);
+ }finally{await context.close()}
 });
