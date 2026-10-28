@@ -1,7 +1,7 @@
 import './class-carousel.css';
 import {CLASS_CHOICES,classByCode,wrapClassIndex,orbitalPose} from './class-catalog.js';
 import {bindPointerActivation} from './pointer-activation.js';
-const artURLs=['combatente','especialista','ocultista'].map(name=>`/assets/workshop/${name}-v19.png`);
+const artURLs=['combatente','especialista','ocultista'].map(name=>`/assets/workshop/${name}-v20.png`);
 let artReady=null;
 export function prepareClassCarousel(){
  if(!artReady)artReady=Promise.all(artURLs.map(url=>{const image=new Image();image.src=url;return image.decode();})).then(()=>true).catch(()=>false);

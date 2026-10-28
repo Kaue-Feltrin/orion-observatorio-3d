@@ -1,0 +1,36 @@
+{
+  "files": [
+    {
+      "file": "combatente-v20.png",
+      "width": 971,
+      "height": 1619,
+      "alpha": true,
+      "bytes": 214939,
+      "sha256": "37cd84648d2ffefa4b1c5918c0358be25525827585fde56cd5dbe3b12ce0fbb0",
+      "nativeMatches": true,
+      "origin": "image_gen; contorno gerado/editado nesta conversa, PNG nativo preservado. Na interface só o alpha é usado como máscara preta CSS; as cores do PNG não são exibidas."
+    },
+    {
+      "file": "especialista-v20.png",
+      "width": 971,
+      "height": 1619,
+      "alpha": true,
+      "bytes": 215847,
+      "sha256": "3988c7ef91e10582a5e5df9ed431f4cf05e68d93830483104ccbb1a4914c3344",
+      "nativeMatches": true,
+      "origin": "image_gen; contorno gerado/editado nesta conversa, PNG nativo preservado. Na interface só o alpha é usado como máscara preta CSS; as cores do PNG não são exibidas."
+    },
+    {
+      "file": "ocultista-v20.png",
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "bytes": 529167,
+      "sha256": "19d18ded9f7cf2fd4950887026ec7724819f979dcb4e5706af98313f603680cb",
+      "nativeMatches": true,
+      "origin": "image_gen; contorno gerado/editado nesta conversa, PNG nativo preservado. Na interface só o alpha é usado como máscara preta CSS; as cores do PNG não são exibidas."
+    }
+  ],
+  "rendering": "Máscara de alpha CSS com preenchimento único #070707. Sem textura, cor, rosto ou desenho de roupa no interior; espaços entre membros preservados.",
+  "refinement": "Ocultista refinado para eliminar contornos internos do livro/torso. Ilustrações V19 preservadas no repositório, substituídas na interface e excluídas apenas do pacote estático V20."
+}

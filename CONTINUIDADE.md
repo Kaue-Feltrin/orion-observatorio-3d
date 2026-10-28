@@ -1,3 +1,7 @@
+## 28/10/2026 — V20: silhuetas simples das classes
+
+- Gravuras V19 substituídas por três sombras pretas, sem rosto/textura/figurino detalhado; arma, lanterna/bolsa e gesto de ritual identificam as classes. Alpha dos PNGs usado como máscara CSS uniforme. Seis cenários da roleta e captura real do pacote aprovados. Relatório: `docs/creation/SILHUETAS-RESULTS-V20.md`. Fluxo, regras e correções de fluidez preservados; sem produção/deploy. Aprovação artística e Brave/1660 pendentes.
+
 ## 28/10/2026 — V19: identidade e carga de renderização
 
 - Três gravuras anônimas substituem os arquétipos padrão; movimentos por função, inscrição de conhecimento e resposta ao apontar. Falha real de fallback reproduzida: a criação mantinha o canvas ao baixar qualidade; agora os pixels diminuem. Controle Fluidez com preferência local e diagnóstico opcional. Quantização do índice dos sigilos passou no ensaio 36/36. 23 arquivos unitários, 33 cenários Chrome e contraste local aprovados. Resultado: `docs/creation/IDENTIDADE-RESULTS-V19.md`. Sem deploy/produção; não homologado no Brave/GTX1660 nem aprovado artisticamente pelo usuário.

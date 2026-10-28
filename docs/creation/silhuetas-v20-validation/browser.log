@@ -1,0 +1,25 @@
+
+Running 6 tests using 1 worker
+
+(node:126809) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:126809) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/class-carousel.spec.js:41:1 › roleta explora as três classes; só confirmar grava e retorno preserva identidade/origem/classe (11.0s)
+  ✓  2 tests/class-carousel.spec.js:116:1 › giro animado não confirma classe e sair durante o giro cancela sem erro (14.9s)
+  ✓  3 tests/class-carousel.spec.js:160:3 › roleta móvel 390x844: deslize, explicação e confirmação acessíveis (11.5s)
+  ✓  4 tests/class-carousel.spec.js:160:3 › roleta móvel 320x568: deslize, explicação e confirmação acessíveis (8.2s)
+  ✓  5 tests/class-carousel.spec.js:160:3 › roleta móvel 568x320: deslize, explicação e confirmação acessíveis (12.6s)
+  ✓  6 tests/class-carousel.spec.js:220:1 › armazenamento recusado mantém origem e não anuncia confirmação de classe (10.9s)
+
+  6 passed (1.2m)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

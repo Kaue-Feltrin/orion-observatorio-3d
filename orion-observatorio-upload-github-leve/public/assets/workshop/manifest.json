@@ -1,5 +1,5 @@
 {
-  "version": 19,
+  "version": 20,
   "material": {
     "file": "walnut-v15.png",
     "width": 1536,
@@ -44,37 +44,38 @@
   "classes": {
     "count": 3,
     "art": {
-      "format": "Três imagens PNG independentes",
+      "format": "Três silhuetas independentes",
+      "rendering": "Máscara de alpha CSS com preenchimento único #070707. Sem textura, cor, rosto ou desenho de roupa no interior; espaços entre membros preservados.",
       "files": [
         {
-          "file": "combatente-v19.png",
-          "width": 1024,
-          "height": 1536,
+          "file": "combatente-v20.png",
+          "width": 971,
+          "height": 1619,
           "alpha": true,
-          "bytes": 2118207,
-          "sha256": "9279a833d1e08d082733ff671d0582a77d1d67218d5e319c00d776c207a4a97d",
+          "bytes": 214939,
+          "sha256": "37cd84648d2ffefa4b1c5918c0358be25525827585fde56cd5dbe3b12ce0fbb0",
           "nativeMatches": true,
-          "origin": "image_gen, geração/edição nesta conversa; arquivo nativo sem alterações de pixels. Gravura editorial de função, sem aparência ou itens obrigatórios."
+          "origin": "image_gen; contorno gerado/editado nesta conversa, PNG nativo preservado. Na interface só o alpha é usado como máscara preta CSS; as cores do PNG não são exibidas."
         },
         {
-          "file": "especialista-v19.png",
-          "width": 1024,
-          "height": 1536,
+          "file": "especialista-v20.png",
+          "width": 971,
+          "height": 1619,
           "alpha": true,
-          "bytes": 1881461,
-          "sha256": "712f89f5d8108753bd60df2605b83525c404a8f5155f38b115f926fe2453e001",
+          "bytes": 215847,
+          "sha256": "3988c7ef91e10582a5e5df9ed431f4cf05e68d93830483104ccbb1a4914c3344",
           "nativeMatches": true,
-          "origin": "image_gen, geração/edição nesta conversa; arquivo nativo sem alterações de pixels. Gravura editorial de função, sem aparência ou itens obrigatórios."
+          "origin": "image_gen; contorno gerado/editado nesta conversa, PNG nativo preservado. Na interface só o alpha é usado como máscara preta CSS; as cores do PNG não são exibidas."
         },
         {
-          "file": "ocultista-v19.png",
+          "file": "ocultista-v20.png",
           "width": 1024,
           "height": 1536,
           "alpha": true,
-          "bytes": 2039066,
-          "sha256": "53a9b0640ae8ec5a9d1a073da56c3a943a56d4e4ed1e27f1bba93e99582bbffe",
+          "bytes": 529167,
+          "sha256": "19d18ded9f7cf2fd4950887026ec7724819f979dcb4e5706af98313f603680cb",
           "nativeMatches": true,
-          "origin": "image_gen, geração/edição nesta conversa; arquivo nativo sem alterações de pixels. Gravura editorial de função, sem aparência ou itens obrigatórios."
+          "origin": "image_gen; contorno gerado/editado nesta conversa, PNG nativo preservado. Na interface só o alpha é usado como máscara preta CSS; as cores do PNG não são exibidas."
         }
       ]
     },
@@ -94,7 +95,7 @@
     },
     "values": "Bases da classe antes de atributos, origem e outras escolhas. Perícias livres: 1/7/3 + INT. Apenas referência, sem concessão mecânica.",
     "examples": "Três exemplos fictícios escritos para esta interface; não são requisitos nem transcrições dos livros.",
-    "motion": "Roleta 2.5D; gravuras com movimentos discretos por função, resposta de 2,5px ao apontar e entrada escalonada do texto. Inscrição usa a fonte real de conhecimento fornecida. Sem rig de ossos; movimento reduzido respeitado."
+    "motion": "Roleta 2.5D; silhuetas com movimentos discretos por função, resposta de 2,5px ao apontar e entrada escalonada do texto. Inscrição usa a fonte real de conhecimento fornecida. Sem rig de ossos; movimento reduzido respeitado."
   },
   "performance": {
     "pixelBudget": "Mesmo teto por perfil para Observatório e criação; fallback agora reduz pixels também na criação.",

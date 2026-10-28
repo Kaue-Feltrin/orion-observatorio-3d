@@ -1,4 +1,6 @@
-> Revisão atual: [V19 — Gravura, movimento e fluidez](IDENTIDADE-RESULTS-V19.md). Três artes independentes, reação visual, ajuste de pixels corrigido na criação, controle de qualidade e proteção numérica do atlas. Evidências locais; Brave/GTX 1660 e aprovação artística pendentes.
+> Revisão atual: [V20 — Silhuetas simples](SILHUETAS-RESULTS-V20.md). Sombras pretas de pessoas contemporâneas, identificadas pela postura/objetos. Sem gravuras ou desenho interno; roleta, regras e correções de fluidez preservadas.
+
+> Histórico V19: [V19 — Gravura, movimento e fluidez](IDENTIDADE-RESULTS-V19.md). Três artes independentes, reação visual, ajuste de pixels corrigido na criação, controle de qualidade e proteção numérica do atlas. Evidências locais; Brave/GTX 1660 e aprovação artística pendentes.
 
 > Histórico V18: [V18 — Classes em roleta](CLASSES-RESULTS-V18.md). Três silhuetas, diferenças, pontos fortes/limitações, exemplos curtos e confirmação explícita. Capturas e vídeo reais; resultados e limites registrados.
 

@@ -1,0 +1,14 @@
+[
+  {
+    "mask": "url(\"http://127.0.0.1:4173/assets/workshop/combatente-v20.png\")",
+    "background": "rgb(7, 7, 7)"
+  },
+  {
+    "mask": "url(\"http://127.0.0.1:4173/assets/workshop/especialista-v20.png\")",
+    "background": "rgb(7, 7, 7)"
+  },
+  {
+    "mask": "url(\"http://127.0.0.1:4173/assets/workshop/ocultista-v20.png\")",
+    "background": "rgb(7, 7, 7)"
+  }
+]

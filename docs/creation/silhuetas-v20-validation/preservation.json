@@ -1,0 +1,117 @@
+{
+  "previousCommit": "6085556729e1cc3bd8cc0a99db032d1ce256da4c",
+  "modules": [
+    {
+      "file": "main.js",
+      "sha256": "aab6cb7eca4206bb65c2166ae2fe9183ab96c0af32e226c60360be4a32f56c6a",
+      "matchesV19": true
+    },
+    {
+      "file": "render-quality.js",
+      "sha256": "bfd9f370a84979d5dacfac46a177ad1d82aaa6abf5f9b0d6d524df4db8358252",
+      "matchesV19": true
+    },
+    {
+      "file": "quality-control.js",
+      "sha256": "fed51f10310218f35b47327be30a8dd29dcc9ac17e83b200503a28c00573f044",
+      "matchesV19": true
+    },
+    {
+      "file": "quality-control.css",
+      "sha256": "709fed71c673028c9389f7b1930966a4c59de1b8a2996589cb8429deab14b084",
+      "matchesV19": true
+    },
+    {
+      "file": "creation-sigils.js",
+      "sha256": "af0c55b38a6b1b2f1f5e23dae7f2b6d4f62f3bd0ba2a952650f556e405e046b7",
+      "matchesV19": true
+    },
+    {
+      "file": "creation-cinematic.js",
+      "sha256": "ef08f0c0c8e26f08b63144e0d5c5d1141c64fd1c5eee57756cfa9b51b2354c15",
+      "matchesV19": true
+    },
+    {
+      "file": "creation-environment.js",
+      "sha256": "d4833d5be307ff521c93c523ef61de498338fc6fe5b281675acf4a5d254b715a",
+      "matchesV19": true
+    },
+    {
+      "file": "creation-body-rig.js",
+      "sha256": "1dbffa638483250d347da23f579fae8eccdb44c89f8fc6ef64c604afaa2642ca",
+      "matchesV19": true
+    },
+    {
+      "file": "creation.css",
+      "sha256": "49ed2ea932c448532a22fc9087c9b81e2b788460ffdbc4ef2c4a6f160664bc73",
+      "matchesV19": true
+    },
+    {
+      "file": "star-selection.js",
+      "sha256": "dd57fe7ba829aeb93719dee3ae0aa3fadf852a094720e31cebc8a9033fae472b",
+      "matchesV19": true
+    },
+    {
+      "file": "star-journey.js",
+      "sha256": "311a87dbaaeb36e65f241a3c1eb75e8259da323af377c21795f67fb15ed274c2",
+      "matchesV19": true
+    },
+    {
+      "file": "page-transition.js",
+      "sha256": "e438593942c22813c67b7e2e648a001315679fc30fd0bcfab42991243ac99170",
+      "matchesV19": true
+    },
+    {
+      "file": "first-person-hands-mesh.js",
+      "sha256": "a76ba5f36c909774e9d5623214c24b1483613704880aef3c6a64f9d8957c6e9a",
+      "matchesV19": true
+    },
+    {
+      "file": "herald-creation.js",
+      "sha256": "5e6c6689a81fe09371140f4f853bf0cf461b2144bc7c621ab27c9456aab6f6ab",
+      "matchesV19": true
+    },
+    {
+      "file": "creation-state.js",
+      "sha256": "da207f37fc061cc31ce8789c7320ae38d13b18cf5facf294b1f78b553084a2f6",
+      "matchesV19": true
+    },
+    {
+      "file": "class-catalog.js",
+      "sha256": "438052e8d83357d539c806234a71bf8025511e7472df8001dacfa1a93e27ec83",
+      "matchesV19": true
+    },
+    {
+      "file": "origin-workshop.js",
+      "sha256": "21e49b7069e2084e49733c4fee80342598ccaae8e249a5f42f211b3a629eb144",
+      "matchesV19": true
+    },
+    {
+      "file": "origin-workshop.css",
+      "sha256": "062b9359a782718cb8bcf96d4f9a564f50b169d559b014e3fb866008014aed5f",
+      "matchesV19": true
+    },
+    {
+      "file": "origin-catalog.js",
+      "sha256": "9ca2247119907b6a29a43a712a329b5c906746f0468a8219151be32a43a40af9",
+      "matchesV19": true
+    },
+    {
+      "file": "origin-discovery.js",
+      "sha256": "1702d4b508568234599d175078deb68d9735968c797fa8dfea2ebedef21e5b50",
+      "matchesV19": true
+    },
+    {
+      "file": "origin-icons.js",
+      "sha256": "a5924b261f931d0045857c4a39d7e2f200db9155852ae19ac42959506990fe31",
+      "matchesV19": true
+    },
+    {
+      "file": "origin-backgrounds.js",
+      "sha256": "6dae987287b62f0390f80fca54f27575c08cb0efbadc258ef5c9d85814637a93",
+      "matchesV19": true
+    }
+  ],
+  "fichasHead": "f80bbaacc8acb4ad0158d43fb923e2f421e58528",
+  "fichasTrackedStatus": ""
+}
