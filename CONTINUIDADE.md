@@ -1,3 +1,7 @@
+## 28/10/2026 — V14: névoa e interface sem painéis
+
+- Dois vermelhos refeitos com tratamento fosco e ilustrado. Na identidade os planos vermelhos são ocultados; ficam preto e duas névoas cinzas. Painéis substituídos por sombras radiais suaves, seleção por texto/linha e foco sem moldura ao redor do corpo. Dez regressões de navegador, 18 arquivos unitários, contraste local e pacote estático verificados. Falha inicial de CSS corrigida e documentada em `docs/creation/NEVOA-RESULTS-V14.md`. ZIP manual; sem deploy/produção. Aprovação artística pendente.
+
 ## 28/10/2026 — V13: acabamento baseado no review
 
 - Formulário em Grid e rolagem interna: cinco regressões eliminam cliques conflitantes. Contraste dos rótulos reaplicado pelo método dos glifos; textos auxiliares maiores e planos estáveis. Sigilos menos dominantes, contornos harmonizados e fundo da identidade escurecido. Asserção estrutural antiga corrigida sem mudar câmera. Resultados: `docs/creation/VISUAL-RESULTS-V13.md`. Rascunho/etapa seguinte e custo de entrada mantidos fora da revisão visual. Sem deploy/produção.

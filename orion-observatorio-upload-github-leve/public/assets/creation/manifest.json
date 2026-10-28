@@ -1,42 +1,82 @@
 {
-  "version": 6,
+  "version": 14,
   "phrase": "Acorrentado pela realidade",
+  "rings": 5,
+  "glyphs": 240,
+  "forceField": false,
+  "background": {
+    "birth": "Base preta, duas névoas cinzas e dois vermelhos ilustrados foscos; pulsação sincronizada 4,8s, saturação 30–100%, brilho 75%, escala até 1,02.",
+    "identity": "Base preta e duas névoas cinzas. Os planos vermelhos são ocultados, não convertidos em carne cinza."
+  },
   "font": {
     "file": "/fonts/SigilosDeConhecimento.ttf",
-    "origin": "Arquivo fornecido pelo usuário, preservado sem alteração.",
     "bytes": 32444,
-    "sha256": "e4528e2f631947733f0e985eec783f9b8aa73338b94732538841da157ab0cb28"
+    "sha256": "e4528e2f631947733f0e985eec783f9b8aa73338b94732538841da157ab0cb28",
+    "origin": "Arquivo fornecido pelo usuário, preservado sem alteração."
   },
-  "forceField": false,
-  "binding": "Frase em sigilos orbitais, 96 glifos lógicos em duas faixas; atlas rasterizado da fonte real após FontFace.load. Sem elos ou cadeado.",
-  "background": "Pintura de tinta cósmica em camadas, paralaxe e perda de cor na transição.",
   "layers": [
+    {
+      "file": "black-base-v9.svg",
+      "bytes": 139,
+      "width": 1536,
+      "height": 1024,
+      "alpha": true,
+      "sha256": "742d86e9e6a3281cd1b65cc8e1876250360e9569ea1371d8308c0d27ed651672",
+      "origin": "Base estrutural preta em SVG."
+    },
+    {
+      "file": "gray-far-v9.png",
+      "bytes": 1767136,
+      "width": 1536,
+      "height": 1024,
+      "alpha": true,
+      "sha256": "ab1bb8676d6f1f02c999d91bfa29615376c8c1155add9f4bf6ec268681205fc2",
+      "origin": "image_gen; imagem histórica preservada byte a byte, composição UV no renderer."
+    },
+    {
+      "file": "gray-near-v9.png",
+      "bytes": 1552322,
+      "width": 1536,
+      "height": 1024,
+      "alpha": true,
+      "sha256": "d0a59c726e32a5b35f072c715ad20d5332e50f53f73c9599a1a7bfe131fc808b",
+      "origin": "image_gen; imagem histórica preservada byte a byte, composição UV no renderer."
+    },
+    {
+      "file": "red-left-v14.png",
+      "bytes": 1736447,
+      "width": 1536,
+      "height": 1024,
+      "alpha": true,
+      "sha256": "b7d2116967c8d04707ba8196362eb3c1d8afe047c09d1a32fc20ed97a2cb1f23",
+      "origin": "image_gen; edição referenciada das imagens V12, saída nativa preservada."
+    },
+    {
+      "file": "red-right-v14.png",
+      "bytes": 1262943,
+      "width": 1536,
+      "height": 1024,
+      "alpha": true,
+      "sha256": "efd5792f5cf239d6ab84f3d76b856907c4060dbef8f0dc80a1cb9b6b681cdaa7",
+      "origin": "image_gen; edição referenciada das imagens V12, saída nativa preservada."
+    },
     {
       "file": "unborn-v5.png",
       "bytes": 975286,
-      "sha256": "a3cce7d1421ab7388be52fb238918a05f6c9b9bbb23d2a17c67ba29485872113",
-      "origin": "image_gen; saída original preservada sem edição de pixels; composição/recorte UV no renderer.",
       "width": 1024,
       "height": 1536,
-      "alpha": true
+      "alpha": true,
+      "sha256": "a3cce7d1421ab7388be52fb238918a05f6c9b9bbb23d2a17c67ba29485872113",
+      "origin": "image_gen; imagem histórica preservada byte a byte, composição UV no renderer."
     },
     {
-      "file": "souls-v5.png",
-      "bytes": 380086,
-      "sha256": "fec9871aa1616318c51de104fcdfe93a05a44ba5420846b056db40e3c2d9d761",
-      "origin": "image_gen; saída original preservada sem edição de pixels; composição/recorte UV no renderer.",
-      "width": 1774,
-      "height": 887,
-      "alpha": true
-    },
-    {
-      "file": "ink-cosmos-v6.png",
-      "bytes": 2155371,
-      "sha256": "4cabe2e0b42a2317e4e22b3c4f56277ecab174406e609f9fdd9809f1e052a2c1",
-      "origin": "image_gen; saída original preservada sem edição de pixels; composição/recorte UV no renderer.",
-      "width": 1672,
-      "height": 941,
-      "alpha": false
+      "file": "souls-v9.png",
+      "bytes": 569490,
+      "width": 1536,
+      "height": 1024,
+      "alpha": true,
+      "sha256": "7dde74323f9f6c1e2be6994628c0382c5a0a40e9c1baaa912ce50f33c4540554",
+      "origin": "image_gen; imagem histórica preservada byte a byte, composição UV no renderer."
     }
   ]
 }

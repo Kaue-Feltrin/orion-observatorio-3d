@@ -1,4 +1,6 @@
-> Revisão visual atual: [V13 — Reflow, contraste e hierarquia](VISUAL-RESULTS-V13.md). Formulário em fluxo, área própria para seta, tipografia e planos de leitura; testes e contraste reaplicados do review.
+> Revisão visual atual: [V14 — Névoa e controles sem painéis](NEVOA-RESULTS-V14.md). Vermelhos ilustrados na criação; apenas névoas na identidade. Capturas, testes e limites registrados.
+
+> Histórico V13: [V13 — Reflow, contraste e hierarquia](VISUAL-RESULTS-V13.md). Formulário em fluxo, área própria para seta, tipografia e planos de leitura; testes e contraste reaplicados do review.
 
 > Histórico V12: [V12 — Membranas orgânicas](ORGANICO-RESULTS-V12.md). Duas artes vermelhas refeitas; efeitos preservados. Aprovação artística pendente e falha estrutural pré-existente registrada.
 

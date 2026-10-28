@@ -1,0 +1,65 @@
+[
+  {
+    "file": "black-base-v9.svg",
+    "bytes": 139,
+    "width": 1536,
+    "height": 1024,
+    "alpha": true,
+    "sha256": "742d86e9e6a3281cd1b65cc8e1876250360e9569ea1371d8308c0d27ed651672",
+    "origin": "Base estrutural preta em SVG."
+  },
+  {
+    "file": "gray-far-v9.png",
+    "bytes": 1767136,
+    "width": 1536,
+    "height": 1024,
+    "alpha": true,
+    "sha256": "ab1bb8676d6f1f02c999d91bfa29615376c8c1155add9f4bf6ec268681205fc2",
+    "origin": "image_gen; imagem histórica preservada byte a byte, composição UV no renderer."
+  },
+  {
+    "file": "gray-near-v9.png",
+    "bytes": 1552322,
+    "width": 1536,
+    "height": 1024,
+    "alpha": true,
+    "sha256": "d0a59c726e32a5b35f072c715ad20d5332e50f53f73c9599a1a7bfe131fc808b",
+    "origin": "image_gen; imagem histórica preservada byte a byte, composição UV no renderer."
+  },
+  {
+    "file": "red-left-v14.png",
+    "bytes": 1736447,
+    "width": 1536,
+    "height": 1024,
+    "alpha": true,
+    "sha256": "b7d2116967c8d04707ba8196362eb3c1d8afe047c09d1a32fc20ed97a2cb1f23",
+    "origin": "image_gen; edição referenciada das imagens V12, saída nativa preservada."
+  },
+  {
+    "file": "red-right-v14.png",
+    "bytes": 1262943,
+    "width": 1536,
+    "height": 1024,
+    "alpha": true,
+    "sha256": "efd5792f5cf239d6ab84f3d76b856907c4060dbef8f0dc80a1cb9b6b681cdaa7",
+    "origin": "image_gen; edição referenciada das imagens V12, saída nativa preservada."
+  },
+  {
+    "file": "unborn-v5.png",
+    "bytes": 975286,
+    "width": 1024,
+    "height": 1536,
+    "alpha": true,
+    "sha256": "a3cce7d1421ab7388be52fb238918a05f6c9b9bbb23d2a17c67ba29485872113",
+    "origin": "image_gen; imagem histórica preservada byte a byte, composição UV no renderer."
+  },
+  {
+    "file": "souls-v9.png",
+    "bytes": 569490,
+    "width": 1536,
+    "height": 1024,
+    "alpha": true,
+    "sha256": "7dde74323f9f6c1e2be6994628c0382c5a0a40e9c1baaa912ce50f33c4540554",
+    "origin": "image_gen; imagem histórica preservada byte a byte, composição UV no renderer."
+  }
+]

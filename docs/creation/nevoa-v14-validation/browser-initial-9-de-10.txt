@@ -1,0 +1,60 @@
+
+Running 10 tests using 1 worker
+
+(node:70568) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:70568) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 tests/creation-atmosphere-v14.spec.js:2:1 › identidade retira os vermelhos e não desenha caixas no foco (8.1s)
+(node:70717) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:70717) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 tests/creation-loading.spec.js:2:1 › o carregamento cobre a cena parcial até fundo e mãos estarem prontos (10.4s)
+  ✓   3 tests/creation-loading.spec.js:30:1 › só as camadas vermelhas pulsam e o movimento para na identidade (7.5s)
+  ✓   4 tests/creation-loading.spec.js:51:1 › movimento reduzido mantém as duas massas vermelhas estáticas (3.1s)
+  ✓   5 tests/creation-loading.spec.js:61:1 › toque mantém saturação animada quando o usuário não pediu movimento reduzido (2.7s)
+  ✓   6 tests/creation-reflow.spec.js:18:3 › formulário 1440x900: controles separados e toque correto após reflow (6.5s)
+  ✓   7 tests/creation-reflow.spec.js:18:3 › formulário 390x430: controles separados e toque correto após reflow (3.9s)
+  ✓   8 tests/creation-reflow.spec.js:18:3 › formulário 568x320: controles separados e toque correto após reflow (3.8s)
+  ✓   9 tests/creation-reflow.spec.js:18:3 › formulário 320x568: controles separados e toque correto após reflow (3.9s)
+  ✓  10 tests/creation-reflow.spec.js:18:3 › formulário 320x256: controles separados e toque correto após reflow (3.3s)
+
+
+  1) tests/creation-atmosphere-v14.spec.js:2:1 › identidade retira os vermelhos e não desenha caixas no foco
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "rgba(0, 0, 0, 0)"
+    Received: "rgba(8, 7, 14, 0.918)"
+
+       8 |  const girl=page.getByRole('button',{name:'Escolher menina',exact:true});await girl.focus();await page.keyboard.press('Tab');const boy=page.getByRole('button',{name:'Escolher menino',exact:true});await expect(boy).toBeFocused();
+       9 |  const style=await boy.evaluate(e=>({keyboard:e.matches(':focus-visible'),outline:getComputedStyle(e).outlineStyle,captionOutline:getComputedStyle(e.querySelector('span')).outlineStyle,captionBorder:getComputedStyle(e.querySelector('span')).borderTopWidth,decoration:getComputedStyle(e.querySelector('span')).textDecorationLine,headerBg:getComputedStyle(document.querySelector('.identity-title')).backgroundColor,controlsBg:getComputedStyle(document.querySelector('.identity-controls')).backgroundColor}));
+    > 10 |  expect(style.keyboard).toBe(true);expect(style.outline).toBe('none');expect(style.captionOutline).toBe('none');expect(style.captionBorder).toBe('0px');expect(style.decoration).toContain('underline');expect(style.headerBg).toBe('rgba(0, 0, 0, 0)');expect(style.controlsBg).toBe('rgba(0, 0, 0, 0)');
+         |                                                                                                                                                                                                                                ^
+      11 | });
+      12 |
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-atmosphere-v14.spec.js:10:224
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../orion-v14-test-results/creation-atmosphere-v14-id-87e35--não-desenha-caixas-no-foco/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../orion-v14-test-results/creation-atmosphere-v14-id-87e35--não-desenha-caixas-no-foco/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../orion-v14-test-results/creation-atmosphere-v14-id-87e35--não-desenha-caixas-no-foco/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../orion-v14-test-results/creation-atmosphere-v14-id-87e35--não-desenha-caixas-no-foco/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/creation-atmosphere-v14.spec.js:2:1 › identidade retira os vermelhos e não desenha caixas no foco
+  9 passed (56.2s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
