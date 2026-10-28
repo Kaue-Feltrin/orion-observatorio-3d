@@ -1,0 +1,116 @@
+
+Running 3 tests using 1 worker
+
+(node:108904) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:108904) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Internal error: step id not found: fixture@67
+  ✘  1 tests/class-carousel.spec.js:160:3 › roleta móvel 390x844: deslize, explicação e confirmação acessíveis (7.5s)
+(node:109037) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:109037) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Internal error: step id not found: fixture@67
+  ✘  2 tests/class-carousel.spec.js:160:3 › roleta móvel 320x568: deslize, explicação e confirmação acessíveis (6.2s)
+(node:109170) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:109170) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Internal error: step id not found: fixture@67
+  ✘  3 tests/class-carousel.spec.js:160:3 › roleta móvel 568x320: deslize, explicação e confirmação acessíveis (6.6s)
+
+
+  1) tests/class-carousel.spec.js:160:3 › roleta móvel 390x844: deslize, explicação e confirmação acessíveis 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m"ESPECIALISTA"[39m
+    Received: [31mundefined[39m
+
+      29 |    const orbit=page.locator('.class-orbit');await orbit.scrollIntoViewIfNeeded();const r=await orbit.boundingBox(),client=await c.newCDPSession(page),y=r.y+r.height*.45,start=r.x+r.width*.7,end=r.x+r.width*.3;
+      30 |    await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:start,y}]});for(let i=1;i<=5;i++)await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:start+(end-start)*i/5,y}]});await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await expect(page.locator('#className')).toHaveText('Especialista');
+    > 31 |    const choose=page.locator('.confirm-class');await choose.scrollIntoViewIfNeeded();await choose.tap();expect((await draft(page)).classCode).toBe('ESPECIALISTA');await page.getByRole('button',{name:'Rever origem',exact:false}).tap();await expect(page.locator('.paper-chosen-name')).toHaveText('Acadêmico');
+         |                                                                                                                                               ^
+      32 |   }finally{await c.close()}
+      33 |  });
+      34 | }
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/class-carousel.spec.js:31:143
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../orion-v18-touch-results/class-carousel-roleta-móve-3cbe6-ão-e-confirmação-acessíveis/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../orion-v18-touch-results/class-carousel-roleta-móve-3cbe6-ão-e-confirmação-acessíveis/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../orion-v18-touch-results/class-carousel-roleta-móve-3cbe6-ão-e-confirmação-acessíveis/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/class-carousel.spec.js:160:3 › roleta móvel 320x568: deslize, explicação e confirmação acessíveis 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m"ESPECIALISTA"[39m
+    Received: [31mundefined[39m
+
+      29 |    const orbit=page.locator('.class-orbit');await orbit.scrollIntoViewIfNeeded();const r=await orbit.boundingBox(),client=await c.newCDPSession(page),y=r.y+r.height*.45,start=r.x+r.width*.7,end=r.x+r.width*.3;
+      30 |    await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:start,y}]});for(let i=1;i<=5;i++)await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:start+(end-start)*i/5,y}]});await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await expect(page.locator('#className')).toHaveText('Especialista');
+    > 31 |    const choose=page.locator('.confirm-class');await choose.scrollIntoViewIfNeeded();await choose.tap();expect((await draft(page)).classCode).toBe('ESPECIALISTA');await page.getByRole('button',{name:'Rever origem',exact:false}).tap();await expect(page.locator('.paper-chosen-name')).toHaveText('Acadêmico');
+         |                                                                                                                                               ^
+      32 |   }finally{await c.close()}
+      33 |  });
+      34 | }
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/class-carousel.spec.js:31:143
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../orion-v18-touch-results/class-carousel-roleta-móve-13b28-ão-e-confirmação-acessíveis/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../orion-v18-touch-results/class-carousel-roleta-móve-13b28-ão-e-confirmação-acessíveis/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../orion-v18-touch-results/class-carousel-roleta-móve-13b28-ão-e-confirmação-acessíveis/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/class-carousel.spec.js:160:3 › roleta móvel 568x320: deslize, explicação e confirmação acessíveis 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m"ESPECIALISTA"[39m
+    Received: [31mundefined[39m
+
+      29 |    const orbit=page.locator('.class-orbit');await orbit.scrollIntoViewIfNeeded();const r=await orbit.boundingBox(),client=await c.newCDPSession(page),y=r.y+r.height*.45,start=r.x+r.width*.7,end=r.x+r.width*.3;
+      30 |    await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:start,y}]});for(let i=1;i<=5;i++)await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:start+(end-start)*i/5,y}]});await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await expect(page.locator('#className')).toHaveText('Especialista');
+    > 31 |    const choose=page.locator('.confirm-class');await choose.scrollIntoViewIfNeeded();await choose.tap();expect((await draft(page)).classCode).toBe('ESPECIALISTA');await page.getByRole('button',{name:'Rever origem',exact:false}).tap();await expect(page.locator('.paper-chosen-name')).toHaveText('Acadêmico');
+         |                                                                                                                                               ^
+      32 |   }finally{await c.close()}
+      33 |  });
+      34 | }
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/class-carousel.spec.js:31:143
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../orion-v18-touch-results/class-carousel-roleta-móve-c5e97-ão-e-confirmação-acessíveis/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../orion-v18-touch-results/class-carousel-roleta-móve-c5e97-ão-e-confirmação-acessíveis/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../orion-v18-touch-results/class-carousel-roleta-móve-c5e97-ão-e-confirmação-acessíveis/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    tests/class-carousel.spec.js:160:3 › roleta móvel 390x844: deslize, explicação e confirmação acessíveis 
+    tests/class-carousel.spec.js:160:3 › roleta móvel 320x568: deslize, explicação e confirmação acessíveis 
+    tests/class-carousel.spec.js:160:3 › roleta móvel 568x320: deslize, explicação e confirmação acessíveis 
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

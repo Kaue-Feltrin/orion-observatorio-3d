@@ -1,0 +1,18 @@
+
+> orion-observatorio-3d@0.8.0-cloudflare build
+> node scripts/prepare-astro-assets.mjs && vite build
+
+file:///workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/scripts/prepare-astro-assets.mjs:30
+  throw new Error('Falha ao obter fotografia da ESO; build interrompido para preservar a versão publicada. ' + failures.join(' | '));
+        ^
+
+Error: Falha ao obter fotografia da ESO; build interrompido para preservar a versão publicada. https://cdn.eso.org/images/large/eso0932a.jpg: fetch failed | https://cdn.eso.org/images/publicationjpg/eso0932a.jpg: fetch failed
+    at file:///workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/scripts/prepare-astro-assets.mjs:30:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.19.0
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

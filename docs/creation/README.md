@@ -1,3 +1,5 @@
+> Revisão atual: [V18 — Classes em roleta](CLASSES-RESULTS-V18.md). Três silhuetas, diferenças, pontos fortes/limitações, exemplos curtos e confirmação explícita. Capturas e vídeo reais; resultados e limites registrados.
+
 > Revisão visual atual: [V17 — Leitura e exemplos](LEITURA-RESULTS-V17.md). Menos texto à vista, 66 exemplos curtos de passado e guia com filtro aplicado explícito. Capturas, comparação de leitura e testes registrados.
 
 > Histórico V16: [V16 — Madeira, pictogramas e tinta](ACABAMENTO-RESULTS-V16.md). Fundo fixo corrigido após rolar, 66 ícones editoriais SVG e controles suavizados. Evidências de antes/depois e resultados reais registrados.

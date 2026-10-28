@@ -1,5 +1,5 @@
 {
-  "version": 17,
+  "version": 18,
   "material": {
     "file": "walnut-v15.png",
     "width": 1536,
@@ -40,5 +40,35 @@
     "source": "origin-backgrounds.js (fonte de desenvolvimento)",
     "sha256": "6dae987287b62f0390f80fca54f27575c08cb0efbadc258ef5c9d85814637a93",
     "origin": "Exemplos fictícios de passado escritos para esta interface, não transcrições dos livros nem requisitos mecânicos."
+  },
+  "classes": {
+    "count": 3,
+    "art": {
+      "file": "classes-v18.png",
+      "width": 1536,
+      "height": 1024,
+      "alpha": true,
+      "bytes": 940320,
+      "sha256": "cc8b0e1ef4bf7b90a3939a591ebaa785f8f2336c28b588bd37923c5d95c3f5e7",
+      "columns": 3,
+      "origin": "image_gen; atlas novo gerado nesta conversa. PNG nativo preservado sem edição de pixels. Três colunas iguais exibidas por background-position CSS; figuras ilustrativas, sem aparência ou inventário obrigatórios."
+    },
+    "sources": {
+      "repository": "Kaue-Feltrin/orion-fichas",
+      "commit": "f80bbaacc8acb4ad0158d43fb923e2f421e58528",
+      "files": [
+        {
+          "path": "public/rules-core/index.mjs",
+          "sha256": "34dccd026e5cf350015b7274bdde22d37f0be1b4160e5f907697dccc25af36dc"
+        },
+        {
+          "path": "public/creator-guidance.js",
+          "sha256": "92908424ff8a4b531654fa893ab03a4f9fd1e77d12551793a1b84a4840327e17"
+        }
+      ]
+    },
+    "values": "Bases da classe antes de atributos, origem e outras escolhas. Perícias livres: 1/7/3 + INT. Apenas referência, sem concessão mecânica.",
+    "examples": "Três exemplos fictícios escritos para esta interface; não são requisitos nem transcrições dos livros.",
+    "motion": "Planos 2.5D com órbitas e escala por Web Animations API; sem rig de ossos nas novas silhuetas."
   }
 }

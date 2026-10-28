@@ -1,0 +1,143 @@
+
+Running 3 tests using 1 worker
+
+(node:109950) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:109950) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Internal error: step id not found: fixture@68
+  ✘  1 tests/class-carousel.spec.js:160:3 › roleta móvel 390x844: deslize, explicação e confirmação acessíveis (19.8s)
+(node:110119) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:110119) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Internal error: step id not found: fixture@68
+  ✘  2 tests/class-carousel.spec.js:160:3 › roleta móvel 320x568: deslize, explicação e confirmação acessíveis (18.5s)
+(node:110297) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:110297) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Internal error: step id not found: fixture@68
+  ✘  3 tests/class-carousel.spec.js:160:3 › roleta móvel 568x320: deslize, explicação e confirmação acessíveis (18.8s)
+
+
+  1) tests/class-carousel.spec.js:160:3 › roleta móvel 390x844: deslize, explicação e confirmação acessíveis 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('.class-status')
+    Expected substring: [32m"Especialista [7mé a classe[27m"[39m
+    Received string:    [31m"Especialista [7mem destaque. Confirme se quiser escolher.[27m"[39m
+    Timeout: 12000ms
+
+    Call log:
+    [2m  - Expect "toContainText" with timeout 12000ms[22m
+    [2m  - waiting for locator('.class-status')[22m
+    [2m    16 × locator resolved to <p role="status" aria-live="polite" class="class-status">Especialista em destaque. Confirme se quiser esco…</p>[22m
+    [2m       - unexpected value "Especialista em destaque. Confirme se quiser escolher."[22m
+
+
+      32 |    // sessions produced touch events without a compatibility click in Chrome.
+      33 |    async function tap(locator){await locator.scrollIntoViewIfNeeded();const box=await locator.boundingBox();await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:box.x+box.width/2,y:box.y+box.height/2}]});await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});}
+    > 34 |    await tap(page.locator('.confirm-class'));await expect(page.locator('.class-status')).toContainText('Especialista é a classe');expect((await draft(page)).classCode).toBe('ESPECIALISTA');await tap(page.getByRole('button',{name:'Rever origem',exact:false}));await expect(page.locator('.paper-chosen-name')).toHaveText('Acadêmico');
+         |                                                                                          ^
+      35 |   }finally{await c.close()}
+      36 |  });
+      37 | }
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/class-carousel.spec.js:34:90
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../orion-v18-touch-final-results/class-carousel-roleta-móve-3cbe6-ão-e-confirmação-acessíveis/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../orion-v18-touch-final-results/class-carousel-roleta-móve-3cbe6-ão-e-confirmação-acessíveis/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../orion-v18-touch-final-results/class-carousel-roleta-móve-3cbe6-ão-e-confirmação-acessíveis/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/class-carousel.spec.js:160:3 › roleta móvel 320x568: deslize, explicação e confirmação acessíveis 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('.class-status')
+    Expected substring: [32m"Especialista [7mé a classe[27m"[39m
+    Received string:    [31m"Especialista [7mem destaque. Confirme se quiser escolher.[27m"[39m
+    Timeout: 12000ms
+
+    Call log:
+    [2m  - Expect "toContainText" with timeout 12000ms[22m
+    [2m  - waiting for locator('.class-status')[22m
+    [2m    16 × locator resolved to <p role="status" aria-live="polite" class="class-status">Especialista em destaque. Confirme se quiser esco…</p>[22m
+    [2m       - unexpected value "Especialista em destaque. Confirme se quiser escolher."[22m
+
+
+      32 |    // sessions produced touch events without a compatibility click in Chrome.
+      33 |    async function tap(locator){await locator.scrollIntoViewIfNeeded();const box=await locator.boundingBox();await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:box.x+box.width/2,y:box.y+box.height/2}]});await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});}
+    > 34 |    await tap(page.locator('.confirm-class'));await expect(page.locator('.class-status')).toContainText('Especialista é a classe');expect((await draft(page)).classCode).toBe('ESPECIALISTA');await tap(page.getByRole('button',{name:'Rever origem',exact:false}));await expect(page.locator('.paper-chosen-name')).toHaveText('Acadêmico');
+         |                                                                                          ^
+      35 |   }finally{await c.close()}
+      36 |  });
+      37 | }
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/class-carousel.spec.js:34:90
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../orion-v18-touch-final-results/class-carousel-roleta-móve-13b28-ão-e-confirmação-acessíveis/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../orion-v18-touch-final-results/class-carousel-roleta-móve-13b28-ão-e-confirmação-acessíveis/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../orion-v18-touch-final-results/class-carousel-roleta-móve-13b28-ão-e-confirmação-acessíveis/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/class-carousel.spec.js:160:3 › roleta móvel 568x320: deslize, explicação e confirmação acessíveis 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('.class-status')
+    Expected substring: [32m"Especialista [7mé a classe[27m"[39m
+    Received string:    [31m"Especialista [7mem destaque. Confirme se quiser escolher.[27m"[39m
+    Timeout: 12000ms
+
+    Call log:
+    [2m  - Expect "toContainText" with timeout 12000ms[22m
+    [2m  - waiting for locator('.class-status')[22m
+    [2m    16 × locator resolved to <p role="status" aria-live="polite" class="class-status">Especialista em destaque. Confirme se quiser esco…</p>[22m
+    [2m       - unexpected value "Especialista em destaque. Confirme se quiser escolher."[22m
+
+
+      32 |    // sessions produced touch events without a compatibility click in Chrome.
+      33 |    async function tap(locator){await locator.scrollIntoViewIfNeeded();const box=await locator.boundingBox();await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:box.x+box.width/2,y:box.y+box.height/2}]});await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});}
+    > 34 |    await tap(page.locator('.confirm-class'));await expect(page.locator('.class-status')).toContainText('Especialista é a classe');expect((await draft(page)).classCode).toBe('ESPECIALISTA');await tap(page.getByRole('button',{name:'Rever origem',exact:false}));await expect(page.locator('.paper-chosen-name')).toHaveText('Acadêmico');
+         |                                                                                          ^
+      35 |   }finally{await c.close()}
+      36 |  });
+      37 | }
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/class-carousel.spec.js:34:90
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../orion-v18-touch-final-results/class-carousel-roleta-móve-c5e97-ão-e-confirmação-acessíveis/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../orion-v18-touch-final-results/class-carousel-roleta-móve-c5e97-ão-e-confirmação-acessíveis/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../orion-v18-touch-final-results/class-carousel-roleta-móve-c5e97-ão-e-confirmação-acessíveis/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    tests/class-carousel.spec.js:160:3 › roleta móvel 390x844: deslize, explicação e confirmação acessíveis 
+    tests/class-carousel.spec.js:160:3 › roleta móvel 320x568: deslize, explicação e confirmação acessíveis 
+    tests/class-carousel.spec.js:160:3 › roleta móvel 568x320: deslize, explicação e confirmação acessíveis 
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

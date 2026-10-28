@@ -1,3 +1,7 @@
+## 28/10/2026 — V18: classes em roleta
+
+- Após confirmar origem, a folha abre Combatente, Especialista e Ocultista em roleta 2.5D. Três silhuetas, pontos fortes/limitações, exemplos e comparação opcional de bases. Giro apenas explora; confirmação preserva identidade/origem e grava classCode local. Correção reproduzida de toque após deslize. 22 arquivos unitários, 19 cenários Chrome, contraste local e pacote HTTP verificados. Bundle Vite aprovado; comando completo bloqueado no download externo ESO, com assets V17 preservados. Resultados: `docs/creation/CLASSES-RESULTS-V18.md`. Sem produção/deploy; aprovação artística/aparelho real pendentes.
+
 ## 28/10/2026 — V17: leitura e orientação
 
 - Lista com ícones/nomes, 66 exemplos fictícios de passado e contexto/fonte expansíveis. Guia visual separado da exploração; escolha de interesse mostra aviso de filtro aplicado, contagem e ações para trocar/limpar, sem alterar a origem confirmada. Treze cenários Chrome, 21 arquivos unitários e três regressões de leitura após ajuste final do aviso aprovados. Resultados em `docs/creation/LEITURA-RESULTS-V17.md`. Base, imagens e regras preservadas; sem deploy. Avaliação visual/aparelho real pendentes.

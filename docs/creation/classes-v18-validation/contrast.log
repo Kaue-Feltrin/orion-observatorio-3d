@@ -1,0 +1,184 @@
+[
+  {
+    "width": 1440,
+    "s": "#classPaperTitle",
+    "font": "40px",
+    "min": 10.681224826460959,
+    "samples": 2565
+  },
+  {
+    "width": 1440,
+    "s": ".class-context",
+    "font": "16px",
+    "min": 5.558633390401347,
+    "samples": 504
+  },
+  {
+    "width": 1440,
+    "s": ".class-theme",
+    "font": "12px",
+    "min": 5.350926210366773,
+    "samples": 474
+  },
+  {
+    "width": 1440,
+    "s": "#className",
+    "font": "35px",
+    "min": 10.399309304383326,
+    "samples": 1429
+  },
+  {
+    "width": 1440,
+    "s": ".class-summary",
+    "font": "18px",
+    "min": 10.174978420635345,
+    "samples": 1815
+  },
+  {
+    "width": 1440,
+    "s": ".class-tradeoffs h3",
+    "font": "13px",
+    "min": 4.819386232696053,
+    "samples": 300
+  },
+  {
+    "width": 1440,
+    "s": ".class-strengths li",
+    "font": "15px",
+    "min": 10.302454965579713,
+    "samples": 873
+  },
+  {
+    "width": 1440,
+    "s": ".class-limits li",
+    "font": "15px",
+    "min": 10.203490971085147,
+    "samples": 1260
+  },
+  {
+    "width": 1440,
+    "s": ".class-example>span",
+    "font": "12px",
+    "min": 5.1283508931223425,
+    "samples": 289
+  },
+  {
+    "width": 1440,
+    "s": ".class-example p",
+    "font": "18px",
+    "min": 8.664184350455265,
+    "samples": 2994
+  },
+  {
+    "width": 1440,
+    "s": ".class-position",
+    "font": "11px",
+    "min": 5.402390542461618,
+    "samples": 306
+  },
+  {
+    "width": 1440,
+    "s": ".class-comparison summary",
+    "font": "13px",
+    "min": 5.270250100941234,
+    "samples": 631
+  },
+  {
+    "width": 1440,
+    "s": ".confirm-class",
+    "font": "15px",
+    "min": 9.775628604259218,
+    "samples": 526
+  },
+  {
+    "width": 390,
+    "s": "#classPaperTitle",
+    "font": "32px",
+    "min": 10.678901069519318,
+    "samples": 1696
+  },
+  {
+    "width": 390,
+    "s": ".class-context",
+    "font": "16px",
+    "min": 5.506243608320988,
+    "samples": 504
+  },
+  {
+    "width": 390,
+    "s": ".class-theme",
+    "font": "12px",
+    "min": 5.37290640557526,
+    "samples": 474
+  },
+  {
+    "width": 390,
+    "s": "#className",
+    "font": "32px",
+    "min": 10.450463845544155,
+    "samples": 1142
+  },
+  {
+    "width": 390,
+    "s": ".class-summary",
+    "font": "18px",
+    "min": 10.302454965579713,
+    "samples": 1830
+  },
+  {
+    "width": 390,
+    "s": ".class-tradeoffs h3",
+    "font": "13px",
+    "min": 4.873511666335799,
+    "samples": 311
+  },
+  {
+    "width": 390,
+    "s": ".class-strengths li",
+    "font": "15px",
+    "min": 10.350603378095014,
+    "samples": 854
+  },
+  {
+    "width": 390,
+    "s": ".class-limits li",
+    "font": "15px",
+    "min": 10.168936842630886,
+    "samples": 1251
+  },
+  {
+    "width": 390,
+    "s": ".class-example>span",
+    "font": "12px",
+    "min": 5.134467557022391,
+    "samples": 281
+  },
+  {
+    "width": 390,
+    "s": ".class-example p",
+    "font": "18px",
+    "min": 8.658079237492656,
+    "samples": 3010
+  },
+  {
+    "width": 390,
+    "s": ".class-position",
+    "font": "12px",
+    "min": 5.350926210366773,
+    "samples": 362
+  },
+  {
+    "width": 390,
+    "s": ".class-comparison summary",
+    "font": "13px",
+    "min": 5.303399462206773,
+    "samples": 628
+  },
+  {
+    "width": 390,
+    "s": ".confirm-class",
+    "font": "15px",
+    "min": 9.775628604259218,
+    "samples": 525
+  }
+]

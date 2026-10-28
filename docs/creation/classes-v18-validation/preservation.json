@@ -1,0 +1,104 @@
+{
+  "previousCommit": "9b991c1f58ac1aa5a6ee9dc13ef1ceb974a418d0",
+  "originalCommit": "a45c8d6d89c5be4892fa049ed755218fad3fb006",
+  "preservedFiles": [
+    {
+      "path": "main.js",
+      "sha256": "90b5cd6a2fed512f3840f9827582cb4a69d5d1e825b49b9c19ba945944299f52",
+      "matchesV17": true
+    },
+    {
+      "path": "creation-state.js",
+      "sha256": "da207f37fc061cc31ce8789c7320ae38d13b18cf5facf294b1f78b553084a2f6",
+      "matchesV17": true
+    },
+    {
+      "path": "origin-catalog.js",
+      "sha256": "9ca2247119907b6a29a43a712a329b5c906746f0468a8219151be32a43a40af9",
+      "matchesV17": true
+    },
+    {
+      "path": "origin-discovery.js",
+      "sha256": "1702d4b508568234599d175078deb68d9735968c797fa8dfea2ebedef21e5b50",
+      "matchesV17": true
+    },
+    {
+      "path": "origin-icons.js",
+      "sha256": "a5924b261f931d0045857c4a39d7e2f200db9155852ae19ac42959506990fe31",
+      "matchesV17": true
+    },
+    {
+      "path": "origin-backgrounds.js",
+      "sha256": "6dae987287b62f0390f80fca54f27575c08cb0efbadc258ef5c9d85814637a93",
+      "matchesV17": true
+    },
+    {
+      "path": "origin-workshop.css",
+      "sha256": "062b9359a782718cb8bcf96d4f9a564f50b169d559b014e3fb866008014aed5f",
+      "matchesV17": true
+    },
+    {
+      "path": "first-person-hands-mesh.js",
+      "sha256": "a76ba5f36c909774e9d5623214c24b1483613704880aef3c6a64f9d8957c6e9a",
+      "matchesV17": true,
+      "matchesOriginal": true
+    },
+    {
+      "path": "star-journey.js",
+      "sha256": "311a87dbaaeb36e65f241a3c1eb75e8259da323af377c21795f67fb15ed274c2",
+      "matchesV17": true,
+      "matchesOriginal": true
+    },
+    {
+      "path": "star-selection.js",
+      "sha256": "dd57fe7ba829aeb93719dee3ae0aa3fadf852a094720e31cebc8a9033fae472b",
+      "matchesV17": true,
+      "matchesOriginal": true
+    },
+    {
+      "path": "page-transition.js",
+      "sha256": "e438593942c22813c67b7e2e648a001315679fc30fd0bcfab42991243ac99170",
+      "matchesV17": true,
+      "matchesOriginal": true
+    }
+  ],
+  "cachedESOAssets": [
+    {
+      "path": "assets/nebula-eso-photographic.jpg",
+      "sha256": "8f18c0a67986f49bf34e430e1fe97afb9a48cf2da8a61a33dcb1a36409bee1e9",
+      "matchesV17ZIP": true
+    },
+    {
+      "path": "assets/depth/eso-gas-06.webp",
+      "sha256": "035d030a7e187d9affae627f1fa3c380fcf7e0ff59f0be9ecb13e2ed99c1ef2f",
+      "matchesV17ZIP": true
+    },
+    {
+      "path": "assets/depth/eso-gas-02.webp",
+      "sha256": "f0e81c4641ad704cccb97c21e90d486e52d28dca7c9bbb65bd02f9031f91a065",
+      "matchesV17ZIP": true
+    },
+    {
+      "path": "assets/depth/eso-gas-01.webp",
+      "sha256": "d37d2f434adfb7a9734ffd2866c5974cac6cebf5062ebdbc6e81e68678eba691",
+      "matchesV17ZIP": true
+    },
+    {
+      "path": "assets/depth/eso-gas-03.webp",
+      "sha256": "836151cd4f369e3b261349a16c921ad6cf539a4af53562c408ba3a418cc520d6",
+      "matchesV17ZIP": true
+    },
+    {
+      "path": "assets/depth/eso-gas-04.webp",
+      "sha256": "d1d39ef9bf78e3190fc0ddeda74d99bf4f11c3d831413dae03541c802bd42578",
+      "matchesV17ZIP": true
+    },
+    {
+      "path": "assets/depth/eso-gas-05.webp",
+      "sha256": "8d1929c65fb57d2990a5a0ccf2667791434f7d24b0b453ed2ccfefac8c14b294",
+      "matchesV17ZIP": true
+    }
+  ],
+  "fichasHead": "f80bbaacc8acb4ad0158d43fb923e2f421e58528",
+  "fichasTrackedStatus": ""
+}

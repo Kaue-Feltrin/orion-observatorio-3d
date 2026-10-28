@@ -1,0 +1,38 @@
+
+Running 19 tests using 1 worker
+
+(node:112923) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:112923) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/class-carousel.spec.js:41:1 › roleta explora as três classes; só confirmar grava e retorno preserva identidade/origem/classe (10.8s)
+  ✓   2 tests/class-carousel.spec.js:116:1 › giro animado não confirma classe e sair durante o giro cancela sem erro (14.7s)
+  ✓   3 tests/class-carousel.spec.js:160:3 › roleta móvel 390x844: deslize, explicação e confirmação acessíveis (6.6s)
+  ✓   4 tests/class-carousel.spec.js:160:3 › roleta móvel 320x568: deslize, explicação e confirmação acessíveis (5.0s)
+  ✓   5 tests/class-carousel.spec.js:160:3 › roleta móvel 568x320: deslize, explicação e confirmação acessíveis (5.5s)
+  ✓   6 tests/class-carousel.spec.js:220:1 › armazenamento recusado mantém origem e não anuncia confirmação de classe (8.9s)
+  ✓   7 tests/origin-materials-v16.spec.js:36:3 › madeira cobre o fundo depois de rolar a ficha 1855x711 (16.4s)
+  ✓   8 tests/origin-materials-v16.spec.js:36:3 › madeira cobre o fundo depois de rolar a ficha 390x844 (9.2s)
+  ✓   9 tests/origin-materials-v16.spec.js:36:3 › madeira cobre o fundo depois de rolar a ficha 568x320 (7.8s)
+  ✓  10 tests/origin-materials-v16.spec.js:68:1 › ícones acompanham lista, detalhes e comparação sem substituir o nome (9.3s)
+  ✓  11 tests/origin-paper.spec.js:32:1 › ficha física: consulta não confirma, origem salva só após escolha e identidade é preservada (10.7s)
+  ✓  12 tests/origin-paper.spec.js:73:1 › busca, filtros combinados, guia e comparação preservam confirmação explícita (13.3s)
+  ✓  13 tests/origin-paper.spec.js:125:1 › nome é texto, movimento reduzido não executa a queda, armazenamento recusado não confirma (5.6s)
+  ✓  14 tests/origin-paper.spec.js:154:3 › papel 390x844: busca, detalhes e confirmação alcançáveis (5.8s)
+  ✓  15 tests/origin-paper.spec.js:154:3 › papel 320x568: busca, detalhes e confirmação alcançáveis (5.3s)
+  ✓  16 tests/origin-paper.spec.js:154:3 › papel 568x320: busca, detalhes e confirmação alcançáveis (7.2s)
+  ✓  17 tests/origin-reading-v17.spec.js:25:1 › guia aplica interesse com confirmação visível, limpa restrições anteriores e permite trocar (7.9s)
+  ✓  18 tests/origin-reading-v17.spec.js:79:3 › leitura 1440: exemplo curto e detalhes opcionais sem ocultar escolhas obrigatórias (8.8s)
+  ✓  19 tests/origin-reading-v17.spec.js:79:3 › leitura 390: exemplo curto e detalhes opcionais sem ocultar escolhas obrigatórias (4.9s)
+
+  19 passed (2.8m)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

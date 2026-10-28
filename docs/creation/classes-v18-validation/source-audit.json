@@ -1,0 +1,72 @@
+{
+  "sources": [
+    {
+      "path": "public/rules-core/index.mjs",
+      "sha256": "34dccd026e5cf350015b7274bdde22d37f0be1b4160e5f907697dccc25af36dc"
+    },
+    {
+      "path": "public/creator-guidance.js",
+      "sha256": "92908424ff8a4b531654fa893ab03a4f9fd1e77d12551793a1b84a4840327e17"
+    }
+  ],
+  "comparisons": [
+    {
+      "code": "COMBATENTE",
+      "reference": {
+        "pv": 20,
+        "pe": 2,
+        "san": 12,
+        "freeSkills": 1
+      },
+      "presentation": {
+        "pv": 20,
+        "pe": 2,
+        "san": 12,
+        "freeSkills": 1
+      },
+      "match": true
+    },
+    {
+      "code": "ESPECIALISTA",
+      "reference": {
+        "pv": 16,
+        "pe": 3,
+        "san": 16,
+        "freeSkills": 7
+      },
+      "presentation": {
+        "pv": 16,
+        "pe": 3,
+        "san": 16,
+        "freeSkills": 7
+      },
+      "match": true
+    },
+    {
+      "code": "OCULTISTA",
+      "reference": {
+        "pv": 12,
+        "pe": 4,
+        "san": 20,
+        "freeSkills": 3
+      },
+      "presentation": {
+        "pv": 12,
+        "pe": 4,
+        "san": 20,
+        "freeSkills": 3
+      },
+      "match": true
+    }
+  ],
+  "art": {
+    "file": "classes-v18.png",
+    "width": 1536,
+    "height": 1024,
+    "alpha": true,
+    "bytes": 940320,
+    "sha256": "cc8b0e1ef4bf7b90a3939a591ebaa785f8f2336c28b588bd37923c5d95c3f5e7",
+    "columns": 3,
+    "origin": "image_gen; atlas novo gerado nesta conversa. PNG nativo preservado sem edição de pixels. Três colunas iguais exibidas por background-position CSS; figuras ilustrativas, sem aparência ou inventário obrigatórios."
+  }
+}
