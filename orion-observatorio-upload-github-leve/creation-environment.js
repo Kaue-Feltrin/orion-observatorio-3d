@@ -2,8 +2,8 @@ import * as THREE from 'three';
 export const ATMOSPHERE_LAYERS=[
  {file:'/assets/creation/gray-far-v9.png',kind:'gray-far',z:-280,opacity:.30},
  {file:'/assets/creation/gray-near-v9.png',kind:'gray-near',z:-180,opacity:.21},
- {file:'/assets/creation/red-left-v9.png',kind:'red-left',z:-110,opacity:.64},
- {file:'/assets/creation/red-right-v9.png',kind:'red-right',z:-65,opacity:.59}
+ {file:'/assets/creation/red-left-v12.png',kind:'red-left',z:-110,opacity:.64},
+ {file:'/assets/creation/red-right-v12.png',kind:'red-right',z:-65,opacity:.59}
 ];
 export const RED_SATURATION_MIN=.30;
 export const RED_BRIGHTNESS=.75;

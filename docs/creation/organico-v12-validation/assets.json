@@ -1,0 +1,20 @@
+[
+  {
+    "file": "red-left-v12.png",
+    "width": 1536,
+    "height": 1024,
+    "alpha": true,
+    "min": 0,
+    "max": 254,
+    "sha256": "f7e1f7899acbdf2db00e44db97b7f60fb547bb089e1693fff36e1fb16627cef3"
+  },
+  {
+    "file": "red-right-v12.png",
+    "width": 1536,
+    "height": 1024,
+    "alpha": true,
+    "min": 0,
+    "max": 254,
+    "sha256": "64c17184b874b5a117d316d669bc56947f55eb6972441ffc197b7238a610c408"
+  }
+]

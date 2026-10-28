@@ -1,3 +1,7 @@
+## 28/10/2026 — V12: material orgânico
+
+- Apenas os vermelhos foram refeitos como membranas e dobras; cinzas/base e efeitos V11 preservados. Imagens nativas com alpha, inspetor e pacotes atualizados. Resultados reais em `docs/creation/ORGANICO-RESULTS-V12.md`, incluindo falha de `npm run check` por regex antigo do mouse. Não anunciar suite completa aprovada. Sem deploy/produção.
+
 ## 28/10/2026 — V11: piso de saturação e brilho
 
 - Saturação mínima 30%, brilho de saída dos vermelhos 75%, mantendo ciclo sincronizado e expansão 0–2%. Inspetor e pacotes atualizados. Resultados: `docs/creation/COR-RESULTS-V11.md`. Sem deploy/produção.

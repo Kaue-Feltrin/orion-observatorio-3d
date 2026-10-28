@@ -1,4 +1,6 @@
-> Revisão visual atual: [V11 — Vermelho preservado e brilho menor](COR-RESULTS-V11.md). Saturação 30–100% e brilho 75%; sincronismo e expansão preservados.
+> Revisão visual atual: [V12 — Membranas orgânicas](ORGANICO-RESULTS-V12.md). Duas artes vermelhas refeitas; efeitos preservados. Aprovação artística pendente e falha estrutural pré-existente registrada.
+
+> Histórico V11: [V11 — Vermelho preservado e brilho menor](COR-RESULTS-V11.md). Saturação 30–100% e brilho 75%; sincronismo e expansão preservados.
 
 > Histórico V10: [V10 — Saturação sincronizada](SATURACAO-RESULTS-V10.md). Saturação 0–100–0%, escala até 1,02 e correção da pulsação em toque.
 
