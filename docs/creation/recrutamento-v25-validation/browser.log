@@ -1,0 +1,2150 @@
+
+Running 55 tests using 1 worker
+
+(node:191130) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:191130) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/55] tests/class-carousel.spec.js:41:1 › roleta explora as três classes; só confirmar grava e retorno preserva identidade/origem/classe
+[2/55] tests/class-carousel.spec.js:116:1 › giro animado não confirma classe e sair durante o giro cancela sem erro
+[3/55] tests/class-carousel.spec.js:160:3 › roleta móvel 390x844: deslize, explicação e confirmação acessíveis
+[4/55] tests/class-carousel.spec.js:160:3 › roleta móvel 320x568: deslize, explicação e confirmação acessíveis
+[5/55] tests/class-carousel.spec.js:160:3 › roleta móvel 568x320: deslize, explicação e confirmação acessíveis
+[6/55] tests/class-carousel.spec.js:220:1 › armazenamento recusado mantém origem e não anuncia confirmação de classe
+[7/55] tests/creation-journey.spec.js:43:65 › criação completa COMBATENTE: decisões, volta, JSON e retomada local
+[8/55] tests/creation-journey.spec.js:43:65 › criação completa ESPECIALISTA: decisões, volta, JSON e retomada local
+[9/55] tests/creation-journey.spec.js:43:65 › criação completa OCULTISTA: decisões, volta, JSON e retomada local
+[10/55] tests/creation-journey.spec.js:135:5 › decisões no papel cabem em 390×844
+[11/55] tests/creation-journey.spec.js:135:5 › decisões no papel cabem em 320×568
+[12/55] tests/creation-journey.spec.js:135:5 › decisões no papel cabem em 568×320
+[13/55] tests/creation-journey.spec.js:148:1 › quota recusada não anuncia personagem criado
+[14/55] tests/creation-journey.spec.js:162:1 › retomar Prodígio não prende atributos antes de escolher os limites etários
+[15/55] tests/creation-journey.spec.js:191:1 › Profissão e subescolha de Engenheiro permanecem sincronizadas, sem conceder item
+[16/55] tests/herald-navigation.spec.js:13:3 › 1 estrela(s): destino 1 preserva identidade e permite retornar
+[17/55] tests/herald-navigation.spec.js:13:3 › 2 estrela(s): destino 1 preserva identidade e permite retornar
+[18/55] tests/herald-navigation.spec.js:13:3 › 2 estrela(s): destino 2 preserva identidade e permite retornar
+[19/55] tests/herald-navigation.spec.js:13:3 › 3 estrela(s): destino 1 preserva identidade e permite retornar
+[20/55] tests/herald-navigation.spec.js:13:3 › 3 estrela(s): destino 2 preserva identidade e permite retornar
+[21/55] tests/herald-navigation.spec.js:13:3 › 3 estrela(s): destino 3 preserva identidade e permite retornar
+[22/55] tests/herald-navigation.spec.js:61:1 › raio do mouse escolhe cada estrela e compartilha texturas sem misturar resumos
+[23/55] tests/herald-navigation.spec.js:83:1 › véu cobre saída e primeiro quadro da chegada até módulo atrasado ficar pronto
+[24/55] tests/herald-navigation.spec.js:146:1 › movimento reduzido, acesso direto e destino inválido mantêm chegada utilizável
+[25/55] tests/herald-navigation.spec.js:176:3 › regressão do toque compartilhado › segunda estrela abre resumo sem viagem e confirmação chega ao destino correto
+[26/55] tests/herald-navigation.spec.js:194:1 › limite de três, fallback de contagem inválida e reposicionamento mantêm alvos separados
+[27/55] tests/herald-navigation.spec.js:223:1 › voltar pelo navegador restaura o Observatório sem clarão ou seleção travados
+[28/55] tests/herald-navigation.spec.js:246:29 › viagem lateral 1: câmera mantém direção e outras estrelas não deslizam na curva
+[29/55] tests/herald-navigation.spec.js:246:29 › viagem lateral 2: câmera mantém direção e outras estrelas não deslizam na curva
+[30/55] tests/origin-paper.spec.js:32:1 › ficha física: consulta não confirma, origem salva só após escolha e identidade é preservada
+[31/55] tests/origin-paper.spec.js:73:1 › busca, filtros combinados, guia e comparação preservam confirmação explícita
+[32/55] tests/origin-paper.spec.js:125:1 › nome é texto, movimento reduzido não executa a queda, armazenamento recusado não confirma
+[33/55] tests/origin-paper.spec.js:154:3 › papel 390x844: busca, detalhes e confirmação alcançáveis
+[34/55] tests/origin-paper.spec.js:154:3 › papel 320x568: busca, detalhes e confirmação alcançáveis
+[35/55] tests/origin-paper.spec.js:154:3 › papel 568x320: busca, detalhes e confirmação alcançáveis
+[36/55] tests/origin-reading-v17.spec.js:25:1 › guia aplica interesse com confirmação visível, limpa restrições anteriores e permite trocar
+[37/55] tests/origin-reading-v17.spec.js:79:3 › leitura 1440: exemplo curto e detalhes opcionais sem ocultar escolhas obrigatórias
+[38/55] tests/origin-reading-v17.spec.js:79:3 › leitura 390: exemplo curto e detalhes opcionais sem ocultar escolhas obrigatórias
+[39/55] tests/recruitment-v25.spec.js:44:65 › Criar COMBATENTE registra, carimba e abre uma ficha persistente
+[40/55] tests/recruitment-v25.spec.js:44:65 › Criar ESPECIALISTA registra, carimba e abre uma ficha persistente
+[41/55] tests/recruitment-v25.spec.js:44:65 › Criar OCULTISTA registra, carimba e abre uma ficha persistente
+[42/55] tests/recruitment-v25.spec.js:104:1 › recrutamento normal cola foto, escreve com caneta e carimba na ordem
+[43/55] tests/recruitment-v25.spec.js:135:1 › recarregar durante escrita não duplica personagem
+[44/55] tests/recruitment-v25.spec.js:148:1 › armazenamento negado preserva escolhas e não exibe recrutamento
+[45/55] tests/recruitment-v25.spec.js:162:1 › desvantagens têm escolha única clara para Adulto e limite explícito para Maduro
+[46/55] tests/recruitment-v25.spec.js:186:1 › perícias explicam uso e busca por finalidade; todos os itens visíveis têm ícone
+[47/55] tests/recruitment-v25.spec.js:203:1 › comparar direto na lista mostra as duas origens e permite escolher no quadro
+[48/55] tests/recruitment-v25.spec.js:228:5 › recrutamento acessível em 390x844
+[49/55] tests/recruitment-v25.spec.js:228:5 › recrutamento acessível em 320x568
+[50/55] tests/recruitment-v25.spec.js:228:5 › recrutamento acessível em 568x320
+[51/55] tests/recruitment-v25.spec.js:240:1 › concluir animação mostra o registro salvo sem criar uma segunda ficha
+[52/55] tests/recruitment-v25.spec.js:253:1 › rolagem automática avança gradualmente e respeita interrupção do usuário
+  1) tests/recruitment-v25.spec.js:253:1 › rolagem automática avança gradualmente e respeita interrupção do usuário
+
+    Error: expect(received).not.toBe(expected) // Object.is equality
+
+    Expected: not 0
+
+      12 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`recrutamento acessível em ${viewport.width}x${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await open(page);await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete');expect(await page.locator('.recruitment-viewport').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('.recruitment-view').click();await expect(page.locator('.local-sheet h1')).toHaveText('Astra');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);});
+      13 | test('concluir animação mostra o registro salvo sem criar uma segunda ficha',async({page})=>{await open(page,{motion:'no-preference'});await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment-skip')).toBeVisible();await page.locator('.recruitment-skip').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete');await expect(page.locator('.recruitment-pen')).toBeHidden();expect(await records(page)).toHaveLength(1);});
+    > 14 | test('rolagem automática avança gradualmente e respeita interrupção do usuário',async({page})=>{await open(page,{motion:'no-preference'});await page.locator('[data-edit-origin]').click();await expect(page.locator('.paper-workshop')).toHaveAttribute('data-chapter','origin');await expect(page.locator('.origin-next')).toBeFocused();await page.locator('[data-mode="guide"]').click();await page.locator('[data-guide="cuidar"]').evaluate(e=>e.click());await expect(page.locator('.paper-scroll')).toHaveAttribute('data-auto-scrolling','1');const first=await page.locator('.paper-scroll').evaluate(e=>e.scrollTop);await page.waitForTimeout(120);const middle=await page.locator('.paper-scroll').evaluate(e=>e.scrollTop);expect(middle).not.toBe(first);await expect(page.locator('.paper-scroll')).not.toHaveAttribute('data-auto-scrolling','1');await page.locator('.change-interest').click();await expect(page.locator('.paper-scroll')).toHaveAttribute('data-auto-scrolling','1');await page.locator('.paper-scroll').evaluate(e=>e.dispatchEvent(new WheelEvent('wheel',{deltaY:-100,bubbles:true})));await expect(page.locator('.paper-scroll')).not.toHaveAttribute('data-auto-scrolling','1');});
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^
+      15 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`comparação, idade e itens sem overflow em ${viewport.width}x${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await open(page);await page.locator('[data-journey-go="1"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-field="age"]').fill('52');expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('[data-journey-go="4"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('[data-journey-go="6"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-edit-origin]').click();await expect(page.locator('.paper-workshop')).toHaveAttribute('data-chapter','origin');await page.locator('[data-compare-origin="ACADEMICO"]').click();await page.locator('[data-compare-origin="AGENTE_SAUDE"]').click();await page.locator('.open-comparison').click();expect(await page.locator('.origin-comparison').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('[data-choose-compared="ACADEMICO"]').click();await expect(page.locator('.origin-comparison')).not.toBeVisible();});
+      16 |
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js:14:733
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/recruitment-v25-rolagem-au-c1d55-eita-interrupção-do-usuário/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/recruitment-v25-rolagem-au-c1d55-eita-interrupção-do-usuário/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/recruitment-v25-rolagem-au-c1d55-eita-interrupção-do-usuário/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/recruitment-v25-rolagem-au-c1d55-eita-interrupção-do-usuário/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:193719) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:193719) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[53/55] tests/recruitment-v25.spec.js:287:5 › comparação, idade e itens sem overflow em 390x844
+[54/55] tests/recruitment-v25.spec.js:287:5 › comparação, idade e itens sem overflow em 320x568
+[55/55] tests/recruitment-v25.spec.js:287:5 › comparação, idade e itens sem overflow em 568x320
+  1 failed
+    tests/recruitment-v25.spec.js:253:1 › rolagem automática avança gradualmente e respeita interrupção do usuário
+  54 passed (8.5m)
+{
+  "config": {
+    "configFile": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/playwright.local.config.js",
+    "rootDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "line"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.js"
+        ],
+        "timeout": 25000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run preview",
+      "url": "http://127.0.0.1:4173/",
+      "reuseExistingServer": true,
+      "timeout": 30000
+    }
+  },
+  "suites": [
+    {
+      "title": "class-carousel.spec.js",
+      "file": "class-carousel.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "roleta explora as três classes; só confirmar grava e retorno preserva identidade/origem/classe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 17905,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:54:44.043Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2c6c260a57dbc03cac9d-1f3eaa5912079a84b32a",
+          "file": "class-carousel.spec.js",
+          "line": 41,
+          "column": 1
+        },
+        {
+          "title": "giro animado não confirma classe e sair durante o giro cancela sem erro",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 23784,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:55:02.364Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2c6c260a57dbc03cac9d-a769e5786a29b7f4ba05",
+          "file": "class-carousel.spec.js",
+          "line": 116,
+          "column": 1
+        },
+        {
+          "title": "roleta móvel 390x844: deslize, explicação e confirmação acessíveis",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7115,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:55:26.159Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2c6c260a57dbc03cac9d-ffafa5c66dc70b51d7ef",
+          "file": "class-carousel.spec.js",
+          "line": 160,
+          "column": 3
+        },
+        {
+          "title": "roleta móvel 320x568: deslize, explicação e confirmação acessíveis",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5484,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:55:33.285Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2c6c260a57dbc03cac9d-ca5ac5c8b3be7f9c5dee",
+          "file": "class-carousel.spec.js",
+          "line": 160,
+          "column": 3
+        },
+        {
+          "title": "roleta móvel 568x320: deslize, explicação e confirmação acessíveis",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6732,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:55:38.790Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2c6c260a57dbc03cac9d-73943cfd0f12b00c1167",
+          "file": "class-carousel.spec.js",
+          "line": 160,
+          "column": 3
+        },
+        {
+          "title": "armazenamento recusado mantém origem e não anuncia confirmação de classe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7327,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:55:45.532Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2c6c260a57dbc03cac9d-638a3b1e10046e93405f",
+          "file": "class-carousel.spec.js",
+          "line": 220,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "creation-journey.spec.js",
+      "file": "creation-journey.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "criação completa COMBATENTE: decisões, volta, JSON e retomada local",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 25901,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:55:52.960Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-b6b8ac79803c792892f5",
+          "file": "creation-journey.spec.js",
+          "line": 43,
+          "column": 65
+        },
+        {
+          "title": "criação completa ESPECIALISTA: decisões, volta, JSON e retomada local",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 28474,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:56:18.884Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-350e1a4fc819fa941021",
+          "file": "creation-journey.spec.js",
+          "line": 43,
+          "column": 65
+        },
+        {
+          "title": "criação completa OCULTISTA: decisões, volta, JSON e retomada local",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 25650,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:56:47.373Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-c4491cbcf2b99513e5e5",
+          "file": "creation-journey.spec.js",
+          "line": 43,
+          "column": 65
+        },
+        {
+          "title": "decisões no papel cabem em 390×844",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5203,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:57:13.037Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-9b45811209784e4e4fca",
+          "file": "creation-journey.spec.js",
+          "line": 135,
+          "column": 5
+        },
+        {
+          "title": "decisões no papel cabem em 320×568",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4506,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:57:18.251Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-19adf168dd281bc66cda",
+          "file": "creation-journey.spec.js",
+          "line": 135,
+          "column": 5
+        },
+        {
+          "title": "decisões no papel cabem em 568×320",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4155,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:57:22.774Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-3df63af73fd6b61cc2ae",
+          "file": "creation-journey.spec.js",
+          "line": 135,
+          "column": 5
+        },
+        {
+          "title": "quota recusada não anuncia personagem criado",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4363,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:57:26.952Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-003fb44cf1493652b08e",
+          "file": "creation-journey.spec.js",
+          "line": 148,
+          "column": 1
+        },
+        {
+          "title": "retomar Prodígio não prende atributos antes de escolher os limites etários",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12131,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:57:31.327Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-6a9677c084923fb2eabd",
+          "file": "creation-journey.spec.js",
+          "line": 162,
+          "column": 1
+        },
+        {
+          "title": "Profissão e subescolha de Engenheiro permanecem sincronizadas, sem conceder item",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7082,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:57:43.474Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-9523eaa7730445288965",
+          "file": "creation-journey.spec.js",
+          "line": 191,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "herald-navigation.spec.js",
+      "file": "herald-navigation.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "1 estrela(s): destino 1 preserva identidade e permite retornar",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 50000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10650,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:57:50.584Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0957a948c46ce91982d9-d0461003294aa1a29358",
+          "file": "herald-navigation.spec.js",
+          "line": 13,
+          "column": 3
+        },
+        {
+          "title": "2 estrela(s): destino 1 preserva identidade e permite retornar",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 50000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11682,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:58:01.253Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0957a948c46ce91982d9-d61075c546dc4cc5570f",
+          "file": "herald-navigation.spec.js",
+          "line": 13,
+          "column": 3
+        },
+        {
+          "title": "2 estrela(s): destino 2 preserva identidade e permite retornar",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 50000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11417,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:58:12.949Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0957a948c46ce91982d9-bc4bb31a024ce41ecd79",
+          "file": "herald-navigation.spec.js",
+          "line": 13,
+          "column": 3
+        },
+        {
+          "title": "3 estrela(s): destino 1 preserva identidade e permite retornar",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 50000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11989,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:58:24.378Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0957a948c46ce91982d9-ffe0326c21612d5a95d5",
+          "file": "herald-navigation.spec.js",
+          "line": 13,
+          "column": 3
+        },
+        {
+          "title": "3 estrela(s): destino 2 preserva identidade e permite retornar",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 50000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11556,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:58:36.377Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0957a948c46ce91982d9-ea19a7692edb244f4a05",
+          "file": "herald-navigation.spec.js",
+          "line": 13,
+          "column": 3
+        },
+        {
+          "title": "3 estrela(s): destino 3 preserva identidade e permite retornar",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 50000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11678,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:58:47.946Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0957a948c46ce91982d9-15f17dadb5edbd3ac3f2",
+          "file": "herald-navigation.spec.js",
+          "line": 13,
+          "column": 3
+        },
+        {
+          "title": "raio do mouse escolhe cada estrela e compartilha texturas sem misturar resumos",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9664,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:58:59.642Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0957a948c46ce91982d9-99f416c1d27a66a83369",
+          "file": "herald-navigation.spec.js",
+          "line": 61,
+          "column": 1
+        },
+        {
+          "title": "véu cobre saída e primeiro quadro da chegada até módulo atrasado ficar pronto",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 50000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9781,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:59:09.323Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0957a948c46ce91982d9-6726e20213547a6b60ca",
+          "file": "herald-navigation.spec.js",
+          "line": 83,
+          "column": 1
+        },
+        {
+          "title": "movimento reduzido, acesso direto e destino inválido mantêm chegada utilizável",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4926,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:59:19.125Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0957a948c46ce91982d9-132cfc30fd2a02d1f19e",
+          "file": "herald-navigation.spec.js",
+          "line": 146,
+          "column": 1
+        },
+        {
+          "title": "limite de três, fallback de contagem inválida e reposicionamento mantêm alvos separados",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 50000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7029,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:59:33.735Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0957a948c46ce91982d9-b9af0db5de664c09f6cd",
+          "file": "herald-navigation.spec.js",
+          "line": 194,
+          "column": 1
+        },
+        {
+          "title": "voltar pelo navegador restaura o Observatório sem clarão ou seleção travados",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 50000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13780,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:59:40.779Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0957a948c46ce91982d9-ed580bb92a6821325633",
+          "file": "herald-navigation.spec.js",
+          "line": 223,
+          "column": 1
+        },
+        {
+          "title": "viagem lateral 1: câmera mantém direção e outras estrelas não deslizam na curva",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7374,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:59:54.571Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0957a948c46ce91982d9-7d6d8677cdf5569a7383",
+          "file": "herald-navigation.spec.js",
+          "line": 246,
+          "column": 29
+        },
+        {
+          "title": "viagem lateral 2: câmera mantém direção e outras estrelas não deslizam na curva",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7648,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:00:01.965Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0957a948c46ce91982d9-3394934dcbd60c40f2aa",
+          "file": "herald-navigation.spec.js",
+          "line": 246,
+          "column": 29
+        }
+      ],
+      "suites": [
+        {
+          "title": "regressão do toque compartilhado",
+          "file": "herald-navigation.spec.js",
+          "line": 167,
+          "column": 6,
+          "specs": [
+            {
+              "title": "segunda estrela abre resumo sem viagem e confirmação chega ao destino correto",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 9650,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-29T12:59:24.070Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0957a948c46ce91982d9-b1bf5ba410e84fb5d6db",
+              "file": "herald-navigation.spec.js",
+              "line": 176,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "origin-paper.spec.js",
+      "file": "origin-paper.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "ficha física: consulta não confirma, origem salva só após escolha e identidade é preservada",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7715,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:00:09.636Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7918b70157442db98f3a-e1b046837434a754ad9e",
+          "file": "origin-paper.spec.js",
+          "line": 32,
+          "column": 1
+        },
+        {
+          "title": "busca, filtros combinados, guia e comparação preservam confirmação explícita",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9802,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:00:17.358Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7918b70157442db98f3a-e9934b4e8ed920633628",
+          "file": "origin-paper.spec.js",
+          "line": 73,
+          "column": 1
+        },
+        {
+          "title": "nome é texto, movimento reduzido não executa a queda, armazenamento recusado não confirma",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6015,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:00:27.190Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7918b70157442db98f3a-f596629a2307822b8ffb",
+          "file": "origin-paper.spec.js",
+          "line": 125,
+          "column": 1
+        },
+        {
+          "title": "papel 390x844: busca, detalhes e confirmação alcançáveis",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5799,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:00:33.224Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7918b70157442db98f3a-1bb50cfa2b6a7ca15a38",
+          "file": "origin-paper.spec.js",
+          "line": 154,
+          "column": 3
+        },
+        {
+          "title": "papel 320x568: busca, detalhes e confirmação alcançáveis",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5147,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:00:39.040Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7918b70157442db98f3a-76fb9a4c390d90ce7ba4",
+          "file": "origin-paper.spec.js",
+          "line": 154,
+          "column": 3
+        },
+        {
+          "title": "papel 568x320: busca, detalhes e confirmação alcançáveis",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5143,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:00:44.198Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7918b70157442db98f3a-61408c96fe77d360ca97",
+          "file": "origin-paper.spec.js",
+          "line": 154,
+          "column": 3
+        }
+      ]
+    },
+    {
+      "title": "origin-reading-v17.spec.js",
+      "file": "origin-reading-v17.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "guia aplica interesse com confirmação visível, limpa restrições anteriores e permite trocar",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7615,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:00:49.382Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1bc42d82740a87987e6b-a69999bbefb34e7b86b8",
+          "file": "origin-reading-v17.spec.js",
+          "line": 25,
+          "column": 1
+        },
+        {
+          "title": "leitura 1440: exemplo curto e detalhes opcionais sem ocultar escolhas obrigatórias",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8724,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:00:57.012Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1bc42d82740a87987e6b-c2910907fe5449675df7",
+          "file": "origin-reading-v17.spec.js",
+          "line": 79,
+          "column": 3
+        },
+        {
+          "title": "leitura 390: exemplo curto e detalhes opcionais sem ocultar escolhas obrigatórias",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5140,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:01:05.761Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1bc42d82740a87987e6b-cca35c3bdf26dff3240a",
+          "file": "origin-reading-v17.spec.js",
+          "line": 79,
+          "column": 3
+        }
+      ]
+    },
+    {
+      "title": "recruitment-v25.spec.js",
+      "file": "recruitment-v25.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Criar COMBATENTE registra, carimba e abre uma ficha persistente",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10873,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:01:10.923Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-198fccb74664b48bad0c",
+          "file": "recruitment-v25.spec.js",
+          "line": 44,
+          "column": 65
+        },
+        {
+          "title": "Criar ESPECIALISTA registra, carimba e abre uma ficha persistente",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5040,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:01:21.807Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-fdea58109d4e4b476146",
+          "file": "recruitment-v25.spec.js",
+          "line": 44,
+          "column": 65
+        },
+        {
+          "title": "Criar OCULTISTA registra, carimba e abre uma ficha persistente",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5004,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:01:26.861Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-adce95dafde34965bb4b",
+          "file": "recruitment-v25.spec.js",
+          "line": 44,
+          "column": 65
+        },
+        {
+          "title": "recrutamento normal cola foto, escreve com caneta e carimba na ordem",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14617,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:01:31.879Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-fc092e33b4df08743478",
+          "file": "recruitment-v25.spec.js",
+          "line": 104,
+          "column": 1
+        },
+        {
+          "title": "recarregar durante escrita não duplica personagem",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 40000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8810,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:01:46.510Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-79f1187c57733610fbe0",
+          "file": "recruitment-v25.spec.js",
+          "line": 135,
+          "column": 1
+        },
+        {
+          "title": "armazenamento negado preserva escolhas e não exibe recrutamento",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4225,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:01:55.340Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-22aee109f63888a9e91b",
+          "file": "recruitment-v25.spec.js",
+          "line": 148,
+          "column": 1
+        },
+        {
+          "title": "desvantagens têm escolha única clara para Adulto e limite explícito para Maduro",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7210,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:01:59.578Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-1169eb871fd0ce4fc825",
+          "file": "recruitment-v25.spec.js",
+          "line": 162,
+          "column": 1
+        },
+        {
+          "title": "perícias explicam uso e busca por finalidade; todos os itens visíveis têm ícone",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5823,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:02:06.800Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-297f3864d670831de8bd",
+          "file": "recruitment-v25.spec.js",
+          "line": 186,
+          "column": 1
+        },
+        {
+          "title": "comparar direto na lista mostra as duas origens e permite escolher no quadro",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7768,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:02:12.632Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-3bbfd446ee6139c36e90",
+          "file": "recruitment-v25.spec.js",
+          "line": 203,
+          "column": 1
+        },
+        {
+          "title": "recrutamento acessível em 390x844",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3939,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:02:20.409Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-c090dd52bddefa4fbc8a",
+          "file": "recruitment-v25.spec.js",
+          "line": 228,
+          "column": 5
+        },
+        {
+          "title": "recrutamento acessível em 320x568",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3439,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:02:24.362Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-b7a916fa33205006c0e3",
+          "file": "recruitment-v25.spec.js",
+          "line": 228,
+          "column": 5
+        },
+        {
+          "title": "recrutamento acessível em 568x320",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2888,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:02:27.814Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-e1281360bad8fc5a3159",
+          "file": "recruitment-v25.spec.js",
+          "line": 228,
+          "column": 5
+        },
+        {
+          "title": "concluir animação mostra o registro salvo sem criar uma segunda ficha",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7553,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:02:30.714Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-cc8c0939c8a47afaefdb",
+          "file": "recruitment-v25.spec.js",
+          "line": 240,
+          "column": 1
+        },
+        {
+          "title": "rolagem automática avança gradualmente e respeita interrupção do usuário",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 10294,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: not \u001b[32m0\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: not \u001b[32m0\u001b[39m\n    at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js:14:733",
+                    "location": {
+                      "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js",
+                      "column": 733,
+                      "line": 14
+                    },
+                    "snippet": "  12 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`recrutamento acessível em ${viewport.width}x${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await open(page);await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete');expect(await page.locator('.recruitment-viewport').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('.recruitment-view').click();await expect(page.locator('.local-sheet h1')).toHaveText('Astra');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);});\n  13 | test('concluir animação mostra o registro salvo sem criar uma segunda ficha',async({page})=>{await open(page,{motion:'no-preference'});await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment-skip')).toBeVisible();await page.locator('.recruitment-skip').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete');await expect(page.locator('.recruitment-pen')).toBeHidden();expect(await records(page)).toHaveLength(1);});\n> 14 | test('rolagem automática avança gradualmente e respeita interrupção do usuário',async({page})=>{await open(page,{motion:'no-preference'});await page.locator('[data-edit-origin]').click();await expect(page.locator('.paper-workshop')).toHaveAttribute('data-chapter','origin');await expect(page.locator('.origin-next')).toBeFocused();await page.locator('[data-mode=\"guide\"]').click();await page.locator('[data-guide=\"cuidar\"]').evaluate(e=>e.click());await expect(page.locator('.paper-scroll')).toHaveAttribute('data-auto-scrolling','1');const first=await page.locator('.paper-scroll').evaluate(e=>e.scrollTop);await page.waitForTimeout(120);const middle=await page.locator('.paper-scroll').evaluate(e=>e.scrollTop);expect(middle).not.toBe(first);await expect(page.locator('.paper-scroll')).not.toHaveAttribute('data-auto-scrolling','1');await page.locator('.change-interest').click();await expect(page.locator('.paper-scroll')).toHaveAttribute('data-auto-scrolling','1');await page.locator('.paper-scroll').evaluate(e=>e.dispatchEvent(new WheelEvent('wheel',{deltaY:-100,bubbles:true})));await expect(page.locator('.paper-scroll')).not.toHaveAttribute('data-auto-scrolling','1');});\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^\n  15 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`comparação, idade e itens sem overflow em ${viewport.width}x${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await open(page);await page.locator('[data-journey-go=\"1\"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-field=\"age\"]').fill('52');expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('[data-journey-go=\"4\"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('[data-journey-go=\"6\"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-edit-origin]').click();await expect(page.locator('.paper-workshop')).toHaveAttribute('data-chapter','origin');await page.locator('[data-compare-origin=\"ACADEMICO\"]').click();await page.locator('[data-compare-origin=\"AGENTE_SAUDE\"]').click();await page.locator('.open-comparison').click();expect(await page.locator('.origin-comparison').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('[data-choose-compared=\"ACADEMICO\"]').click();await expect(page.locator('.origin-comparison')).not.toBeVisible();});\n  16 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js",
+                        "column": 733,
+                        "line": 14
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: not \u001b[32m0\u001b[39m\n\n  12 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`recrutamento acessível em ${viewport.width}x${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await open(page);await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete');expect(await page.locator('.recruitment-viewport').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('.recruitment-view').click();await expect(page.locator('.local-sheet h1')).toHaveText('Astra');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);});\n  13 | test('concluir animação mostra o registro salvo sem criar uma segunda ficha',async({page})=>{await open(page,{motion:'no-preference'});await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment-skip')).toBeVisible();await page.locator('.recruitment-skip').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete');await expect(page.locator('.recruitment-pen')).toBeHidden();expect(await records(page)).toHaveLength(1);});\n> 14 | test('rolagem automática avança gradualmente e respeita interrupção do usuário',async({page})=>{await open(page,{motion:'no-preference'});await page.locator('[data-edit-origin]').click();await expect(page.locator('.paper-workshop')).toHaveAttribute('data-chapter','origin');await expect(page.locator('.origin-next')).toBeFocused();await page.locator('[data-mode=\"guide\"]').click();await page.locator('[data-guide=\"cuidar\"]').evaluate(e=>e.click());await expect(page.locator('.paper-scroll')).toHaveAttribute('data-auto-scrolling','1');const first=await page.locator('.paper-scroll').evaluate(e=>e.scrollTop);await page.waitForTimeout(120);const middle=await page.locator('.paper-scroll').evaluate(e=>e.scrollTop);expect(middle).not.toBe(first);await expect(page.locator('.paper-scroll')).not.toHaveAttribute('data-auto-scrolling','1');await page.locator('.change-interest').click();await expect(page.locator('.paper-scroll')).toHaveAttribute('data-auto-scrolling','1');await page.locator('.paper-scroll').evaluate(e=>e.dispatchEvent(new WheelEvent('wheel',{deltaY:-100,bubbles:true})));await expect(page.locator('.paper-scroll')).not.toHaveAttribute('data-auto-scrolling','1');});\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^\n  15 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`comparação, idade e itens sem overflow em ${viewport.width}x${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await open(page);await page.locator('[data-journey-go=\"1\"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-field=\"age\"]').fill('52');expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('[data-journey-go=\"4\"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('[data-journey-go=\"6\"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-edit-origin]').click();await expect(page.locator('.paper-workshop')).toHaveAttribute('data-chapter','origin');await page.locator('[data-compare-origin=\"ACADEMICO\"]').click();await page.locator('[data-compare-origin=\"AGENTE_SAUDE\"]').click();await page.locator('.open-comparison').click();expect(await page.locator('.origin-comparison').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('[data-choose-compared=\"ACADEMICO\"]').click();await expect(page.locator('.origin-comparison')).not.toBeVisible();});\n  16 |\n    at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js:14:733"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:02:38.275Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/recruitment-v25-rolagem-au-c1d55-eita-interrupção-do-usuário/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/recruitment-v25-rolagem-au-c1d55-eita-interrupção-do-usuário/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/recruitment-v25-rolagem-au-c1d55-eita-interrupção-do-usuário/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js",
+                    "column": 733,
+                    "line": 14
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-a8c648b162ad5b8044d3",
+          "file": "recruitment-v25.spec.js",
+          "line": 253,
+          "column": 1
+        },
+        {
+          "title": "comparação, idade e itens sem overflow em 390x844",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10330,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:02:50.166Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-de5b81225c981c06af74",
+          "file": "recruitment-v25.spec.js",
+          "line": 287,
+          "column": 5
+        },
+        {
+          "title": "comparação, idade e itens sem overflow em 320x568",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5939,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:03:00.862Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-246b3d85ebb0ebbaa428",
+          "file": "recruitment-v25.spec.js",
+          "line": 287,
+          "column": 5
+        },
+        {
+          "title": "comparação, idade e itens sem overflow em 568x320",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5877,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:03:06.816Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-d8cc788461800956fa91",
+          "file": "recruitment-v25.spec.js",
+          "line": 287,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-29T12:54:42.975Z",
+    "duration": 509829.361,
+    "expected": 54,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

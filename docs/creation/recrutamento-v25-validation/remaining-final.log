@@ -1,0 +1,209 @@
+
+Running 3 tests using 1 worker
+
+(node:197519) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:197519) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/3] tests/class-carousel.spec.js:116:1 › giro animado não confirma classe e sair durante o giro cancela sem erro
+[2/3] tests/quality-diagnostic.spec.js:2:44 › diagnóstico espera a nova amostra, atualiza e pode ser copiado: /
+[3/3] tests/quality-diagnostic.spec.js:2:44 › diagnóstico espera a nova amostra, atualiza e pode ser copiado: /criacao.html
+  3 passed (1.2m)
+{
+  "config": {
+    "configFile": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/playwright.local.config.js",
+    "rootDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "line"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.js"
+        ],
+        "timeout": 25000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run preview",
+      "url": "http://127.0.0.1:4173/",
+      "reuseExistingServer": true,
+      "timeout": 30000
+    }
+  },
+  "suites": [
+    {
+      "title": "class-carousel.spec.js",
+      "file": "class-carousel.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "giro animado não confirma classe e sair durante o giro cancela sem erro",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 31939,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:20:13.789Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2c6c260a57dbc03cac9d-a769e5786a29b7f4ba05",
+          "file": "class-carousel.spec.js",
+          "line": 116,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "quality-diagnostic.spec.js",
+      "file": "quality-diagnostic.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "diagnóstico espera a nova amostra, atualiza e pode ser copiado: /",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 21985,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:20:46.117Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f2eff97d8269f115535-61b4373477069fe3e781",
+          "file": "quality-diagnostic.spec.js",
+          "line": 2,
+          "column": 44
+        },
+        {
+          "title": "diagnóstico espera a nova amostra, atualiza e pode ser copiado: /criacao.html",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 15394,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:21:08.144Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f2eff97d8269f115535-b98ce56ff7e6eb39edfa",
+          "file": "quality-diagnostic.spec.js",
+          "line": 2,
+          "column": 44
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-29T13:20:13.043Z",
+    "duration": 70617.81599999999,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

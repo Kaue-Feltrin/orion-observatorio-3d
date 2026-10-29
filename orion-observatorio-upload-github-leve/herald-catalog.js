@@ -12,7 +12,9 @@ export function heraldCount(value){
   const number=Number(value);
   return Number.isFinite(number)?Math.max(1,Math.min(MAX_HERALDS,Math.trunc(number))):1;
 }
-export function getHeralds(params=new URLSearchParams()){
+export function localHeraldPage(records,page){const total=records.length,pages=Math.max(1,Math.ceil(total/MAX_HERALDS)),index=Math.max(0,Math.min(pages-1,Math.trunc(Number(page)||0)));return{index,pages,total,records:records.slice(index*MAX_HERALDS,(index+1)*MAX_HERALDS)};}
+export function getHeralds(params=new URLSearchParams(),{localRecords=[]}={}){
+  if(params.get('collection')==='local'||params.get('stars')==='0'&&localRecords.length){return localHeraldPage(localRecords,params.get('page')).records.map(r=>({id:r.id,name:r.name,subtitle:({COMBATENTE:'Combatente',ESPECIALISTA:'Especialista',OCULTISTA:'Ocultista'})[r.classCode],demo:false,local:true,stats:{level:String(r.character.level||1),origin:r.origin.label,trail:'—',rank:r.character.patent||'RECRUTA',em:String(r.character.em??0),ec:'—'}}));}
   return previewHeralds.slice(0,heraldCount(params.get('stars')??1));
 }
 export function getHeraldLayout(count,aspect){
@@ -23,7 +25,7 @@ export function getHeraldLayout(count,aspect){
   const scale=Math.min(1,Math.max(.45,aspect/.95));
   return points.map(([x,y])=>({x:(x-.5)*width,y:(.5-y)*height,z:-470,scale}));
 }
-const presentationKeys=['stars','quality','effects','hands','handsMotion','depth','depthMotion','foreground'];
+const presentationKeys=['stars','quality','effects','hands','handsMotion','depth','depthMotion','foreground','collection','page'];
 export function observatoryURL(current){
   const source=new URL(current),url=new URL('index.html',source);
   for(const key of presentationKeys)if(source.searchParams.has(key))url.searchParams.set(key,source.searchParams.get(key));
@@ -32,5 +34,6 @@ export function observatoryURL(current){
 export function arrivalURL(current,herald){
   const url=new URL(herald.creation?'criacao.html':'ficha.html',current),source=observatoryURL(current);
   for(const [key,value] of source.searchParams)url.searchParams.set(key,value);
+  if(herald.local)url.searchParams.set('character',herald.id);
   url.searchParams.set('herald',herald.id);url.searchParams.set('via','observatory');return url;
 }

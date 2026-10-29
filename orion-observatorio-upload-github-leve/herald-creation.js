@@ -95,13 +95,13 @@ export function createHeraldCreation(root,{hands,reducedMotion=false,scene,camer
  });
  function openPaper(draft,resume=false){
   root.inert=true;
-  return openOriginWorkshop(draft,{reducedMotion,resume,onChoose(value){originChoice=value.origin;classChoice=value.classCode??null;if(value.character)continuationData={character:value.character,creationStep:value.creationStep,creationVisited:value.creationVisited};},onReturn(){root.inert=false;state={...state,continued:false};sync();status.textContent='Revise sua identidade e continue quando quiser.';}}).catch(()=>{root.inert=false;delete document.documentElement.dataset.paperActive;state={...state,continued:false};sync();status.textContent='Não foi possível abrir a ficha. Tente continuar novamente.';});
+  return openOriginWorkshop(draft,{reducedMotion,resume,onChoose(value){originChoice=value.origin;classChoice=value.classCode??null;if(value.character)continuationData={character:value.character,creationStep:value.creationStep,creationVisited:value.creationVisited,localDraftId:value.localDraftId};},onReturn(){root.inert=false;state={...state,continued:false};sync();status.textContent='Revise sua identidade e continue quando quiser.';}}).catch(()=>{root.inert=false;delete document.documentElement.dataset.paperActive;state={...state,continued:false};sync();status.textContent='Não foi possível abrir a ficha. Tente continuar novamente.';});
  }
  let saved=null,savedMode='session';
  try{saved=readSavedCreation(sessionStorage,CREATION_DRAFT_KEY);if(!saved){saved=readSavedCreation(localStorage);savedMode='local';}}catch{}
  if(saved){
   if(new URLSearchParams(location.search).has('resume')){
-   state={phase:'identity',name:saved.name,gender:saved.gender,continued:true};originChoice=saved.origin;classChoice=saved.classCode;continuationData={character:saved.character,creationStep:saved.creationStep,creationVisited:saved.creationVisited};name.value=saved.name;form.hidden=false;being.hidden=true;mark.hidden=true;form.append(status);sync();art.select(saved.gender);
+   state={phase:'identity',name:saved.name,gender:saved.gender,continued:true};originChoice=saved.origin;classChoice=saved.classCode;continuationData={character:saved.character,creationStep:saved.creationStep,creationVisited:saved.creationVisited,localDraftId:saved.localDraftId};name.value=saved.name;form.hidden=false;being.hidden=true;mark.hidden=true;form.append(status);sync();art.select(saved.gender);
    art.ready.then(()=>art.release({immediate:true})).then(()=>openPaper(saved,true)).catch(()=>{status.textContent='Não foi possível retomar a criação. O rascunho guardado não foi apagado.';root.inert=false;});
   }else{
    const link=document.createElement('a');link.className='creation-resume ink-link';link.href='criacao.html?stars=0&resume='+savedMode;link.textContent='Retomar criação anterior →';panel.append(link);

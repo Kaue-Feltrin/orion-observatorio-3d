@@ -1,0 +1,63 @@
+OK: circular wrap, bounded periodic geometry, front focus, three supported classes and immutable local class choice without rule grants.
+✔ tests/class-carousel.unit.mjs (62.92333ms)
+OK: 3 weighted skeletons, normalized influences, finite deformation without inverted triangles, rest in reduced mode; continuous front/rear bindings and release.
+✔ tests/creation-body-rig.unit.mjs (513.047965ms)
+OK: normalized motion cycle 0/1/0, smooth and periodic over 4.8s.
+OK: red saturation stays at 30–100%; output brightness 75%.
+✔ tests/creation-environment.unit.mjs (161.44824ms)
+OK: geometria contínua, UVs, fragmentos coerentes, sequência de VFX e movimento reduzido.
+✔ tests/creation-fracture.unit.mjs (211.645728ms)
+OK: three valid local creations, source readiness blockers, INT edits, ritual/equipment validation, draft-only persistence, honest renderer classification and exact rules snapshot hashes.
+✔ tests/creation-journey.unit.mjs (193.392167ms)
+OK: exact phrase reconstructed per orbit, repeated words/spaces, valid atlas indexes and instanced glyph geometry.
+✔ tests/creation-sigils.unit.mjs (177.35872ms)
+OK: conta vazia, viagem correta, sequência, três escolhas exclusivas, nome e entrega local única.
+✔ tests/creation-state.unit.mjs (89.489224ms)
+OK: projeção inicial idêntica, céu sem perspectiva de parede, aproximação explícita uniforme de 32%, pan reversível, cobertura em quatro aspectos e mesmos recursos.
+✔ tests/distant-sky.unit.mjs (139.849373ms)
+Fechamento esquerdo: {"apertureRatio":0.7929952218953933,"minArea":0.25748750021501887,"maxArea":1.5755901415941727}
+OK: transparência/escala e entradas visíveis equilibradas, esquerda fecha/retorna, apontar/profundidade contidos e reduced-motion.
+✔ tests/hands-balance.unit.mjs (1220.427565ms)
+OK: neutralidade inicial, blend suave 30/60 Hz, viagem, reduced-motion, descarte e hands=off.
+✔ tests/hands-hover.unit.mjs (242.567092ms)
+OK: rig MMV, pesos, dedos, limites, triângulos, reduced-motion, hover/viagem e descarte.
+✔ tests/hands-image-rig.unit.mjs (967.23439ms)
+OK: continuous GPU-ready finger mesh weights; displacement bound 0.00309 0.00693
+✔ tests/hands-mesh.unit.mjs (124.656326ms)
+OK: independent 2.5D sway, travel, reduced motion, off never downloads asset
+✔ tests/hands-overlay.unit.mjs (71.754761ms)
+Área relativa dos triângulos na sequência: 0.11416648747613918 1.7116198761678127
+OK: mão íntegra, cinco contornos, sem fades/recortes, triângulos, profundidade, reversão, off/reduced e descarte.
+✔ tests/hands-perspective.unit.mjs (7030.728977ms)
+OK: catálogo 1–3, posições, identidade no destino/retorno e viagem única com destino travado.
+✔ tests/herald-navigation.unit.mjs (221.31068ms)
+OK: curva sem reversão, avanço alinhado, saída das outras estrelas antes do giro, gás sem salto, céu sem perspectiva de parede e nuvens em profundidade sem dissipação precoce a 30/60/120 Hz.
+✔ tests/journey-motion.unit.mjs (480.661848ms)
+OK: uma estrela em destaque, centro/resumo seguros e enquadramento em retrato/paisagem para 1–3 destinos.
+✔ tests/mobile-constellation.unit.mjs (299.200739ms)
+OK: seis profundidades, orçamento por qualidade, paralaxe diferencial, reduced/off, carga única e descarte.
+✔ tests/nebula-volume.unit.mjs (376.222339ms)
+OK: one short fictional background per catalog origin; searchable examples, no grants or prerequisite changes.
+✔ tests/origin-backgrounds.unit.mjs (138.598749ms)
+OK: 66 reference origins, four sources, accent/alias search, conjunctive filters, immutable metadata, no remote rule grant.
+✔ tests/origin-discovery.unit.mjs (186.776533ms)
+OK: all 66 catalog origins have distinct, local, decorative vector pictograms; names remain the accessible labels.
+✔ tests/origin-icons.unit.mjs (121.097866ms)
+OK: persistent local creation, duplicate/quota protection, no canonical activation, age choice completeness, all 219 icons/28 skill guides, paged stars and smooth scroll curve.
+✔ tests/recruitment.unit.mjs (244.811093ms)
+OK: every fallback reduces actual pixels, slow windows adapt, fast frames and background gaps do not force degradation.
+OK: a reset or invalid frame hides the previous measurement until a complete new window.
+✔ tests/render-quality.unit.mjs (123.277328ms)
+OK: continuidade câmera/luz, partida sobreposta ao assentamento, retirada suave, toque e reduced-motion.
+✔ tests/selection-handoff.unit.mjs (1086.459472ms)
+SELECTION_ANATOMY {"minArea":0.39393470108897377,"maxArea":1.3745912185026103}
+OK: seleção única, pressão/depth sem fades, mão esquerda preservada, reduced/off, 30/60/120 Hz e descarte.
+✔ tests/star-selection.unit.mjs (2248.2219ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8008.146541

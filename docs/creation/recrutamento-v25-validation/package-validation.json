@@ -1,0 +1,32 @@
+{
+  "base": "http://127.0.0.1:4306",
+  "results": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "createdId": "local-b3f3cb01-3e2d-49e9-aa75-1a84ae091fe6",
+      "recordPersisted": true,
+      "reloadPassed": true,
+      "jsonExport": true,
+      "starRegistered": true,
+      "webglDrawsDuringRecruitment": 0
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "createdId": "local-338f1a9f-b6bb-4e90-bb7f-94fffb75f859",
+      "recordPersisted": true,
+      "reloadPassed": true,
+      "jsonExport": true,
+      "starRegistered": true,
+      "webglDrawsDuringRecruitment": 0
+    }
+  ],
+  "errors": [],
+  "bad": [],
+  "writes": []
+}

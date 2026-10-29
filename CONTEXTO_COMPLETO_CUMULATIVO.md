@@ -1222,3 +1222,13 @@ Evidências em docs/rig-mmv/fingertip/: comparison.webp, poses.webp, capturas e 
 ## Atualização 29/10/2026 — V24
 
 Referência atual: `docs/creation/CONTINUIDADE-RESULTS-V24.md` e `CONTINUIDADE.md`. O usuário pediu todas as decisões seguintes à classe, não uma revisão precoce. O protótipo independente agora continua atributos → idade/vivência → perícias → habilidades/rituais → equipamento → história → conferência, com salvamento local/JSON e retomada; não foi conectado a contas nem ativado no Worker. Fonte protegida f80bba permanece intacta. Referências incompletas continuam pendentes. Aceleração do Brave foi ativada pelo usuário e resolveu a lentidão anterior; não houve teste físico da V24. Novos efeitos usam recursos compartilhados, preservam a arte e as resoluções, e a mesa liga os capítulos. ZIP V24 manual e evidências no relatório; não executar produção, migrações, merge ou nova PR sem autorização explícita.
+
+
+## 29/10/2026 — V25: escolhas claras e personagem criado localmente
+
+- Comparação direta nas origens, duas vagas com nomes/ícones e quadro alinhado; escolha da origem dentro do quadro. Rolagem suave e interrompível, com avanço limitado por quadro para resistir a atrasos.
+- Idade com quantidade exigida, seleção única no Adulto, limites nas outras faixas, efeitos e filtros. 28 perícias com finalidade/exemplo e 219 itens com ícones vetoriais.
+- **Criar personagem** registra e verifica um personagem concluído no navegador antes de animar folha, foto 3×4 de silhueta preta, caneta preenchendo e carimbo RECRUTADO. Consulta/JSON/recarga e estrelas com paginação funcionam; não é ativação oficial nem conta online. Outros personagens/progresso/chaves são preservados. Importação de JSON ainda não implementada.
+- 25 arquivos unitários e 59 cenários Chrome distintos aprovados; check/build isolado com assets cacheados. Pacote HTTP desktop/mobile verificou persistência, JSON, recarga, estrela e zero draws WebGL durante recrutamento. Capturas/vídeo reais; SwiftShader não mede o PC do usuário. Homologação artística/Brave físico pendente.
+- 56 assets rastreados e 40 recursos visuais/modelos/fontes do ZIP idênticos à V24. Snapshot de regras preservado; efeitos não homologados continuam pendentes. Fichas protegido em f80bba, árvore rastreada limpa. Nenhum deploy, migração remota, produção, merge ou nova PR.
+- Entrega: `downloads/ORION-SITE-V25.zip`, vídeo `downloads/FLUXO-V25.mp4`, relatório `docs/creation/RECRUTAMENTO-RESULTS-V25.md` e método/evidências em `recrutamento-v25-validation/`. Rascunho start_skill atualizado e salvo, não publicado/restaurado.

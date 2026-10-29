@@ -1,3 +1,4 @@
+import{readLocalCharacters}from './local-characters.js';
 // Projeto Órion · Observatório em pipeline Vite / Cloudflare Pages.
 // Three.js é importado como dependência local e empacotado pelo Vite.
 import * as THREE from "three";
@@ -16,7 +17,7 @@ import { createVrFirstPersonHands } from './first-person-hands-vr.js';
 import { createFpsFirstPersonHands } from './first-person-hands-fps.js';
 import { createEtherealHandsOverlay } from './first-person-hands-overlay.js';
 import { createEtherealHandsMesh } from './first-person-hands-mesh.js';
-import { getHeralds, getHeraldLayout, arrivalURL } from './herald-catalog.js';
+import { getHeralds,localHeraldPage, getHeraldLayout, arrivalURL } from './herald-catalog.js';
 import { createPageTransition, revealPage } from './page-transition.js';
 import { createHeraldCreation } from './herald-creation.js';
 import { createCreationNebula, creationNebulaURL, CREATION_ART } from './creation-cinematic.js';
@@ -459,7 +460,8 @@ softHalo.layers.enable(1);
 mainGlow.layers.enable(1);
 coreGlow.layers.enable(1);
 // Uma coleção de destinos; mapas e geometrias são compartilhados, materiais não.
-const accountHeralds=getHeralds(params);
+const localRecords=creationPage?[]:readLocalCharacters();
+const accountHeralds=getHeralds(params,{localRecords});
 const emptyAccount=accountHeralds.length===0;
 const creationStar={id:'new-herald',name:'Sua primeira estrela',subtitle:'Um novo começo',creation:true,
  stats:{level:'—',origin:'—',trail:'—',rank:'—',em:'—',ec:'—'}};
@@ -480,17 +482,17 @@ const heralds=heraldData.map((data,index)=>{
       spikes:createCinematicStarSpikes(group,{reducedMotion:reduceMotion,sharedTexture:cinematicSpikes.primary.material.map})};
   }
   visuals.pick.userData.heraldIndex=index;
-  visuals.target.setAttribute('aria-label',data.creation?'Criar meu primeiro arauto':`Selecionar ${data.name}${data.demo?', estrela de demonstração':', arauto ativo, nível 9'}`);
+  visuals.target.setAttribute('aria-label',data.creation?'Criar meu primeiro arauto':`Selecionar ${data.name}${data.local?`, personagem salvo neste navegador, nível ${data.stats.level}`:data.demo?', estrela de demonstração':', arauto ativo, nível 9'}`);
   return {data,...visuals,basePosition:new THREE.Vector3(),screen:{x:NaN,y:NaN},focus:0};
 });
 let activeHerald=heralds[0],selectedHerald=null;
-document.getElementById('heraldCount').textContent=emptyAccount?'Sua primeira história':heralds.length===1?'1 arauto ativo':`${heralds.length} estrelas · prévia`;
+document.getElementById('heraldCount').textContent=accountHeralds[0]?.local?`${localRecords.length} ${localRecords.length===1?'personagem':'personagens'} · arquivo local`:emptyAccount?'Sua primeira história':heralds.length===1?'1 arauto ativo':`${heralds.length} estrelas · prévia`;
 const pageTransition=createPageTransition(flash);
 function renderHerald(){
   const data=activeHerald.data;
   document.getElementById('heraldName').textContent=data.name;
   document.getElementById('heraldSubtitle').textContent=data.subtitle;
-  document.getElementById('heraldStatus').textContent=data.demo?'Demonstração':'Arauto ativo';
+  document.getElementById('heraldStatus').textContent=data.local?'Registrado neste navegador':data.demo?'Demonstração':'Arauto ativo';
   card.setAttribute('aria-label',`Resumo de ${data.name}`);
   document.getElementById('dismissHerald').setAttribute('aria-label',`Fechar resumo de ${data.name}`);
   for(const field of card.querySelectorAll('[data-herald-stat]'))field.textContent=data.stats[field.dataset.heraldStat];
@@ -526,6 +528,7 @@ let selectionStartedAt=0;
 let focusBlend=0,restoringFocus=false;
 // Evitar forced reflow: altura do card é estável durante animação.
 let cachedCardHeight=card.offsetHeight;
+if(activeHerald.data.local)renderHerald();
 const domPosition={x:NaN,y:NaN,cx:NaN,cy:NaN,focusAt:0,focusX:NaN,focusY:NaN};
 const interactionMetrics={pointerEvents:0,raycasts:0,focusWrites:0};
 if(debugEnabled)window.__orionInteractionMetrics={
@@ -826,7 +829,7 @@ const qualityControl=mountQualityControl(root,{graphics:{renderer:graphicsRender
  const gl=renderer.getContext(),ext=gl.getExtension('WEBGL_debug_renderer_info');
  const gpu=ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER);
  const sample=frameMonitor.state;
- return ['Órion · diagnóstico local','Diagnóstico: V24',navigator.userAgent,
+ return ['Órion · diagnóstico local','Diagnóstico: V25',navigator.userAgent,
   'Cena: '+(creationPage?'criação / '+(root.dataset.creationPhase||'carregando'):'observatório'),
   'Renderizador: '+gpu,
   ...(String(gpu).trim().toLowerCase()==='brave'?['GPU física: não identificada pelo nome genérico fornecido pelo navegador.']:[]),
@@ -973,6 +976,16 @@ if(creationPage){
  creation=createHeraldCreation(root,{hands:firstPersonHands,reducedMotion:reduceMotion,scene,camera,environment:nebulaVolume});
  if(debugEnabled)window.__orionCreationEnvironment={state:nebulaVolume.state,layers:nebulaVolume.layers,photo:mainCloud};
 
+}
+if(!creationPage&&accountHeralds[0]?.local){
+ const previewLink=root.querySelector('.creation-preview-link');if(previewLink)previewLink.hidden=true;
+ const bottom=root.querySelector('.bottom-ui'),row=document.createElement('nav');row.className='local-collection-nav';row.setAttribute('aria-label','Arquivo de personagens');
+ const pager=localHeraldPage(localRecords,params.get('page'));
+ const addLink=(label,href)=>{const a=document.createElement('a');a.href=href;a.textContent=label;row.append(a);};
+ if(pager.index>0)addLink('← Estrelas anteriores',`index.html?stars=0&collection=local&page=${pager.index-1}`);
+ if(pager.pages>1){const label=document.createElement('span');label.textContent=`${pager.index+1} / ${pager.pages}`;row.append(label);}
+ if(pager.index<pager.pages-1)addLink('Mais estrelas →',`index.html?stars=0&collection=local&page=${pager.index+1}`);
+ addLink('Criar outro personagem','criacao.html?stars=0&new=1');bottom.append(row);
 }
 if(!creationPage){try{const saved=readSavedCreation(sessionStorage,'orion-herald-creation-v1')||readSavedCreation(localStorage);if(saved){const link=document.createElement('a');link.className='resume-creation-link';link.href='criacao.html?stars=0&resume=1';link.textContent='Retomar criação →';root.querySelector('.bottom-ui').append(link);}}catch{}}
 requestAnimationFrame(tick);

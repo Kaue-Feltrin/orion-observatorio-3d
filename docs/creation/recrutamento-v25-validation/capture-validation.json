@@ -1,0 +1,90 @@
+{
+  "base": "http://127.0.0.1:4173",
+  "fixture": "Fictional Astra, seeded completed choices; actual comparisons/age edits/item and registration actions",
+  "renderer": "Chrome/SwiftShader; not a physical Brave test",
+  "events": [
+    {
+      "name": "01-comparacao-selecionada",
+      "seconds": 19.799
+    },
+    {
+      "name": "02-comparacao-lado-a-lado",
+      "seconds": 23.092
+    },
+    {
+      "name": "03-desvantagens-da-idade",
+      "seconds": 56.688
+    },
+    {
+      "name": "04-pericias-explicadas",
+      "seconds": 59.926
+    },
+    {
+      "name": "05-itens-com-icones",
+      "seconds": 64.834
+    },
+    {
+      "name": "06-criar-personagem",
+      "seconds": 71.36
+    },
+    {
+      "name": "07-caneta-preenchendo",
+      "seconds": 75.358
+    },
+    {
+      "name": "08-recrutado",
+      "seconds": 84.093
+    },
+    {
+      "name": "09-ficha-criada",
+      "seconds": 87.03
+    },
+    {
+      "name": "10-personagem-no-observatorio",
+      "seconds": 94.683
+    },
+    {
+      "name": "390-comparacao",
+      "seconds": 100.632
+    },
+    {
+      "name": "390-idade",
+      "seconds": 103.795
+    },
+    {
+      "name": "390-itens",
+      "seconds": 104.922
+    },
+    {
+      "name": "390-recrutado",
+      "seconds": 106.641
+    },
+    {
+      "name": "390-ficha-criada",
+      "seconds": 106.823
+    },
+    {
+      "name": "320-comparacao",
+      "seconds": 111.129
+    },
+    {
+      "name": "320-idade",
+      "seconds": 113.481
+    },
+    {
+      "name": "320-itens",
+      "seconds": 114.065
+    },
+    {
+      "name": "320-recrutado",
+      "seconds": 115.416
+    },
+    {
+      "name": "320-ficha-criada",
+      "seconds": 115.631
+    }
+  ],
+  "errors": [],
+  "bad": [],
+  "writes": []
+}

@@ -1,0 +1,397 @@
+{
+  "baseline": "1aa438782f030861bcc1d21390fca10d2550e65f",
+  "nativeAssets": [
+    {
+      "file": "public/assets/00-starfield-base.jpg",
+      "sha256": "43b12f80cbc34120ed934181db88f8a67392850010194acacc07318ab724db96"
+    },
+    {
+      "file": "public/assets/01-nebula-far.webp",
+      "sha256": "e7aba75ee8fb262751f655873b6e86d472e69782adeeb991df672be8f95aed5d"
+    },
+    {
+      "file": "public/assets/02-nebula-main.webp",
+      "sha256": "d87c59e0ff2ee8348c76690cbd2e7cbbff09bc594469e5e0de4ef7a1c7b79705"
+    },
+    {
+      "file": "public/assets/03-mid-clouds.webp",
+      "sha256": "273a9f78d52ebe73aa950f87fc425776592e3cf39a00bb5a508c70bd68819b60"
+    },
+    {
+      "file": "public/assets/04-front-fog.png",
+      "sha256": "0ad55b0e50c7e7f61323e0187bcb277283382f5e44f11a3804c57bbb38de3244"
+    },
+    {
+      "file": "public/assets/05-star-dust.png",
+      "sha256": "edc671431e3c55b33641c309214a245a5773c61b0a46164d8a4934d7a2a60306"
+    },
+    {
+      "file": "public/assets/06-star-glow.png",
+      "sha256": "40f1d3738d9cfbf710c35edd9f1ccab9ebcc46f9f048877c75a6dd20f4056932"
+    },
+    {
+      "file": "public/assets/creation/amber-bindings.png",
+      "sha256": "eaa7a38f12c466dbc9cac83bb9828190221fc4696ca6395b4ecfea438cdbe9a5"
+    },
+    {
+      "file": "public/assets/creation/ashen-void.png",
+      "sha256": "4a96a4637b00eda2a9dde39625ec0fbf3107a54768bf0c0c3dcb1594fa421405"
+    },
+    {
+      "file": "public/assets/creation/atmosphere-base.svg",
+      "sha256": "b32745ed5a0b18fd8306081dc1ad99df70c517fc39b4c2fa8ff8474193a849fb"
+    },
+    {
+      "file": "public/assets/creation/black-base-v9.svg",
+      "sha256": "742d86e9e6a3281cd1b65cc8e1876250360e9569ea1371d8308c0d27ed651672"
+    },
+    {
+      "file": "public/assets/creation/blood-chamber.png",
+      "sha256": "3cbaf1a464623056f5ad0d709717bdc05aee10ffe226d9a47a67e9f8a4469194"
+    },
+    {
+      "file": "public/assets/creation/child-spirits-atlas.png",
+      "sha256": "b8339c109a41a0ae470962bd2b1b9c7f2e063e3291c7bb085981e2fab979f9a6"
+    },
+    {
+      "file": "public/assets/creation/fetal-silhouette-v4.png",
+      "sha256": "eea7a79e5cb55a429c94216e1c5dd717625348267f6c12d0f9e834b5daf943ab"
+    },
+    {
+      "file": "public/assets/creation/forcefield.png",
+      "sha256": "cf9c484ba954b0e3ed376db0b8f16cc22aeae9f8bbb42fa67e8bdaac82ae4e7a"
+    },
+    {
+      "file": "public/assets/creation/gray-far-v9.png",
+      "sha256": "ab1bb8676d6f1f02c999d91bfa29615376c8c1155add9f4bf6ec268681205fc2"
+    },
+    {
+      "file": "public/assets/creation/gray-near-v9.png",
+      "sha256": "d0a59c726e32a5b35f072c715ad20d5332e50f53f73c9599a1a7bfe131fc808b"
+    },
+    {
+      "file": "public/assets/creation/ink-cosmos-portrait-v7.png",
+      "sha256": "49ad3f7e635fba4f8471dbb200b2548aa976c927bc8d2577d024eb1e45d7c71a"
+    },
+    {
+      "file": "public/assets/creation/ink-cosmos-v6.png",
+      "sha256": "4cabe2e0b42a2317e4e22b3c4f56277ecab174406e609f9fdd9809f1e052a2c1"
+    },
+    {
+      "file": "public/assets/creation/ink-cosmos-v7.png",
+      "sha256": "3ad0a04fd3212471bc0833673bd6ed23c3f0097e39483a5911aa379db04de1c1"
+    },
+    {
+      "file": "public/assets/creation/mist-v5.png",
+      "sha256": "064010febc88fe8c8d487d7709e59ceb2b05b8f4f910907e883ee9b86f9c04db"
+    },
+    {
+      "file": "public/assets/creation/nebula-interior.png",
+      "sha256": "ae040d51c84ce11e1631c1a7f003ee920d0a22c470119c13373b45e6873e335b"
+    },
+    {
+      "file": "public/assets/creation/red-left-v12.png",
+      "sha256": "f7e1f7899acbdf2db00e44db97b7f60fb547bb089e1693fff36e1fb16627cef3"
+    },
+    {
+      "file": "public/assets/creation/red-left-v14.png",
+      "sha256": "b7d2116967c8d04707ba8196362eb3c1d8afe047c09d1a32fc20ed97a2cb1f23"
+    },
+    {
+      "file": "public/assets/creation/red-left-v9.png",
+      "sha256": "75b9b9937dcf3adb87c99e1b9a5da440fd87772af63b3f07254b7c88b533f5fd"
+    },
+    {
+      "file": "public/assets/creation/red-right-v12.png",
+      "sha256": "64c17184b874b5a117d316d669bc56947f55eb6972441ffc197b7238a610c408"
+    },
+    {
+      "file": "public/assets/creation/red-right-v14.png",
+      "sha256": "efd5792f5cf239d6ab84f3d76b856907c4060dbef8f0dc80a1cb9b6b681cdaa7"
+    },
+    {
+      "file": "public/assets/creation/red-right-v9.png",
+      "sha256": "f88261552a3adb4e398adc38c562f41d35881b4b3fef68a1b52802703b3643cd"
+    },
+    {
+      "file": "public/assets/creation/seal-chains.png",
+      "sha256": "b242661c79c816e340b401f38f7adc9c2b27fa8300a8d825d19d0cdba8b89255"
+    },
+    {
+      "file": "public/assets/creation/soul-shadows.svg",
+      "sha256": "fe1c2c82b7ba0a5697541792e1b73411fbb25031341f4c7bd6b78d7792fcc14d"
+    },
+    {
+      "file": "public/assets/creation/soul-silhouettes-v4.png",
+      "sha256": "fac01152547b4ee35fec39421ce99414770772f405461b9a5b2b358e57668b4f"
+    },
+    {
+      "file": "public/assets/creation/souls-v5.png",
+      "sha256": "fec9871aa1616318c51de104fcdfe93a05a44ba5420846b056db40e3c2d9d761"
+    },
+    {
+      "file": "public/assets/creation/souls-v7.png",
+      "sha256": "a0c6ffe0eae78f2982157479c5655b251a3886a300312fdbb4eea67799ea9f8f"
+    },
+    {
+      "file": "public/assets/creation/souls-v9.png",
+      "sha256": "7dde74323f9f6c1e2be6994628c0382c5a0a40e9c1baaa912ce50f33c4540554"
+    },
+    {
+      "file": "public/assets/creation/unborn-shadow.svg",
+      "sha256": "f2ab6f1bc89d78d61557a2469a27a485eb2fcc3c55bd9f442670816bbcfdc174"
+    },
+    {
+      "file": "public/assets/creation/unborn-soul.png",
+      "sha256": "3bf7870d767c3e1a1a07fec5bb78b42dd68a0960c0b04f7975f8659eba5de2ea"
+    },
+    {
+      "file": "public/assets/creation/unborn-v5.png",
+      "sha256": "a3cce7d1421ab7388be52fb238918a05f6c9b9bbb23d2a17c67ba29485872113"
+    },
+    {
+      "file": "public/assets/workshop/classes-v18.png",
+      "sha256": "cc8b0e1ef4bf7b90a3939a591ebaa785f8f2336c28b588bd37923c5d95c3f5e7"
+    },
+    {
+      "file": "public/assets/workshop/combatente-v19.png",
+      "sha256": "9279a833d1e08d082733ff671d0582a77d1d67218d5e319c00d776c207a4a97d"
+    },
+    {
+      "file": "public/assets/workshop/combatente-v20.png",
+      "sha256": "37cd84648d2ffefa4b1c5918c0358be25525827585fde56cd5dbe3b12ce0fbb0"
+    },
+    {
+      "file": "public/assets/workshop/especialista-v19.png",
+      "sha256": "712f89f5d8108753bd60df2605b83525c404a8f5155f38b115f926fe2453e001"
+    },
+    {
+      "file": "public/assets/workshop/especialista-v20.png",
+      "sha256": "3988c7ef91e10582a5e5df9ed431f4cf05e68d93830483104ccbb1a4914c3344"
+    },
+    {
+      "file": "public/assets/workshop/ocultista-v19.png",
+      "sha256": "53a9b0640ae8ec5a9d1a073da56c3a943a56d4e4ed1e27f1bba93e99582bbffe"
+    },
+    {
+      "file": "public/assets/workshop/ocultista-v20.png",
+      "sha256": "19d18ded9f7cf2fd4950887026ec7724819f979dcb4e5706af98313f603680cb"
+    },
+    {
+      "file": "public/assets/workshop/walnut-v15.png",
+      "sha256": "a160864a71bb159120ef2956c4bcdeba0c8887dd1f3fc0bbf85fc6e3345f6b93"
+    },
+    {
+      "file": "public/favicon.svg",
+      "sha256": "f922b898fa618c1ba18c53b91e85bd3c926d702f0510862684d8d885a20e7045"
+    },
+    {
+      "file": "public/fonts/SigilosDeConhecimento.ttf",
+      "sha256": "e4528e2f631947733f0e985eec783f9b8aa73338b94732538841da157ab0cb28"
+    },
+    {
+      "file": "public/overlay/left-hand-ethereal.webp",
+      "sha256": "29efe4d0757045b7ee58e7f4a2cdce634c25ec69bcf5680e959bc2b302eff0c2"
+    },
+    {
+      "file": "public/overlay/orion-hands-frame.webp",
+      "sha256": "7533c62d4354b95e268fd6752a50164c31f1f3f282a6f6fc83df6625e26adf09"
+    },
+    {
+      "file": "public/overlay/right-hand-neutral.webp",
+      "sha256": "3382c902541b9ad85b8e61292ab6df1ce341128a5d562d10235c461d7def7788"
+    },
+    {
+      "file": "public/overlay/right-hand-pointing-smooth.webp",
+      "sha256": "2962b655d53d1209d52f21e1d9b79b2b722ea2839a233d38ea79baadfb593350"
+    },
+    {
+      "file": "public/overlay/right-hand-pointing.webp",
+      "sha256": "e1b165407faf13f6dce73c12244446a43b9b053bb5cd4d8a7c5befc06b9561c9"
+    },
+    {
+      "file": "public/overlay/right-hand-reach-025.webp",
+      "sha256": "57560775e1359338edcb736f56f35d5e9b90c9f0fb984e4fb94611b88b210de8"
+    },
+    {
+      "file": "public/overlay/right-hand-reach-050.webp",
+      "sha256": "2ed8276899e4819398db41745dc8764474167118f61b3e903c441bbd9021a255"
+    },
+    {
+      "file": "public/overlay/right-hand-reach-075.webp",
+      "sha256": "819207e8187195db86196276b4fbb71590a56a5d5af163fef3149ba241339dbf"
+    },
+    {
+      "file": "public/overlay/right-hand-reach-100.webp",
+      "sha256": "e935291fa2638cad503187b5cc2f762c0c636d978aa7345aa730aa2af9dd2191"
+    }
+  ],
+  "sourceNativeCount": 56,
+  "allUnchanged": true,
+  "protectedHead": "f80bbaacc8acb4ad0158d43fb923e2f421e58528",
+  "protectedTrackedStatus": "",
+  "zipNativeCount": 40,
+  "zipNativeResources": [
+    {
+      "file": "assets/00-starfield-base.jpg",
+      "sha256": "43b12f80cbc34120ed934181db88f8a67392850010194acacc07318ab724db96"
+    },
+    {
+      "file": "assets/01-nebula-far.webp",
+      "sha256": "e7aba75ee8fb262751f655873b6e86d472e69782adeeb991df672be8f95aed5d"
+    },
+    {
+      "file": "assets/02-nebula-main.webp",
+      "sha256": "d87c59e0ff2ee8348c76690cbd2e7cbbff09bc594469e5e0de4ef7a1c7b79705"
+    },
+    {
+      "file": "assets/03-mid-clouds.webp",
+      "sha256": "273a9f78d52ebe73aa950f87fc425776592e3cf39a00bb5a508c70bd68819b60"
+    },
+    {
+      "file": "assets/04-front-fog.png",
+      "sha256": "0ad55b0e50c7e7f61323e0187bcb277283382f5e44f11a3804c57bbb38de3244"
+    },
+    {
+      "file": "assets/05-star-dust.png",
+      "sha256": "edc671431e3c55b33641c309214a245a5773c61b0a46164d8a4934d7a2a60306"
+    },
+    {
+      "file": "assets/06-star-glow.png",
+      "sha256": "40f1d3738d9cfbf710c35edd9f1ccab9ebcc46f9f048877c75a6dd20f4056932"
+    },
+    {
+      "file": "assets/creation/black-base-v9.svg",
+      "sha256": "742d86e9e6a3281cd1b65cc8e1876250360e9569ea1371d8308c0d27ed651672"
+    },
+    {
+      "file": "assets/creation/gray-far-v9.png",
+      "sha256": "ab1bb8676d6f1f02c999d91bfa29615376c8c1155add9f4bf6ec268681205fc2"
+    },
+    {
+      "file": "assets/creation/gray-near-v9.png",
+      "sha256": "d0a59c726e32a5b35f072c715ad20d5332e50f53f73c9599a1a7bfe131fc808b"
+    },
+    {
+      "file": "assets/creation/red-left-v14.png",
+      "sha256": "b7d2116967c8d04707ba8196362eb3c1d8afe047c09d1a32fc20ed97a2cb1f23"
+    },
+    {
+      "file": "assets/creation/red-right-v14.png",
+      "sha256": "efd5792f5cf239d6ab84f3d76b856907c4060dbef8f0dc80a1cb9b6b681cdaa7"
+    },
+    {
+      "file": "assets/creation/souls-v9.png",
+      "sha256": "7dde74323f9f6c1e2be6994628c0382c5a0a40e9c1baaa912ce50f33c4540554"
+    },
+    {
+      "file": "assets/creation/unborn-v5.png",
+      "sha256": "a3cce7d1421ab7388be52fb238918a05f6c9b9bbb23d2a17c67ba29485872113"
+    },
+    {
+      "file": "assets/depth/eso-gas-01.webp",
+      "sha256": "d37d2f434adfb7a9734ffd2866c5974cac6cebf5062ebdbc6e81e68678eba691"
+    },
+    {
+      "file": "assets/depth/eso-gas-02.webp",
+      "sha256": "f0e81c4641ad704cccb97c21e90d486e52d28dca7c9bbb65bd02f9031f91a065"
+    },
+    {
+      "file": "assets/depth/eso-gas-03.webp",
+      "sha256": "836151cd4f369e3b261349a16c921ad6cf539a4af53562c408ba3a418cc520d6"
+    },
+    {
+      "file": "assets/depth/eso-gas-04.webp",
+      "sha256": "d1d39ef9bf78e3190fc0ddeda74d99bf4f11c3d831413dae03541c802bd42578"
+    },
+    {
+      "file": "assets/depth/eso-gas-05.webp",
+      "sha256": "8d1929c65fb57d2990a5a0ccf2667791434f7d24b0b453ed2ccfefac8c14b294"
+    },
+    {
+      "file": "assets/depth/eso-gas-06.webp",
+      "sha256": "035d030a7e187d9affae627f1fa3c380fcf7e0ff59f0be9ecb13e2ed99c1ef2f"
+    },
+    {
+      "file": "assets/nebula-eso-photographic.jpg",
+      "sha256": "8f18c0a67986f49bf34e430e1fe97afb9a48cf2da8a61a33dcb1a36409bee1e9"
+    },
+    {
+      "file": "assets/workshop/combatente-v20.png",
+      "sha256": "37cd84648d2ffefa4b1c5918c0358be25525827585fde56cd5dbe3b12ce0fbb0"
+    },
+    {
+      "file": "assets/workshop/especialista-v20.png",
+      "sha256": "3988c7ef91e10582a5e5df9ed431f4cf05e68d93830483104ccbb1a4914c3344"
+    },
+    {
+      "file": "assets/workshop/ocultista-v20.png",
+      "sha256": "19d18ded9f7cf2fd4950887026ec7724819f979dcb4e5706af98313f603680cb"
+    },
+    {
+      "file": "assets/workshop/walnut-v15.png",
+      "sha256": "a160864a71bb159120ef2956c4bcdeba0c8887dd1f3fc0bbf85fc6e3345f6b93"
+    },
+    {
+      "file": "favicon.svg",
+      "sha256": "f922b898fa618c1ba18c53b91e85bd3c926d702f0510862684d8d885a20e7045"
+    },
+    {
+      "file": "fonts/SigilosDeConhecimento.ttf",
+      "sha256": "e4528e2f631947733f0e985eec783f9b8aa73338b94732538841da157ab0cb28"
+    },
+    {
+      "file": "models/david-fischer-fps-hands.glb",
+      "sha256": "f262f890dc499104e0fca4fb6cb011a078e1dc5909ae10c1107520c7b1f2390e"
+    },
+    {
+      "file": "models/wonderland-left.glb",
+      "sha256": "dfa5b883ad6e63923cfeeef9292a454bf3d6fdc7b9f91255775ef509eeddcb5c"
+    },
+    {
+      "file": "models/wonderland-right.glb",
+      "sha256": "a231935ad58001462c5f974cc8691916ae78b82163192b070e2e132a162bd841"
+    },
+    {
+      "file": "models/wrad-arms.glb",
+      "sha256": "580efbb0852bf0b41f82dd3e17eafec86b3d2a48f4a7acaa7e64d60e850f565d"
+    },
+    {
+      "file": "overlay/left-hand-ethereal.webp",
+      "sha256": "29efe4d0757045b7ee58e7f4a2cdce634c25ec69bcf5680e959bc2b302eff0c2"
+    },
+    {
+      "file": "overlay/orion-hands-frame.webp",
+      "sha256": "7533c62d4354b95e268fd6752a50164c31f1f3f282a6f6fc83df6625e26adf09"
+    },
+    {
+      "file": "overlay/right-hand-neutral.webp",
+      "sha256": "3382c902541b9ad85b8e61292ab6df1ce341128a5d562d10235c461d7def7788"
+    },
+    {
+      "file": "overlay/right-hand-pointing-smooth.webp",
+      "sha256": "2962b655d53d1209d52f21e1d9b79b2b722ea2839a233d38ea79baadfb593350"
+    },
+    {
+      "file": "overlay/right-hand-pointing.webp",
+      "sha256": "e1b165407faf13f6dce73c12244446a43b9b053bb5cd4d8a7c5befc06b9561c9"
+    },
+    {
+      "file": "overlay/right-hand-reach-025.webp",
+      "sha256": "57560775e1359338edcb736f56f35d5e9b90c9f0fb984e4fb94611b88b210de8"
+    },
+    {
+      "file": "overlay/right-hand-reach-050.webp",
+      "sha256": "2ed8276899e4819398db41745dc8764474167118f61b3e903c441bbd9021a255"
+    },
+    {
+      "file": "overlay/right-hand-reach-075.webp",
+      "sha256": "819207e8187195db86196276b4fbb71590a56a5d5af163fef3149ba241339dbf"
+    },
+    {
+      "file": "overlay/right-hand-reach-100.webp",
+      "sha256": "e935291fa2638cad503187b5cc2f762c0c636d978aa7345aa730aa2af9dd2191"
+    }
+  ],
+  "zipNativeAllUnchanged": true
+}

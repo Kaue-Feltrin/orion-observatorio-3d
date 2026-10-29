@@ -1,0 +1,1164 @@
+
+Running 28 tests using 1 worker
+
+(node:194932) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:194932) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/28] tests/creation-journey.spec.js:43:65 › criação completa COMBATENTE: decisões, volta, JSON e retomada local
+[2/28] tests/creation-journey.spec.js:43:65 › criação completa ESPECIALISTA: decisões, volta, JSON e retomada local
+[3/28] tests/creation-journey.spec.js:43:65 › criação completa OCULTISTA: decisões, volta, JSON e retomada local
+[4/28] tests/creation-journey.spec.js:135:5 › decisões no papel cabem em 390×844
+[5/28] tests/creation-journey.spec.js:135:5 › decisões no papel cabem em 320×568
+[6/28] tests/creation-journey.spec.js:135:5 › decisões no papel cabem em 568×320
+[7/28] tests/creation-journey.spec.js:148:1 › quota recusada não anuncia personagem criado
+[8/28] tests/creation-journey.spec.js:162:1 › retomar Prodígio não prende atributos antes de escolher os limites etários
+[9/28] tests/creation-journey.spec.js:191:1 › Profissão e subescolha de Engenheiro permanecem sincronizadas, sem conceder item
+[10/28] tests/recruitment-v25.spec.js:44:65 › Criar COMBATENTE registra, carimba e abre uma ficha persistente
+[11/28] tests/recruitment-v25.spec.js:44:65 › Criar ESPECIALISTA registra, carimba e abre uma ficha persistente
+[12/28] tests/recruitment-v25.spec.js:44:65 › Criar OCULTISTA registra, carimba e abre uma ficha persistente
+[13/28] tests/recruitment-v25.spec.js:104:1 › recrutamento normal cola foto, escreve com caneta e carimba na ordem
+[14/28] tests/recruitment-v25.spec.js:135:1 › recarregar durante escrita não duplica personagem
+[15/28] tests/recruitment-v25.spec.js:148:1 › armazenamento negado preserva escolhas e não exibe recrutamento
+[16/28] tests/recruitment-v25.spec.js:162:1 › desvantagens têm escolha única clara para Adulto e limite explícito para Maduro
+[17/28] tests/recruitment-v25.spec.js:186:1 › perícias explicam uso e busca por finalidade; todos os itens visíveis têm ícone
+[18/28] tests/recruitment-v25.spec.js:203:1 › comparar direto na lista mostra as duas origens e permite escolher no quadro
+[19/28] tests/recruitment-v25.spec.js:228:5 › recrutamento acessível em 390x844
+[20/28] tests/recruitment-v25.spec.js:228:5 › recrutamento acessível em 320x568
+[21/28] tests/recruitment-v25.spec.js:228:5 › recrutamento acessível em 568x320
+[22/28] tests/recruitment-v25.spec.js:240:1 › concluir animação mostra o registro salvo sem criar uma segunda ficha
+[23/28] tests/recruitment-v25.spec.js:253:1 › rolagem automática avança gradualmente e respeita interrupção do usuário
+[24/28] tests/recruitment-v25.spec.js:290:5 › comparação, idade e itens sem overflow em 390x844
+[25/28] tests/recruitment-v25.spec.js:290:5 › comparação, idade e itens sem overflow em 320x568
+[26/28] tests/recruitment-v25.spec.js:290:5 › comparação, idade e itens sem overflow em 568x320
+[27/28] tests/recruitment-v25.spec.js:313:1 › ficha local em carregamento não mostra a identidade de demonstração
+[28/28] tests/recruitment-v25.spec.js:347:1 › arquivo com sete personagens mantém todos acessíveis em páginas de estrelas
+  1) tests/recruitment-v25.spec.js:347:1 › arquivo com sete personagens mantém todos acessíveis em páginas de estrelas
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('#heraldCount')
+    Expected substring: "7 personagens"
+    Received string:    "7 personagems · arquivo local"
+    Timeout: 12000ms
+
+    Call log:
+      - Expect "toContainText" with timeout 12000ms
+      - waiting for locator('#heraldCount')
+        16 × locator resolved to <span id="heraldCount">7 personagems · arquivo local</span>
+           - unexpected value "7 personagems · arquivo local"
+
+
+      15 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`comparação, idade e itens sem overflow em ${viewport.width}x${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await open(page);await page.locator('[data-journey-go="1"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-field="age"]').fill('52');expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('[data-journey-go="4"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('[data-journey-go="6"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-edit-origin]').click();await expect(page.locator('.paper-workshop')).toHaveAttribute('data-chapter','origin');await page.locator('[data-compare-origin="ACADEMICO"]').click();await page.locator('[data-compare-origin="AGENTE_SAUDE"]').click();await page.locator('.open-comparison').click();expect(await page.locator('.origin-comparison').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('[data-choose-compared="ACADEMICO"]').click();await expect(page.locator('.origin-comparison')).not.toBeVisible();});
+      16 | test('ficha local em carregamento não mostra a identidade de demonstração',async({page})=>{const {pack}=complete();const {makeLocalCharacter,CHARACTER_PREFIX}=await import('../local-characters.js'),record=makeLocalCharacter(pack,{draftId:'11111111-2222-3333-4444-555555555555'});await page.addInitScript(({record,key})=>localStorage.setItem(key,JSON.stringify(record)),{record,key:CHARACTER_PREFIX+record.id});let release;const held=new Promise(r=>release=r);await page.route(/\/assets\/local-character-view-[^/]+\.js$/,async route=>{await held;await route.continue()});await page.goto(base+'/ficha.html?character='+record.id,{waitUntil:'commit'});await expect(page.locator('html')).toHaveAttribute('data-local-character','loading');await expect(page.locator('.arrival h1')).not.toBeVisible();release();await expect(page.locator('.local-sheet h1')).toHaveText('Astra');});
+    > 17 | test('arquivo com sete personagens mantém todos acessíveis em páginas de estrelas',async({page})=>{const {pack}=complete();const {makeLocalCharacter,CHARACTER_PREFIX}=await import('../local-characters.js');const seven=Array.from({length:7},(_,i)=>makeLocalCharacter({...pack,character:{...pack.character,name:'Pessoa '+i}},{draftId:`00000000-0000-0000-0000-00000000000${i}`,now:new Date(2026,9,20+i)}));await page.addInitScript(({seven,prefix})=>{for(const r of seven)localStorage.setItem(prefix+r.id,JSON.stringify(r));},{seven,prefix:CHARACTER_PREFIX});await page.emulateMedia({reducedMotion:'reduce'});await page.goto(base+'/?stars=0&collection=local&quality=eco&hands=off');await expect(page.locator('html')).toHaveAttribute('data-presentation-ready','1');await expect(page.locator('#heraldCount')).toContainText('7 personagens');await expect(page.locator('.herald-target')).toHaveCount(3);await page.getByRole('link',{name:'Mais estrelas',exact:false}).click();await expect(page.locator('html')).toHaveAttribute('data-presentation-ready','1');await expect(page.locator('.local-collection-nav')).toContainText('2 / 3');await page.getByRole('link',{name:'Mais estrelas',exact:false}).click();await expect(page.locator('html')).toHaveAttribute('data-presentation-ready','1');await expect(page.locator('.herald-target')).toHaveCount(1);await expect(page.locator('#heraldName')).toHaveText('Pessoa 0');});
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ^
+      18 |
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js:17:804
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/recruitment-v25-arquivo-co-b8c49-veis-em-páginas-de-estrelas/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/recruitment-v25-arquivo-co-b8c49-veis-em-páginas-de-estrelas/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/recruitment-v25-arquivo-co-b8c49-veis-em-páginas-de-estrelas/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/recruitment-v25-arquivo-co-b8c49-veis-em-páginas-de-estrelas/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  1 failed
+    tests/recruitment-v25.spec.js:347:1 › arquivo com sete personagens mantém todos acessíveis em páginas de estrelas
+  27 passed (4.4m)
+{
+  "config": {
+    "configFile": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/playwright.local.config.js",
+    "rootDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "line"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.js"
+        ],
+        "timeout": 25000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run preview",
+      "url": "http://127.0.0.1:4173/",
+      "reuseExistingServer": true,
+      "timeout": 30000
+    }
+  },
+  "suites": [
+    {
+      "title": "creation-journey.spec.js",
+      "file": "creation-journey.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "criação completa COMBATENTE: decisões, volta, JSON e retomada local",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 28547,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:09:32.222Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-b6b8ac79803c792892f5",
+          "file": "creation-journey.spec.js",
+          "line": 43,
+          "column": 65
+        },
+        {
+          "title": "criação completa ESPECIALISTA: decisões, volta, JSON e retomada local",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 28054,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:10:01.134Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-350e1a4fc819fa941021",
+          "file": "creation-journey.spec.js",
+          "line": 43,
+          "column": 65
+        },
+        {
+          "title": "criação completa OCULTISTA: decisões, volta, JSON e retomada local",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 24896,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:10:29.200Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-c4491cbcf2b99513e5e5",
+          "file": "creation-journey.spec.js",
+          "line": 43,
+          "column": 65
+        },
+        {
+          "title": "decisões no papel cabem em 390×844",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4939,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:10:54.117Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-9b45811209784e4e4fca",
+          "file": "creation-journey.spec.js",
+          "line": 135,
+          "column": 5
+        },
+        {
+          "title": "decisões no papel cabem em 320×568",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4420,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:10:59.075Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-19adf168dd281bc66cda",
+          "file": "creation-journey.spec.js",
+          "line": 135,
+          "column": 5
+        },
+        {
+          "title": "decisões no papel cabem em 568×320",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4090,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:11:03.514Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-3df63af73fd6b61cc2ae",
+          "file": "creation-journey.spec.js",
+          "line": 135,
+          "column": 5
+        },
+        {
+          "title": "quota recusada não anuncia personagem criado",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4857,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:11:07.616Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-003fb44cf1493652b08e",
+          "file": "creation-journey.spec.js",
+          "line": 148,
+          "column": 1
+        },
+        {
+          "title": "retomar Prodígio não prende atributos antes de escolher os limites etários",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11865,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:11:12.494Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-6a9677c084923fb2eabd",
+          "file": "creation-journey.spec.js",
+          "line": 162,
+          "column": 1
+        },
+        {
+          "title": "Profissão e subescolha de Engenheiro permanecem sincronizadas, sem conceder item",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6037,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:11:24.375Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-9523eaa7730445288965",
+          "file": "creation-journey.spec.js",
+          "line": 191,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "recruitment-v25.spec.js",
+      "file": "recruitment-v25.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Criar COMBATENTE registra, carimba e abre uma ficha persistente",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11086,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:11:30.436Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-198fccb74664b48bad0c",
+          "file": "recruitment-v25.spec.js",
+          "line": 44,
+          "column": 65
+        },
+        {
+          "title": "Criar ESPECIALISTA registra, carimba e abre uma ficha persistente",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5268,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:11:41.545Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-fdea58109d4e4b476146",
+          "file": "recruitment-v25.spec.js",
+          "line": 44,
+          "column": 65
+        },
+        {
+          "title": "Criar OCULTISTA registra, carimba e abre uma ficha persistente",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4965,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:11:46.832Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-adce95dafde34965bb4b",
+          "file": "recruitment-v25.spec.js",
+          "line": 44,
+          "column": 65
+        },
+        {
+          "title": "recrutamento normal cola foto, escreve com caneta e carimba na ordem",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 15824,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:11:51.821Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-fc092e33b4df08743478",
+          "file": "recruitment-v25.spec.js",
+          "line": 104,
+          "column": 1
+        },
+        {
+          "title": "recarregar durante escrita não duplica personagem",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 40000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8791,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:12:07.658Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-79f1187c57733610fbe0",
+          "file": "recruitment-v25.spec.js",
+          "line": 135,
+          "column": 1
+        },
+        {
+          "title": "armazenamento negado preserva escolhas e não exibe recrutamento",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4439,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:12:16.463Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-22aee109f63888a9e91b",
+          "file": "recruitment-v25.spec.js",
+          "line": 148,
+          "column": 1
+        },
+        {
+          "title": "desvantagens têm escolha única clara para Adulto e limite explícito para Maduro",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6866,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:12:20.916Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-1169eb871fd0ce4fc825",
+          "file": "recruitment-v25.spec.js",
+          "line": 162,
+          "column": 1
+        },
+        {
+          "title": "perícias explicam uso e busca por finalidade; todos os itens visíveis têm ícone",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6261,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:12:27.797Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-297f3864d670831de8bd",
+          "file": "recruitment-v25.spec.js",
+          "line": 186,
+          "column": 1
+        },
+        {
+          "title": "comparar direto na lista mostra as duas origens e permite escolher no quadro",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9048,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:12:34.069Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-3bbfd446ee6139c36e90",
+          "file": "recruitment-v25.spec.js",
+          "line": 203,
+          "column": 1
+        },
+        {
+          "title": "recrutamento acessível em 390x844",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3599,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:12:43.127Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-c090dd52bddefa4fbc8a",
+          "file": "recruitment-v25.spec.js",
+          "line": 228,
+          "column": 5
+        },
+        {
+          "title": "recrutamento acessível em 320x568",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3244,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:12:46.746Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-b7a916fa33205006c0e3",
+          "file": "recruitment-v25.spec.js",
+          "line": 228,
+          "column": 5
+        },
+        {
+          "title": "recrutamento acessível em 568x320",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3236,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:12:50.012Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-e1281360bad8fc5a3159",
+          "file": "recruitment-v25.spec.js",
+          "line": 228,
+          "column": 5
+        },
+        {
+          "title": "concluir animação mostra o registro salvo sem criar uma segunda ficha",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7342,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:12:53.262Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-cc8c0939c8a47afaefdb",
+          "file": "recruitment-v25.spec.js",
+          "line": 240,
+          "column": 1
+        },
+        {
+          "title": "rolagem automática avança gradualmente e respeita interrupção do usuário",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 17902,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:13:00.623Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-a8c648b162ad5b8044d3",
+          "file": "recruitment-v25.spec.js",
+          "line": 253,
+          "column": 1
+        },
+        {
+          "title": "comparação, idade e itens sem overflow em 390x844",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6696,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:13:18.538Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-de5b81225c981c06af74",
+          "file": "recruitment-v25.spec.js",
+          "line": 290,
+          "column": 5
+        },
+        {
+          "title": "comparação, idade e itens sem overflow em 320x568",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4761,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:13:25.246Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-246b3d85ebb0ebbaa428",
+          "file": "recruitment-v25.spec.js",
+          "line": 290,
+          "column": 5
+        },
+        {
+          "title": "comparação, idade e itens sem overflow em 568x320",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5274,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:13:30.025Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-d8cc788461800956fa91",
+          "file": "recruitment-v25.spec.js",
+          "line": 290,
+          "column": 5
+        },
+        {
+          "title": "ficha local em carregamento não mostra a identidade de demonstração",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 761,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:13:35.311Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-09ccecea85d447ffbd11",
+          "file": "recruitment-v25.spec.js",
+          "line": 313,
+          "column": 1
+        },
+        {
+          "title": "arquivo com sete personagens mantém todos acessíveis em páginas de estrelas",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 15691,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#heraldCount')\nExpected substring: \u001b[32m\"7 personage\u001b[7mns\u001b[27m\"\u001b[39m\nReceived string:    \u001b[31m\"7 personage\u001b[7mms · arquivo local\u001b[27m\"\u001b[39m\nTimeout: 12000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('#heraldCount')\u001b[22m\n\u001b[2m    16 × locator resolved to <span id=\"heraldCount\">7 personagems · arquivo local</span>\u001b[22m\n\u001b[2m       - unexpected value \"7 personagems · arquivo local\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#heraldCount')\nExpected substring: \u001b[32m\"7 personage\u001b[7mns\u001b[27m\"\u001b[39m\nReceived string:    \u001b[31m\"7 personage\u001b[7mms · arquivo local\u001b[27m\"\u001b[39m\nTimeout: 12000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('#heraldCount')\u001b[22m\n\u001b[2m    16 × locator resolved to <span id=\"heraldCount\">7 personagems · arquivo local</span>\u001b[22m\n\u001b[2m       - unexpected value \"7 personagems · arquivo local\"\u001b[22m\n\n    at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js:17:804",
+                    "location": {
+                      "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js",
+                      "column": 804,
+                      "line": 17
+                    },
+                    "snippet": "  15 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`comparação, idade e itens sem overflow em ${viewport.width}x${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await open(page);await page.locator('[data-journey-go=\"1\"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-field=\"age\"]').fill('52');expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('[data-journey-go=\"4\"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('[data-journey-go=\"6\"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-edit-origin]').click();await expect(page.locator('.paper-workshop')).toHaveAttribute('data-chapter','origin');await page.locator('[data-compare-origin=\"ACADEMICO\"]').click();await page.locator('[data-compare-origin=\"AGENTE_SAUDE\"]').click();await page.locator('.open-comparison').click();expect(await page.locator('.origin-comparison').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('[data-choose-compared=\"ACADEMICO\"]').click();await expect(page.locator('.origin-comparison')).not.toBeVisible();});\n  16 | test('ficha local em carregamento não mostra a identidade de demonstração',async({page})=>{const {pack}=complete();const {makeLocalCharacter,CHARACTER_PREFIX}=await import('../local-characters.js'),record=makeLocalCharacter(pack,{draftId:'11111111-2222-3333-4444-555555555555'});await page.addInitScript(({record,key})=>localStorage.setItem(key,JSON.stringify(record)),{record,key:CHARACTER_PREFIX+record.id});let release;const held=new Promise(r=>release=r);await page.route(/\\/assets\\/local-character-view-[^/]+\\.js$/,async route=>{await held;await route.continue()});await page.goto(base+'/ficha.html?character='+record.id,{waitUntil:'commit'});await expect(page.locator('html')).toHaveAttribute('data-local-character','loading');await expect(page.locator('.arrival h1')).not.toBeVisible();release();await expect(page.locator('.local-sheet h1')).toHaveText('Astra');});\n> 17 | test('arquivo com sete personagens mantém todos acessíveis em páginas de estrelas',async({page})=>{const {pack}=complete();const {makeLocalCharacter,CHARACTER_PREFIX}=await import('../local-characters.js');const seven=Array.from({length:7},(_,i)=>makeLocalCharacter({...pack,character:{...pack.character,name:'Pessoa '+i}},{draftId:`00000000-0000-0000-0000-00000000000${i}`,now:new Date(2026,9,20+i)}));await page.addInitScript(({seven,prefix})=>{for(const r of seven)localStorage.setItem(prefix+r.id,JSON.stringify(r));},{seven,prefix:CHARACTER_PREFIX});await page.emulateMedia({reducedMotion:'reduce'});await page.goto(base+'/?stars=0&collection=local&quality=eco&hands=off');await expect(page.locator('html')).toHaveAttribute('data-presentation-ready','1');await expect(page.locator('#heraldCount')).toContainText('7 personagens');await expect(page.locator('.herald-target')).toHaveCount(3);await page.getByRole('link',{name:'Mais estrelas',exact:false}).click();await expect(page.locator('html')).toHaveAttribute('data-presentation-ready','1');await expect(page.locator('.local-collection-nav')).toContainText('2 / 3');await page.getByRole('link',{name:'Mais estrelas',exact:false}).click();await expect(page.locator('html')).toHaveAttribute('data-presentation-ready','1');await expect(page.locator('.herald-target')).toHaveCount(1);await expect(page.locator('#heraldName')).toHaveText('Pessoa 0');});\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ^\n  18 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js",
+                        "column": 804,
+                        "line": 17
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#heraldCount')\nExpected substring: \u001b[32m\"7 personage\u001b[7mns\u001b[27m\"\u001b[39m\nReceived string:    \u001b[31m\"7 personage\u001b[7mms · arquivo local\u001b[27m\"\u001b[39m\nTimeout: 12000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('#heraldCount')\u001b[22m\n\u001b[2m    16 × locator resolved to <span id=\"heraldCount\">7 personagems · arquivo local</span>\u001b[22m\n\u001b[2m       - unexpected value \"7 personagems · arquivo local\"\u001b[22m\n\n\n  15 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`comparação, idade e itens sem overflow em ${viewport.width}x${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await open(page);await page.locator('[data-journey-go=\"1\"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-field=\"age\"]').fill('52');expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('[data-journey-go=\"4\"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('[data-journey-go=\"6\"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-edit-origin]').click();await expect(page.locator('.paper-workshop')).toHaveAttribute('data-chapter','origin');await page.locator('[data-compare-origin=\"ACADEMICO\"]').click();await page.locator('[data-compare-origin=\"AGENTE_SAUDE\"]').click();await page.locator('.open-comparison').click();expect(await page.locator('.origin-comparison').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('[data-choose-compared=\"ACADEMICO\"]').click();await expect(page.locator('.origin-comparison')).not.toBeVisible();});\n  16 | test('ficha local em carregamento não mostra a identidade de demonstração',async({page})=>{const {pack}=complete();const {makeLocalCharacter,CHARACTER_PREFIX}=await import('../local-characters.js'),record=makeLocalCharacter(pack,{draftId:'11111111-2222-3333-4444-555555555555'});await page.addInitScript(({record,key})=>localStorage.setItem(key,JSON.stringify(record)),{record,key:CHARACTER_PREFIX+record.id});let release;const held=new Promise(r=>release=r);await page.route(/\\/assets\\/local-character-view-[^/]+\\.js$/,async route=>{await held;await route.continue()});await page.goto(base+'/ficha.html?character='+record.id,{waitUntil:'commit'});await expect(page.locator('html')).toHaveAttribute('data-local-character','loading');await expect(page.locator('.arrival h1')).not.toBeVisible();release();await expect(page.locator('.local-sheet h1')).toHaveText('Astra');});\n> 17 | test('arquivo com sete personagens mantém todos acessíveis em páginas de estrelas',async({page})=>{const {pack}=complete();const {makeLocalCharacter,CHARACTER_PREFIX}=await import('../local-characters.js');const seven=Array.from({length:7},(_,i)=>makeLocalCharacter({...pack,character:{...pack.character,name:'Pessoa '+i}},{draftId:`00000000-0000-0000-0000-00000000000${i}`,now:new Date(2026,9,20+i)}));await page.addInitScript(({seven,prefix})=>{for(const r of seven)localStorage.setItem(prefix+r.id,JSON.stringify(r));},{seven,prefix:CHARACTER_PREFIX});await page.emulateMedia({reducedMotion:'reduce'});await page.goto(base+'/?stars=0&collection=local&quality=eco&hands=off');await expect(page.locator('html')).toHaveAttribute('data-presentation-ready','1');await expect(page.locator('#heraldCount')).toContainText('7 personagens');await expect(page.locator('.herald-target')).toHaveCount(3);await page.getByRole('link',{name:'Mais estrelas',exact:false}).click();await expect(page.locator('html')).toHaveAttribute('data-presentation-ready','1');await expect(page.locator('.local-collection-nav')).toContainText('2 / 3');await page.getByRole('link',{name:'Mais estrelas',exact:false}).click();await expect(page.locator('html')).toHaveAttribute('data-presentation-ready','1');await expect(page.locator('.herald-target')).toHaveCount(1);await expect(page.locator('#heraldName')).toHaveText('Pessoa 0');});\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ^\n  18 |\n    at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js:17:804"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:13:36.083Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/recruitment-v25-arquivo-co-b8c49-veis-em-páginas-de-estrelas/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/recruitment-v25-arquivo-co-b8c49-veis-em-páginas-de-estrelas/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/recruitment-v25-arquivo-co-b8c49-veis-em-páginas-de-estrelas/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js",
+                    "column": 804,
+                    "line": 17
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-b34a3aabc3b0ea2f36fe",
+          "file": "recruitment-v25.spec.js",
+          "line": 347,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-29T13:09:31.309Z",
+    "duration": 261381.787,
+    "expected": 27,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

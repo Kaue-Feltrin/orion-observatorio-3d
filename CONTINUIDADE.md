@@ -1,3 +1,12 @@
+## 29/10/2026 — V25: escolhas claras e personagem criado localmente
+
+- Comparação direta nas origens, duas vagas com nomes/ícones e quadro alinhado; escolha da origem dentro do quadro. Rolagem suave e interrompível, com avanço limitado por quadro para resistir a atrasos.
+- Idade com quantidade exigida, seleção única no Adulto, limites nas outras faixas, efeitos e filtros. 28 perícias com finalidade/exemplo e 219 itens com ícones vetoriais.
+- **Criar personagem** registra e verifica um personagem concluído no navegador antes de animar folha, foto 3×4 de silhueta preta, caneta preenchendo e carimbo RECRUTADO. Consulta/JSON/recarga e estrelas com paginação funcionam; não é ativação oficial nem conta online. Outros personagens/progresso/chaves são preservados. Importação de JSON ainda não implementada.
+- 25 arquivos unitários e 59 cenários Chrome distintos aprovados; check/build isolado com assets cacheados. Pacote HTTP desktop/mobile verificou persistência, JSON, recarga, estrela e zero draws WebGL durante recrutamento. Capturas/vídeo reais; SwiftShader não mede o PC do usuário. Homologação artística/Brave físico pendente.
+- 56 assets rastreados e 40 recursos visuais/modelos/fontes do ZIP idênticos à V24. Snapshot de regras preservado; efeitos não homologados continuam pendentes. Fichas protegido em f80bba, árvore rastreada limpa. Nenhum deploy, migração remota, produção, merge ou nova PR.
+- Entrega: `downloads/ORION-SITE-V25.zip`, vídeo `downloads/FLUXO-V25.mp4`, relatório `docs/creation/RECRUTAMENTO-RESULTS-V25.md` e método/evidências em `recrutamento-v25-validation/`. Rascunho start_skill atualizado e salvo, não publicado/restaurado.
+
 ## 29/10/2026 — V24: continuidade e criação completa como rascunho local
 
 - Usuário habilitou a aceleração gráfica no Brave e confirmou melhora. V24 orienta software conhecido, admite nome Brave oculto e oferece endereços internos para copiar, sem fingir controlar o navegador.

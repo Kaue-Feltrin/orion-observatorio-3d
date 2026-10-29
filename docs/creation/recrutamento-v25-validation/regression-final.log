@@ -1,0 +1,742 @@
+
+Running 12 tests using 1 worker
+
+(node:196431) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:196431) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/12] tests/class-carousel.spec.js:41:1 › roleta explora as três classes; só confirmar grava e retorno preserva identidade/origem/classe
+[2/12] tests/class-carousel.spec.js:116:1 › giro animado não confirma classe e sair durante o giro cancela sem erro
+  1) tests/class-carousel.spec.js:116:1 › giro animado não confirma classe e sair durante o giro cancela sem erro
+
+    Test timeout of 25000ms exceeded.
+
+    Error: locator.click: Test timeout of 25000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Continuar para classe' })
+        - locator resolved to <button type="button" class="origin-next ink-primary">…</button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is not stable
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is not stable
+        - retrying click action
+          - waiting 100ms
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+
+
+      21 |  const errors=[];page.on('pageerror',e=>errors.push(e.message));await openClass(page,{reduce:false});await expect(page.locator('.class-chapter')).toHaveAttribute('data-class-art','ready');
+      22 |  await page.getByRole('button',{name:'Girar roleta',exact:false}).click();await expect(page.locator('.class-chapter')).toHaveAttribute('aria-busy','true');await expect(page.locator('.confirm-class')).toBeDisabled();await expect(page.locator('.class-chapter')).toHaveAttribute('aria-busy','false');expect(['Combatente','Especialista','Ocultista']).toContain(await page.locator('#className').innerText());expect((await draft(page)).classCode).toBeUndefined();
+    > 23 |  await page.getByRole('button',{name:'Girar roleta',exact:false}).click();await page.getByRole('button',{name:'Voltar às origens',exact:false}).click();await expect(page.locator('.paper-workshop')).toHaveAttribute('data-chapter','origin');await page.getByRole('button',{name:'Continuar para classe',exact:false}).click();await expect(page.locator('#className')).toHaveText('Combatente');expect(errors).toEqual([]);
+         |                                                                                                                                                                                                                                                                                                                          ^
+      24 | });
+      25 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}]){
+      26 |  test(`roleta móvel ${viewport.width}x${viewport.height}: deslize, explicação e confirmação acessíveis`,async({browser})=>{
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/class-carousel.spec.js:23:314
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/class-carousel-giro-animad-80d14-nte-o-giro-cancela-sem-erro/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/class-carousel-giro-animad-80d14-nte-o-giro-cancela-sem-erro/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/class-carousel-giro-animad-80d14-nte-o-giro-cancela-sem-erro/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/class-carousel-giro-animad-80d14-nte-o-giro-cancela-sem-erro/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:196616) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:196616) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[3/12] tests/class-carousel.spec.js:160:3 › roleta móvel 390x844: deslize, explicação e confirmação acessíveis
+[4/12] tests/class-carousel.spec.js:160:3 › roleta móvel 320x568: deslize, explicação e confirmação acessíveis
+[5/12] tests/class-carousel.spec.js:160:3 › roleta móvel 568x320: deslize, explicação e confirmação acessíveis
+[6/12] tests/class-carousel.spec.js:220:1 › armazenamento recusado mantém origem e não anuncia confirmação de classe
+[7/12] tests/origin-paper.spec.js:32:1 › ficha física: consulta não confirma, origem salva só após escolha e identidade é preservada
+[8/12] tests/origin-paper.spec.js:73:1 › busca, filtros combinados, guia e comparação preservam confirmação explícita
+[9/12] tests/origin-paper.spec.js:125:1 › nome é texto, movimento reduzido não executa a queda, armazenamento recusado não confirma
+[10/12] tests/quality-diagnostic.spec.js:2:44 › diagnóstico espera a nova amostra, atualiza e pode ser copiado: /
+[11/12] tests/quality-diagnostic.spec.js:2:44 › diagnóstico espera a nova amostra, atualiza e pode ser copiado: /criacao.html
+  2) tests/quality-diagnostic.spec.js:2:44 › diagnóstico espera a nova amostra, atualiza e pode ser copiado: /criacao.html
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator: locator('.quality-dialog pre')
+    Timeout: 12000ms
+    - Expected  - 3
+    + Received  + 2
+
+      Órion · diagnóstico local
+      Diagnóstico: V25
+      Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.7390.37 Safari/537.36
+      Cena: criação / sealed
+    - Renderizador: Brave
+    - GPU física: não identificada pelo nome genérico fornecido pelo navegador.
+    + Renderizador: ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)
+      Modo: manual / eco
+      Canvas: 439 × 491
+      FPS da aba (última janela concluída): 12
+    - Amostra: 38 quadros / 2.5 s; concluída há 1.7 s
+    + Amostra: 38 quadros / 2.5 s; concluída há 1.9 s
+      MSAA na inicialização: não
+      Nenhum dado é enviado.
+
+    Call log:
+      - Expect "toHaveText" with timeout 12000ms
+      - waiting for locator('.quality-dialog pre')
+        16 × locator resolved to <pre>Órion · diagnóstico local↵Diagnóstico: V25↵Mozill…</pre>
+           - unexpected value "Órion · diagnóstico local
+    Diagnóstico: V25
+    Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.7390.37 Safari/537.36
+    Cena: criação / sealed
+    Renderizador: ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)
+    Modo: manual / eco
+    Canvas: 439 × 491
+    FPS da aba (última janela concluída): 12
+    Amostra: 38 quadros / 2.5 s; concluída há 1.9 s
+    MSAA na inicialização: não
+    Nenhum dado é enviado."
+
+
+      12 |   await page.setViewportSize({width:844,height:928});await expect(output).toContainText('coletando nova amostra',{timeout:2000});await expect(output).toContainText(/FPS da aba \(última janela concluída\): \d+/,{timeout:15000});
+      13 |  }
+    > 14 |  await page.keyboard.press('Escape');const frozen=await output.textContent();await page.waitForTimeout(1300);await expect(output).toHaveText(frozen);expect(errors).toEqual([]);
+         |                                                                                                                                   ^
+      15 | });
+      16 |
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/quality-diagnostic.spec.js:14:131
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/quality-diagnostic-diagnós-a47fa-de-ser-copiado-criacao-html/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/quality-diagnostic-diagnós-a47fa-de-ser-copiado-criacao-html/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/quality-diagnostic-diagnós-a47fa-de-ser-copiado-criacao-html/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/quality-diagnostic-diagnós-a47fa-de-ser-copiado-criacao-html/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:197225) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:197225) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[12/12] tests/recruitment-v25.spec.js:348:1 › arquivo com sete personagens mantém todos acessíveis em páginas de estrelas
+  2 failed
+    tests/class-carousel.spec.js:116:1 › giro animado não confirma classe e sair durante o giro cancela sem erro
+    tests/quality-diagnostic.spec.js:2:44 › diagnóstico espera a nova amostra, atualiza e pode ser copiado: /criacao.html
+  10 passed (2.8m)
+{
+  "config": {
+    "configFile": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/playwright.local.config.js",
+    "rootDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "line"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.js"
+        ],
+        "timeout": 25000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run preview",
+      "url": "http://127.0.0.1:4173/",
+      "reuseExistingServer": true,
+      "timeout": 30000
+    }
+  },
+  "suites": [
+    {
+      "title": "class-carousel.spec.js",
+      "file": "class-carousel.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "roleta explora as três classes; só confirmar grava e retorno preserva identidade/origem/classe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 17252,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:15:13.359Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2c6c260a57dbc03cac9d-1f3eaa5912079a84b32a",
+          "file": "class-carousel.spec.js",
+          "line": 41,
+          "column": 1
+        },
+        {
+          "title": "giro animado não confirma classe e sair durante o giro cancela sem erro",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 28382,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/class-carousel.spec.js",
+                        "column": 314,
+                        "line": 23
+                      },
+                      "message": "Error: locator.click: Test timeout of 25000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Continuar para classe' })\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" class=\"origin-next ink-primary\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not stable\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not stable\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\n\n  21 |  const errors=[];page.on('pageerror',e=>errors.push(e.message));await openClass(page,{reduce:false});await expect(page.locator('.class-chapter')).toHaveAttribute('data-class-art','ready');\n  22 |  await page.getByRole('button',{name:'Girar roleta',exact:false}).click();await expect(page.locator('.class-chapter')).toHaveAttribute('aria-busy','true');await expect(page.locator('.confirm-class')).toBeDisabled();await expect(page.locator('.class-chapter')).toHaveAttribute('aria-busy','false');expect(['Combatente','Especialista','Ocultista']).toContain(await page.locator('#className').innerText());expect((await draft(page)).classCode).toBeUndefined();\n> 23 |  await page.getByRole('button',{name:'Girar roleta',exact:false}).click();await page.getByRole('button',{name:'Voltar às origens',exact:false}).click();await expect(page.locator('.paper-workshop')).toHaveAttribute('data-chapter','origin');await page.getByRole('button',{name:'Continuar para classe',exact:false}).click();await expect(page.locator('#className')).toHaveText('Combatente');expect(errors).toEqual([]);\n     |                                                                                                                                                                                                                                                                                                                          ^\n  24 | });\n  25 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}]){\n  26 |  test(`roleta móvel ${viewport.width}x${viewport.height}: deslize, explicação e confirmação acessíveis`,async({browser})=>{\n    at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/class-carousel.spec.js:23:314"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:15:31.026Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/class-carousel-giro-animad-80d14-nte-o-giro-cancela-sem-erro/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/class-carousel-giro-animad-80d14-nte-o-giro-cancela-sem-erro/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/class-carousel-giro-animad-80d14-nte-o-giro-cancela-sem-erro/trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "2c6c260a57dbc03cac9d-a769e5786a29b7f4ba05",
+          "file": "class-carousel.spec.js",
+          "line": 116,
+          "column": 1
+        },
+        {
+          "title": "roleta móvel 390x844: deslize, explicação e confirmação acessíveis",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9378,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:16:01.559Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2c6c260a57dbc03cac9d-ffafa5c66dc70b51d7ef",
+          "file": "class-carousel.spec.js",
+          "line": 160,
+          "column": 3
+        },
+        {
+          "title": "roleta móvel 320x568: deslize, explicação e confirmação acessíveis",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6342,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:16:11.282Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2c6c260a57dbc03cac9d-ca5ac5c8b3be7f9c5dee",
+          "file": "class-carousel.spec.js",
+          "line": 160,
+          "column": 3
+        },
+        {
+          "title": "roleta móvel 568x320: deslize, explicação e confirmação acessíveis",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6785,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:16:17.639Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2c6c260a57dbc03cac9d-73943cfd0f12b00c1167",
+          "file": "class-carousel.spec.js",
+          "line": 160,
+          "column": 3
+        },
+        {
+          "title": "armazenamento recusado mantém origem e não anuncia confirmação de classe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8110,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:16:24.438Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2c6c260a57dbc03cac9d-638a3b1e10046e93405f",
+          "file": "class-carousel.spec.js",
+          "line": 220,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "origin-paper.spec.js",
+      "file": "origin-paper.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "ficha física: consulta não confirma, origem salva só após escolha e identidade é preservada",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7507,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:16:32.576Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7918b70157442db98f3a-e1b046837434a754ad9e",
+          "file": "origin-paper.spec.js",
+          "line": 32,
+          "column": 1
+        },
+        {
+          "title": "busca, filtros combinados, guia e comparação preservam confirmação explícita",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9901,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:16:40.098Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7918b70157442db98f3a-e9934b4e8ed920633628",
+          "file": "origin-paper.spec.js",
+          "line": 73,
+          "column": 1
+        },
+        {
+          "title": "nome é texto, movimento reduzido não executa a queda, armazenamento recusado não confirma",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6494,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:16:50.015Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7918b70157442db98f3a-f596629a2307822b8ffb",
+          "file": "origin-paper.spec.js",
+          "line": 125,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "quality-diagnostic.spec.js",
+      "file": "quality-diagnostic.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "diagnóstico espera a nova amostra, atualiza e pode ser copiado: /",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 23303,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:16:56.542Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5f2eff97d8269f115535-61b4373477069fe3e781",
+          "file": "quality-diagnostic.spec.js",
+          "line": 2,
+          "column": 44
+        },
+        {
+          "title": "diagnóstico espera a nova amostra, atualiza e pode ser copiado: /criacao.html",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 28747,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.quality-dialog pre')\nTimeout: 12000ms\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 2\u001b[39m\n\n\u001b[2m  Órion · diagnóstico local\u001b[22m\n\u001b[2m  Diagnóstico: V25\u001b[22m\n\u001b[2m  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.7390.37 Safari/537.36\u001b[22m\n\u001b[2m  Cena: criação / sealed\u001b[22m\n\u001b[32m- Renderizador: \u001b[7mBrave\u001b[27m\u001b[39m\n\u001b[32m- GPU física: não identificada pelo nome genérico fornecido pelo navegador.\u001b[39m\n\u001b[31m+ Renderizador: \u001b[7mANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)\u001b[27m\u001b[39m\n\u001b[2m  Modo: manual / eco\u001b[22m\n\u001b[2m  Canvas: 439 × 491\u001b[22m\n\u001b[2m  FPS da aba (última janela concluída): 12\u001b[22m\n\u001b[32m- Amostra: 38 quadros / 2.5 s; concluída há 1.\u001b[7m7\u001b[27m s\u001b[39m\n\u001b[31m+ Amostra: 38 quadros / 2.5 s; concluída há 1.\u001b[7m9\u001b[27m s\u001b[39m\n\u001b[2m  MSAA na inicialização: não\u001b[22m\n\u001b[2m  Nenhum dado é enviado.\u001b[22m\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('.quality-dialog pre')\u001b[22m\n\u001b[2m    16 × locator resolved to <pre>Órion · diagnóstico local↵Diagnóstico: V25↵Mozill…</pre>\u001b[22m\n\u001b[2m       - unexpected value \"Órion · diagnóstico local\u001b[22m\n\u001b[2mDiagnóstico: V25\u001b[22m\n\u001b[2mMozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.7390.37 Safari/537.36\u001b[22m\n\u001b[2mCena: criação / sealed\u001b[22m\n\u001b[2mRenderizador: ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)\u001b[22m\n\u001b[2mModo: manual / eco\u001b[22m\n\u001b[2mCanvas: 439 × 491\u001b[22m\n\u001b[2mFPS da aba (última janela concluída): 12\u001b[22m\n\u001b[2mAmostra: 38 quadros / 2.5 s; concluída há 1.9 s\u001b[22m\n\u001b[2mMSAA na inicialização: não\u001b[22m\n\u001b[2mNenhum dado é enviado.\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.quality-dialog pre')\nTimeout: 12000ms\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 2\u001b[39m\n\n\u001b[2m  Órion · diagnóstico local\u001b[22m\n\u001b[2m  Diagnóstico: V25\u001b[22m\n\u001b[2m  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.7390.37 Safari/537.36\u001b[22m\n\u001b[2m  Cena: criação / sealed\u001b[22m\n\u001b[32m- Renderizador: \u001b[7mBrave\u001b[27m\u001b[39m\n\u001b[32m- GPU física: não identificada pelo nome genérico fornecido pelo navegador.\u001b[39m\n\u001b[31m+ Renderizador: \u001b[7mANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)\u001b[27m\u001b[39m\n\u001b[2m  Modo: manual / eco\u001b[22m\n\u001b[2m  Canvas: 439 × 491\u001b[22m\n\u001b[2m  FPS da aba (última janela concluída): 12\u001b[22m\n\u001b[32m- Amostra: 38 quadros / 2.5 s; concluída há 1.\u001b[7m7\u001b[27m s\u001b[39m\n\u001b[31m+ Amostra: 38 quadros / 2.5 s; concluída há 1.\u001b[7m9\u001b[27m s\u001b[39m\n\u001b[2m  MSAA na inicialização: não\u001b[22m\n\u001b[2m  Nenhum dado é enviado.\u001b[22m\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('.quality-dialog pre')\u001b[22m\n\u001b[2m    16 × locator resolved to <pre>Órion · diagnóstico local↵Diagnóstico: V25↵Mozill…</pre>\u001b[22m\n\u001b[2m       - unexpected value \"Órion · diagnóstico local\u001b[22m\n\u001b[2mDiagnóstico: V25\u001b[22m\n\u001b[2mMozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.7390.37 Safari/537.36\u001b[22m\n\u001b[2mCena: criação / sealed\u001b[22m\n\u001b[2mRenderizador: ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)\u001b[22m\n\u001b[2mModo: manual / eco\u001b[22m\n\u001b[2mCanvas: 439 × 491\u001b[22m\n\u001b[2mFPS da aba (última janela concluída): 12\u001b[22m\n\u001b[2mAmostra: 38 quadros / 2.5 s; concluída há 1.9 s\u001b[22m\n\u001b[2mMSAA na inicialização: não\u001b[22m\n\u001b[2mNenhum dado é enviado.\"\u001b[22m\n\n    at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/quality-diagnostic.spec.js:14:131",
+                    "location": {
+                      "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/quality-diagnostic.spec.js",
+                      "column": 131,
+                      "line": 14
+                    },
+                    "snippet": "  12 |   await page.setViewportSize({width:844,height:928});await expect(output).toContainText('coletando nova amostra',{timeout:2000});await expect(output).toContainText(/FPS da aba \\(última janela concluída\\): \\d+/,{timeout:15000});\n  13 |  }\n> 14 |  await page.keyboard.press('Escape');const frozen=await output.textContent();await page.waitForTimeout(1300);await expect(output).toHaveText(frozen);expect(errors).toEqual([]);\n     |                                                                                                                                   ^\n  15 | });\n  16 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/quality-diagnostic.spec.js",
+                        "column": 131,
+                        "line": 14
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.quality-dialog pre')\nTimeout: 12000ms\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 2\u001b[39m\n\n\u001b[2m  Órion · diagnóstico local\u001b[22m\n\u001b[2m  Diagnóstico: V25\u001b[22m\n\u001b[2m  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.7390.37 Safari/537.36\u001b[22m\n\u001b[2m  Cena: criação / sealed\u001b[22m\n\u001b[32m- Renderizador: \u001b[7mBrave\u001b[27m\u001b[39m\n\u001b[32m- GPU física: não identificada pelo nome genérico fornecido pelo navegador.\u001b[39m\n\u001b[31m+ Renderizador: \u001b[7mANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)\u001b[27m\u001b[39m\n\u001b[2m  Modo: manual / eco\u001b[22m\n\u001b[2m  Canvas: 439 × 491\u001b[22m\n\u001b[2m  FPS da aba (última janela concluída): 12\u001b[22m\n\u001b[32m- Amostra: 38 quadros / 2.5 s; concluída há 1.\u001b[7m7\u001b[27m s\u001b[39m\n\u001b[31m+ Amostra: 38 quadros / 2.5 s; concluída há 1.\u001b[7m9\u001b[27m s\u001b[39m\n\u001b[2m  MSAA na inicialização: não\u001b[22m\n\u001b[2m  Nenhum dado é enviado.\u001b[22m\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('.quality-dialog pre')\u001b[22m\n\u001b[2m    16 × locator resolved to <pre>Órion · diagnóstico local↵Diagnóstico: V25↵Mozill…</pre>\u001b[22m\n\u001b[2m       - unexpected value \"Órion · diagnóstico local\u001b[22m\n\u001b[2mDiagnóstico: V25\u001b[22m\n\u001b[2mMozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.7390.37 Safari/537.36\u001b[22m\n\u001b[2mCena: criação / sealed\u001b[22m\n\u001b[2mRenderizador: ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)\u001b[22m\n\u001b[2mModo: manual / eco\u001b[22m\n\u001b[2mCanvas: 439 × 491\u001b[22m\n\u001b[2mFPS da aba (última janela concluída): 12\u001b[22m\n\u001b[2mAmostra: 38 quadros / 2.5 s; concluída há 1.9 s\u001b[22m\n\u001b[2mMSAA na inicialização: não\u001b[22m\n\u001b[2mNenhum dado é enviado.\"\u001b[22m\n\n\n  12 |   await page.setViewportSize({width:844,height:928});await expect(output).toContainText('coletando nova amostra',{timeout:2000});await expect(output).toContainText(/FPS da aba \\(última janela concluída\\): \\d+/,{timeout:15000});\n  13 |  }\n> 14 |  await page.keyboard.press('Escape');const frozen=await output.textContent();await page.waitForTimeout(1300);await expect(output).toHaveText(frozen);expect(errors).toEqual([]);\n     |                                                                                                                                   ^\n  15 | });\n  16 |\n    at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/quality-diagnostic.spec.js:14:131"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:17:19.863Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/quality-diagnostic-diagnós-a47fa-de-ser-copiado-criacao-html/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/quality-diagnostic-diagnós-a47fa-de-ser-copiado-criacao-html/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/quality-diagnostic-diagnós-a47fa-de-ser-copiado-criacao-html/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/quality-diagnostic.spec.js",
+                    "column": 131,
+                    "line": 14
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "5f2eff97d8269f115535-b98ce56ff7e6eb39edfa",
+          "file": "quality-diagnostic.spec.js",
+          "line": 2,
+          "column": 44
+        }
+      ]
+    },
+    {
+      "title": "recruitment-v25.spec.js",
+      "file": "recruitment-v25.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "arquivo com sete personagens mantém todos acessíveis em páginas de estrelas",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10674,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T13:17:50.316Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-b34a3aabc3b0ea2f36fe",
+          "file": "recruitment-v25.spec.js",
+          "line": 348,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-29T13:15:12.534Z",
+    "duration": 169006.71899999998,
+    "expected": 10,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

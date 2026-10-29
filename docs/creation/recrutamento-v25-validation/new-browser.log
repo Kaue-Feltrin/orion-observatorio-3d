@@ -1,0 +1,747 @@
+
+Running 14 tests using 1 worker
+
+(node:189962) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:189962) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/14] tests/recruitment-v25.spec.js:44:65 › Criar COMBATENTE registra, carimba e abre uma ficha persistente
+  1) tests/recruitment-v25.spec.js:44:65 › Criar COMBATENTE registra, carimba e abre uma ficha persistente
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator: locator('#heraldName')
+    Expected: "Astra"
+    Timeout: 12000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveText" with timeout 12000ms
+      - waiting for locator('#heraldName')
+        7 × locator resolved to <h2 id="heraldName">Nox</h2>
+          - unexpected value "Nox"
+        - waiting for" http://127.0.0.1:4173/ficha.html?stars=0&collection=local&character=local-84f546b1-6e23-42bf-bcf0-3659d1668573&herald=local-84f546b1-6e23-42bf-bcf0-3659d1668573&via=observatory" navigation to finish...
+        - navigated to "http://127.0.0.1:4173/ficha.html?stars=0&collection=local&character=local-84f546b1-6e23-42bf-bcf0-3659d1668573&herald=local-84f546b1-6e23-42bf-bcf0-3659d1668573&via=observatory"
+
+
+      3 | async function open(page,{code='COMBATENTE',step='review',motion='reduce'}={}){const {d,ch}=complete(code);await page.emulateMedia({reducedMotion:motion});await page.addInitScript(({d,ch,key,step})=>{if(!sessionStorage.getItem('v25-fixture-seeded')){sessionStorage.setItem(key,JSON.stringify({...d,character:ch,creationStep:step,creationVisited:6}));sessionStorage.setItem('v25-fixture-seeded','1');}},{d,ch,key,step});await page.goto(base+'/criacao.html?stars=0&quality=eco&hands=off&resume=1');await expect(page.locator('html')).toHaveAttribute('data-paper-ready','1');await expect(page.locator('#journeyTitle')).toBeFocused();}
+      4 | const records=p=>p.evaluate(()=>Object.keys(localStorage).filter(k=>k.startsWith('orion-character-v1:')).map(k=>JSON.parse(localStorage.getItem(k))));
+    > 5 | for(const code of ['COMBATENTE','ESPECIALISTA','OCULTISTA'])test(`Criar ${code} registra, carimba e abre uma ficha persistente`,async({page})=>{test.setTimeout(60000);const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url())});await open(page,{code});await expect(page.getByRole('button',{name:'Criar personagem',exact:false})).toBeEnabled();await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete');await expect(page.locator('.recruitment-status')).toContainText('Personagem criado');const saved=await records(page);expect(saved).toHaveLength(1);expect(saved[0]).toMatchObject({status:'created',scope:'browser-local',classCode:code,character:{status:'created-local'},validation:{officiallyActivated:false}});await expect(page).toHaveURL(/ficha.html\?character=local-/);await page.locator('.recruitment-view').click();await expect(page.locator('.local-sheet h1')).toHaveText('Astra');await expect(page.locator('.local-recruited')).toHaveText('RECRUTADO');await page.reload();await expect(page.locator('.local-sheet')).toHaveAttribute('data-character-id',saved[0].id);const download=page.waitForEvent('download');await page.locator('[data-export-character]').click();const file=await download;const json=JSON.parse(await readFile(await file.path(),'utf8'));expect(json.id).toBe(saved[0].id);expect(json.format).toBe('orion-local-character');if(code==='COMBATENTE'){await page.locator('.local-sheet>header a').click();await expect(page.locator('html')).toHaveAttribute('data-presentation-ready','1');await expect(page.locator('#heraldCount')).toContainText('1 personagem');await expect(page.locator('.herald-target').first()).toHaveAttribute('aria-label',/Astra.*nível 1/);const star=await page.locator('.herald-target').first().boundingBox();await page.mouse.click(star.x+star.width/2,star.y+star.height/2);await expect(page.locator('#heraldName')).toHaveText('Astra');}expect(errors).toEqual([]);expect(writes).toEqual([]);});
+        |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ^
+      6 | test('recrutamento normal cola foto, escreve com caneta e carimba na ordem',async({page})=>{test.setTimeout(45000);await open(page,{motion:'no-preference'});await page.evaluate(()=>{window.recruitmentStates=[];new MutationObserver(()=>{const d=document.querySelector('.recruitment');if(d&&window.recruitmentStates.at(-1)!==d.dataset.state)window.recruitmentStates.push(d.dataset.state)}).observe(document.body,{attributes:true,childList:true,subtree:true,attributeFilter:['data-state']})});await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','writing');await expect(page.locator('.recruitment-pen')).toBeVisible();await expect(page.locator('.recruitment-photo')).toBeVisible();expect((await records(page)).length).toBe(1);await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete',{timeout:20000});const states=await page.evaluate(()=>window.recruitmentStates);expect(states).toEqual(expect.arrayContaining(['photo','writing','stamping','complete']));await expect(page.locator('.recruitment-stamp')).toHaveCSS('opacity','1');});
+      7 | test('recarregar durante escrita não duplica personagem',async({page})=>{test.setTimeout(40000);await open(page,{motion:'no-preference'});await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','writing');await page.reload();await expect(page.locator('.local-sheet h1')).toHaveText('Astra');expect(await records(page)).toHaveLength(1);});
+      8 | test('armazenamento negado preserva escolhas e não exibe recrutamento',async({page})=>{await open(page);await page.evaluate(()=>Storage.prototype.setItem=function(){throw Error('quota')});await page.locator('[data-create-character]').click();await expect(page.locator('.draft-save-feedback')).toContainText('Não foi possível salvar');await expect(page.locator('.recruitment')).toHaveCount(0);expect(await records(page)).toHaveLength(0);await expect(page.locator('[data-create-character]')).toBeEnabled();await expect(page.locator('.review-ledger')).toContainText('Ciências');});
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js:5:2009
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/recruitment-v25-Criar-COMB-7c3ae--abre-uma-ficha-persistente/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/recruitment-v25-Criar-COMB-7c3ae--abre-uma-ficha-persistente/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/recruitment-v25-Criar-COMB-7c3ae--abre-uma-ficha-persistente/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/recruitment-v25-Criar-COMB-7c3ae--abre-uma-ficha-persistente/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:190095) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:190095) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[2/14] tests/recruitment-v25.spec.js:44:65 › Criar ESPECIALISTA registra, carimba e abre uma ficha persistente
+[3/14] tests/recruitment-v25.spec.js:44:65 › Criar OCULTISTA registra, carimba e abre uma ficha persistente
+[4/14] tests/recruitment-v25.spec.js:101:1 › recrutamento normal cola foto, escreve com caneta e carimba na ordem
+[5/14] tests/recruitment-v25.spec.js:132:1 › recarregar durante escrita não duplica personagem
+[6/14] tests/recruitment-v25.spec.js:145:1 › armazenamento negado preserva escolhas e não exibe recrutamento
+[7/14] tests/recruitment-v25.spec.js:159:1 › desvantagens têm escolha única clara para Adulto e limite explícito para Maduro
+[8/14] tests/recruitment-v25.spec.js:183:1 › perícias explicam uso e busca por finalidade; todos os itens visíveis têm ícone
+[9/14] tests/recruitment-v25.spec.js:200:1 › comparar direto na lista mostra as duas origens e permite escolher no quadro
+[10/14] tests/recruitment-v25.spec.js:225:5 › recrutamento acessível em 390x844
+[11/14] tests/recruitment-v25.spec.js:225:5 › recrutamento acessível em 320x568
+[12/14] tests/recruitment-v25.spec.js:225:5 › recrutamento acessível em 568x320
+[13/14] tests/recruitment-v25.spec.js:237:1 › concluir animação mostra o registro salvo sem criar uma segunda ficha
+[14/14] tests/recruitment-v25.spec.js:250:1 › rolagem automática avança gradualmente e respeita interrupção do usuário
+  2) tests/recruitment-v25.spec.js:250:1 › rolagem automática avança gradualmente e respeita interrupção do usuário
+
+    Error: expect(received).not.toBe(expected) // Object.is equality
+
+    Expected: not 0
+
+      12 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`recrutamento acessível em ${viewport.width}x${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await open(page);await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete');expect(await page.locator('.recruitment-viewport').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('.recruitment-view').click();await expect(page.locator('.local-sheet h1')).toHaveText('Astra');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);});
+      13 | test('concluir animação mostra o registro salvo sem criar uma segunda ficha',async({page})=>{await open(page,{motion:'no-preference'});await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment-skip')).toBeVisible();await page.locator('.recruitment-skip').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete');await expect(page.locator('.recruitment-pen')).toBeHidden();expect(await records(page)).toHaveLength(1);});
+    > 14 | test('rolagem automática avança gradualmente e respeita interrupção do usuário',async({page})=>{await open(page,{motion:'no-preference'});await page.locator('[data-edit-origin]').click();await expect(page.locator('.paper-workshop')).toHaveAttribute('data-chapter','origin');await expect(page.locator('.origin-next')).toBeFocused();await page.locator('[data-mode="guide"]').click();await page.locator('[data-guide="cuidar"]').evaluate(e=>e.click());await expect(page.locator('.paper-scroll')).toHaveAttribute('data-auto-scrolling','1');const first=await page.locator('.paper-scroll').evaluate(e=>e.scrollTop);await page.waitForTimeout(120);const middle=await page.locator('.paper-scroll').evaluate(e=>e.scrollTop);expect(middle).not.toBe(first);await expect(page.locator('.paper-scroll')).not.toHaveAttribute('data-auto-scrolling','1');await page.locator('.change-interest').click();await expect(page.locator('.paper-scroll')).toHaveAttribute('data-auto-scrolling','1');await page.locator('.paper-scroll').evaluate(e=>e.dispatchEvent(new WheelEvent('wheel',{deltaY:-100,bubbles:true})));await expect(page.locator('.paper-scroll')).not.toHaveAttribute('data-auto-scrolling','1');});
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^
+      15 |
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js:14:733
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/recruitment-v25-rolagem-au-c1d55-eita-interrupção-do-usuário/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/recruitment-v25-rolagem-au-c1d55-eita-interrupção-do-usuário/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/recruitment-v25-rolagem-au-c1d55-eita-interrupção-do-usuário/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/recruitment-v25-rolagem-au-c1d55-eita-interrupção-do-usuário/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  2 failed
+    tests/recruitment-v25.spec.js:44:65 › Criar COMBATENTE registra, carimba e abre uma ficha persistente
+    tests/recruitment-v25.spec.js:250:1 › rolagem automática avança gradualmente e respeita interrupção do usuário
+  12 passed (2.0m)
+{
+  "config": {
+    "configFile": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/playwright.local.config.js",
+    "rootDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "line"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.js"
+        ],
+        "timeout": 25000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run preview",
+      "url": "http://127.0.0.1:4173/",
+      "reuseExistingServer": true,
+      "timeout": 30000
+    }
+  },
+  "suites": [
+    {
+      "title": "recruitment-v25.spec.js",
+      "file": "recruitment-v25.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Criar COMBATENTE registra, carimba e abre uma ficha persistente",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 21748,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#heraldName')\nExpected: \u001b[32m\"Astra\"\u001b[39m\nTimeout: 12000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('#heraldName')\u001b[22m\n\u001b[2m    7 × locator resolved to <h2 id=\"heraldName\">Nox</h2>\u001b[22m\n\u001b[2m      - unexpected value \"Nox\"\u001b[22m\n\u001b[2m    - waiting for\" http://127.0.0.1:4173/ficha.html?stars=0&collection=local&character=local-84f546b1-6e23-42bf-bcf0-3659d1668573&herald=local-84f546b1-6e23-42bf-bcf0-3659d1668573&via=observatory\" navigation to finish...\u001b[22m\n\u001b[2m    - navigated to \"http://127.0.0.1:4173/ficha.html?stars=0&collection=local&character=local-84f546b1-6e23-42bf-bcf0-3659d1668573&herald=local-84f546b1-6e23-42bf-bcf0-3659d1668573&via=observatory\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#heraldName')\nExpected: \u001b[32m\"Astra\"\u001b[39m\nTimeout: 12000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('#heraldName')\u001b[22m\n\u001b[2m    7 × locator resolved to <h2 id=\"heraldName\">Nox</h2>\u001b[22m\n\u001b[2m      - unexpected value \"Nox\"\u001b[22m\n\u001b[2m    - waiting for\" http://127.0.0.1:4173/ficha.html?stars=0&collection=local&character=local-84f546b1-6e23-42bf-bcf0-3659d1668573&herald=local-84f546b1-6e23-42bf-bcf0-3659d1668573&via=observatory\" navigation to finish...\u001b[22m\n\u001b[2m    - navigated to \"http://127.0.0.1:4173/ficha.html?stars=0&collection=local&character=local-84f546b1-6e23-42bf-bcf0-3659d1668573&herald=local-84f546b1-6e23-42bf-bcf0-3659d1668573&via=observatory\"\u001b[22m\n\n    at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js:5:2009",
+                    "location": {
+                      "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js",
+                      "column": 2009,
+                      "line": 5
+                    },
+                    "snippet": "  3 | async function open(page,{code='COMBATENTE',step='review',motion='reduce'}={}){const {d,ch}=complete(code);await page.emulateMedia({reducedMotion:motion});await page.addInitScript(({d,ch,key,step})=>{if(!sessionStorage.getItem('v25-fixture-seeded')){sessionStorage.setItem(key,JSON.stringify({...d,character:ch,creationStep:step,creationVisited:6}));sessionStorage.setItem('v25-fixture-seeded','1');}},{d,ch,key,step});await page.goto(base+'/criacao.html?stars=0&quality=eco&hands=off&resume=1');await expect(page.locator('html')).toHaveAttribute('data-paper-ready','1');await expect(page.locator('#journeyTitle')).toBeFocused();}\n  4 | const records=p=>p.evaluate(()=>Object.keys(localStorage).filter(k=>k.startsWith('orion-character-v1:')).map(k=>JSON.parse(localStorage.getItem(k))));\n> 5 | for(const code of ['COMBATENTE','ESPECIALISTA','OCULTISTA'])test(`Criar ${code} registra, carimba e abre uma ficha persistente`,async({page})=>{test.setTimeout(60000);const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url())});await open(page,{code});await expect(page.getByRole('button',{name:'Criar personagem',exact:false})).toBeEnabled();await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete');await expect(page.locator('.recruitment-status')).toContainText('Personagem criado');const saved=await records(page);expect(saved).toHaveLength(1);expect(saved[0]).toMatchObject({status:'created',scope:'browser-local',classCode:code,character:{status:'created-local'},validation:{officiallyActivated:false}});await expect(page).toHaveURL(/ficha.html\\?character=local-/);await page.locator('.recruitment-view').click();await expect(page.locator('.local-sheet h1')).toHaveText('Astra');await expect(page.locator('.local-recruited')).toHaveText('RECRUTADO');await page.reload();await expect(page.locator('.local-sheet')).toHaveAttribute('data-character-id',saved[0].id);const download=page.waitForEvent('download');await page.locator('[data-export-character]').click();const file=await download;const json=JSON.parse(await readFile(await file.path(),'utf8'));expect(json.id).toBe(saved[0].id);expect(json.format).toBe('orion-local-character');if(code==='COMBATENTE'){await page.locator('.local-sheet>header a').click();await expect(page.locator('html')).toHaveAttribute('data-presentation-ready','1');await expect(page.locator('#heraldCount')).toContainText('1 personagem');await expect(page.locator('.herald-target').first()).toHaveAttribute('aria-label',/Astra.*nível 1/);const star=await page.locator('.herald-target').first().boundingBox();await page.mouse.click(star.x+star.width/2,star.y+star.height/2);await expect(page.locator('#heraldName')).toHaveText('Astra');}expect(errors).toEqual([]);expect(writes).toEqual([]);});\n    |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ^\n  6 | test('recrutamento normal cola foto, escreve com caneta e carimba na ordem',async({page})=>{test.setTimeout(45000);await open(page,{motion:'no-preference'});await page.evaluate(()=>{window.recruitmentStates=[];new MutationObserver(()=>{const d=document.querySelector('.recruitment');if(d&&window.recruitmentStates.at(-1)!==d.dataset.state)window.recruitmentStates.push(d.dataset.state)}).observe(document.body,{attributes:true,childList:true,subtree:true,attributeFilter:['data-state']})});await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','writing');await expect(page.locator('.recruitment-pen')).toBeVisible();await expect(page.locator('.recruitment-photo')).toBeVisible();expect((await records(page)).length).toBe(1);await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete',{timeout:20000});const states=await page.evaluate(()=>window.recruitmentStates);expect(states).toEqual(expect.arrayContaining(['photo','writing','stamping','complete']));await expect(page.locator('.recruitment-stamp')).toHaveCSS('opacity','1');});\n  7 | test('recarregar durante escrita não duplica personagem',async({page})=>{test.setTimeout(40000);await open(page,{motion:'no-preference'});await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','writing');await page.reload();await expect(page.locator('.local-sheet h1')).toHaveText('Astra');expect(await records(page)).toHaveLength(1);});\n  8 | test('armazenamento negado preserva escolhas e não exibe recrutamento',async({page})=>{await open(page);await page.evaluate(()=>Storage.prototype.setItem=function(){throw Error('quota')});await page.locator('[data-create-character]').click();await expect(page.locator('.draft-save-feedback')).toContainText('Não foi possível salvar');await expect(page.locator('.recruitment')).toHaveCount(0);expect(await records(page)).toHaveLength(0);await expect(page.locator('[data-create-character]')).toBeEnabled();await expect(page.locator('.review-ledger')).toContainText('Ciências');});"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js",
+                        "column": 2009,
+                        "line": 5
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#heraldName')\nExpected: \u001b[32m\"Astra\"\u001b[39m\nTimeout: 12000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('#heraldName')\u001b[22m\n\u001b[2m    7 × locator resolved to <h2 id=\"heraldName\">Nox</h2>\u001b[22m\n\u001b[2m      - unexpected value \"Nox\"\u001b[22m\n\u001b[2m    - waiting for\" http://127.0.0.1:4173/ficha.html?stars=0&collection=local&character=local-84f546b1-6e23-42bf-bcf0-3659d1668573&herald=local-84f546b1-6e23-42bf-bcf0-3659d1668573&via=observatory\" navigation to finish...\u001b[22m\n\u001b[2m    - navigated to \"http://127.0.0.1:4173/ficha.html?stars=0&collection=local&character=local-84f546b1-6e23-42bf-bcf0-3659d1668573&herald=local-84f546b1-6e23-42bf-bcf0-3659d1668573&via=observatory\"\u001b[22m\n\n\n  3 | async function open(page,{code='COMBATENTE',step='review',motion='reduce'}={}){const {d,ch}=complete(code);await page.emulateMedia({reducedMotion:motion});await page.addInitScript(({d,ch,key,step})=>{if(!sessionStorage.getItem('v25-fixture-seeded')){sessionStorage.setItem(key,JSON.stringify({...d,character:ch,creationStep:step,creationVisited:6}));sessionStorage.setItem('v25-fixture-seeded','1');}},{d,ch,key,step});await page.goto(base+'/criacao.html?stars=0&quality=eco&hands=off&resume=1');await expect(page.locator('html')).toHaveAttribute('data-paper-ready','1');await expect(page.locator('#journeyTitle')).toBeFocused();}\n  4 | const records=p=>p.evaluate(()=>Object.keys(localStorage).filter(k=>k.startsWith('orion-character-v1:')).map(k=>JSON.parse(localStorage.getItem(k))));\n> 5 | for(const code of ['COMBATENTE','ESPECIALISTA','OCULTISTA'])test(`Criar ${code} registra, carimba e abre uma ficha persistente`,async({page})=>{test.setTimeout(60000);const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url())});await open(page,{code});await expect(page.getByRole('button',{name:'Criar personagem',exact:false})).toBeEnabled();await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete');await expect(page.locator('.recruitment-status')).toContainText('Personagem criado');const saved=await records(page);expect(saved).toHaveLength(1);expect(saved[0]).toMatchObject({status:'created',scope:'browser-local',classCode:code,character:{status:'created-local'},validation:{officiallyActivated:false}});await expect(page).toHaveURL(/ficha.html\\?character=local-/);await page.locator('.recruitment-view').click();await expect(page.locator('.local-sheet h1')).toHaveText('Astra');await expect(page.locator('.local-recruited')).toHaveText('RECRUTADO');await page.reload();await expect(page.locator('.local-sheet')).toHaveAttribute('data-character-id',saved[0].id);const download=page.waitForEvent('download');await page.locator('[data-export-character]').click();const file=await download;const json=JSON.parse(await readFile(await file.path(),'utf8'));expect(json.id).toBe(saved[0].id);expect(json.format).toBe('orion-local-character');if(code==='COMBATENTE'){await page.locator('.local-sheet>header a').click();await expect(page.locator('html')).toHaveAttribute('data-presentation-ready','1');await expect(page.locator('#heraldCount')).toContainText('1 personagem');await expect(page.locator('.herald-target').first()).toHaveAttribute('aria-label',/Astra.*nível 1/);const star=await page.locator('.herald-target').first().boundingBox();await page.mouse.click(star.x+star.width/2,star.y+star.height/2);await expect(page.locator('#heraldName')).toHaveText('Astra');}expect(errors).toEqual([]);expect(writes).toEqual([]);});\n    |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ^\n  6 | test('recrutamento normal cola foto, escreve com caneta e carimba na ordem',async({page})=>{test.setTimeout(45000);await open(page,{motion:'no-preference'});await page.evaluate(()=>{window.recruitmentStates=[];new MutationObserver(()=>{const d=document.querySelector('.recruitment');if(d&&window.recruitmentStates.at(-1)!==d.dataset.state)window.recruitmentStates.push(d.dataset.state)}).observe(document.body,{attributes:true,childList:true,subtree:true,attributeFilter:['data-state']})});await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','writing');await expect(page.locator('.recruitment-pen')).toBeVisible();await expect(page.locator('.recruitment-photo')).toBeVisible();expect((await records(page)).length).toBe(1);await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete',{timeout:20000});const states=await page.evaluate(()=>window.recruitmentStates);expect(states).toEqual(expect.arrayContaining(['photo','writing','stamping','complete']));await expect(page.locator('.recruitment-stamp')).toHaveCSS('opacity','1');});\n  7 | test('recarregar durante escrita não duplica personagem',async({page})=>{test.setTimeout(40000);await open(page,{motion:'no-preference'});await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','writing');await page.reload();await expect(page.locator('.local-sheet h1')).toHaveText('Astra');expect(await records(page)).toHaveLength(1);});\n  8 | test('armazenamento negado preserva escolhas e não exibe recrutamento',async({page})=>{await open(page);await page.evaluate(()=>Storage.prototype.setItem=function(){throw Error('quota')});await page.locator('[data-create-character]').click();await expect(page.locator('.draft-save-feedback')).toContainText('Não foi possível salvar');await expect(page.locator('.recruitment')).toHaveCount(0);expect(await records(page)).toHaveLength(0);await expect(page.locator('[data-create-character]')).toBeEnabled();await expect(page.locator('.review-ledger')).toContainText('Ciências');});\n    at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js:5:2009"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:51:08.468Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/recruitment-v25-Criar-COMB-7c3ae--abre-uma-ficha-persistente/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/recruitment-v25-Criar-COMB-7c3ae--abre-uma-ficha-persistente/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/recruitment-v25-Criar-COMB-7c3ae--abre-uma-ficha-persistente/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js",
+                    "column": 2009,
+                    "line": 5
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-198fccb74664b48bad0c",
+          "file": "recruitment-v25.spec.js",
+          "line": 44,
+          "column": 65
+        },
+        {
+          "title": "Criar ESPECIALISTA registra, carimba e abre uma ficha persistente",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7409,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:51:32.289Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-fdea58109d4e4b476146",
+          "file": "recruitment-v25.spec.js",
+          "line": 44,
+          "column": 65
+        },
+        {
+          "title": "Criar OCULTISTA registra, carimba e abre uma ficha persistente",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6802,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:51:40.054Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-adce95dafde34965bb4b",
+          "file": "recruitment-v25.spec.js",
+          "line": 44,
+          "column": 65
+        },
+        {
+          "title": "recrutamento normal cola foto, escreve com caneta e carimba na ordem",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14330,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:51:46.879Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-fc092e33b4df08743478",
+          "file": "recruitment-v25.spec.js",
+          "line": 101,
+          "column": 1
+        },
+        {
+          "title": "recarregar durante escrita não duplica personagem",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 40000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7474,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:52:01.225Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-79f1187c57733610fbe0",
+          "file": "recruitment-v25.spec.js",
+          "line": 132,
+          "column": 1
+        },
+        {
+          "title": "armazenamento negado preserva escolhas e não exibe recrutamento",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4332,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:52:08.724Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-22aee109f63888a9e91b",
+          "file": "recruitment-v25.spec.js",
+          "line": 145,
+          "column": 1
+        },
+        {
+          "title": "desvantagens têm escolha única clara para Adulto e limite explícito para Maduro",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7119,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:52:13.084Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-1169eb871fd0ce4fc825",
+          "file": "recruitment-v25.spec.js",
+          "line": 159,
+          "column": 1
+        },
+        {
+          "title": "perícias explicam uso e busca por finalidade; todos os itens visíveis têm ícone",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6776,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:52:20.230Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-297f3864d670831de8bd",
+          "file": "recruitment-v25.spec.js",
+          "line": 183,
+          "column": 1
+        },
+        {
+          "title": "comparar direto na lista mostra as duas origens e permite escolher no quadro",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8654,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:52:27.018Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-3bbfd446ee6139c36e90",
+          "file": "recruitment-v25.spec.js",
+          "line": 200,
+          "column": 1
+        },
+        {
+          "title": "recrutamento acessível em 390x844",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4088,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:52:35.681Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-c090dd52bddefa4fbc8a",
+          "file": "recruitment-v25.spec.js",
+          "line": 225,
+          "column": 5
+        },
+        {
+          "title": "recrutamento acessível em 320x568",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3656,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:52:39.782Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-b7a916fa33205006c0e3",
+          "file": "recruitment-v25.spec.js",
+          "line": 225,
+          "column": 5
+        },
+        {
+          "title": "recrutamento acessível em 568x320",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3082,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:52:43.476Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-e1281360bad8fc5a3159",
+          "file": "recruitment-v25.spec.js",
+          "line": 225,
+          "column": 5
+        },
+        {
+          "title": "concluir animação mostra o registro salvo sem criar uma segunda ficha",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7484,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:52:46.575Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-cc8c0939c8a47afaefdb",
+          "file": "recruitment-v25.spec.js",
+          "line": 237,
+          "column": 1
+        },
+        {
+          "title": "rolagem automática avança gradualmente e respeita interrupção do usuário",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 11481,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: not \u001b[32m0\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: not \u001b[32m0\u001b[39m\n    at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js:14:733",
+                    "location": {
+                      "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js",
+                      "column": 733,
+                      "line": 14
+                    },
+                    "snippet": "  12 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`recrutamento acessível em ${viewport.width}x${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await open(page);await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete');expect(await page.locator('.recruitment-viewport').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('.recruitment-view').click();await expect(page.locator('.local-sheet h1')).toHaveText('Astra');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);});\n  13 | test('concluir animação mostra o registro salvo sem criar uma segunda ficha',async({page})=>{await open(page,{motion:'no-preference'});await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment-skip')).toBeVisible();await page.locator('.recruitment-skip').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete');await expect(page.locator('.recruitment-pen')).toBeHidden();expect(await records(page)).toHaveLength(1);});\n> 14 | test('rolagem automática avança gradualmente e respeita interrupção do usuário',async({page})=>{await open(page,{motion:'no-preference'});await page.locator('[data-edit-origin]').click();await expect(page.locator('.paper-workshop')).toHaveAttribute('data-chapter','origin');await expect(page.locator('.origin-next')).toBeFocused();await page.locator('[data-mode=\"guide\"]').click();await page.locator('[data-guide=\"cuidar\"]').evaluate(e=>e.click());await expect(page.locator('.paper-scroll')).toHaveAttribute('data-auto-scrolling','1');const first=await page.locator('.paper-scroll').evaluate(e=>e.scrollTop);await page.waitForTimeout(120);const middle=await page.locator('.paper-scroll').evaluate(e=>e.scrollTop);expect(middle).not.toBe(first);await expect(page.locator('.paper-scroll')).not.toHaveAttribute('data-auto-scrolling','1');await page.locator('.change-interest').click();await expect(page.locator('.paper-scroll')).toHaveAttribute('data-auto-scrolling','1');await page.locator('.paper-scroll').evaluate(e=>e.dispatchEvent(new WheelEvent('wheel',{deltaY:-100,bubbles:true})));await expect(page.locator('.paper-scroll')).not.toHaveAttribute('data-auto-scrolling','1');});\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^\n  15 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js",
+                        "column": 733,
+                        "line": 14
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: not \u001b[32m0\u001b[39m\n\n  12 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`recrutamento acessível em ${viewport.width}x${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await open(page);await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete');expect(await page.locator('.recruitment-viewport').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await page.locator('.recruitment-view').click();await expect(page.locator('.local-sheet h1')).toHaveText('Astra');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);});\n  13 | test('concluir animação mostra o registro salvo sem criar uma segunda ficha',async({page})=>{await open(page,{motion:'no-preference'});await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment-skip')).toBeVisible();await page.locator('.recruitment-skip').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete');await expect(page.locator('.recruitment-pen')).toBeHidden();expect(await records(page)).toHaveLength(1);});\n> 14 | test('rolagem automática avança gradualmente e respeita interrupção do usuário',async({page})=>{await open(page,{motion:'no-preference'});await page.locator('[data-edit-origin]').click();await expect(page.locator('.paper-workshop')).toHaveAttribute('data-chapter','origin');await expect(page.locator('.origin-next')).toBeFocused();await page.locator('[data-mode=\"guide\"]').click();await page.locator('[data-guide=\"cuidar\"]').evaluate(e=>e.click());await expect(page.locator('.paper-scroll')).toHaveAttribute('data-auto-scrolling','1');const first=await page.locator('.paper-scroll').evaluate(e=>e.scrollTop);await page.waitForTimeout(120);const middle=await page.locator('.paper-scroll').evaluate(e=>e.scrollTop);expect(middle).not.toBe(first);await expect(page.locator('.paper-scroll')).not.toHaveAttribute('data-auto-scrolling','1');await page.locator('.change-interest').click();await expect(page.locator('.paper-scroll')).toHaveAttribute('data-auto-scrolling','1');await page.locator('.paper-scroll').evaluate(e=>e.dispatchEvent(new WheelEvent('wheel',{deltaY:-100,bubbles:true})));await expect(page.locator('.paper-scroll')).not.toHaveAttribute('data-auto-scrolling','1');});\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^\n  15 |\n    at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js:14:733"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T12:52:54.067Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/recruitment-v25-rolagem-au-c1d55-eita-interrupção-do-usuário/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/recruitment-v25-rolagem-au-c1d55-eita-interrupção-do-usuário/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/recruitment-v25-rolagem-au-c1d55-eita-interrupção-do-usuário/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/recruitment-v25.spec.js",
+                    "column": 733,
+                    "line": 14
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "948ce5b9424bd1d59a34-a8c648b162ad5b8044d3",
+          "file": "recruitment-v25.spec.js",
+          "line": 250,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-29T12:51:07.634Z",
+    "duration": 118953.671,
+    "expected": 12,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

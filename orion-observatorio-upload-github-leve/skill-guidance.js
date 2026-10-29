@@ -1,0 +1,32 @@
+// Short editorial explanations, not additional mechanics or automatic bonuses.
+export const SKILL_GUIDANCE=Object.freeze({
+ ACROBACIA:['Equilíbrio e movimentos delicados.','Atravessar uma viga ou escapar de uma queda.'],
+ ADESTRAMENTO:['Entender e conduzir animais.','Acalmar um cão assustado ou orientar um animal treinado.'],
+ ARTES:['Criar e reconhecer expressões artísticas.','Identificar uma obra ou fazer uma apresentação.'],
+ ATLETISMO:['Correr, saltar, nadar e escalar.','Subir um muro para alcançar uma testemunha.'],
+ ATUALIDADES:['Saber o que acontece no mundo.','Lembrar uma notícia ou reconhecer uma pessoa conhecida.'],
+ CIENCIAS:['Analisar fenômenos e conhecimentos científicos.','Reconhecer uma substância ou examinar uma amostra.'],
+ CRIME:['Executar tarefas discretas e técnicas de invasão.','Abrir uma fechadura ou lidar com um mecanismo de segurança.'],
+ DIPLOMACIA:['Conversar, negociar e mediar conflitos.','Convencer uma testemunha a colaborar sem ameaçá-la.'],
+ ENGANACAO:['Mentir, disfarçar intenções e criar distrações.','Sustentar uma identidade falsa durante uma investigação.'],
+ FORTITUDE:['Resistir a desgaste e agressões ao corpo.','Suportar uma toxina ou um esforço prolongado.'],
+ FURTIVIDADE:['Passar despercebido.','Cruzar um corredor sem alertar quem está vigiando.'],
+ INICIATIVA:['Reagir quando o perigo começa.','Agir rapidamente quando uma emboscada é revelada.'],
+ INTIMIDACAO:['Impor presença por meio de ameaças.','Fazer um agressor hesitar diante da sua postura.'],
+ INTUICAO:['Perceber intenções e sinais de comportamento.','Notar que uma resposta ensaiada esconde alguma coisa.'],
+ INVESTIGACAO:['Encontrar pistas e conectar informações.','Reconstituir o que aconteceu numa sala revirada.'],
+ LUTA:['Atacar em combate corpo a corpo.','Usar os punhos ou uma arma de contato.'],
+ MEDICINA:['Prestar cuidados e reconhecer problemas de saúde.','Socorrer um aliado ou examinar um ferimento.'],
+ OCULTISMO:['Reconhecer sinais e conhecimentos do paranormal.','Relacionar um símbolo a um ritual conhecido.'],
+ PERCEPCAO:['Notar detalhes com os sentidos.','Ouvir passos atrás de uma porta ou avistar uma ameaça.'],
+ PILOTAGEM:['Controlar veículos em situações difíceis.','Manter o carro sob controle durante uma perseguição.'],
+ PONTARIA:['Atacar à distância.','Mirar com uma arma de fogo ou arremessar uma arma.'],
+ PROFISSAO:['Aplicar o conhecimento de uma ocupação específica.','Usar Profissão (mecânico) para trabalhar num motor.'],
+ REFLEXOS:['Reagir fisicamente a perigos imediatos.','Desviar de uma armadilha que acabou de disparar.'],
+ RELIGIAO:['Conhecer práticas, crenças e tradições religiosas.','Entender uma cerimônia ou reconhecer uma referência sagrada.'],
+ SOBREVIVENCIA:['Orientar-se e enfrentar ambientes hostis.','Seguir rastros ou encontrar abrigo numa mata.'],
+ TATICA:['Entender e organizar situações de confronto.','Avaliar acessos e posições antes de uma entrada arriscada.'],
+ TECNOLOGIA:['Lidar com computadores e sistemas eletrônicos.','Analisar um dispositivo ou recuperar informações digitais.'],
+ VONTADE:['Resistir a pressões e ameaças à mente.','Manter a determinação diante de uma influência assustadora.']
+});
+export function skillGuidance(code){const [purpose,example]=SKILL_GUIDANCE[code]||['Conhecimento do personagem.',''];return{purpose,example};}

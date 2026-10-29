@@ -18,7 +18,7 @@ export function mountQualityControl(root,{value='auto',onChange,diagnostic,graph
   refresh();refreshTimer=setInterval(()=>{
    const selection=document.getSelection();
    // Keep fallback manual copying usable while text is selected.
-   if(document.hidden||(selection&&!selection.isCollapsed&&output.contains(selection.anchorNode)))return;
+   if(!dialog.open||!details.open||document.hidden||(selection&&!selection.isCollapsed&&output.contains(selection.anchorNode)))return;
    refresh();
   },1000);
  }

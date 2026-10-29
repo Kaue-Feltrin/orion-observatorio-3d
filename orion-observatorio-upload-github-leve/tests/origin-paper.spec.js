@@ -36,8 +36,8 @@ test('busca, filtros combinados, guia e comparação preservam confirmação exp
  await page.getByRole('button',{name:'Me ajude a escolher'}).click();await page.getByRole('button',{name:'Quero descobrir o que está escondido.'}).click();
  await expect(page.locator('[data-interest="investigar"]')).toHaveAttribute('aria-pressed','true');
  await page.getByRole('button',{name:'Limpar filtros',exact:true}).click();
- await page.locator('[data-origin="ACADEMICO"]').click();await page.getByRole('button',{name:'+ Comparar esta origem',exact:true}).click();
- await page.locator('[data-origin="INVESTIGADOR"]').click();await page.getByRole('button',{name:'+ Comparar esta origem',exact:true}).click();
+ await page.locator('[data-origin="ACADEMICO"]').click();await page.getByRole('button',{name:'Comparar esta origem',exact:true}).click();
+ await page.locator('[data-origin="INVESTIGADOR"]').click();await page.getByRole('button',{name:'Comparar esta origem',exact:true}).click();
  await page.getByRole('button',{name:'Comparar origens (2/2)',exact:true}).click();
  await expect(page.getByRole('dialog')).toBeVisible();await expect(page.getByRole('dialog').getByRole('heading',{name:'Acadêmico',exact:true})).toBeVisible();await expect(page.getByRole('dialog').getByRole('heading',{name:'Investigador',exact:true})).toBeVisible();
  await page.keyboard.press('Escape');await expect(page.getByRole('dialog')).not.toBeVisible();

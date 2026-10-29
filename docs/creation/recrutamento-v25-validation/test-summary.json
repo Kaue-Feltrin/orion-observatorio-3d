@@ -1,0 +1,301 @@
+{
+  "unique": 59,
+  "passed": 59,
+  "cases": [
+    {
+      "file": "class-carousel.spec.js",
+      "title": "roleta explora as tr\u00eas classes; s\u00f3 confirmar grava e retorno preserva identidade/origem/classe",
+      "status": "passed"
+    },
+    {
+      "file": "class-carousel.spec.js",
+      "title": "giro animado n\u00e3o confirma classe e sair durante o giro cancela sem erro",
+      "status": "passed"
+    },
+    {
+      "file": "class-carousel.spec.js",
+      "title": "roleta m\u00f3vel 390x844: deslize, explica\u00e7\u00e3o e confirma\u00e7\u00e3o acess\u00edveis",
+      "status": "passed"
+    },
+    {
+      "file": "class-carousel.spec.js",
+      "title": "roleta m\u00f3vel 320x568: deslize, explica\u00e7\u00e3o e confirma\u00e7\u00e3o acess\u00edveis",
+      "status": "passed"
+    },
+    {
+      "file": "class-carousel.spec.js",
+      "title": "roleta m\u00f3vel 568x320: deslize, explica\u00e7\u00e3o e confirma\u00e7\u00e3o acess\u00edveis",
+      "status": "passed"
+    },
+    {
+      "file": "class-carousel.spec.js",
+      "title": "armazenamento recusado mant\u00e9m origem e n\u00e3o anuncia confirma\u00e7\u00e3o de classe",
+      "status": "passed"
+    },
+    {
+      "file": "creation-journey.spec.js",
+      "title": "cria\u00e7\u00e3o completa COMBATENTE: decis\u00f5es, volta, JSON e retomada local",
+      "status": "passed"
+    },
+    {
+      "file": "creation-journey.spec.js",
+      "title": "cria\u00e7\u00e3o completa ESPECIALISTA: decis\u00f5es, volta, JSON e retomada local",
+      "status": "passed"
+    },
+    {
+      "file": "creation-journey.spec.js",
+      "title": "cria\u00e7\u00e3o completa OCULTISTA: decis\u00f5es, volta, JSON e retomada local",
+      "status": "passed"
+    },
+    {
+      "file": "creation-journey.spec.js",
+      "title": "decis\u00f5es no papel cabem em 390\u00d7844",
+      "status": "passed"
+    },
+    {
+      "file": "creation-journey.spec.js",
+      "title": "decis\u00f5es no papel cabem em 320\u00d7568",
+      "status": "passed"
+    },
+    {
+      "file": "creation-journey.spec.js",
+      "title": "decis\u00f5es no papel cabem em 568\u00d7320",
+      "status": "passed"
+    },
+    {
+      "file": "creation-journey.spec.js",
+      "title": "quota recusada n\u00e3o anuncia personagem criado",
+      "status": "passed"
+    },
+    {
+      "file": "creation-journey.spec.js",
+      "title": "retomar Prod\u00edgio n\u00e3o prende atributos antes de escolher os limites et\u00e1rios",
+      "status": "passed"
+    },
+    {
+      "file": "creation-journey.spec.js",
+      "title": "Profiss\u00e3o e subescolha de Engenheiro permanecem sincronizadas, sem conceder item",
+      "status": "passed"
+    },
+    {
+      "file": "herald-navigation.spec.js",
+      "title": "1 estrela(s): destino 1 preserva identidade e permite retornar",
+      "status": "passed"
+    },
+    {
+      "file": "herald-navigation.spec.js",
+      "title": "2 estrela(s): destino 1 preserva identidade e permite retornar",
+      "status": "passed"
+    },
+    {
+      "file": "herald-navigation.spec.js",
+      "title": "2 estrela(s): destino 2 preserva identidade e permite retornar",
+      "status": "passed"
+    },
+    {
+      "file": "herald-navigation.spec.js",
+      "title": "3 estrela(s): destino 1 preserva identidade e permite retornar",
+      "status": "passed"
+    },
+    {
+      "file": "herald-navigation.spec.js",
+      "title": "3 estrela(s): destino 2 preserva identidade e permite retornar",
+      "status": "passed"
+    },
+    {
+      "file": "herald-navigation.spec.js",
+      "title": "3 estrela(s): destino 3 preserva identidade e permite retornar",
+      "status": "passed"
+    },
+    {
+      "file": "herald-navigation.spec.js",
+      "title": "raio do mouse escolhe cada estrela e compartilha texturas sem misturar resumos",
+      "status": "passed"
+    },
+    {
+      "file": "herald-navigation.spec.js",
+      "title": "v\u00e9u cobre sa\u00edda e primeiro quadro da chegada at\u00e9 m\u00f3dulo atrasado ficar pronto",
+      "status": "passed"
+    },
+    {
+      "file": "herald-navigation.spec.js",
+      "title": "movimento reduzido, acesso direto e destino inv\u00e1lido mant\u00eam chegada utiliz\u00e1vel",
+      "status": "passed"
+    },
+    {
+      "file": "herald-navigation.spec.js",
+      "title": "limite de tr\u00eas, fallback de contagem inv\u00e1lida e reposicionamento mant\u00eam alvos separados",
+      "status": "passed"
+    },
+    {
+      "file": "herald-navigation.spec.js",
+      "title": "voltar pelo navegador restaura o Observat\u00f3rio sem clar\u00e3o ou sele\u00e7\u00e3o travados",
+      "status": "passed"
+    },
+    {
+      "file": "herald-navigation.spec.js",
+      "title": "viagem lateral 1: c\u00e2mera mant\u00e9m dire\u00e7\u00e3o e outras estrelas n\u00e3o deslizam na curva",
+      "status": "passed"
+    },
+    {
+      "file": "herald-navigation.spec.js",
+      "title": "viagem lateral 2: c\u00e2mera mant\u00e9m dire\u00e7\u00e3o e outras estrelas n\u00e3o deslizam na curva",
+      "status": "passed"
+    },
+    {
+      "file": "herald-navigation.spec.js",
+      "title": "segunda estrela abre resumo sem viagem e confirma\u00e7\u00e3o chega ao destino correto",
+      "status": "passed"
+    },
+    {
+      "file": "origin-paper.spec.js",
+      "title": "ficha f\u00edsica: consulta n\u00e3o confirma, origem salva s\u00f3 ap\u00f3s escolha e identidade \u00e9 preservada",
+      "status": "passed"
+    },
+    {
+      "file": "origin-paper.spec.js",
+      "title": "busca, filtros combinados, guia e compara\u00e7\u00e3o preservam confirma\u00e7\u00e3o expl\u00edcita",
+      "status": "passed"
+    },
+    {
+      "file": "origin-paper.spec.js",
+      "title": "nome \u00e9 texto, movimento reduzido n\u00e3o executa a queda, armazenamento recusado n\u00e3o confirma",
+      "status": "passed"
+    },
+    {
+      "file": "origin-paper.spec.js",
+      "title": "papel 390x844: busca, detalhes e confirma\u00e7\u00e3o alcan\u00e7\u00e1veis",
+      "status": "passed"
+    },
+    {
+      "file": "origin-paper.spec.js",
+      "title": "papel 320x568: busca, detalhes e confirma\u00e7\u00e3o alcan\u00e7\u00e1veis",
+      "status": "passed"
+    },
+    {
+      "file": "origin-paper.spec.js",
+      "title": "papel 568x320: busca, detalhes e confirma\u00e7\u00e3o alcan\u00e7\u00e1veis",
+      "status": "passed"
+    },
+    {
+      "file": "origin-reading-v17.spec.js",
+      "title": "guia aplica interesse com confirma\u00e7\u00e3o vis\u00edvel, limpa restri\u00e7\u00f5es anteriores e permite trocar",
+      "status": "passed"
+    },
+    {
+      "file": "origin-reading-v17.spec.js",
+      "title": "leitura 1440: exemplo curto e detalhes opcionais sem ocultar escolhas obrigat\u00f3rias",
+      "status": "passed"
+    },
+    {
+      "file": "origin-reading-v17.spec.js",
+      "title": "leitura 390: exemplo curto e detalhes opcionais sem ocultar escolhas obrigat\u00f3rias",
+      "status": "passed"
+    },
+    {
+      "file": "recruitment-v25.spec.js",
+      "title": "Criar COMBATENTE registra, carimba e abre uma ficha persistente",
+      "status": "passed"
+    },
+    {
+      "file": "recruitment-v25.spec.js",
+      "title": "Criar ESPECIALISTA registra, carimba e abre uma ficha persistente",
+      "status": "passed"
+    },
+    {
+      "file": "recruitment-v25.spec.js",
+      "title": "Criar OCULTISTA registra, carimba e abre uma ficha persistente",
+      "status": "passed"
+    },
+    {
+      "file": "recruitment-v25.spec.js",
+      "title": "recrutamento normal cola foto, escreve com caneta e carimba na ordem",
+      "status": "passed"
+    },
+    {
+      "file": "recruitment-v25.spec.js",
+      "title": "recarregar durante escrita n\u00e3o duplica personagem",
+      "status": "passed"
+    },
+    {
+      "file": "recruitment-v25.spec.js",
+      "title": "armazenamento negado preserva escolhas e n\u00e3o exibe recrutamento",
+      "status": "passed"
+    },
+    {
+      "file": "recruitment-v25.spec.js",
+      "title": "desvantagens t\u00eam escolha \u00fanica clara para Adulto e limite expl\u00edcito para Maduro",
+      "status": "passed"
+    },
+    {
+      "file": "recruitment-v25.spec.js",
+      "title": "per\u00edcias explicam uso e busca por finalidade; todos os itens vis\u00edveis t\u00eam \u00edcone",
+      "status": "passed"
+    },
+    {
+      "file": "recruitment-v25.spec.js",
+      "title": "comparar direto na lista mostra as duas origens e permite escolher no quadro",
+      "status": "passed"
+    },
+    {
+      "file": "recruitment-v25.spec.js",
+      "title": "recrutamento acess\u00edvel em 390x844",
+      "status": "passed"
+    },
+    {
+      "file": "recruitment-v25.spec.js",
+      "title": "recrutamento acess\u00edvel em 320x568",
+      "status": "passed"
+    },
+    {
+      "file": "recruitment-v25.spec.js",
+      "title": "recrutamento acess\u00edvel em 568x320",
+      "status": "passed"
+    },
+    {
+      "file": "recruitment-v25.spec.js",
+      "title": "concluir anima\u00e7\u00e3o mostra o registro salvo sem criar uma segunda ficha",
+      "status": "passed"
+    },
+    {
+      "file": "recruitment-v25.spec.js",
+      "title": "rolagem autom\u00e1tica avan\u00e7a gradualmente e respeita interrup\u00e7\u00e3o do usu\u00e1rio",
+      "status": "passed"
+    },
+    {
+      "file": "recruitment-v25.spec.js",
+      "title": "compara\u00e7\u00e3o, idade e itens sem overflow em 390x844",
+      "status": "passed"
+    },
+    {
+      "file": "recruitment-v25.spec.js",
+      "title": "compara\u00e7\u00e3o, idade e itens sem overflow em 320x568",
+      "status": "passed"
+    },
+    {
+      "file": "recruitment-v25.spec.js",
+      "title": "compara\u00e7\u00e3o, idade e itens sem overflow em 568x320",
+      "status": "passed"
+    },
+    {
+      "file": "recruitment-v25.spec.js",
+      "title": "ficha local em carregamento n\u00e3o mostra a identidade de demonstra\u00e7\u00e3o",
+      "status": "passed"
+    },
+    {
+      "file": "recruitment-v25.spec.js",
+      "title": "arquivo com sete personagens mant\u00e9m todos acess\u00edveis em p\u00e1ginas de estrelas",
+      "status": "passed"
+    },
+    {
+      "file": "quality-diagnostic.spec.js",
+      "title": "diagn\u00f3stico espera a nova amostra, atualiza e pode ser copiado: /",
+      "status": "passed"
+    },
+    {
+      "file": "quality-diagnostic.spec.js",
+      "title": "diagn\u00f3stico espera a nova amostra, atualiza e pode ser copiado: /criacao.html",
+      "status": "passed"
+    }
+  ]
+}

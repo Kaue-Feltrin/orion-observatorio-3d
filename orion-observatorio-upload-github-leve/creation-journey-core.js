@@ -55,7 +55,7 @@ export function reviewDraft(ch){const mechanics=reviewCreationMechanics(ch),read
 }
 export function stepIssues(ch,key){
  if(key==='attributes')return [...Rules.checkCreationAttributes(ch.attributes_json),...(Life.stage(ch.age)==='PRODIGIO'&&Life.selected(ch).choices.limitedAttributes?.length===2?Life.attributesCompatible(ch,ch.attributes_json).issues:[])];
- if(key==='life')return !Number.isSafeInteger(ch.age)||ch.age<16?['Informe uma idade inteira a partir de 16 anos.']:[];
+ if(key==='life')return !Number.isSafeInteger(ch.age)||ch.age<16?['Informe uma idade inteira a partir de 16 anos.']:Life.check(ch).issues.filter(message=>!message.startsWith('Mestre na Área'));
  if(key==='skills')return [...(ch.skills_json.some(r=>r.name==='Profissão')&&!String(ch.narrative_json.profession||'').trim()?['Defina a área da perícia Profissão.']:[]),...reviewCharacterCreation(ch).issues.filter(i=>!['origin_pending_review','origin_required'].includes(i.code)&&!i.code.startsWith('attribute')).map(i=>i.message)];
  if(key==='preparation'){
   const issues=reviewInitialRituals(ch).issues.map(i=>i.message);
@@ -65,6 +65,12 @@ export function stepIssues(ch,key){
   }return issues;
  }
  return [];
+}
+export function completionIssues(ch){
+ const issues=[];for(const step of ['attributes','life','skills','preparation'])for(const message of stepIssues(ch,step))issues.push({step,message});
+ for(const message of Life.check(ch).issues)issues.push({step:'life',message});
+ for(const issue of reviewEquipment(ch).issues)issues.push({step:'equipment',message:issue.message});
+ return [...new Map(issues.map(i=>[i.step+':'+i.message,i])).values()];
 }
 export function exportCreationDraft(draft,ch){
  const review=reviewDraft(ch),localIssues=JOURNEY_STEPS.flatMap(s=>stepIssues(ch,s.key).map(message=>({code:'local-choice-required',message,section:s.key})));return{format:'orion-observatorio-draft',version:1,sourceCommit:'f80bbaacc8acb4ad0158d43fb923e2f421e58528',name:draft.name,gender:draft.gender,origin:clone(draft.origin),classCode:draft.classCode,character:clone({...ch,status:'draft'}),validation:{scope:'local-preview',ready:review.readiness.ready&&!localIssues.length,status:localIssues.length?'pending':review.readiness.status,issues:[...localIssues,...review.readiness.issues.map(i=>({code:i.code,message:i.message,section:i.section}))],officiallyActivated:false}};
