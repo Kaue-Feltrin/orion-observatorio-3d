@@ -16,14 +16,17 @@ export function createCreationNebula(scene,photo,{reducedMotion=false,parallaxEn
  photo.material=new THREE.ShaderMaterial({depthTest:false,depthWrite:false,uniforms:{},vertexShader:'void main(){gl_Position=vec4(position.xy*2.,.999,1.);}',fragmentShader:'void main(){gl_FragColor=vec4(0.,0.,0.,1.);}'});photo.material.map=first;
  const state={active:4,loaded:0,components:5,transition:0,parallaxEnabled:parallaxEnabled&&!reducedMotion,parallaxStrength:1,foregroundEnabled:true,pulse:[0,0],reducedMotion};
  const loader=new THREE.TextureLoader(),layers=[];
- const vertexShader='varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy*2.,.998,1.);}';
- const fragmentShader=`uniform sampler2D map;uniform vec2 pan;uniform float aspect,plateAspect,time,transition,opacity,red,anchorSide,beat,motion,saturation,brightness,driftPhase;varying vec2 vUv;
- void main(){vec2 cover=vec2(min(1.,aspect/plateAspect),min(1.,plateAspect/aspect));vec2 at=.5+(vUv-.5)*cover*.96;
+ // These UV operations are affine. Evaluate them on the four corners, then
+ // interpolate; keep clamping and texture filtering per fragment as before.
+ const vertexShader=`uniform vec2 pan;uniform float aspect,plateAspect,time,transition,red,anchorSide,beat,motion,driftPhase;varying vec2 vUv;
+ void main(){vec2 cover=vec2(min(1.,aspect/plateAspect),min(1.,plateAspect/aspect));vec2 at=.5+(uv-.5)*cover*.96;
  float portrait=1.-smoothstep(.75,1.2,aspect);at.x+=red*.23*portrait*(anchorSide<.5?-1.:1.);
  vec2 anchor=vec2(anchorSide<.5?.20:.80,anchorSide<.5?.25:.78);float live=beat*red*(1.-transition)*motion;
  at=anchor+(at-anchor)/(1.+live*.02);at+=pan;
  at+=vec2(sin(time*.09+driftPhase),cos(time*.07+driftPhase))*.0018*motion*transition*(1.-red);
- vec4 cloud=texture2D(map,clamp(at,vec2(.001),vec2(.999)));float grey=dot(cloud.rgb,vec3(.2126,.7152,.0722));
+ vUv=at;gl_Position=vec4(position.xy*2.,.998,1.);}`;
+ const fragmentShader=`uniform sampler2D map;uniform float transition,opacity,red,saturation,brightness;varying vec2 vUv;
+ void main(){vec4 cloud=texture2D(map,clamp(vUv,vec2(.001),vec2(.999)));float grey=dot(cloud.rgb,vec3(.2126,.7152,.0722));
  vec3 color=mix(vec3(grey),cloud.rgb,mix(1.,saturation,red));
  color=mix(color,grey*vec3(.82,.80,.95),transition);
  float layerOpacity=mix(opacity,red>.5?0.:opacity*1.65,transition);

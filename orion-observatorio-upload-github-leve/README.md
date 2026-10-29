@@ -1,5 +1,8 @@
 # Projeto Órion · Observatório da Constelação
 
+Revisão de desempenho V22: trabalho redundante dos shaders e dos quads removido, preservando imagens, resolução e efeitos. Ganho local na criação; FPS do Observatório sem melhora conclusiva. [Medições, método e limites](../docs/creation/DESEMPENHO-RESULTS-V22.md). Brave/GTX 1660 ainda não homologado.
+
+
 Revisão visual V21: texto diretamente sobre a cena, convites sem painéis, sigilos da roleta sem cortes e posições em cache. Imagens e qualidade preservadas. Evidências e limites em [LIMPEZA-RESULTS-V21.md](../docs/creation/LIMPEZA-RESULTS-V21.md). ZIP manual; sem deploy nesta revisão.
 
 

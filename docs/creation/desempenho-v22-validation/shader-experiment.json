@@ -1,0 +1,181 @@
+{
+  "method": "Same live V21 scene, alternate baseline/body/environment/both and reverse order; 1.2s warmup, 5s RAF sample; balanced 829x927, original hands, motion enabled, SwiftShader software. Runtime shader experiment, no quality changes.",
+  "rows": [
+    {
+      "phase": "birth",
+      "mode": "baseline",
+      "elapsedMs": 5247.60000000298,
+      "frames": 25,
+      "fps": 5.18000518000518,
+      "medianFrameMs": 166.80000000000018,
+      "p95FrameMs": 466.6999999999998,
+      "pixels": 768483,
+      "drawCalls": 18
+    },
+    {
+      "phase": "birth",
+      "mode": "body",
+      "elapsedMs": 5043.799999999999,
+      "frames": 30,
+      "fps": 5.858822578690049,
+      "medianFrameMs": 166.70000000000073,
+      "p95FrameMs": 216.60000000000036,
+      "pixels": 768483,
+      "drawCalls": 18
+    },
+    {
+      "phase": "birth",
+      "mode": "env",
+      "elapsedMs": 5133.800000005962,
+      "frames": 34,
+      "fps": 6.492101276779915,
+      "medianFrameMs": 166.59999999999854,
+      "p95FrameMs": 283.2000000000007,
+      "pixels": 768483,
+      "drawCalls": 18
+    },
+    {
+      "phase": "birth",
+      "mode": "body-env",
+      "elapsedMs": 5043.20000000596,
+      "frames": 33,
+      "fps": 6.486793294277434,
+      "medianFrameMs": 150,
+      "p95FrameMs": 300,
+      "pixels": 768483,
+      "drawCalls": 35
+    },
+    {
+      "phase": "birth",
+      "mode": "body-env",
+      "elapsedMs": 5062.000000008942,
+      "frames": 32,
+      "fps": 6.159103552411984,
+      "medianFrameMs": 150.09999999999854,
+      "p95FrameMs": 350,
+      "pixels": 768483,
+      "drawCalls": 18
+    },
+    {
+      "phase": "birth",
+      "mode": "env",
+      "elapsedMs": 5196.700000005963,
+      "frames": 32,
+      "fps": 5.9809766356041685,
+      "medianFrameMs": 166.6999999999971,
+      "p95FrameMs": 216.59999999999854,
+      "pixels": 768483,
+      "drawCalls": 18
+    },
+    {
+      "phase": "birth",
+      "mode": "body",
+      "elapsedMs": 5014.500000005959,
+      "frames": 30,
+      "fps": 6.127062601677549,
+      "medianFrameMs": 166.6999999999971,
+      "p95FrameMs": 300,
+      "pixels": 768483,
+      "drawCalls": 35
+    },
+    {
+      "phase": "birth",
+      "mode": "baseline",
+      "elapsedMs": 5044.9000000059605,
+      "frames": 28,
+      "fps": 5.346746405798246,
+      "medianFrameMs": 183.40000000000146,
+      "p95FrameMs": 216.79999999999563,
+      "pixels": 768483,
+      "drawCalls": 35
+    },
+    {
+      "phase": "identity",
+      "mode": "baseline",
+      "elapsedMs": 5128.699999997021,
+      "frames": 38,
+      "fps": 7.375660320940895,
+      "medianFrameMs": 133.40000000000146,
+      "p95FrameMs": 250,
+      "pixels": 768483,
+      "drawCalls": 15
+    },
+    {
+      "phase": "identity",
+      "mode": "body",
+      "elapsedMs": 5117.100000008941,
+      "frames": 43,
+      "fps": 8.289746373235962,
+      "medianFrameMs": 116.59999999999854,
+      "p95FrameMs": 233.3000000000029,
+      "pixels": 768483,
+      "drawCalls": 15
+    },
+    {
+      "phase": "identity",
+      "mode": "env",
+      "elapsedMs": 5083.300000005955,
+      "frames": 43,
+      "fps": 8.601093567610754,
+      "medianFrameMs": 116.69999999999709,
+      "p95FrameMs": 216.59999999999127,
+      "pixels": 768483,
+      "drawCalls": 15
+    },
+    {
+      "phase": "identity",
+      "mode": "body-env",
+      "elapsedMs": 5089.100000000006,
+      "frames": 46,
+      "fps": 9.00036001440057,
+      "medianFrameMs": 116.59999999999127,
+      "p95FrameMs": 133.39999999999418,
+      "pixels": 768483,
+      "drawCalls": 31
+    },
+    {
+      "phase": "identity",
+      "mode": "body-env",
+      "elapsedMs": 5010.900000002977,
+      "frames": 44,
+      "fps": 8.658008658008658,
+      "medianFrameMs": 116.69999999999709,
+      "p95FrameMs": 133.39999999999418,
+      "pixels": 768483,
+      "drawCalls": 31
+    },
+    {
+      "phase": "identity",
+      "mode": "env",
+      "elapsedMs": 5058.899999997026,
+      "frames": 44,
+      "fps": 8.658182989690706,
+      "medianFrameMs": 116.59999999999127,
+      "p95FrameMs": 150.09999999999127,
+      "pixels": 768483,
+      "drawCalls": 31
+    },
+    {
+      "phase": "identity",
+      "mode": "body",
+      "elapsedMs": 5048.2000000089465,
+      "frames": 44,
+      "fps": 8.571713345958338,
+      "medianFrameMs": 116.60000000000582,
+      "p95FrameMs": 233.39999999999418,
+      "pixels": 768483,
+      "drawCalls": 31
+    },
+    {
+      "phase": "identity",
+      "mode": "baseline",
+      "elapsedMs": 5027.100000008941,
+      "frames": 42,
+      "fps": 8.339265737821622,
+      "medianFrameMs": 116.69999999999709,
+      "p95FrameMs": 150.10000000000582,
+      "pixels": 768483,
+      "drawCalls": 31
+    }
+  ]
+}

@@ -8,7 +8,8 @@ export function createNebulaVolume(scene, mainPhoto,{reducedMotion=false,paralla
   const layers=nebulaDepthSpecs.map((spec,i)=>{
     const material=new THREE.MeshBasicMaterial({
       transparent:true,opacity:spec.opacity,depthTest:false,depthWrite:false,
-      side:THREE.DoubleSide,forceSinglePass:i>=4,blending:THREE.NormalBlending,toneMapped:false
+      // Each fragment is a flat quad: a separate back-face draw adds no image.
+      side:THREE.DoubleSide,forceSinglePass:true,blending:THREE.NormalBlending,toneMapped:false
     });
     const mesh=new THREE.Mesh(new THREE.PlaneGeometry(1,1),material);
     mesh.position.z=spec.z;

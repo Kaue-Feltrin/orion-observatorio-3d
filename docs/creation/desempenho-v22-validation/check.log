@@ -1,0 +1,6 @@
+
+> orion-observatorio-3d@0.8.0-cloudflare check
+> node --check main.js && node --check vite.config.js && node tests/structure.mjs
+
+OK: arquivos, PNGs, Vite multipágina e Three.js local verificados.
+OK: benchmark A/B, delta, configuração incompatível e isolamento da cena.

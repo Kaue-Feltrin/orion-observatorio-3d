@@ -1,3 +1,7 @@
+## 28/10/2026 — V22: custo de renderização medido
+
+- Perfil por draw localizou o custo no fundo/silhuetas. Transformações UV afins nos vértices, ruído de dissolução só quando necessário, contorno preservado e planos transparentes sem draw separado do verso. Mesmos pixels, assets e efeitos. Comparação A–B–B–A mostrou melhora na criação; FPS do Observatório segue sem ganho conclusivo. 23 arquivos unitários, 24 cenários Chrome, 18 comparações visuais e pacote HTTP verificados. Relatório: `docs/creation/DESEMPENHO-RESULTS-V22.md`. Sem deploy ou mudança no Fichas; Brave/1660 pendente.
+
 ## 28/10/2026 — V21: texto sobre a cena e inscrição sem cortes
 
 - Removidos os fundos de blur atrás dos textos e os painéis de Despertar/Tornar Marcado; foco com linha única. Círculo da roleta dimensionado pela altura e largura disponíveis. Cache de âncoras por invalidação elimina polling; qualidade e imagens V20 preservadas. Experimento de shader único descartado após regressão em SwiftShader. Relatório: `docs/creation/LIMPEZA-RESULTS-V21.md`. Sem deploy ou alteração no Fichas; homologação Brave/1660 pendente.

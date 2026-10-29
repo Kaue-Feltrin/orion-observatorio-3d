@@ -1,0 +1,48 @@
+
+Running 24 tests using 1 worker
+
+(node:142161) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:142161) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/creation-cinematic.spec.js:10:1 › camadas carregam com alpha, céu exclusivo e paralaxe reversível (11.6s)
+  ✓   2 tests/creation-cinematic.spec.js:70:1 › Tornar Marcado inicia VFX sem gesto e transforma o sangue em vazio cinza (9.2s)
+  ✓   3 tests/creation-cinematic.spec.js:112:1 › céu original do Observatório continua separado da nova criação (4.7s)
+  ✓   4 tests/creation-cinematic.spec.js:122:1 › a chegada aguarda a fonte real sem exibir alfabeto de fallback (5.7s)
+  ✓   5 tests/creation-cinematic.spec.js:141:1 › corpo opaco oculta os sigilos traseiros também com bloom ativo (8.0s)
+  ✓   6 tests/creation-cinematic.spec.js:177:1 › as quatro camadas transparentes mantêm proporção e identidade ao girar (7.6s)
+  ✓   7 tests/creation-interactions.spec.js:3:3 › voltar por clique na etapa feto (9.1s)
+  ✓   8 tests/creation-interactions.spec.js:3:3 › voltar por clique na etapa identidade (12.7s)
+  ✓   9 tests/creation-interactions.spec.js:3:3 › voltar por toque na etapa feto (6.8s)
+  ✓  10 tests/creation-interactions.spec.js:3:3 › voltar por toque na etapa identidade (11.8s)
+  ✓  11 tests/creation-interactions.spec.js:50:1 › convites visíveis, destaque ao apontar e confirmação da escolha (17.1s)
+  ✓  12 tests/creation-interactions.spec.js:85:1 › retrato compacto separa os botões de seleção do campo de nome (6.7s)
+  ✓  13 tests/creation-loading.spec.js:2:1 › o carregamento cobre a cena parcial até fundo e mãos estarem prontos (8.8s)
+  ✓  14 tests/creation-loading.spec.js:30:1 › só as camadas vermelhas pulsam e o movimento para na identidade (7.2s)
+  ✓  15 tests/creation-loading.spec.js:51:1 › movimento reduzido mantém as duas massas vermelhas estáticas (2.9s)
+  ✓  16 tests/creation-loading.spec.js:61:1 › toque mantém saturação animada quando o usuário não pediu movimento reduzido (2.1s)
+SKY_ZOOM_COMPARISON {"zoomDifference":{"mean":20.607118055555556,"changed":0.8601916956018518},"uniformDifference":{"mean":2.945603660300926,"changed":0.4268706597222222}}
+SKY_PIXEL_COMPARISON {"lockedPan":{"mean":0.00022858796296296296,"changed":0},"angularPan":{"mean":31.938012152777777,"changed":0.9253483072916666}}
+  ✓  17 tests/distant-sky.spec.js:21:1 › shader preserva formato no giro e aplica aproximação uniforme controlada (8.1s)
+JOURNEY_DEPTH {"index":0,"visiblePasses":4,"maxGrowth":2.6038025759800534,"finalPan":[5.409173012487954e-7,0.13155723355033686],"finalZoom":1.3199880849538332}
+  ✓  18 tests/journey-depth.spec.js:2:32 › destino 1: céu panorâmico e nuvens atravessadas em profundidade (7.2s)
+JOURNEY_DEPTH {"index":1,"visiblePasses":6,"maxGrowth":8.815163701071798,"finalPan":[-0.10687057340664126,0.011924850048537695],"finalZoom":1.319848414461691}
+  ✓  19 tests/journey-depth.spec.js:2:32 › destino 2: céu panorâmico e nuvens atravessadas em profundidade (7.8s)
+JOURNEY_DEPTH {"index":2,"visiblePasses":6,"maxGrowth":4.466696301920092,"finalPan":[0.1068680036698367,0.01196265333443365],"finalZoom":1.3199938071114357}
+  ✓  20 tests/journey-depth.spec.js:2:32 › destino 3: céu panorâmico e nuvens atravessadas em profundidade (7.7s)
+  ✓  21 tests/quality-control.spec.js:2:60 › qualidade muda ao vivo e persiste: /?stars=0 (11.8s)
+  ✓  22 tests/quality-control.spec.js:2:60 › qualidade muda ao vivo e persiste: /criacao.html?stars=0 (11.9s)
+  ✓  23 tests/quality-control.spec.js:64:1 › controle móvel de qualidade não cobre voltar e funciona por toque (5.4s)
+  ✓  24 tests/quality-control.spec.js:97:1 › ajuste de qualidade sai da interação durante a seleção e a viagem (7.8s)
+
+  24 passed (3.4m)
+
+To open last HTML report run:
+
+  npx playwright show-report
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

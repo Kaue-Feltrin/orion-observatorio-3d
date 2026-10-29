@@ -13,13 +13,22 @@ const fragment=`
  void main(){
   vec2 at=uUV.xy+vec2(mix(vUv.x,1.-vUv.x,uFlip),vUv.y)*uUV.zw;
   vec4 texel=texture2D(uMap,at);
-  float n=noise(vUv*10.)*.65+noise(vUv*23.)*.35;
-  float mask=smoothstep(n-.13,n+.13,uReveal*1.35-.12);
+  // A complete reveal is identically one: avoid procedural noise at rest.
+  float mask=1.;
+  if(uReveal<1.){
+   float n=noise(vUv*10.)*.65+noise(vUv*23.)*.35;
+   mask=smoothstep(n-.13,n+.13,uReveal*1.35-.12);
+  }
   // Solid alpha core: only the antialiased contour may blend.
   float coverage=smoothstep(.12,.65,texel.a);
-  vec2 stepUV=uUV.zw*.006;
-  float nearAlpha=max(max(texture2D(uMap,at+vec2(stepUV.x,0.)).a,texture2D(uMap,at-vec2(stepUV.x,0.)).a),max(texture2D(uMap,at+vec2(0.,stepUV.y)).a,texture2D(uMap,at-vec2(0.,stepUV.y)).a));
-  float rim=max(0.,smoothstep(.12,.65,nearAlpha)-coverage);
+  // Fully covered pixels cannot have an outer rim. Keep all four taps at
+  // the contour, including transparent pixels that contribute its glow.
+  float rim=0.;
+  if(coverage<1.){
+   vec2 stepUV=uUV.zw*.006;
+   float nearAlpha=max(max(texture2D(uMap,at+vec2(stepUV.x,0.)).a,texture2D(uMap,at-vec2(stepUV.x,0.)).a),max(texture2D(uMap,at+vec2(0.,stepUV.y)).a,texture2D(uMap,at-vec2(0.,stepUV.y)).a));
+   rim=max(0.,smoothstep(.12,.65,nearAlpha)-coverage);
+  }
   float emphasis=.38+uHover*.45+uSelected*.35;
   float alpha=max(coverage,rim*emphasis)*uOpacity*mask*vLife;
   alpha*=smoothstep(0.,.025,vUv.x)*(1.-smoothstep(.975,1.,vUv.x))*smoothstep(0.,.025,vUv.y)*(1.-smoothstep(.975,1.,vUv.y));

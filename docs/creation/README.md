@@ -1,4 +1,6 @@
-> Revisão atual: [V21 — Texto, sigilos e layout](LIMPEZA-RESULTS-V21.md). Fundos de blur removidos, convite sem painel e inscrição inteira na roleta. Cache de âncoras sem redução de imagens/resolução; experimento de compositor descartado por regressão medida.
+> Revisão atual: [V22 — Medição e custo de desenho](DESEMPENHO-RESULTS-V22.md). UVs no vertex shader, cálculos redundantes de silhuetas evitados e quads transparentes em uma passagem. Ganho local na criação, sem redução de imagens/resolução; Observatório sem ganho conclusivo de FPS. Brave/1660 pendente.
+
+> Histórico V21: [V21 — Texto, sigilos e layout](LIMPEZA-RESULTS-V21.md). Fundos de blur removidos, convite sem painel e inscrição inteira na roleta. Cache de âncoras sem redução de imagens/resolução; experimento de compositor descartado por regressão medida.
 
 > Histórico V20: [V20 — Silhuetas simples](SILHUETAS-RESULTS-V20.md). Sombras pretas de pessoas contemporâneas, identificadas pela postura/objetos. Sem gravuras ou desenho interno; roleta, regras e correções de fluidez preservadas.
 

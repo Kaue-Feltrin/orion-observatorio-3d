@@ -1,5 +1,5 @@
 {
-  "version": 21,
+  "version": 22,
   "material": {
     "file": "walnut-v15.png",
     "width": 1536,
@@ -103,6 +103,7 @@
     "controls": "Automático / Mais fluidez / Mais detalhe; preferência local, URL tem prioridade; diagnóstico de renderizador e FPS da aba sob ação do usuário, sem envio de dados.",
     "creationAntialias": "MSAA não é imposto à criação nos perfis normais; antialias do contexto só é definido na inicialização.",
     "layout": "Âncoras de arte medidas por invalidação (ResizeObserver, resize, scroll e alterações de estado), em vez de polling a cada 80 ms.",
-    "textOverlays": "Fundos de blur atrás dos textos removidos; seleção e foco usam linha única, sem painéis."
+    "textOverlays": "Fundos de blur atrás dos textos removidos; seleção e foco usam linha única, sem painéis.",
+    "shaderWork": "Transformações afins no vertex shader do fundo; dissolução e amostras de contorno evitadas quando matematicamente desnecessárias. Quadros de névoa do Observatório com uma passagem para os dois lados."
   }
 }

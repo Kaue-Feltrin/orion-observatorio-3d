@@ -1,0 +1,79 @@
+{
+  "method": "Runtime single pass for flat four-vertex transparent double-sided quads only; fixed 829x927 balanced, original hands. A-B-B-A, motion enabled, 1.2s warmup +5s sample. Reduced-motion same-live-scene pixel parity at three camera positions.",
+  "parity": [
+    {
+      "point": {
+        "x": 414,
+        "y": 463
+      },
+      "max": 0,
+      "mean": 0
+    },
+    {
+      "point": {
+        "x": 50,
+        "y": 100
+      },
+      "max": 0,
+      "mean": 0
+    },
+    {
+      "point": {
+        "x": 780,
+        "y": 800
+      },
+      "max": 0,
+      "mean": 0
+    }
+  ],
+  "rows": [
+    {
+      "singlePass": false,
+      "elapsed": 5082.199999997019,
+      "frames": 27,
+      "fps": 5.379458743689481,
+      "drawCalls": [
+        32,
+        50
+      ],
+      "pixels": 768483,
+      "materials": 10
+    },
+    {
+      "singlePass": true,
+      "elapsed": 5020.5999999940395,
+      "frames": 29,
+      "fps": 5.675944132492752,
+      "drawCalls": [
+        27,
+        45
+      ],
+      "pixels": 768483,
+      "materials": 10
+    },
+    {
+      "singlePass": true,
+      "elapsed": 5064.800000002979,
+      "frames": 31,
+      "fps": 6.000240009600385,
+      "drawCalls": [
+        27,
+        45
+      ],
+      "pixels": 768483,
+      "materials": 10
+    },
+    {
+      "singlePass": false,
+      "elapsed": 5072.5000000029795,
+      "frames": 29,
+      "fps": 5.637886597938147,
+      "drawCalls": [
+        32,
+        50
+      ],
+      "pixels": 768483,
+      "materials": 10
+    }
+  ]
+}

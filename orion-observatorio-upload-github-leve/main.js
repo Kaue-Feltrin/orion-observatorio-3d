@@ -190,7 +190,7 @@ function tex(url) {
 function nebulaPlane(file, z, opacity, x, y, factor, order, aspect=2048/768, options={}) {
   const material=new THREE.MeshBasicMaterial({
     map:tex(file), transparent:true, opacity,
-    depthTest:false, depthWrite:false, toneMapped:false, side:THREE.DoubleSide,
+    depthTest:false, depthWrite:false, toneMapped:false, side:THREE.DoubleSide, forceSinglePass:true,
     blending:options.additive ? THREE.AdditiveBlending : THREE.NormalBlending,
   });
   const mesh = new THREE.Mesh(new THREE.PlaneGeometry(1,1), material);

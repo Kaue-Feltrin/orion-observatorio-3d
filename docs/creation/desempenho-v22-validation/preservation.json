@@ -1,0 +1,461 @@
+{
+  "baseline": "c4bacd13907a9e1c1ac8fbdeb5d66f28feebf719",
+  "unchangedRootModules": [
+    {
+      "file": "arrival.js",
+      "sha256": "bce26fbcf78dc9f34ff9a13453e1be323311c5a9f67832ce1c32a4d065836586",
+      "matchesV21": true
+    },
+    {
+      "file": "cinematic-star.js",
+      "sha256": "6b9d589a76ad4f2f3b2b4fcc8f9c465e28a7adb9dbaecf951cf615f40c205125",
+      "matchesV21": true
+    },
+    {
+      "file": "class-carousel.css",
+      "sha256": "613944a09450a39ba7c44fbb472f5095bbf3e5c36ec6b71d5156bf3491b053e6",
+      "matchesV21": true
+    },
+    {
+      "file": "class-carousel.js",
+      "sha256": "2daac90e475a72adad5fde2e1d48b49a985cd67895f6d949f5c409c1c49d9dc6",
+      "matchesV21": true
+    },
+    {
+      "file": "class-catalog.js",
+      "sha256": "438052e8d83357d539c806234a71bf8025511e7472df8001dacfa1a93e27ec83",
+      "matchesV21": true
+    },
+    {
+      "file": "cosmic-atmosphere.js",
+      "sha256": "3e37562db19977a156e0ce8c53ba3257223a24b8d45fd3b43b48edc66552e959",
+      "matchesV21": true
+    },
+    {
+      "file": "creation-bindings.js",
+      "sha256": "0953b02d5f002b29e1bcec5fa81b8f9e523a9194d1caa1f4df2cb0e4434b6ac1",
+      "matchesV21": true
+    },
+    {
+      "file": "creation-body-rig.js",
+      "sha256": "1dbffa638483250d347da23f579fae8eccdb44c89f8fc6ef64c604afaa2642ca",
+      "matchesV21": true
+    },
+    {
+      "file": "creation-figures.js",
+      "sha256": "1eded808e36382badabfdda8cf32baf4d9834a88d67ad34f300a4f26e097951d",
+      "matchesV21": true
+    },
+    {
+      "file": "creation-fracture.js",
+      "sha256": "758b0e1504fd0606e016381d32c86e30ec60f2330de4eec3ad20456fbd95d5bd",
+      "matchesV21": true
+    },
+    {
+      "file": "creation-sigils.js",
+      "sha256": "af0c55b38a6b1b2f1f5e23dae7f2b6d4f62f3bd0ba2a952650f556e405e046b7",
+      "matchesV21": true
+    },
+    {
+      "file": "creation-state.js",
+      "sha256": "da207f37fc061cc31ce8789c7320ae38d13b18cf5facf294b1f78b553084a2f6",
+      "matchesV21": true
+    },
+    {
+      "file": "creation.css",
+      "sha256": "f08ace341fdb5583e4842f85b24cf9a0cf08f380f598f9f11becdc7cc8df83ce",
+      "matchesV21": true
+    },
+    {
+      "file": "distant-sky.js",
+      "sha256": "c3922a109bfc0c3c2a39185ca0798e694da58e2b4706571a03b0036a7a38216a",
+      "matchesV21": true
+    },
+    {
+      "file": "first-person-hands-3d.js",
+      "sha256": "ebeb74ede6dede2a038f55878e152e2147f1f22a93b7d4db2646eb504b1f58d2",
+      "matchesV21": true
+    },
+    {
+      "file": "first-person-hands-fps.js",
+      "sha256": "c592ed759872533e24f9d6c3f5ba7a2993099089c44833fe6f8ac8d8fd26d1e8",
+      "matchesV21": true
+    },
+    {
+      "file": "first-person-hands-mesh.js",
+      "sha256": "a76ba5f36c909774e9d5623214c24b1483613704880aef3c6a64f9d8957c6e9a",
+      "matchesV21": true
+    },
+    {
+      "file": "first-person-hands-overlay.js",
+      "sha256": "a6c99d240e298b0365238bd906d4953cf37a204344d04661fa4b622825b3aac6",
+      "matchesV21": true
+    },
+    {
+      "file": "first-person-hands-rig.js",
+      "sha256": "cf3e57357a79550af55ed542d26c1078c8780e1cfdf228d32c265514115fa409",
+      "matchesV21": true
+    },
+    {
+      "file": "first-person-hands-vr.js",
+      "sha256": "91a7320055b7a49292c55848b32740546990cdf3457152ffe5c04e30ae3756b7",
+      "matchesV21": true
+    },
+    {
+      "file": "first-person-hands.js",
+      "sha256": "75723f5781ec9d470138185f4a2f6908f510a1aa01f5671a689e9958049da2bd",
+      "matchesV21": true
+    },
+    {
+      "file": "hands-benchmark.js",
+      "sha256": "191e77e5e72efc21dbc1f226a328c3cbfd23bd75e21ce5138149a0b50eba84ac",
+      "matchesV21": true
+    },
+    {
+      "file": "hands-image-rig.js",
+      "sha256": "47b4e390fb3ef250d3a2cd8a4b0447d2e73aedb8ff778414931b60a8d516eeb8",
+      "matchesV21": true
+    },
+    {
+      "file": "hands-mesh-motion.js",
+      "sha256": "6fa3d29a2af28118b9f353f19fd7115033968914188d6483a1d651b760405112",
+      "matchesV21": true
+    },
+    {
+      "file": "hands-perspective-motion.js",
+      "sha256": "01caec030f785cdaf33fc69e8117f87e99dd0f112f2a196dedd815c19cb539b8",
+      "matchesV21": true
+    },
+    {
+      "file": "herald-catalog.js",
+      "sha256": "47a6f3e965a265882ac465687ae1f61fcee0366cbeb59024f67d29a2a8cc35a9",
+      "matchesV21": true
+    },
+    {
+      "file": "herald-creation.js",
+      "sha256": "1999cff2f642b7fe94b3211904eebe32d804ae960e3180a11f65d0a89542948e",
+      "matchesV21": true
+    },
+    {
+      "file": "mobile-constellation.js",
+      "sha256": "f363f815f3e349973d27c0f3ea0e42a7eb5acc65f25fc7b455426a0f6a864ca5",
+      "matchesV21": true
+    },
+    {
+      "file": "nebula-depth-specs.js",
+      "sha256": "5a2f2396a944893dcf7b2b8c04587c2a4daab963cde47383333a53eaaa94d7f2",
+      "matchesV21": true
+    },
+    {
+      "file": "origin-backgrounds.js",
+      "sha256": "6dae987287b62f0390f80fca54f27575c08cb0efbadc258ef5c9d85814637a93",
+      "matchesV21": true
+    },
+    {
+      "file": "origin-catalog.js",
+      "sha256": "9ca2247119907b6a29a43a712a329b5c906746f0468a8219151be32a43a40af9",
+      "matchesV21": true
+    },
+    {
+      "file": "origin-discovery.js",
+      "sha256": "1702d4b508568234599d175078deb68d9735968c797fa8dfea2ebedef21e5b50",
+      "matchesV21": true
+    },
+    {
+      "file": "origin-icons.js",
+      "sha256": "a5924b261f931d0045857c4a39d7e2f200db9155852ae19ac42959506990fe31",
+      "matchesV21": true
+    },
+    {
+      "file": "origin-workshop.css",
+      "sha256": "062b9359a782718cb8bcf96d4f9a564f50b169d559b014e3fb866008014aed5f",
+      "matchesV21": true
+    },
+    {
+      "file": "origin-workshop.js",
+      "sha256": "21e49b7069e2084e49733c4fee80342598ccaae8e249a5f42f211b3a629eb144",
+      "matchesV21": true
+    },
+    {
+      "file": "page-transition.js",
+      "sha256": "e438593942c22813c67b7e2e648a001315679fc30fd0bcfab42991243ac99170",
+      "matchesV21": true
+    },
+    {
+      "file": "performance-panel.js",
+      "sha256": "1bd99baca9e15ea3ca347508d672af0c804a634c87b3509dfbd76bb10449f177",
+      "matchesV21": true
+    },
+    {
+      "file": "playwright.config.js",
+      "sha256": "3778cfe0cbd28a2c206a607787fc653e16693c05dbb472788afcb77c307298bb",
+      "matchesV21": true
+    },
+    {
+      "file": "pointer-activation.js",
+      "sha256": "93be2f1c0e04d26f43061f65713a118b64956b3515c43c73063000d389d181cf",
+      "matchesV21": true
+    },
+    {
+      "file": "quality-control.css",
+      "sha256": "709fed71c673028c9389f7b1930966a4c59de1b8a2996589cb8429deab14b084",
+      "matchesV21": true
+    },
+    {
+      "file": "quality-control.js",
+      "sha256": "fed51f10310218f35b47327be30a8dd29dcc9ac17e83b200503a28c00573f044",
+      "matchesV21": true
+    },
+    {
+      "file": "render-quality.js",
+      "sha256": "bfd9f370a84979d5dacfac46a177ad1d82aaa6abf5f9b0d6d524df4db8358252",
+      "matchesV21": true
+    },
+    {
+      "file": "selective-bloom.js",
+      "sha256": "809a4a22314099d11197f31dd4e73f7e34b4cf6cc2be2dad85ae95f8d78b976e",
+      "matchesV21": true
+    },
+    {
+      "file": "star-journey.js",
+      "sha256": "311a87dbaaeb36e65f241a3c1eb75e8259da323af377c21795f67fb15ed274c2",
+      "matchesV21": true
+    },
+    {
+      "file": "star-selection.js",
+      "sha256": "dd57fe7ba829aeb93719dee3ae0aa3fadf852a094720e31cebc8a9033fae472b",
+      "matchesV21": true
+    },
+    {
+      "file": "startup.js",
+      "sha256": "48ff03891d7f46566412a1356a451605c870182722abe7ee65a6be5593d1ed3b",
+      "matchesV21": true
+    },
+    {
+      "file": "styles.css",
+      "sha256": "8c7abf7f56e9303945051b21efc2739e1c7b623023419fad34849531d4c7cca2",
+      "matchesV21": true
+    },
+    {
+      "file": "touch-navigation.js",
+      "sha256": "6421ad145abbbd1a6c3f2c27f7fe144bafebe79bcdc6e84e3b56502a3fc6491b",
+      "matchesV21": true
+    },
+    {
+      "file": "vite.config.js",
+      "sha256": "e299707c03f994fd0f3b89eeafdceab71fd2c4a219f97cbbfa78bad6c8508958",
+      "matchesV21": true
+    }
+  ],
+  "changedRuntimeFiles": [
+    "creation-cinematic.js",
+    "creation-environment.js",
+    "main.js",
+    "nebula-volume.js"
+  ],
+  "nativeAssets": [
+    {
+      "path": "assets/00-starfield-base.jpg",
+      "sha256": "43b12f80cbc34120ed934181db88f8a67392850010194acacc07318ab724db96",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/01-nebula-far.webp",
+      "sha256": "e7aba75ee8fb262751f655873b6e86d472e69782adeeb991df672be8f95aed5d",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/02-nebula-main.webp",
+      "sha256": "d87c59e0ff2ee8348c76690cbd2e7cbbff09bc594469e5e0de4ef7a1c7b79705",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/03-mid-clouds.webp",
+      "sha256": "273a9f78d52ebe73aa950f87fc425776592e3cf39a00bb5a508c70bd68819b60",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/04-front-fog.png",
+      "sha256": "0ad55b0e50c7e7f61323e0187bcb277283382f5e44f11a3804c57bbb38de3244",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/05-star-dust.png",
+      "sha256": "edc671431e3c55b33641c309214a245a5773c61b0a46164d8a4934d7a2a60306",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/06-star-glow.png",
+      "sha256": "40f1d3738d9cfbf710c35edd9f1ccab9ebcc46f9f048877c75a6dd20f4056932",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/creation/black-base-v9.svg",
+      "sha256": "742d86e9e6a3281cd1b65cc8e1876250360e9569ea1371d8308c0d27ed651672",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/creation/gray-far-v9.png",
+      "sha256": "ab1bb8676d6f1f02c999d91bfa29615376c8c1155add9f4bf6ec268681205fc2",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/creation/gray-near-v9.png",
+      "sha256": "d0a59c726e32a5b35f072c715ad20d5332e50f53f73c9599a1a7bfe131fc808b",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/creation/red-left-v14.png",
+      "sha256": "b7d2116967c8d04707ba8196362eb3c1d8afe047c09d1a32fc20ed97a2cb1f23",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/creation/red-right-v14.png",
+      "sha256": "efd5792f5cf239d6ab84f3d76b856907c4060dbef8f0dc80a1cb9b6b681cdaa7",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/creation/souls-v9.png",
+      "sha256": "7dde74323f9f6c1e2be6994628c0382c5a0a40e9c1baaa912ce50f33c4540554",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/creation/unborn-v5.png",
+      "sha256": "a3cce7d1421ab7388be52fb238918a05f6c9b9bbb23d2a17c67ba29485872113",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/depth/eso-gas-01.webp",
+      "sha256": "d37d2f434adfb7a9734ffd2866c5974cac6cebf5062ebdbc6e81e68678eba691",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/depth/eso-gas-02.webp",
+      "sha256": "f0e81c4641ad704cccb97c21e90d486e52d28dca7c9bbb65bd02f9031f91a065",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/depth/eso-gas-03.webp",
+      "sha256": "836151cd4f369e3b261349a16c921ad6cf539a4af53562c408ba3a418cc520d6",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/depth/eso-gas-04.webp",
+      "sha256": "d1d39ef9bf78e3190fc0ddeda74d99bf4f11c3d831413dae03541c802bd42578",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/depth/eso-gas-05.webp",
+      "sha256": "8d1929c65fb57d2990a5a0ccf2667791434f7d24b0b453ed2ccfefac8c14b294",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/depth/eso-gas-06.webp",
+      "sha256": "035d030a7e187d9affae627f1fa3c380fcf7e0ff59f0be9ecb13e2ed99c1ef2f",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/nebula-eso-photographic.jpg",
+      "sha256": "8f18c0a67986f49bf34e430e1fe97afb9a48cf2da8a61a33dcb1a36409bee1e9",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/workshop/combatente-v20.png",
+      "sha256": "37cd84648d2ffefa4b1c5918c0358be25525827585fde56cd5dbe3b12ce0fbb0",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/workshop/especialista-v20.png",
+      "sha256": "3988c7ef91e10582a5e5df9ed431f4cf05e68d93830483104ccbb1a4914c3344",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/workshop/ocultista-v20.png",
+      "sha256": "19d18ded9f7cf2fd4950887026ec7724819f979dcb4e5706af98313f603680cb",
+      "matchesV21": true
+    },
+    {
+      "path": "assets/workshop/walnut-v15.png",
+      "sha256": "a160864a71bb159120ef2956c4bcdeba0c8887dd1f3fc0bbf85fc6e3345f6b93",
+      "matchesV21": true
+    },
+    {
+      "path": "favicon.svg",
+      "sha256": "f922b898fa618c1ba18c53b91e85bd3c926d702f0510862684d8d885a20e7045",
+      "matchesV21": true
+    },
+    {
+      "path": "fonts/SigilosDeConhecimento.ttf",
+      "sha256": "e4528e2f631947733f0e985eec783f9b8aa73338b94732538841da157ab0cb28",
+      "matchesV21": true
+    },
+    {
+      "path": "overlay/left-hand-ethereal.webp",
+      "sha256": "29efe4d0757045b7ee58e7f4a2cdce634c25ec69bcf5680e959bc2b302eff0c2",
+      "matchesV21": true
+    },
+    {
+      "path": "overlay/orion-hands-frame.webp",
+      "sha256": "7533c62d4354b95e268fd6752a50164c31f1f3f282a6f6fc83df6625e26adf09",
+      "matchesV21": true
+    },
+    {
+      "path": "overlay/right-hand-neutral.webp",
+      "sha256": "3382c902541b9ad85b8e61292ab6df1ce341128a5d562d10235c461d7def7788",
+      "matchesV21": true
+    },
+    {
+      "path": "overlay/right-hand-pointing-smooth.webp",
+      "sha256": "2962b655d53d1209d52f21e1d9b79b2b722ea2839a233d38ea79baadfb593350",
+      "matchesV21": true
+    },
+    {
+      "path": "overlay/right-hand-pointing.webp",
+      "sha256": "e1b165407faf13f6dce73c12244446a43b9b053bb5cd4d8a7c5befc06b9561c9",
+      "matchesV21": true
+    },
+    {
+      "path": "overlay/right-hand-reach-025.webp",
+      "sha256": "57560775e1359338edcb736f56f35d5e9b90c9f0fb984e4fb94611b88b210de8",
+      "matchesV21": true
+    },
+    {
+      "path": "overlay/right-hand-reach-050.webp",
+      "sha256": "2ed8276899e4819398db41745dc8764474167118f61b3e903c441bbd9021a255",
+      "matchesV21": true
+    },
+    {
+      "path": "overlay/right-hand-reach-075.webp",
+      "sha256": "819207e8187195db86196276b4fbb71590a56a5d5af163fef3149ba241339dbf",
+      "matchesV21": true
+    },
+    {
+      "path": "overlay/right-hand-reach-100.webp",
+      "sha256": "e935291fa2638cad503187b5cc2f762c0c636d978aa7345aa730aa2af9dd2191",
+      "matchesV21": true
+    }
+  ],
+  "travelAndHands": [
+    {
+      "file": "first-person-hands-mesh.js",
+      "matchesOriginal": true
+    },
+    {
+      "file": "star-journey.js",
+      "matchesOriginal": true
+    },
+    {
+      "file": "star-selection.js",
+      "matchesOriginal": true
+    },
+    {
+      "file": "page-transition.js",
+      "matchesOriginal": true
+    }
+  ],
+  "protectedFichas": {
+    "head": "f80bbaacc8acb4ad0158d43fb923e2f421e58528",
+    "trackedStatus": ""
+  },
+  "runtimeChanges": "UV transform stage and mathematically redundant silhouette calculations; flat transparent quads single pass. No DPR/profile, image, rig, effect-count or source catalog changes."
+}
