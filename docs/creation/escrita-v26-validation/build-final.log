@@ -1,0 +1,38 @@
+vite v6.3.5 building for production...
+transforming...
+✓ 120 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/ficha.html                                   3.89 kB │ gzip:   1.76 kB
+dist/index.html                                   6.09 kB │ gzip:   2.28 kB
+dist/criacao.html                                 6.22 kB │ gzip:   2.35 kB
+dist/assets/graphics-advisor-Dy5bEt4Q.css         1.61 kB │ gzip:   0.67 kB
+dist/assets/local-character-view-Bal9cCBY.css     3.37 kB │ gzip:   1.18 kB
+dist/assets/recruitment-DsBLozT-.css              5.51 kB │ gzip:   1.90 kB
+dist/assets/criacao-rm7ifmdi.css                 12.92 kB │ gzip:   3.41 kB
+dist/assets/creation-journey-Ba9r6laI.css        15.75 kB │ gzip:   3.72 kB
+dist/assets/startup-ASSHZJFL.css                 24.05 kB │ gzip:   6.11 kB
+dist/assets/main-CG80CuT-.css                    43.33 kB │ gzip:   9.86 kB
+dist/assets/modulepreload-polyfill-B5Qt9EMX.js    0.71 kB │ gzip:   0.40 kB
+dist/assets/ficha-DJBKROg_.js                     1.06 kB │ gzip:   0.58 kB
+dist/assets/preload-helper-BlTxHScW.js            1.11 kB │ gzip:   0.65 kB
+dist/assets/startup-CsOTengD.js                   1.56 kB │ gzip:   0.76 kB
+dist/assets/page-transition-rUIT0izW.js           3.39 kB │ gzip:   1.61 kB
+dist/assets/local-characters-DjkZAk9a.js          3.46 kB │ gzip:   1.58 kB
+dist/assets/graphics-advisor-BLamsr-N.js          4.37 kB │ gzip:   1.89 kB
+dist/assets/local-character-view-BVYoK1lf.js      4.49 kB │ gzip:   2.05 kB
+dist/assets/equipment-icons-C0E5S3wP.js           7.16 kB │ gzip:   3.94 kB
+dist/assets/creation-journey-C4124cpl.js        299.61 kB │ gzip:  77.81 kB
+dist/assets/recruitment-DirxUFOj.js             474.76 kB │ gzip: 120.15 kB
+dist/assets/main-Cc6eAtIZ.js                    835.55 kB │ gzip: 237.00 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 2.44s
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

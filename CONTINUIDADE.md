@@ -1,3 +1,10 @@
+## 29/10/2026 — V26: lápis proporcional e correção do equipamento
+
+- Lápis mede 35% da folha. A tinta é revelada nos traços sob a ponta, com levantadas; atlas vetorial derivado da Caveat sob OFL, 156 glifos latinos e fallback que preserva outros caracteres. Licença no pacote. Sem novas imagens por IA, dependências npm ou mudanças nas mãos/3D.
+- Categorias I–IV com uso/limite, mochila com motivos junto dos itens e retirada explícita. Busca informa indisponibilidade e filtro opcional mostra adições dentro dos limites sem esconder os conflitos da mochila. Continuar/Criar exigem corrigir erros reais; patente nunca muda automaticamente. Revisor e snapshot originais preservados.
+- Check, 26 arquivos unitários, build isolado e 38 cenários Chrome distintos (oito novos + 30 regressões) aprovados. Relógio de escrita corrigido após reprodução de duração excessiva em SwiftShader. Proporção e ponta/traço medidas desktop/mobile; CPU local não homologa GTX 1660.
+- Registro continua concluído no navegador, sem conta online/Worker/D1. Fichas f80bba intacto; sem deploy, produção, migração, merge ou nova PR. Entrega V26 e evidências: `docs/creation/ESCRITA-RESULTS-V26.md`. Avaliação artística/física depende do usuário; arquivos antigos e histórico preservados.
+
 ## 29/10/2026 — V25: escolhas claras e personagem criado localmente
 
 - Comparação direta nas origens, duas vagas com nomes/ícones e quadro alinhado; escolha da origem dentro do quadro. Rolagem suave e interrompível, com avanço limitado por quadro para resistir a atrasos.

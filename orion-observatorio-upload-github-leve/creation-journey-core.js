@@ -57,6 +57,7 @@ export function stepIssues(ch,key){
  if(key==='attributes')return [...Rules.checkCreationAttributes(ch.attributes_json),...(Life.stage(ch.age)==='PRODIGIO'&&Life.selected(ch).choices.limitedAttributes?.length===2?Life.attributesCompatible(ch,ch.attributes_json).issues:[])];
  if(key==='life')return !Number.isSafeInteger(ch.age)||ch.age<16?['Informe uma idade inteira a partir de 16 anos.']:Life.check(ch).issues.filter(message=>!message.startsWith('Mestre na Área'));
  if(key==='skills')return [...(ch.skills_json.some(r=>r.name==='Profissão')&&!String(ch.narrative_json.profession||'').trim()?['Defina a área da perícia Profissão.']:[]),...reviewCharacterCreation(ch).issues.filter(i=>!['origin_pending_review','origin_required'].includes(i.code)&&!i.code.startsWith('attribute')).map(i=>i.message)];
+ if(key==='equipment')return reviewEquipment(ch).issues.map(i=>i.message);
  if(key==='preparation'){
   const issues=reviewInitialRituals(ch).issues.map(i=>i.message);
   if(ch.class_code==='ESPECIALISTA'){

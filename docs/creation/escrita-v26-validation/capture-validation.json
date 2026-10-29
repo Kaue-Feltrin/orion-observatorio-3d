@@ -1,0 +1,31 @@
+{
+  "base": "http://127.0.0.1:4173",
+  "fixture": "Fictional Íris Moreira; prepared choices, real item repair and registration actions",
+  "renderer": "Chrome 156 / SwiftShader",
+  "metrics": [
+    {
+      "paperWidth": 820,
+      "pencilHeight": 287,
+      "writingPaths": 140
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 951
+      },
+      "webglDrawsIn500ms": 0,
+      "horizontalOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "webglDrawsIn500ms": 0,
+      "horizontalOverflow": false
+    }
+  ],
+  "errors": [],
+  "bad": [],
+  "writes": []
+}

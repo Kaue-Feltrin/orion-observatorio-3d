@@ -829,7 +829,7 @@ const qualityControl=mountQualityControl(root,{graphics:{renderer:graphicsRender
  const gl=renderer.getContext(),ext=gl.getExtension('WEBGL_debug_renderer_info');
  const gpu=ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER);
  const sample=frameMonitor.state;
- return ['Órion · diagnóstico local','Diagnóstico: V25',navigator.userAgent,
+ return ['Órion · diagnóstico local','Diagnóstico: V26',navigator.userAgent,
   'Cena: '+(creationPage?'criação / '+(root.dataset.creationPhase||'carregando'):'observatório'),
   'Renderizador: '+gpu,
   ...(String(gpu).trim().toLowerCase()==='brave'?['GPU física: não identificada pelo nome genérico fornecido pelo navegador.']:[]),

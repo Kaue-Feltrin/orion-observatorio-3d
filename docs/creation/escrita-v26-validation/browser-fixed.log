@@ -1,0 +1,22 @@
+
+Running 8 tests using 1 worker
+
+(node:208672) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:208672) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/equipment-writing-v26.spec.js:51:5 › conflito de categoria visível e corrigível em 1440 (10.0s)
+  ✓  2 tests/equipment-writing-v26.spec.js:51:5 › conflito de categoria visível e corrigível em 390 (3.8s)
+  ✓  3 tests/equipment-writing-v26.spec.js:51:5 › conflito de categoria visível e corrigível em 320 (3.4s)
+  ✓  4 tests/equipment-writing-v26.spec.js:75:1 › conferência aponta mochila em conflito e não permite criar (6.7s)
+  ✓  5 tests/equipment-writing-v26.spec.js:93:1 › busca avisa a categoria antes de adicionar e quantidade mostra excesso real (9.1s)
+  ✓  6 tests/equipment-writing-v26.spec.js:119:5 › lápis proporcional e ponta acompanha traço real em 1440 (36.7s)
+  ✓  7 tests/equipment-writing-v26.spec.js:119:5 › lápis proporcional e ponta acompanha traço real em 390 (24.7s)
+  ✓  8 tests/equipment-writing-v26.spec.js:166:1 › movimento reduzido exibe todos os traços prontos sem lápis (3.8s)
+
+  8 passed (1.7m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

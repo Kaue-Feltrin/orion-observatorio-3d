@@ -1,0 +1,198 @@
+{
+  "distinct": 38,
+  "passed": 38,
+  "automaticRetries": 0,
+  "unitFiles": 26,
+  "cases": [
+    {
+      "file": "tests/equipment-writing-v26.spec.js",
+      "title": "conflito de categoria visível e corrigível em 1440",
+      "status": "passed"
+    },
+    {
+      "file": "tests/equipment-writing-v26.spec.js",
+      "title": "conflito de categoria visível e corrigível em 390",
+      "status": "passed"
+    },
+    {
+      "file": "tests/equipment-writing-v26.spec.js",
+      "title": "conflito de categoria visível e corrigível em 320",
+      "status": "passed"
+    },
+    {
+      "file": "tests/equipment-writing-v26.spec.js",
+      "title": "conferência aponta mochila em conflito e não permite criar",
+      "status": "passed"
+    },
+    {
+      "file": "tests/equipment-writing-v26.spec.js",
+      "title": "busca avisa a categoria antes de adicionar e quantidade mostra excesso real",
+      "status": "passed"
+    },
+    {
+      "file": "tests/equipment-writing-v26.spec.js",
+      "title": "lápis proporcional e ponta acompanha traço real em 1440",
+      "status": "passed"
+    },
+    {
+      "file": "tests/equipment-writing-v26.spec.js",
+      "title": "lápis proporcional e ponta acompanha traço real em 390",
+      "status": "passed"
+    },
+    {
+      "file": "tests/equipment-writing-v26.spec.js",
+      "title": "movimento reduzido exibe todos os traços prontos sem lápis",
+      "status": "passed"
+    },
+    {
+      "file": "tests/creation-journey.spec.js",
+      "title": "criação completa COMBATENTE: decisões, volta, JSON e retomada local",
+      "status": "passed"
+    },
+    {
+      "file": "tests/creation-journey.spec.js",
+      "title": "criação completa ESPECIALISTA: decisões, volta, JSON e retomada local",
+      "status": "passed"
+    },
+    {
+      "file": "tests/creation-journey.spec.js",
+      "title": "criação completa OCULTISTA: decisões, volta, JSON e retomada local",
+      "status": "passed"
+    },
+    {
+      "file": "tests/creation-journey.spec.js",
+      "title": "decisões no papel cabem em 390×844",
+      "status": "passed"
+    },
+    {
+      "file": "tests/creation-journey.spec.js",
+      "title": "decisões no papel cabem em 320×568",
+      "status": "passed"
+    },
+    {
+      "file": "tests/creation-journey.spec.js",
+      "title": "decisões no papel cabem em 568×320",
+      "status": "passed"
+    },
+    {
+      "file": "tests/creation-journey.spec.js",
+      "title": "quota recusada não anuncia personagem criado",
+      "status": "passed"
+    },
+    {
+      "file": "tests/creation-journey.spec.js",
+      "title": "retomar Prodígio não prende atributos antes de escolher os limites etários",
+      "status": "passed"
+    },
+    {
+      "file": "tests/creation-journey.spec.js",
+      "title": "Profissão e subescolha de Engenheiro permanecem sincronizadas, sem conceder item",
+      "status": "passed"
+    },
+    {
+      "file": "tests/quality-diagnostic.spec.js",
+      "title": "diagnóstico espera a nova amostra, atualiza e pode ser copiado: /",
+      "status": "passed"
+    },
+    {
+      "file": "tests/quality-diagnostic.spec.js",
+      "title": "diagnóstico espera a nova amostra, atualiza e pode ser copiado: /criacao.html",
+      "status": "passed"
+    },
+    {
+      "file": "tests/recruitment-v25.spec.js",
+      "title": "Criar COMBATENTE registra, carimba e abre uma ficha persistente",
+      "status": "passed"
+    },
+    {
+      "file": "tests/recruitment-v25.spec.js",
+      "title": "Criar ESPECIALISTA registra, carimba e abre uma ficha persistente",
+      "status": "passed"
+    },
+    {
+      "file": "tests/recruitment-v25.spec.js",
+      "title": "Criar OCULTISTA registra, carimba e abre uma ficha persistente",
+      "status": "passed"
+    },
+    {
+      "file": "tests/recruitment-v25.spec.js",
+      "title": "recrutamento normal cola foto, escreve com caneta e carimba na ordem",
+      "status": "passed"
+    },
+    {
+      "file": "tests/recruitment-v25.spec.js",
+      "title": "recarregar durante escrita não duplica personagem",
+      "status": "passed"
+    },
+    {
+      "file": "tests/recruitment-v25.spec.js",
+      "title": "armazenamento negado preserva escolhas e não exibe recrutamento",
+      "status": "passed"
+    },
+    {
+      "file": "tests/recruitment-v25.spec.js",
+      "title": "desvantagens têm escolha única clara para Adulto e limite explícito para Maduro",
+      "status": "passed"
+    },
+    {
+      "file": "tests/recruitment-v25.spec.js",
+      "title": "perícias explicam uso e busca por finalidade; todos os itens visíveis têm ícone",
+      "status": "passed"
+    },
+    {
+      "file": "tests/recruitment-v25.spec.js",
+      "title": "comparar direto na lista mostra as duas origens e permite escolher no quadro",
+      "status": "passed"
+    },
+    {
+      "file": "tests/recruitment-v25.spec.js",
+      "title": "recrutamento acessível em 390x844",
+      "status": "passed"
+    },
+    {
+      "file": "tests/recruitment-v25.spec.js",
+      "title": "recrutamento acessível em 320x568",
+      "status": "passed"
+    },
+    {
+      "file": "tests/recruitment-v25.spec.js",
+      "title": "recrutamento acessível em 568x320",
+      "status": "passed"
+    },
+    {
+      "file": "tests/recruitment-v25.spec.js",
+      "title": "concluir animação mostra o registro salvo sem criar uma segunda ficha",
+      "status": "passed"
+    },
+    {
+      "file": "tests/recruitment-v25.spec.js",
+      "title": "rolagem automática avança gradualmente e respeita interrupção do usuário",
+      "status": "passed"
+    },
+    {
+      "file": "tests/recruitment-v25.spec.js",
+      "title": "comparação, idade e itens sem overflow em 390x844",
+      "status": "passed"
+    },
+    {
+      "file": "tests/recruitment-v25.spec.js",
+      "title": "comparação, idade e itens sem overflow em 320x568",
+      "status": "passed"
+    },
+    {
+      "file": "tests/recruitment-v25.spec.js",
+      "title": "comparação, idade e itens sem overflow em 568x320",
+      "status": "passed"
+    },
+    {
+      "file": "tests/recruitment-v25.spec.js",
+      "title": "ficha local em carregamento não mostra a identidade de demonstração",
+      "status": "passed"
+    },
+    {
+      "file": "tests/recruitment-v25.spec.js",
+      "title": "arquivo com sete personagens mantém todos acessíveis em páginas de estrelas",
+      "status": "passed"
+    }
+  ]
+}

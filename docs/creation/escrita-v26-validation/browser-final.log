@@ -1,0 +1,110 @@
+
+Running 8 tests using 1 worker
+
+(node:202099) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:202099) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/equipment-writing-v26.spec.js:51:5 › conflito de categoria visível e corrigível em 1440 (9.7s)
+  ✓  2 tests/equipment-writing-v26.spec.js:51:5 › conflito de categoria visível e corrigível em 390 (4.6s)
+  ✓  3 tests/equipment-writing-v26.spec.js:51:5 › conflito de categoria visível e corrigível em 320 (4.1s)
+  ✓  4 tests/equipment-writing-v26.spec.js:75:1 › conferência aponta mochila em conflito e não permite criar (7.2s)
+  ✓  5 tests/equipment-writing-v26.spec.js:93:1 › busca avisa a categoria antes de adicionar e quantidade mostra excesso real (7.7s)
+  ✘  6 tests/equipment-writing-v26.spec.js:119:5 › lápis proporcional e ponta acompanha traço real em 1440 (41.0s)
+(node:202466) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:202466) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  7 tests/equipment-writing-v26.spec.js:119:5 › lápis proporcional e ponta acompanha traço real em 390 (40.7s)
+(node:202617) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:202617) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  8 tests/equipment-writing-v26.spec.js:166:1 › movimento reduzido exibe todos os traços prontos sem lápis (7.5s)
+
+
+  1) tests/equipment-writing-v26.spec.js:119:5 › lápis proporcional e ponta acompanha traço real em 1440
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('.recruitment')
+    Expected: "complete"
+    Received: "writing"
+    Timeout:  30000ms
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 30000ms
+      - waiting for locator('.recruitment')
+        33 × locator resolved to <dialog open="" class="recruitment" data-state="writing" aria-labelledby="recruitmentTitle">…</dialog>
+           - unexpected value "writing"
+
+
+       8 | test('busca avisa a categoria antes de adicionar e quantidade mostra excesso real',async({page})=>{await open(page);await page.locator('[data-search]').fill('fuzil de assalto');await expect(page.locator('.item-availability')).toContainText('Categoria II indisponível para Recruta');await page.locator('[data-search]').fill('pistola');for(let i=0;i<3;i++)await page.getByRole('button',{name:'Adicionar Pistola',exact:true}).click();await expect(page.locator('[data-category="1"]')).toHaveAttribute('data-exceeded','true');await expect(page.locator('.selected-item .item-conflict')).toContainText('Retire 1 unidade');await page.getByRole('button',{name:'Retirar Pistola',exact:true}).click();await expect(page.locator('.selected-item')).toHaveAttribute('data-conflict','false');await expect(page.locator('.equipment-warning-summary')).toHaveCount(0);});
+       9 | for(const viewport of[{width:1440,height:1000},{width:390,height:844}])test(`lápis proporcional e ponta acompanha traço real em ${viewport.width}`,async({page})=>{test.setTimeout(55000);await page.setViewportSize(viewport);await open(page,{step:'review',motion:'no-preference',name:'Márcia Ávila'});await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','writing');await expect.poll(()=>page.evaluate(()=>{const p=document.querySelector('.recruitment-pen');return p?.dataset.contact==='true'&&!![...document.querySelectorAll('.handwriting-glyph mask path')].find(s=>{const n=parseFloat(getComputedStyle(s).strokeDashoffset);return n>0.1&&n<.9})})).toBe(true);
+    > 10 |  const sample=await page.evaluate(()=>{const p=document.querySelector('.recruitment-pen'),paper=document.querySelector('.recruitment-paper'),stroke=[...document.querySelectorAll('.handwriting-glyph mask path')].find(s=>{const n=parseFloat(getComputedStyle(s).strokeDashoffset);return n>0&&n<1}),ratio=parseFloat(getComputedStyle(p).height)/paper.getBoundingClientRect().width,point=stroke.getPointAtLength(stroke.getTotalLength()*(1-parseFloat(getComputedStyle(stroke).strokeDashoffset))).matrixTransform(stroke.getScreenCTM()),tip=new DOMPoint(10,239).matrixTransform(p.getScreenCTM());return{ratio,error:Math.hypot(point.x-tip.x,point.y-tip.y),penTransform:p.style.transform,visible:document.querySelectorAll('.handwriting-outline').length}});expect(sample.ratio).toBeCloseTo(.35,3);expect(sample.error).toBeLessThan(4);expect(sample.visible).toBeGreaterThan(25);await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete',{timeout:30000});await expect(page.locator('.recruitment-ink').first()).toHaveAttribute('aria-label','Márcia Ávila');await expect(page.locator('.recruitment-pen')).toBeHidden();await page.locator('.recruitment-view').click();await expect(page.locator('.local-sheet h1')).toHaveText('Márcia Ávila');});
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^
+      11 | test('movimento reduzido exibe todos os traços prontos sem lápis',async({page})=>{await open(page,{step:'review'});await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete');expect(await page.locator('.handwriting-outline[mask]').count()).toBe(0);await expect(page.locator('.recruitment-pen')).toBeHidden();});
+      12 |
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/equipment-writing-v26.spec.js:10:909
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/equipment-writing-v26-lápi-fc4de-companha-traço-real-em-1440/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/equipment-writing-v26-lápi-fc4de-companha-traço-real-em-1440/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/equipment-writing-v26-lápi-fc4de-companha-traço-real-em-1440/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/equipment-writing-v26-lápi-fc4de-companha-traço-real-em-1440/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/equipment-writing-v26.spec.js:119:5 › lápis proporcional e ponta acompanha traço real em 390
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('.recruitment')
+    Expected: "complete"
+    Received: "writing"
+    Timeout:  30000ms
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 30000ms
+      - waiting for locator('.recruitment')
+        33 × locator resolved to <dialog open="" class="recruitment" data-state="writing" aria-labelledby="recruitmentTitle">…</dialog>
+           - unexpected value "writing"
+
+
+       8 | test('busca avisa a categoria antes de adicionar e quantidade mostra excesso real',async({page})=>{await open(page);await page.locator('[data-search]').fill('fuzil de assalto');await expect(page.locator('.item-availability')).toContainText('Categoria II indisponível para Recruta');await page.locator('[data-search]').fill('pistola');for(let i=0;i<3;i++)await page.getByRole('button',{name:'Adicionar Pistola',exact:true}).click();await expect(page.locator('[data-category="1"]')).toHaveAttribute('data-exceeded','true');await expect(page.locator('.selected-item .item-conflict')).toContainText('Retire 1 unidade');await page.getByRole('button',{name:'Retirar Pistola',exact:true}).click();await expect(page.locator('.selected-item')).toHaveAttribute('data-conflict','false');await expect(page.locator('.equipment-warning-summary')).toHaveCount(0);});
+       9 | for(const viewport of[{width:1440,height:1000},{width:390,height:844}])test(`lápis proporcional e ponta acompanha traço real em ${viewport.width}`,async({page})=>{test.setTimeout(55000);await page.setViewportSize(viewport);await open(page,{step:'review',motion:'no-preference',name:'Márcia Ávila'});await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','writing');await expect.poll(()=>page.evaluate(()=>{const p=document.querySelector('.recruitment-pen');return p?.dataset.contact==='true'&&!![...document.querySelectorAll('.handwriting-glyph mask path')].find(s=>{const n=parseFloat(getComputedStyle(s).strokeDashoffset);return n>0.1&&n<.9})})).toBe(true);
+    > 10 |  const sample=await page.evaluate(()=>{const p=document.querySelector('.recruitment-pen'),paper=document.querySelector('.recruitment-paper'),stroke=[...document.querySelectorAll('.handwriting-glyph mask path')].find(s=>{const n=parseFloat(getComputedStyle(s).strokeDashoffset);return n>0&&n<1}),ratio=parseFloat(getComputedStyle(p).height)/paper.getBoundingClientRect().width,point=stroke.getPointAtLength(stroke.getTotalLength()*(1-parseFloat(getComputedStyle(stroke).strokeDashoffset))).matrixTransform(stroke.getScreenCTM()),tip=new DOMPoint(10,239).matrixTransform(p.getScreenCTM());return{ratio,error:Math.hypot(point.x-tip.x,point.y-tip.y),penTransform:p.style.transform,visible:document.querySelectorAll('.handwriting-outline').length}});expect(sample.ratio).toBeCloseTo(.35,3);expect(sample.error).toBeLessThan(4);expect(sample.visible).toBeGreaterThan(25);await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete',{timeout:30000});await expect(page.locator('.recruitment-ink').first()).toHaveAttribute('aria-label','Márcia Ávila');await expect(page.locator('.recruitment-pen')).toBeHidden();await page.locator('.recruitment-view').click();await expect(page.locator('.local-sheet h1')).toHaveText('Márcia Ávila');});
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^
+      11 | test('movimento reduzido exibe todos os traços prontos sem lápis',async({page})=>{await open(page,{step:'review'});await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete');expect(await page.locator('.handwriting-outline[mask]').count()).toBe(0);await expect(page.locator('.recruitment-pen')).toBeHidden();});
+      12 |
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/equipment-writing-v26.spec.js:10:909
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/equipment-writing-v26-lápi-fe7cd-acompanha-traço-real-em-390/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/equipment-writing-v26-lápi-fe7cd-acompanha-traço-real-em-390/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/equipment-writing-v26-lápi-fe7cd-acompanha-traço-real-em-390/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/equipment-writing-v26-lápi-fe7cd-acompanha-traço-real-em-390/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/equipment-writing-v26.spec.js:119:5 › lápis proporcional e ponta acompanha traço real em 1440
+    tests/equipment-writing-v26.spec.js:119:5 › lápis proporcional e ponta acompanha traço real em 390
+  6 passed (2.1m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

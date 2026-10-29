@@ -1,0 +1,37 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/maxwellito/vivus/master/readme.md",
+    "file": "vivus.md",
+    "status": 200,
+    "bytes": 20579,
+    "sha256": "753918b8dab29eab2a874e7440889d733a48d7c24b1295bbac6609aa5f93ec45"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/szimek/signature_pad/master/README.md",
+    "file": "signature-pad.md",
+    "status": 200,
+    "bytes": 10785,
+    "sha256": "c273fff9c3bfbdd14e46e3e02a7fc4c26546433c09a18bba4c8ce7941053482c"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/alphagov/govuk-frontend/main/packages/govuk-frontend/src/govuk/components/error-summary/README.md",
+    "file": "govuk-error-summary.md",
+    "status": 200,
+    "bytes": 632,
+    "sha256": "3dba02508ba0a9603aa8991798470096a3909d4c5ce85a8d3af28778f40402c5"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/caveat/Caveat%5Bwght%5D.ttf",
+    "file": "caveat.ttf",
+    "status": 200,
+    "bytes": 403648,
+    "sha256": "0bdb6b660482d31531b3945849fba5916b3ef8695da7024a9e6b9ee3c4157988"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/caveat/OFL.txt",
+    "file": "Caveat-OFL.txt",
+    "status": 200,
+    "bytes": 4385,
+    "sha256": "1f9d81d094273d82f3898a1ee8b598a717d050ecbf5ff7bede105b704880157b"
+  }
+]

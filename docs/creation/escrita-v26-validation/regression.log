@@ -1,0 +1,44 @@
+
+Running 30 tests using 1 worker
+
+(node:209482) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:209482) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/creation-journey.spec.js:43:65 › criação completa COMBATENTE: decisões, volta, JSON e retomada local (28.5s)
+  ✓   2 tests/creation-journey.spec.js:43:65 › criação completa ESPECIALISTA: decisões, volta, JSON e retomada local (28.2s)
+  ✓   3 tests/creation-journey.spec.js:43:65 › criação completa OCULTISTA: decisões, volta, JSON e retomada local (27.2s)
+  ✓   4 tests/creation-journey.spec.js:135:5 › decisões no papel cabem em 390×844 (6.0s)
+  ✓   5 tests/creation-journey.spec.js:135:5 › decisões no papel cabem em 320×568 (4.1s)
+  ✓   6 tests/creation-journey.spec.js:135:5 › decisões no papel cabem em 568×320 (4.5s)
+  ✓   7 tests/creation-journey.spec.js:148:1 › quota recusada não anuncia personagem criado (4.4s)
+  ✓   8 tests/creation-journey.spec.js:162:1 › retomar Prodígio não prende atributos antes de escolher os limites etários (12.5s)
+  ✓   9 tests/creation-journey.spec.js:191:1 › Profissão e subescolha de Engenheiro permanecem sincronizadas, sem conceder item (6.9s)
+  ✓  10 tests/quality-diagnostic.spec.js:2:44 › diagnóstico espera a nova amostra, atualiza e pode ser copiado: / (22.6s)
+  ✓  11 tests/quality-diagnostic.spec.js:2:44 › diagnóstico espera a nova amostra, atualiza e pode ser copiado: /criacao.html (15.1s)
+  ✓  12 tests/recruitment-v25.spec.js:44:65 › Criar COMBATENTE registra, carimba e abre uma ficha persistente (10.8s)
+  ✓  13 tests/recruitment-v25.spec.js:44:65 › Criar ESPECIALISTA registra, carimba e abre uma ficha persistente (5.3s)
+  ✓  14 tests/recruitment-v25.spec.js:44:65 › Criar OCULTISTA registra, carimba e abre uma ficha persistente (5.0s)
+  ✓  15 tests/recruitment-v25.spec.js:104:1 › recrutamento normal cola foto, escreve com caneta e carimba na ordem (30.3s)
+  ✓  16 tests/recruitment-v25.spec.js:135:1 › recarregar durante escrita não duplica personagem (8.2s)
+  ✓  17 tests/recruitment-v25.spec.js:148:1 › armazenamento negado preserva escolhas e não exibe recrutamento (3.9s)
+  ✓  18 tests/recruitment-v25.spec.js:162:1 › desvantagens têm escolha única clara para Adulto e limite explícito para Maduro (7.5s)
+  ✓  19 tests/recruitment-v25.spec.js:186:1 › perícias explicam uso e busca por finalidade; todos os itens visíveis têm ícone (5.7s)
+  ✓  20 tests/recruitment-v25.spec.js:203:1 › comparar direto na lista mostra as duas origens e permite escolher no quadro (6.9s)
+  ✓  21 tests/recruitment-v25.spec.js:228:5 › recrutamento acessível em 390x844 (4.1s)
+  ✓  22 tests/recruitment-v25.spec.js:228:5 › recrutamento acessível em 320x568 (3.4s)
+  ✓  23 tests/recruitment-v25.spec.js:228:5 › recrutamento acessível em 568x320 (3.4s)
+  ✓  24 tests/recruitment-v25.spec.js:240:1 › concluir animação mostra o registro salvo sem criar uma segunda ficha (7.7s)
+  ✓  25 tests/recruitment-v25.spec.js:253:1 › rolagem automática avança gradualmente e respeita interrupção do usuário (16.7s)
+  ✓  26 tests/recruitment-v25.spec.js:290:5 › comparação, idade e itens sem overflow em 390x844 (6.2s)
+  ✓  27 tests/recruitment-v25.spec.js:290:5 › comparação, idade e itens sem overflow em 320x568 (6.0s)
+  ✓  28 tests/recruitment-v25.spec.js:290:5 › comparação, idade e itens sem overflow em 568x320 (5.1s)
+  ✓  29 tests/recruitment-v25.spec.js:313:1 › ficha local em carregamento não mostra a identidade de demonstração (716ms)
+  ✓  30 tests/recruitment-v25.spec.js:348:1 › arquivo com sete personagens mantém todos acessíveis em páginas de estrelas (10.3s)
+
+  30 passed (5.2m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
