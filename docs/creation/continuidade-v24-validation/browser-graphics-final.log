@@ -1,0 +1,454 @@
+
+Running 10 tests using 1 worker
+
+(node:183410) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:183410) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/10] tests/quality-control.spec.js:2:60 › qualidade muda ao vivo e persiste: /?stars=0
+[2/10] tests/quality-control.spec.js:2:60 › qualidade muda ao vivo e persiste: /criacao.html?stars=0
+[3/10] tests/quality-control.spec.js:64:1 › controle móvel de qualidade não cobre voltar e funciona por toque
+[4/10] tests/quality-control.spec.js:97:1 › ajuste de qualidade sai da interação durante a seleção e a viagem
+[5/10] tests/scene-continuity-v24.spec.js:3:1 › brilho tem halo real, mantém atlas único e atmosfera aparece na identidade
+[6/10] tests/scene-continuity-v24.spec.js:43:1 › introdução pode ser pulada e não repete na mesma aba
+[7/10] tests/scene-continuity-v24.spec.js:61:1 › orientação de software oferece endereços e alternativa à cópia bloqueada
+[8/10] tests/scene-continuity-v24.spec.js:90:1 › shader das mãos aumenta opacidade até a borda sem mudar cobertura
+[9/10] tests/scene-continuity-v24.spec.js:133:1 › nome Brave oculto fica desconhecido e oferece o endereço correto
+[10/10] tests/scene-continuity-v24.spec.js:160:1 › software detectado oferece orientação dispensável no Observatório
+  10 passed (1.1m)
+{
+  "config": {
+    "configFile": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/playwright.local.config.js",
+    "rootDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "line"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.js"
+        ],
+        "timeout": 25000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run preview",
+      "url": "http://127.0.0.1:4173/",
+      "reuseExistingServer": true,
+      "timeout": 30000
+    }
+  },
+  "suites": [
+    {
+      "title": "quality-control.spec.js",
+      "file": "quality-control.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "qualidade muda ao vivo e persiste: /?stars=0",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 15119,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:53:44.727Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8cdad88e6c11d3cd3ff3-ea8948aa0f88239885fa",
+          "file": "quality-control.spec.js",
+          "line": 2,
+          "column": 60
+        },
+        {
+          "title": "qualidade muda ao vivo e persiste: /criacao.html?stars=0",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12592,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:54:00.252Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8cdad88e6c11d3cd3ff3-88f019c1d76cabae479b",
+          "file": "quality-control.spec.js",
+          "line": 2,
+          "column": 60
+        },
+        {
+          "title": "controle móvel de qualidade não cobre voltar e funciona por toque",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3879,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:54:12.872Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8cdad88e6c11d3cd3ff3-9b86d444c683ad23a44d",
+          "file": "quality-control.spec.js",
+          "line": 64,
+          "column": 1
+        },
+        {
+          "title": "ajuste de qualidade sai da interação durante a seleção e a viagem",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8498,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:54:16.768Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8cdad88e6c11d3cd3ff3-264d8226775d6feb0891",
+          "file": "quality-control.spec.js",
+          "line": 97,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "scene-continuity-v24.spec.js",
+      "file": "scene-continuity-v24.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "brilho tem halo real, mantém atlas único e atmosfera aparece na identidade",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4150,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:54:25.315Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "52ac9a6303095b41aa4c-71e07f2ab16d91eb0b6e",
+          "file": "scene-continuity-v24.spec.js",
+          "line": 3,
+          "column": 1
+        },
+        {
+          "title": "introdução pode ser pulada e não repete na mesma aba",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5478,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:54:29.481Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "52ac9a6303095b41aa4c-53ce51fb9ab8829fff32",
+          "file": "scene-continuity-v24.spec.js",
+          "line": 43,
+          "column": 1
+        },
+        {
+          "title": "orientação de software oferece endereços e alternativa à cópia bloqueada",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3571,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:54:34.985Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "52ac9a6303095b41aa4c-59ec0b48b207e4c36c0f",
+          "file": "scene-continuity-v24.spec.js",
+          "line": 61,
+          "column": 1
+        },
+        {
+          "title": "shader das mãos aumenta opacidade até a borda sem mudar cobertura",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 268,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:54:38.616Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "52ac9a6303095b41aa4c-7e20447951263cbab966",
+          "file": "scene-continuity-v24.spec.js",
+          "line": 90,
+          "column": 1
+        },
+        {
+          "title": "nome Brave oculto fica desconhecido e oferece o endereço correto",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3757,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:54:38.907Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "52ac9a6303095b41aa4c-c30177b4e8d2cd6aee74",
+          "file": "scene-continuity-v24.spec.js",
+          "line": 133,
+          "column": 1
+        },
+        {
+          "title": "software detectado oferece orientação dispensável no Observatório",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5578,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:54:42.674Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "52ac9a6303095b41aa4c-ef25d55175b534fe9fd6",
+          "file": "scene-continuity-v24.spec.js",
+          "line": 160,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-29T11:53:43.889Z",
+    "duration": 64478.024,
+    "expected": 10,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

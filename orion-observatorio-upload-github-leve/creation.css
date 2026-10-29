@@ -98,3 +98,4 @@ body[data-page="creation"]{overflow:clip}
 .herald-creation .baby-target:focus-visible{outline:none}
 .baby-target:focus-visible .interaction-cue{text-decoration:underline;text-underline-offset:4px}
 @media(prefers-reduced-motion:reduce){.child-choice>span::after{transition:none}}
+.creation-resume{position:absolute;bottom:max(22px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);color:#d8c18e!important;min-height:38px;text-align:center;font:13px/1.6 Georgia,serif!important;white-space:nowrap}.herald-creation:not([data-phase="sealed"]) .creation-resume{display:none}

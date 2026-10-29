@@ -1,4 +1,5 @@
 import './origin-workshop.css';
+import{createPaperMotion,landWorkshop}from './paper-motion.js';
 import {ORIGINS,SKILLS} from './origin-catalog.js';
 import {INTERESTS,findOrigins,skillLabel,storyFor} from './origin-discovery.js';
 import {CREATION_DRAFT_KEY} from './creation-state.js';
@@ -20,14 +21,14 @@ export function prepareOriginWorkshop(){
 }
 
 // One local paper view. It neither imports nor calls the rules engine/Worker.
-export function openOriginWorkshop(draft,{onReturn=()=>{},onChoose=()=>{},reducedMotion=false}={}){
+export function openOriginWorkshop(draft,{onReturn=()=>{},onChoose=()=>{},reducedMotion=false,resume=false}={}){
  if(opening)return opening;
  const previous=document.activeElement,stage=document.createElement('section');
  const state={query:'',interest:'',source:'',skill:'',selected:null,compared:[],confirmed:null};
- let classChoice=classByCode(draft.classCode)?.code??null,classView=null;
+ let classChoice=classByCode(draft.classCode)?.code??null,classView=null,journeyView=null;
  stage.className='paper-workshop';stage.setAttribute('aria-label','Ficha de criação: origem');
  stage.dataset.phase='preparing';
- stage.innerHTML=`<div class="workshop-mist" aria-hidden="true"></div><p class="paper-preparing" role="status">Materializando sua história…</p>
+ stage.innerHTML=`<div class="workshop-mist" aria-hidden="true"></div><svg class="workshop-binding" viewBox="0 0 400 400" aria-hidden="true"><defs><path id="workshopBindingPath" d="M200 35a165 165 0 1 1-.1 0"/></defs><text><textPath href="#workshopBindingPath">Acorrentado pela realidade   Acorrentado pela realidade</textPath></text></svg><p class="paper-preparing" role="status">Materializando sua história…</p>
   <div class="workshop-planks" aria-hidden="true">${Array.from({length:6},(_,i)=>`<div class="workshop-plank" style="--plank:${i};--grain:${i*19}%"></div>`).join('')}</div>
   <div class="paper-scroll"><div class="paper-landing"><article class="physical-sheet" aria-labelledby="paperTitle" aria-busy="true">
    <div class="paper-content" inert>
@@ -48,28 +49,37 @@ export function openOriginWorkshop(draft,{onReturn=()=>{},onChoose=()=>{},reduce
     <div class="origin-library"><section class="origin-index" aria-labelledby="originCount"><div class="index-heading"><h2 id="originCount" tabindex="-1"></h2></div><ol id="originResults"></ol><p class="origin-empty" hidden>Nenhuma origem com esses filtros. Tente outra palavra ou limpe os filtros.</p></section>
      <section class="origin-detail" id="originDetail" aria-labelledby="originDetailTitle"><div class="detail-placeholder"><span class="ink-star" aria-hidden="true">✧</span><h2 id="originDetailTitle">Seu passado começa aqui.</h2><small>Abra uma origem para ver um exemplo.</small></div></section></div>
     <footer class="paper-footer"><div><button class="open-comparison ink-link" type="button" disabled>Comparar origens (0/2)</button><p class="paper-status" role="status" aria-live="polite">Abra uma origem para começar.</p><button type="button" class="origin-next ink-primary" hidden>Continuar para classe <span aria-hidden="true">→</span></button><small class="origin-next-hint" hidden>Confirme a origem aberta para continuar.</small></div><span class="paper-page">ÓRION / 02</span></footer>
-    </section><section class="class-chapter" aria-label="Escolha da classe" hidden></section>
+    </section><section class="class-chapter" aria-label="Escolha da classe" hidden></section><section class="creation-journey" aria-label="Continuar criação do arauto" hidden></section>
    </div>
   </article></div></div>
   <dialog class="origin-comparison" aria-labelledby="compareTitle"><header><div><small>Duas possibilidades para sua história</small><h2 id="compareTitle">Lado a lado</h2></div><button type="button" class="close-comparison ink-link" aria-label="Fechar comparação">×</button></header><div class="comparison-content"></div></dialog>`;
- document.body.append(stage);document.documentElement.dataset.paperActive='1';
+ document.body.append(stage);document.documentElement.dataset.paperTransition='1';
  stage.querySelector('.paper-name').textContent=draft.name;
  const $=s=>stage.querySelector(s),status=$('.paper-status'),results=$('#originResults'),detail=$('#originDetail');
  const content=$('.paper-content'),sheet=$('.physical-sheet'),dialog=$('dialog');
  const emptyDetail=detail.innerHTML;
- let closed=false;
+ let closed=false,originScroll=0;
+ const motion=createPaperMotion(stage,{reducedMotion});
+ function notify(value){draft={...value};onChoose(value);}
  function announce(text){status.textContent=text;}
  function updateClassLink(){const b=$('.origin-next'),pending=Boolean(state.selected&&state.selected!==state.confirmed);b.hidden=!state.confirmed;b.disabled=pending;$('.origin-next-hint').hidden=!state.confirmed||!pending;b.firstChild.textContent=classChoice?'Rever classe ':'Continuar para classe ';}
- function showOrigins(){classView?.dispose();classView=null;$('.class-chapter').hidden=true;$('.origin-chapter-content').hidden=false;stage.dataset.chapter='origin';stage.setAttribute('aria-label','Ficha de criação: origem');sheet.setAttribute('aria-labelledby','paperTitle');$('.paper-return').textContent='← Voltar à identidade';updateClassLink();$('.origin-next').focus();}
- function showClasses(){
-  if(!state.confirmed||$('.origin-next').disabled)return;
-  const origin=ORIGINS.find(o=>o.code===state.confirmed);$('.origin-chapter-content').hidden=true;$('.class-chapter').hidden=false;stage.dataset.chapter='class';stage.setAttribute('aria-label','Ficha de criação: classe');sheet.setAttribute('aria-labelledby','classPaperTitle');$('.paper-return').textContent='← Voltar às origens';
-  classView=mountClassCarousel($('.class-chapter'),{name:draft.name,originLabel:origin.label,classCode:classChoice,reducedMotion,onBack:showOrigins,onConfirm(code){
+ function originsCommit(){journeyView?.save();journeyView?.dispose();journeyView=null;classView?.dispose();classView=null;$('.class-chapter').hidden=true;$('.creation-journey').hidden=true;$('.origin-chapter-content').hidden=false;stage.dataset.chapter='origin';stage.setAttribute('aria-label','Ficha de criação: origem');sheet.setAttribute('aria-labelledby','paperTitle');$('.paper-return').textContent='← Voltar à identidade';updateClassLink();$('.paper-scroll').scrollTop=originScroll;}
+ function showOrigins(){if(closed||motion.busy)return;return motion.turn(originsCommit,{backward:true,focus:()=>$('.origin-next')});}
+ function classesCommit(){
+  journeyView?.save();journeyView?.dispose();journeyView=null;classView?.dispose();
+  const origin=ORIGINS.find(o=>o.code===state.confirmed);$('.origin-chapter-content').hidden=true;$('.creation-journey').hidden=true;$('.class-chapter').hidden=false;stage.dataset.chapter='class';stage.setAttribute('aria-label','Ficha de criação: classe');sheet.setAttribute('aria-labelledby','classPaperTitle');$('.paper-return').textContent='← Voltar às origens';
+  classView=mountClassCarousel($('.class-chapter'),{name:draft.name,originLabel:origin.label,classCode:classChoice,reducedMotion,onBack:showOrigins,onContinue:()=>showJourney(),onConfirm(code){
    const value=nextClassDraft({...draft,origin:{code:origin.code,label:origin.label,source:origin.source}},code);if(!value)return false;
-   try{sessionStorage.setItem(CREATION_DRAFT_KEY,JSON.stringify(value));classChoice=code;onChoose(value);stage.dispatchEvent(new CustomEvent('orion:class-chosen',{detail:value,bubbles:true}));updateClassLink();return true;}catch{return false;}
-  }});
-  $('.paper-scroll').scrollTop=0;$('#classPaperTitle').focus({preventScroll:true});
+   try{sessionStorage.setItem(CREATION_DRAFT_KEY,JSON.stringify(value));classChoice=code;notify(value);stage.dispatchEvent(new CustomEvent('orion:class-chosen',{detail:value,bubbles:true}));updateClassLink();return true;}catch{return false;}
+  }});$('.paper-scroll').scrollTop=0;
  }
+ function showClasses(){if(closed||motion.busy||!state.confirmed||$('.origin-next').disabled)return;if(stage.dataset.chapter==='origin')originScroll=$('.paper-scroll').scrollTop;return motion.turn(classesCommit,{backward:stage.dataset.chapter==='journey',focus:()=>$('#classPaperTitle')});}
+ async function journeyCommit(){
+  const {mountCreationJourney}=await import('./creation-journey.js');if(closed)return;
+  classView?.dispose();classView=null;journeyView?.dispose();$('.class-chapter').hidden=true;$('.origin-chapter-content').hidden=true;$('.creation-journey').hidden=false;stage.dataset.chapter='journey';stage.setAttribute('aria-label','Ficha de criação: decisões do arauto');sheet.setAttribute('aria-labelledby','journeyTitle');$('.paper-return').textContent='← Rever classe';
+  journeyView=mountCreationJourney($('.creation-journey'),{draft,onSave:notify,onBack:showClasses,onOrigin:showOrigins,onTurn:(commit,options)=>motion.turn(commit,options),scroll:()=>$('.paper-scroll').scrollTop=0});$('.paper-scroll').scrollTop=0;
+ }
+ async function showJourney(){if(closed||motion.busy||!classChoice)return;try{await motion.turn(journeyCommit,{focus:()=>$('#journeyTitle')});}catch{const output=$('.class-status');if(output)output.textContent='Não foi possível abrir a próxima etapa. Suas escolhas foram preservadas; tente novamente.';}}
  function compareLabel(){const b=$('.open-comparison');b.textContent=`Comparar origens (${state.compared.length}/2)`;b.disabled=state.compared.length!==2;}
  function rowSelection(){for(const b of results.querySelectorAll('[data-origin]')){b.setAttribute('aria-pressed',String(b.dataset.origin===state.selected));b.querySelector('.origin-row-arrow').textContent=b.dataset.origin===state.selected?'✓':'→';}}
  function renderResults(){
@@ -88,7 +98,7 @@ export function openOriginWorkshop(draft,{onReturn=()=>{},onChoose=()=>{},reduce
   detail.innerHTML=`<div class="detail-overline"><button class="back-to-index ink-link" type="button">↑ Voltar à lista</button></div><div class="origin-heading"><div class="origin-portrait">${originIcon(o.code)}</div><h2 id="originDetailTitle" tabindex="-1">${escape(o.label)}</h2></div><section class="origin-example" aria-label="Exemplo de passado"><span>Por exemplo…</span><p>${escape(backgroundFor(o))}</p></section><dl class="origin-facts"><div><dt>Perícias</dt><dd><ul class="origin-skill-chips">${o.fixedSkills.map(s=>`<li>${escape(skillLabel(s))}</li>`).join('')}${o.variableSkillCount?`<li>+${o.variableSkillCount} à escolha</li>`:''}</ul></dd></div><div><dt>Habilidade</dt><dd>${escape(o.powerName)}</dd></div></dl>${o.professionRequired?'<p class="origin-choice-note">Exige uma especialidade de Profissão.</p>':''}<details class="origin-more"><summary>Ver contexto e fonte</summary><p class="origin-story">${escape(storyFor(o))}</p><p class="origin-book">${escape(o.source)}</p><small>O exemplo é só uma inspiração para sua história.</small></details><div class="origin-detail-actions"><button type="button" class="choose-origin ink-primary" ${state.confirmed===o.code?'disabled':''}>${state.confirmed===o.code?'✓ Origem escolhida':'Escolher esta origem'}<span aria-hidden="true">→</span></button><button type="button" class="compare-origin ink-link" aria-pressed="${state.compared.includes(o.code)}">${state.compared.includes(o.code)?'− Retirar da comparação':'+ Comparar esta origem'}</button></div>`;
   $('.choose-origin').addEventListener('click',()=>{
    const value={...draft,step:'origin',origin:{code:o.code,label:o.label,source:o.source},...(classChoice?{classCode:classChoice}:{})};
-   try{sessionStorage.setItem(CREATION_DRAFT_KEY,JSON.stringify(value));state.confirmed=o.code;$('.paper-chosen-name').textContent=o.label;renderDetail();prepareClassCarousel();announce(`${o.label} é a origem de ${draft.name}. Continue para escolher a classe.`);onChoose(value);stage.dispatchEvent(new CustomEvent('orion:origin-chosen',{detail:value,bubbles:true}));}
+   try{sessionStorage.setItem(CREATION_DRAFT_KEY,JSON.stringify(value));state.confirmed=o.code;$('.paper-chosen-name').textContent=o.label;renderDetail();prepareClassCarousel();announce(`${o.label} é a origem de ${draft.name}. Continue para escolher a classe.`);notify(value);stage.dispatchEvent(new CustomEvent('orion:origin-chosen',{detail:value,bubbles:true}));}
    catch{announce('Não foi possível guardar esta escolha. Você pode continuar explorando e tentar novamente.');}
   });
   $('.compare-origin').addEventListener('click',()=>{
@@ -118,24 +128,16 @@ export function openOriginWorkshop(draft,{onReturn=()=>{},onChoose=()=>{},reduce
  $('.comparison-content').addEventListener('click',e=>{const b=e.target.closest('[data-remove-compare]');if(!b)return;state.compared=state.compared.filter(c=>c!==b.dataset.removeCompare);compareLabel();renderDetail();dialog.close();announce('Origem retirada da comparação.');});
  $('.close-comparison').addEventListener('click',()=>dialog.close());
  bindPointerActivation($('.origin-next'),showClasses);
- bindPointerActivation($('.paper-return'),()=>{if(stage.dataset.chapter==='class'){showOrigins();return;}closed=true;classView?.dispose();stage.remove();delete document.documentElement.dataset.paperActive;delete document.documentElement.dataset.paperReady;opening=null;onReturn();previous?.focus({preventScroll:true});});
+ bindPointerActivation($('.paper-return'),async()=>{if(closed||motion.busy)return;if(stage.dataset.chapter==='class'){showOrigins();return;}if(stage.dataset.chapter==='journey'){showClasses();return;}closed=true;motion.dispose();classView?.dispose();journeyView?.save();journeyView?.dispose();stage.inert=true;delete document.documentElement.dataset.paperActive;document.documentElement.dataset.paperTransition='1';if(!reducedMotion){const animations=[$('.paper-landing').animate([{opacity:1,transform:'none'},{opacity:0,transform:'translateY(-70px) rotateX(6deg)'}],{duration:360,fill:'forwards'}),$('.workshop-planks').animate([{opacity:1},{opacity:0}],{duration:360,delay:120,fill:'forwards'})];await Promise.all(animations.map(a=>a.finished.catch(()=>{})));}stage.remove();delete document.documentElement.dataset.paperReady;delete document.documentElement.dataset.paperTransition;opening=null;onReturn();previous?.focus({preventScroll:true});});
  // Restoring a previously confirmed local origin never creates a new grant.
  if(draft.origin&&ORIGINS.some(o=>o.code===draft.origin.code)){state.selected=state.confirmed=draft.origin.code;$('.paper-chosen-name').textContent=ORIGINS.find(o=>o.code===state.selected).label;renderDetail();}
  renderResults();updateClassLink();stage.dataset.chapter='origin';
  opening=(async()=>{
   await prepareOriginWorkshop();if(closed)return;
-  stage.dataset.phase='landing';
   $('.paper-preparing').textContent='';
-  const planks=[...stage.querySelectorAll('.workshop-plank')];
-  if(!reducedMotion){
-   await Promise.all(planks.map((plank,i)=>plank.animate([{transform:`translate3d(${i%2?3:-3}%, -115vh, 180px) rotateX(28deg) rotateZ(${i%2?3:-3}deg)`,opacity:.3},{transform:'translate3d(0, 3px, 0) rotateX(0) rotateZ(0)',opacity:1,offset:.86},{transform:'none',opacity:1}],{duration:650,delay:i*95,easing:'cubic-bezier(.24,.66,.32,1)',fill:'both'}).finished));
-  }
-  if(closed)return;
-  stage.dataset.phase='paper';
-  const leaf=$('.paper-landing');
-  await leaf.animate(reducedMotion?[{opacity:0},{opacity:1}]:[{transform:'translate3d(0,-105vh,120px) rotateX(14deg) rotateZ(-6deg) scale(1.04)',opacity:0},{opacity:1,offset:.13},{transform:'translate3d(0,5px,0) rotateX(0) rotateZ(.35deg)',opacity:1,offset:.87},{transform:'none',opacity:1}],{duration:reducedMotion?120:860,easing:'cubic-bezier(.22,.68,.30,1)',fill:'both'}).finished;
-  if(closed)return;
-  stage.dataset.phase='ready';content.inert=false;sheet.setAttribute('aria-busy','false');document.documentElement.dataset.paperReady='1';$('#paperTitle').focus({preventScroll:true});
- })().catch(error=>{stage.remove();opening=null;delete document.documentElement.dataset.paperActive;delete document.documentElement.dataset.paperReady;throw error;});
+  if(resume&&draft.character&&classChoice)await journeyCommit();
+  await landWorkshop(stage,{reducedMotion});if(closed)return;
+  stage.dataset.phase='ready';content.inert=false;sheet.setAttribute('aria-busy','false');document.documentElement.dataset.paperReady='1';delete document.documentElement.dataset.paperTransition;(stage.dataset.chapter==='journey'?$('#journeyTitle'):$('#paperTitle')).focus({preventScroll:true});
+ })().catch(error=>{stage.remove();opening=null;delete document.documentElement.dataset.paperActive;delete document.documentElement.dataset.paperReady;delete document.documentElement.dataset.paperTransition;motion.dispose();throw error;});
  return opening;
 }

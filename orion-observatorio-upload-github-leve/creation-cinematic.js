@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import {createBodyRig,bodyVertex} from './creation-body-rig.js';
 import {createCreationSigils,SIGIL_ORBITS} from './creation-sigils.js';
-import {sampleCreationRelease} from './creation-fracture.js';
+import {sampleCreationRelease,RELEASE_SECONDS} from './creation-fracture.js';
 
 export const CREATION_ART={nebula:'/assets/creation/gray-far-v9.png',nebulaPortrait:'/assets/creation/gray-far-v9.png',baby:'/assets/creation/unborn-v5.png',children:'/assets/creation/souls-v9.png'};
 export function creationNebulaURL(aspect=innerWidth/innerHeight){return aspect<.85?CREATION_ART.nebulaPortrait:CREATION_ART.nebula;}
@@ -63,7 +63,7 @@ export function createCreationArt({scene,camera,panel,reducedMotion=false,enviro
   mesh.material.uniforms.uTime.value=reducedMotion?0:time;
  }
  const atlasUV={baby:[.1494140625,.17578125,.69140625,.6966145833],menina:[.145833333,.072265625,.266927083,.8515625],menino:[.588541667,.072265625,.279947917,.8515625]};
- const bindings=createCreationSigils({reducedMotion});root.add(bindings.root);state.links=0;state.glyphs=bindings.count;
+ const bindings=createCreationSigils({reducedMotion});root.add(bindings.root,bindings.atmosphere);state.links=0;state.glyphs=bindings.count;
  const ready=Promise.all([bindings.ready,...['baby','children'].map(async name=>{const t=await loader.loadAsync(CREATION_ART[name]);t.colorSpace=THREE.SRGBColorSpace;t.minFilter=THREE.LinearMipmapLinearFilter;t.magFilter=THREE.LinearFilter;textures[name]=t;})]).then(()=>{
   for(const name of ['baby','menina','menino']){
    const m=material(textures[name==='baby'?'baby':'children'],{uv:atlasUV[name],motion:reducedMotion?0:1,flip:false});
@@ -115,6 +115,7 @@ export function createCreationArt({scene,camera,panel,reducedMotion=false,enviro
   const left=rayPoint(orbit.x+orbit.width/2-size/2,orbit.y+orbit.height/2,-44),right=rayPoint(orbit.x+orbit.width/2+size/2,orbit.y+orbit.height/2,-44);
   bindings.root.position.copy(center);bindings.root.quaternion.copy(q);bindings.root.scale.setScalar(left.distanceTo(right));
   bindings.update(active?release.fracture:0,active?release.charge:0,intro,time);
+  bindings.setAtmosphere(active?release.separation:0,time,innerWidth/innerHeight);
   state.bindingFracture=active?release.fracture:0;
   for(const name of ['menina','menino']){
    const mesh=meshes[name];mesh.visible=active;
@@ -127,6 +128,6 @@ export function createCreationArt({scene,camera,panel,reducedMotion=false,enviro
   if(active&&!reducedMotion){particles.visible=true;const center=bindings.root.position;particles.position.copy(center);particles.quaternion.copy(q);pm.uniforms.uTime.value=time;pm.uniforms.uElapsed.value=elapsed;pm.uniforms.uActive.value=release.particles;pm.uniforms.uExtent.value.set(bindings.root.scale.x,bindings.root.scale.y);}
   if(active&&release.complete&&resolveRelease){state.phase='identity';const done=resolveRelease;resolveRelease=null;done();}
  }
- function release(){if(start!==null)return Promise.resolve(false);state.phase='breaking';start=performance.now();return new Promise(resolve=>{resolveRelease=resolve});}
+ function release({immediate=false}={}){if(start!==null)return Promise.resolve(false);state.phase='breaking';start=performance.now()-(immediate?RELEASE_SECONDS*1000+1:0);return new Promise(resolve=>{resolveRelease=resolve});}
  return {ready,state,update,release,invalidateLayout,get meshes(){return meshes},rigs,bindings,hover(value){hovered=value},select(value){state.selected=value},point(value){aim=value},dispose(){layoutObserver.disconnect();panel.removeEventListener('scroll',invalidateLayout,true);window.removeEventListener('resize',invalidateLayout);scene.remove(root);bindings.dispose();for(const r of Object.values(rigs))r.dispose();pg.dispose();pm.dispose();for(const m of Object.values(meshes))m.material.dispose();for(const t of Object.values(textures))t.dispose();}};
 }

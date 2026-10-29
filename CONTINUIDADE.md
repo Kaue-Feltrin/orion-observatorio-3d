@@ -1,3 +1,11 @@
+## 29/10/2026 — V24: continuidade e criação completa como rascunho local
+
+- Usuário habilitou a aceleração gráfica no Brave e confirmou melhora. V24 orienta software conhecido, admite nome Brave oculto e oferece endereços internos para copiar, sem fingir controlar o navegador.
+- Halo dourado em atlas único; 48 vestígios compartilhados na névoa da identidade. Mãos preservam rig/arte/poses, com opacidade espacial crescente nas bordas. Introdução pulável, seis tábuas assentando e transições de capítulos na mesma folha.
+- Pedido do usuário estendeu o fluxo após classe: atributos, idade/vivência, perícias, habilidades/rituais, inventário, narrativa e conferência. 30 arquivos puros copiados exatamente do Fichas f80bba com proveniência; fonte protegida intacta. 24/66 origens verificadas mecanicamente; pendências preservadas. Saída draft local, sem ativação, conta, concessão ou D1; salvar/JSON/retomar funcionam.
+- Validação: 24 arquivos unitários, 69 casos Chrome distintos, 1.319 testes do checkout protegido e guardas locais Cloudflare; repetidas áreas afetadas pelos ajustes. Foram corrigidos bloqueio de retomada de Prodígio, referência na conferência e campo de cópia manual reduzido por CSS. Chrome SwiftShader não mede GTX 1660. Capturas desktop/mobile e vídeo reais; relatório `docs/creation/CONTINUIDADE-RESULTS-V24.md`.
+- ZIP V24 para upload manual; nenhuma chamada de deploy, migração remota, produção, merge ou nova PR. Startup visual acrescentado ao rascunho do ambiente; sem alegar publicação/restauração. Próxima etapa de produto: revisão visual do usuário e, em escopo próprio, futura integração autenticada/curadoria das regras pendentes.
+
 ## 28/10/2026 — V23: erro reproduzido na associação do FPS ao perfil
 
 - Reset mantinha média/contagem publicadas do perfil anterior. Corrigida invalidação em mudanças de configuração e atualização do diagnóstico aberto, com revisão/cena e idade da amostra. Nome genérico Brave não identifica GPU. 23 arquivos unitários, seis cenários Chrome e pacote desktop/mobile aprovados, com dois cenários repetidos após identificação da revisão. Relatório: `docs/creation/DIAGNOSTICO-RESULTS-V23.md`. Renderização V22 preservada; desempenho/renderer do PC ainda em análise. Sem deploy ou mudança no Fichas.

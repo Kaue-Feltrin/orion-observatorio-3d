@@ -1,3 +1,4 @@
+import{readSavedCreation}from './creation-save.js';
 import {newCreation,transitionCreation,canContinue,CREATION_DRAFT_KEY} from './creation-state.js';
 import {createCreationArt} from './creation-cinematic.js';
 import {observatoryURL} from './herald-catalog.js';
@@ -5,7 +6,7 @@ import {sampleStarSelection} from './star-selection.js';
 import {openOriginWorkshop,prepareOriginWorkshop} from './origin-workshop.js';
 
 export function createHeraldCreation(root,{hands,reducedMotion=false,scene,camera,environment}){
- let state=newCreation(),gestureStart=null,aim={x:0,y:0},storageWarning=false,originChoice=null,classChoice=null;
+ let state=newCreation(),gestureStart=null,aim={x:0,y:0},storageWarning=false,originChoice=null,classChoice=null,continuationData=null;
  const panel=document.createElement('section');
  panel.className='herald-creation';panel.setAttribute('aria-label','O nascimento do Marcado');
  panel.innerHTML=`
@@ -85,13 +86,26 @@ export function createHeraldCreation(root,{hands,reducedMotion=false,scene,camer
    e.preventDefault();
    if(!canContinue(state)||state.continued){if(!state.name.trim()){name.setCustomValidity('Dê um nome ao seu arauto.');name.reportValidity();name.setCustomValidity('');}return;}
    state=transitionCreation(state,{type:'continue'});sync();
-   const draft={version:1,name:state.name,gender:state.gender,step:'identity',...(originChoice?{origin:originChoice}:{}),...(classChoice?{classCode:classChoice}:{})};
+   const draft={...continuationData,version:1,name:state.name,gender:state.gender,step:'identity',...(originChoice?{origin:originChoice}:{}),...(classChoice?{classCode:classChoice}:{})};
    try{sessionStorage.setItem(CREATION_DRAFT_KEY,JSON.stringify(draft));}catch{storageWarning=true;}
    status.textContent=storageWarning?'Seu navegador não permitiu guardar o rascunho. Você ainda pode explorar as origens.':'Preparando sua ficha…';
    // Explicit local handoff only; no account, character, gameplay value or remote write is created.
    root.dispatchEvent(new CustomEvent('orion:creation-continue',{detail:draft,bubbles:true}));
-   root.inert=true;
-   openOriginWorkshop(draft,{reducedMotion,onChoose(value){originChoice=value.origin;classChoice=value.classCode??null;},onReturn(){root.inert=false;state={...state,continued:false};sync();status.textContent='Revise sua identidade e continue quando quiser.';}}).catch(()=>{root.inert=false;delete document.documentElement.dataset.paperActive;state={...state,continued:false};sync();status.textContent='Não foi possível abrir a ficha. Tente continuar novamente.';});
+   openPaper(draft);
  });
- sync();return {ready:art.ready,point,update,finishFrame(){const seen=new Set();hands.root?.traverse(obj=>{if(obj.isMesh&&obj.material&&!seen.has(obj.material)){seen.add(obj.material);obj.material.opacity*=.56;}});},get state(){return {...state};}};
+ function openPaper(draft,resume=false){
+  root.inert=true;
+  return openOriginWorkshop(draft,{reducedMotion,resume,onChoose(value){originChoice=value.origin;classChoice=value.classCode??null;if(value.character)continuationData={character:value.character,creationStep:value.creationStep,creationVisited:value.creationVisited};},onReturn(){root.inert=false;state={...state,continued:false};sync();status.textContent='Revise sua identidade e continue quando quiser.';}}).catch(()=>{root.inert=false;delete document.documentElement.dataset.paperActive;state={...state,continued:false};sync();status.textContent='Não foi possível abrir a ficha. Tente continuar novamente.';});
+ }
+ let saved=null,savedMode='session';
+ try{saved=readSavedCreation(sessionStorage,CREATION_DRAFT_KEY);if(!saved){saved=readSavedCreation(localStorage);savedMode='local';}}catch{}
+ if(saved){
+  if(new URLSearchParams(location.search).has('resume')){
+   state={phase:'identity',name:saved.name,gender:saved.gender,continued:true};originChoice=saved.origin;classChoice=saved.classCode;continuationData={character:saved.character,creationStep:saved.creationStep,creationVisited:saved.creationVisited};name.value=saved.name;form.hidden=false;being.hidden=true;mark.hidden=true;form.append(status);sync();art.select(saved.gender);
+   art.ready.then(()=>art.release({immediate:true})).then(()=>openPaper(saved,true)).catch(()=>{status.textContent='Não foi possível retomar a criação. O rascunho guardado não foi apagado.';root.inert=false;});
+  }else{
+   const link=document.createElement('a');link.className='creation-resume ink-link';link.href='criacao.html?stars=0&resume='+savedMode;link.textContent='Retomar criação anterior →';panel.append(link);
+  }
+ }
+ sync();return {ready:art.ready,point,update,finishFrame(){if(hands.state.mode==='mesh')return;const seen=new Set();hands.root?.traverse(obj=>{if(obj.isMesh&&obj.material&&!seen.has(obj.material)){seen.add(obj.material);obj.material.opacity*=.56;}});},get state(){return {...state};}};
 }

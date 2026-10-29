@@ -83,7 +83,11 @@ try{
   assert.equal(hands.state.triangles,11904,'contagem usa a geometria real');
   const levels=[...new Set(whole.geometry.attributes.uv.array.filter((_,i)=>i%2===1))].sort((a,b)=>a-b);
   for(let i=1;i<levels.length;i++)if(levels[i]>.39&&levels[i]<.84)assert.ok(levels[i]-levels[i-1]<.009,'amostras densas na região dos dedos');
-  assert.equal(whole.material.onBeforeCompile,THREE.Material.prototype.onBeforeCompile,'sem recorte no shader');
+  const shader={uniforms:{},fragmentShader:'#include <alphatest_fragment>'};
+  whole.material.onBeforeCompile(shader);
+  assert.ok(shader.uniforms.uHandViewport,'opacidade espacial acompanha o tamanho real do canvas');
+  assert.ok(shader.fragmentShader.includes('diffuseColor.a*=mix(1.,2.5,handPresence)'));
+  assert.ok(!shader.fragmentShader.includes('discard'),'a opacidade não recorta dedos ou palma');
   const visited=new Set([0]);hands.setStarHovered(true);
   for(let i=0;i<150;i++){
     hands.update(2,1/60);

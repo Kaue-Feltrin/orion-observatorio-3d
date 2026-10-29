@@ -1,0 +1,629 @@
+
+Running 15 tests using 1 worker
+
+(node:181469) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:181469) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/15] tests/creation-journey.spec.js:39:65 › criação completa COMBATENTE: decisões, volta, JSON e retomada local
+[2/15] tests/creation-journey.spec.js:39:65 › criação completa ESPECIALISTA: decisões, volta, JSON e retomada local
+[3/15] tests/creation-journey.spec.js:39:65 › criação completa OCULTISTA: decisões, volta, JSON e retomada local
+[4/15] tests/creation-journey.spec.js:122:5 › decisões no papel cabem em 390×844
+[5/15] tests/creation-journey.spec.js:122:5 › decisões no papel cabem em 320×568
+[6/15] tests/creation-journey.spec.js:122:5 › decisões no papel cabem em 568×320
+[7/15] tests/creation-journey.spec.js:135:1 › quota recusada e origem pendente não anunciam ficha ativada
+[8/15] tests/creation-journey.spec.js:162:1 › retomar Prodígio não prende atributos antes de escolher os limites etários
+[9/15] tests/creation-journey.spec.js:191:1 › Profissão e subescolha de Engenheiro permanecem sincronizadas, sem conceder item
+[10/15] tests/scene-continuity-v24.spec.js:3:1 › brilho tem halo real, mantém atlas único e atmosfera aparece na identidade
+[11/15] tests/scene-continuity-v24.spec.js:43:1 › introdução pode ser pulada e não repete na mesma aba
+[12/15] tests/scene-continuity-v24.spec.js:61:1 › orientação de software oferece endereços e alternativa à cópia bloqueada
+[13/15] tests/scene-continuity-v24.spec.js:89:1 › shader das mãos aumenta opacidade até a borda sem mudar cobertura
+[14/15] tests/scene-continuity-v24.spec.js:132:1 › nome Brave oculto fica desconhecido e oferece o endereço correto
+[15/15] tests/scene-continuity-v24.spec.js:159:1 › software detectado oferece orientação dispensável no Observatório
+  15 passed (2.1m)
+{
+  "config": {
+    "configFile": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/playwright.local.config.js",
+    "rootDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "line"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.js"
+        ],
+        "timeout": 25000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run preview",
+      "url": "http://127.0.0.1:4173/",
+      "reuseExistingServer": true,
+      "timeout": 30000
+    }
+  },
+  "suites": [
+    {
+      "title": "creation-journey.spec.js",
+      "file": "creation-journey.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "criação completa COMBATENTE: decisões, volta, JSON e retomada local",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 23885,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:45:41.422Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-b6b8ac79803c792892f5",
+          "file": "creation-journey.spec.js",
+          "line": 39,
+          "column": 65
+        },
+        {
+          "title": "criação completa ESPECIALISTA: decisões, volta, JSON e retomada local",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 24107,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:46:05.644Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-350e1a4fc819fa941021",
+          "file": "creation-journey.spec.js",
+          "line": 39,
+          "column": 65
+        },
+        {
+          "title": "criação completa OCULTISTA: decisões, volta, JSON e retomada local",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 22787,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:46:29.767Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-c4491cbcf2b99513e5e5",
+          "file": "creation-journey.spec.js",
+          "line": 39,
+          "column": 65
+        },
+        {
+          "title": "decisões no papel cabem em 390×844",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5463,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:46:52.582Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-9b45811209784e4e4fca",
+          "file": "creation-journey.spec.js",
+          "line": 122,
+          "column": 5
+        },
+        {
+          "title": "decisões no papel cabem em 320×568",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4291,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:46:58.073Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-19adf168dd281bc66cda",
+          "file": "creation-journey.spec.js",
+          "line": 122,
+          "column": 5
+        },
+        {
+          "title": "decisões no papel cabem em 568×320",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4029,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:02.382Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-3df63af73fd6b61cc2ae",
+          "file": "creation-journey.spec.js",
+          "line": 122,
+          "column": 5
+        },
+        {
+          "title": "quota recusada e origem pendente não anunciam ficha ativada",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4452,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:06.420Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-17d52e3e8b260cef9a8a",
+          "file": "creation-journey.spec.js",
+          "line": 135,
+          "column": 1
+        },
+        {
+          "title": "retomar Prodígio não prende atributos antes de escolher os limites etários",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10445,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:10.883Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-6a9677c084923fb2eabd",
+          "file": "creation-journey.spec.js",
+          "line": 162,
+          "column": 1
+        },
+        {
+          "title": "Profissão e subescolha de Engenheiro permanecem sincronizadas, sem conceder item",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6191,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:21.346Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-9523eaa7730445288965",
+          "file": "creation-journey.spec.js",
+          "line": 191,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "scene-continuity-v24.spec.js",
+      "file": "scene-continuity-v24.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "brilho tem halo real, mantém atlas único e atmosfera aparece na identidade",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3998,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:27.558Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "52ac9a6303095b41aa4c-71e07f2ab16d91eb0b6e",
+          "file": "scene-continuity-v24.spec.js",
+          "line": 3,
+          "column": 1
+        },
+        {
+          "title": "introdução pode ser pulada e não repete na mesma aba",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5437,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:31.576Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "52ac9a6303095b41aa4c-53ce51fb9ab8829fff32",
+          "file": "scene-continuity-v24.spec.js",
+          "line": 43,
+          "column": 1
+        },
+        {
+          "title": "orientação de software oferece endereços e alternativa à cópia bloqueada",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3294,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:37.029Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "52ac9a6303095b41aa4c-59ec0b48b207e4c36c0f",
+          "file": "scene-continuity-v24.spec.js",
+          "line": 61,
+          "column": 1
+        },
+        {
+          "title": "shader das mãos aumenta opacidade até a borda sem mudar cobertura",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 272,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:40.338Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "52ac9a6303095b41aa4c-7e20447951263cbab966",
+          "file": "scene-continuity-v24.spec.js",
+          "line": 89,
+          "column": 1
+        },
+        {
+          "title": "nome Brave oculto fica desconhecido e oferece o endereço correto",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3097,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:40.621Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "52ac9a6303095b41aa4c-c30177b4e8d2cd6aee74",
+          "file": "scene-continuity-v24.spec.js",
+          "line": 132,
+          "column": 1
+        },
+        {
+          "title": "software detectado oferece orientação dispensável no Observatório",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5405,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:43.727Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "52ac9a6303095b41aa4c-ef25d55175b534fe9fd6",
+          "file": "scene-continuity-v24.spec.js",
+          "line": 159,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-29T11:45:40.787Z",
+    "duration": 128567.14700000001,
+    "expected": 15,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

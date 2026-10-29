@@ -1,0 +1,985 @@
+
+Running 15 tests using 1 worker
+
+(node:180077) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:180077) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/15] tests/creation-journey.spec.js:39:65 › criação completa COMBATENTE: decisões, volta, JSON e retomada local
+  1) tests/creation-journey.spec.js:39:65 › criação completa COMBATENTE: decisões, volta, JSON e retomada local
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: locator('.draft-readiness')
+    Expected: "true"
+    Timeout: 12000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 12000ms
+      - waiting for locator('.draft-readiness')
+
+
+       8 | for(const code of ['COMBATENTE','ESPECIALISTA','OCULTISTA'])test(`criação completa ${code}: decisões, volta, JSON e retomada local`,async({page})=>{
+       9 |  test.setTimeout(60000);const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url())});await resume(page,code);await expect(page.locator('[data-journey-next]')).toBeDisabled();for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change="${k}"][data-delta="1"]`).click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','life');await page.locator('[data-field="age"]').fill('20');await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','skills');if(code==='COMBATENTE'){await page.locator('[data-field="combat:primary"]').selectOption('LUTA');await page.locator('[data-field="combat:resistance"]').selectOption('FORTITUDE');}
+    > 10 |  const count=code==='COMBATENTE'?3:code==='ESPECIALISTA'?9:5;for(let i=0;i<count;i++)await page.locator('[data-skill]:not(:disabled)[aria-pressed="false"]').first().click();await expect(page.locator('[data-journey-next]')).toBeEnabled();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','preparation');if(code==='ESPECIALISTA'){await page.locator('[data-expertise]').nth(0).click();await page.locator('[data-expertise]').nth(1).click();}if(code==='OCULTISTA'){await expect(page.locator('[data-journey-next]')).toBeDisabled();for(let i=0;i<3;i++)await page.locator('[data-ritual][aria-pressed="false"]').first().click();await expect(page.locator('[data-ritual][aria-pressed="false"]').first()).toBeDisabled();}await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','equipment');await page.locator('[data-search]').fill('lanterna');await page.locator('[data-item][data-delta="1"]:not(:disabled)').first().click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','background');const story='Investigava um farol abandonado. <script>alert(1)</script>';await page.locator('[data-field="story:background"]').fill(story);await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','true');expect(await page.locator('.review-ledger script').count()).toBe(0);await expect(page.locator('.review-ledger')).toContainText(story);await page.locator('[data-save-draft]').click();await expect(page.locator('.draft-save-feedback')).toContainText('guardado neste navegador');const downloadEvent=page.waitForEvent('download');await page.locator('[data-download-draft]').click();const dl=await downloadEvent,pack=JSON.parse(await readFile(await dl.path(),'utf8'));expect(pack.character.status).toBe('draft');expect(pack.validation.officiallyActivated).toBe(false);expect(pack.validation.ready).toBe(true);expect(pack.character.inventory_json).toHaveLength(1);
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^
+      11 |  await page.locator('[data-journey-go="0"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-attr-change="INT"][data-delta="-1"]').click();await page.locator('[data-attr-change="PRE"][data-delta="1"]').click();await page.locator('[data-journey-go="2"]').click();await expect(page.locator('[data-journey-next]')).toBeDisabled();await page.locator('[data-journey-go="6"]').click();await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','false');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-paper-ready','1');await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.review-ledger')).toContainText(story);expect(writes).toEqual([]);expect(errors).toEqual([]);
+      12 | });
+      13 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`decisões no papel cabem em ${viewport.width}×${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await resume(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change="${k}"][data-delta="1"]`).click();await next(page);await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-field="age"]').fill('20');await next(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);});
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js:10:1389
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/creation-journey-criação-c-afbd7-volta-JSON-e-retomada-local/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/creation-journey-criação-c-afbd7-volta-JSON-e-retomada-local/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/creation-journey-criação-c-afbd7-volta-JSON-e-retomada-local/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/creation-journey-criação-c-afbd7-volta-JSON-e-retomada-local/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:180238) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:180238) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[2/15] tests/creation-journey.spec.js:39:65 › criação completa ESPECIALISTA: decisões, volta, JSON e retomada local
+  2) tests/creation-journey.spec.js:39:65 › criação completa ESPECIALISTA: decisões, volta, JSON e retomada local
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: locator('.draft-readiness')
+    Expected: "true"
+    Timeout: 12000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 12000ms
+      - waiting for locator('.draft-readiness')
+
+
+       8 | for(const code of ['COMBATENTE','ESPECIALISTA','OCULTISTA'])test(`criação completa ${code}: decisões, volta, JSON e retomada local`,async({page})=>{
+       9 |  test.setTimeout(60000);const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url())});await resume(page,code);await expect(page.locator('[data-journey-next]')).toBeDisabled();for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change="${k}"][data-delta="1"]`).click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','life');await page.locator('[data-field="age"]').fill('20');await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','skills');if(code==='COMBATENTE'){await page.locator('[data-field="combat:primary"]').selectOption('LUTA');await page.locator('[data-field="combat:resistance"]').selectOption('FORTITUDE');}
+    > 10 |  const count=code==='COMBATENTE'?3:code==='ESPECIALISTA'?9:5;for(let i=0;i<count;i++)await page.locator('[data-skill]:not(:disabled)[aria-pressed="false"]').first().click();await expect(page.locator('[data-journey-next]')).toBeEnabled();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','preparation');if(code==='ESPECIALISTA'){await page.locator('[data-expertise]').nth(0).click();await page.locator('[data-expertise]').nth(1).click();}if(code==='OCULTISTA'){await expect(page.locator('[data-journey-next]')).toBeDisabled();for(let i=0;i<3;i++)await page.locator('[data-ritual][aria-pressed="false"]').first().click();await expect(page.locator('[data-ritual][aria-pressed="false"]').first()).toBeDisabled();}await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','equipment');await page.locator('[data-search]').fill('lanterna');await page.locator('[data-item][data-delta="1"]:not(:disabled)').first().click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','background');const story='Investigava um farol abandonado. <script>alert(1)</script>';await page.locator('[data-field="story:background"]').fill(story);await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','true');expect(await page.locator('.review-ledger script').count()).toBe(0);await expect(page.locator('.review-ledger')).toContainText(story);await page.locator('[data-save-draft]').click();await expect(page.locator('.draft-save-feedback')).toContainText('guardado neste navegador');const downloadEvent=page.waitForEvent('download');await page.locator('[data-download-draft]').click();const dl=await downloadEvent,pack=JSON.parse(await readFile(await dl.path(),'utf8'));expect(pack.character.status).toBe('draft');expect(pack.validation.officiallyActivated).toBe(false);expect(pack.validation.ready).toBe(true);expect(pack.character.inventory_json).toHaveLength(1);
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^
+      11 |  await page.locator('[data-journey-go="0"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-attr-change="INT"][data-delta="-1"]').click();await page.locator('[data-attr-change="PRE"][data-delta="1"]').click();await page.locator('[data-journey-go="2"]').click();await expect(page.locator('[data-journey-next]')).toBeDisabled();await page.locator('[data-journey-go="6"]').click();await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','false');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-paper-ready','1');await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.review-ledger')).toContainText(story);expect(writes).toEqual([]);expect(errors).toEqual([]);
+      12 | });
+      13 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`decisões no papel cabem em ${viewport.width}×${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await resume(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change="${k}"][data-delta="1"]`).click();await next(page);await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-field="age"]').fill('20');await next(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);});
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js:10:1389
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/creation-journey-criação-c-f0d41-volta-JSON-e-retomada-local/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/creation-journey-criação-c-f0d41-volta-JSON-e-retomada-local/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/creation-journey-criação-c-f0d41-volta-JSON-e-retomada-local/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/creation-journey-criação-c-f0d41-volta-JSON-e-retomada-local/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:180403) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:180403) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[3/15] tests/creation-journey.spec.js:39:65 › criação completa OCULTISTA: decisões, volta, JSON e retomada local
+  3) tests/creation-journey.spec.js:39:65 › criação completa OCULTISTA: decisões, volta, JSON e retomada local
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: locator('.draft-readiness')
+    Expected: "true"
+    Timeout: 12000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 12000ms
+      - waiting for locator('.draft-readiness')
+
+
+       8 | for(const code of ['COMBATENTE','ESPECIALISTA','OCULTISTA'])test(`criação completa ${code}: decisões, volta, JSON e retomada local`,async({page})=>{
+       9 |  test.setTimeout(60000);const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url())});await resume(page,code);await expect(page.locator('[data-journey-next]')).toBeDisabled();for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change="${k}"][data-delta="1"]`).click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','life');await page.locator('[data-field="age"]').fill('20');await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','skills');if(code==='COMBATENTE'){await page.locator('[data-field="combat:primary"]').selectOption('LUTA');await page.locator('[data-field="combat:resistance"]').selectOption('FORTITUDE');}
+    > 10 |  const count=code==='COMBATENTE'?3:code==='ESPECIALISTA'?9:5;for(let i=0;i<count;i++)await page.locator('[data-skill]:not(:disabled)[aria-pressed="false"]').first().click();await expect(page.locator('[data-journey-next]')).toBeEnabled();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','preparation');if(code==='ESPECIALISTA'){await page.locator('[data-expertise]').nth(0).click();await page.locator('[data-expertise]').nth(1).click();}if(code==='OCULTISTA'){await expect(page.locator('[data-journey-next]')).toBeDisabled();for(let i=0;i<3;i++)await page.locator('[data-ritual][aria-pressed="false"]').first().click();await expect(page.locator('[data-ritual][aria-pressed="false"]').first()).toBeDisabled();}await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','equipment');await page.locator('[data-search]').fill('lanterna');await page.locator('[data-item][data-delta="1"]:not(:disabled)').first().click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','background');const story='Investigava um farol abandonado. <script>alert(1)</script>';await page.locator('[data-field="story:background"]').fill(story);await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','true');expect(await page.locator('.review-ledger script').count()).toBe(0);await expect(page.locator('.review-ledger')).toContainText(story);await page.locator('[data-save-draft]').click();await expect(page.locator('.draft-save-feedback')).toContainText('guardado neste navegador');const downloadEvent=page.waitForEvent('download');await page.locator('[data-download-draft]').click();const dl=await downloadEvent,pack=JSON.parse(await readFile(await dl.path(),'utf8'));expect(pack.character.status).toBe('draft');expect(pack.validation.officiallyActivated).toBe(false);expect(pack.validation.ready).toBe(true);expect(pack.character.inventory_json).toHaveLength(1);
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^
+      11 |  await page.locator('[data-journey-go="0"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-attr-change="INT"][data-delta="-1"]').click();await page.locator('[data-attr-change="PRE"][data-delta="1"]').click();await page.locator('[data-journey-go="2"]').click();await expect(page.locator('[data-journey-next]')).toBeDisabled();await page.locator('[data-journey-go="6"]').click();await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','false');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-paper-ready','1');await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.review-ledger')).toContainText(story);expect(writes).toEqual([]);expect(errors).toEqual([]);
+      12 | });
+      13 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`decisões no papel cabem em ${viewport.width}×${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await resume(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change="${k}"][data-delta="1"]`).click();await next(page);await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-field="age"]').fill('20');await next(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);});
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js:10:1389
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/creation-journey-criação-c-c2592-volta-JSON-e-retomada-local/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/creation-journey-criação-c-c2592-volta-JSON-e-retomada-local/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/creation-journey-criação-c-c2592-volta-JSON-e-retomada-local/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/creation-journey-criação-c-c2592-volta-JSON-e-retomada-local/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:180668) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:180668) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[4/15] tests/creation-journey.spec.js:122:5 › decisões no papel cabem em 390×844
+[5/15] tests/creation-journey.spec.js:122:5 › decisões no papel cabem em 320×568
+[6/15] tests/creation-journey.spec.js:122:5 › decisões no papel cabem em 568×320
+[7/15] tests/creation-journey.spec.js:135:1 › quota recusada e origem pendente não anunciam ficha ativada
+  4) tests/creation-journey.spec.js:135:1 › quota recusada e origem pendente não anunciam ficha ativada
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('html')
+    Expected: "1"
+    Received: ""
+    Timeout:  12000ms
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 12000ms
+      - waiting for locator('html')
+        2 × locator resolved to <html lang="pt-BR" data-scene-ready="1" data-paper-transition="1">…</html>
+          - unexpected value "null"
+        2 × locator resolved to <html lang="pt-BR" data-scene-ready="1">…</html>
+          - unexpected value "null"
+        10 × locator resolved to <html lang="pt-BR" data-scene-ready="1" data-arrival-ready="1" data-presentation-ready="1">…</html>
+           - unexpected value "null"
+
+
+      4 | const base='http://127.0.0.1:4173';
+      5 | const seed={version:1,name:'Astra',gender:'nao-definir',origin:{code:'ACADEMICO',label:'Acadêmico',source:'Livro Base'},classCode:'COMBATENTE',character:{},creationStep:'attributes'};
+    > 6 | async function resume(page,code='COMBATENTE',step='attributes',character={},origin=seed.origin){await page.emulateMedia({reducedMotion:'reduce'});await page.addInitScript(d=>{if(!sessionStorage.getItem('orion-herald-creation-v1'))sessionStorage.setItem('orion-herald-creation-v1',JSON.stringify(d))},{...seed,classCode:code,creationStep:step,character,origin});await page.goto(base+'/criacao.html?stars=0&quality=eco&hands=off&resume=1&debug=1');await expect(page.locator('html')).toHaveAttribute('data-paper-ready','1');await expect(page.locator('.creation-journey')).toHaveAttribute('data-step',step);}
+        |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ^
+      7 | async function next(page){await page.locator('[data-journey-next]').click();await expect(page.locator('#journeyTitle')).toBeFocused();}
+      8 | for(const code of ['COMBATENTE','ESPECIALISTA','OCULTISTA'])test(`criação completa ${code}: decisões, volta, JSON e retomada local`,async({page})=>{
+      9 |  test.setTimeout(60000);const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url())});await resume(page,code);await expect(page.locator('[data-journey-next]')).toBeDisabled();for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change="${k}"][data-delta="1"]`).click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','life');await page.locator('[data-field="age"]').fill('20');await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','skills');if(code==='COMBATENTE'){await page.locator('[data-field="combat:primary"]').selectOption('LUTA');await page.locator('[data-field="combat:resistance"]').selectOption('FORTITUDE');}
+        at resume (/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js:6:482)
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js:14:246
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/creation-journey-quota-rec-13ed6--não-anunciam-ficha-ativada/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/creation-journey-quota-rec-13ed6--não-anunciam-ficha-ativada/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/creation-journey-quota-rec-13ed6--não-anunciam-ficha-ativada/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/creation-journey-quota-rec-13ed6--não-anunciam-ficha-ativada/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:180963) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:180963) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[8/15] tests/creation-journey.spec.js:162:1 › retomar Prodígio não prende atributos antes de escolher os limites etários
+[9/15] tests/creation-journey.spec.js:191:1 › Profissão e subescolha de Engenheiro permanecem sincronizadas, sem conceder item
+[10/15] tests/scene-continuity-v24.spec.js:3:1 › brilho tem halo real, mantém atlas único e atmosfera aparece na identidade
+[11/15] tests/scene-continuity-v24.spec.js:43:1 › introdução pode ser pulada e não repete na mesma aba
+[12/15] tests/scene-continuity-v24.spec.js:61:1 › orientação de software oferece endereços e alternativa à cópia bloqueada
+[13/15] tests/scene-continuity-v24.spec.js:89:1 › shader das mãos aumenta opacidade até a borda sem mudar cobertura
+[14/15] tests/scene-continuity-v24.spec.js:132:1 › nome Brave oculto fica desconhecido e oferece o endereço correto
+[15/15] tests/scene-continuity-v24.spec.js:159:1 › software detectado oferece orientação dispensável no Observatório
+  4 failed
+    tests/creation-journey.spec.js:39:65 › criação completa COMBATENTE: decisões, volta, JSON e retomada local
+    tests/creation-journey.spec.js:39:65 › criação completa ESPECIALISTA: decisões, volta, JSON e retomada local
+    tests/creation-journey.spec.js:39:65 › criação completa OCULTISTA: decisões, volta, JSON e retomada local
+    tests/creation-journey.spec.js:135:1 › quota recusada e origem pendente não anunciam ficha ativada
+  11 passed (2.8m)
+{
+  "config": {
+    "configFile": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/playwright.local.config.js",
+    "rootDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "line"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.js"
+        ],
+        "timeout": 25000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run preview",
+      "url": "http://127.0.0.1:4173/",
+      "reuseExistingServer": true,
+      "timeout": 30000
+    }
+  },
+  "suites": [
+    {
+      "title": "creation-journey.spec.js",
+      "file": "creation-journey.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "criação completa COMBATENTE: decisões, volta, JSON e retomada local",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 29481,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.draft-readiness')\nExpected: \u001b[32m\"true\"\u001b[39m\nTimeout: 12000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('.draft-readiness')\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.draft-readiness')\nExpected: \u001b[32m\"true\"\u001b[39m\nTimeout: 12000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('.draft-readiness')\u001b[22m\n\n    at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js:10:1389",
+                    "location": {
+                      "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js",
+                      "column": 1389,
+                      "line": 10
+                    },
+                    "snippet": "   8 | for(const code of ['COMBATENTE','ESPECIALISTA','OCULTISTA'])test(`criação completa ${code}: decisões, volta, JSON e retomada local`,async({page})=>{\n   9 |  test.setTimeout(60000);const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url())});await resume(page,code);await expect(page.locator('[data-journey-next]')).toBeDisabled();for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change=\"${k}\"][data-delta=\"1\"]`).click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','life');await page.locator('[data-field=\"age\"]').fill('20');await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','skills');if(code==='COMBATENTE'){await page.locator('[data-field=\"combat:primary\"]').selectOption('LUTA');await page.locator('[data-field=\"combat:resistance\"]').selectOption('FORTITUDE');}\n> 10 |  const count=code==='COMBATENTE'?3:code==='ESPECIALISTA'?9:5;for(let i=0;i<count;i++)await page.locator('[data-skill]:not(:disabled)[aria-pressed=\"false\"]').first().click();await expect(page.locator('[data-journey-next]')).toBeEnabled();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','preparation');if(code==='ESPECIALISTA'){await page.locator('[data-expertise]').nth(0).click();await page.locator('[data-expertise]').nth(1).click();}if(code==='OCULTISTA'){await expect(page.locator('[data-journey-next]')).toBeDisabled();for(let i=0;i<3;i++)await page.locator('[data-ritual][aria-pressed=\"false\"]').first().click();await expect(page.locator('[data-ritual][aria-pressed=\"false\"]').first()).toBeDisabled();}await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','equipment');await page.locator('[data-search]').fill('lanterna');await page.locator('[data-item][data-delta=\"1\"]:not(:disabled)').first().click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','background');const story='Investigava um farol abandonado. <script>alert(1)</script>';await page.locator('[data-field=\"story:background\"]').fill(story);await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','true');expect(await page.locator('.review-ledger script').count()).toBe(0);await expect(page.locator('.review-ledger')).toContainText(story);await page.locator('[data-save-draft]').click();await expect(page.locator('.draft-save-feedback')).toContainText('guardado neste navegador');const downloadEvent=page.waitForEvent('download');await page.locator('[data-download-draft]').click();const dl=await downloadEvent,pack=JSON.parse(await readFile(await dl.path(),'utf8'));expect(pack.character.status).toBe('draft');expect(pack.validation.officiallyActivated).toBe(false);expect(pack.validation.ready).toBe(true);expect(pack.character.inventory_json).toHaveLength(1);\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^\n  11 |  await page.locator('[data-journey-go=\"0\"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-attr-change=\"INT\"][data-delta=\"-1\"]').click();await page.locator('[data-attr-change=\"PRE\"][data-delta=\"1\"]').click();await page.locator('[data-journey-go=\"2\"]').click();await expect(page.locator('[data-journey-next]')).toBeDisabled();await page.locator('[data-journey-go=\"6\"]').click();await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','false');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-paper-ready','1');await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.review-ledger')).toContainText(story);expect(writes).toEqual([]);expect(errors).toEqual([]);\n  12 | });\n  13 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`decisões no papel cabem em ${viewport.width}×${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await resume(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change=\"${k}\"][data-delta=\"1\"]`).click();await next(page);await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-field=\"age\"]').fill('20');await next(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);});"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js",
+                        "column": 1389,
+                        "line": 10
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.draft-readiness')\nExpected: \u001b[32m\"true\"\u001b[39m\nTimeout: 12000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('.draft-readiness')\u001b[22m\n\n\n   8 | for(const code of ['COMBATENTE','ESPECIALISTA','OCULTISTA'])test(`criação completa ${code}: decisões, volta, JSON e retomada local`,async({page})=>{\n   9 |  test.setTimeout(60000);const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url())});await resume(page,code);await expect(page.locator('[data-journey-next]')).toBeDisabled();for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change=\"${k}\"][data-delta=\"1\"]`).click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','life');await page.locator('[data-field=\"age\"]').fill('20');await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','skills');if(code==='COMBATENTE'){await page.locator('[data-field=\"combat:primary\"]').selectOption('LUTA');await page.locator('[data-field=\"combat:resistance\"]').selectOption('FORTITUDE');}\n> 10 |  const count=code==='COMBATENTE'?3:code==='ESPECIALISTA'?9:5;for(let i=0;i<count;i++)await page.locator('[data-skill]:not(:disabled)[aria-pressed=\"false\"]').first().click();await expect(page.locator('[data-journey-next]')).toBeEnabled();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','preparation');if(code==='ESPECIALISTA'){await page.locator('[data-expertise]').nth(0).click();await page.locator('[data-expertise]').nth(1).click();}if(code==='OCULTISTA'){await expect(page.locator('[data-journey-next]')).toBeDisabled();for(let i=0;i<3;i++)await page.locator('[data-ritual][aria-pressed=\"false\"]').first().click();await expect(page.locator('[data-ritual][aria-pressed=\"false\"]').first()).toBeDisabled();}await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','equipment');await page.locator('[data-search]').fill('lanterna');await page.locator('[data-item][data-delta=\"1\"]:not(:disabled)').first().click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','background');const story='Investigava um farol abandonado. <script>alert(1)</script>';await page.locator('[data-field=\"story:background\"]').fill(story);await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','true');expect(await page.locator('.review-ledger script').count()).toBe(0);await expect(page.locator('.review-ledger')).toContainText(story);await page.locator('[data-save-draft]').click();await expect(page.locator('.draft-save-feedback')).toContainText('guardado neste navegador');const downloadEvent=page.waitForEvent('download');await page.locator('[data-download-draft]').click();const dl=await downloadEvent,pack=JSON.parse(await readFile(await dl.path(),'utf8'));expect(pack.character.status).toBe('draft');expect(pack.validation.officiallyActivated).toBe(false);expect(pack.validation.ready).toBe(true);expect(pack.character.inventory_json).toHaveLength(1);\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^\n  11 |  await page.locator('[data-journey-go=\"0\"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-attr-change=\"INT\"][data-delta=\"-1\"]').click();await page.locator('[data-attr-change=\"PRE\"][data-delta=\"1\"]').click();await page.locator('[data-journey-go=\"2\"]').click();await expect(page.locator('[data-journey-next]')).toBeDisabled();await page.locator('[data-journey-go=\"6\"]').click();await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','false');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-paper-ready','1');await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.review-ledger')).toContainText(story);expect(writes).toEqual([]);expect(errors).toEqual([]);\n  12 | });\n  13 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`decisões no papel cabem em ${viewport.width}×${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await resume(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change=\"${k}\"][data-delta=\"1\"]`).click();await next(page);await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-field=\"age\"]').fill('20');await next(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);});\n    at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js:10:1389"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:42:25.535Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/creation-journey-criação-c-afbd7-volta-JSON-e-retomada-local/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/creation-journey-criação-c-afbd7-volta-JSON-e-retomada-local/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/creation-journey-criação-c-afbd7-volta-JSON-e-retomada-local/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js",
+                    "column": 1389,
+                    "line": 10
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-b6b8ac79803c792892f5",
+          "file": "creation-journey.spec.js",
+          "line": 39,
+          "column": 65
+        },
+        {
+          "title": "criação completa ESPECIALISTA: decisões, volta, JSON e retomada local",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 30348,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.draft-readiness')\nExpected: \u001b[32m\"true\"\u001b[39m\nTimeout: 12000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('.draft-readiness')\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.draft-readiness')\nExpected: \u001b[32m\"true\"\u001b[39m\nTimeout: 12000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('.draft-readiness')\u001b[22m\n\n    at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js:10:1389",
+                    "location": {
+                      "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js",
+                      "column": 1389,
+                      "line": 10
+                    },
+                    "snippet": "   8 | for(const code of ['COMBATENTE','ESPECIALISTA','OCULTISTA'])test(`criação completa ${code}: decisões, volta, JSON e retomada local`,async({page})=>{\n   9 |  test.setTimeout(60000);const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url())});await resume(page,code);await expect(page.locator('[data-journey-next]')).toBeDisabled();for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change=\"${k}\"][data-delta=\"1\"]`).click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','life');await page.locator('[data-field=\"age\"]').fill('20');await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','skills');if(code==='COMBATENTE'){await page.locator('[data-field=\"combat:primary\"]').selectOption('LUTA');await page.locator('[data-field=\"combat:resistance\"]').selectOption('FORTITUDE');}\n> 10 |  const count=code==='COMBATENTE'?3:code==='ESPECIALISTA'?9:5;for(let i=0;i<count;i++)await page.locator('[data-skill]:not(:disabled)[aria-pressed=\"false\"]').first().click();await expect(page.locator('[data-journey-next]')).toBeEnabled();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','preparation');if(code==='ESPECIALISTA'){await page.locator('[data-expertise]').nth(0).click();await page.locator('[data-expertise]').nth(1).click();}if(code==='OCULTISTA'){await expect(page.locator('[data-journey-next]')).toBeDisabled();for(let i=0;i<3;i++)await page.locator('[data-ritual][aria-pressed=\"false\"]').first().click();await expect(page.locator('[data-ritual][aria-pressed=\"false\"]').first()).toBeDisabled();}await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','equipment');await page.locator('[data-search]').fill('lanterna');await page.locator('[data-item][data-delta=\"1\"]:not(:disabled)').first().click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','background');const story='Investigava um farol abandonado. <script>alert(1)</script>';await page.locator('[data-field=\"story:background\"]').fill(story);await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','true');expect(await page.locator('.review-ledger script').count()).toBe(0);await expect(page.locator('.review-ledger')).toContainText(story);await page.locator('[data-save-draft]').click();await expect(page.locator('.draft-save-feedback')).toContainText('guardado neste navegador');const downloadEvent=page.waitForEvent('download');await page.locator('[data-download-draft]').click();const dl=await downloadEvent,pack=JSON.parse(await readFile(await dl.path(),'utf8'));expect(pack.character.status).toBe('draft');expect(pack.validation.officiallyActivated).toBe(false);expect(pack.validation.ready).toBe(true);expect(pack.character.inventory_json).toHaveLength(1);\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^\n  11 |  await page.locator('[data-journey-go=\"0\"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-attr-change=\"INT\"][data-delta=\"-1\"]').click();await page.locator('[data-attr-change=\"PRE\"][data-delta=\"1\"]').click();await page.locator('[data-journey-go=\"2\"]').click();await expect(page.locator('[data-journey-next]')).toBeDisabled();await page.locator('[data-journey-go=\"6\"]').click();await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','false');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-paper-ready','1');await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.review-ledger')).toContainText(story);expect(writes).toEqual([]);expect(errors).toEqual([]);\n  12 | });\n  13 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`decisões no papel cabem em ${viewport.width}×${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await resume(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change=\"${k}\"][data-delta=\"1\"]`).click();await next(page);await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-field=\"age\"]').fill('20');await next(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);});"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js",
+                        "column": 1389,
+                        "line": 10
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.draft-readiness')\nExpected: \u001b[32m\"true\"\u001b[39m\nTimeout: 12000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('.draft-readiness')\u001b[22m\n\n\n   8 | for(const code of ['COMBATENTE','ESPECIALISTA','OCULTISTA'])test(`criação completa ${code}: decisões, volta, JSON e retomada local`,async({page})=>{\n   9 |  test.setTimeout(60000);const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url())});await resume(page,code);await expect(page.locator('[data-journey-next]')).toBeDisabled();for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change=\"${k}\"][data-delta=\"1\"]`).click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','life');await page.locator('[data-field=\"age\"]').fill('20');await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','skills');if(code==='COMBATENTE'){await page.locator('[data-field=\"combat:primary\"]').selectOption('LUTA');await page.locator('[data-field=\"combat:resistance\"]').selectOption('FORTITUDE');}\n> 10 |  const count=code==='COMBATENTE'?3:code==='ESPECIALISTA'?9:5;for(let i=0;i<count;i++)await page.locator('[data-skill]:not(:disabled)[aria-pressed=\"false\"]').first().click();await expect(page.locator('[data-journey-next]')).toBeEnabled();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','preparation');if(code==='ESPECIALISTA'){await page.locator('[data-expertise]').nth(0).click();await page.locator('[data-expertise]').nth(1).click();}if(code==='OCULTISTA'){await expect(page.locator('[data-journey-next]')).toBeDisabled();for(let i=0;i<3;i++)await page.locator('[data-ritual][aria-pressed=\"false\"]').first().click();await expect(page.locator('[data-ritual][aria-pressed=\"false\"]').first()).toBeDisabled();}await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','equipment');await page.locator('[data-search]').fill('lanterna');await page.locator('[data-item][data-delta=\"1\"]:not(:disabled)').first().click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','background');const story='Investigava um farol abandonado. <script>alert(1)</script>';await page.locator('[data-field=\"story:background\"]').fill(story);await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','true');expect(await page.locator('.review-ledger script').count()).toBe(0);await expect(page.locator('.review-ledger')).toContainText(story);await page.locator('[data-save-draft]').click();await expect(page.locator('.draft-save-feedback')).toContainText('guardado neste navegador');const downloadEvent=page.waitForEvent('download');await page.locator('[data-download-draft]').click();const dl=await downloadEvent,pack=JSON.parse(await readFile(await dl.path(),'utf8'));expect(pack.character.status).toBe('draft');expect(pack.validation.officiallyActivated).toBe(false);expect(pack.validation.ready).toBe(true);expect(pack.character.inventory_json).toHaveLength(1);\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^\n  11 |  await page.locator('[data-journey-go=\"0\"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-attr-change=\"INT\"][data-delta=\"-1\"]').click();await page.locator('[data-attr-change=\"PRE\"][data-delta=\"1\"]').click();await page.locator('[data-journey-go=\"2\"]').click();await expect(page.locator('[data-journey-next]')).toBeDisabled();await page.locator('[data-journey-go=\"6\"]').click();await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','false');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-paper-ready','1');await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.review-ledger')).toContainText(story);expect(writes).toEqual([]);expect(errors).toEqual([]);\n  12 | });\n  13 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`decisões no papel cabem em ${viewport.width}×${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await resume(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change=\"${k}\"][data-delta=\"1\"]`).click();await next(page);await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-field=\"age\"]').fill('20');await next(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);});\n    at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js:10:1389"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:42:56.886Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/creation-journey-criação-c-f0d41-volta-JSON-e-retomada-local/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/creation-journey-criação-c-f0d41-volta-JSON-e-retomada-local/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/creation-journey-criação-c-f0d41-volta-JSON-e-retomada-local/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js",
+                    "column": 1389,
+                    "line": 10
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-350e1a4fc819fa941021",
+          "file": "creation-journey.spec.js",
+          "line": 39,
+          "column": 65
+        },
+        {
+          "title": "criação completa OCULTISTA: decisões, volta, JSON e retomada local",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 27693,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.draft-readiness')\nExpected: \u001b[32m\"true\"\u001b[39m\nTimeout: 12000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('.draft-readiness')\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.draft-readiness')\nExpected: \u001b[32m\"true\"\u001b[39m\nTimeout: 12000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('.draft-readiness')\u001b[22m\n\n    at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js:10:1389",
+                    "location": {
+                      "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js",
+                      "column": 1389,
+                      "line": 10
+                    },
+                    "snippet": "   8 | for(const code of ['COMBATENTE','ESPECIALISTA','OCULTISTA'])test(`criação completa ${code}: decisões, volta, JSON e retomada local`,async({page})=>{\n   9 |  test.setTimeout(60000);const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url())});await resume(page,code);await expect(page.locator('[data-journey-next]')).toBeDisabled();for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change=\"${k}\"][data-delta=\"1\"]`).click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','life');await page.locator('[data-field=\"age\"]').fill('20');await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','skills');if(code==='COMBATENTE'){await page.locator('[data-field=\"combat:primary\"]').selectOption('LUTA');await page.locator('[data-field=\"combat:resistance\"]').selectOption('FORTITUDE');}\n> 10 |  const count=code==='COMBATENTE'?3:code==='ESPECIALISTA'?9:5;for(let i=0;i<count;i++)await page.locator('[data-skill]:not(:disabled)[aria-pressed=\"false\"]').first().click();await expect(page.locator('[data-journey-next]')).toBeEnabled();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','preparation');if(code==='ESPECIALISTA'){await page.locator('[data-expertise]').nth(0).click();await page.locator('[data-expertise]').nth(1).click();}if(code==='OCULTISTA'){await expect(page.locator('[data-journey-next]')).toBeDisabled();for(let i=0;i<3;i++)await page.locator('[data-ritual][aria-pressed=\"false\"]').first().click();await expect(page.locator('[data-ritual][aria-pressed=\"false\"]').first()).toBeDisabled();}await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','equipment');await page.locator('[data-search]').fill('lanterna');await page.locator('[data-item][data-delta=\"1\"]:not(:disabled)').first().click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','background');const story='Investigava um farol abandonado. <script>alert(1)</script>';await page.locator('[data-field=\"story:background\"]').fill(story);await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','true');expect(await page.locator('.review-ledger script').count()).toBe(0);await expect(page.locator('.review-ledger')).toContainText(story);await page.locator('[data-save-draft]').click();await expect(page.locator('.draft-save-feedback')).toContainText('guardado neste navegador');const downloadEvent=page.waitForEvent('download');await page.locator('[data-download-draft]').click();const dl=await downloadEvent,pack=JSON.parse(await readFile(await dl.path(),'utf8'));expect(pack.character.status).toBe('draft');expect(pack.validation.officiallyActivated).toBe(false);expect(pack.validation.ready).toBe(true);expect(pack.character.inventory_json).toHaveLength(1);\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^\n  11 |  await page.locator('[data-journey-go=\"0\"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-attr-change=\"INT\"][data-delta=\"-1\"]').click();await page.locator('[data-attr-change=\"PRE\"][data-delta=\"1\"]').click();await page.locator('[data-journey-go=\"2\"]').click();await expect(page.locator('[data-journey-next]')).toBeDisabled();await page.locator('[data-journey-go=\"6\"]').click();await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','false');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-paper-ready','1');await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.review-ledger')).toContainText(story);expect(writes).toEqual([]);expect(errors).toEqual([]);\n  12 | });\n  13 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`decisões no papel cabem em ${viewport.width}×${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await resume(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change=\"${k}\"][data-delta=\"1\"]`).click();await next(page);await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-field=\"age\"]').fill('20');await next(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);});"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js",
+                        "column": 1389,
+                        "line": 10
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.draft-readiness')\nExpected: \u001b[32m\"true\"\u001b[39m\nTimeout: 12000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('.draft-readiness')\u001b[22m\n\n\n   8 | for(const code of ['COMBATENTE','ESPECIALISTA','OCULTISTA'])test(`criação completa ${code}: decisões, volta, JSON e retomada local`,async({page})=>{\n   9 |  test.setTimeout(60000);const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url())});await resume(page,code);await expect(page.locator('[data-journey-next]')).toBeDisabled();for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change=\"${k}\"][data-delta=\"1\"]`).click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','life');await page.locator('[data-field=\"age\"]').fill('20');await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','skills');if(code==='COMBATENTE'){await page.locator('[data-field=\"combat:primary\"]').selectOption('LUTA');await page.locator('[data-field=\"combat:resistance\"]').selectOption('FORTITUDE');}\n> 10 |  const count=code==='COMBATENTE'?3:code==='ESPECIALISTA'?9:5;for(let i=0;i<count;i++)await page.locator('[data-skill]:not(:disabled)[aria-pressed=\"false\"]').first().click();await expect(page.locator('[data-journey-next]')).toBeEnabled();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','preparation');if(code==='ESPECIALISTA'){await page.locator('[data-expertise]').nth(0).click();await page.locator('[data-expertise]').nth(1).click();}if(code==='OCULTISTA'){await expect(page.locator('[data-journey-next]')).toBeDisabled();for(let i=0;i<3;i++)await page.locator('[data-ritual][aria-pressed=\"false\"]').first().click();await expect(page.locator('[data-ritual][aria-pressed=\"false\"]').first()).toBeDisabled();}await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','equipment');await page.locator('[data-search]').fill('lanterna');await page.locator('[data-item][data-delta=\"1\"]:not(:disabled)').first().click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','background');const story='Investigava um farol abandonado. <script>alert(1)</script>';await page.locator('[data-field=\"story:background\"]').fill(story);await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','true');expect(await page.locator('.review-ledger script').count()).toBe(0);await expect(page.locator('.review-ledger')).toContainText(story);await page.locator('[data-save-draft]').click();await expect(page.locator('.draft-save-feedback')).toContainText('guardado neste navegador');const downloadEvent=page.waitForEvent('download');await page.locator('[data-download-draft]').click();const dl=await downloadEvent,pack=JSON.parse(await readFile(await dl.path(),'utf8'));expect(pack.character.status).toBe('draft');expect(pack.validation.officiallyActivated).toBe(false);expect(pack.validation.ready).toBe(true);expect(pack.character.inventory_json).toHaveLength(1);\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^\n  11 |  await page.locator('[data-journey-go=\"0\"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-attr-change=\"INT\"][data-delta=\"-1\"]').click();await page.locator('[data-attr-change=\"PRE\"][data-delta=\"1\"]').click();await page.locator('[data-journey-go=\"2\"]').click();await expect(page.locator('[data-journey-next]')).toBeDisabled();await page.locator('[data-journey-go=\"6\"]').click();await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','false');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-paper-ready','1');await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.review-ledger')).toContainText(story);expect(writes).toEqual([]);expect(errors).toEqual([]);\n  12 | });\n  13 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`decisões no papel cabem em ${viewport.width}×${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await resume(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change=\"${k}\"][data-delta=\"1\"]`).click();await next(page);await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-field=\"age\"]').fill('20');await next(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);});\n    at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js:10:1389"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:43:29.004Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/creation-journey-criação-c-c2592-volta-JSON-e-retomada-local/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/creation-journey-criação-c-c2592-volta-JSON-e-retomada-local/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/creation-journey-criação-c-c2592-volta-JSON-e-retomada-local/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js",
+                    "column": 1389,
+                    "line": 10
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-c4491cbcf2b99513e5e5",
+          "file": "creation-journey.spec.js",
+          "line": 39,
+          "column": 65
+        },
+        {
+          "title": "decisões no papel cabem em 390×844",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7506,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:43:58.567Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-9b45811209784e4e4fca",
+          "file": "creation-journey.spec.js",
+          "line": 122,
+          "column": 5
+        },
+        {
+          "title": "decisões no papel cabem em 320×568",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4718,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:44:06.424Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-19adf168dd281bc66cda",
+          "file": "creation-journey.spec.js",
+          "line": 122,
+          "column": 5
+        },
+        {
+          "title": "decisões no papel cabem em 568×320",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4009,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:44:11.165Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-3df63af73fd6b61cc2ae",
+          "file": "creation-journey.spec.js",
+          "line": 122,
+          "column": 5
+        },
+        {
+          "title": "quota recusada e origem pendente não anunciam ficha ativada",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 13994,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('html')\nExpected: \u001b[32m\"1\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  12000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('html')\u001b[22m\n\u001b[2m    2 × locator resolved to <html lang=\"pt-BR\" data-scene-ready=\"1\" data-paper-transition=\"1\">…</html>\u001b[22m\n\u001b[2m      - unexpected value \"null\"\u001b[22m\n\u001b[2m    2 × locator resolved to <html lang=\"pt-BR\" data-scene-ready=\"1\">…</html>\u001b[22m\n\u001b[2m      - unexpected value \"null\"\u001b[22m\n\u001b[2m    10 × locator resolved to <html lang=\"pt-BR\" data-scene-ready=\"1\" data-arrival-ready=\"1\" data-presentation-ready=\"1\">…</html>\u001b[22m\n\u001b[2m       - unexpected value \"null\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('html')\nExpected: \u001b[32m\"1\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  12000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('html')\u001b[22m\n\u001b[2m    2 × locator resolved to <html lang=\"pt-BR\" data-scene-ready=\"1\" data-paper-transition=\"1\">…</html>\u001b[22m\n\u001b[2m      - unexpected value \"null\"\u001b[22m\n\u001b[2m    2 × locator resolved to <html lang=\"pt-BR\" data-scene-ready=\"1\">…</html>\u001b[22m\n\u001b[2m      - unexpected value \"null\"\u001b[22m\n\u001b[2m    10 × locator resolved to <html lang=\"pt-BR\" data-scene-ready=\"1\" data-arrival-ready=\"1\" data-presentation-ready=\"1\">…</html>\u001b[22m\n\u001b[2m       - unexpected value \"null\"\u001b[22m\n\n    at resume (/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js:6:482)\n    at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js:14:246",
+                    "location": {
+                      "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js",
+                      "column": 482,
+                      "line": 6
+                    },
+                    "snippet": "  4 | const base='http://127.0.0.1:4173';\n  5 | const seed={version:1,name:'Astra',gender:'nao-definir',origin:{code:'ACADEMICO',label:'Acadêmico',source:'Livro Base'},classCode:'COMBATENTE',character:{},creationStep:'attributes'};\n> 6 | async function resume(page,code='COMBATENTE',step='attributes',character={},origin=seed.origin){await page.emulateMedia({reducedMotion:'reduce'});await page.addInitScript(d=>{if(!sessionStorage.getItem('orion-herald-creation-v1'))sessionStorage.setItem('orion-herald-creation-v1',JSON.stringify(d))},{...seed,classCode:code,creationStep:step,character,origin});await page.goto(base+'/criacao.html?stars=0&quality=eco&hands=off&resume=1&debug=1');await expect(page.locator('html')).toHaveAttribute('data-paper-ready','1');await expect(page.locator('.creation-journey')).toHaveAttribute('data-step',step);}\n    |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ^\n  7 | async function next(page){await page.locator('[data-journey-next]').click();await expect(page.locator('#journeyTitle')).toBeFocused();}\n  8 | for(const code of ['COMBATENTE','ESPECIALISTA','OCULTISTA'])test(`criação completa ${code}: decisões, volta, JSON e retomada local`,async({page})=>{\n  9 |  test.setTimeout(60000);const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url())});await resume(page,code);await expect(page.locator('[data-journey-next]')).toBeDisabled();for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change=\"${k}\"][data-delta=\"1\"]`).click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','life');await page.locator('[data-field=\"age\"]').fill('20');await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','skills');if(code==='COMBATENTE'){await page.locator('[data-field=\"combat:primary\"]').selectOption('LUTA');await page.locator('[data-field=\"combat:resistance\"]').selectOption('FORTITUDE');}"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js",
+                        "column": 482,
+                        "line": 6
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('html')\nExpected: \u001b[32m\"1\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  12000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" with timeout 12000ms\u001b[22m\n\u001b[2m  - waiting for locator('html')\u001b[22m\n\u001b[2m    2 × locator resolved to <html lang=\"pt-BR\" data-scene-ready=\"1\" data-paper-transition=\"1\">…</html>\u001b[22m\n\u001b[2m      - unexpected value \"null\"\u001b[22m\n\u001b[2m    2 × locator resolved to <html lang=\"pt-BR\" data-scene-ready=\"1\">…</html>\u001b[22m\n\u001b[2m      - unexpected value \"null\"\u001b[22m\n\u001b[2m    10 × locator resolved to <html lang=\"pt-BR\" data-scene-ready=\"1\" data-arrival-ready=\"1\" data-presentation-ready=\"1\">…</html>\u001b[22m\n\u001b[2m       - unexpected value \"null\"\u001b[22m\n\n\n  4 | const base='http://127.0.0.1:4173';\n  5 | const seed={version:1,name:'Astra',gender:'nao-definir',origin:{code:'ACADEMICO',label:'Acadêmico',source:'Livro Base'},classCode:'COMBATENTE',character:{},creationStep:'attributes'};\n> 6 | async function resume(page,code='COMBATENTE',step='attributes',character={},origin=seed.origin){await page.emulateMedia({reducedMotion:'reduce'});await page.addInitScript(d=>{if(!sessionStorage.getItem('orion-herald-creation-v1'))sessionStorage.setItem('orion-herald-creation-v1',JSON.stringify(d))},{...seed,classCode:code,creationStep:step,character,origin});await page.goto(base+'/criacao.html?stars=0&quality=eco&hands=off&resume=1&debug=1');await expect(page.locator('html')).toHaveAttribute('data-paper-ready','1');await expect(page.locator('.creation-journey')).toHaveAttribute('data-step',step);}\n    |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ^\n  7 | async function next(page){await page.locator('[data-journey-next]').click();await expect(page.locator('#journeyTitle')).toBeFocused();}\n  8 | for(const code of ['COMBATENTE','ESPECIALISTA','OCULTISTA'])test(`criação completa ${code}: decisões, volta, JSON e retomada local`,async({page})=>{\n  9 |  test.setTimeout(60000);const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url())});await resume(page,code);await expect(page.locator('[data-journey-next]')).toBeDisabled();for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change=\"${k}\"][data-delta=\"1\"]`).click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','life');await page.locator('[data-field=\"age\"]').fill('20');await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','skills');if(code==='COMBATENTE'){await page.locator('[data-field=\"combat:primary\"]').selectOption('LUTA');await page.locator('[data-field=\"combat:resistance\"]').selectOption('FORTITUDE');}\n    at resume (/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js:6:482)\n    at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js:14:246"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:44:15.190Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/creation-journey-quota-rec-13ed6--não-anunciam-ficha-ativada/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/creation-journey-quota-rec-13ed6--não-anunciam-ficha-ativada/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/test-results/creation-journey-quota-rec-13ed6--não-anunciam-ficha-ativada/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js",
+                    "column": 482,
+                    "line": 6
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-17d52e3e8b260cef9a8a",
+          "file": "creation-journey.spec.js",
+          "line": 135,
+          "column": 1
+        },
+        {
+          "title": "retomar Prodígio não prende atributos antes de escolher os limites etários",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12934,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:44:30.644Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-6a9677c084923fb2eabd",
+          "file": "creation-journey.spec.js",
+          "line": 162,
+          "column": 1
+        },
+        {
+          "title": "Profissão e subescolha de Engenheiro permanecem sincronizadas, sem conceder item",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6122,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:44:43.906Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "366f3d4cf6c22b880b85-9523eaa7730445288965",
+          "file": "creation-journey.spec.js",
+          "line": 191,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "scene-continuity-v24.spec.js",
+      "file": "scene-continuity-v24.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "brilho tem halo real, mantém atlas único e atmosfera aparece na identidade",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3604,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:44:50.061Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "52ac9a6303095b41aa4c-71e07f2ab16d91eb0b6e",
+          "file": "scene-continuity-v24.spec.js",
+          "line": 3,
+          "column": 1
+        },
+        {
+          "title": "introdução pode ser pulada e não repete na mesma aba",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5041,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:44:53.677Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "52ac9a6303095b41aa4c-53ce51fb9ab8829fff32",
+          "file": "scene-continuity-v24.spec.js",
+          "line": 43,
+          "column": 1
+        },
+        {
+          "title": "orientação de software oferece endereços e alternativa à cópia bloqueada",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3209,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:44:58.732Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "52ac9a6303095b41aa4c-59ec0b48b207e4c36c0f",
+          "file": "scene-continuity-v24.spec.js",
+          "line": 61,
+          "column": 1
+        },
+        {
+          "title": "shader das mãos aumenta opacidade até a borda sem mudar cobertura",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 279,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:45:01.963Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "52ac9a6303095b41aa4c-7e20447951263cbab966",
+          "file": "scene-continuity-v24.spec.js",
+          "line": 89,
+          "column": 1
+        },
+        {
+          "title": "nome Brave oculto fica desconhecido e oferece o endereço correto",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2656,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:45:02.254Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "52ac9a6303095b41aa4c-c30177b4e8d2cd6aee74",
+          "file": "scene-continuity-v24.spec.js",
+          "line": 132,
+          "column": 1
+        },
+        {
+          "title": "software detectado oferece orientação dispensável no Observatório",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5321,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:45:04.921Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "52ac9a6303095b41aa4c-ef25d55175b534fe9fd6",
+          "file": "scene-continuity-v24.spec.js",
+          "line": 159,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-29T11:42:24.623Z",
+    "duration": 165783.738,
+    "expected": 11,
+    "skipped": 0,
+    "unexpected": 4,
+    "flaky": 0
+  }
+}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

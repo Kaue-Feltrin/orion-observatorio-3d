@@ -23,10 +23,13 @@ import { createCreationNebula, creationNebulaURL, CREATION_ART } from './creatio
 import { createTouchNavigation } from './touch-navigation.js';
 import { createMobileConstellation, mobileHeraldLayout } from './mobile-constellation.js';
 import {boundedPixelRatio,createFrameMonitor} from './render-quality.js';
+import{readSavedCreation}from './creation-save.js';
+import {prepareSceneEntrance} from './scene-entrance.js';
 import {mountQualityControl,readQualityPreference} from './quality-control.js';
 
 const root = document.getElementById('observatory');
 const creationPage=document.body.dataset.page==='creation';
+const sceneEntrance=prepareSceneEntrance({creationPage});
 let creation=null;
 const container = document.getElementById('world');
 let target = document.getElementById('heraldTarget');
@@ -796,11 +799,13 @@ if(debugEnabled)window.__orionDiagnostic=performancePanel;
 // reduzir a carga automaticamente em vez de insistir em resolução 4x maior.
 let renderedAt=0;
 function adaptPerformance(now,frameMs){
-  if(travelling||document.hidden||document.documentElement.dataset.presentationReady!=='1'){frameMonitor.reset(now);return;}
+  if(travelling||document.hidden||document.documentElement.dataset.paperTransition==='1'||document.documentElement.dataset.presentationReady!=='1'){frameMonitor.reset(now);return;}
   // Qualidade explicitamente escolhida permanece estável para comparar modos.
   // No automático, degradar em etapas: lite -> eco-plus -> eco,
   // sem remover de uma vez o bloom da estrela. Perfis manuais ficam estáveis.
-  if(frameMonitor.record(now,frameMs) && !manualQuality && qualityMode!=='eco'){
+  const shouldReduce=frameMonitor.record(now,frameMs);
+  qualityControl.observeSample(frameMonitor.state,now);
+  if(shouldReduce && !manualQuality && qualityMode!=='eco'){
     qualityMode=qualityOrder[Math.max(0,qualityOrder.indexOf(qualityMode)-1)];
     performanceAdaptations++;
     applyGasBudget();resize();
@@ -810,7 +815,9 @@ document.addEventListener('visibilitychange',()=>{
   if(document.hidden){touchNavigation?.cancel();resetHandHover();}
   if(!document.hidden){lastFrame=performance.now();frameMonitor.reset(lastFrame);performancePanel?.reset();}
 });
-mountQualityControl(root,{value:manualQuality?qualityOverride:'auto',onChange(value){
+const graphicsGL=renderer.getContext(),graphicsExt=graphicsGL.getExtension('WEBGL_debug_renderer_info');
+const graphicsRenderer=String(graphicsGL.getParameter(graphicsExt?graphicsExt.UNMASKED_RENDERER_WEBGL:graphicsGL.RENDERER)||'');
+const qualityControl=mountQualityControl(root,{graphics:{renderer:graphicsRenderer,brave:Boolean(navigator.brave)||graphicsRenderer==='Brave',creationPage},value:manualQuality?qualityOverride:'auto',onChange(value){
  manualQuality=value!=='auto';qualityMode=manualQuality?value:constrainedDevice?'lite':'balanced';
  if(manualQuality)params.set('quality',value);else params.delete('quality');
  history.replaceState(history.state,'',location.pathname+'?'+params.toString()+location.hash);
@@ -819,7 +826,7 @@ mountQualityControl(root,{value:manualQuality?qualityOverride:'auto',onChange(va
  const gl=renderer.getContext(),ext=gl.getExtension('WEBGL_debug_renderer_info');
  const gpu=ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER);
  const sample=frameMonitor.state;
- return ['Órion · diagnóstico local','Diagnóstico: V23',navigator.userAgent,
+ return ['Órion · diagnóstico local','Diagnóstico: V24',navigator.userAgent,
   'Cena: '+(creationPage?'criação / '+(root.dataset.creationPhase||'carregando'):'observatório'),
   'Renderizador: '+gpu,
   ...(String(gpu).trim().toLowerCase()==='brave'?['GPU física: não identificada pelo nome genérico fornecido pelo navegador.']:[]),
@@ -967,12 +974,14 @@ if(creationPage){
  if(debugEnabled)window.__orionCreationEnvironment={state:nebulaVolume.state,layers:nebulaVolume.layers,photo:mainCloud};
 
 }
+if(!creationPage){try{const saved=readSavedCreation(sessionStorage,'orion-herald-creation-v1')||readSavedCreation(localStorage);if(saved){const link=document.createElement('a');link.className='resume-creation-link';link.href='criacao.html?stars=0&resume=1';link.textContent='Retomar criação →';root.querySelector('.bottom-ui').append(link);}}catch{}}
 requestAnimationFrame(tick);
 document.documentElement.dataset.sceneReady='1';
 const imageReady=new Promise((resolve,reject)=>{const image=new Image();image.onload=resolve;image.onerror=()=>reject(new Error('Não foi possível carregar o fundo.'));image.src=creationPage?creationNebulaURL():'/assets/nebula-eso-photographic.jpg';});
 Promise.all([imageReady,firstPersonHands.ready,creation?.ready]).then(async()=>{
  if(firstPersonHands.state.loadError)throw new Error(firstPersonHands.state.loadError);
  await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+ await sceneEntrance.play({reducedMotion:reduceMotion});
  document.documentElement.dataset.presentationReady='1';loading.classList.add('done');
  if(creationPage)await revealPage();
 }).catch(error=>{document.documentElement.dataset.sceneError=error.message;document.getElementById('loadErrorText').textContent=error.message;document.getElementById('loadIssue').hidden=false;loading.hidden=true;});

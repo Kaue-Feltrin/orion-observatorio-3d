@@ -1,0 +1,123 @@
+{
+  "scope": "Draw/pixel/resource accounting only; not a physical GPU FPS benchmark",
+  "rows": [
+    {
+      "version": "V23",
+      "name": "observatory",
+      "canvas": [
+        763,
+        530
+      ],
+      "profile": {
+        "mode": "eco",
+        "pixelRatio": 0.53,
+        "maxPixels": 500000,
+        "visibleGas": 0,
+        "adaptations": 0,
+        "drawCalls": 22,
+        "textures": 13
+      },
+      "handsSurfaces": 2,
+      "ambient": false
+    },
+    {
+      "version": "V23",
+      "name": "birth",
+      "canvas": [
+        763,
+        530
+      ],
+      "profile": {
+        "mode": "eco",
+        "pixelRatio": 0.53,
+        "maxPixels": 500000,
+        "visibleGas": 0,
+        "adaptations": 0,
+        "drawCalls": 16,
+        "textures": 12
+      },
+      "handsSurfaces": 2,
+      "sigils": 240,
+      "ambient": false
+    },
+    {
+      "version": "V23",
+      "name": "identity",
+      "canvas": [
+        763,
+        530
+      ],
+      "profile": {
+        "mode": "eco",
+        "pixelRatio": 0.53,
+        "maxPixels": 500000,
+        "visibleGas": 0,
+        "adaptations": 0,
+        "drawCalls": 13,
+        "textures": 15
+      },
+      "handsSurfaces": 2,
+      "sigils": 240,
+      "ambient": false
+    },
+    {
+      "version": "V24",
+      "name": "observatory",
+      "canvas": [
+        763,
+        530
+      ],
+      "profile": {
+        "mode": "eco",
+        "pixelRatio": 0.53,
+        "maxPixels": 500000,
+        "visibleGas": 0,
+        "adaptations": 0,
+        "drawCalls": 22,
+        "textures": 13
+      },
+      "handsSurfaces": 2,
+      "ambient": false
+    },
+    {
+      "version": "V24",
+      "name": "birth",
+      "canvas": [
+        763,
+        530
+      ],
+      "profile": {
+        "mode": "eco",
+        "pixelRatio": 0.53,
+        "maxPixels": 500000,
+        "visibleGas": 0,
+        "adaptations": 0,
+        "drawCalls": 16,
+        "textures": 12
+      },
+      "handsSurfaces": 2,
+      "sigils": 240,
+      "ambient": false
+    },
+    {
+      "version": "V24",
+      "name": "identity",
+      "canvas": [
+        763,
+        530
+      ],
+      "profile": {
+        "mode": "eco",
+        "pixelRatio": 0.53,
+        "maxPixels": 500000,
+        "visibleGas": 0,
+        "adaptations": 0,
+        "drawCalls": 14,
+        "textures": 15
+      },
+      "handsSurfaces": 2,
+      "sigils": 240,
+      "ambient": true
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+[
+  {
+    version: 'V23',
+    scene: 'observatory',
+    calls: 22,
+    textures: 13,
+    canvas: [ 763, 530 ]
+  },
+  {
+    version: 'V23',
+    scene: 'birth',
+    calls: 16,
+    textures: 12,
+    canvas: [ 763, 530 ]
+  },
+  {
+    version: 'V23',
+    scene: 'identity',
+    calls: 13,
+    textures: 15,
+    canvas: [ 763, 530 ]
+  },
+  {
+    version: 'V24',
+    scene: 'observatory',
+    calls: 22,
+    textures: 13,
+    canvas: [ 763, 530 ]
+  },
+  {
+    version: 'V24',
+    scene: 'birth',
+    calls: 16,
+    textures: 12,
+    canvas: [ 763, 530 ]
+  },
+  {
+    version: 'V24',
+    scene: 'identity',
+    calls: 14,
+    textures: 15,
+    canvas: [ 763, 530 ]
+  }
+]
+PASS same pixels/textures/hands/sigils; at most one extra draw. No FPS gain inferred.

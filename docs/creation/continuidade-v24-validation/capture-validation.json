@@ -1,0 +1,91 @@
+{
+  "base": "http://127.0.0.1:4305",
+  "renderer": "Chrome/SwiftShader; no physical GTX test",
+  "metrics": [
+    {
+      "name": "observatory",
+      "scene": {
+        "mode": "eco",
+        "pixelRatio": 0.53,
+        "maxPixels": 500000,
+        "visibleGas": 0,
+        "adaptations": 0,
+        "drawCalls": 22,
+        "textures": 13
+      },
+      "canvas": {
+        "width": 763,
+        "height": 530
+      },
+      "hands": {
+        "mode": "mesh",
+        "enabled": true,
+        "visible": true,
+        "loaded": true,
+        "loadError": null,
+        "motionEnabled": true,
+        "drawSurfaces": 2,
+        "triangles": 11904,
+        "textureCount": 2,
+        "joints": 18,
+        "fingerJoints": 14,
+        "swayX": -0.9873309455340646,
+        "swayY": 0.9849039867852658,
+        "maxVertexDelta": 0.11993580124068784,
+        "pose": "feminine-star-hover",
+        "handProfiles": [
+          "left",
+          "right"
+        ],
+        "rightHover": false,
+        "rightBlend": 0,
+        "hoverBlend": 0,
+        "leftFollow": 0,
+        "animation": "perspective",
+        "rightFrameWeights": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rightDepth": 0,
+        "selecting": false,
+        "selectionReach": 0,
+        "selectionPress": 0,
+        "selectionAnticipation": 0,
+        "selectionFollowThrough": 0,
+        "selectionLift": 0,
+        "touchLayout": false,
+        "targetDirectionX": 0.11454675007993154,
+        "targetDirectionY": -0.12623084792658856,
+        "edgeOpacity": true
+      }
+    },
+    {
+      "name": "birth",
+      "canvas": {
+        "width": 763,
+        "height": 530
+      }
+    },
+    {
+      "name": "identity",
+      "canvas": {
+        "width": 763,
+        "height": 530
+      }
+    },
+    {
+      "name": "paper-paused",
+      "canvas": {
+        "width": 763,
+        "height": 530
+      }
+    }
+  ],
+  "errors": [],
+  "bad": [],
+  "writes": [],
+  "diagnosticNote": "Normal star navigation intentionally drops debug=1 on arrival. Creation counters are recorded separately in cost-guard.json; they are not inferred for this video."
+}

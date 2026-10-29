@@ -1,4 +1,6 @@
-> Revisão atual: [V23 — Amostras do diagnóstico](DIAGNOSTICO-RESULTS-V23.md). FPS anterior invalidado ao trocar configuração; atualização ao vivo, idade da amostra e cena explícitas. Correção de medição, sem nova alegação de ganho de FPS; Brave/1660 pendente.
+> Revisão atual: [V24 — Continuidade e decisões da criação](CONTINUIDADE-RESULTS-V24.md). Orientação gráfica conservadora, halo dourado/vestígios, mãos com presença nas bordas, introdução e transições na mesa. A criação segue até atributos, idade, perícias, habilidades/rituais, equipamento, história e conferência; salva/exporta rascunho local. Regras incompletas mantêm pendências; não ativa contas. 69 cenários Chrome e 24 arquivos unitários; homologação artística/Brave da V24 pendente.
+
+> Histórico V23: [V23 — Amostras do diagnóstico](DIAGNOSTICO-RESULTS-V23.md). FPS anterior invalidado ao trocar configuração; atualização ao vivo, idade da amostra e cena explícitas. Correção de medição, sem nova alegação de ganho de FPS; Brave/1660 pendente.
 
 > Histórico V22: [V22 — Medição e custo de desenho](DESEMPENHO-RESULTS-V22.md). UVs no vertex shader, cálculos redundantes de silhuetas evitados e quads transparentes em uma passagem. Ganho local na criação, sem redução de imagens/resolução; Observatório sem ganho conclusivo de FPS. Brave/1660 pendente.
 

@@ -1,0 +1,40 @@
+{
+  "base": "http://127.0.0.1:4305",
+  "results": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "copyField": {
+        "x": 558,
+        "y": 878.9375,
+        "width": 324,
+        "height": 40
+      },
+      "webglDrawsDuringPaper": 0,
+      "lazyRulesChunk": true,
+      "reviewReady": true,
+      "resumeLink": true
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "copyField": {
+        "x": 47,
+        "y": 505,
+        "width": 226,
+        "height": 40
+      },
+      "webglDrawsDuringPaper": 0,
+      "lazyRulesChunk": true,
+      "reviewReady": true,
+      "resumeLink": true
+    }
+  ],
+  "errors": [],
+  "bad": [],
+  "writes": []
+}

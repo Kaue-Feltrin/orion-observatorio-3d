@@ -1,0 +1,9 @@
+
+> orion-fichas-standalone@0.5.20 cloudflare:check
+> node scripts/verify-cloudflare-target.mjs && node scripts/cloudflare-safe-deploy.mjs --check
+
+Identidade Cloudflare verificada: apenas Worker orion-fichas + D1 independente esperado.
+Somente leitura: nenhuma operação remota ou deploy.
+Guardas locais OK: Worker orion-fichas, D1 isolado, migrações não destrutivas, nenhuma rota sobreposta.
+D1 UUID configurado.
+Nenhuma operação remota foi executada.

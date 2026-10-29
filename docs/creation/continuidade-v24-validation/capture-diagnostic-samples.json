@@ -1,0 +1,291 @@
+{
+  "base": "http://127.0.0.1:4173",
+  "renderer": "Chrome/SwiftShader; no physical GTX test",
+  "metrics": [
+    {
+      "name": "observatory",
+      "scene": {
+        "mode": "eco",
+        "pixelRatio": 0.53,
+        "maxPixels": 500000,
+        "visibleGas": 0,
+        "adaptations": 0,
+        "drawCalls": 22,
+        "textures": 13
+      },
+      "canvas": {
+        "width": 763,
+        "height": 530
+      },
+      "hands": {
+        "mode": "mesh",
+        "enabled": true,
+        "visible": true,
+        "loaded": true,
+        "loadError": null,
+        "motionEnabled": true,
+        "drawSurfaces": 2,
+        "triangles": 11904,
+        "textureCount": 2,
+        "joints": 18,
+        "fingerJoints": 14,
+        "swayX": -0.9895779481378817,
+        "swayY": 0.9871454660307271,
+        "maxVertexDelta": 0.11980113321378905,
+        "pose": "feminine-star-hover",
+        "handProfiles": [
+          "left",
+          "right"
+        ],
+        "rightHover": false,
+        "rightBlend": 0,
+        "hoverBlend": 0,
+        "leftFollow": 0,
+        "animation": "perspective",
+        "rightFrameWeights": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rightDepth": 0,
+        "selecting": false,
+        "selectionReach": 0,
+        "selectionPress": 0,
+        "selectionAnticipation": 0,
+        "selectionFollowThrough": 0,
+        "selectionLift": 0,
+        "touchLayout": false,
+        "targetDirectionX": 0.11501597256957008,
+        "targetDirectionY": -0.12677163360877208,
+        "edgeOpacity": true
+      }
+    },
+    {
+      "name": "birth",
+      "scene": {
+        "mode": "eco",
+        "pixelRatio": 0.53,
+        "maxPixels": 500000,
+        "visibleGas": 0,
+        "adaptations": 0,
+        "drawCalls": 17,
+        "textures": 12
+      },
+      "canvas": {
+        "width": 763,
+        "height": 530
+      },
+      "sigils": {
+        "phrase": "Acorrentado pela realidade",
+        "fontFamily": "OrionKnowledge",
+        "fontURL": "/fonts/SigilosDeConhecimento.ttf",
+        "loaded": true,
+        "glyphs": 240,
+        "rings": 5,
+        "time": 6.4861,
+        "release": 0,
+        "reducedMotion": false,
+        "glowAtlasPacked": true,
+        "ambientGlyphs": 48,
+        "ambientVisible": false
+      },
+      "hands": {
+        "mode": "mesh",
+        "enabled": true,
+        "visible": true,
+        "loaded": true,
+        "loadError": null,
+        "motionEnabled": true,
+        "drawSurfaces": 2,
+        "triangles": 11904,
+        "textureCount": 2,
+        "joints": 18,
+        "fingerJoints": 14,
+        "swayX": -0.9721894993816261,
+        "swayY": 0.9697997598300736,
+        "maxVertexDelta": 0.11930297490875515,
+        "pose": "feminine-star-hover",
+        "handProfiles": [
+          "left",
+          "right"
+        ],
+        "rightHover": false,
+        "rightBlend": 0,
+        "hoverBlend": 0,
+        "leftFollow": 0,
+        "animation": "perspective",
+        "rightFrameWeights": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rightDepth": 0,
+        "selecting": false,
+        "selectionReach": 0,
+        "selectionPress": 0,
+        "selectionAnticipation": 0,
+        "selectionFollowThrough": 0,
+        "selectionLift": 0,
+        "touchLayout": false,
+        "targetDirectionX": 0.03692691478616372,
+        "targetDirectionY": -0.04077366488975964,
+        "edgeOpacity": true
+      }
+    },
+    {
+      "name": "identity",
+      "scene": {
+        "mode": "eco",
+        "pixelRatio": 0.53,
+        "maxPixels": 500000,
+        "visibleGas": 0,
+        "adaptations": 0,
+        "drawCalls": 15,
+        "textures": 15
+      },
+      "canvas": {
+        "width": 763,
+        "height": 530
+      },
+      "sigils": {
+        "phrase": "Acorrentado pela realidade",
+        "fontFamily": "OrionKnowledge",
+        "fontURL": "/fonts/SigilosDeConhecimento.ttf",
+        "loaded": true,
+        "glyphs": 240,
+        "rings": 5,
+        "time": 11.519200000000001,
+        "release": 1,
+        "reducedMotion": false,
+        "glowAtlasPacked": true,
+        "ambientGlyphs": 48,
+        "ambientVisible": true
+      },
+      "hands": {
+        "mode": "mesh",
+        "enabled": true,
+        "visible": true,
+        "loaded": true,
+        "loadError": null,
+        "motionEnabled": true,
+        "drawSurfaces": 2,
+        "triangles": 11904,
+        "textureCount": 2,
+        "joints": 18,
+        "fingerJoints": 14,
+        "swayX": -0.9818638105946835,
+        "swayY": 0.9695438548416236,
+        "maxVertexDelta": 0.1282229360164544,
+        "pose": "feminine-star-hover",
+        "handProfiles": [
+          "left",
+          "right"
+        ],
+        "rightHover": false,
+        "rightBlend": 0.000028551579309637626,
+        "hoverBlend": 0.00004758596551606271,
+        "leftFollow": 0.00004758596551606271,
+        "animation": "perspective",
+        "rightFrameWeights": [
+          0.9999999608737306,
+          3.912626948665106e-8,
+          0,
+          0,
+          0
+        ],
+        "rightDepth": 0.000001998610551674634,
+        "selecting": false,
+        "selectionReach": 0,
+        "selectionPress": 0,
+        "selectionAnticipation": 0,
+        "selectionFollowThrough": 0,
+        "selectionLift": 0,
+        "touchLayout": false,
+        "targetDirectionX": 0.03812570241333324,
+        "targetDirectionY": -0.0389400123788719,
+        "edgeOpacity": true
+      }
+    },
+    {
+      "name": "paper-paused",
+      "scene": {
+        "mode": "eco",
+        "pixelRatio": 0.53,
+        "maxPixels": 500000,
+        "visibleGas": 0,
+        "adaptations": 0,
+        "drawCalls": 15,
+        "textures": 15
+      },
+      "canvas": {
+        "width": 763,
+        "height": 530
+      },
+      "sigils": {
+        "phrase": "Acorrentado pela realidade",
+        "fontFamily": "OrionKnowledge",
+        "fontURL": "/fonts/SigilosDeConhecimento.ttf",
+        "loaded": true,
+        "glyphs": 240,
+        "rings": 5,
+        "time": 13.4359,
+        "release": 1,
+        "reducedMotion": false,
+        "glowAtlasPacked": true,
+        "ambientGlyphs": 48,
+        "ambientVisible": true
+      },
+      "hands": {
+        "mode": "mesh",
+        "enabled": true,
+        "visible": true,
+        "loaded": true,
+        "loadError": null,
+        "motionEnabled": true,
+        "drawSurfaces": 2,
+        "triangles": 11904,
+        "textureCount": 2,
+        "joints": 18,
+        "fingerJoints": 14,
+        "swayX": 0.20989933441724815,
+        "swayY": -0.6228459900423913,
+        "maxVertexDelta": 0.10861239417622619,
+        "pose": "feminine-star-hover",
+        "handProfiles": [
+          "left",
+          "right"
+        ],
+        "rightHover": false,
+        "rightBlend": 5.100360333981308e-7,
+        "hoverBlend": 8.500600556635514e-7,
+        "leftFollow": 8.500600556635514e-7,
+        "animation": "perspective",
+        "rightFrameWeights": [
+          0.9999999999875134,
+          1.2486547274568751e-11,
+          0,
+          0,
+          0
+        ],
+        "rightDepth": 3.570252233786916e-8,
+        "selecting": false,
+        "selectionReach": 0,
+        "selectionPress": 0,
+        "selectionAnticipation": 0,
+        "selectionFollowThrough": 0,
+        "selectionLift": 0,
+        "touchLayout": false,
+        "targetDirectionX": -0.005033711981405564,
+        "targetDirectionY": 0.023433873028597785,
+        "edgeOpacity": true
+      }
+    }
+  ],
+  "errors": [],
+  "bad": [],
+  "writes": []
+}

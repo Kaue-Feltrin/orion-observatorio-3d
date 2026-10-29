@@ -1,6 +1,6 @@
 # CONTEXTO COMPLETO — PROJETO ÓRION · OBSERVATÓRIO 3D
 
-Atualizado em: 17/10/2026
+Atualizado em: 29/10/2026
 Escopo: **arquivo de contexto cumulativo de toda esta conversa**
 Objetivo: permitir retomar o desenvolvimento em outro chat **sem perder histórico, decisões, assets, branches, PRs, testes e próximos passos**.
 
@@ -1217,3 +1217,8 @@ Evidências em docs/rig-mmv/fingertip/: comparison.webp, poses.webp, capturas e 
 - Conferência visual final: cabeçalho/espaçamentos horizontais compactados para os dados da Nox caberem inteiros em 780×260. Quatro cenários afetados repetidos no build final, todos aprovados; guarda nova exige todos os valores visíveis dentro da região de dados.
 - Evidências: `docs/mobile/landscape-card/`, nove capturas e vídeo real da paisagem curta. Resumo aberto em retrato antes de girar, relógio/entrada reais, viagem efetiva. Chromium/SwiftShader com toque emulado; aparelho físico Android/Safari não testado. Publicação via check Cloudflare; pages.dev bloqueado pela rede local, sem contorno.
 - Próxima ação do usuário: abrir novo link no celular, tocar na estrela, girar com resumo aberto, conferir nome/Fechar/Entrar no universo e confirmar sem mãos nos cantos. Sem instalação/envio de arquivos. Nenhuma etapa de criação de personagem iniciada.
+
+
+## Atualização 29/10/2026 — V24
+
+Referência atual: `docs/creation/CONTINUIDADE-RESULTS-V24.md` e `CONTINUIDADE.md`. O usuário pediu todas as decisões seguintes à classe, não uma revisão precoce. O protótipo independente agora continua atributos → idade/vivência → perícias → habilidades/rituais → equipamento → história → conferência, com salvamento local/JSON e retomada; não foi conectado a contas nem ativado no Worker. Fonte protegida f80bba permanece intacta. Referências incompletas continuam pendentes. Aceleração do Brave foi ativada pelo usuário e resolveu a lentidão anterior; não houve teste físico da V24. Novos efeitos usam recursos compartilhados, preservam a arte e as resoluções, e a mesa liga os capítulos. ZIP V24 manual e evidências no relatório; não executar produção, migrações, merge ou nova PR sem autorização explícita.

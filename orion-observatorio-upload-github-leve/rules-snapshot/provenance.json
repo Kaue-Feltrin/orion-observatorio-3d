@@ -1,0 +1,128 @@
+{
+  "repository": "Kaue-Feltrin/orion-fichas",
+  "commit": "f80bbaacc8acb4ad0158d43fb923e2f421e58528",
+  "readOnlySource": true,
+  "scope": "Client-side pure rules/catalog snapshot only. No Worker, D1, users, credentials or IO adapters.",
+  "files": [
+    {
+      "path": "bombado-capacity-rule.mjs",
+      "sha256": "3510bc0f247a938687b09081e371cc3f24ec9cbb285f99ab0ddfdee7cd6b6504"
+    },
+    {
+      "path": "catalog-powers-tracks.js",
+      "sha256": "176456c1b4e0065351a531b145aa02944b21d33df82d91a1144d4a32cceeba50"
+    },
+    {
+      "path": "chef-activation-boundary-pr155.mjs",
+      "sha256": "7583e5b40a901b2bd27807e2f4937c43d0bec9fea4f8fcf6fcd12293dfdc4ab2"
+    },
+    {
+      "path": "chef-dish-rule.mjs",
+      "sha256": "b23c4db07555e98425db035c97114b479dab345edee1647b38a62258ae5fd844"
+    },
+    {
+      "path": "creation-catalog.mjs",
+      "sha256": "22416ecb486306fe28c94a24eb36cfac84530cb79c49b186c05c248fc06b149b"
+    },
+    {
+      "path": "creation-mechanics.mjs",
+      "sha256": "345f43aba12318b843be6d3297b91dca4e0d238520c68e9fe0c9a1457a077a1d"
+    },
+    {
+      "path": "creation-readiness.mjs",
+      "sha256": "6d58e014f9807ce9cccac366f09ff93de045dff5a5f82ba32e4af8aca6e3cf36"
+    },
+    {
+      "path": "creation-review.mjs",
+      "sha256": "8850f497a49a9a60933c46e00b76be9324fd5a70d81c4754dd71a8d09a181976"
+    },
+    {
+      "path": "creator-guidance.js",
+      "sha256": "92908424ff8a4b531654fa893ab03a4f9fd1e77d12551793a1b84a4840327e17"
+    },
+    {
+      "path": "creator-life-v060.js",
+      "sha256": "0c0a903166cf3536106a67d4aa3dcc9dc245caa81a605861e182890168147ed9"
+    },
+    {
+      "path": "homologation-matrix.mjs",
+      "sha256": "478c0fa4512d1e4dea209e5daeddb2c28e3522a423929e365c412388c4ba6d17"
+    },
+    {
+      "path": "index.mjs",
+      "sha256": "34dccd026e5cf350015b7274bdde22d37f0be1b4160e5f907697dccc25af36dc"
+    },
+    {
+      "path": "junior-equipment-preflight.mjs",
+      "sha256": "4772d21698129f3a88f2eb11beb75bd0901f0bc455baea8927bf3ff0726c4f84"
+    },
+    {
+      "path": "junior-modifications.mjs",
+      "sha256": "b9642f7b7e2430192d65d23345c8a381040a911f302a269b82f0e1782482e474"
+    },
+    {
+      "path": "legacy-collection-identity-pr137.mjs",
+      "sha256": "3be610b00960552c10c2ce7b663c10f99aec31704efce6aba97461874f919850"
+    },
+    {
+      "path": "life-stage-effects.mjs",
+      "sha256": "30c7aee03d8be6951b0a0881338d67e92f5c2d009954aaf31740346be2546288"
+    },
+    {
+      "path": "life-stage-review.mjs",
+      "sha256": "826f66807d50c99822ea7ec14bf17ff2a082775a35ff87f47a8e563155d2acfe"
+    },
+    {
+      "path": "loadout-review.mjs",
+      "sha256": "06fdb18df57412fd9d68c007c224de3dde7100c074ca1546e84963f212eaed34"
+    },
+    {
+      "path": "manual-items.mjs",
+      "sha256": "243fbe20aab85ad976d18bf0c0faa5551d7fe25c5e1aeeb9ddd0f9e80ab78626"
+    },
+    {
+      "path": "origin-choice-review.mjs",
+      "sha256": "f339a119bafedeee1d065f140c79a3f5dcc812786f9e944326ee6256af3293b0"
+    },
+    {
+      "path": "origin-maxima-rule.mjs",
+      "sha256": "5f61f064eebb90f273d003f0d9ab24ea11b58081916a55a27911f518b88bd6df"
+    },
+    {
+      "path": "prodigy-activation-audit.mjs",
+      "sha256": "eb6fd099b0a4c9a1eb2a4f69366a6f6052cbc654dff3e1d96bb10c37b3ae2182"
+    },
+    {
+      "path": "prodigy-progression-rule.mjs",
+      "sha256": "08cb9ebd99212dcb6de769bea0315d591b2d270cf9835a1a7033ac132b269494"
+    },
+    {
+      "path": "prodigy-trait-projection.mjs",
+      "sha256": "0073598f992bf456eaf517aa973332ef727c4395f542156d87a4c5c161238db6"
+    },
+    {
+      "path": "progression-eligibility.mjs",
+      "sha256": "36ca8376e7863a1c4f374c5c74e784fe0e8e236f2c14e39ea10d3267f4807aad"
+    },
+    {
+      "path": "progression-prerequisites.mjs",
+      "sha256": "2e478d388e5edaa16faec7a0ec53c1943763adf6572d3647bc89fe7f6059bd44"
+    },
+    {
+      "path": "progression.mjs",
+      "sha256": "dff2996e71714b79c54cf01d740fce3db5e7bce1d362641fb1d15a479e644c8f"
+    },
+    {
+      "path": "swimmer-origin-rule.mjs",
+      "sha256": "fb700d26ec495ade0defd46cce6e22d8feed14f0b312fed3e84523e08ad13ca4"
+    },
+    {
+      "path": "tank-block-rule.mjs",
+      "sha256": "89c0950f9daa5602db5ba98f1deaa02993182aa1bb0625318781a10814b0ad7f"
+    },
+    {
+      "path": "training-n7.mjs",
+      "sha256": "2c98c92858fb7163a67ca0ad804b970d99007133407e4e8342f0d1984c4b39cd"
+    }
+  ]
+}

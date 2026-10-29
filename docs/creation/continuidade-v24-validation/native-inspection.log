@@ -1,0 +1,21 @@
+[
+  {
+    scene: 'birth-native',
+    profile: {
+      mode: 'balanced',
+      pixelRatio: 1,
+      maxPixels: 2200000,
+      visibleGas: 0,
+      adaptations: 0,
+      drawCalls: 18,
+      textures: 24
+    },
+    canvas: [ 1440, 1000 ]
+  },
+  {
+    scene: 'clipboard-fallback',
+    width: 324,
+    height: 40,
+    value: 'chrome://settings/system'
+  }
+]

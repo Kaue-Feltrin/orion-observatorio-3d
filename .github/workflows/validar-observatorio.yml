@@ -18,28 +18,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
       - name: Instalar dependências
         run: npm install --no-audit --no-fund
       - name: Verificar estrutura e sintaxe
         run: npm run check
-      - name: Verificar rig 2,5D das imagens
-        run: |
-          node tests/hands-image-rig.unit.mjs
-          node tests/hands-perspective.unit.mjs
-          node tests/star-selection.unit.mjs
-          node tests/selection-handoff.unit.mjs
-          node tests/herald-navigation.unit.mjs
-          node tests/creation-state.unit.mjs
-          node tests/creation-fracture.unit.mjs
-          node tests/creation-body-rig.unit.mjs
-          node tests/creation-sigils.unit.mjs
-          node tests/creation-environment.unit.mjs
-          node tests/mobile-constellation.unit.mjs
-          node tests/distant-sky.unit.mjs
-          node tests/journey-motion.unit.mjs
-          node tests/hands-balance.unit.mjs
-          node tests/nebula-volume.unit.mjs
+      - name: Verificar regras locais, criação e animações
+        run: node --test tests/*.unit.mjs
       - name: Compilar site
         run: npm run build
 

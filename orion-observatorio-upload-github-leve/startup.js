@@ -1,3 +1,4 @@
+import{createGraphicsHelp}from './graphics-advisor.js';
 // Entrada única da aplicação: sem CDN ou import maps remotos.
 const loading = document.getElementById('loading');
 const banner = document.getElementById('loadIssue');
@@ -11,6 +12,7 @@ function fail(message) {
   const value = String(message || 'Erro inesperado no módulo 3D.');
   detail.textContent = value.length > 420 ? value.slice(0, 420) + '…' : value;
   banner.hidden = false;
+  createGraphicsHelp(banner).details.open=true;
   loading.hidden = true;
   document.documentElement.dataset.sceneError = value;
   console.error('[Observatório 3D]', value);

@@ -2,6 +2,7 @@
 // Mesma câmera e loop. No modo base as poses direitas compartilham geometria;
 // o rig MMV opcional usa pesos próprios para cada pose da imagem.
 import * as THREE from 'three';
+import {createHandEdgeOpacity} from './hands-edge-opacity.js';
 import {MESH_COLS,MESH_ROWS,deformHandVertices,HAND_PROFILES} from './hands-mesh-motion.js';
 import {createHandImageRig} from './hands-image-rig.js';
 import {perspectiveFrameWeights,HAND_REACH_DEPTH,PERSPECTIVE_POINT_LIMIT,PERSPECTIVE_DEPTH_SCALE} from './hands-perspective-motion.js';
@@ -32,7 +33,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
  root.name='OrionFeminineHands2p5D';
  root.visible=false;
  camera.add(root);
- const meshes=[],hands=[],rigs=[],rightFrames=[];
+ const meshes=[],hands=[],rigs=[],rightFrames=[],edgeOpacity=createHandEdgeOpacity();
  if(useRig)Object.defineProperty(state,'maxVertexDelta',{enumerable:true,
    get:()=>Math.max(0,...rigs.map(r=>r.measure().maxVertexDelta))});
  let neutralMesh=null,starHovered=false,pointBlend=0,pointVelocity=0;
@@ -117,10 +118,12 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
        side:THREE.DoubleSide,depthTest:false,depthWrite:false,toneMapped:false,
        vertexColors:true
      });
+     edgeOpacity.material(material);
      const rig=useRig?createHandImageRig(geom,material,side==='left'?'left':usePerspective?'perspective':'pointing',
        {perspective:usePerspective&&side==='right'}):null;
      if(rig)rigs.push(rig);
      const mesh=rig?rig.mesh:new THREE.Mesh(geom,material);
+     edgeOpacity.bind(mesh);
      mesh.name=side==='left'?'OrionFeminineLeftFraming':'OrionFeminineRightPointing';
      mesh.renderOrder=300+i;mesh.frustumCulled=false;
      meshes.push(mesh);root.add(mesh);
@@ -138,9 +141,11 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
        map:textures[2],transparent:true,opacity:HANDS.right.baseOpacity,
        side:THREE.DoubleSide,depthTest:false,depthWrite:false,toneMapped:false,vertexColors:true
      });
+     edgeOpacity.material(neutralMaterial);
      const neutralRig=useRig?createHandImageRig(neutralGeometry,neutralMaterial,'neutral',{perspective:usePerspective}):null;
      if(neutralRig)rigs.push(neutralRig);
      neutralMesh=neutralRig?neutralRig.mesh:new THREE.Mesh(neutralGeometry,neutralMaterial);
+     edgeOpacity.bind(neutralMesh);
      neutralMesh.name='OrionFeminineRightNeutral';
      neutralMesh.renderOrder=301;neutralMesh.frustumCulled=false;
      root.add(neutralMesh);
@@ -149,7 +154,7 @@ export function createEtherealHandsMesh(camera,{enabled=true,reducedMotion=false
      neutralMesh.position.copy(meshes[1].position);
    }else rightFrames.push(meshes[1]);
    state.loaded=true;state.visible=true;
-   state.textureCount=textures.length;
+   state.textureCount=textures.length;state.edgeOpacity=true;
    state.joints=rigs.reduce((sum,r)=>sum+r.bones.length,0);
    state.fingerJoints=rigs.reduce((sum,r)=>sum+r.bones.length-2,0);
    root.visible=true;complete=true;
