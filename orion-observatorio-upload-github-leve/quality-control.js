@@ -7,12 +7,23 @@ export function mountQualityControl(root,{value='auto',onChange,diagnostic}){
  root.append(button,dialog);
  const travel=new MutationObserver(()=>{button.disabled=root.classList.contains('jumping')||root.classList.contains('selecting');if(button.disabled&&dialog.open)dialog.close();});
  travel.observe(root,{attributes:true,attributeFilter:['class']});
- const radios=[...dialog.querySelectorAll('input')],feedback=dialog.querySelector('.quality-feedback');
- function refresh(){radios.forEach(r=>r.checked=r.value===value);dialog.querySelector('pre').textContent=diagnostic();}
- button.addEventListener('click',()=>{refresh();dialog.showModal();(radios.find(r=>r.checked)||radios[0]).focus();});
+ const radios=[...dialog.querySelectorAll('input')],feedback=dialog.querySelector('.quality-feedback'),details=dialog.querySelector('details'),output=dialog.querySelector('pre');
+ let refreshTimer=null;
+ function refresh(){radios.forEach(r=>r.checked=r.value===value);output.textContent=diagnostic();}
+ function stopRefresh(){if(refreshTimer!==null)clearInterval(refreshTimer);refreshTimer=null;}
+ function syncRefresh(){
+  stopRefresh();if(!dialog.open||!details.open)return;
+  refresh();refreshTimer=setInterval(()=>{
+   const selection=document.getSelection();
+   // Keep fallback manual copying usable while text is selected.
+   if(document.hidden||(selection&&!selection.isCollapsed&&output.contains(selection.anchorNode)))return;
+   refresh();
+  },1000);
+ }
+ button.addEventListener('click',()=>{refresh();dialog.showModal();syncRefresh();(radios.find(r=>r.checked)||radios[0]).focus();});
  dialog.querySelector('.quality-close').addEventListener('click',()=>dialog.close());
- dialog.addEventListener('close',()=>button.focus());
- dialog.querySelector('details').addEventListener('toggle',()=>{if(dialog.querySelector('details').open)refresh();});
+ dialog.addEventListener('close',()=>{stopRefresh();button.focus();});
+ details.addEventListener('toggle',syncRefresh);
  for(const radio of radios)radio.addEventListener('change',()=>{value=radio.value;onChange(value);let saved=false;try{localStorage.setItem(key,value);saved=true;}catch{}feedback.textContent=saved?'Ajuste aplicado e salvo neste navegador.':'Ajuste aplicado nesta aba.';refresh();});
  dialog.querySelector('.quality-copy').addEventListener('click',async()=>{const text=diagnostic();dialog.querySelector('pre').textContent=text;try{await navigator.clipboard.writeText(text);dialog.querySelector('.quality-copy-feedback').textContent='Diagnóstico copiado.';}catch{dialog.querySelector('.quality-copy-feedback').textContent='Selecione e copie os dados acima.';}});
  return{button,dialog};

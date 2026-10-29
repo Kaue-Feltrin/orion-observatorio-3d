@@ -732,6 +732,7 @@ function beginTravel(){
  document.body.classList.remove('star-aimed');
  hint.textContent='Atravessando o véu…';
 }
+const frameMonitor=createFrameMonitor();
 function resize(){
  cachedCardHeight=card.offsetHeight;
  camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
@@ -755,6 +756,7 @@ function resize(){
  }
  if(!distantSky.state.active)nebulaVolume.resize();
  for(const mat of starMaterials)mat.uniforms.uDpr.value=renderer.getPixelRatio();
+ frameMonitor.reset(performance.now());
 }
 window.addEventListener('resize',resize);resize();
 window.addEventListener('pageshow',event=>{if(event.persisted&&travelling)location.reload();});
@@ -793,7 +795,6 @@ if(debugEnabled)window.__orionDiagnostic=performancePanel;
 // Quando a GPU ou o renderizador via software não acompanha a tela,
 // reduzir a carga automaticamente em vez de insistir em resolução 4x maior.
 let renderedAt=0;
-const frameMonitor=createFrameMonitor();
 function adaptPerformance(now,frameMs){
   if(travelling||document.hidden||document.documentElement.dataset.presentationReady!=='1'){frameMonitor.reset(now);return;}
   // Qualidade explicitamente escolhida permanece estável para comparar modos.
@@ -817,7 +818,16 @@ mountQualityControl(root,{value:manualQuality?qualityOverride:'auto',onChange(va
 },diagnostic(){
  const gl=renderer.getContext(),ext=gl.getExtension('WEBGL_debug_renderer_info');
  const gpu=ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER);
- return ['Órion · diagnóstico local',navigator.userAgent,'Renderizador: '+gpu,'Modo: '+(manualQuality?'manual':'automático')+' / '+qualityMode,'Canvas: '+renderer.domElement.width+' × '+renderer.domElement.height,'FPS da aba (~janela recente): '+(frameMonitor.state.averageMs?Math.round(1000/frameMonitor.state.averageMs):'coletando'),'MSAA na inicialização: '+(gl.getContextAttributes().antialias?'sim':'não'),'Nenhum dado é enviado.'].join('\n');
+ const sample=frameMonitor.state;
+ return ['Órion · diagnóstico local','Diagnóstico: V23',navigator.userAgent,
+  'Cena: '+(creationPage?'criação / '+(root.dataset.creationPhase||'carregando'):'observatório'),
+  'Renderizador: '+gpu,
+  ...(String(gpu).trim().toLowerCase()==='brave'?['GPU física: não identificada pelo nome genérico fornecido pelo navegador.']:[]),
+  'Modo: '+(manualQuality?'manual':'automático')+' / '+qualityMode,
+  'Canvas: '+renderer.domElement.width+' × '+renderer.domElement.height,
+  'FPS da aba (última janela concluída): '+(sample.averageMs?Math.round(1000/sample.averageMs):'coletando nova amostra'),
+  'Amostra: '+(sample.updatedAt===null?'aguardando uma janela completa neste perfil':sample.samples+' quadros / '+(sample.windowMs/1000).toFixed(1)+' s; concluída há '+(Math.max(0,performance.now()-sample.updatedAt)/1000).toFixed(1)+' s'),
+  'MSAA na inicialização: '+(gl.getContextAttributes().antialias?'sim':'não'),'Nenhum dado é enviado.'].join('\n');
 }});
 let bloomTick=0;
 function tick(now){

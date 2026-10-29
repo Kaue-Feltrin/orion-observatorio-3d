@@ -1,0 +1,2 @@
+OK: every fallback reduces actual pixels, slow windows adapt, fast frames and background gaps do not force degradation.
+OK: a reset or invalid frame hides the previous measurement until a complete new window.

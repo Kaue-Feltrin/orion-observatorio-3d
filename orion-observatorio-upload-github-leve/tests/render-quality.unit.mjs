@@ -12,3 +12,15 @@ const borderline=createFrameMonitor(),first=window(borderline,0,28);assert.equal
 const resumed=createFrameMonitor();resumed.record(0,50);assert.equal(resumed.record(5000,5000),false);for(let i=0;i<60;i++)assert.equal(resumed.record(5000+i*16.67,16.67),false);
 const interrupted=createFrameMonitor();for(let i=0;i<50;i++)interrupted.record(i*30,30);interrupted.reset(1500);for(let i=0;i<120;i++)assert.equal(interrupted.record(1500+i*16.67,16.67),false);
 console.log('OK: every fallback reduces actual pixels, slow windows adapt, fast frames and background gaps do not force degradation.');
+// Changing a profile must not label the last profile's FPS as a new sample.
+const fresh=createFrameMonitor({interval:100,minSamples:2});
+fresh.record(0,100);fresh.record(100,100);
+assert.equal(fresh.state.averageMs,100);assert.equal(fresh.state.samples,2);
+fresh.reset(101);
+assert.equal(fresh.state.averageMs,null,'reset must clear FPS from the previous profile');
+assert.equal(fresh.state.samples,0,'reset must clear the previous sample count');
+assert.equal(fresh.state.updatedAt,null);assert.equal(fresh.state.windowMs,0);
+fresh.record(151,50);assert.equal(fresh.state.averageMs,null);
+fresh.record(201,50);assert.equal(fresh.state.averageMs,50);assert.equal(fresh.state.updatedAt,201);assert.equal(fresh.state.windowMs,100);
+fresh.record(8000,5000);assert.equal(fresh.state.averageMs,null,'background gaps invalidate the published sample');
+console.log('OK: a reset or invalid frame hides the previous measurement until a complete new window.');

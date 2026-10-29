@@ -1,5 +1,5 @@
 {
-  "version": 22,
+  "version": 23,
   "material": {
     "file": "walnut-v15.png",
     "width": 1536,
@@ -104,6 +104,7 @@
     "creationAntialias": "MSAA não é imposto à criação nos perfis normais; antialias do contexto só é definido na inicialização.",
     "layout": "Âncoras de arte medidas por invalidação (ResizeObserver, resize, scroll e alterações de estado), em vez de polling a cada 80 ms.",
     "textOverlays": "Fundos de blur atrás dos textos removidos; seleção e foco usam linha única, sem painéis.",
-    "shaderWork": "Transformações afins no vertex shader do fundo; dissolução e amostras de contorno evitadas quando matematicamente desnecessárias. Quadros de névoa do Observatório com uma passagem para os dois lados."
+    "shaderWork": "Transformações afins no vertex shader do fundo; dissolução e amostras de contorno evitadas quando matematicamente desnecessárias. Quadros de névoa do Observatório com uma passagem para os dois lados.",
+    "diagnostic": "Amostra de FPS invalidada ao trocar perfil, adaptar, redimensionar ou retomar aba; diagnóstico atualiza enquanto aberto e identifica cena e revisão. Renderizador genérico Brave não identifica a GPU física."
   }
 }

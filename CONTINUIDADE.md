@@ -1,3 +1,7 @@
+## 28/10/2026 — V23: erro reproduzido na associação do FPS ao perfil
+
+- Reset mantinha média/contagem publicadas do perfil anterior. Corrigida invalidação em mudanças de configuração e atualização do diagnóstico aberto, com revisão/cena e idade da amostra. Nome genérico Brave não identifica GPU. 23 arquivos unitários, seis cenários Chrome e pacote desktop/mobile aprovados, com dois cenários repetidos após identificação da revisão. Relatório: `docs/creation/DIAGNOSTICO-RESULTS-V23.md`. Renderização V22 preservada; desempenho/renderer do PC ainda em análise. Sem deploy ou mudança no Fichas.
+
 ## 28/10/2026 — V22: custo de renderização medido
 
 - Perfil por draw localizou o custo no fundo/silhuetas. Transformações UV afins nos vértices, ruído de dissolução só quando necessário, contorno preservado e planos transparentes sem draw separado do verso. Mesmos pixels, assets e efeitos. Comparação A–B–B–A mostrou melhora na criação; FPS do Observatório segue sem ganho conclusivo. 23 arquivos unitários, 24 cenários Chrome, 18 comparações visuais e pacote HTTP verificados. Relatório: `docs/creation/DESEMPENHO-RESULTS-V22.md`. Sem deploy ou mudança no Fichas; Brave/1660 pendente.

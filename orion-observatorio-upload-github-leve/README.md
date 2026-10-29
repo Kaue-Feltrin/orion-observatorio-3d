@@ -1,5 +1,8 @@
 # Projeto Órion · Observatório da Constelação
 
+V23 corrige a amostra antiga de FPS após trocar qualidade e atualiza o diagnóstico aberto. [Reprodução, testes e limites](../docs/creation/DIAGNOSTICO-RESULTS-V23.md). Renderização V22 preservada; não é uma nova alegação de ganho de FPS.
+
+
 Revisão de desempenho V22: trabalho redundante dos shaders e dos quads removido, preservando imagens, resolução e efeitos. Ganho local na criação; FPS do Observatório sem melhora conclusiva. [Medições, método e limites](../docs/creation/DESEMPENHO-RESULTS-V22.md). Brave/GTX 1660 ainda não homologado.
 
 

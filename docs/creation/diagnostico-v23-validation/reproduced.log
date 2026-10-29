@@ -1,0 +1,22 @@
+OK: every fallback reduces actual pixels, slow windows adapt, fast frames and background gaps do not force degradation.
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: reset must clear FPS from the previous profile
+
+100 !== null
+
+    at file:///workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/render-quality.unit.mjs:20:8
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 100,
+  expected: null,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

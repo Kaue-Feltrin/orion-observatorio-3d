@@ -1,4 +1,6 @@
-> Revisão atual: [V22 — Medição e custo de desenho](DESEMPENHO-RESULTS-V22.md). UVs no vertex shader, cálculos redundantes de silhuetas evitados e quads transparentes em uma passagem. Ganho local na criação, sem redução de imagens/resolução; Observatório sem ganho conclusivo de FPS. Brave/1660 pendente.
+> Revisão atual: [V23 — Amostras do diagnóstico](DIAGNOSTICO-RESULTS-V23.md). FPS anterior invalidado ao trocar configuração; atualização ao vivo, idade da amostra e cena explícitas. Correção de medição, sem nova alegação de ganho de FPS; Brave/1660 pendente.
+
+> Histórico V22: [V22 — Medição e custo de desenho](DESEMPENHO-RESULTS-V22.md). UVs no vertex shader, cálculos redundantes de silhuetas evitados e quads transparentes em uma passagem. Ganho local na criação, sem redução de imagens/resolução; Observatório sem ganho conclusivo de FPS. Brave/1660 pendente.
 
 > Histórico V21: [V21 — Texto, sigilos e layout](LIMPEZA-RESULTS-V21.md). Fundos de blur removidos, convite sem painel e inscrição inteira na roleta. Cache de âncoras sem redução de imagens/resolução; experimento de compositor descartado por regressão medida.
 
