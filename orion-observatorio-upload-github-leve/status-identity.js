@@ -1,0 +1,19 @@
+export const STATUS_CLASSES=Object.freeze({
+ COMBATENTE:Object.freeze({code:'COMBATENTE',label:'Combatente',art:'/assets/workshop/combatente-v20.png',tone:'204,139,83',cue:'Postura firme e arma baixa',motif:'frontline'}),
+ ESPECIALISTA:Object.freeze({code:'ESPECIALISTA',label:'Especialista',art:'/assets/workshop/especialista-v20.png',tone:'126,175,166',cue:'Lanterna e bolsa de investigação',motif:'investigation'}),
+ OCULTISTA:Object.freeze({code:'OCULTISTA',label:'Ocultista',art:'/assets/workshop/ocultista-v20.png',tone:'174,144,210',cue:'Gesto de ritual',motif:'ritual'})
+});
+export const statusClass=code=>STATUS_CLASSES[code]||STATUS_CLASSES.COMBATENTE;
+export function classEmblem(code){const motif=statusClass(code).motif,shape=motif==='frontline'?'<path d="m22 5 12 7-3 19-9 8-9-8-3-19Z"/><path d="m17 27 10-12m-7 1 6 5m-7 4 4 4"/>':motif==='investigation'?'<path d="M18 8h8m-6 0v6l-6 7v13h16V21l-6-7V8M14 22h16m-16 8h16"/><path d="m9 21-5-2m31 2 5-2M8 29H3m33 0h5"/>':'<path d="M22 5v34M7 14l30 16M7 30l30-16"/><circle cx="22" cy="22" r="11"/><path d="m22 15 5 7-5 7-5-7Z"/>';
+ return `<svg class="status-class-emblem" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">${shape}</svg>`;}
+export function statusSeal(code){const profile=statusClass(code),phrase=('ORION '+profile.code+' MARCADO PELO OUTRO LADO ').repeat(4),id='status-seal-'+profile.code;
+ return `<div class="status-seal" aria-hidden="true"><div class="status-aureole"></div><svg class="status-seal-wheel" viewBox="0 0 720 720" focusable="false"><defs><path id="${id}" d="M360 55a305 305 0 1 1-.1 0"/></defs><g class="seal-fixed"><path d="M360 20 373 40 360 62 347 40Zm0 638 13 22-13 20-13-20ZM20 360l20-13 22 13-22 13Zm638 0 22-13 20 13-20 13Z"/><path d="M141 141 162 148 148 162ZM579 141l-7 21-14-14ZM141 579l7-21 14 14Zm438 0-21-7 14-14Z"/><circle cx="360" cy="360" r="282"/><path d="M126 207a282 282 0 0 1 140-113m188 0a282 282 0 0 1 140 113M126 513a282 282 0 0 0 140 113m188 0a282 282 0 0 0 140-113"/></g><g class="seal-revolve"><text class="status-sigil-letters" textLength="1855" lengthAdjust="spacing"><textPath href="#${id}">${phrase}</textPath></text></g><g class="status-constellation"><path d="m225 170 274 45-80 175-82 25-70 25-86 150 290 30-52-230M225 170l42 270m0 0 70-25 82-25m80-175-62-91-42 8-170 38"/><circle cx="225" cy="170" r="5"/><circle cx="499" cy="215" r="4"/><circle cx="419" cy="390" r="4"/><circle cx="337" cy="415" r="5"/><circle cx="267" cy="440" r="4"/><circle cx="181" cy="590" r="5"/><circle cx="471" cy="620" r="6"/><circle cx="437" cy="124" r="3"/></g></svg><div class="status-star-dust">${Array.from({length:14},(_,i)=>`<i style="--star-x:${(i*37+13)%96}%;--star-y:${(i*23+7)%91}%;--star-delay:${i*.7}s"></i>`).join('')}</div></div>`;
+}
+export function mountStatusAtmosphere(root){
+ const motion=matchMedia('(prefers-reduced-motion: reduce)');let frame=null,px=0,py=0;
+ const move=e=>{if(motion.matches||document.hidden||e.pointerType==='touch')return;px=(e.clientX/innerWidth-.5)*8;py=(e.clientY/innerHeight-.5)*5;if(frame!==null)return;frame=requestAnimationFrame(()=>{root.style.setProperty('--sky-x',px.toFixed(2)+'px');root.style.setProperty('--sky-y',py.toFixed(2)+'px');frame=null;});};
+ const reset=()=>{if(frame!==null)cancelAnimationFrame(frame);frame=null;root.style.setProperty('--sky-x','0px');root.style.setProperty('--sky-y','0px');};
+ root.addEventListener('pointermove',move,{passive:true});root.addEventListener('pointerleave',reset);motion.addEventListener('change',reset);
+ if(document.fonts)document.fonts.load('22px OrionStatusSigils').then(faces=>{if(root.isConnected&&faces.length&&faces.every(f=>f.status==='loaded'))root.dataset.sigilsReady='1';}).catch(()=>{});
+ return()=>{reset();root.removeEventListener('pointermove',move);root.removeEventListener('pointerleave',reset);motion.removeEventListener('change',reset);};
+}

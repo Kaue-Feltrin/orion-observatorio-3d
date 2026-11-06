@@ -1,0 +1,17 @@
+
+Running 3 tests using 1 worker
+
+(node:320362) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:320362) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/creation-journey.spec.js:43:65 › criação completa COMBATENTE: decisões, volta, JSON e retomada local (42.9s)
+  ✓  2 tests/creation-journey.spec.js:43:65 › criação completa ESPECIALISTA: decisões, volta, JSON e retomada local (29.7s)
+  ✓  3 tests/creation-journey.spec.js:43:65 › criação completa OCULTISTA: decisões, volta, JSON e retomada local (27.3s)
+
+  3 passed (1.7m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

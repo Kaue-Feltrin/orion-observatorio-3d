@@ -1,0 +1,4 @@
+import assert from'node:assert/strict';
+import{readFileSync}from'node:fs';
+import{STATUS_CLASSES,statusClass,statusSeal,classEmblem}from'../status-identity.js';
+const images=new Set();for(const code of['COMBATENTE','ESPECIALISTA','OCULTISTA']){const p=statusClass(code);assert.equal(p.code,code);assert(readFileSync(new URL('../public'+p.art,import.meta.url)).length>1000);images.add(p.art);const seal=statusSeal(code);assert(seal.includes('aria-hidden="true"'));assert(seal.includes('MARCADO'));assert(!seal.includes('undefined'));assert(classEmblem(code).startsWith('<svg'));}assert.equal(images.size,3);assert.equal(statusClass('invalid'),STATUS_CLASSES.COMBATENTE);console.log('OK: three distinct existing class silhouettes, deterministic safe fallback, class emblems and decorative sigil inscription.');

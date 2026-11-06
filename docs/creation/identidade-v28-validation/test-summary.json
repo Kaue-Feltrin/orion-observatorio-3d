@@ -1,0 +1,138 @@
+{
+  "distinct": 26,
+  "passed": 26,
+  "automaticRetries": 0,
+  "unitFiles": 28,
+  "cases": [
+    {
+      "file": "tests/status-identity-v28.spec.js",
+      "title": "classe COMBATENTE: sombra correta, inscrição nativa e corpo enquadrado",
+      "status": "passed"
+    },
+    {
+      "file": "tests/status-identity-v28.spec.js",
+      "title": "classe ESPECIALISTA: sombra correta, inscrição nativa e corpo enquadrado",
+      "status": "passed"
+    },
+    {
+      "file": "tests/status-identity-v28.spec.js",
+      "title": "classe OCULTISTA: sombra correta, inscrição nativa e corpo enquadrado",
+      "status": "passed"
+    },
+    {
+      "file": "tests/status-identity-v28.spec.js",
+      "title": "imagem própria preservada e remoção retorna a ESPECIALISTA",
+      "status": "passed"
+    },
+    {
+      "file": "tests/status-identity-v28.spec.js",
+      "title": "imagem própria preservada e remoção retorna a OCULTISTA",
+      "status": "passed"
+    },
+    {
+      "file": "tests/status-identity-v28.spec.js",
+      "title": "fonte atrasada não revela letras latinas; restante da ficha permanece disponível",
+      "status": "passed"
+    },
+    {
+      "file": "tests/status-identity-v28.spec.js",
+      "title": "movimento reduzido estático; paralaxe ativo é limitado e não desloca controles",
+      "status": "passed"
+    },
+    {
+      "file": "tests/status-v27.spec.js",
+      "title": "status COMBATENTE: corpo inteiro, seções reais e ficha em papel preservada",
+      "status": "passed"
+    },
+    {
+      "file": "tests/status-v27.spec.js",
+      "title": "status ESPECIALISTA: corpo inteiro, seções reais e ficha em papel preservada",
+      "status": "passed"
+    },
+    {
+      "file": "tests/status-v27.spec.js",
+      "title": "status OCULTISTA: corpo inteiro, seções reais e ficha em papel preservada",
+      "status": "passed"
+    },
+    {
+      "file": "tests/status-v27.spec.js",
+      "title": "status sem cortes ou overflow 1920x951",
+      "status": "passed"
+    },
+    {
+      "file": "tests/status-v27.spec.js",
+      "title": "status sem cortes ou overflow 1440x1000",
+      "status": "passed"
+    },
+    {
+      "file": "tests/status-v27.spec.js",
+      "title": "status sem cortes ou overflow 390x844",
+      "status": "passed"
+    },
+    {
+      "file": "tests/status-v27.spec.js",
+      "title": "status sem cortes ou overflow 320x568",
+      "status": "passed"
+    },
+    {
+      "file": "tests/status-v27.spec.js",
+      "title": "status sem cortes ou overflow 568x320",
+      "status": "passed"
+    },
+    {
+      "file": "tests/status-v27.spec.js",
+      "title": "recursos persistem sem alterar ficha; exportação conserva sessão e dados",
+      "status": "passed"
+    },
+    {
+      "file": "tests/status-v27.spec.js",
+      "title": "falha de storage não anuncia salvamento e valores ausentes ficam sem número",
+      "status": "passed"
+    },
+    {
+      "file": "tests/status-v27.spec.js",
+      "title": "registro antigo sem máximos não recebe recursos fictícios",
+      "status": "passed"
+    },
+    {
+      "file": "tests/status-v27.spec.js",
+      "title": "teclado, busca por finalidade e inventário selecionado",
+      "status": "passed"
+    },
+    {
+      "file": "tests/status-v27.spec.js",
+      "title": "imagem própria salva, recarrega, rejeita arquivo inválido e remove só a arte",
+      "status": "passed"
+    },
+    {
+      "file": "tests/status-v27.spec.js",
+      "title": "arte e recursos de um personagem não vazam para outro registro",
+      "status": "passed"
+    },
+    {
+      "file": "tests/creation-journey.spec.js",
+      "title": "criação completa COMBATENTE: decisões, volta, JSON e retomada local",
+      "status": "passed"
+    },
+    {
+      "file": "tests/creation-journey.spec.js",
+      "title": "criação completa ESPECIALISTA: decisões, volta, JSON e retomada local",
+      "status": "passed"
+    },
+    {
+      "file": "tests/creation-journey.spec.js",
+      "title": "criação completa OCULTISTA: decisões, volta, JSON e retomada local",
+      "status": "passed"
+    },
+    {
+      "file": "tests/quality-diagnostic.spec.js",
+      "title": "diagnóstico espera a nova amostra, atualiza e pode ser copiado: /",
+      "status": "passed"
+    },
+    {
+      "file": "tests/quality-diagnostic.spec.js",
+      "title": "diagnóstico espera a nova amostra, atualiza e pode ser copiado: /criacao.html",
+      "status": "passed"
+    }
+  ]
+}

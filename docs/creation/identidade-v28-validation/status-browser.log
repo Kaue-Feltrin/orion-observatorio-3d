@@ -1,0 +1,73 @@
+
+Running 21 tests using 1 worker
+
+(node:318485) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:318485) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/status-identity-v28.spec.js:41:65 › classe COMBATENTE: sombra correta, inscrição nativa e corpo enquadrado (3.0s)
+  ✓   2 tests/status-identity-v28.spec.js:41:65 › classe ESPECIALISTA: sombra correta, inscrição nativa e corpo enquadrado (1.5s)
+  ✓   3 tests/status-identity-v28.spec.js:41:65 › classe OCULTISTA: sombra correta, inscrição nativa e corpo enquadrado (1.4s)
+  ✓   4 tests/status-identity-v28.spec.js:58:51 › imagem própria preservada e remoção retorna a ESPECIALISTA (2.2s)
+  ✓   5 tests/status-identity-v28.spec.js:58:51 › imagem própria preservada e remoção retorna a OCULTISTA (2.6s)
+  ✓   6 tests/status-identity-v28.spec.js:73:1 › fonte atrasada não revela letras latinas; restante da ficha permanece disponível (1.5s)
+  ✘   7 tests/status-identity-v28.spec.js:94:1 › movimento reduzido estático; paralaxe ativo é limitado e não desloca controles (13.8s)
+(node:318850) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:318850) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 tests/status-v27.spec.js:53:65 › status COMBATENTE: corpo inteiro, seções reais e ficha em papel preservada (4.8s)
+  ✓   9 tests/status-v27.spec.js:53:65 › status ESPECIALISTA: corpo inteiro, seções reais e ficha em papel preservada (2.7s)
+  ✓  10 tests/status-v27.spec.js:53:65 › status OCULTISTA: corpo inteiro, seções reais e ficha em papel preservada (2.7s)
+  ✓  11 tests/status-v27.spec.js:102:5 › status sem cortes ou overflow 1920x951 (2.3s)
+  ✓  12 tests/status-v27.spec.js:102:5 › status sem cortes ou overflow 1440x1000 (1.7s)
+  ✓  13 tests/status-v27.spec.js:102:5 › status sem cortes ou overflow 390x844 (846ms)
+  ✓  14 tests/status-v27.spec.js:102:5 › status sem cortes ou overflow 320x568 (759ms)
+  ✓  15 tests/status-v27.spec.js:102:5 › status sem cortes ou overflow 568x320 (765ms)
+  ✓  16 tests/status-v27.spec.js:120:1 › recursos persistem sem alterar ficha; exportação conserva sessão e dados (1.8s)
+  ✓  17 tests/status-v27.spec.js:140:1 › falha de storage não anuncia salvamento e valores ausentes ficam sem número (917ms)
+  ✓  18 tests/status-v27.spec.js:157:1 › registro antigo sem máximos não recebe recursos fictícios (1.4s)
+  ✓  19 tests/status-v27.spec.js:169:1 › teclado, busca por finalidade e inventário selecionado (1.5s)
+  ✓  20 tests/status-v27.spec.js:202:1 › imagem própria salva, recarrega, rejeita arquivo inválido e remove só a arte (1.9s)
+  ✓  21 tests/status-v27.spec.js:223:1 › arte e recursos de um personagem não vazam para outro registro (2.6s)
+
+
+  1) tests/status-identity-v28.spec.js:94:1 › movimento reduzido estático; paralaxe ativo é limitado e não desloca controles
+
+    Error: expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+    Call Log:
+    - Timeout 12000ms exceeded while waiting on the predicate
+
+      4 | for(const code of['ESPECIALISTA','OCULTISTA'])test(`imagem própria preservada e remoção retorna a ${code}`,async({page})=>{await open(page,code);await page.locator('[data-art-file]').setInputFiles('public/assets/workshop/combatente-v20.png');await expect(page.locator('.status-art-message')).toContainText('Imagem salva');await expect(page.locator('.status-fullbody')).toHaveAttribute('src',/^blob:/);await page.reload();await expect(page.locator('.status-fullbody')).toHaveAttribute('src',/^blob:/);await expect(page.locator('.agent-status')).toHaveAttribute('data-status-class',code);await page.locator('[data-remove-art]').click();await expect(page.locator('.status-fullbody')).toHaveAttribute('src',statusClass(code).art);await page.reload();await expect(page.locator('.status-fullbody')).toHaveAttribute('src',statusClass(code).art);});
+      5 | test('fonte atrasada não revela letras latinas; restante da ficha permanece disponível',async({page})=>{let release;const held=new Promise(r=>release=r);await page.route('**/fonts/SigilosDeConhecimento.ttf',async route=>{await held;await route.continue()});await open(page);await expect(page.locator('.status-sigil-letters')).toHaveCSS('visibility','hidden');await expect(page.locator('.local-sheet h1')).toHaveText('Astra');await page.getByRole('button',{name:'Diminuir Vida',exact:true}).click();await expect(page.locator('[data-resource-key="pv"] output')).toHaveText('21');release();await expect(page.locator('.agent-status')).toHaveAttribute('data-sigils-ready','1');await expect(page.locator('.status-sigil-letters')).toHaveCSS('visibility','visible');});
+    > 6 | test('movimento reduzido estático; paralaxe ativo é limitado e não desloca controles',async({page})=>{await open(page);await expect(page.locator('.seal-revolve')).toHaveCSS('animation-name','none');const before=await page.getByRole('button',{name:'Diminuir Vida',exact:true}).boundingBox();await page.mouse.move(1200,700);expect(await page.locator('.agent-status').evaluate(e=>e.style.getPropertyValue('--sky-x'))).toBe('');await page.emulateMedia({reducedMotion:'no-preference'});await page.mouse.move(1100,500);await expect.poll(()=>page.locator('.agent-status').evaluate(e=>Math.abs(parseFloat(e.style.getPropertyValue('--sky-x'))||0))).toBeGreaterThan(0);const delta=await page.locator('.agent-status').evaluate(e=>[parseFloat(e.style.getPropertyValue('--sky-x')),parseFloat(e.style.getPropertyValue('--sky-y'))]);expect(Math.abs(delta[0])).toBeLessThanOrEqual(4);expect(Math.abs(delta[1])).toBeLessThanOrEqual(2.5);const after=await page.getByRole('button',{name:'Diminuir Vida',exact:true}).boundingBox();expect(after).toEqual(before);});
+        |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ^
+      7 |
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/status-identity-v28.spec.js:6:514
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/status-identity-v28-movime-fd11e-ado-e-não-desloca-controles/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/status-identity-v28-movime-fd11e-ado-e-não-desloca-controles/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/status-identity-v28-movime-fd11e-ado-e-não-desloca-controles/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/status-identity-v28-movime-fd11e-ado-e-não-desloca-controles/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/status-identity-v28.spec.js:94:1 › movimento reduzido estático; paralaxe ativo é limitado e não desloca controles
+  20 passed (56.0s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

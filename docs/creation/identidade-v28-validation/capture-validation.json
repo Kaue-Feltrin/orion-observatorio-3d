@@ -1,0 +1,180 @@
+{
+  "base": "http://127.0.0.1:4173",
+  "fixture": "Three fictional registered characters. Real page, class art, resources and inventory actions.",
+  "metrics": [
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 951
+      },
+      "src": "/assets/workshop/combatente-v20.png",
+      "image": {
+        "x": 768.5,
+        "y": 324.25,
+        "width": 385,
+        "height": 548,
+        "top": 324.25,
+        "right": 1153.5,
+        "bottom": 872.25,
+        "left": 768.5
+      },
+      "overflow": false,
+      "canvases": 0
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 951
+      },
+      "src": "/assets/workshop/especialista-v20.png",
+      "image": {
+        "x": 768.5,
+        "y": 324.25,
+        "width": 385,
+        "height": 548,
+        "top": 324.25,
+        "right": 1153.5,
+        "bottom": 872.25,
+        "left": 768.5
+      },
+      "overflow": false,
+      "canvases": 0
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 951
+      },
+      "src": "/assets/workshop/ocultista-v20.png",
+      "image": {
+        "x": 768.5,
+        "y": 324.25,
+        "width": 385,
+        "height": 548,
+        "top": 324.25,
+        "right": 1153.5,
+        "bottom": 872.25,
+        "left": 768.5
+      },
+      "overflow": false,
+      "canvases": 0
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "src": "/assets/workshop/combatente-v20.png",
+      "image": {
+        "x": 55,
+        "y": 547.34375,
+        "width": 280,
+        "height": 299,
+        "top": 547.34375,
+        "right": 335,
+        "bottom": 846.34375,
+        "left": 55
+      },
+      "overflow": false,
+      "canvases": 0
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "src": "/assets/workshop/especialista-v20.png",
+      "image": {
+        "x": 55,
+        "y": 547.34375,
+        "width": 280,
+        "height": 299,
+        "top": 547.34375,
+        "right": 335,
+        "bottom": 846.34375,
+        "left": 55
+      },
+      "overflow": false,
+      "canvases": 0
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "src": "/assets/workshop/ocultista-v20.png",
+      "image": {
+        "x": 55,
+        "y": 547.34375,
+        "width": 280,
+        "height": 299,
+        "top": 547.34375,
+        "right": 335,
+        "bottom": 846.34375,
+        "left": 55
+      },
+      "overflow": false,
+      "canvases": 0
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "src": "/assets/workshop/combatente-v20.png",
+      "image": {
+        "x": 36,
+        "y": 535.390625,
+        "width": 248,
+        "height": 316,
+        "top": 535.390625,
+        "right": 284,
+        "bottom": 851.390625,
+        "left": 36
+      },
+      "overflow": false,
+      "canvases": 0
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "src": "/assets/workshop/especialista-v20.png",
+      "image": {
+        "x": 36,
+        "y": 535.390625,
+        "width": 248,
+        "height": 316,
+        "top": 535.390625,
+        "right": 284,
+        "bottom": 851.390625,
+        "left": 36
+      },
+      "overflow": false,
+      "canvases": 0
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "src": "/assets/workshop/ocultista-v20.png",
+      "image": {
+        "x": 36,
+        "y": 535.390625,
+        "width": 248,
+        "height": 316,
+        "top": 535.390625,
+        "right": 284,
+        "bottom": 851.390625,
+        "left": 36
+      },
+      "overflow": false,
+      "canvases": 0
+    }
+  ],
+  "errors": [],
+  "bad": [],
+  "writes": []
+}

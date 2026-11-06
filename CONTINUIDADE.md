@@ -1,3 +1,11 @@
+## 06/11/2026 — V28: classe e identidade paranormal da ficha
+
+- Usuário rejeitou o aspecto vazio/genérico da V27 e pediu silhueta baseada na classe. Default agora usa os três PNGs V20 de Combatente/Especialista/Ocultista, somente alpha como sombra escura. Procedência image_gen histórica preservada; nenhum pixel editado ou imagem nova gerada. Imagem própria continua prioritária e remoção retorna à classe correta.
+- Céu ESO do Observatório, halo e inscrição dourada com fonte real de sigilos, constelação/partículas, emblemas/tons por classe, recursos e atributos com matéria/luz. Fonte é aguardada para evitar flash latino. Paralaxe de baixa amplitude por evento, movimento reduzido estático, sem renderer/canvas novo. Crédito ESO também na ficha; foto ~3,9 MB se não estiver em cache. Não alegar ganho físico de FPS.
+- Check, 28 arquivos unitários, build com assets cacheados e 26 cenários Chrome distintos aprovados: 21 status/identidade, três criações completas e dois diagnósticos V28. Corrigidos enquadramento intrínseco dos PNGs, atribuição redundante da imagem e exposição de cores internas. Uma expectativa de paralaxe ao mudar preferência foi ajustada para verificar modo normal numa nova entrada; logs preservados.
+- Pacote HTTP desktop/mobile validou sombra/sigilos, recursos/JSON/reload, papel e estrela. Capturas/vídeo reais das três classes; 56 assets e 41 recursos do ZIP anterior idênticos. Dados/regras/recursos/imagem própria preservados, Fichas f80bba intacto. Sem deploy, produção, migração, merge ou PR nova.
+- Entrega: `downloads/ORION-SITE-V28.zip`, vídeo `downloads/IDENTIDADE-V28.mp4`; relatório `docs/creation/IDENTIDADE-RESULTS-V28.md`. Aprovação artística e Brave/aparelhos físicos pendentes. Oficina/Evolução continuam próximas etapas do plano, não implementadas por esta revisão visual.
+
 ## 06/11/2026 — V27: status com corpo inteiro e retomada do estudo AAA
 
 - Recuperado o estudo de 26/10 (Oficina/Jogo/Evolução) em `docs/creation/status-v27-validation/estudo-aaa-recuperado/`. Usuário confirmou corpo inteiro como foco da ficha de jogo. Nova consulta padrão: figura central, recursos de sessão à esquerda, atributos/identidade à direita; abas reais e arquivo paranormal tático.
