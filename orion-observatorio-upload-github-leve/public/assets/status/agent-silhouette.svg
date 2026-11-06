@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 800" fill="none">
+<!-- Original anonymous full-body stand-in. No gender, face or player appearance inferred. -->
+<defs><linearGradient id="body" x1="130" y1="400" x2="265" y2="400" gradientUnits="userSpaceOnUse"><stop stop-color="#303641"/><stop offset=".22" stop-color="#202631"/><stop offset=".65" stop-color="#10151e"/><stop offset="1" stop-color="#282e39"/></linearGradient><linearGradient id="head" x1="170" y1="100" x2="230" y2="100" gradientUnits="userSpaceOnUse"><stop stop-color="#3b414a"/><stop offset=".3" stop-color="#252c36"/><stop offset="1" stop-color="#121922"/></linearGradient><linearGradient id="edge"><stop stop-color="#c2baa2" stop-opacity=".72"/><stop offset=".5" stop-color="#76818f" stop-opacity=".2"/><stop offset="1" stop-color="#c2baa2" stop-opacity=".5"/></linearGradient></defs>
+<g stroke="url(#edge)" stroke-width="1.1" stroke-linejoin="round">
+<path fill="url(#head)" d="M174 151 174 177 159 191 187 220 215 219 243 190 226 176 225 149Z"/>
+<path fill="url(#head)" d="M167 92Q167 59 199 55 231 54 236 87L234 112Q241 109 239 125L234 134Q229 162 202 170 175 163 170 137L164 127Q160 114 166 114Z"/>
+<path fill="url(#body)" d="M174 179 151 187 129 202Q121 211 117 235L108 289 97 342 83 387 84 403 97 412 108 395 122 358 136 316 148 270 152 327 148 383 141 420 148 448 194 459 237 450 252 423 246 379 243 328 250 269 264 316 275 361 290 398 301 409 316 402 316 386 302 341 292 289 284 235Q282 212 271 202L247 188 226 178 219 192 201 198 184 191Z"/>
+<path fill="url(#head)" d="m84 397-9 17-4 27 2 15 5 0 1-23 4-5-2 32 5 3 5-33 3 0-2 33 5 1 5-30 2-3-1 24 5 0 6-30-2-24-7-13Z"/>
+<path fill="url(#head)" d="m301 397 11 10 7 25 1 20-5 2-3-23-4-2 3 30-4 3-7-29-2 0 3 32-5 1-6-31-3-3 3 23-5 2-9-27-2-22 12-12Z"/>
+<path fill="url(#body)" d="M149 418 141 455 144 509 154 570 155 628 151 704 158 727 181 728 190 699 195 628 193 571 200 502 207 572 206 632 214 704 221 728 245 727 251 705 247 629 246 568 253 504 257 453 246 418 222 427 200 430 175 425Z"/>
+<path fill="#131a23" d="m155 705-4 33-14 15-2 14q22 8 49-1l1-24-5-34Z"/>
+<path fill="#111821" d="m220 708-5 34 1 24q26 9 50 0l-2-15-16-14-5-32Z"/>
+</g>
+<g stroke="#89919b" stroke-opacity=".24" stroke-width="1.1"><path d="m153 206 26 14 22 1 24-2 24-13M153 330l8 52-7 30 45 12 43-12-9-36 8-45M155 443l38 11m10 1 40-11M166 473l12 77-2 65-6 72m60-212-10 79 2 65 10 67M147 758h35m37 0h42M124 278l13-43m136 44-10-44"/></g>
+<path d="M176 88Q180 69 198 68" stroke="#aaa18c" stroke-opacity=".25"/>
+</svg>

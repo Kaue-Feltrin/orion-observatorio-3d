@@ -1,0 +1,267 @@
+
+Running 38 tests using 1 worker
+
+(node:309938) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:309938) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 tests/creation-journey.spec.js:43:65 › criação completa COMBATENTE: decisões, volta, JSON e retomada local (40.6s)
+(node:310070) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:310070) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   2 tests/creation-journey.spec.js:43:65 › criação completa ESPECIALISTA: decisões, volta, JSON e retomada local (44.3s)
+(node:310303) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:310303) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   3 tests/creation-journey.spec.js:43:65 › criação completa OCULTISTA: decisões, volta, JSON e retomada local (41.1s)
+(node:310745) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:310745) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   4 tests/creation-journey.spec.js:135:5 › decisões no papel cabem em 390×844 (7.0s)
+  ✓   5 tests/creation-journey.spec.js:135:5 › decisões no papel cabem em 320×568 (4.6s)
+  ✓   6 tests/creation-journey.spec.js:135:5 › decisões no papel cabem em 568×320 (4.8s)
+  ✓   7 tests/creation-journey.spec.js:148:1 › quota recusada não anuncia personagem criado (4.7s)
+  ✓   8 tests/creation-journey.spec.js:162:1 › retomar Prodígio não prende atributos antes de escolher os limites etários (11.3s)
+  ✓   9 tests/creation-journey.spec.js:191:1 › Profissão e subescolha de Engenheiro permanecem sincronizadas, sem conceder item (6.8s)
+  ✓  10 tests/equipment-writing-v26.spec.js:51:5 › conflito de categoria visível e corrigível em 1440 (7.7s)
+  ✓  11 tests/equipment-writing-v26.spec.js:51:5 › conflito de categoria visível e corrigível em 390 (3.6s)
+  ✓  12 tests/equipment-writing-v26.spec.js:51:5 › conflito de categoria visível e corrigível em 320 (3.5s)
+  ✓  13 tests/equipment-writing-v26.spec.js:75:1 › conferência aponta mochila em conflito e não permite criar (6.7s)
+  ✓  14 tests/equipment-writing-v26.spec.js:93:1 › busca avisa a categoria antes de adicionar e quantidade mostra excesso real (7.3s)
+  ✓  15 tests/equipment-writing-v26.spec.js:119:5 › lápis proporcional e ponta acompanha traço real em 1440 (36.2s)
+  ✓  16 tests/equipment-writing-v26.spec.js:119:5 › lápis proporcional e ponta acompanha traço real em 390 (25.1s)
+  ✓  17 tests/equipment-writing-v26.spec.js:166:1 › movimento reduzido exibe todos os traços prontos sem lápis (3.8s)
+  ✓  18 tests/quality-diagnostic.spec.js:2:44 › diagnóstico espera a nova amostra, atualiza e pode ser copiado: / (22.5s)
+  ✓  19 tests/quality-diagnostic.spec.js:2:44 › diagnóstico espera a nova amostra, atualiza e pode ser copiado: /criacao.html (15.1s)
+  ✓  20 tests/recruitment-v25.spec.js:44:65 › Criar COMBATENTE registra, carimba e abre uma ficha persistente (10.7s)
+  ✓  21 tests/recruitment-v25.spec.js:44:65 › Criar ESPECIALISTA registra, carimba e abre uma ficha persistente (5.4s)
+  ✓  22 tests/recruitment-v25.spec.js:44:65 › Criar OCULTISTA registra, carimba e abre uma ficha persistente (4.7s)
+  ✓  23 tests/recruitment-v25.spec.js:104:1 › recrutamento normal cola foto, escreve com caneta e carimba na ordem (30.5s)
+  ✓  24 tests/recruitment-v25.spec.js:135:1 › recarregar durante escrita não duplica personagem (9.9s)
+  ✓  25 tests/recruitment-v25.spec.js:148:1 › armazenamento negado preserva escolhas e não exibe recrutamento (4.1s)
+  ✓  26 tests/recruitment-v25.spec.js:162:1 › desvantagens têm escolha única clara para Adulto e limite explícito para Maduro (7.1s)
+  ✓  27 tests/recruitment-v25.spec.js:186:1 › perícias explicam uso e busca por finalidade; todos os itens visíveis têm ícone (5.5s)
+  ✓  28 tests/recruitment-v25.spec.js:203:1 › comparar direto na lista mostra as duas origens e permite escolher no quadro (7.6s)
+  ✓  29 tests/recruitment-v25.spec.js:228:5 › recrutamento acessível em 390x844 (4.2s)
+  ✓  30 tests/recruitment-v25.spec.js:228:5 › recrutamento acessível em 320x568 (3.4s)
+  ✓  31 tests/recruitment-v25.spec.js:228:5 › recrutamento acessível em 568x320 (3.3s)
+  ✓  32 tests/recruitment-v25.spec.js:240:1 › concluir animação mostra o registro salvo sem criar uma segunda ficha (7.6s)
+  ✓  33 tests/recruitment-v25.spec.js:253:1 › rolagem automática avança gradualmente e respeita interrupção do usuário (16.3s)
+  ✓  34 tests/recruitment-v25.spec.js:290:5 › comparação, idade e itens sem overflow em 390x844 (6.9s)
+  ✓  35 tests/recruitment-v25.spec.js:290:5 › comparação, idade e itens sem overflow em 320x568 (5.2s)
+  ✓  36 tests/recruitment-v25.spec.js:290:5 › comparação, idade e itens sem overflow em 568x320 (5.0s)
+  ✓  37 tests/recruitment-v25.spec.js:313:1 › ficha local em carregamento não mostra a identidade de demonstração (736ms)
+  ✓  38 tests/recruitment-v25.spec.js:348:1 › arquivo com sete personagens mantém todos acessíveis em páginas de estrelas (10.5s)
+
+
+  1) tests/creation-journey.spec.js:43:65 › criação completa COMBATENTE: decisões, volta, JSON e retomada local
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.local-sheet')
+    Timeout: 12000ms
+    - Expected substring  -  1
+    + Received string     + 13
+
+    - Investigava um farol abandonado. <script>alert(1)</script>
+    +
+    +   ✧ ÓRION ARQUIVO DE AGENTES← ObservatórioMeus personagens
+    +   REGISTRO OR-300BE63E59AstraCombatente · AcadêmicoNÍVEL 1NEX 5%RECRUTADO
+    +   Visão geralPeríciasHabilidadesRituaisInventárioHistória
+    +
+    +    ESTADO DO AGENTEVidaPV22/ 22−Atual / máximo de referência+SanidadeSAN12/ 12−Atual / máximo de referência+EsforçoPE3/ 3−Atual / máximo de referência+DEFESA BASE12Referência da ficha
+    +    ÓRION / IDENTIDADESilhueta provisóriaUsar imagem de corpo inteiroRemover imagem
+    +    POTENCIALAGIAgilidade2FORForça2INTIntelecto2PREPresença1VIGVigor2IDENTIDADEIdade20 anosVivênciaJovemPatenteRecrutaRepresentaçãoNão definida
+    +
+    +
+    +
+    +   SEU ARQUIVOPronto para o desconhecido.O que você aprendeu, o que leva consigo e o que ainda precisa descobrir.7perícias treinadas ↗1itens na mochila ↗0rituais registrados ↗ARQUIVO LOCAL  Salvo neste navegadorFicha em papelBaixar ficha JSONCriar outro personagem
+    +
+
+    Call log:
+      - Expect "toContainText" with timeout 12000ms
+      - waiting for locator('.local-sheet')
+        16 × locator resolved to <article data-active-tab="overview" class="local-sheet agent-status" data-character-id="local-300be63e-59f4-4f14-b414-ed7a0302a0af">…</article>
+           - unexpected value "
+      ✧ ÓRION ARQUIVO DE AGENTES← ObservatórioMeus personagens
+      REGISTRO OR-300BE63E59AstraCombatente · AcadêmicoNÍVEL 1NEX 5%RECRUTADO
+      Visão geralPeríciasHabilidadesRituaisInventárioHistória
+
+       ESTADO DO AGENTEVidaPV22/ 22−Atual / máximo de referência+SanidadeSAN12/ 12−Atual / máximo de referência+EsforçoPE3/ 3−Atual / máximo de referência+DEFESA BASE12Referência da ficha
+       ÓRION / IDENTIDADESilhueta provisóriaUsar imagem de corpo inteiroRemover imagem
+       POTENCIALAGIAgilidade2FORForça2INTIntelecto2PREPresença1VIGVigor2IDENTIDADEIdade20 anosVivênciaJovemPatenteRecrutaRepresentaçãoNão definida
+
+
+
+      SEU ARQUIVOPronto para o desconhecido.O que você aprendeu, o que leva consigo e o que ainda precisa descobrir.7perícias treinadas ↗1itens na mochila ↗0rituais registrados ↗ARQUIVO LOCAL  Salvo neste navegadorFicha em papelBaixar ficha JSONCriar outro personagem
+     "
+
+
+      10 |  test.setTimeout(60000);const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url())});await resume(page,code);await expect(page.locator('[data-journey-next]')).toBeDisabled();for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change="${k}"][data-delta="1"]`).click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','life');await page.locator('[data-field="age"]').fill('20');await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','skills');if(code==='COMBATENTE'){await page.locator('[data-field="combat:primary"]').selectOption('LUTA');await page.locator('[data-field="combat:resistance"]').selectOption('FORTITUDE');}
+      11 |  const count=code==='COMBATENTE'?3:code==='ESPECIALISTA'?9:5;for(let i=0;i<count;i++)await page.locator('[data-skill]:not(:disabled)[aria-pressed="false"]').first().click();await expect(page.locator('[data-journey-next]')).toBeEnabled();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','preparation');if(code==='ESPECIALISTA'){await page.locator('[data-expertise]').nth(0).click();await page.locator('[data-expertise]').nth(1).click();}if(code==='OCULTISTA'){await expect(page.locator('[data-journey-next]')).toBeDisabled();for(let i=0;i<3;i++)await page.locator('[data-ritual][aria-pressed="false"]').first().click();await expect(page.locator('[data-ritual][aria-pressed="false"]').first()).toBeDisabled();}await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','equipment');await page.locator('[data-search]').fill('lanterna');await page.locator('[data-item][data-delta="1"]:not(:disabled)').first().click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','background');const story='Investigava um farol abandonado. <script>alert(1)</script>';await page.locator('[data-field="story:background"]').fill(story);await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','true');expect(await page.locator('.review-ledger script').count()).toBe(0);await expect(page.locator('.review-ledger')).toContainText(story);
+    > 12 |  await page.locator('[data-journey-go="0"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-attr-change="INT"][data-delta="-1"]').click();await page.locator('[data-attr-change="PRE"][data-delta="1"]').click();await page.locator('[data-journey-go="2"]').click();await expect(page.locator('[data-journey-next]')).toBeDisabled();await page.locator('[data-journey-go="6"]').click();await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','false');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-paper-ready','1');await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.review-ledger')).toContainText(story);await page.locator('[data-journey-go="0"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-attr-change="INT"][data-delta="1"]').click();await page.locator('[data-attr-change="PRE"][data-delta="-1"]').click();await page.locator('[data-journey-go="6"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete');const downloadEvent=page.waitForEvent('download');await page.locator('.recruitment-download').click();const dl=await downloadEvent,pack=JSON.parse(await readFile(await dl.path(),'utf8'));expect(pack.character.status).toBe('created-local');expect(pack.validation.officiallyActivated).toBe(false);expect(pack.validation.ready).toBe(true);expect(pack.character.inventory_json).toHaveLength(1);await page.locator('.recruitment-view').click();await expect(page.locator('.local-sheet')).toContainText(story);expect(await page.locator('.local-sheet script').count()).toBe(0);
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ^
+      13 |  expect(writes).toEqual([]);expect(errors).toEqual([]);
+      14 | });
+      15 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`decisões no papel cabem em ${viewport.width}×${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await resume(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change="${k}"][data-delta="1"]`).click();await next(page);await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-field="age"]').fill('20');await next(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);});
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js:12:1738
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/creation-journey-criação-c-afbd7-volta-JSON-e-retomada-local/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/creation-journey-criação-c-afbd7-volta-JSON-e-retomada-local/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/creation-journey-criação-c-afbd7-volta-JSON-e-retomada-local/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/creation-journey-criação-c-afbd7-volta-JSON-e-retomada-local/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/creation-journey.spec.js:43:65 › criação completa ESPECIALISTA: decisões, volta, JSON e retomada local
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.local-sheet')
+    Timeout: 12000ms
+    - Expected substring  -  1
+    + Received string     + 13
+
+    - Investigava um farol abandonado. <script>alert(1)</script>
+    +
+    +   ✧ ÓRION ARQUIVO DE AGENTES← ObservatórioMeus personagens
+    +   REGISTRO OR-BF5329C8AFAstraEspecialista · AcadêmicoNÍVEL 1NEX 5%RECRUTADO
+    +   Visão geralPeríciasHabilidadesRituaisInventárioHistória
+    +
+    +    ESTADO DO AGENTEVidaPV18/ 18−Atual / máximo de referência+SanidadeSAN16/ 16−Atual / máximo de referência+EsforçoPE4/ 4−Atual / máximo de referência+DEFESA BASE12Referência da ficha
+    +    ÓRION / IDENTIDADESilhueta provisóriaUsar imagem de corpo inteiroRemover imagem
+    +    POTENCIALAGIAgilidade2FORForça2INTIntelecto2PREPresença1VIGVigor2IDENTIDADEIdade20 anosVivênciaJovemPatenteRecrutaRepresentaçãoNão definida
+    +
+    +
+    +
+    +   SEU ARQUIVOPronto para o desconhecido.O que você aprendeu, o que leva consigo e o que ainda precisa descobrir.11perícias treinadas ↗1itens na mochila ↗0rituais registrados ↗ARQUIVO LOCAL  Salvo neste navegadorFicha em papelBaixar ficha JSONCriar outro personagem
+    +
+
+    Call log:
+      - Expect "toContainText" with timeout 12000ms
+      - waiting for locator('.local-sheet')
+        16 × locator resolved to <article data-active-tab="overview" class="local-sheet agent-status" data-character-id="local-bf5329c8-af3d-4914-aeb3-7662c5afc0e1">…</article>
+           - unexpected value "
+      ✧ ÓRION ARQUIVO DE AGENTES← ObservatórioMeus personagens
+      REGISTRO OR-BF5329C8AFAstraEspecialista · AcadêmicoNÍVEL 1NEX 5%RECRUTADO
+      Visão geralPeríciasHabilidadesRituaisInventárioHistória
+
+       ESTADO DO AGENTEVidaPV18/ 18−Atual / máximo de referência+SanidadeSAN16/ 16−Atual / máximo de referência+EsforçoPE4/ 4−Atual / máximo de referência+DEFESA BASE12Referência da ficha
+       ÓRION / IDENTIDADESilhueta provisóriaUsar imagem de corpo inteiroRemover imagem
+       POTENCIALAGIAgilidade2FORForça2INTIntelecto2PREPresença1VIGVigor2IDENTIDADEIdade20 anosVivênciaJovemPatenteRecrutaRepresentaçãoNão definida
+
+
+
+      SEU ARQUIVOPronto para o desconhecido.O que você aprendeu, o que leva consigo e o que ainda precisa descobrir.11perícias treinadas ↗1itens na mochila ↗0rituais registrados ↗ARQUIVO LOCAL  Salvo neste navegadorFicha em papelBaixar ficha JSONCriar outro personagem
+     "
+
+
+      10 |  test.setTimeout(60000);const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url())});await resume(page,code);await expect(page.locator('[data-journey-next]')).toBeDisabled();for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change="${k}"][data-delta="1"]`).click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','life');await page.locator('[data-field="age"]').fill('20');await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','skills');if(code==='COMBATENTE'){await page.locator('[data-field="combat:primary"]').selectOption('LUTA');await page.locator('[data-field="combat:resistance"]').selectOption('FORTITUDE');}
+      11 |  const count=code==='COMBATENTE'?3:code==='ESPECIALISTA'?9:5;for(let i=0;i<count;i++)await page.locator('[data-skill]:not(:disabled)[aria-pressed="false"]').first().click();await expect(page.locator('[data-journey-next]')).toBeEnabled();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','preparation');if(code==='ESPECIALISTA'){await page.locator('[data-expertise]').nth(0).click();await page.locator('[data-expertise]').nth(1).click();}if(code==='OCULTISTA'){await expect(page.locator('[data-journey-next]')).toBeDisabled();for(let i=0;i<3;i++)await page.locator('[data-ritual][aria-pressed="false"]').first().click();await expect(page.locator('[data-ritual][aria-pressed="false"]').first()).toBeDisabled();}await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','equipment');await page.locator('[data-search]').fill('lanterna');await page.locator('[data-item][data-delta="1"]:not(:disabled)').first().click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','background');const story='Investigava um farol abandonado. <script>alert(1)</script>';await page.locator('[data-field="story:background"]').fill(story);await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','true');expect(await page.locator('.review-ledger script').count()).toBe(0);await expect(page.locator('.review-ledger')).toContainText(story);
+    > 12 |  await page.locator('[data-journey-go="0"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-attr-change="INT"][data-delta="-1"]').click();await page.locator('[data-attr-change="PRE"][data-delta="1"]').click();await page.locator('[data-journey-go="2"]').click();await expect(page.locator('[data-journey-next]')).toBeDisabled();await page.locator('[data-journey-go="6"]').click();await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','false');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-paper-ready','1');await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.review-ledger')).toContainText(story);await page.locator('[data-journey-go="0"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-attr-change="INT"][data-delta="1"]').click();await page.locator('[data-attr-change="PRE"][data-delta="-1"]').click();await page.locator('[data-journey-go="6"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete');const downloadEvent=page.waitForEvent('download');await page.locator('.recruitment-download').click();const dl=await downloadEvent,pack=JSON.parse(await readFile(await dl.path(),'utf8'));expect(pack.character.status).toBe('created-local');expect(pack.validation.officiallyActivated).toBe(false);expect(pack.validation.ready).toBe(true);expect(pack.character.inventory_json).toHaveLength(1);await page.locator('.recruitment-view').click();await expect(page.locator('.local-sheet')).toContainText(story);expect(await page.locator('.local-sheet script').count()).toBe(0);
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ^
+      13 |  expect(writes).toEqual([]);expect(errors).toEqual([]);
+      14 | });
+      15 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`decisões no papel cabem em ${viewport.width}×${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await resume(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change="${k}"][data-delta="1"]`).click();await next(page);await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-field="age"]').fill('20');await next(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);});
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js:12:1738
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/creation-journey-criação-c-f0d41-volta-JSON-e-retomada-local/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/creation-journey-criação-c-f0d41-volta-JSON-e-retomada-local/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/creation-journey-criação-c-f0d41-volta-JSON-e-retomada-local/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/creation-journey-criação-c-f0d41-volta-JSON-e-retomada-local/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/creation-journey.spec.js:43:65 › criação completa OCULTISTA: decisões, volta, JSON e retomada local
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.local-sheet')
+    Timeout: 12000ms
+    - Expected substring  -  1
+    + Received string     + 13
+
+    - Investigava um farol abandonado. <script>alert(1)</script>
+    +
+    +   ✧ ÓRION ARQUIVO DE AGENTES← ObservatórioMeus personagens
+    +   REGISTRO OR-EE267D3983AstraOcultista · AcadêmicoNÍVEL 1NEX 8%RECRUTADO
+    +   Visão geralPeríciasHabilidadesRituaisInventárioHistória
+    +
+    +    ESTADO DO AGENTEVidaPV14/ 14−Atual / máximo de referência+SanidadeSAN20/ 20−Atual / máximo de referência+EsforçoPE5/ 5−Atual / máximo de referência+DEFESA BASE12Referência da ficha
+    +    ÓRION / IDENTIDADESilhueta provisóriaUsar imagem de corpo inteiroRemover imagem
+    +    POTENCIALAGIAgilidade2FORForça2INTIntelecto2PREPresença1VIGVigor2IDENTIDADEIdade20 anosVivênciaJovemPatenteRecrutaRepresentaçãoNão definida
+    +
+    +
+    +
+    +   SEU ARQUIVOPronto para o desconhecido.O que você aprendeu, o que leva consigo e o que ainda precisa descobrir.9perícias treinadas ↗1itens na mochila ↗3rituais registrados ↗ARQUIVO LOCAL  Salvo neste navegadorFicha em papelBaixar ficha JSONCriar outro personagem
+    +
+
+    Call log:
+      - Expect "toContainText" with timeout 12000ms
+      - waiting for locator('.local-sheet')
+        16 × locator resolved to <article data-active-tab="overview" class="local-sheet agent-status" data-character-id="local-ee267d39-830b-49a2-9eca-ddaeacec6be6">…</article>
+           - unexpected value "
+      ✧ ÓRION ARQUIVO DE AGENTES← ObservatórioMeus personagens
+      REGISTRO OR-EE267D3983AstraOcultista · AcadêmicoNÍVEL 1NEX 8%RECRUTADO
+      Visão geralPeríciasHabilidadesRituaisInventárioHistória
+
+       ESTADO DO AGENTEVidaPV14/ 14−Atual / máximo de referência+SanidadeSAN20/ 20−Atual / máximo de referência+EsforçoPE5/ 5−Atual / máximo de referência+DEFESA BASE12Referência da ficha
+       ÓRION / IDENTIDADESilhueta provisóriaUsar imagem de corpo inteiroRemover imagem
+       POTENCIALAGIAgilidade2FORForça2INTIntelecto2PREPresença1VIGVigor2IDENTIDADEIdade20 anosVivênciaJovemPatenteRecrutaRepresentaçãoNão definida
+
+
+
+      SEU ARQUIVOPronto para o desconhecido.O que você aprendeu, o que leva consigo e o que ainda precisa descobrir.9perícias treinadas ↗1itens na mochila ↗3rituais registrados ↗ARQUIVO LOCAL  Salvo neste navegadorFicha em papelBaixar ficha JSONCriar outro personagem
+     "
+
+
+      10 |  test.setTimeout(60000);const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url())});await resume(page,code);await expect(page.locator('[data-journey-next]')).toBeDisabled();for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change="${k}"][data-delta="1"]`).click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','life');await page.locator('[data-field="age"]').fill('20');await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','skills');if(code==='COMBATENTE'){await page.locator('[data-field="combat:primary"]').selectOption('LUTA');await page.locator('[data-field="combat:resistance"]').selectOption('FORTITUDE');}
+      11 |  const count=code==='COMBATENTE'?3:code==='ESPECIALISTA'?9:5;for(let i=0;i<count;i++)await page.locator('[data-skill]:not(:disabled)[aria-pressed="false"]').first().click();await expect(page.locator('[data-journey-next]')).toBeEnabled();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','preparation');if(code==='ESPECIALISTA'){await page.locator('[data-expertise]').nth(0).click();await page.locator('[data-expertise]').nth(1).click();}if(code==='OCULTISTA'){await expect(page.locator('[data-journey-next]')).toBeDisabled();for(let i=0;i<3;i++)await page.locator('[data-ritual][aria-pressed="false"]').first().click();await expect(page.locator('[data-ritual][aria-pressed="false"]').first()).toBeDisabled();}await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','equipment');await page.locator('[data-search]').fill('lanterna');await page.locator('[data-item][data-delta="1"]:not(:disabled)').first().click();await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','background');const story='Investigava um farol abandonado. <script>alert(1)</script>';await page.locator('[data-field="story:background"]').fill(story);await next(page);await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','true');expect(await page.locator('.review-ledger script').count()).toBe(0);await expect(page.locator('.review-ledger')).toContainText(story);
+    > 12 |  await page.locator('[data-journey-go="0"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-attr-change="INT"][data-delta="-1"]').click();await page.locator('[data-attr-change="PRE"][data-delta="1"]').click();await page.locator('[data-journey-go="2"]').click();await expect(page.locator('[data-journey-next]')).toBeDisabled();await page.locator('[data-journey-go="6"]').click();await expect(page.locator('.draft-readiness')).toHaveAttribute('data-ready','false');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-paper-ready','1');await expect(page.locator('.creation-journey')).toHaveAttribute('data-step','review');await expect(page.locator('.review-ledger')).toContainText(story);await page.locator('[data-journey-go="0"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-attr-change="INT"][data-delta="1"]').click();await page.locator('[data-attr-change="PRE"][data-delta="-1"]').click();await page.locator('[data-journey-go="6"]').click();await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-create-character]').click();await expect(page.locator('.recruitment')).toHaveAttribute('data-state','complete');const downloadEvent=page.waitForEvent('download');await page.locator('.recruitment-download').click();const dl=await downloadEvent,pack=JSON.parse(await readFile(await dl.path(),'utf8'));expect(pack.character.status).toBe('created-local');expect(pack.validation.officiallyActivated).toBe(false);expect(pack.validation.ready).toBe(true);expect(pack.character.inventory_json).toHaveLength(1);await page.locator('.recruitment-view').click();await expect(page.locator('.local-sheet')).toContainText(story);expect(await page.locator('.local-sheet script').count()).toBe(0);
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ^
+      13 |  expect(writes).toEqual([]);expect(errors).toEqual([]);
+      14 | });
+      15 | for(const viewport of[{width:390,height:844},{width:320,height:568},{width:568,height:320}])test(`decisões no papel cabem em ${viewport.width}×${viewport.height}`,async({page})=>{await page.setViewportSize(viewport);await resume(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);for(const k of ['AGI','FOR','INT','VIG'])await page.locator(`[data-attr-change="${k}"][data-delta="1"]`).click();await next(page);await expect(page.locator('#journeyTitle')).toBeFocused();await page.locator('[data-field="age"]').fill('20');await next(page);expect(await page.locator('.paper-scroll').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);});
+        at /workspace/orion-observatorio-3d/orion-observatorio-upload-github-leve/tests/creation-journey.spec.js:12:1738
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/creation-journey-criação-c-c2592-volta-JSON-e-retomada-local/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/creation-journey-criação-c-c2592-volta-JSON-e-retomada-local/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/creation-journey-criação-c-c2592-volta-JSON-e-retomada-local/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/creation-journey-criação-c-c2592-volta-JSON-e-retomada-local/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    tests/creation-journey.spec.js:43:65 › criação completa COMBATENTE: decisões, volta, JSON e retomada local
+    tests/creation-journey.spec.js:43:65 › criação completa ESPECIALISTA: decisões, volta, JSON e retomada local
+    tests/creation-journey.spec.js:43:65 › criação completa OCULTISTA: decisões, volta, JSON e retomada local
+  35 passed (7.5m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

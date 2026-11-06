@@ -1,6 +1,6 @@
 # CONTEXTO COMPLETO — PROJETO ÓRION · OBSERVATÓRIO 3D
 
-Atualizado em: 29/10/2026
+Atualizado em: 06/11/2026
 Escopo: **arquivo de contexto cumulativo de toda esta conversa**
 Objetivo: permitir retomar o desenvolvimento em outro chat **sem perder histórico, decisões, assets, branches, PRs, testes e próximos passos**.
 
@@ -1239,3 +1239,11 @@ Referência atual: `docs/creation/CONTINUIDADE-RESULTS-V24.md` e `CONTINUIDADE.m
 - Categorias I–IV com uso/limite, mochila com motivos junto dos itens e retirada explícita. Busca informa indisponibilidade e filtro opcional mostra adições dentro dos limites sem esconder os conflitos da mochila. Continuar/Criar exigem corrigir erros reais; patente nunca muda automaticamente. Revisor e snapshot originais preservados.
 - Check, 26 arquivos unitários, build isolado e 38 cenários Chrome distintos (oito novos + 30 regressões) aprovados. Relógio de escrita corrigido após reprodução de duração excessiva em SwiftShader. Proporção e ponta/traço medidas desktop/mobile; CPU local não homologa GTX 1660.
 - Registro continua concluído no navegador, sem conta online/Worker/D1. Fichas f80bba intacto; sem deploy, produção, migração, merge ou nova PR. Entrega V26 e evidências: `docs/creation/ESCRITA-RESULTS-V26.md`. Avaliação artística/física depende do usuário; arquivos antigos e histórico preservados.
+
+## 06/11/2026 — V27: status com corpo inteiro e retomada do estudo AAA
+
+- Recuperado o estudo de 26/10 (Oficina/Jogo/Evolução) em `docs/creation/status-v27-validation/estudo-aaa-recuperado/`. Usuário confirmou corpo inteiro como foco da ficha de jogo. Nova consulta padrão: figura central, recursos de sessão à esquerda, atributos/identidade à direita; abas reais e arquivo paranormal tático.
+- SVG original provisório de 2.525 bytes, sem rosto/gênero presumidos; aceita imagem própria completa como blob individual em IndexedDB. Foto não entra no JSON e não sincroniza entre domínios/aparelhos. Sem modelo/rig/3D novo, imagem gerada por IA ou dependência npm.
+- Recursos locais de sessão separados do personagem, máximos de referência imutáveis, escrita verificada e erro sem falso sucesso. Ficha em papel preservada com ida/volta, exportação inclui sessionState separado; regras/concessões/registro original intactos. Oficina de edição e Evolução continuam próximas etapas, sem controles simulados nesta tela.
+- 52 cenários Chrome distintos e 27 arquivos unitários aprovados; 35 regressões passaram na primeira rodada, três foram adaptadas para consultar história pela nova aba e repetidas com sucesso. Capturas detectaram especificidade mobile e decode da imagem antecipado; ambos corrigidos e verificados. Pacote HTTP desktop/mobile aprovado. 56 assets originais e 40 recursos anteriores do ZIP idênticos. Chrome/SwiftShader não homologa Brave físico.
+- Relatório `docs/creation/STATUS-RESULTS-V27.md`; ZIP V27, captura de visão geral e vídeo para revisão. Fichas protegido f80bba intacto. Sem deploy, migração, produção, merge ou nova PR. Próxima etapa: revisão artística e consolidar Oficina/Evolução sobre as regras existentes, com integração autenticada em escopo próprio.

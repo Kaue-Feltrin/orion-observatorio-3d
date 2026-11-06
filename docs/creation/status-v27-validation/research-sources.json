@@ -1,0 +1,42 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/foundryvtt/pf2e/master/static/templates/actors/character/sheet.hbs",
+    "file": "pf2e-character.hbs",
+    "status": 200,
+    "sha256": "193c5e4026ca05c10a3ced8914ab756c46bcfc7447386e3834f2ef9ec93baa87",
+    "bytes": 5153
+  },
+  {
+    "url": "https://raw.githubusercontent.com/foundryvtt/pf2e/master/README.md",
+    "file": "pf2e-readme.md",
+    "status": 200,
+    "sha256": "42e6ee678a6722c5efb745a110107af4572750b38416c0497bb2b22c7924da78",
+    "bytes": 1865
+  },
+  {
+    "url": "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/examples/tabs-manual/",
+    "error": "<urlopen error Tunnel connection failed: 403 Forbidden>"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/README.md",
+    "file": "opendium.md",
+    "status": 200,
+    "sha256": "89b26b3a73ce0f21097a7c694b3fe83c6683d016d4a2aa87e1dd856cb1636262",
+    "bytes": 2283
+  },
+  {
+    "url": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/templates/actors/character-sheet.hbs",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/foundryvtt/pf2e/master/static/templates/actors/character/partials/overview.hbs",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/w3c/aria-practices/main/content/patterns/tabs/examples/tabs-manual.html",
+    "file": "aria-tabs.html",
+    "status": 200,
+    "bytes": 17831,
+    "sha256": "35decf60ba7dd7b046b4c7d9a1ae4957ffa11d8db60de2a016a00bbe3c7d10c1"
+  }
+]

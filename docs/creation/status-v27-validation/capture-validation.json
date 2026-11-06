@@ -1,0 +1,69 @@
+{
+  "base": "http://127.0.0.1:4173",
+  "fixture": "Fictional Íris Moreira. Custom art demo reuses existing combatente-v20.png solely as a user-selected example, not default character appearance.",
+  "metrics": [
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 951
+      },
+      "imageRect": {
+        "x": 807.5,
+        "y": 329.15625,
+        "width": 310,
+        "height": 540,
+        "top": 329.15625,
+        "right": 1117.5,
+        "bottom": 869.15625,
+        "left": 807.5
+      },
+      "naturalWidth": 75,
+      "naturalHeight": 150,
+      "overflow": false,
+      "webglCanvases": 0
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "imageRect": {
+        "x": 80,
+        "y": 484.390625,
+        "width": 230,
+        "height": 344,
+        "top": 484.390625,
+        "right": 310,
+        "bottom": 828.390625,
+        "left": 80
+      },
+      "naturalWidth": 75,
+      "naturalHeight": 150,
+      "overflow": false,
+      "webglCanvases": 0
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "imageRect": {
+        "x": 62.5,
+        "y": 478.78125,
+        "width": 195,
+        "height": 310,
+        "top": 478.78125,
+        "right": 257.5,
+        "bottom": 788.78125,
+        "left": 62.5
+      },
+      "naturalWidth": 75,
+      "naturalHeight": 150,
+      "overflow": false,
+      "webglCanvases": 0
+    }
+  ],
+  "errors": [],
+  "bad": [],
+  "writes": []
+}

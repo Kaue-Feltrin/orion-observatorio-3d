@@ -1,3 +1,11 @@
+## 06/11/2026 — V27: status com corpo inteiro e retomada do estudo AAA
+
+- Recuperado o estudo de 26/10 (Oficina/Jogo/Evolução) em `docs/creation/status-v27-validation/estudo-aaa-recuperado/`. Usuário confirmou corpo inteiro como foco da ficha de jogo. Nova consulta padrão: figura central, recursos de sessão à esquerda, atributos/identidade à direita; abas reais e arquivo paranormal tático.
+- SVG original provisório de 2.525 bytes, sem rosto/gênero presumidos; aceita imagem própria completa como blob individual em IndexedDB. Foto não entra no JSON e não sincroniza entre domínios/aparelhos. Sem modelo/rig/3D novo, imagem gerada por IA ou dependência npm.
+- Recursos locais de sessão separados do personagem, máximos de referência imutáveis, escrita verificada e erro sem falso sucesso. Ficha em papel preservada com ida/volta, exportação inclui sessionState separado; regras/concessões/registro original intactos. Oficina de edição e Evolução continuam próximas etapas, sem controles simulados nesta tela.
+- 52 cenários Chrome distintos e 27 arquivos unitários aprovados; 35 regressões passaram na primeira rodada, três foram adaptadas para consultar história pela nova aba e repetidas com sucesso. Capturas detectaram especificidade mobile e decode da imagem antecipado; ambos corrigidos e verificados. Pacote HTTP desktop/mobile aprovado. 56 assets originais e 40 recursos anteriores do ZIP idênticos. Chrome/SwiftShader não homologa Brave físico.
+- Relatório `docs/creation/STATUS-RESULTS-V27.md`; ZIP V27, captura de visão geral e vídeo para revisão. Fichas protegido f80bba intacto. Sem deploy, migração, produção, merge ou nova PR. Próxima etapa: revisão artística e consolidar Oficina/Evolução sobre as regras existentes, com integração autenticada em escopo próprio.
+
 ## 29/10/2026 — V26: lápis proporcional e correção do equipamento
 
 - Lápis mede 35% da folha. A tinta é revelada nos traços sob a ponta, com levantadas; atlas vetorial derivado da Caveat sob OFL, 156 glifos latinos e fallback que preserva outros caracteres. Licença no pacote. Sem novas imagens por IA, dependências npm ou mudanças nas mãos/3D.

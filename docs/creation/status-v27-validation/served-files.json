@@ -1,0 +1,111 @@
+{
+  "base": "http://127.0.0.1:4308",
+  "allMatchFinalZip": true,
+  "zipSha256": "e6fb460076969974f6487e53813ee41788a1135da42c96671a5b469d0a963278",
+  "files": [
+    {
+      "file": "RESULTADOS-V27.md",
+      "sha256": "52c6d4dc35dca7064f9e0fee21bafc0a468e0200fa043e541cbdbba8a7d50aa7"
+    },
+    {
+      "file": "assets/creation-journey-BA7CSyJA.js",
+      "sha256": "d93a8236f23e9985d6c8c726ccbafa227ec4ebd2a81343fdaa6378a598bf49fc"
+    },
+    {
+      "file": "assets/creation-journey-Ba9r6laI.css",
+      "sha256": "f6fb1298feef3d339d37bfb0c73a0c4fdc09eb9d9ca2eb0002b256c40da02176"
+    },
+    {
+      "file": "assets/criacao-rm7ifmdi.css",
+      "sha256": "abcc0b6935437693dfca9834587e1e4ea58c840726af6a94f2618675356b04b6"
+    },
+    {
+      "file": "assets/ficha-Be8NGM_X.js",
+      "sha256": "4af9220d17437c9e67084ac9579beeba71444d8fd11d167e8e53fe66a714fffd"
+    },
+    {
+      "file": "assets/graphics-advisor-BLamsr-N.js",
+      "sha256": "bd77b95bd47fb2c910b4d92888f63d8c8a1f181c9510ff30398e2b207ba6c1b5"
+    },
+    {
+      "file": "assets/graphics-advisor-Dy5bEt4Q.css",
+      "sha256": "2d595be2f1ad357e104b52974ffbd463f66bb6f795195e02aac1ef1ea2f5467c"
+    },
+    {
+      "file": "assets/local-character-view-CTrOUoGC.js",
+      "sha256": "6ded4dc8250962a000e3f0684e89c36ebe92e2fdda14fa690b44ff1d3170415d"
+    },
+    {
+      "file": "assets/local-character-view-oibZK7de.css",
+      "sha256": "1c87f2e627bf53098539a2bb8f33a578f883713c4f7e2e2849ba22231ae8fedb"
+    },
+    {
+      "file": "assets/main-CG80CuT-.css",
+      "sha256": "81eec35fff7b12ee65eb08890fdd7b1927c68121385d1918215cb683b47bf026"
+    },
+    {
+      "file": "assets/main-D_Cqt0Ua.js",
+      "sha256": "523022fd4611e1cdd498aa03a00c3c8a6c38d57d1d6fa59c0ee79cd2609d112b"
+    },
+    {
+      "file": "assets/manual-items-CokNyS0t.js",
+      "sha256": "3b5974562e771ddc1e9d9acf33dc884dc121b8171fb658d2d0ba79ee4c537196"
+    },
+    {
+      "file": "assets/modulepreload-polyfill-B5Qt9EMX.js",
+      "sha256": "d2a32840421496e872ade591618d2fa5c33797605d1aec04301717e5a90757d0"
+    },
+    {
+      "file": "assets/page-transition-rUIT0izW.js",
+      "sha256": "dd19009c35e42a10d0e4ced9cc52af659463b84f382e26d52dbe9e76836de910"
+    },
+    {
+      "file": "assets/preload-helper-BlTxHScW.js",
+      "sha256": "1a526fef747c3ce4f3c9dd4b3191886606ffb0447dfd46fb875e565f8381108b"
+    },
+    {
+      "file": "assets/recruitment-Cknm3pxo.js",
+      "sha256": "d8b355fcc814faaad86c8b843f102874bfd8131053ada07213c645f005f75c28"
+    },
+    {
+      "file": "assets/recruitment-DsBLozT-.css",
+      "sha256": "cd595b7dde93f103866db8193f56694ff7ade150104f2e625fda9c09d09fbf62"
+    },
+    {
+      "file": "assets/skill-guidance-BPeFjkoA.js",
+      "sha256": "be90c27c44df0167efc1d4ad7cc916663b9d4d7e843d5fb0c7c74605ab7c8064"
+    },
+    {
+      "file": "assets/startup-ASSHZJFL.css",
+      "sha256": "fdf88d6482f6de6c69a3caface6263771fa1f66705127996b08f0c793cf274b4"
+    },
+    {
+      "file": "assets/startup-Qh91GOr0.js",
+      "sha256": "dc47c052642b5ffc359b7b6ade81b5e9555c6c5ab3736f26cb4ed99fea989a25"
+    },
+    {
+      "file": "assets/status/agent-silhouette.svg",
+      "sha256": "64beea0d8f12ff2b79034fb5afc3a7e4e9eacb41c2efb89b12bc3434e1b5cd92"
+    },
+    {
+      "file": "camadas.html",
+      "sha256": "8eb2fd3edd2f11620cd36001cdd0e2e22b9669d1b7e5156549979150cbd7ccbb"
+    },
+    {
+      "file": "criacao.html",
+      "sha256": "f28f049752c0ea556e8df8d3f2ba49fa64d39df7d51ca471863ec2de14e5abeb"
+    },
+    {
+      "file": "ficha.html",
+      "sha256": "018592bc68f65e0ed431ed68ca30b555538c60d624ff11b6ff644ae2cdd73ad3"
+    },
+    {
+      "file": "index.html",
+      "sha256": "e698682d49fb73ea266cd24f4ea6df008ebc533475ff86e257bae1b6a88c78e4"
+    },
+    {
+      "file": "licenses/Caveat-OFL.txt",
+      "sha256": "1f9d81d094273d82f3898a1ee8b598a717d050ecbf5ff7bede105b704880157b"
+    }
+  ]
+}

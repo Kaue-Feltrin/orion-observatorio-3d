@@ -1,0 +1,27 @@
+
+Running 13 tests using 1 worker
+
+(node:307620) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:307620) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/status-v27.spec.js:53:65 › status COMBATENTE: corpo inteiro, seções reais e ficha em papel preservada (2.7s)
+  ✓   2 tests/status-v27.spec.js:53:65 › status ESPECIALISTA: corpo inteiro, seções reais e ficha em papel preservada (1.7s)
+  ✓   3 tests/status-v27.spec.js:53:65 › status OCULTISTA: corpo inteiro, seções reais e ficha em papel preservada (1.7s)
+  ✓   4 tests/status-v27.spec.js:102:5 › status sem cortes ou overflow 1920x951 (1.1s)
+  ✓   5 tests/status-v27.spec.js:102:5 › status sem cortes ou overflow 1440x1000 (856ms)
+  ✓   6 tests/status-v27.spec.js:102:5 › status sem cortes ou overflow 390x844 (549ms)
+  ✓   7 tests/status-v27.spec.js:102:5 › status sem cortes ou overflow 320x568 (440ms)
+  ✓   8 tests/status-v27.spec.js:102:5 › status sem cortes ou overflow 568x320 (431ms)
+  ✓   9 tests/status-v27.spec.js:119:1 › recursos persistem sem alterar ficha; exportação conserva sessão e dados (925ms)
+  ✓  10 tests/status-v27.spec.js:139:1 › falha de storage não anuncia salvamento e valores ausentes ficam sem número (488ms)
+  ✓  11 tests/status-v27.spec.js:156:1 › registro antigo sem máximos não recebe recursos fictícios (560ms)
+  ✓  12 tests/status-v27.spec.js:168:1 › teclado, busca por finalidade e inventário selecionado (773ms)
+  ✓  13 tests/status-v27.spec.js:201:1 › imagem própria salva, recarrega, rejeita arquivo inválido e remove só a arte (982ms)
+
+  13 passed (16.5s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
